@@ -2,7 +2,8 @@
 
 html,
 body,
-#app {
+#app,
+#root {
 	margin: 0;
 	padding: 0;
 	border-width: 0;
@@ -55,6 +56,11 @@ option {
 	box-sizing: border-box;
 	outline: none;
 	-webkit-tap-highlight-color: transparent;
+}
+
+button {
+	display: block;
+	margin: 0;
 }
 
 ul {
