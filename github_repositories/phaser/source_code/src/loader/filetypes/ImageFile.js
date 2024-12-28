@@ -40,7 +40,6 @@ var ImageFile = new Class({
 
     function ImageFile (loader, key, url, xhrSettings, frameConfig)
     {
-        console.group('ImageFile');
         var extension = 'png';
         var normalMapURL;
 
@@ -94,7 +93,6 @@ var ImageFile = new Class({
             this.load = this.loadImage;
             this.onProcess = this.onProcessImage;
         }
-        console.groupEnd();
     },
 
     /**
@@ -106,7 +104,6 @@ var ImageFile = new Class({
      */
     onProcess: function ()
     {
-        console.group('ImageFile onProcess');
         this.state = CONST.FILE_PROCESSING;
 
         this.data = new Image();
@@ -130,7 +127,6 @@ var ImageFile = new Class({
         };
 
         File.createObjectURL(this.data, this.xhrLoader.response, 'image/png');
-        console.groupEnd();
     },
 
     /**
@@ -142,7 +138,6 @@ var ImageFile = new Class({
      */
     onProcessImage: function ()
     {
-        console.group('ImageFile onProcessImage');
         var result = this.state;
 
         this.state = CONST.FILE_PROCESSING;
@@ -155,7 +150,6 @@ var ImageFile = new Class({
         {
             this.onProcessError();
         }
-        console.groupEnd();
     },
 
     /**
@@ -167,7 +161,6 @@ var ImageFile = new Class({
      */
     loadImage: function ()
     {
-        console.group('ImageFile loadImage');
         this.state = CONST.FILE_LOADING;
 
         this.src = GetURL(this, this.loader.baseURL);
@@ -191,7 +184,6 @@ var ImageFile = new Class({
         };
 
         this.data.src = this.src;
-        console.groupEnd();
     },
 
     /**
@@ -202,7 +194,6 @@ var ImageFile = new Class({
      */
     addToCache: function ()
     {
-        console.group('ImageFile addToCache');
         //  Check if we have a linked normal map
         var linkFile = this.linkFile;
 
@@ -236,7 +227,6 @@ var ImageFile = new Class({
         {
             this.cache.addImage(this.key, this.data);
         }
-        console.groupEnd();
     }
 
 });
@@ -336,10 +326,8 @@ var ImageFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register image');
 FileTypesManager.register('image', function (key, url, xhrSettings)
 {
-    console.group('FileTypesManager.register image factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -353,9 +341,7 @@ FileTypesManager.register('image', function (key, url, xhrSettings)
         this.addFile(new ImageFile(this, key, url, xhrSettings));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = ImageFile;

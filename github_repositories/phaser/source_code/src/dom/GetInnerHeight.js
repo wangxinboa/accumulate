@@ -17,11 +17,9 @@
  */
 var GetInnerHeight = function (iOS)
 {
-    console.group('GetInnerHeight');
 
     if (!iOS)
     {
-        console.groupEnd();
         return window.innerHeight;
     }
 
@@ -44,12 +42,10 @@ var GetInnerHeight = function (iOS)
 
     if (Math.abs(window.orientation) !== 90)
     {
-        console.groupEnd();
         return size.h;
     }
     else
     {
-        console.groupEnd();
         return size.w;
     }
 };

@@ -35,7 +35,6 @@ var RenderTarget = new Class({
 
     function RenderTarget (renderer, width, height, scale, minFilter, autoClear, autoResize, addDepthBuffer, forceClamp)
     {
-        console.group('RenderTarget');
         if (scale === undefined) { scale = 1; }
         if (minFilter === undefined) { minFilter = 0; }
         if (autoClear === undefined) { autoClear = true; }
@@ -172,7 +171,6 @@ var RenderTarget = new Class({
             //  Block resizing unless this RT allows it
             this.autoResize = false;
         }
-        console.groupEnd();
     },
 
     /**
@@ -188,7 +186,6 @@ var RenderTarget = new Class({
      */
     init: function (width, height)
     {
-        console.group('RenderTarget init');
         var renderer = this.renderer;
 
         this.texture = renderer.createTextureFromSource(null, width, height, this.minFilter, this.forceClamp);
@@ -196,7 +193,6 @@ var RenderTarget = new Class({
 
         this.width = width;
         this.height = height;
-        console.groupEnd();
     },
 
     /**
@@ -212,7 +208,6 @@ var RenderTarget = new Class({
      */
     setAutoResize: function (autoResize)
     {
-        console.group('RenderTarget setAutoResize');
         if (autoResize && !this.autoResize)
         {
             this.renderer.on(Events.RESIZE, this.resize, this);
@@ -226,7 +221,6 @@ var RenderTarget = new Class({
             this.autoResize = false;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -249,7 +243,6 @@ var RenderTarget = new Class({
      */
     resize: function (width, height)
     {
-        console.group('RenderTarget resize');
         if (this.autoResize && this.willResize(width, height))
         {
             var renderer = this.renderer;
@@ -265,7 +258,6 @@ var RenderTarget = new Class({
             this.height = height;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -283,10 +275,8 @@ var RenderTarget = new Class({
      */
     willResize: function (width, height)
     {
-        console.group('RenderTarget willResize');
         if (typeof width !== 'number' || typeof height !== 'number')
         {
-            console.groupEnd();
             return false;
         }
 
@@ -296,9 +286,7 @@ var RenderTarget = new Class({
         width = Math.max(width, 1);
         height = Math.max(height, 1);
         
-        const result = (width !== this.width || height !== this.height);
-        console.groupEnd();
-        return result;
+        return (width !== this.width || height !== this.height);
     },
 
     /**
@@ -317,7 +305,6 @@ var RenderTarget = new Class({
      */
     bind: function (adjustViewport, width, height)
     {
-        console.group('RenderTarget bind');
         if (adjustViewport === undefined) { adjustViewport = false; }
 
         var renderer = this.renderer;
@@ -349,7 +336,6 @@ var RenderTarget = new Class({
         }
 
         renderer.clearStencilMask();
-        console.groupEnd();
     },
 
     /**
@@ -362,13 +348,11 @@ var RenderTarget = new Class({
      */
     adjustViewport: function ()
     {
-        console.group('RenderTarget adjustViewport');
         var gl = this.renderer.gl;
 
         gl.viewport(0, 0, this.width, this.height);
 
         gl.disable(gl.SCISSOR_TEST);
-        console.groupEnd();
     },
 
     /**
@@ -385,7 +369,6 @@ var RenderTarget = new Class({
      */
     clear: function (x, y, width, height)
     {
-        console.group('RenderTarget clear');
         var renderer = this.renderer;
         var gl = renderer.gl;
 
@@ -408,7 +391,6 @@ var RenderTarget = new Class({
         renderer.popFramebuffer();
 
         renderer.resetScissor();
-        console.groupEnd();
     },
 
     /**
@@ -423,7 +405,6 @@ var RenderTarget = new Class({
      */
     unbind: function (flush)
     {
-        console.group('RenderTarget unbind');
         if (flush === undefined) { flush = false; }
 
         var renderer = this.renderer;
@@ -433,9 +414,7 @@ var RenderTarget = new Class({
             renderer.flush();
         }
 
-        const result = renderer.popFramebuffer();
-        console.groupEnd();
-        return result;
+        return renderer.popFramebuffer();
     },
 
     /**
@@ -449,7 +428,6 @@ var RenderTarget = new Class({
      */
     destroy: function ()
     {
-        console.group('RenderTarget destroy');
         var renderer = this.renderer;
 
         renderer.off(Events.RESIZE, this.resize, this);
@@ -460,7 +438,6 @@ var RenderTarget = new Class({
         this.renderer = null;
         this.framebuffer = null;
         this.texture = null;
-        console.groupEnd();
     }
 
 });

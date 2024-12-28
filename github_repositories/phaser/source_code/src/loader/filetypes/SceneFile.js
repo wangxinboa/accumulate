@@ -38,7 +38,6 @@ var SceneFile = new Class({
 
     function SceneFile (loader, key, url, xhrSettings)
     {
-        console.group('SceneFile');
         var extension = 'js';
 
         if (IsPlainObject(key))
@@ -61,7 +60,6 @@ var SceneFile = new Class({
         };
 
         File.call(this, loader, fileConfig);
-        console.groupEnd();
     },
 
     /**
@@ -73,13 +71,11 @@ var SceneFile = new Class({
      */
     onProcess: function ()
     {
-        console.group('SceneFile onProcess');
         this.state = CONST.FILE_PROCESSING;
 
         this.data = this.xhrLoader.responseText;
 
         this.onProcessComplete();
-        console.groupEnd();
     },
 
     /**
@@ -90,7 +86,6 @@ var SceneFile = new Class({
      */
     addToCache: function ()
     {
-        console.group('SceneFile addToCache');
         var code = this.data.concat('(function(){\n' + 'return new ' + this.key + '();\n' + '}).call(this);');
 
         //  Stops rollup from freaking out during build
@@ -99,7 +94,6 @@ var SceneFile = new Class({
         this.loader.sceneManager.add(this.key, eval2(code));
 
         this.complete = true;
-        console.groupEnd();
     }
 
 });
@@ -199,10 +193,8 @@ var SceneFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register sceneFile');
 FileTypesManager.register('sceneFile', function (key, url, xhrSettings)
 {
-    console.group('FileTypesManager.register sceneFile factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -216,9 +208,7 @@ FileTypesManager.register('sceneFile', function (key, url, xhrSettings)
         this.addFile(new SceneFile(this, key, url, xhrSettings));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = SceneFile;

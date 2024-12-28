@@ -58,7 +58,6 @@ var Shape = new Class({
 
     function Shape (scene, type, data)
     {
-        console.group('Shape');
         if (type === undefined) { type = 'Shape'; }
 
         GameObject.call(this, scene, type);
@@ -208,7 +207,6 @@ var Shape = new Class({
 
         this.initPipeline();
         this.initPostPipeline();
-        console.groupEnd();
     },
 
     /**
@@ -230,7 +228,6 @@ var Shape = new Class({
      */
     setFillStyle: function (color, alpha)
     {
-        console.group('Shape setFillStyle');
         if (alpha === undefined) { alpha = 1; }
 
         if (color === undefined)
@@ -244,7 +241,6 @@ var Shape = new Class({
             this.isFilled = true;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -268,7 +264,6 @@ var Shape = new Class({
      */
     setStrokeStyle: function (lineWidth, color, alpha)
     {
-        console.group('Shape setStrokeStyle');
         if (alpha === undefined) { alpha = 1; }
 
         if (lineWidth === undefined)
@@ -283,7 +278,6 @@ var Shape = new Class({
             this.isStroked = true;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -302,10 +296,8 @@ var Shape = new Class({
      */
     setClosePath: function (value)
     {
-        console.group('Shape setClosePath');
         this.closePath = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -331,11 +323,9 @@ var Shape = new Class({
      */
     setSize: function (width, height)
     {
-        console.group('Shape setSize');
         this.width = width;
         this.height = height;
 
-        console.groupEnd();
         return this;
     },
 
@@ -354,11 +344,9 @@ var Shape = new Class({
      */
     setDisplaySize: function (width, height)
     {
-        console.group('Shape setDisplaySize');
         this.displayWidth = width;
         this.displayHeight = height;
 
-        console.groupEnd();
         return this;
     },
 
@@ -371,12 +359,10 @@ var Shape = new Class({
      */
     preDestroy: function ()
     {
-        console.group('Shape preDestroy');
         this.geom = null;
         this._tempLine = null;
         this.pathData = [];
         this.pathIndexes = [];
-        console.groupEnd();
     },
 
     /**

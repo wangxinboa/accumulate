@@ -44,7 +44,6 @@ var WebGLFramebufferWrapper = new Class({
 
     function WebGLFramebufferWrapper (gl, width, height, renderTexture, addDepthStencilBuffer)
     {
-        console.group('WebGLFramebufferWrapper');
         /**
          * The WebGLFramebuffer being wrapped by this class.
          *
@@ -106,7 +105,6 @@ var WebGLFramebufferWrapper = new Class({
         this.addDepthStencilBuffer = !!addDepthStencilBuffer;
 
         this.createResource();
-        console.groupEnd();
     },
 
     /**
@@ -120,14 +118,12 @@ var WebGLFramebufferWrapper = new Class({
      */
     createResource: function ()
     {
-        console.group('WebGLFramebufferWrapper createResource');
         var gl = this.gl;
 
         if (gl.isContextLost())
         {
             // GL state can't be updated right now.
             // `createResource` will run when the context is restored.
-            console.groupEnd();
             return;
         }
 
@@ -147,7 +143,6 @@ var WebGLFramebufferWrapper = new Class({
 
         if (complete !== gl.FRAMEBUFFER_COMPLETE)
         {
-            console.groupEnd();
             throw new Error('Framebuffer status: ' + (errors[complete] || complete));
         }
 
@@ -161,7 +156,6 @@ var WebGLFramebufferWrapper = new Class({
         }
 
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-        console.groupEnd();
     },
 
     /**
@@ -172,10 +166,8 @@ var WebGLFramebufferWrapper = new Class({
      */
     destroy: function ()
     {
-        console.group('WebGLFramebufferWrapper destroy');
         if (this.webGLFramebuffer === null)
         {
-            console.groupEnd();
             return;
         }
 
@@ -211,7 +203,6 @@ var WebGLFramebufferWrapper = new Class({
         this.renderTexture = null;
         this.webGLFramebuffer = null;
         this.gl = null;
-        console.groupEnd();
     }
 });
 

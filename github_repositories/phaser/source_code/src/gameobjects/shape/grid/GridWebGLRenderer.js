@@ -23,7 +23,6 @@ var Utils = require('../../../renderer/webgl/Utils');
  */
 var GridWebGLRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('GridWebGLRenderer');
     camera.addToRenderList(src);
 
     var pipeline = renderer.pipelines.set(src.pipeline);
@@ -191,7 +190,6 @@ var GridWebGLRenderer = function (renderer, src, camera, parentMatrix)
     }
 
     renderer.pipelines.postBatch(src);
-    console.groupEnd();
 };
 
 module.exports = GridWebGLRenderer;

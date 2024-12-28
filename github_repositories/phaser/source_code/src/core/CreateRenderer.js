@@ -21,7 +21,6 @@ var Features = require('../device/Features');
  */
 var CreateRenderer = function (game)
 {
-    console.group('CreateRenderer');
     var config = game.config;
 
     if ((config.customEnvironment || config.canvas) && config.renderType === CONST.AUTO)
@@ -104,12 +103,10 @@ var CreateRenderer = function (game)
         //  Let the config pick the renderer type, as both are included
         if (config.renderType === CONST.WEBGL)
         {
-            console.info('CreateRenderer 创建的是 WebGLRenderer');
             game.renderer = new WebGLRenderer(game);
         }
         else
         {
-            console.info('CreateRenderer 创建的是 CanvasRenderer');
             game.renderer = new CanvasRenderer(game);
             game.context = game.renderer.gameContext;
         }
@@ -122,7 +119,6 @@ var CreateRenderer = function (game)
         //  Force the type to WebGL, regardless what was requested
         config.renderType = CONST.WEBGL;
 
-        console.info('CreateRenderer 创建的是 WebGLRenderer');
         game.renderer = new WebGLRenderer(game);
     }
 
@@ -133,12 +129,10 @@ var CreateRenderer = function (game)
         //  Force the type to Canvas, regardless what was requested
         config.renderType = CONST.CANVAS;
 
-        console.info('CreateRenderer 创建的是 CanvasRenderer');
         game.renderer = new CanvasRenderer(game);
 
         game.context = game.renderer.gameContext;
     }
-    console.groupEnd();
 };
 
 module.exports = CreateRenderer;

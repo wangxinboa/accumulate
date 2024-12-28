@@ -19,7 +19,6 @@
  */
 var SafeRange = function (array, startIndex, endIndex, throwError)
 {
-    console.group('SafeRange');
     var len = array.length;
 
     if (startIndex < 0 ||
@@ -32,12 +31,10 @@ var SafeRange = function (array, startIndex, endIndex, throwError)
             throw new Error('Range Error: Values outside acceptable range');
         }
 
-        console.groupEnd();
         return false;
     }
     else
     {
-        console.groupEnd();
         return true;
     }
 };

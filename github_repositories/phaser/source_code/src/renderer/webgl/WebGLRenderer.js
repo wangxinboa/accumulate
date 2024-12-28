@@ -68,7 +68,6 @@ var WebGLRenderer = new Class({
 
     function WebGLRenderer (game)
     {
-        console.group('WebGLRenderer');
         EventEmitter.call(this);
 
         var gameConfig = game.config;
@@ -735,7 +734,6 @@ var WebGLRenderer = new Class({
         this._debugCapture = false;
 
         this.init(this.config);
-        console.groupEnd();
     },
 
     /**
@@ -750,13 +748,11 @@ var WebGLRenderer = new Class({
      */
     init: function (config)
     {
-        console.group('WebGLRenderer init');
         var gl;
         var game = this.game;
         var canvas = this.canvas;
         var clearColor = config.backgroundColor;
 
-        console.info('WebGLRenderer init DEBUG:', DEBUG);
         if (DEBUG)
         {
             this.spector = new SPECTOR.Spector();
@@ -767,12 +763,10 @@ var WebGLRenderer = new Class({
         //  Did they provide their own context?
         if (game.config.context)
         {
-            console.info('WebGLRenderer init game.config.context 已存在');
             gl = game.config.context;
         }
         else
         {
-            console.info('WebGLRenderer init game.config.context 不存在');
             gl = canvas.getContext('webgl', config.contextCreation) || canvas.getContext('experimental-webgl', config.contextCreation);
         }
 
@@ -780,7 +774,6 @@ var WebGLRenderer = new Class({
         {
             this.contextLost = true;
 
-            console.groupEnd();
             throw new Error('WebGL unsupported');
         }
 
@@ -845,16 +838,13 @@ var WebGLRenderer = new Class({
         {
             config.maxTextures = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
         }
-        console.info('WebGLRenderer init 当前支持最多的纹理数:', config.maxTextures);
 
         if (!config.maxTextureSize)
         {
             config.maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
         }
-        console.info('WebGLRenderer init 当前支持最大的纹理大小:', config.maxTextureSize);
 
         this.compression = this.getCompressedTextures();
-        console.info('WebGLRenderer init 当前支持的压缩纹理情况:', JSON.stringify(this.compression, null, 2));
 
         //  Setup initial WebGL state
         gl.disable(gl.DEPTH_TEST);
@@ -874,7 +864,6 @@ var WebGLRenderer = new Class({
 
         //  Check maximum supported textures
         this.maxTextures = Utils.checkShaderMax(gl, config.maxTextures);
-        console.info('WebGLRenderer init 检查之后, 当前支持最多的纹理数:', this.maxTextures)
 
         this.textureIndexes = [];
 
@@ -888,7 +877,6 @@ var WebGLRenderer = new Class({
 
         game.textures.once(TextureEvents.READY, this.boot, this);
 
-        console.groupEnd();
         return this;
     },
 
@@ -901,7 +889,6 @@ var WebGLRenderer = new Class({
      */
     boot: function ()
     {
-        console.group('WebGLRenderer boot');
         var game = this.game;
         var pipelineManager = this.pipelines;
 
@@ -940,7 +927,6 @@ var WebGLRenderer = new Class({
         game.scale.on(ScaleEvents.RESIZE, this.onResize, this);
 
         this.resize(width, height);
-        console.groupEnd();
     },
 
     /**
@@ -955,24 +941,19 @@ var WebGLRenderer = new Class({
      */
     setExtensions: function ()
     {
-        console.group('WebGLRenderer setExtensions: 获取支持的 webgl 拓展信息');
         var gl = this.gl;
 
         var exts = gl.getSupportedExtensions();
 
         this.supportedExtensions = exts;
-        console.info('WebGLRenderer setExtensions 当前支持的 webgl 拓展:', JSON.stringify(this.supportedExtensions, null, 2));
 
         var angleString = 'ANGLE_instanced_arrays';
 
         this.instancedArraysExtension = (exts.indexOf(angleString) > -1) ? gl.getExtension(angleString) : null;
-        console.info('WebGLRenderer setExtensions 是否支持 ANGLE_instanced_arrays:', this.instancedArraysExtension !== null);
 
         var vaoString = 'OES_vertex_array_object';
 
         this.vaoExtension = (exts.indexOf(vaoString) > -1) ? gl.getExtension(vaoString) : null;
-        console.info('WebGLRenderer setExtensions 是否支持 OES_vertex_array_object:', this.vaoExtension !== null);
-        console.groupEnd();
     },
 
     /**
@@ -993,37 +974,30 @@ var WebGLRenderer = new Class({
      */
     setContextHandlers: function (contextLost, contextRestored)
     {
-        console.group('WebGLRenderer setContextHandlers: 给 canvas 添加 webglcontextlost 和 webglcontextrestored 事件');
         if (this.previousContextLostHandler)
         {
-            console.info('WebGLRenderer setContextHandlers 存在 this.previousContextLostHandler, 移除');
             this.canvas.removeEventListener('webglcontextlost', this.previousContextLostHandler, false);
         }
         if (this.previousContextRestoredHandler)
         {
-            console.info('WebGLRenderer setContextHandlers 存在 this.previousContextRestoredHandler, 移除');
             this.canvas.removeEventListener('webglcontextlost', this.previousContextRestoredHandler, false);
         }
         
         if (typeof contextLost === 'function')
         {
-            console.info('WebGLRenderer setContextHandlers 取 contextLost 作为 this.contextLostHandler');
             this.contextLostHandler = contextLost.bind(this);
         }
         else
         {
-            console.info('WebGLRenderer setContextHandlers 未传入 contextLost, 取 this.dispatchContextLost 作为 this.contextLostHandler');
             this.contextLostHandler = this.dispatchContextLost.bind(this);
         }
 
         if (typeof contextRestored === 'function')
         {
-            console.info('WebGLRenderer setContextHandlers 取 contextRestored 作为 this.contextRestoredHandler');
             this.contextRestoredHandler = contextRestored.bind(this);
         }
         else
         {
-            console.info('WebGLRenderer setContextHandlers 未传入 contextRestored, 取 this.dispatchContextRestored 作为 this.contextRestoredHandler');
             this.contextRestoredHandler = this.dispatchContextRestored.bind(this);
         }
 
@@ -1032,7 +1006,6 @@ var WebGLRenderer = new Class({
 
         this.previousContextLostHandler = this.contextLostHandler;
         this.previousContextRestoredHandler = this.contextRestoredHandler;
-        console.groupEnd();
     },
 
     /**
@@ -1046,7 +1019,6 @@ var WebGLRenderer = new Class({
      */
     dispatchContextLost: function (event)
     {
-        console.group('WebGLRenderer dispatchContextLost');
         this.contextLost = true;
 
         if (console)
@@ -1057,7 +1029,6 @@ var WebGLRenderer = new Class({
         this.emit(Events.LOSE_WEBGL, this);
 
         event.preventDefault();
-        console.groupEnd();
     },
 
     /**
@@ -1071,7 +1042,6 @@ var WebGLRenderer = new Class({
      */
     dispatchContextRestored: function (event)
     {
-        console.group('WebGLRenderer dispatchContextRestored');
         var gl = this.gl;
 
         if (gl.isContextLost())
@@ -1081,7 +1051,6 @@ var WebGLRenderer = new Class({
                 console.log('WebGL Context restored, but context is still lost');
             }
 
-            console.groupEnd();
             return;
         }
 
@@ -1141,7 +1110,6 @@ var WebGLRenderer = new Class({
         this.emit(Events.RESTORE_WEBGL, this);
 
         event.preventDefault();
-        console.groupEnd();
     },
     
     /**
@@ -1152,7 +1120,6 @@ var WebGLRenderer = new Class({
      */
     createTemporaryTextures: function ()
     {
-        console.group('WebGLRenderer createTemporaryTextures 提前创建激活绑定最大数目的二维纹理, 将纹理单元放入 textureIndexes 中');
         var gl = this.gl;
 
         for (var index = 0; index < this.maxTextures; index++)
@@ -1167,7 +1134,6 @@ var WebGLRenderer = new Class({
 
             this.textureIndexes.push(index);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1192,7 +1158,6 @@ var WebGLRenderer = new Class({
      */
     captureFrame: function (quickCapture, fullCapture)
     {
-        console.group('WebGLRenderer captureFrame');
         if (quickCapture === undefined) { quickCapture = false; }
         if (fullCapture === undefined) { fullCapture = false; }
 
@@ -1202,7 +1167,6 @@ var WebGLRenderer = new Class({
 
             this._debugCapture = true;
         }
-        console.groupEnd();
     },
 
     /**
@@ -1224,14 +1188,12 @@ var WebGLRenderer = new Class({
      */
     captureNextFrame: function ()
     {
-        console.group('WebGLRenderer captureNextFrame');
         if (DEBUG && this.spector && !this._debugCapture)
         {
             this._debugCapture = true;
 
             this.spector.captureNextFrame(this.canvas);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1255,14 +1217,10 @@ var WebGLRenderer = new Class({
      */
     getFps: function ()
     {
-        console.group('WebGLRenderer getFps');
         if (DEBUG && this.spector)
         {
-            const result = this.spector.getFps();
-            console.groupEnd();
-            return result;
+            return this.spector.getFps();
         }
-        console.groupEnd();
     },
 
     /**
@@ -1289,16 +1247,12 @@ var WebGLRenderer = new Class({
      */
     log: function ()
     {
-        console.group('WebGLRenderer log');
         if (DEBUG && this.spector)
         {
             var t = Array.prototype.slice.call(arguments).join(' ');
 
-            const result = this.spector.log(t);
-            console.groupEnd();
-            return result;
+            return this.spector.log(t);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1326,7 +1280,6 @@ var WebGLRenderer = new Class({
      */
     startCapture: function (commandCount, quickCapture, fullCapture)
     {
-        console.group('WebGLRenderer startCapture');
         if (commandCount === undefined) { commandCount = 0; }
         if (quickCapture === undefined) { quickCapture = false; }
         if (fullCapture === undefined) { fullCapture = false; }
@@ -1337,7 +1290,6 @@ var WebGLRenderer = new Class({
 
             this._debugCapture = true;
         }
-        console.groupEnd();
     },
 
     /**
@@ -1363,14 +1315,10 @@ var WebGLRenderer = new Class({
      */
     stopCapture: function ()
     {
-        console.group('WebGLRenderer stopCapture');
         if (DEBUG && this.spector && this._debugCapture)
         {
-            const result = this.spector.stopCapture();
-            console.groupEnd();
-            return result;
+            return this.spector.stopCapture();
         }
-        console.groupEnd();
     },
 
     /**
@@ -1387,7 +1335,6 @@ var WebGLRenderer = new Class({
      */
     onCapture: function (capture)
     {
-        console.group('WebGLRenderer onCapture');
         if (DEBUG)
         {
             var view = this.spector.getResultUI();
@@ -1396,7 +1343,6 @@ var WebGLRenderer = new Class({
 
             this._debugCapture = false;
         }
-        console.groupEnd();
     },
 
     /**
@@ -1410,13 +1356,11 @@ var WebGLRenderer = new Class({
      */
     onResize: function (gameSize, baseSize)
     {
-        console.group('WebGLRenderer onResize');
         //  Has the underlying canvas size changed?
         if (baseSize.width !== this.width || baseSize.height !== this.height)
         {
             this.resize(baseSize.width, baseSize.height);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1432,14 +1376,12 @@ var WebGLRenderer = new Class({
      */
     beginCapture: function (width, height)
     {
-        console.group('WebGLRenderer beginCapture');
         if (width === undefined) { width = this.width; }
         if (height === undefined) { height = this.height; }
 
         this.renderTarget.bind(true, width, height);
 
         this.setProjectionMatrix(width, height);
-        console.groupEnd();
     },
 
     /**
@@ -1455,12 +1397,10 @@ var WebGLRenderer = new Class({
      */
     endCapture: function ()
     {
-        console.group('WebGLRenderer endCapture');
         this.renderTarget.unbind(true);
 
         this.resetProjectionMatrix();
 
-        console.groupEnd();
         return this.renderTarget;
     },
 
@@ -1478,7 +1418,6 @@ var WebGLRenderer = new Class({
      */
     resize: function (width, height)
     {
-        console.group('WebGLRenderer resize');
         var gl = this.gl;
 
         this.width = width;
@@ -1495,14 +1434,8 @@ var WebGLRenderer = new Class({
         this.defaultScissor[2] = width;
         this.defaultScissor[3] = height;
 
-        console.groupCollapsed('WebGLRenderer resize this.emit(Events.RESIZE, width, height); 执行的函数');
-        this.listeners(Events.RESIZE).forEach((fun) => {
-            console.info(fun);
-        });
-        console.groupEnd();
         this.emit(Events.RESIZE, width, height);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1519,14 +1452,12 @@ var WebGLRenderer = new Class({
      */
     getCompressedTextures: function ()
     {
-        console.group('WebGLRenderer getCompressedTextures');
         var extString = 'WEBGL_compressed_texture_';
         var wkExtString = 'WEBKIT_' + extString;
         var extEXTString = 'EXT_texture_compression_';
 
         var hasExt = function (gl, format)
         {
-            console.group('WebGLRenderer getCompressedTextures hasExt');
             var results = gl.getExtension(extString + format) || gl.getExtension(wkExtString + format) || gl.getExtension(extEXTString + format);
 
             if (results)
@@ -1538,15 +1469,13 @@ var WebGLRenderer = new Class({
                     glEnums[results[key]] = key;
                 }
 
-                console.groupEnd();
                 return glEnums;
             }
-            console.groupEnd();
         };
 
         var gl = this.gl;
 
-        const result = {
+        return {
             ETC: hasExt(gl, 'etc'),
             ETC1: hasExt(gl, 'etc1'),
             ATC: hasExt(gl, 'atc'),
@@ -1558,8 +1487,6 @@ var WebGLRenderer = new Class({
             S3TCSRGB: hasExt(gl, 's3tc_srgb'),
             IMG: true
         };
-        console.groupEnd();
-        return result;
     },
 
     /**
@@ -1575,15 +1502,12 @@ var WebGLRenderer = new Class({
      */
     getCompressedTextureName: function (baseFormat, format)
     {
-        console.group('WebGLRenderer getCompressedTextureName');
         var supportedFormats = this.compression[baseFormat.toUpperCase()];
 
         if (format in supportedFormats)
         {
-            console.groupEnd();
             return supportedFormats[format];
         }
-        console.groupEnd();
     },
 
     /**
@@ -1599,24 +1523,20 @@ var WebGLRenderer = new Class({
      */
     supportsCompressedTexture: function (baseFormat, format)
     {
-        console.group('WebGLRenderer supportsCompressedTexture');
         var supportedFormats = this.compression[baseFormat.toUpperCase()];
 
         if (supportedFormats)
         {
             if (format)
             {
-                console.groupEnd();
                 return format in supportedFormats;
             }
             else
             {
-                console.groupEnd();
                 return true;
             }
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -1630,8 +1550,6 @@ var WebGLRenderer = new Class({
      */
     getAspectRatio: function ()
     {
-        console.group('WebGLRenderer getAspectRatio');
-        console.groupEnd();
         return this.width / this.height;
     },
 
@@ -1648,7 +1566,6 @@ var WebGLRenderer = new Class({
      */
     setProjectionMatrix: function (width, height)
     {
-        console.group('WebGLRenderer setProjectionMatrix');
         if (width !== this.projectionWidth || height !== this.projectionHeight)
         {
             this.projectionWidth = width;
@@ -1657,7 +1574,6 @@ var WebGLRenderer = new Class({
             this.projectionMatrix.ortho(0, width, height, 0, -1000, 1000);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1674,10 +1590,7 @@ var WebGLRenderer = new Class({
      */
     resetProjectionMatrix: function ()
     {
-        console.group('WebGLRenderer resetProjectionMatrix');
-        const result = this.setProjectionMatrix(this.width, this.height);
-        console.groupEnd();
-        return result;
+        return this.setProjectionMatrix(this.width, this.height);
     },
 
     /**
@@ -1692,10 +1605,7 @@ var WebGLRenderer = new Class({
      */
     hasExtension: function (extensionName)
     {
-        console.group('WebGLRenderer hasExtension');
-        const result = this.supportedExtensions ? this.supportedExtensions.indexOf(extensionName) : false;
-        console.groupEnd();
-        return result;
+        return this.supportedExtensions ? this.supportedExtensions.indexOf(extensionName) : false;
     },
 
     /**
@@ -1710,15 +1620,13 @@ var WebGLRenderer = new Class({
      */
     getExtension: function (extensionName)
     {
-        console.group('WebGLRenderer getExtension');
-        if (!this.hasExtension(extensionName)) { console.groupEnd(); return null; }
+        if (!this.hasExtension(extensionName)) { return null; }
 
         if (!(extensionName in this.extensions))
         {
             this.extensions[extensionName] = this.gl.getExtension(extensionName);
         }
 
-        console.groupEnd();
         return this.extensions[extensionName];
     },
 
@@ -1730,9 +1638,7 @@ var WebGLRenderer = new Class({
      */
     flush: function ()
     {
-        console.group('WebGLRenderer flush');
         this.pipelines.flush();
-        console.groupEnd();
     },
 
     /**
@@ -1751,7 +1657,6 @@ var WebGLRenderer = new Class({
      */
     pushScissor: function (x, y, width, height, drawingBufferHeight)
     {
-        console.group('WebGLRenderer pushScissor');
         if (drawingBufferHeight === undefined) { drawingBufferHeight = this.drawingBufferHeight; }
 
         var scissorStack = this.scissorStack;
@@ -1764,7 +1669,6 @@ var WebGLRenderer = new Class({
 
         this.currentScissor = scissor;
 
-        console.groupEnd();
         return scissor;
     },
 
@@ -1782,7 +1686,6 @@ var WebGLRenderer = new Class({
      */
     setScissor: function (x, y, width, height, drawingBufferHeight)
     {
-        console.group('WebGLRenderer setScissor');
         if (drawingBufferHeight === undefined) { drawingBufferHeight = this.drawingBufferHeight; }
 
         var gl = this.gl;
@@ -1808,7 +1711,6 @@ var WebGLRenderer = new Class({
             // https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/scissor
             gl.scissor(x, (drawingBufferHeight - y - height), width, height);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1820,7 +1722,6 @@ var WebGLRenderer = new Class({
      */
     resetScissor: function ()
     {
-        console.group('WebGLRenderer resetScissor');
         var gl = this.gl;
 
         gl.enable(gl.SCISSOR_TEST);
@@ -1839,7 +1740,6 @@ var WebGLRenderer = new Class({
                 gl.scissor(x, (this.drawingBufferHeight - y - height), width, height);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -1850,7 +1750,6 @@ var WebGLRenderer = new Class({
      */
     popScissor: function ()
     {
-        console.group('WebGLRenderer popScissor');
         var scissorStack = this.scissorStack;
 
         //  Remove the current scissor
@@ -1865,7 +1764,6 @@ var WebGLRenderer = new Class({
         }
 
         this.currentScissor = scissor;
-        console.groupEnd();
     },
 
     /**
@@ -1878,11 +1776,9 @@ var WebGLRenderer = new Class({
      */
     hasActiveStencilMask: function ()
     {
-        console.group('WebGLRenderer hasActiveStencilMask');
         var mask = this.currentMask.mask;
         var camMask = this.currentCameraMask.mask;
 
-        console.groupEnd();
         return ((mask && mask.isStencil) || (camMask && camMask.isStencil));
     },
 
@@ -1894,13 +1790,11 @@ var WebGLRenderer = new Class({
      */
     resetViewport: function ()
     {
-        console.group('WebGLRenderer resetViewport');
         var gl = this.gl;
 
         gl.viewport(0, 0, this.width, this.height);
 
         this.drawingBufferHeight = gl.drawingBufferHeight;
-        console.groupEnd();
     },
 
     /**
@@ -1919,7 +1813,6 @@ var WebGLRenderer = new Class({
      */
     setBlendMode: function (blendModeId, force)
     {
-        console.group('WebGLRenderer setBlendMode');
         if (force === undefined) { force = false; }
 
         var gl = this.gl;
@@ -1943,11 +1836,9 @@ var WebGLRenderer = new Class({
 
             this.currentBlendMode = blendModeId;
 
-            console.groupEnd();
             return true;
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -1966,10 +1857,8 @@ var WebGLRenderer = new Class({
      */
     addBlendMode: function (func, equation)
     {
-        console.group('WebGLRenderer addBlendMode');
         var index = this.blendModes.push({ func: func, equation: equation });
 
-        console.groupEnd();
         return index - 1;
     },
 
@@ -1987,7 +1876,6 @@ var WebGLRenderer = new Class({
      */
     updateBlendMode: function (index, func, equation)
     {
-        console.group('WebGLRenderer updateBlendMode');
         if (this.blendModes[index])
         {
             this.blendModes[index].func = func;
@@ -1998,7 +1886,6 @@ var WebGLRenderer = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2015,13 +1902,11 @@ var WebGLRenderer = new Class({
      */
     removeBlendMode: function (index)
     {
-        console.group('WebGLRenderer removeBlendMode');
         if (index > 17 && this.blendModes[index])
         {
             this.blendModes.splice(index, 1);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2045,18 +1930,14 @@ var WebGLRenderer = new Class({
      */
     pushFramebuffer: function (framebuffer, updateScissor, setViewport, texture, clear)
     {
-        console.group('WebGLRenderer pushFramebuffer');
         if (framebuffer === this.currentFramebuffer)
         {
-            console.groupEnd();
             return this;
         }
 
         this.fboStack.push(framebuffer);
 
-        const result = this.setFramebuffer(framebuffer, updateScissor, setViewport, texture, clear);
-        console.groupEnd();
-        return result;
+        return this.setFramebuffer(framebuffer, updateScissor, setViewport, texture, clear);
     },
 
     /**
@@ -2079,7 +1960,6 @@ var WebGLRenderer = new Class({
      */
     setFramebuffer: function (framebuffer, updateScissor, setViewport, texture, clear)
     {
-        console.group('WebGLRenderer setFramebuffer');
         if (updateScissor === undefined) { updateScissor = false; }
         if (setViewport === undefined) { setViewport = true; }
         if (texture === undefined) { texture = null; }
@@ -2087,7 +1967,6 @@ var WebGLRenderer = new Class({
 
         if (framebuffer === this.currentFramebuffer)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -2149,7 +2028,6 @@ var WebGLRenderer = new Class({
 
         this.currentFramebuffer = framebuffer;
 
-        console.groupEnd();
         return this;
     },
 
@@ -2166,7 +2044,6 @@ var WebGLRenderer = new Class({
      */
     popFramebuffer: function (updateScissor, setViewport)
     {
-        console.group('WebGLRenderer popFramebuffer');
         if (updateScissor === undefined) { updateScissor = false; }
         if (setViewport === undefined) { setViewport = true; }
 
@@ -2185,7 +2062,6 @@ var WebGLRenderer = new Class({
 
         this.setFramebuffer(framebuffer, updateScissor, setViewport);
 
-        console.groupEnd();
         return framebuffer;
     },
 
@@ -2200,7 +2076,6 @@ var WebGLRenderer = new Class({
      */
     restoreFramebuffer: function (updateScissor, setViewport)
     {
-        console.group('WebGLRenderer restoreFramebuffer');
         if (updateScissor === undefined) { updateScissor = false; }
         if (setViewport === undefined) { setViewport = true; }
 
@@ -2216,7 +2091,6 @@ var WebGLRenderer = new Class({
         this.currentFramebuffer = null;
 
         this.setFramebuffer(framebuffer, updateScissor, setViewport);
-        console.groupEnd();
     },
 
     /**
@@ -2236,7 +2110,6 @@ var WebGLRenderer = new Class({
      */
     setProgram: function (program)
     {
-        console.group('WebGLRenderer setProgram');
         if (program !== this.currentProgram)
         {
             this.flush();
@@ -2245,11 +2118,9 @@ var WebGLRenderer = new Class({
 
             this.currentProgram = program;
 
-            console.groupEnd();
             return true;
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -2264,10 +2135,8 @@ var WebGLRenderer = new Class({
      */
     resetProgram: function ()
     {
-        console.group('WebGLRenderer resetProgram');
         this.gl.useProgram(this.currentProgram.webGLProgramWrapper);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2287,7 +2156,6 @@ var WebGLRenderer = new Class({
      */
     createTextureFromSource: function (source, width, height, scaleMode, forceClamp)
     {
-        console.group('WebGLRenderer createTextureFromSource');
         if (forceClamp === undefined) { forceClamp = false; }
 
         var gl = this.gl;
@@ -2328,7 +2196,6 @@ var WebGLRenderer = new Class({
             texture = this.createTexture2D(0, minFilter, magFilter, wrap, wrap, gl.RGBA, source);
         }
 
-        console.groupEnd();
         return texture;
     },
 
@@ -2355,7 +2222,6 @@ var WebGLRenderer = new Class({
      */
     createTexture2D: function (mipLevel, minFilter, magFilter, wrapT, wrapS, format, pixels, width, height, pma, forceSize, flipY)
     {
-        console.group('WebGLRenderer createTexture2D');
         if (typeof width !== 'number') { width = pixels ? pixels.width : 1; }
         if (typeof height !== 'number') { height = pixels ? pixels.height : 1; }
 
@@ -2363,7 +2229,6 @@ var WebGLRenderer = new Class({
 
         this.glTextureWrappers.push(texture);
 
-        console.groupEnd();
         return texture;
     },
 
@@ -2384,13 +2249,11 @@ var WebGLRenderer = new Class({
      */
     createFramebuffer: function (width, height, renderTexture, addDepthStencilBuffer)
     {
-        console.group('WebGLRenderer createFramebuffer');
         this.currentFramebuffer = null;
         var framebuffer = new WebGLFramebufferWrapper(this.gl, width, height, renderTexture, addDepthStencilBuffer);
 
         this.glFramebufferWrappers.push(framebuffer);
 
-        console.groupEnd();
         return framebuffer;
     },
 
@@ -2406,7 +2269,6 @@ var WebGLRenderer = new Class({
      */
     beginBitmapMask: function (bitmapMask, camera)
     {
-        console.group('WebGLRenderer beginBitmapMask');
         var gl = this.gl;
 
         if (gl)
@@ -2421,7 +2283,6 @@ var WebGLRenderer = new Class({
                 this.currentMask.camera = camera;
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -2437,7 +2298,6 @@ var WebGLRenderer = new Class({
      */
     drawBitmapMask: function (bitmapMask, camera, bitmapMaskPipeline)
     {
-        console.group('WebGLRenderer drawBitmapMask');
         //  mask.mainFramebuffer should now contain all the Game Objects we want masked
         this.flush();
 
@@ -2473,7 +2333,6 @@ var WebGLRenderer = new Class({
 
         gl.activeTexture(gl.TEXTURE1);
         gl.bindTexture(gl.TEXTURE_2D, this.maskSource.texture.webGLTexture);
-        console.groupEnd();
     },
 
     /**
@@ -2491,10 +2350,8 @@ var WebGLRenderer = new Class({
      */
     createProgram: function (vertexShader, fragmentShader)
     {
-        console.group('WebGLRenderer createProgram');
         var wrapper = new WebGLProgramWrapper(this.gl, vertexShader, fragmentShader);
         this.glProgramWrappers.push(wrapper);
-        console.groupEnd();
         return wrapper;
     },
 
@@ -2511,11 +2368,9 @@ var WebGLRenderer = new Class({
      */
     createVertexBuffer: function (initialDataOrSize, bufferUsage)
     {
-        console.group('WebGLRenderer createVertexBuffer');
         var gl = this.gl;
         var vertexBuffer = new WebGLBufferWrapper(gl, initialDataOrSize, gl.ARRAY_BUFFER, bufferUsage);
         this.glBufferWrappers.push(vertexBuffer);
-        console.groupEnd();
         return vertexBuffer;
     },
 
@@ -2530,10 +2385,8 @@ var WebGLRenderer = new Class({
      */
     createAttribLocation: function (program, name)
     {
-        console.group('WebGLRenderer createAttribLocation');
         var attrib = new WebGLAttribLocationWrapper(this.gl, program, name);
         this.glAttribLocationWrappers.push(attrib);
-        console.groupEnd();
         return attrib;
     },
 
@@ -2548,10 +2401,8 @@ var WebGLRenderer = new Class({
      */
     createUniformLocation: function (program, name)
     {
-        console.group('WebGLRenderer createUniformLocation');
         var uniform = new WebGLUniformLocationWrapper(this.gl, program, name);
         this.glUniformLocationWrappers.push(uniform);
-        console.groupEnd();
         return uniform;
     },
 
@@ -2568,11 +2419,9 @@ var WebGLRenderer = new Class({
      */
     createIndexBuffer: function (initialDataOrSize, bufferUsage)
     {
-        console.group('WebGLRenderer createIndexBuffer');
         var gl = this.gl;
         var indexBuffer = new WebGLBufferWrapper(gl, initialDataOrSize, gl.ELEMENT_ARRAY_BUFFER, bufferUsage);
         this.glBufferWrappers.push(indexBuffer);
-        console.groupEnd();
         return indexBuffer;
     },
 
@@ -2588,15 +2437,12 @@ var WebGLRenderer = new Class({
      */
     deleteTexture: function (texture)
     {
-        console.group('WebGLRenderer deleteTexture');
         if (!texture)
         {
-            console.groupEnd();
             return;
         }
         ArrayRemove(this.glTextureWrappers, texture);
         texture.destroy();
-        console.groupEnd();
         return this;
     },
 
@@ -2612,16 +2458,13 @@ var WebGLRenderer = new Class({
      */
     deleteFramebuffer: function (framebuffer)
     {
-        console.group('WebGLRenderer deleteFramebuffer');
         if (!framebuffer)
         {
-            console.groupEnd();
             return this;
         }
         ArrayRemove(this.fboStack, framebuffer);
         ArrayRemove(this.glFramebufferWrappers, framebuffer);
         framebuffer.destroy();
-        console.groupEnd();
         return this;
     },
 
@@ -2637,14 +2480,12 @@ var WebGLRenderer = new Class({
      */
     deleteProgram: function (program)
     {
-        console.group('WebGLRenderer deleteProgram');
         if (program)
         {
             ArrayRemove(this.glProgramWrappers, program);
             program.destroy();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2657,14 +2498,12 @@ var WebGLRenderer = new Class({
      */
     deleteAttribLocation: function (attrib)
     {
-        console.group('WebGLRenderer deleteAttribLocation');
         if (attrib)
         {
             ArrayRemove(this.glAttribLocationWrappers, attrib);
             attrib.destroy();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2677,14 +2516,12 @@ var WebGLRenderer = new Class({
      */
     deleteUniformLocation: function (uniform)
     {
-        console.group('WebGLRenderer deleteUniformLocation');
         if (uniform)
         {
             ArrayRemove(this.glUniformLocationWrappers, uniform);
             uniform.destroy();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2700,11 +2537,9 @@ var WebGLRenderer = new Class({
      */
     deleteBuffer: function (buffer)
     {
-        console.group('WebGLRenderer deleteBuffer');
-        if (!buffer) { return console.groupEnd(); this; }
+        if (!buffer) { return this; }
         ArrayRemove(this.glBufferWrappers, buffer);
         buffer.destroy();
-        console.groupEnd();
         return this;
     },
 
@@ -2719,7 +2554,6 @@ var WebGLRenderer = new Class({
      */
     preRenderCamera: function (camera)
     {
-        console.group('WebGLRenderer preRenderCamera');
         var cx = camera.x;
         var cy = camera.y;
         var cw = camera.width;
@@ -2751,7 +2585,6 @@ var WebGLRenderer = new Class({
                 color.alphaGL
             );
         }
-        console.groupEnd();
     },
 
     /**
@@ -2763,7 +2596,6 @@ var WebGLRenderer = new Class({
      */
     getCurrentStencilMask: function ()
     {
-        console.group('WebGLRenderer getCurrentStencilMask');
         var prev = null;
         var stack = this.maskStack;
         var cameraMask = this.currentCameraMask;
@@ -2777,7 +2609,6 @@ var WebGLRenderer = new Class({
             prev = cameraMask;
         }
 
-        console.groupEnd();
         return prev;
     },
 
@@ -2793,7 +2624,6 @@ var WebGLRenderer = new Class({
      */
     postRenderCamera: function (camera)
     {
-        console.group('WebGLRenderer postRenderCamera');
         var flashEffect = camera.flashEffect;
         var fadeEffect = camera.fadeEffect;
 
@@ -2819,7 +2649,6 @@ var WebGLRenderer = new Class({
         this.pipelines.postBatchCamera(camera);
 
         camera.emit(CameraEvents.POST_RENDER, camera);
-        console.groupEnd();
     },
 
     /**
@@ -2832,8 +2661,7 @@ var WebGLRenderer = new Class({
      */
     preRender: function ()
     {
-        console.group('WebGLRenderer preRender');
-        if (this.contextLost) { console.groupEnd(); return; }
+        if (this.contextLost) { return; }
 
         var gl = this.gl;
 
@@ -2868,7 +2696,6 @@ var WebGLRenderer = new Class({
         this.maskStack.length = 0;
 
         this.emit(Events.PRE_RENDER);
-        console.groupEnd();
     },
 
     /**
@@ -2891,8 +2718,7 @@ var WebGLRenderer = new Class({
      */
     render: function (scene, children, camera)
     {
-        console.group('WebGLRenderer render');
-        if (this.contextLost) { console.groupEnd(); return; }
+        if (this.contextLost) { return; }
 
         var childCount = children.length;
 
@@ -2909,7 +2735,6 @@ var WebGLRenderer = new Class({
             //  Applies camera effects and pops the scissor, if set
             this.postRenderCamera(camera);
 
-            console.groupEnd();
             return;
         }
 
@@ -2978,7 +2803,6 @@ var WebGLRenderer = new Class({
 
         //  Applies camera effects and pops the scissor, if set
         this.postRenderCamera(camera);
-        console.groupEnd();
     },
 
     /**
@@ -2990,8 +2814,7 @@ var WebGLRenderer = new Class({
      */
     postRender: function ()
     {
-        console.group('WebGLRenderer postRender');
-        if (this.contextLost) { console.groupEnd(); return; }
+        if (this.contextLost) { return; }
 
         this.flush();
 
@@ -3005,7 +2828,6 @@ var WebGLRenderer = new Class({
 
             state.callback = null;
         }
-        console.groupEnd();
     },
 
     /**
@@ -3017,9 +2839,7 @@ var WebGLRenderer = new Class({
      */
     clearStencilMask: function ()
     {
-        console.group('WebGLRenderer clearStencilMask');
         this.gl.disable(this.gl.STENCIL_TEST);
-        console.groupEnd();
     },
 
     /**
@@ -3031,7 +2851,6 @@ var WebGLRenderer = new Class({
      */
     restoreStencilMask: function ()
     {
-        console.group('WebGLRenderer restoreStencilMask');
         var gl = this.gl;
 
         var current = this.getCurrentStencilMask();
@@ -3053,7 +2872,6 @@ var WebGLRenderer = new Class({
                 gl.stencilFunc(gl.EQUAL, mask.level, 0xff);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -3080,10 +2898,7 @@ var WebGLRenderer = new Class({
      */
     snapshot: function (callback, type, encoderOptions)
     {
-        console.group('WebGLRenderer snapshot');
-        const result = this.snapshotArea(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight, callback, type, encoderOptions);
-        console.groupEnd();
-        return result;
+        return this.snapshotArea(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight, callback, type, encoderOptions);
     },
 
     /**
@@ -3114,7 +2929,6 @@ var WebGLRenderer = new Class({
      */
     snapshotArea: function (x, y, width, height, callback, type, encoderOptions)
     {
-        console.group('WebGLRenderer snapshotArea');
         var state = this.snapshotState;
 
         state.callback = callback;
@@ -3126,7 +2940,6 @@ var WebGLRenderer = new Class({
         state.width = width;
         state.height = height;
 
-        console.groupEnd();
         return this;
     },
 
@@ -3153,12 +2966,10 @@ var WebGLRenderer = new Class({
      */
     snapshotPixel: function (x, y, callback)
     {
-        console.group('WebGLRenderer snapshotPixel');
         this.snapshotArea(x, y, 1, 1, callback);
 
         this.snapshotState.getPixel = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -3191,7 +3002,6 @@ var WebGLRenderer = new Class({
      */
     snapshotFramebuffer: function (framebuffer, bufferWidth, bufferHeight, callback, getPixel, x, y, width, height, type, encoderOptions)
     {
-        console.group('WebGLRenderer snapshotFramebuffer');
         if (getPixel === undefined) { getPixel = false; }
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
@@ -3229,7 +3039,6 @@ var WebGLRenderer = new Class({
         state.callback = null;
         state.isFramebuffer = false;
 
-        console.groupEnd();
         return this;
     },
 
@@ -3250,7 +3059,6 @@ var WebGLRenderer = new Class({
      */
     canvasToTexture: function (srcCanvas, dstTexture, noRepeat, flipY)
     {
-        console.group('WebGLRenderer canvasToTexture');
         if (noRepeat === undefined) { noRepeat = false; }
         if (flipY === undefined) { flipY = false; }
 
@@ -3278,15 +3086,12 @@ var WebGLRenderer = new Class({
 
         if (!dstTexture)
         {
-            const result = this.createTexture2D(0, minFilter, magFilter, wrapping, wrapping, gl.RGBA, srcCanvas, width, height, true, false, flipY);
-            console.groupEnd();
-            return result;
+            return this.createTexture2D(0, minFilter, magFilter, wrapping, wrapping, gl.RGBA, srcCanvas, width, height, true, false, flipY);
         }
         else
         {
             dstTexture.update(srcCanvas, width, height, flipY, wrapping, wrapping, minFilter, magFilter, dstTexture.format);
 
-            console.groupEnd();
             return dstTexture;
         }
     },
@@ -3305,13 +3110,10 @@ var WebGLRenderer = new Class({
      */
     createCanvasTexture: function (srcCanvas, noRepeat, flipY)
     {
-        console.group('WebGLRenderer createCanvasTexture');
         if (noRepeat === undefined) { noRepeat = false; }
         if (flipY === undefined) { flipY = false; }
 
-        const result = this.canvasToTexture(srcCanvas, null, noRepeat, flipY);
-        console.groupEnd();
-        return result;
+        return this.canvasToTexture(srcCanvas, null, noRepeat, flipY);
     },
 
     /**
@@ -3329,13 +3131,10 @@ var WebGLRenderer = new Class({
      */
     updateCanvasTexture: function (srcCanvas, dstTexture, flipY, noRepeat)
     {
-        console.group('WebGLRenderer updateCanvasTexture');
         if (flipY === undefined) { flipY = false; }
         if (noRepeat === undefined) { noRepeat = false; }
 
-        const result = this.canvasToTexture(srcCanvas, dstTexture, noRepeat, flipY);
-        console.groupEnd();
-        return result;
+        return this.canvasToTexture(srcCanvas, dstTexture, noRepeat, flipY);
     },
 
     /**
@@ -3355,7 +3154,6 @@ var WebGLRenderer = new Class({
      */
     videoToTexture: function (srcVideo, dstTexture, noRepeat, flipY)
     {
-        console.group('WebGLRenderer videoToTexture');
         if (noRepeat === undefined) { noRepeat = false; }
         if (flipY === undefined) { flipY = false; }
 
@@ -3383,15 +3181,12 @@ var WebGLRenderer = new Class({
 
         if (!dstTexture)
         {
-            const result = this.createTexture2D(0, minFilter, magFilter, wrapping, wrapping, gl.RGBA, srcVideo, width, height, true, true, flipY);
-            console.groupEnd();
-            return result;
+            return this.createTexture2D(0, minFilter, magFilter, wrapping, wrapping, gl.RGBA, srcVideo, width, height, true, true, flipY);
         }
         else
         {
             dstTexture.update(srcVideo, width, height, flipY, wrapping, wrapping, minFilter, magFilter, dstTexture.format);
 
-            console.groupEnd();
             return dstTexture;
         }
     },
@@ -3410,13 +3205,10 @@ var WebGLRenderer = new Class({
      */
     createVideoTexture: function (srcVideo, noRepeat, flipY)
     {
-        console.group('WebGLRenderer createVideoTexture');
         if (noRepeat === undefined) { noRepeat = false; }
         if (flipY === undefined) { flipY = false; }
 
-        const result = this.videoToTexture(srcVideo, null, noRepeat, flipY);
-        console.groupEnd();
-        return result;
+        return this.videoToTexture(srcVideo, null, noRepeat, flipY);
     },
 
     /**
@@ -3434,13 +3226,10 @@ var WebGLRenderer = new Class({
      */
     updateVideoTexture: function (srcVideo, dstTexture, flipY, noRepeat)
     {
-        console.group('WebGLRenderer updateVideoTexture');
         if (flipY === undefined) { flipY = false; }
         if (noRepeat === undefined) { noRepeat = false; }
 
-        const result = this.videoToTexture(srcVideo, dstTexture, noRepeat, flipY);
-        console.groupEnd();
-        return result;
+        return this.videoToTexture(srcVideo, dstTexture, noRepeat, flipY);
     },
 
     /**
@@ -3459,7 +3248,6 @@ var WebGLRenderer = new Class({
      */
     createUint8ArrayTexture: function (data, width, height)
     {
-        console.group('WebGLRenderer createUint8ArrayTexture');
         var gl = this.gl;
         var minFilter = gl.NEAREST;
         var magFilter = gl.NEAREST;
@@ -3472,9 +3260,7 @@ var WebGLRenderer = new Class({
             wrap = gl.REPEAT;
         }
 
-        const result = this.createTexture2D(0, minFilter, magFilter, wrap, wrap, gl.RGBA, data, width, height);
-        console.groupEnd();
-        return result;
+        return this.createTexture2D(0, minFilter, magFilter, wrap, wrap, gl.RGBA, data, width, height);
     },
 
     /**
@@ -3490,7 +3276,6 @@ var WebGLRenderer = new Class({
      */
     setTextureFilter: function (texture, filter)
     {
-        console.group('WebGLRenderer setTextureFilter');
         var gl = this.gl;
 
         var glFilter = (filter === 0) ? gl.LINEAR : gl.NEAREST;
@@ -3513,7 +3298,6 @@ var WebGLRenderer = new Class({
             gl.bindTexture(gl.TEXTURE_2D, currentTexture);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -3529,8 +3313,6 @@ var WebGLRenderer = new Class({
      */
     getMaxTextureSize: function ()
     {
-        console.group('WebGLRenderer getMaxTextureSize');
-        console.groupEnd();
         return this.config.maxTextureSize;
     },
 
@@ -3542,7 +3324,6 @@ var WebGLRenderer = new Class({
      */
     destroy: function ()
     {
-        console.group('WebGLRenderer destroy');
         this.canvas.removeEventListener('webglcontextlost', this.contextLostHandler, false);
 
         this.canvas.removeEventListener('webglcontextrestored', this.contextRestoredHandler, false);
@@ -3581,7 +3362,6 @@ var WebGLRenderer = new Class({
         {
             this.spector = null;
         }
-        console.groupEnd();
     }
 
 });

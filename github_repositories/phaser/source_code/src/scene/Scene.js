@@ -26,7 +26,6 @@ var Scene = new Class({
 
     function Scene (config)
     {
-        console.group('Scene');
         /**
          * The Scene Systems. You must never overwrite this property, or all hell will break lose.
          *
@@ -303,7 +302,6 @@ var Scene = new Class({
          * @since 3.50.0
          */
         this.renderer;
-        console.groupEnd();
     },
 
     /**

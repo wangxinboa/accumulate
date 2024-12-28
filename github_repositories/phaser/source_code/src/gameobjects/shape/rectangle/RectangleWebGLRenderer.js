@@ -24,7 +24,6 @@ var Utils = require('../../../renderer/webgl/Utils');
  */
 var RectangleWebGLRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('RectangleWebGLRenderer');
     camera.addToRenderList(src);
 
     var pipeline = renderer.pipelines.set(src.pipeline);
@@ -63,7 +62,6 @@ var RectangleWebGLRenderer = function (renderer, src, camera, parentMatrix)
     }
 
     renderer.pipelines.postBatch(src);
-    console.groupEnd();
 };
 
 module.exports = RectangleWebGLRenderer;

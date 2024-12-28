@@ -24,7 +24,6 @@ var StrokePathWebGL = require('../StrokePathWebGL');
  */
 var CurveWebGLRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('CurveWebGLRenderer');
     camera.addToRenderList(src);
 
     var pipeline = renderer.pipelines.set(src.pipeline);
@@ -51,7 +50,6 @@ var CurveWebGLRenderer = function (renderer, src, camera, parentMatrix)
     }
 
     renderer.pipelines.postBatch(src);
-    console.groupEnd();
 };
 
 module.exports = CurveWebGLRenderer;

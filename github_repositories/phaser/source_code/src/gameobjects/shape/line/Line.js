@@ -55,7 +55,6 @@ var Line = new Class({
 
     function Line (scene, x, y, x1, y1, x2, y2, strokeColor, strokeAlpha)
     {
-        console.group('Line');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (x1 === undefined) { x1 = 0; }
@@ -107,7 +106,6 @@ var Line = new Class({
         }
 
         this.updateDisplayOrigin();
-        console.groupEnd();
     },
 
     /**
@@ -128,7 +126,6 @@ var Line = new Class({
      */
     setLineWidth: function (startWidth, endWidth)
     {
-        console.group('Line setLineWidth');
         if (endWidth === undefined) { endWidth = startWidth; }
 
         this._startWidth = startWidth;
@@ -136,7 +133,6 @@ var Line = new Class({
 
         this.lineWidth = startWidth;
 
-        console.groupEnd();
         return this;
     },
 
@@ -155,10 +151,8 @@ var Line = new Class({
      */
     setTo: function (x1, y1, x2, y2)
     {
-        console.group('Line setTo');
         this.geom.setTo(x1, y1, x2, y2);
 
-        console.groupEnd();
         return this;
     }
 

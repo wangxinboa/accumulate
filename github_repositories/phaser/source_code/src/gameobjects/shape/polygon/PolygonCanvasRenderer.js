@@ -24,7 +24,6 @@ var SetTransform = require('../../../renderer/canvas/utils/SetTransform');
  */
 var PolygonCanvasRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('PolygonCanvasRenderer');
     camera.addToRenderList(src);
 
     var ctx = renderer.currentContext;
@@ -79,7 +78,6 @@ var PolygonCanvasRenderer = function (renderer, src, camera, parentMatrix)
         //  Restore the context saved in SetTransform
         ctx.restore();
     }
-    console.groupEnd();
 };
 
 module.exports = PolygonCanvasRenderer;

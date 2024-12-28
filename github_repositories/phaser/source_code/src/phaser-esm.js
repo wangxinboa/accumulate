@@ -1,4 +1,3 @@
-console.group('%cphaser 初始化', 'font-size: 18px; color: #ffffff; background-color: #000000;');
 /**
  * @author       Richard Davey <rich@phaser.io>
  * @copyright    2013-2024 Phaser Studio Inc.
@@ -54,5 +53,3 @@ export const LEFT = CONST.LEFT;
 export const RIGHT = CONST.RIGHT;
 export const UP = CONST.UP;
 export const DOWN = CONST.DOWN;
-
-console.groupEnd();

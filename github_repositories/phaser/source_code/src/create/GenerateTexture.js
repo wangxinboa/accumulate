@@ -48,7 +48,6 @@ var GetValue = require('../utils/object/GetValue');
  */
 var GenerateTexture = function (config)
 {
-    console.group('GenerateTexture');
     var data = GetValue(config, 'data', []);
     var canvas = GetValue(config, 'canvas', null);
     var palette = GetValue(config, 'palette', Arne16);
@@ -111,7 +110,6 @@ var GenerateTexture = function (config)
         postRender(canvas, ctx);
     }
 
-    console.groupEnd();
     return canvas;
 };
 

@@ -43,10 +43,8 @@ var Video = {
 
 function init ()
 {
-    console.group('Device Video init');
     if (typeof importScripts === 'function')
     {
-        console.groupEnd();
         return Video;
     }
 
@@ -103,7 +101,6 @@ function init ()
 
     Video.getVideoURL = function (urls)
     {
-        console.group('Device Video init getVideoURL');
         if (!Array.isArray(urls))
         {
             urls = [ urls ];
@@ -115,7 +112,6 @@ function init ()
 
             if (url.indexOf('blob:') === 0)
             {
-                console.groupEnd();
                 return {
                     url: url,
                     type: ''
@@ -137,7 +133,6 @@ function init ()
 
             if (Video[videoType])
             {
-                console.groupEnd();
                 return {
                     url: url,
                     type: videoType
@@ -145,12 +140,9 @@ function init ()
             }
         }
 
-        console.groupEnd();
         return null;
     };
 
-    console.info('Video:', JSON.stringify(Video, null, 2));
-    console.groupEnd();
     return Video;
 }
 

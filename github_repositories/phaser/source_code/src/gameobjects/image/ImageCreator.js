@@ -22,7 +22,6 @@ var Image = require('./Image');
  *
  * @return {Phaser.GameObjects.Image} The Game Object that was created.
  */
-console.group('GameObjectCreator.register image');
 GameObjectCreator.register('image', function (config, addToScene)
 {
     if (config === undefined) { config = {}; }
@@ -41,6 +40,5 @@ GameObjectCreator.register('image', function (config, addToScene)
 
     return image;
 });
-console.groupEnd();
 
 //  When registering a factory function 'this' refers to the GameObjectCreator context.

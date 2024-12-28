@@ -23,7 +23,6 @@ var Utils = require('../../../renderer/webgl/Utils');
  */
 var LineWebGLRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('LineWebGLRenderer');
     camera.addToRenderList(src);
 
     var pipeline = renderer.pipelines.set(src.pipeline);
@@ -64,7 +63,6 @@ var LineWebGLRenderer = function (renderer, src, camera, parentMatrix)
     }
 
     renderer.pipelines.postBatch(src);
-    console.groupEnd();
 };
 
 module.exports = LineWebGLRenderer;

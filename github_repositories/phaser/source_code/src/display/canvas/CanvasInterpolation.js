@@ -22,7 +22,6 @@ var CanvasInterpolation = {
      */
     setCrisp: function (canvas)
     {
-        console.group('CanvasInterpolation setCrisp');
         var types = [ 'optimizeSpeed', '-moz-crisp-edges', '-o-crisp-edges', '-webkit-optimize-contrast', 'optimize-contrast', 'crisp-edges', 'pixelated' ];
 
         types.forEach(function (type)
@@ -32,7 +31,6 @@ var CanvasInterpolation = {
 
         canvas.style.msInterpolationMode = 'nearest-neighbor';
 
-        console.groupEnd();
         return canvas;
     },
 
@@ -48,11 +46,9 @@ var CanvasInterpolation = {
      */
     setBicubic: function (canvas)
     {
-        console.group('CanvasInterpolation setBicubic');
         canvas.style['image-rendering'] = 'auto';
         canvas.style.msInterpolationMode = 'bicubic';
 
-        console.groupEnd();
         return canvas;
     }
 

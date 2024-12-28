@@ -42,7 +42,6 @@ var TweenChain = new Class({
 
     function TweenChain (parent)
     {
-        console.group('TweenChain');
         BaseTween.call(this, parent);
 
         /**
@@ -62,7 +61,6 @@ var TweenChain = new Class({
          * @since 3.60.0
          */
         this.currentIndex = 0;
-        console.groupEnd();
     },
 
     /**
@@ -78,7 +76,6 @@ var TweenChain = new Class({
      */
     init: function ()
     {
-        console.group('TweenChain init');
         this.loopCounter = (this.loop === -1) ? TWEEN_CONST.MAX : this.loop;
 
         this.setCurrentTween(0);
@@ -92,7 +89,6 @@ var TweenChain = new Class({
             this.setActiveState();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -117,7 +113,6 @@ var TweenChain = new Class({
      */
     add: function (tweens)
     {
-        console.group('TweenChain add');
         var newTweens = this.parent.create(tweens);
 
         if (!Array.isArray(newTweens))
@@ -138,7 +133,6 @@ var TweenChain = new Class({
 
         this.totalData = data.length;
 
-        console.groupEnd();
         return this;
     },
 
@@ -160,7 +154,6 @@ var TweenChain = new Class({
      */
     remove: function (tween)
     {
-        console.group('TweenChain remove');
         //  Remove it immediately
         ArrayRemove(this.data, tween);
 
@@ -173,7 +166,6 @@ var TweenChain = new Class({
 
         this.totalData = this.data.length;
 
-        console.groupEnd();
         return this;
     },
 
@@ -189,19 +181,16 @@ var TweenChain = new Class({
      */
     hasTarget: function (target)
     {
-        console.group('TweenChain hasTarget');
         var data = this.data;
 
         for (var i = 0; i < this.totalData; i++)
         {
             if (data[i].hasTarget(target))
             {
-                console.groupEnd();
                 return true;
             }
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -219,12 +208,10 @@ var TweenChain = new Class({
      */
     restart: function ()
     {
-        console.group('TweenChain restart');
         if (this.isDestroyed())
         {
             console.warn('Cannot restart destroyed TweenChain', this);
 
-            console.groupEnd();
             return this;
         }
 
@@ -237,9 +224,7 @@ var TweenChain = new Class({
 
         this.paused = false;
 
-        const result = this.init();
-        console.groupEnd();
-        return result;
+        return this.init();
     },
 
     /**
@@ -256,12 +241,10 @@ var TweenChain = new Class({
      */
     reset: function (tween)
     {
-        console.group('TweenChain reset');
         tween.seek();
 
         tween.setActiveState();
 
-        console.groupEnd();
         return this;
     },
 
@@ -278,12 +261,10 @@ var TweenChain = new Class({
      */
     makeActive: function (tween)
     {
-        console.group('TweenChain makeActive');
         tween.reset();
 
         tween.setActiveState();
 
-        console.groupEnd();
         return this;
     },
 
@@ -299,7 +280,6 @@ var TweenChain = new Class({
      */
     nextState: function ()
     {
-        console.group('TweenChain nextState');
         if (this.loopCounter > 0)
         {
             this.loopCounter--;
@@ -329,11 +309,9 @@ var TweenChain = new Class({
         {
             this.onCompleteHandler();
 
-            console.groupEnd();
             return true;
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -354,12 +332,10 @@ var TweenChain = new Class({
      */
     play: function ()
     {
-        console.group('TweenChain play');
         if (this.isDestroyed())
         {
             console.warn('Cannot play destroyed TweenChain', this);
 
-            console.groupEnd();
             return this;
         }
 
@@ -379,7 +355,6 @@ var TweenChain = new Class({
             this.setActiveState();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -391,7 +366,6 @@ var TweenChain = new Class({
      */
     resetTweens: function ()
     {
-        console.group('TweenChain resetTweens');
         var data = this.data;
         var total = this.totalData;
 
@@ -401,7 +375,6 @@ var TweenChain = new Class({
         }
 
         this.setCurrentTween(0);
-        console.groupEnd();
     },
 
     /**
@@ -419,15 +392,12 @@ var TweenChain = new Class({
      */
     update: function (delta)
     {
-        console.group('TweenChain update');
         if (this.isPendingRemove() || this.isDestroyed())
         {
-            console.groupEnd();
             return true;
         }
         else if (this.isFinished() || this.paused)
         {
-            console.groupEnd();
             return false;
         }
 
@@ -472,7 +442,6 @@ var TweenChain = new Class({
             }
         }
 
-        console.groupEnd();
         return remove;
     },
 
@@ -489,12 +458,10 @@ var TweenChain = new Class({
      */
     nextTween: function ()
     {
-        console.group('TweenChain nextTween');
         this.currentIndex++;
 
         if (this.currentIndex === this.totalData)
         {
-            console.groupEnd();
             return true;
         }
         else
@@ -502,7 +469,6 @@ var TweenChain = new Class({
             this.setCurrentTween(this.currentIndex);
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -517,13 +483,11 @@ var TweenChain = new Class({
      */
     setCurrentTween: function (index)
     {
-        console.group('TweenChain setCurrentTween');
         this.currentIndex = index;
 
         this.currentTween = this.data[index];
 
         this.currentTween.setActiveState();
-        console.groupEnd();
     },
 
     /**
@@ -537,7 +501,6 @@ var TweenChain = new Class({
      */
     dispatchEvent: function (event, callback)
     {
-        console.group('TweenChain dispatchEvent');
         this.emit(event, this);
 
         var handler = this.callbacks[callback];
@@ -546,7 +509,6 @@ var TweenChain = new Class({
         {
             handler.func.apply(this.callbackScope, [ this ].concat(handler.params));
         }
-        console.groupEnd();
     },
 
     /**
@@ -557,11 +519,9 @@ var TweenChain = new Class({
      */
     destroy: function ()
     {
-        console.group('TweenChain destroy');
         BaseTween.prototype.destroy.call(this);
 
         this.currentTween = null;
-        console.groupEnd();
     }
 
 });
@@ -578,15 +538,10 @@ var TweenChain = new Class({
  *
  * @return {Phaser.Tweens.TweenChain} The TweenChain that was created.
  */
-console.group('GameObjectFactory.register tweenchain');
 GameObjectFactory.register('tweenchain', function (config)
 {
-    console.group('GameObjectFactory.register tweenchain factoryFunction');
-    const result = this.scene.sys.tweens.chain(config);
-    console.groupEnd();
-    return result;
+    return this.scene.sys.tweens.chain(config);
 });
-console.groupEnd();
 
 /**
  * Creates a new TweenChain object and returns it, without adding it to the Tween Manager.
@@ -600,14 +555,9 @@ console.groupEnd();
  *
  * @return {Phaser.Tweens.TweenChain} The TweenChain that was created.
  */
-console.group('GameObjectCreator.register tweenchain');
 GameObjectCreator.register('tweenchain', function (config)
 {
-    console.group('GameObjectFactory.register tweenchain factoryFunction');
-    const result = this.scene.sys.tweens.create(config);
-    console.groupEnd();
-    return result;
+    return this.scene.sys.tweens.create(config);
 });
-console.groupEnd();
 
 module.exports = TweenChain;

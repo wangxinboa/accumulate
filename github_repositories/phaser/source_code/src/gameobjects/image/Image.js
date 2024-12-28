@@ -73,7 +73,6 @@ var Image = new Class({
 
     function Image (scene, x, y, texture, frame)
     {
-        console.group('Image')
         GameObject.call(this, scene, 'Image');
 
         /**
@@ -92,7 +91,6 @@ var Image = new Class({
         this.setOriginFromFrame();
         this.initPipeline();
         this.initPostPipeline(true);
-        console.groupEnd();
     }
 
 });

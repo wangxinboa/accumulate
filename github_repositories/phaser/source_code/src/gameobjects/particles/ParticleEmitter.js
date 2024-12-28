@@ -356,7 +356,6 @@ var ParticleEmitter = new Class({
 
     function ParticleEmitter (scene, x, y, texture, config)
     {
-        console.group('ParticleEmitter');
         GameObject.call(this, scene, 'ParticleEmitter');
 
         /**
@@ -920,23 +919,18 @@ var ParticleEmitter = new Class({
         {
             this.setConfig(config);
         }
-        console.groupEnd();
     },
 
     //  Overrides Game Object method
     addedToScene: function ()
     {
-        console.group('ParticleEmitter addedToScene');
         this.scene.sys.updateList.add(this);
-        console.groupEnd();
     },
 
     //  Overrides Game Object method
     removedFromScene: function ()
     {
-        console.group('ParticleEmitter removedFromScene');
         this.scene.sys.updateList.remove(this);
-        console.groupEnd();
     },
 
     /**
@@ -952,10 +946,8 @@ var ParticleEmitter = new Class({
      */
     setConfig: function (config)
     {
-        console.group('ParticleEmitter setConfig');
         if (!config)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -1074,7 +1066,6 @@ var ParticleEmitter = new Class({
             this.emit(Events.START, this);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1093,7 +1084,6 @@ var ParticleEmitter = new Class({
      */
     updateConfig: function (config)
     {
-        console.group('ParticleEmitter updateConfig');
         if (config)
         {
             if (!this.config)
@@ -1106,7 +1096,6 @@ var ParticleEmitter = new Class({
             }
         }
         
-        console.groupEnd();
         return this;
     },
 
@@ -1120,7 +1109,6 @@ var ParticleEmitter = new Class({
      */
     toJSON: function ()
     {
-        console.group('ParticleEmitter toJSON');
         var output = ComponentsToJSON(this);
 
         var i = 0;
@@ -1159,7 +1147,6 @@ var ParticleEmitter = new Class({
             output.scale = ops.scaleX.toJSON();
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -1176,7 +1163,6 @@ var ParticleEmitter = new Class({
      */
     resetCounters: function (frequency, on)
     {
-        console.group('ParticleEmitter resetCounters');
         var counters = this.counters;
 
         counters.fill(0);
@@ -1187,7 +1173,6 @@ var ParticleEmitter = new Class({
         {
             counters[5] = 1;
         }
-        console.groupEnd();
     },
 
     /**
@@ -1205,7 +1190,6 @@ var ParticleEmitter = new Class({
      */
     startFollow: function (target, offsetX, offsetY, trackVisible)
     {
-        console.group('ParticleEmitter startFollow');
         if (offsetX === undefined) { offsetX = 0; }
         if (offsetY === undefined) { offsetY = 0; }
         if (trackVisible === undefined) { trackVisible = false; }
@@ -1214,7 +1198,6 @@ var ParticleEmitter = new Class({
         this.followOffset.set(offsetX, offsetY);
         this.trackVisible = trackVisible;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1228,12 +1211,10 @@ var ParticleEmitter = new Class({
      */
     stopFollow: function ()
     {
-        console.group('ParticleEmitter stopFollow');
         this.follow = null;
         this.followOffset.set(0, 0);
         this.trackVisible = false;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1247,7 +1228,6 @@ var ParticleEmitter = new Class({
      */
     getFrame: function ()
     {
-        console.group('ParticleEmitter getFrame');
         var frames = this.frames;
         var len = frames.length;
         var current;
@@ -1279,9 +1259,7 @@ var ParticleEmitter = new Class({
             }
         }
 
-        const result = this.texture.get(current);
-        console.groupEnd();
-        return result;
+        return this.texture.get(current);
     },
 
     /**
@@ -1304,7 +1282,6 @@ var ParticleEmitter = new Class({
      */
     setEmitterFrame: function (frames, pickRandom, quantity)
     {
-        console.group('ParticleEmitter setEmitterFrame');
         if (pickRandom === undefined) { pickRandom = true; }
         if (quantity === undefined) { quantity = 1; }
 
@@ -1349,7 +1326,6 @@ var ParticleEmitter = new Class({
             this.randomFrame = false;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1363,25 +1339,20 @@ var ParticleEmitter = new Class({
      */
     getAnim: function ()
     {
-        console.group('ParticleEmitter getAnim');
         var anims = this.anims;
         var len = anims.length;
 
         if (len === 0)
         {
-            console.groupEnd();
             return null;
         }
         else if (len === 1)
         {
-            console.groupEnd();
             return anims[0];
         }
         else if (this.randomAnim)
         {
-            const result = GetRandom(anims);
-            console.groupEnd();
-            return result;
+            return GetRandom(anims);
         }
         else
         {
@@ -1395,7 +1366,6 @@ var ParticleEmitter = new Class({
                 this.currentAnim = Wrap(this.currentAnim + 1, 0, len);
             }
 
-            console.groupEnd();
             return anim;
         }
     },
@@ -1420,7 +1390,6 @@ var ParticleEmitter = new Class({
      */
     setAnim: function (anims, pickRandom, quantity)
     {
-        console.group('ParticleEmitter setAnim');
         if (pickRandom === undefined) { pickRandom = true; }
         if (quantity === undefined) { quantity = 1; }
 
@@ -1465,7 +1434,6 @@ var ParticleEmitter = new Class({
             this.randomAnim = false;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1481,12 +1449,10 @@ var ParticleEmitter = new Class({
      */
     setRadial: function (value)
     {
-        console.group('ParticleEmitter setRadial');
         if (value === undefined) { value = true; }
 
         this.radial = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1528,7 +1494,6 @@ var ParticleEmitter = new Class({
      */
     addParticleBounds: function (x, y, width, height, collideLeft, collideRight, collideTop, collideBottom)
     {
-        console.group('ParticleEmitter addParticleBounds');
         if (typeof x === 'object')
         {
             var obj = x;
@@ -1539,9 +1504,7 @@ var ParticleEmitter = new Class({
             height = (HasValue(obj, 'h')) ? obj.h : obj.height;
         }
 
-        const result = this.addParticleProcessor(new ParticleBounds(x, y, width, height, collideLeft, collideRight, collideTop, collideBottom));
-        console.groupEnd();
-        return result;
+        return this.addParticleProcessor(new ParticleBounds(x, y, width, height, collideLeft, collideRight, collideTop, collideBottom));
     },
 
     /**
@@ -1559,7 +1522,6 @@ var ParticleEmitter = new Class({
      */
     setParticleSpeed: function (x, y)
     {
-        console.group('ParticleEmitter setParticleSpeed');
         if (y === undefined) { y = x; }
 
         this.ops.speedX.onChange(x);
@@ -1576,7 +1538,6 @@ var ParticleEmitter = new Class({
         //  If you specify speedX and Y then it changes the emitter from radial to a point emitter
         this.radial = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1595,14 +1556,12 @@ var ParticleEmitter = new Class({
      */
     setParticleScale: function (x, y)
     {
-        console.group('ParticleEmitter setParticleScale');
         if (x === undefined) { x = 1; }
         if (y === undefined) { y = x; }
 
         this.ops.scaleX.onChange(x);
         this.ops.scaleY.onChange(y);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1619,11 +1578,9 @@ var ParticleEmitter = new Class({
      */
     setParticleGravity: function (x, y)
     {
-        console.group('ParticleEmitter setParticleGravity');
         this.gravityX = x;
         this.gravityY = y;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1641,10 +1598,8 @@ var ParticleEmitter = new Class({
      */
     setParticleAlpha: function (value)
     {
-        console.group('ParticleEmitter setParticleAlpha');
         this.ops.alpha.onChange(value);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1663,10 +1618,8 @@ var ParticleEmitter = new Class({
      */
     setParticleTint: function (value)
     {
-        console.group('ParticleEmitter setParticleTint');
         this.ops.tint.onChange(value);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1684,10 +1637,8 @@ var ParticleEmitter = new Class({
      */
     setEmitterAngle: function (value)
     {
-        console.group('ParticleEmitter setEmitterAngle');
         this.ops.angle.onChange(value);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1703,10 +1654,8 @@ var ParticleEmitter = new Class({
      */
     setParticleLifespan: function (value)
     {
-        console.group('ParticleEmitter setParticleLifespan');
         this.ops.lifespan.onChange(value);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1722,10 +1671,8 @@ var ParticleEmitter = new Class({
      */
     setQuantity: function (quantity)
     {
-        console.group('ParticleEmitter setQuantity');
         this.quantity = quantity;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1743,7 +1690,6 @@ var ParticleEmitter = new Class({
      */
     setFrequency: function (frequency, quantity)
     {
-        console.group('ParticleEmitter setFrequency');
         this.frequency = frequency;
 
         this.flowCounter = (frequency > 0) ? frequency : 0;
@@ -1753,7 +1699,6 @@ var ParticleEmitter = new Class({
             this.quantity = quantity;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1780,7 +1725,6 @@ var ParticleEmitter = new Class({
      */
     addDeathZone: function (config)
     {
-        console.group('ParticleEmitter addDeathZone');
         if (!Array.isArray(config))
         {
             config = [ config ];
@@ -1821,7 +1765,6 @@ var ParticleEmitter = new Class({
 
         this.deathZones = this.deathZones.concat(output);
 
-        console.groupEnd();
         return output;
     },
 
@@ -1837,10 +1780,8 @@ var ParticleEmitter = new Class({
      */
     removeDeathZone: function (zone)
     {
-        console.group('ParticleEmitter removeDeathZone');
         Remove(this.deathZones, zone);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1854,10 +1795,8 @@ var ParticleEmitter = new Class({
      */
     clearDeathZones: function ()
     {
-        console.group('ParticleEmitter clearDeathZones');
         this.deathZones.length = 0;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1882,7 +1821,6 @@ var ParticleEmitter = new Class({
      */
     addEmitZone: function (config)
     {
-        console.group('ParticleEmitter addEmitZone');
         if (!Array.isArray(config))
         {
             config = [ config ];
@@ -1935,7 +1873,6 @@ var ParticleEmitter = new Class({
 
         this.emitZones = this.emitZones.concat(output);
 
-        console.groupEnd();
         return output;
     },
 
@@ -1951,12 +1888,10 @@ var ParticleEmitter = new Class({
      */
     removeEmitZone: function (zone)
     {
-        console.group('ParticleEmitter removeEmitZone');
         Remove(this.emitZones, zone);
 
         this.zoneIndex = 0;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1970,12 +1905,10 @@ var ParticleEmitter = new Class({
      */
     clearEmitZones: function ()
     {
-        console.group('ParticleEmitter clearEmitZones');
         this.emitZones.length = 0;
 
         this.zoneIndex = 0;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1994,13 +1927,11 @@ var ParticleEmitter = new Class({
      */
     getEmitZone: function (particle)
     {
-        console.group('ParticleEmitter getEmitZone');
         var zones = this.emitZones;
         var len = zones.length;
 
         if (len === 0)
         {
-            console.groupEnd();
             return;
         }
         else
@@ -2026,7 +1957,6 @@ var ParticleEmitter = new Class({
                 }
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -2044,7 +1974,6 @@ var ParticleEmitter = new Class({
      */
     getDeathZone: function (particle)
     {
-        console.group('ParticleEmitter getDeathZone');
         var zones = this.deathZones;
 
         for (var i = 0; i < zones.length; i++)
@@ -2055,12 +1984,10 @@ var ParticleEmitter = new Class({
             {
                 this.emit(Events.DEATH_ZONE, this, particle, zone);
 
-                console.groupEnd();
                 return true;
             }
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -2085,7 +2012,6 @@ var ParticleEmitter = new Class({
      */
     setEmitZone: function (zone)
     {
-        console.group('ParticleEmitter setEmitZone');
         var index;
 
         if (isFinite(zone))
@@ -2102,7 +2028,6 @@ var ParticleEmitter = new Class({
             this.zoneIndex = index;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2122,7 +2047,6 @@ var ParticleEmitter = new Class({
      */
     addParticleProcessor: function (processor)
     {
-        console.group('ParticleEmitter addParticleProcessor');
         if (!this.processors.exists(processor))
         {
             if (processor.emitter)
@@ -2135,7 +2059,6 @@ var ParticleEmitter = new Class({
             processor.emitter = this;
         }
 
-        console.groupEnd();
         return processor;
     },
 
@@ -2157,7 +2080,6 @@ var ParticleEmitter = new Class({
      */
     removeParticleProcessor: function (processor)
     {
-        console.group('ParticleEmitter removeParticleProcessor');
         if (this.processors.exists(processor))
         {
             this.processors.remove(processor, true);
@@ -2165,7 +2087,6 @@ var ParticleEmitter = new Class({
             processor.emitter = null;
         }
 
-        console.groupEnd();
         return processor;
     },
 
@@ -2179,10 +2100,7 @@ var ParticleEmitter = new Class({
      */
     getProcessors: function ()
     {
-        console.group('ParticleEmitter getProcessors');
-        const result = this.processors.getAll('active', true);
-        console.groupEnd();
-        return result;
+        return this.processors.getAll('active', true);
     },
 
     /**
@@ -2197,10 +2115,7 @@ var ParticleEmitter = new Class({
      */
     createGravityWell: function (config)
     {
-        console.group('ParticleEmitter createGravityWell');
-        const result = this.addParticleProcessor(new GravityWell(config));
-        console.groupEnd();
-        return result;
+        return this.addParticleProcessor(new GravityWell(config));
     },
 
     /**
@@ -2218,7 +2133,6 @@ var ParticleEmitter = new Class({
      */
     reserve: function (count)
     {
-        console.group('ParticleEmitter reserve');
         var dead = this.dead;
 
         if (this.maxParticles > 0)
@@ -2236,7 +2150,6 @@ var ParticleEmitter = new Class({
             dead.push(new this.particleClass(this));
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2250,10 +2163,7 @@ var ParticleEmitter = new Class({
      */
     getAliveParticleCount: function ()
     {
-        console.group('ParticleEmitter getAliveParticleCount');
-        const result = this.alive.length;
-        console.groupEnd();
-        return result;
+        return this.alive.length;
     },
 
     /**
@@ -2266,10 +2176,7 @@ var ParticleEmitter = new Class({
      */
     getDeadParticleCount: function ()
     {
-        console.group('ParticleEmitter getDeadParticleCount');
-        const result = this.dead.length;
-        console.groupEnd();
-        return result;
+        return this.dead.length;
     },
 
     /**
@@ -2282,10 +2189,7 @@ var ParticleEmitter = new Class({
      */
     getParticleCount: function ()
     {
-        console.group('ParticleEmitter getAliveParticleCount');
-        const result = this.getAliveParticleCount() + this.getDeadParticleCount();
-        console.groupEnd();
-        return result;
+        return this.getAliveParticleCount() + this.getDeadParticleCount();
     },
 
     /**
@@ -2299,16 +2203,12 @@ var ParticleEmitter = new Class({
      */
     atLimit: function ()
     {
-        console.group('ParticleEmitter atLimit');
         if (this.maxParticles > 0 && this.getParticleCount() >= this.maxParticles)
         {
-            console.groupEnd();
             return true;
         }
 
-        const result = (this.maxAliveParticles > 0 && this.getAliveParticleCount() >= this.maxAliveParticles);
-        console.groupEnd();
-        return result;
+        return (this.maxAliveParticles > 0 && this.getAliveParticleCount() >= this.maxAliveParticles);
     },
 
     /**
@@ -2324,7 +2224,6 @@ var ParticleEmitter = new Class({
      */
     onParticleEmit: function (callback, context)
     {
-        console.group('ParticleEmitter onParticleEmit');
         if (callback === undefined)
         {
             //  Clear any previously set callback
@@ -2341,7 +2240,6 @@ var ParticleEmitter = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2358,7 +2256,6 @@ var ParticleEmitter = new Class({
      */
     onParticleDeath: function (callback, context)
     {
-        console.group('ParticleEmitter onParticleDeath');
         if (callback === undefined)
         {
             //  Clear any previously set callback
@@ -2375,7 +2272,6 @@ var ParticleEmitter = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2391,7 +2287,6 @@ var ParticleEmitter = new Class({
      */
     killAll: function ()
     {
-        console.group('ParticleEmitter killAll');
         var dead = this.dead;
         var alive = this.alive;
 
@@ -2400,7 +2295,6 @@ var ParticleEmitter = new Class({
             dead.push(alive.pop());
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2418,7 +2312,6 @@ var ParticleEmitter = new Class({
      */
     forEachAlive: function (callback, context)
     {
-        console.group('ParticleEmitter forEachAlive');
         var alive = this.alive;
         var length = alive.length;
 
@@ -2428,7 +2321,6 @@ var ParticleEmitter = new Class({
             callback.call(context, alive[i], this);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2445,7 +2337,6 @@ var ParticleEmitter = new Class({
      */
     forEachDead: function (callback, context)
     {
-        console.group('ParticleEmitter forEachDead');
         var dead = this.dead;
         var length = dead.length;
 
@@ -2454,7 +2345,6 @@ var ParticleEmitter = new Class({
             callback.call(context, dead[i], this);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2479,7 +2369,6 @@ var ParticleEmitter = new Class({
      */
     start: function (advance, duration)
     {
-        console.group('ParticleEmitter start');
         if (advance === undefined) { advance = 0; }
 
         if (!this.emitting)
@@ -2501,7 +2390,6 @@ var ParticleEmitter = new Class({
             this.emit(Events.START, this);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2523,7 +2411,6 @@ var ParticleEmitter = new Class({
      */
     stop: function (kill)
     {
-        console.group('ParticleEmitter stop');
         if (kill === undefined) { kill = false; }
 
         if (this.emitting)
@@ -2538,7 +2425,6 @@ var ParticleEmitter = new Class({
             this.emit(Events.STOP, this);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2552,10 +2438,8 @@ var ParticleEmitter = new Class({
      */
     pause: function ()
     {
-        console.group('ParticleEmitter pause');
         this.active = false;
 
-        console.groupEnd();
         return this;
     },
 
@@ -2569,10 +2453,8 @@ var ParticleEmitter = new Class({
      */
     resume: function ()
     {
-        console.group('ParticleEmitter resume');
         this.active = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -2599,7 +2481,6 @@ var ParticleEmitter = new Class({
      */
     setSortProperty: function (property, ascending)
     {
-        console.group('ParticleEmitter setSortProperty');
         if (property === undefined) { property = ''; }
         if (ascending === undefined) { ascending = this.true; }
 
@@ -2607,7 +2488,6 @@ var ParticleEmitter = new Class({
         this.sortOrderAsc = ascending;
         this.sortCallback = this.depthSortCallback;
 
-        console.groupEnd();
         return this;
     },
 
@@ -2635,7 +2515,6 @@ var ParticleEmitter = new Class({
      */
     setSortCallback: function (callback)
     {
-        console.group('ParticleEmitter setSortCallback');
         if (this.sortProperty !== '')
         {
             callback = this.depthSortCallback;
@@ -2647,7 +2526,6 @@ var ParticleEmitter = new Class({
 
         this.sortCallback = callback;
 
-        console.groupEnd();
         return this;
     },
 
@@ -2661,10 +2539,8 @@ var ParticleEmitter = new Class({
      */
     depthSort: function ()
     {
-        console.group('ParticleEmitter depthSort');
         StableSort(this.alive, this.sortCallback.bind(this));
 
-        console.groupEnd();
         return this;
     },
 
@@ -2681,17 +2557,14 @@ var ParticleEmitter = new Class({
      */
     depthSortCallback: function (a, b)
     {
-        console.group('ParticleEmitter depthSortCallback');
         var key = this.sortProperty;
 
         if (this.sortOrderAsc)
         {
-            console.groupEnd();
             return a[key] - b[key];
         }
         else
         {
-            console.groupEnd();
             return b[key] - a[key];
         }
     },
@@ -2713,7 +2586,6 @@ var ParticleEmitter = new Class({
      */
     flow: function (frequency, count, stopAfter)
     {
-        console.group('ParticleEmitter flow');
         if (count === undefined) { count = 1; }
 
         this.emitting = false;
@@ -2726,9 +2598,7 @@ var ParticleEmitter = new Class({
             this.stopAfter = stopAfter;
         }
 
-        const result = this.start();
-        console.groupEnd();
-        return result;
+        return this.start();
     },
 
     /**
@@ -2746,7 +2616,6 @@ var ParticleEmitter = new Class({
      */
     explode: function (count, x, y)
     {
-        console.group('ParticleEmitter explode');
         this.frequency = -1;
 
         this.resetCounters(-1, true);
@@ -2755,7 +2624,6 @@ var ParticleEmitter = new Class({
 
         this.emit(Events.EXPLODE, this, particle);
 
-        console.groupEnd();
         return particle;
     },
 
@@ -2774,10 +2642,7 @@ var ParticleEmitter = new Class({
      */
     emitParticleAt: function (x, y, count)
     {
-        console.group('ParticleEmitter emitParticleAt');
-        const result = this.emitParticle(count, x, y);
-        console.groupEnd();
-        return result;
+        return this.emitParticle(count, x, y);
     },
 
     /**
@@ -2796,10 +2661,8 @@ var ParticleEmitter = new Class({
      */
     emitParticle: function (count, x, y)
     {
-        console.group('ParticleEmitter emitParticle');
         if (this.atLimit())
         {
-            console.groupEnd();
             return;
         }
 
@@ -2860,7 +2723,6 @@ var ParticleEmitter = new Class({
             }
         }
 
-        console.groupEnd();
         return particle;
     },
 
@@ -2887,7 +2749,6 @@ var ParticleEmitter = new Class({
      */
     fastForward: function (time, delta)
     {
-        console.group('ParticleEmitter fastForward');
         if (delta === undefined) { delta = 1000 / 60; }
 
         var total = 0;
@@ -2903,7 +2764,6 @@ var ParticleEmitter = new Class({
 
         this.skipping = false;
 
-        console.groupEnd();
         return this;
     },
 
@@ -2919,7 +2779,6 @@ var ParticleEmitter = new Class({
      */
     preUpdate: function (time, delta)
     {
-        console.group('ParticleEmitter preUpdate');
         //  Scale the delta
         delta *= this.timeScale;
 
@@ -2990,7 +2849,6 @@ var ParticleEmitter = new Class({
                 this.emit(Events.COMPLETE, this);
             }
 
-            console.groupEnd();
             return;
         }
 
@@ -3031,7 +2889,6 @@ var ParticleEmitter = new Class({
                 this.stop();
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -3050,7 +2907,6 @@ var ParticleEmitter = new Class({
      */
     overlap: function (target)
     {
-        console.group('ParticleEmitter overlap');
         var matrix = this.getWorldTransformMatrix();
 
         var alive = this.alive;
@@ -3068,7 +2924,6 @@ var ParticleEmitter = new Class({
             }
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -3102,7 +2957,6 @@ var ParticleEmitter = new Class({
      */
     getBounds: function (padding, advance, delta, output)
     {
-        console.group('ParticleEmitter getBounds');
         if (padding === undefined) { padding = 0; }
         if (advance === undefined) { advance = 0; }
         if (delta === undefined) { delta = 1000 / 60; }
@@ -3172,7 +3026,6 @@ var ParticleEmitter = new Class({
             Inflate(output, padding, padding);
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -3185,8 +3038,6 @@ var ParticleEmitter = new Class({
      */
     createEmitter: function ()
     {
-        console.group('ParticleEmitter createEmitter');
-        console.groupEnd();
         throw new Error('createEmitter removed. See ParticleEmitter docs for info');
     },
 
@@ -4076,7 +3927,6 @@ var ParticleEmitter = new Class({
      */
     preDestroy: function ()
     {
-        console.group('ParticleEmitter preDestroy');
         this.texture = null;
         this.frames = null;
         this.anims = null;
@@ -4115,7 +3965,6 @@ var ParticleEmitter = new Class({
         this.alive = [];
         this.dead = [];
         this.worldMatrix.destroy();
-        console.groupEnd();
     }
 
 });

@@ -32,7 +32,6 @@ var File = new Class({
 
     function File (loader, fileConfig)
     {
-        console.group('File');
         /**
          * A reference to the Loader that is going to load this file.
          *
@@ -261,7 +260,6 @@ var File = new Class({
          * @since 3.85.0
          */
         this.retryAttempts = GetFastValue(fileConfig, 'maxRetries', loader.maxRetries);
-        console.groupEnd();
     },
 
     /**
@@ -274,11 +272,9 @@ var File = new Class({
      */
     setLink: function (fileB)
     {
-        console.group('File setLink');
         this.linkFile = fileB;
 
         fileB.linkFile = this;
-        console.groupEnd();
     },
 
     /**
@@ -289,14 +285,12 @@ var File = new Class({
      */
     resetXHR: function ()
     {
-        console.group('File resetXHR');
         if (this.xhrLoader)
         {
             this.xhrLoader.onload = undefined;
             this.xhrLoader.onerror = undefined;
             this.xhrLoader.onprogress = undefined;
         }
-        console.groupEnd();
     },
 
     /**
@@ -309,7 +303,6 @@ var File = new Class({
      */
     load: function ()
     {
-        console.group('File load');
         if (this.state === CONST.FILE_POPULATED)
         {
             //  Can happen for example in a JSONFile if they've provided a JSON object instead of a URL
@@ -333,7 +326,6 @@ var File = new Class({
 
             this.xhrLoader = XHRLoader(this, this.loader.xhr);
         }
-        console.groupEnd();
     },
 
     /**
@@ -347,7 +339,6 @@ var File = new Class({
      */
     onLoad: function (xhr, event)
     {
-        console.group('File onLoad');
         var isLocalFile = xhr.responseURL && this.loader.localSchemes.some(function (scheme)
         {
             return xhr.responseURL.indexOf(scheme) === 0;
@@ -368,7 +359,6 @@ var File = new Class({
         this.resetXHR();
 
         this.loader.nextFile(this, success);
-        console.groupEnd();
     },
 
     /**
@@ -381,7 +371,6 @@ var File = new Class({
      */
     onBase64Load: function (xhr)
     {
-        console.group('File onBase64Load');
         this.xhrLoader = xhr;
 
         this.state = CONST.FILE_LOADED;
@@ -391,7 +380,6 @@ var File = new Class({
         this.loader.emit(Events.FILE_PROGRESS, this, this.percentComplete);
 
         this.loader.nextFile(this, true);
-        console.groupEnd();
     },
 
     /**
@@ -405,7 +393,6 @@ var File = new Class({
      */
     onError: function ()
     {
-        console.group('File onError');
         this.resetXHR();
 
         if (this.retryAttempts > 0)
@@ -418,7 +405,6 @@ var File = new Class({
         {
             this.loader.nextFile(this, false);
         }
-        console.groupEnd();
     },
 
     /**
@@ -432,7 +418,6 @@ var File = new Class({
      */
     onProgress: function (event)
     {
-        console.group('File onProgress');
         if (event.lengthComputable)
         {
             this.bytesLoaded = event.loaded;
@@ -442,7 +427,6 @@ var File = new Class({
 
             this.loader.emit(Events.FILE_PROGRESS, this, this.percentComplete);
         }
-        console.groupEnd();
     },
 
     /**
@@ -454,11 +438,9 @@ var File = new Class({
      */
     onProcess: function ()
     {
-        console.group('File onProcess');
         this.state = CONST.FILE_PROCESSING;
 
         this.onProcessComplete();
-        console.groupEnd();
     },
 
     /**
@@ -470,7 +452,6 @@ var File = new Class({
      */
     onProcessComplete: function ()
     {
-        console.group('File onProcessComplete');
         this.state = CONST.FILE_COMPLETE;
 
         if (this.multiFile)
@@ -479,7 +460,6 @@ var File = new Class({
         }
 
         this.loader.fileProcessComplete(this);
-        console.groupEnd();
     },
 
     /**
@@ -491,7 +471,6 @@ var File = new Class({
      */
     onProcessError: function ()
     {
-        console.group('File onProcessError');
         // eslint-disable-next-line no-console
         console.error('Failed to process file: %s "%s"', this.type, this.key);
 
@@ -503,7 +482,6 @@ var File = new Class({
         }
 
         this.loader.fileProcessComplete(this);
-        console.groupEnd();
     },
 
     /**
@@ -518,10 +496,7 @@ var File = new Class({
      */
     hasCacheConflict: function ()
     {
-        console.group('File hasCacheConflict');
-        const result = (this.cache && this.cache.exists(this.key));
-        console.groupEnd();
-        return result;
+        return (this.cache && this.cache.exists(this.key));
     },
 
     /**
@@ -533,12 +508,10 @@ var File = new Class({
      */
     addToCache: function ()
     {
-        console.group('File addToCache');
         if (this.cache && this.data)
         {
             this.cache.add(this.key, this.data);
         }
-        console.groupEnd();
     },
 
     /**
@@ -552,10 +525,8 @@ var File = new Class({
      */
     pendingDestroy: function (data)
     {
-        console.group('File pendingDestroy');
         if (this.state === CONST.FILE_PENDING_DESTROY)
         {
-            console.groupEnd();
             return;
         }
 
@@ -570,7 +541,6 @@ var File = new Class({
         this.loader.flagForRemoval(this);
 
         this.state = CONST.FILE_PENDING_DESTROY;
-        console.groupEnd();
     },
 
     /**
@@ -581,14 +551,12 @@ var File = new Class({
      */
     destroy: function ()
     {
-        console.group('File destroy');
         this.loader = null;
         this.cache = null;
         this.xhrSettings = null;
         this.multiFile = null;
         this.linkFile = null;
         this.data = null;
-        console.groupEnd();
     }
 
 });
@@ -607,7 +575,6 @@ var File = new Class({
  */
 File.createObjectURL = function (image, blob, defaultType)
 {
-    console.group('File createObjectURL');
     if (typeof URL === 'function')
     {
         image.src = URL.createObjectURL(blob);
@@ -626,7 +593,6 @@ File.createObjectURL = function (image, blob, defaultType)
 
         reader.readAsDataURL(blob);
     }
-    console.groupEnd();
 };
 
 /**
@@ -641,12 +607,10 @@ File.createObjectURL = function (image, blob, defaultType)
  */
 File.revokeObjectURL = function (image)
 {
-    console.group('File revokeObjectURL');
     if (typeof URL === 'function')
     {
         URL.revokeObjectURL(image.src);
     }
-    console.groupEnd();
 };
 
 module.exports = File;

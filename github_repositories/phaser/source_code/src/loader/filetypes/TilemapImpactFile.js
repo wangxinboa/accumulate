@@ -36,13 +36,11 @@ var TilemapImpactFile = new Class({
 
     function TilemapImpactFile (loader, key, url, xhrSettings)
     {
-        console.group('TilemapImpactFile');
         JSONFile.call(this, loader, key, url, xhrSettings);
 
         this.type = 'tilemapJSON';
 
         this.cache = loader.cacheManager.tilemap;
-        console.groupEnd();
     },
 
     /**
@@ -53,11 +51,9 @@ var TilemapImpactFile = new Class({
      */
     addToCache: function ()
     {
-        console.group('TilemapImpactFile addToCache');
         var tiledata = { format: TILEMAP_FORMATS.WELTMEISTER, data: this.data };
 
         this.cache.add(this.key, tiledata);
-        console.groupEnd();
     }
 
 });
@@ -131,10 +127,8 @@ var TilemapImpactFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register tilemapImpact');
 FileTypesManager.register('tilemapImpact', function (key, url, xhrSettings)
 {
-    console.group('FileTypesManager.register tilemapImpact factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -148,9 +142,7 @@ FileTypesManager.register('tilemapImpact', function (key, url, xhrSettings)
         this.addFile(new TilemapImpactFile(this, key, url, xhrSettings));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = TilemapImpactFile;

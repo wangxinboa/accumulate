@@ -24,7 +24,6 @@ var StrokePathWebGL = require('../StrokePathWebGL');
  */
 var ArcWebGLRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('ArcWebGLRenderer');
     camera.addToRenderList(src);
 
     var pipeline = renderer.pipelines.set(src.pipeline);
@@ -51,7 +50,6 @@ var ArcWebGLRenderer = function (renderer, src, camera, parentMatrix)
     }
 
     renderer.pipelines.postBatch(src);
-    console.groupEnd();
 };
 
 module.exports = ArcWebGLRenderer;

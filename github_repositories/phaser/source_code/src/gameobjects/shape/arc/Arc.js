@@ -58,7 +58,6 @@ var Arc = new Class({
 
     function Arc (scene, x, y, radius, startAngle, endAngle, anticlockwise, fillColor, fillAlpha)
     {
-        console.group('Arc');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (radius === undefined) { radius = 128; }
@@ -121,7 +120,6 @@ var Arc = new Class({
 
         this.updateDisplayOrigin();
         this.updateData();
-        console.groupEnd();
     },
 
     /**
@@ -258,10 +256,8 @@ var Arc = new Class({
      */
     setRadius: function (value)
     {
-        console.group('Arc setRadius');
         this.radius = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -280,12 +276,10 @@ var Arc = new Class({
      */
     setIterations: function (value)
     {
-        console.group('Arc setIterations');
         if (value === undefined) { value = 0.01; }
 
         this.iterations = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -302,7 +296,6 @@ var Arc = new Class({
      */
     setStartAngle: function (angle, anticlockwise)
     {
-        console.group('Arc setStartAngle');
         this._startAngle = angle;
 
         if (anticlockwise !== undefined)
@@ -310,9 +303,7 @@ var Arc = new Class({
             this._anticlockwise = anticlockwise;
         }
 
-        const result = this.updateData();
-        console.groupEnd();
-        return result;
+        return this.updateData();
     },
 
     /**
@@ -328,7 +319,6 @@ var Arc = new Class({
      */
     setEndAngle: function (angle, anticlockwise)
     {
-        console.group('Arc setEndAngle');
         this._endAngle = angle;
 
         if (anticlockwise !== undefined)
@@ -336,9 +326,7 @@ var Arc = new Class({
             this._anticlockwise = anticlockwise;
         }
 
-        const result = this.updateData();
-        console.groupEnd();
-        return result;
+        return this.updateData();
     },
 
     /**
@@ -352,7 +340,6 @@ var Arc = new Class({
      */
     updateData: function ()
     {
-        console.group('Arc updateData');
         var step = this._iterations;
         var iteration = step;
 
@@ -408,7 +395,6 @@ var Arc = new Class({
         this.pathIndexes = Earcut(path);
         this.pathData = path;
 
-        console.groupEnd();
         return this;
     }
 

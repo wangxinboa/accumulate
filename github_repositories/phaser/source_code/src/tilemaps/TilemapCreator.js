@@ -20,14 +20,12 @@ var ParseToTilemap = require('./ParseToTilemap');
  *
  * @return {Phaser.Tilemaps.Tilemap}
  */
-console.group('GameObjectCreator.register tilemap');
 GameObjectCreator.register('tilemap', function (config)
 {
-    console.group('GameObjectCreator.register tilemap factoryFunction');
     // Defaults are applied in ParseToTilemap
     var c = (config !== undefined) ? config : {};
 
-    const result = ParseToTilemap(
+    return ParseToTilemap(
         this.scene,
         c.key,
         c.tileWidth,
@@ -37,8 +35,4 @@ GameObjectCreator.register('tilemap', function (config)
         c.data,
         c.insertNull
     );
-    console.groupEnd();
-    return result;
 });
-
-console.groupEnd();

@@ -61,10 +61,8 @@ var OS = {
 
 function init ()
 {
-    console.group('Device OS init');
     if (typeof importScripts === 'function')
     {
-        console.groupEnd();
         return OS;
     }
 
@@ -182,8 +180,6 @@ function init ()
 
     OS.pixelRatio = window['devicePixelRatio'] || 1;
 
-    console.info('OS:', JSON.stringify(OS, null, 2));
-    console.groupEnd();
     return OS;
 }
 

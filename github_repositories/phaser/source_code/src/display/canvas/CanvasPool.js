@@ -26,7 +26,6 @@ var _disableContextSmoothing = false;
  */
 var CanvasPool = function ()
 {
-	console.group('CanvasPool init');
     /**
      * Creates a new Canvas DOM element, or pulls one from the pool if free.
      *
@@ -43,7 +42,6 @@ var CanvasPool = function ()
      */
     var create = function (parent, width, height, canvasType, selfParent)
     {
-        console.group('CanvasPool create');
         if (width === undefined) { width = 1; }
         if (height === undefined) { height = 1; }
         if (canvasType === undefined) { canvasType = CONST.CANVAS; }
@@ -87,7 +85,6 @@ var CanvasPool = function ()
             Smoothing.disable(canvas.getContext('2d', { willReadFrequently: false }));
         }
 
-        console.groupEnd();
         return canvas;
     };
 
@@ -105,10 +102,7 @@ var CanvasPool = function ()
      */
     var create2D = function (parent, width, height)
     {
-        console.group('CanvasPool create2D');
-        const result = create(parent, width, height, CONST.CANVAS);
-        console.groupEnd();
-        return result;
+        return create(parent, width, height, CONST.CANVAS);
     };
 
     /**
@@ -125,10 +119,7 @@ var CanvasPool = function ()
      */
     var createWebGL = function (parent, width, height)
     {
-        console.group('CanvasPool createWebGL');
-        const result = create(parent, width, height, CONST.WEBGL);
-        console.groupEnd();
-        return result;
+        return create(parent, width, height, CONST.WEBGL);
     };
 
     /**
@@ -143,12 +134,10 @@ var CanvasPool = function ()
      */
     var first = function (canvasType)
     {
-        console.group('CanvasPool first');
         if (canvasType === undefined) { canvasType = CONST.CANVAS; }
 
         if (canvasType === CONST.WEBGL)
         {
-            console.groupEnd();
             return null;
         }
 
@@ -158,12 +147,10 @@ var CanvasPool = function ()
 
             if (!container.parent && container.type === canvasType)
             {
-                console.groupEnd();
                 return container;
             }
         }
 
-        console.groupEnd();
         return null;
     };
 
@@ -178,7 +165,6 @@ var CanvasPool = function ()
      */
     var remove = function (parent)
     {
-        console.group('CanvasPool remove');
         //  Check to see if the parent is a canvas object
         var isCanvas = parent instanceof HTMLCanvasElement;
 
@@ -191,7 +177,6 @@ var CanvasPool = function ()
                 container.canvas.height = 1;
             }
         });
-        console.groupEnd();
     };
 
     /**
@@ -204,7 +189,6 @@ var CanvasPool = function ()
      */
     var total = function ()
     {
-        console.group('CanvasPool total');
         var c = 0;
 
         pool.forEach(function (container)
@@ -215,7 +199,6 @@ var CanvasPool = function ()
             }
         });
 
-        console.groupEnd();
         return c;
     };
 
@@ -229,10 +212,7 @@ var CanvasPool = function ()
      */
     var free = function ()
     {
-        console.group('CanvasPool free');
-        const result = pool.length - total();
-        console.groupEnd();
-        return result;
+        return pool.length - total();
     };
 
     /**
@@ -243,9 +223,7 @@ var CanvasPool = function ()
      */
     var disableSmoothing = function ()
     {
-        console.group('CanvasPool disableSmoothing');
         _disableContextSmoothing = true;
-        console.groupEnd();
     };
 
     /**
@@ -256,12 +234,9 @@ var CanvasPool = function ()
      */
     var enableSmoothing = function ()
     {
-        console.group('CanvasPool enableSmoothing');
         _disableContextSmoothing = false;
-        console.groupEnd();
     };
 
-	console.groupEnd();
     return {
         create2D: create2D,
         create: create,

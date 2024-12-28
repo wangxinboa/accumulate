@@ -31,14 +31,12 @@ var GetFastValue = require('../../utils/object/GetFastValue');
  */
 var SpriteSheetFromAtlas = function (texture, frame, config)
 {
-    console.group('Parsers SpriteSheetFromAtlas');
     var frameWidth = GetFastValue(config, 'frameWidth', null);
     var frameHeight = GetFastValue(config, 'frameHeight', frameWidth);
 
     //  If missing we can't proceed
     if (!frameWidth)
     {
-        console.groupEnd();
         throw new Error('TextureManager.SpriteSheetFromAtlas: Invalid frameWidth given.');
     }
 
@@ -181,7 +179,6 @@ var SpriteSheetFromAtlas = function (texture, frame, config)
         }
     }
 
-    console.groupEnd();
     return texture;
 };
 

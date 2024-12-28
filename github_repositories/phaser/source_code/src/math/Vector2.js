@@ -30,7 +30,6 @@ var Vector2 = new Class({
 
     function Vector2 (x, y)
     {
-        console.group('Vector2');
         /**
          * The x component of this Vector.
          *
@@ -63,7 +62,6 @@ var Vector2 = new Class({
             this.x = x || 0;
             this.y = y || 0;
         }
-        console.groupEnd();
     },
 
     /**
@@ -714,7 +712,6 @@ var Vector2 = new Class({
 
 });
 
-console.group('Vector2 static init');
 /**
  * A static zero Vector2 for use by reference.
  *
@@ -787,5 +784,4 @@ Vector2.DOWN = new Vector2(0, 1);
  */
 Vector2.ONE = new Vector2(1, 1);
 
-console.groupEnd();
 module.exports = Vector2;

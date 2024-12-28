@@ -36,7 +36,6 @@ var Triangle = new Class({
 
     function Triangle (x1, y1, x2, y2, x3, y3)
     {
-        console.group('Triangle');
         if (x1 === undefined) { x1 = 0; }
         if (y1 === undefined) { y1 = 0; }
         if (x2 === undefined) { x2 = 0; }
@@ -114,7 +113,6 @@ var Triangle = new Class({
          * @since 3.0.0
          */
         this.y3 = y3;
-        console.groupEnd();
     },
 
     /**
@@ -130,10 +128,7 @@ var Triangle = new Class({
      */
     contains: function (x, y)
     {
-        console.group('Triangle contains');
-        const result = Contains(this, x, y);
-        console.groupEnd();
-        return result;
+        return Contains(this, x, y);
     },
 
     /**
@@ -151,10 +146,7 @@ var Triangle = new Class({
      */
     getPoint: function (position, output)
     {
-        console.group('Triangle getPoint');
-        const result = GetPoint(this, position, output);
-        console.groupEnd();
-        return result;
+        return GetPoint(this, position, output);
     },
 
     /**
@@ -173,10 +165,7 @@ var Triangle = new Class({
      */
     getPoints: function (quantity, stepRate, output)
     {
-        console.group('Triangle getPoints');
-        const result = GetPoints(this, quantity, stepRate, output);
-        console.groupEnd();
-        return result;
+        return GetPoints(this, quantity, stepRate, output);
     },
 
     /**
@@ -193,10 +182,7 @@ var Triangle = new Class({
      */
     getRandomPoint: function (point)
     {
-        console.group('Triangle getRandomPoint');
-        const result = Random(this, point);
-        console.groupEnd();
-        return result;
+        return Random(this, point);
     },
 
     /**
@@ -216,7 +202,6 @@ var Triangle = new Class({
      */
     setTo: function (x1, y1, x2, y2, x3, y3)
     {
-        console.group('Triangle setTo');
         if (x1 === undefined) { x1 = 0; }
         if (y1 === undefined) { y1 = 0; }
         if (x2 === undefined) { x2 = 0; }
@@ -233,7 +218,6 @@ var Triangle = new Class({
         this.x3 = x3;
         this.y3 = y3;
 
-        console.groupEnd();
         return this;
     },
 
@@ -251,12 +235,10 @@ var Triangle = new Class({
      */
     getLineA: function (line)
     {
-        console.group('Triangle getLineA');
         if (line === undefined) { line = new Line(); }
 
         line.setTo(this.x1, this.y1, this.x2, this.y2);
 
-        console.groupEnd();
         return line;
     },
 
@@ -274,12 +256,10 @@ var Triangle = new Class({
      */
     getLineB: function (line)
     {
-        console.group('Triangle getLineB');
         if (line === undefined) { line = new Line(); }
 
         line.setTo(this.x2, this.y2, this.x3, this.y3);
 
-        console.groupEnd();
         return line;
     },
 
@@ -297,12 +277,10 @@ var Triangle = new Class({
      */
     getLineC: function (line)
     {
-        console.group('Triangle getLineC');
         if (line === undefined) { line = new Line(); }
 
         line.setTo(this.x3, this.y3, this.x1, this.y1);
 
-        console.groupEnd();
         return line;
     },
 

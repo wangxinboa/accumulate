@@ -23,7 +23,6 @@ var SetTransform = require('../../../renderer/canvas/utils/SetTransform');
  */
 var IsoTriangleCanvasRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('IsoTriangleCanvasRenderer');
     camera.addToRenderList(src);
 
     var ctx = renderer.currentContext;
@@ -105,7 +104,6 @@ var IsoTriangleCanvasRenderer = function (renderer, src, camera, parentMatrix)
         //  Restore the context saved in SetTransform
         ctx.restore();
     }
-    console.groupEnd();
 };
 
 module.exports = IsoTriangleCanvasRenderer;

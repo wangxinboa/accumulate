@@ -56,7 +56,6 @@ var WebGLPipeline = new Class({
 
     function WebGLPipeline (config)
     {
-        console.group('WebGLPipeline');
         EventEmitter.call(this);
 
         var game = config.game;
@@ -459,7 +458,6 @@ var WebGLPipeline = new Class({
          * @since 3.80.0
          */
         this.resizeUniform = GetFastValue(config, 'resizeUniform', '');
-        console.groupEnd();
     },
 
     /**
@@ -474,7 +472,6 @@ var WebGLPipeline = new Class({
      */
     boot: function ()
     {
-        console.group('WebGLPipeline boot');
         var i;
         var gl = this.gl;
         var config = this.config;
@@ -597,7 +594,6 @@ var WebGLPipeline = new Class({
         this.emit(Events.BOOT, this);
 
         this.onBoot();
-        console.groupEnd();
     },
 
     /**
@@ -610,8 +606,6 @@ var WebGLPipeline = new Class({
      */
     onBoot: function ()
     {
-        console.group('WebGLPipeline onBoot');
-        console.groupEnd();
     },
 
     /**
@@ -628,8 +622,6 @@ var WebGLPipeline = new Class({
      */
     onResize: function ()
     {
-        console.group('WebGLPipeline onResize');
-        console.groupEnd();
     },
 
     /**
@@ -646,7 +638,6 @@ var WebGLPipeline = new Class({
      */
     setShader: function (shader, setAttributes, vertexBuffer)
     {
-        console.group('WebGLPipeline setShader');
         var renderer = this.renderer;
 
         if (shader !== this.currentShader || renderer.currentProgram !== this.currentShader.program)
@@ -665,7 +656,6 @@ var WebGLPipeline = new Class({
             this.currentShader = shader;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -681,18 +671,15 @@ var WebGLPipeline = new Class({
      */
     getShaderByName: function (name)
     {
-        console.group('WebGLPipeline getShaderByName');
         var shaders = this.shaders;
 
         for (var i = 0; i < shaders.length; i++)
         {
             if (shaders[i].name === name)
             {
-                console.groupEnd();
                 return shaders[i];
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -711,7 +698,6 @@ var WebGLPipeline = new Class({
      */
     setShadersFromConfig: function (config)
     {
-        console.group('WebGLPipeline setShadersFromConfig');
         var i;
         var shaders = this.shaders;
         var renderer = this.renderer;
@@ -797,7 +783,6 @@ var WebGLPipeline = new Class({
             this.currentShader = this.shaders[0];
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -814,7 +799,6 @@ var WebGLPipeline = new Class({
      */
     createBatch: function (texture)
     {
-        console.group('WebGLPipeline createBatch');
         this.currentBatch = {
             start: this.vertexCount,
             count: 0,
@@ -828,7 +812,6 @@ var WebGLPipeline = new Class({
 
         this.batch.push(this.currentBatch);
 
-        console.groupEnd();
         return 0;
     },
 
@@ -843,7 +826,6 @@ var WebGLPipeline = new Class({
      */
     addTextureToBatch: function (texture)
     {
-        console.group('WebGLPipeline addTextureToBatch');
         var batch = this.currentBatch;
 
         if (batch)
@@ -852,7 +834,6 @@ var WebGLPipeline = new Class({
             batch.unit++;
             batch.maxUnit++;
         }
-        console.groupEnd();
     },
 
     /**
@@ -879,21 +860,16 @@ var WebGLPipeline = new Class({
      */
     pushBatch: function (texture)
     {
-        console.group('WebGLPipeline pushBatch');
         //  No current batch? Create one and return
         if (!this.currentBatch || (this.forceZero && texture !== this.currentTexture))
         {
-            const result = this.createBatch(texture);
-            console.groupEnd();
-            return result;
+            return this.createBatch(texture);
         }
 
         //  Otherwise, check if the texture is in the current batch
         if (texture === this.currentTexture)
         {
-            const result = this.currentUnit;
-            console.groupEnd();
-            return result;
+            return this.currentUnit;
         }
         else
         {
@@ -908,9 +884,7 @@ var WebGLPipeline = new Class({
                 //  Have we exceed our limit?
                 if (current.texture.length === this.renderer.maxTextures)
                 {
-                    const result = this.createBatch(texture);
-                    console.groupEnd();
-                    return result;
+                    return this.createBatch(texture);
                 }
                 else
                 {
@@ -922,7 +896,6 @@ var WebGLPipeline = new Class({
                     this.currentUnit = current.unit;
                     this.currentTexture = texture;
 
-                    console.groupEnd();
                     return current.unit;
                 }
             }
@@ -931,11 +904,9 @@ var WebGLPipeline = new Class({
                 this.currentUnit = idx;
                 this.currentTexture = texture;
 
-                console.groupEnd();
                 return idx;
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -952,12 +923,9 @@ var WebGLPipeline = new Class({
      */
     setGameObject: function (gameObject, frame)
     {
-        console.group('WebGLPipeline setGameObject');
         if (frame === undefined) { frame = gameObject.frame; }
 
-        const result = this.pushBatch(frame.source.glTexture);
-        console.groupEnd();
-        return result;
+        return this.pushBatch(frame.source.glTexture);
     },
 
     /**
@@ -976,12 +944,9 @@ var WebGLPipeline = new Class({
      */
     shouldFlush: function (amount)
     {
-        console.group('WebGLPipeline shouldFlush');
         if (amount === undefined) { amount = 0; }
 
-        const result = (this.vertexCount + amount > this.vertexCapacity);
-        console.groupEnd();
-        return result;
+        return (this.vertexCount + amount > this.vertexCapacity);
     },
 
     /**
@@ -995,10 +960,7 @@ var WebGLPipeline = new Class({
      */
     vertexAvailable: function ()
     {
-        console.group('WebGLPipeline vertexAvailable');
-        const result = this.vertexCapacity - this.vertexCount;
-        console.groupEnd();
-        return result;
+        return this.vertexCapacity - this.vertexCount;
     },
 
     /**
@@ -1017,7 +979,6 @@ var WebGLPipeline = new Class({
      */
     resize: function (width, height)
     {
-        console.group('WebGLPipeline resize');
         if (width !== this.width || height !== this.height)
         {
             this.flush();
@@ -1044,7 +1005,6 @@ var WebGLPipeline = new Class({
 
         this.onResize(width, height);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1064,13 +1024,11 @@ var WebGLPipeline = new Class({
      */
     setProjectionMatrix: function (width, height)
     {
-        console.group('WebGLPipeline setProjectionMatrix');
         var projectionMatrix = this.projectionMatrix;
 
         //  Because not all pipelines have them
         if (!projectionMatrix)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -1095,7 +1053,6 @@ var WebGLPipeline = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1111,7 +1068,6 @@ var WebGLPipeline = new Class({
      */
     flipProjectionMatrix: function (flipY)
     {
-        console.group('WebGLPipeline flipProjectionMatrix');
         if (flipY === undefined) { flipY = true; }
 
         var projectionMatrix = this.projectionMatrix;
@@ -1119,7 +1075,6 @@ var WebGLPipeline = new Class({
         //  Because not all pipelines have them
         if (!projectionMatrix)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -1136,7 +1091,6 @@ var WebGLPipeline = new Class({
         }
 
         this.setMatrix4fv('uProjectionMatrix', false, projectionMatrix.val);
-        console.groupEnd();
     },
 
     /**
@@ -1151,7 +1105,6 @@ var WebGLPipeline = new Class({
      */
     updateProjectionMatrix: function ()
     {
-        console.group('WebGLPipeline updateProjectionMatrix');
         if (this.projectionMatrix)
         {
             var globalWidth = this.renderer.projectionWidth;
@@ -1162,7 +1115,6 @@ var WebGLPipeline = new Class({
                 this.setProjectionMatrix(globalWidth, globalHeight);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -1181,14 +1133,11 @@ var WebGLPipeline = new Class({
      */
     bind: function (currentShader)
     {
-        console.group('WebGLPipeline bind');
         if (currentShader === undefined) { currentShader = this.currentShader; }
 
         if (this.glReset)
         {
-            const result = this.rebind(currentShader);
-            console.groupEnd();
-            return result;
+            return this.rebind(currentShader);
         }
 
         var wasBound = false;
@@ -1214,7 +1163,6 @@ var WebGLPipeline = new Class({
 
         this.onActive(currentShader);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1233,7 +1181,6 @@ var WebGLPipeline = new Class({
      */
     rebind: function (currentShader)
     {
-        console.group('WebGLPipeline rebind');
         this.activeBuffer = null;
 
         this.setVertexBuffer();
@@ -1261,7 +1208,6 @@ var WebGLPipeline = new Class({
 
         this.glReset = false;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1275,7 +1221,6 @@ var WebGLPipeline = new Class({
      */
     restoreContext: function ()
     {
-        console.group('WebGLPipeline restoreContext');
         var shaders = this.shaders;
         var hasVertexBuffer = !!this.vertexBuffer;
 
@@ -1301,7 +1246,6 @@ var WebGLPipeline = new Class({
                 shader.rebind();
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -1319,7 +1263,6 @@ var WebGLPipeline = new Class({
      */
     setVertexBuffer: function (buffer)
     {
-        console.group('WebGLPipeline setVertexBuffer');
         if (buffer === undefined) { buffer = this.vertexBuffer; }
 
         if (buffer !== this.activeBuffer)
@@ -1330,11 +1273,9 @@ var WebGLPipeline = new Class({
 
             this.activeBuffer = buffer;
 
-            console.groupEnd();
             return true;
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -1355,7 +1296,6 @@ var WebGLPipeline = new Class({
      */
     preBatch: function (gameObject)
     {
-        console.group('WebGLPipeline preBatch');
         if (this.currentRenderTarget)
         {
             this.currentRenderTarget.bind();
@@ -1363,7 +1303,6 @@ var WebGLPipeline = new Class({
 
         this.onPreBatch(gameObject);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1386,12 +1325,10 @@ var WebGLPipeline = new Class({
      */
     postBatch: function (gameObject)
     {
-        console.group('WebGLPipeline postBatch');
         this.onDraw(this.currentRenderTarget);
 
         this.onPostBatch(gameObject);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1413,8 +1350,6 @@ var WebGLPipeline = new Class({
      */
     onDraw: function ()
     {
-        console.group('WebGLPipeline onDraw');
-        console.groupEnd();
     },
 
     /**
@@ -1426,12 +1361,10 @@ var WebGLPipeline = new Class({
      */
     unbind: function ()
     {
-        console.group('WebGLPipeline unbind');
         if (this.currentRenderTarget)
         {
             this.currentRenderTarget.unbind();
         }
-        console.groupEnd();
     },
 
     /**
@@ -1448,7 +1381,6 @@ var WebGLPipeline = new Class({
      */
     flush: function (isPostFlush)
     {
-        console.group('WebGLPipeline flush');
         if (isPostFlush === undefined) { isPostFlush = false; }
 
         if (this.vertexCount > 0)
@@ -1540,7 +1472,6 @@ var WebGLPipeline = new Class({
             this.onAfterFlush(isPostFlush);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1563,8 +1494,6 @@ var WebGLPipeline = new Class({
      */
     onActive: function ()
     {
-        console.group('WebGLPipeline onActive');
-        console.groupEnd();
     },
 
     /**
@@ -1584,8 +1513,6 @@ var WebGLPipeline = new Class({
      */
     onBind: function ()
     {
-        console.group('WebGLPipeline onBind');
-        console.groupEnd();
     },
 
     /**
@@ -1600,8 +1527,6 @@ var WebGLPipeline = new Class({
      */
     onRebind: function ()
     {
-        console.group('WebGLPipeline onRebind');
-        console.groupEnd();
     },
 
     /**
@@ -1623,8 +1548,6 @@ var WebGLPipeline = new Class({
      */
     onBatch: function ()
     {
-        console.group('WebGLPipeline onBatch');
-        console.groupEnd();
     },
 
     /**
@@ -1639,8 +1562,6 @@ var WebGLPipeline = new Class({
      */
     onPreBatch: function ()
     {
-        console.group('WebGLPipeline onPreBatch');
-        console.groupEnd();
     },
 
     /**
@@ -1655,8 +1576,6 @@ var WebGLPipeline = new Class({
      */
     onPostBatch: function ()
     {
-        console.group('WebGLPipeline onPostBatch');
-        console.groupEnd();
     },
 
     /**
@@ -1670,8 +1589,6 @@ var WebGLPipeline = new Class({
      */
     onPreRender: function ()
     {
-        console.group('WebGLPipeline onPreRender');
-        console.groupEnd();
     },
 
     /**
@@ -1689,8 +1606,6 @@ var WebGLPipeline = new Class({
      */
     onRender: function ()
     {
-        console.group('WebGLPipeline onRender');
-        console.groupEnd();
     },
 
     /**
@@ -1706,8 +1621,6 @@ var WebGLPipeline = new Class({
      */
     onPostRender: function ()
     {
-        console.group('WebGLPipeline onPostRender');
-        console.groupEnd();
     },
 
     /**
@@ -1725,8 +1638,6 @@ var WebGLPipeline = new Class({
      */
     onBeforeFlush: function ()
     {
-        console.group('WebGLPipeline onBeforeFlush');
-        console.groupEnd();
     },
 
     /**
@@ -1748,8 +1659,6 @@ var WebGLPipeline = new Class({
      */
     onAfterFlush: function ()
     {
-        console.group('WebGLPipeline onAfterFlush');
-        console.groupEnd();
     },
 
     /**
@@ -1774,7 +1683,6 @@ var WebGLPipeline = new Class({
      */
     batchVert: function (x, y, u, v, unit, tintEffect, tint)
     {
-        console.group('WebGLPipeline batchVert');
         var vertexViewF32 = this.vertexViewF32;
         var vertexViewU32 = this.vertexViewU32;
 
@@ -1791,7 +1699,6 @@ var WebGLPipeline = new Class({
         this.vertexCount++;
 
         this.currentBatch.count = (this.vertexCount - this.currentBatch.start);
-        console.groupEnd();
     },
 
     /**
@@ -1839,7 +1746,6 @@ var WebGLPipeline = new Class({
      */
     batchQuad: function (gameObject, x0, y0, x1, y1, x2, y2, x3, y3, u0, v0, u1, v1, tintTL, tintTR, tintBL, tintBR, tintEffect, texture, unit)
     {
-        console.group('WebGLPipeline batchQuad');
         if (unit === undefined) { unit = this.currentUnit; }
 
         var hasFlushed = false;
@@ -1915,7 +1821,6 @@ var WebGLPipeline = new Class({
 
         this.onBatch(gameObject);
 
-        console.groupEnd();
         return hasFlushed;
     },
 
@@ -1959,7 +1864,6 @@ var WebGLPipeline = new Class({
      */
     batchTri: function (gameObject, x0, y0, x1, y1, x2, y2, u0, v0, u1, v1, tintTL, tintTR, tintBL, tintEffect, texture, unit)
     {
-        console.group('WebGLPipeline batchTri');
         if (unit === undefined) { unit = this.currentUnit; }
 
         var hasFlushed = false;
@@ -2011,7 +1915,6 @@ var WebGLPipeline = new Class({
 
         this.onBatch(gameObject);
 
-        console.groupEnd();
         return hasFlushed;
     },
 
@@ -2038,7 +1941,6 @@ var WebGLPipeline = new Class({
      */
     drawFillRect: function (x, y, width, height, color, alpha, texture, flipUV)
     {
-        console.group('WebGLPipeline drawFillRect');
         if (texture === undefined) { texture = this.renderer.whiteTexture; }
         if (flipUV === undefined) { flipUV = true; }
 
@@ -2064,7 +1966,6 @@ var WebGLPipeline = new Class({
         }
 
         this.batchQuad(null, x, y, x, yh, xw, yh, xw, y, u0, v0, u1, v1, tint, tint, tint, tint, 0, texture, unit);
-        console.groupEnd();
     },
 
     /**
@@ -2080,11 +1981,9 @@ var WebGLPipeline = new Class({
      */
     setTexture2D: function (texture)
     {
-        console.group('WebGLPipeline setTexture2D');
         if (texture === undefined) { texture = this.renderer.whiteTexture; }
 
-        const result = this.pushBatch(texture);
-        console.groupEnd();
+        return this.pushBatch(texture);
     },
 
     /**
@@ -2100,7 +1999,6 @@ var WebGLPipeline = new Class({
      */
     bindTexture: function (texture, unit)
     {
-        console.group('WebGLPipeline bindTexture');
         if (unit === undefined) { unit = 0; }
 
         var gl = this.gl;
@@ -2109,7 +2007,6 @@ var WebGLPipeline = new Class({
 
         gl.bindTexture(gl.TEXTURE_2D, texture.webGLTexture);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2127,10 +2024,7 @@ var WebGLPipeline = new Class({
      */
     bindRenderTarget: function (target, unit)
     {
-        console.group('WebGLPipeline bindRenderTarget');
-        const result = this.bindTexture(target.texture, unit);
-        console.groupEnd();
-        return result;
+        return this.bindTexture(target.texture, unit);
     },
 
     /**
@@ -2148,10 +2042,8 @@ var WebGLPipeline = new Class({
      */
     setTime: function (name, shader)
     {
-        console.group('WebGLPipeline setTime');
         this.set1f(name, this.game.loop.getDuration(), shader);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2175,12 +2067,10 @@ var WebGLPipeline = new Class({
      */
     setBoolean: function (name, value, shader)
     {
-        console.group('WebGLPipeline setBoolean');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.setBoolean(name, value);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2204,12 +2094,10 @@ var WebGLPipeline = new Class({
      */
     set1f: function (name, x, shader)
     {
-        console.group('WebGLPipeline set1f');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set1f(name, x);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2234,12 +2122,10 @@ var WebGLPipeline = new Class({
      */
     set2f: function (name, x, y, shader)
     {
-        console.group('WebGLPipeline set2f');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set2f(name, x, y);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2265,12 +2151,10 @@ var WebGLPipeline = new Class({
      */
     set3f: function (name, x, y, z, shader)
     {
-        console.group('WebGLPipeline set3f');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set3f(name, x, y, z);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2297,12 +2181,10 @@ var WebGLPipeline = new Class({
      */
     set4f: function (name, x, y, z, w, shader)
     {
-        console.group('WebGLPipeline set4f');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set4f(name, x, y, z, w);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2326,12 +2208,10 @@ var WebGLPipeline = new Class({
      */
     set1fv: function (name, arr, shader)
     {
-        console.group('WebGLPipeline set1fv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set1fv(name, arr);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2355,12 +2235,10 @@ var WebGLPipeline = new Class({
      */
     set2fv: function (name, arr, shader)
     {
-        console.group('WebGLPipeline set2fv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set2fv(name, arr);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2384,12 +2262,10 @@ var WebGLPipeline = new Class({
      */
     set3fv: function (name, arr, shader)
     {
-        console.group('WebGLPipeline set3fv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set3fv(name, arr);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2413,12 +2289,10 @@ var WebGLPipeline = new Class({
      */
     set4fv: function (name, arr, shader)
     {
-        console.group('WebGLPipeline set4fv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set4fv(name, arr);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2442,12 +2316,10 @@ var WebGLPipeline = new Class({
      */
     set1iv: function (name, arr, shader)
     {
-        console.group('WebGLPipeline set1iv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set1iv(name, arr);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2471,12 +2343,10 @@ var WebGLPipeline = new Class({
      */
     set2iv: function (name, arr, shader)
     {
-        console.group('WebGLPipeline set2iv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set2iv(name, arr);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2500,12 +2370,10 @@ var WebGLPipeline = new Class({
      */
     set3iv: function (name, arr, shader)
     {
-        console.group('WebGLPipeline set3iv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set3iv(name, arr);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2529,12 +2397,10 @@ var WebGLPipeline = new Class({
      */
     set4iv: function (name, arr, shader)
     {
-        console.group('WebGLPipeline set4iv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set4iv(name, arr);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2558,12 +2424,10 @@ var WebGLPipeline = new Class({
      */
     set1i: function (name, x, shader)
     {
-        console.group('WebGLPipeline set1i');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set1i(name, x);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2588,12 +2452,10 @@ var WebGLPipeline = new Class({
      */
     set2i: function (name, x, y, shader)
     {
-        console.group('WebGLPipeline set2i');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set2i(name, x, y);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2619,12 +2481,10 @@ var WebGLPipeline = new Class({
      */
     set3i: function (name, x, y, z, shader)
     {
-        console.group('WebGLPipeline set3i');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set3i(name, x, y, z);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2651,12 +2511,10 @@ var WebGLPipeline = new Class({
      */
     set4i: function (name, x, y, z, w, shader)
     {
-        console.group('WebGLPipeline set4i');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.set4i(name, x, y, z, w);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2681,12 +2539,10 @@ var WebGLPipeline = new Class({
      */
     setMatrix2fv: function (name, transpose, matrix, shader)
     {
-        console.group('WebGLPipeline setMatrix2fv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.setMatrix2fv(name, transpose, matrix);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2711,12 +2567,10 @@ var WebGLPipeline = new Class({
      */
     setMatrix3fv: function (name, transpose, matrix, shader)
     {
-        console.group('WebGLPipeline setMatrix3fv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.setMatrix3fv(name, transpose, matrix);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2741,12 +2595,10 @@ var WebGLPipeline = new Class({
      */
     setMatrix4fv: function (name, transpose, matrix, shader)
     {
-        console.group('WebGLPipeline setMatrix4fv');
         if (shader === undefined) { shader = this.currentShader; }
 
         shader.setMatrix4fv(name, transpose, matrix);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2761,7 +2613,6 @@ var WebGLPipeline = new Class({
      */
     destroy: function ()
     {
-        console.group('WebGLPipeline destroy');
         this.emit(Events.DESTROY, this);
 
         var i;
@@ -2807,7 +2658,6 @@ var WebGLPipeline = new Class({
         this.currentRenderTarget = null;
         this.activeTextures = null;
 
-        console.groupEnd();
         return this;
     }
 

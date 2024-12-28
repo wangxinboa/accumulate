@@ -52,7 +52,6 @@ var Triangle = new Class({
 
     function Triangle (scene, x, y, x1, y1, x2, y2, x3, y3, fillColor, fillAlpha)
     {
-        console.group('Triangle');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (x1 === undefined) { x1 = 0; }
@@ -77,7 +76,6 @@ var Triangle = new Class({
 
         this.updateDisplayOrigin();
         this.updateData();
-        console.groupEnd();
     },
 
     /**
@@ -97,12 +95,9 @@ var Triangle = new Class({
      */
     setTo: function (x1, y1, x2, y2, x3, y3)
     {
-        console.group('Triangle setTo');
         this.geom.setTo(x1, y1, x2, y2, x3, y3);
 
-        const result = this.updateData();
-        console.groupEnd();
-        return result;
+        return this.updateData();
     },
 
     /**
@@ -116,7 +111,6 @@ var Triangle = new Class({
      */
     updateData: function ()
     {
-        console.group('Triangle updateData');
         var path = [];
         var tri = this.geom;
         var line = this._tempLine;
@@ -135,7 +129,6 @@ var Triangle = new Class({
 
         this.pathData = path;
 
-        console.groupEnd();
         return this;
     }
 

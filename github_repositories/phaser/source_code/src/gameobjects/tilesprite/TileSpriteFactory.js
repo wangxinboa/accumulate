@@ -24,12 +24,10 @@ var GameObjectFactory = require('../GameObjectFactory');
  *
  * @return {Phaser.GameObjects.TileSprite} The Game Object that was created.
  */
-console.group('GameObjectFactory.register tileSprite');
 GameObjectFactory.register('tileSprite', function (x, y, width, height, texture, frame)
 {
     return this.displayList.add(new TileSprite(this.scene, x, y, width, height, texture, frame));
 });
-console.groupEnd();
 
 //  When registering a factory function 'this' refers to the GameObjectFactory context.
 //

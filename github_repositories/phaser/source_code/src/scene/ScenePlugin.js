@@ -35,7 +35,6 @@ var ScenePlugin = new Class({
 
     function ScenePlugin (scene)
     {
-        console.group('ScenePlugin');
         /**
          * The Scene that this ScenePlugin belongs to.
          *
@@ -163,7 +162,6 @@ var ScenePlugin = new Class({
 
         scene.sys.events.once(Events.BOOT, this.boot, this);
         scene.sys.events.on(Events.START, this.pluginStart, this);
-        console.groupEnd();
     },
 
     /**
@@ -176,9 +174,7 @@ var ScenePlugin = new Class({
      */
     boot: function ()
     {
-        console.group('ScenePlugin boot');
         this.systems.events.once(Events.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -192,11 +188,9 @@ var ScenePlugin = new Class({
      */
     pluginStart: function ()
     {
-        console.group('ScenePlugin pluginStart');
         this._target = null;
 
         this.systems.events.once(Events.SHUTDOWN, this.shutdown, this);
-        console.groupEnd();
     },
 
     /**
@@ -217,13 +211,11 @@ var ScenePlugin = new Class({
      */
     start: function (key, data)
     {
-        console.group('ScenePlugin start');
         if (key === undefined) { key = this.key; }
 
         this.manager.queueOp('stop', this.key);
         this.manager.queueOp('start', key, data);
 
-        console.groupEnd();
         return this;
     },
 
@@ -241,13 +233,11 @@ var ScenePlugin = new Class({
      */
     restart: function (data)
     {
-        console.group('ScenePlugin restart');
         var key = this.key;
 
         this.manager.queueOp('stop', key);
         this.manager.queueOp('start', key, data);
 
-        console.groupEnd();
         return this;
     },
 
@@ -293,7 +283,6 @@ var ScenePlugin = new Class({
      */
     transition: function (config)
     {
-        console.group('ScenePlugin transition');
         if (config === undefined) { config = {}; }
 
         var key = GetFastValue(config, 'target', false);
@@ -302,7 +291,6 @@ var ScenePlugin = new Class({
 
         if (!key || !this.checkValidTransition(target))
         {
-            console.groupEnd();
             return false;
         }
 
@@ -362,7 +350,6 @@ var ScenePlugin = new Class({
 
         this.systems.events.emit(Events.TRANSITION_OUT, target, duration);
 
-        console.groupEnd();
         return true;
     },
 
@@ -379,15 +366,12 @@ var ScenePlugin = new Class({
      */
     checkValidTransition: function (target)
     {
-        console.group('ScenePlugin checkValidTransition');
         //  Not a valid target if it doesn't exist, isn't active or is already transitioning in or out
         if (!target || target.sys.isActive() || target.sys.isTransitioning() || target === this.scene || this.systems.isTransitioning())
         {
-            console.groupEnd();
             return false;
         }
 
-        console.groupEnd();
         return true;
     },
 
@@ -404,7 +388,6 @@ var ScenePlugin = new Class({
      */
     step: function (time, delta)
     {
-        console.group('ScenePlugin step');
         this._elapsed += delta;
 
         this.transitionProgress = Clamp(this._elapsed / this._duration, 0, 1);
@@ -418,7 +401,6 @@ var ScenePlugin = new Class({
         {
             this.transitionComplete();
         }
-        console.groupEnd();
     },
 
     /**
@@ -431,7 +413,6 @@ var ScenePlugin = new Class({
      */
     transitionComplete: function ()
     {
-        console.group('ScenePlugin transitionComplete');
         var targetSys = this._target.sys;
         var targetSettings = this._target.sys.settings;
 
@@ -461,7 +442,6 @@ var ScenePlugin = new Class({
         {
             this.manager.stop(this.key);
         }
-        console.groupEnd();
     },
 
     /**
@@ -479,10 +459,7 @@ var ScenePlugin = new Class({
      */
     add: function (key, sceneConfig, autoStart, data)
     {
-        console.group('ScenePlugin add');
-        const result = this.manager.add(key, sceneConfig, autoStart, data);
-        console.groupEnd();
-        return result;
+        return this.manager.add(key, sceneConfig, autoStart, data);
     },
 
     /**
@@ -503,13 +480,11 @@ var ScenePlugin = new Class({
      */
     launch: function (key, data)
     {
-        console.group('ScenePlugin launch');
         if (key && key !== this.key)
         {
             this.manager.queueOp('start', key, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -537,13 +512,11 @@ var ScenePlugin = new Class({
      */
     run: function (key, data)
     {
-        console.group('ScenePlugin run');
         if (key && key !== this.key)
         {
             this.manager.queueOp('run', key, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -565,12 +538,10 @@ var ScenePlugin = new Class({
      */
     pause: function (key, data)
     {
-        console.group('ScenePlugin pause');
         if (key === undefined) { key = this.key; }
 
         this.manager.queueOp('pause', key, data);
 
-        console.groupEnd();
         return this;
     },
 
@@ -592,12 +563,10 @@ var ScenePlugin = new Class({
      */
     resume: function (key, data)
     {
-        console.group('ScenePlugin resume');
         if (key === undefined) { key = this.key; }
 
         this.manager.queueOp('resume', key, data);
 
-        console.groupEnd();
         return this;
     },
 
@@ -619,12 +588,10 @@ var ScenePlugin = new Class({
      */
     sleep: function (key, data)
     {
-        console.group('ScenePlugin sleep');
         if (key === undefined) { key = this.key; }
 
         this.manager.queueOp('sleep', key, data);
 
-        console.groupEnd();
         return this;
     },
 
@@ -646,12 +613,10 @@ var ScenePlugin = new Class({
      */
     wake: function (key, data)
     {
-        console.group('ScenePlugin wake');
         if (key === undefined) { key = this.key; }
 
         this.manager.queueOp('wake', key, data);
 
-        console.groupEnd();
         return this;
     },
 
@@ -673,13 +638,11 @@ var ScenePlugin = new Class({
      */
     switch: function (key, data)
     {
-        console.group('ScenePlugin switch');
         if (key !== this.key)
         {
             this.manager.queueOp('switch', this.key, key, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -701,12 +664,10 @@ var ScenePlugin = new Class({
      */
     stop: function (key, data)
     {
-        console.group('ScenePlugin stop');
         if (key === undefined) { key = this.key; }
 
         this.manager.queueOp('stop', key, data);
 
-        console.groupEnd();
         return this;
     },
 
@@ -727,7 +688,6 @@ var ScenePlugin = new Class({
      */
     setActive: function (value, key, data)
     {
-        console.group('ScenePlugin setActive');
         if (key === undefined) { key = this.key; }
 
         var scene = this.manager.getScene(key);
@@ -737,7 +697,6 @@ var ScenePlugin = new Class({
             scene.sys.setActive(value, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -757,7 +716,6 @@ var ScenePlugin = new Class({
      */
     setVisible: function (value, key)
     {
-        console.group('ScenePlugin setVisible');
         if (key === undefined) { key = this.key; }
 
         var scene = this.manager.getScene(key);
@@ -767,7 +725,6 @@ var ScenePlugin = new Class({
             scene.sys.setVisible(value);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -786,12 +743,9 @@ var ScenePlugin = new Class({
      */
     isSleeping: function (key)
     {
-        console.group('ScenePlugin isSleeping');
         if (key === undefined) { key = this.key; }
 
-        const result = this.manager.isSleeping(key);
-        console.groupEnd();
-        return result;
+        return this.manager.isSleeping(key);
     },
 
     /**
@@ -809,12 +763,9 @@ var ScenePlugin = new Class({
      */
     isActive: function (key)
     {
-        console.group('ScenePlugin isActive');
         if (key === undefined) { key = this.key; }
 
-        const result = this.manager.isActive(key);
-        console.groupEnd();
-        return result;
+        return this.manager.isActive(key);
     },
 
     /**
@@ -832,12 +783,9 @@ var ScenePlugin = new Class({
      */
     isPaused: function (key)
     {
-        console.group('ScenePlugin isPaused');
         if (key === undefined) { key = this.key; }
 
-        const result = this.manager.isPaused(key);
-        console.groupEnd();
-        return result;
+        return this.manager.isPaused(key);
     },
 
     /**
@@ -855,12 +803,9 @@ var ScenePlugin = new Class({
      */
     isVisible: function (key)
     {
-        console.group('ScenePlugin isVisible');
         if (key === undefined) { key = this.key; }
 
-        const result = this.manager.isVisible(key);
-        console.groupEnd();
-        return result;
+        return this.manager.isVisible(key);
     },
 
     /**
@@ -881,7 +826,6 @@ var ScenePlugin = new Class({
      */
     swapPosition: function (keyA, keyB)
     {
-        console.group('ScenePlugin swapPosition');
         if (keyB === undefined) { keyB = this.key; }
 
         if (keyA !== keyB)
@@ -889,7 +833,6 @@ var ScenePlugin = new Class({
             this.manager.swapPosition(keyA, keyB);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -912,7 +855,6 @@ var ScenePlugin = new Class({
      */
     moveAbove: function (keyA, keyB)
     {
-        console.group('ScenePlugin moveAbove');
         if (keyB === undefined) { keyB = this.key; }
 
         if (keyA !== keyB)
@@ -920,7 +862,6 @@ var ScenePlugin = new Class({
             this.manager.moveAbove(keyA, keyB);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -943,7 +884,6 @@ var ScenePlugin = new Class({
      */
     moveBelow: function (keyA, keyB)
     {
-        console.group('ScenePlugin moveBelow');
         if (keyB === undefined) { keyB = this.key; }
 
         if (keyA !== keyB)
@@ -951,7 +891,6 @@ var ScenePlugin = new Class({
             this.manager.moveBelow(keyA, keyB);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -976,12 +915,10 @@ var ScenePlugin = new Class({
      */
     remove: function (key)
     {
-        console.group('ScenePlugin remove');
         if (key === undefined) { key = this.key; }
 
         this.manager.remove(key);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1000,12 +937,10 @@ var ScenePlugin = new Class({
      */
     moveUp: function (key)
     {
-        console.group('ScenePlugin moveUp');
         if (key === undefined) { key = this.key; }
 
         this.manager.moveUp(key);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1024,12 +959,10 @@ var ScenePlugin = new Class({
      */
     moveDown: function (key)
     {
-        console.group('ScenePlugin moveDown');
         if (key === undefined) { key = this.key; }
 
         this.manager.moveDown(key);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1050,12 +983,10 @@ var ScenePlugin = new Class({
      */
     bringToTop: function (key)
     {
-        console.group('ScenePlugin bringToTop');
         if (key === undefined) { key = this.key; }
 
         this.manager.bringToTop(key);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1076,12 +1007,10 @@ var ScenePlugin = new Class({
      */
     sendToBack: function (key)
     {
-        console.group('ScenePlugin sendToBack');
         if (key === undefined) { key = this.key; }
 
         this.manager.sendToBack(key);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1104,10 +1033,7 @@ var ScenePlugin = new Class({
      */
     get: function (key)
     {
-        console.group('ScenePlugin get');
-        const result = this.manager.getScene(key);
-        console.groupEnd();
-        return result;
+        return this.manager.getScene(key);
     },
 
     /**
@@ -1125,16 +1051,12 @@ var ScenePlugin = new Class({
      */
     getStatus: function (key)
     {
-        console.group('ScenePlugin getStatus');
         var scene = this.manager.getScene(key);
 
         if (scene)
         {
-            const result = scene.sys.getStatus();
-            console.groupEnd();
-            return result;
+            return scene.sys.getStatus();
         }
-        console.groupEnd();
     },
 
     /**
@@ -1152,12 +1074,9 @@ var ScenePlugin = new Class({
      */
     getIndex: function (key)
     {
-        console.group('ScenePlugin getIndex');
         if (key === undefined) { key = this.key; }
 
-        const result = this.manager.getIndex(key);
-        console.groupEnd();
-        return result;
+        return this.manager.getIndex(key);
     },
 
     /**
@@ -1171,12 +1090,10 @@ var ScenePlugin = new Class({
      */
     shutdown: function ()
     {
-        console.group('ScenePlugin shutdown');
         var eventEmitter = this.systems.events;
 
         eventEmitter.off(Events.SHUTDOWN, this.shutdown, this);
         eventEmitter.off(Events.TRANSITION_OUT);
-        console.groupEnd();
     },
 
     /**
@@ -1190,7 +1107,6 @@ var ScenePlugin = new Class({
      */
     destroy: function ()
     {
-        console.group('ScenePlugin destroy');
         this.shutdown();
 
         this.scene.sys.events.off(Events.START, this.start, this);
@@ -1199,13 +1115,10 @@ var ScenePlugin = new Class({
         this.systems = null;
         this.settings = null;
         this.manager = null;
-        console.groupEnd();
     }
 
 });
 
-console.group('PluginCache.register ScenePlugin');
 PluginCache.register('ScenePlugin', ScenePlugin, 'scenePlugin');
 
-console.groupEnd();
 module.exports = ScenePlugin;

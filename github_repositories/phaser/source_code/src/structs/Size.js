@@ -33,7 +33,6 @@ var Size = new Class({
 
     function Size (width, height, aspectMode, parent)
     {
-        console.group('Size');
         if (width === undefined) { width = 0; }
         if (height === undefined) { height = width; }
         if (aspectMode === undefined) { aspectMode = 0; }
@@ -152,7 +151,6 @@ var Size = new Class({
          * @since 3.16.0
          */
         this.snapTo = new Vector2();
-        console.groupEnd();
     },
 
     /**
@@ -179,14 +177,11 @@ var Size = new Class({
      */
     setAspectMode: function (value)
     {
-        console.group('Size setAspectMode');
         if (value === undefined) { value = 0; }
 
         this.aspectMode = value;
 
-        const result = this.setSize(this._width, this._height);
-        console.groupEnd();
-        return result;
+        return this.setSize(this._width, this._height);
     },
 
     /**
@@ -211,15 +206,12 @@ var Size = new Class({
      */
     setSnap: function (snapWidth, snapHeight)
     {
-        console.group('Size setSnap');
         if (snapWidth === undefined) { snapWidth = 0; }
         if (snapHeight === undefined) { snapHeight = snapWidth; }
 
         this.snapTo.set(snapWidth, snapHeight);
 
-        const result = this.setSize(this._width, this._height);
-        console.groupEnd();
-        return result;
+        return this.setSize(this._width, this._height);
     },
 
     /**
@@ -247,12 +239,9 @@ var Size = new Class({
      */
     setParent: function (parent)
     {
-        console.group('Size setParent');
         this._parent = parent;
 
-        const result = this.setSize(this._width, this._height);
-        console.groupEnd();
-        return result;
+        return this.setSize(this._width, this._height);
     },
 
     /**
@@ -275,16 +264,13 @@ var Size = new Class({
      */
     setMin: function (width, height)
     {
-        console.group('Size setMin');
         if (width === undefined) { width = 0; }
         if (height === undefined) { height = width; }
 
         this.minWidth = Clamp(width, 0, this.maxWidth);
         this.minHeight = Clamp(height, 0, this.maxHeight);
 
-        const result = this.setSize(this._width, this._height);
-        console.groupEnd();
-        return result;
+        return this.setSize(this._width, this._height);
     },
 
     /**
@@ -305,16 +291,13 @@ var Size = new Class({
      */
     setMax: function (width, height)
     {
-        console.group('Size setMax');
         if (width === undefined) { width = Number.MAX_VALUE; }
         if (height === undefined) { height = width; }
 
         this.maxWidth = Clamp(width, this.minWidth, Number.MAX_VALUE);
         this.maxHeight = Clamp(height, this.minHeight, Number.MAX_VALUE);
 
-        const result = this.setSize(this._width, this._height);
-        console.groupEnd();
-        return result;
+        return this.setSize(this._width, this._height);
     },
 
     /**
@@ -342,7 +325,6 @@ var Size = new Class({
      */
     setSize: function (width, height)
     {
-        console.group('Size setSize');
         if (width === undefined) { width = 0; }
         if (height === undefined) { height = width; }
 
@@ -373,7 +355,6 @@ var Size = new Class({
                 break;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -391,12 +372,9 @@ var Size = new Class({
      */
     setAspectRatio: function (ratio)
     {
-        console.group('Size setAspectRatio');
         this.aspectRatio = ratio;
 
-        const result = this.setSize(this._width, this._height);
-        console.groupEnd();
-        return result;
+        return this.setSize(this._width, this._height);
     },
 
     /**
@@ -414,12 +392,10 @@ var Size = new Class({
      */
     resize: function (width, height)
     {
-        console.group('Size resize');
         this._width = this.getNewWidth(SnapFloor(width, this.snapTo.x));
         this._height = this.getNewHeight(SnapFloor(height, this.snapTo.y));
         this.aspectRatio = (this._height === 0) ? 1 : this._width / this._height;
 
-        console.groupEnd();
         return this;
     },
 
@@ -436,7 +412,6 @@ var Size = new Class({
      */
     getNewWidth: function (value, checkParent)
     {
-        console.group('Size getNewWidth');
         if (checkParent === undefined) { checkParent = true; }
 
         value = Clamp(value, this.minWidth, this.maxWidth);
@@ -446,7 +421,6 @@ var Size = new Class({
             value = Math.max(this.minWidth, this._parent.width);
         }
 
-        console.groupEnd();
         return value;
     },
 
@@ -463,7 +437,6 @@ var Size = new Class({
      */
     getNewHeight: function (value, checkParent)
     {
-        console.group('Size getNewHeight');
         if (checkParent === undefined) { checkParent = true; }
 
         value = Clamp(value, this.minHeight, this.maxHeight);
@@ -473,7 +446,6 @@ var Size = new Class({
             value = Math.max(this.minHeight, this._parent.height);
         }
 
-        console.groupEnd();
         return value;
     },
 
@@ -497,7 +469,6 @@ var Size = new Class({
      */
     constrain: function (width, height, fit)
     {
-        console.group('Size constrain');
         if (width === undefined) { width = 0; }
         if (height === undefined) { height = width; }
         if (fit === undefined) { fit = true; }
@@ -544,7 +515,6 @@ var Size = new Class({
         this._width = width;
         this._height = height;
 
-        console.groupEnd();
         return this;
     },
 
@@ -566,10 +536,7 @@ var Size = new Class({
      */
     fitTo: function (width, height)
     {
-        console.group('Size fitTo');
-        const result = this.constrain(width, height, true);
-        console.groupEnd();
-        return result;
+        return this.constrain(width, height, true);
     },
 
     /**
@@ -590,10 +557,7 @@ var Size = new Class({
      */
     envelop: function (width, height)
     {
-        console.group('Size envelop');
-        const result = this.constrain(width, height, false);
-        console.groupEnd();
-        return result;
+        return this.constrain(width, height, false);
     },
 
     /**
@@ -610,10 +574,7 @@ var Size = new Class({
      */
     setWidth: function (value)
     {
-        console.group('Size setWidth');
-        const result = this.setSize(value, this._height);
-        console.groupEnd();
-        return result;
+        return this.setSize(value, this._height);
     },
 
     /**
@@ -630,10 +591,7 @@ var Size = new Class({
      */
     setHeight: function (value)
     {
-        console.group('Size setHeight');
-        const result = this.setSize(this._width, value);
-        console.groupEnd();
-        return result;
+        return this.setSize(this._width, value);
     },
 
     /**
@@ -646,10 +604,7 @@ var Size = new Class({
      */
     toString: function ()
     {
-        console.group('Size toString');
-        const result = '[{ Size (width=' + this._width + ' height=' + this._height + ' aspectRatio=' + this.aspectRatio + ' aspectMode=' + this.aspectMode + ') }]';
-        console.groupEnd();
-        return result;
+        return '[{ Size (width=' + this._width + ' height=' + this._height + ' aspectRatio=' + this.aspectRatio + ' aspectMode=' + this.aspectMode + ') }]';
     },
 
     /**
@@ -663,13 +618,11 @@ var Size = new Class({
      */
     setCSS: function (element)
     {
-        console.group('Size setCSS');
         if (element && element.style)
         {
             element.style.width = this._width + 'px';
             element.style.height = this._height + 'px';
         }
-        console.groupEnd();
     },
 
     /**
@@ -685,14 +638,11 @@ var Size = new Class({
      */
     copy: function (destination)
     {
-        console.group('Size copy');
         destination.setAspectMode(this.aspectMode);
 
         destination.aspectRatio = this.aspectRatio;
 
-        const result = destination.setSize(this.width, this.height);
-        console.groupEnd();
-        return result;
+        return destination.setSize(this.width, this.height);
     },
 
     /**
@@ -707,10 +657,8 @@ var Size = new Class({
      */
     destroy: function ()
     {
-        console.group('Size destroy');
         this._parent = null;
         this.snapTo = null;
-        console.groupEnd();
     },
 
     /**

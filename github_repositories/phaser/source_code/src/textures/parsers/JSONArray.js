@@ -23,12 +23,10 @@ var Clone = require('../../utils/object/Clone');
  */
 var JSONArray = function (texture, sourceIndex, json)
 {
-    console.group('Parsers JSONArray');
     //  Malformed?
     if (!json['frames'] && !json['textures'])
     {
         console.warn('Invalid Texture Atlas JSON Array');
-        console.groupEnd();
         return;
     }
 
@@ -116,7 +114,6 @@ var JSONArray = function (texture, sourceIndex, json)
         }
     }
 
-    console.groupEnd();
     return texture;
 };
 

@@ -39,7 +39,6 @@ var XMLFile = new Class({
 
     function XMLFile (loader, key, url, xhrSettings)
     {
-        console.group('XMLFile');
         var extension = 'xml';
 
         if (IsPlainObject(key))
@@ -63,7 +62,6 @@ var XMLFile = new Class({
         };
 
         File.call(this, loader, fileConfig);
-        console.groupEnd();
     },
 
     /**
@@ -75,7 +73,6 @@ var XMLFile = new Class({
      */
     onProcess: function ()
     {
-        console.group('XMLFile onProcess');
         this.state = CONST.FILE_PROCESSING;
 
         this.data = ParseXML(this.xhrLoader.responseText);
@@ -88,7 +85,6 @@ var XMLFile = new Class({
         {
             this.onProcessError();
         }
-        console.groupEnd();
     }
 
 });
@@ -160,10 +156,8 @@ var XMLFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register xml');
 FileTypesManager.register('xml', function (key, url, xhrSettings)
 {
-    console.group('FileTypesManager.register xml factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -177,9 +171,7 @@ FileTypesManager.register('xml', function (key, url, xhrSettings)
         this.addFile(new XMLFile(this, key, url, xhrSettings));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = XMLFile;

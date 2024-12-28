@@ -51,7 +51,6 @@ var IsoBox = new Class({
 
     function IsoBox (scene, x, y, size, height, fillTop, fillLeft, fillRight)
     {
-        console.group('IsoBox');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (size === undefined) { size = 48; }
@@ -135,7 +134,6 @@ var IsoBox = new Class({
         this.setSize(size, height);
 
         this.updateDisplayOrigin();
-        console.groupEnd();
     },
 
     /**
@@ -151,10 +149,8 @@ var IsoBox = new Class({
      */
     setProjection: function (value)
     {
-        console.group('IsoBox setProjection');
         this.projection = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -173,7 +169,6 @@ var IsoBox = new Class({
      */
     setFaces: function (showTop, showLeft, showRight)
     {
-        console.group('IsoBox setFaces');
         if (showTop === undefined) { showTop = true; }
         if (showLeft === undefined) { showLeft = true; }
         if (showRight === undefined) { showRight = true; }
@@ -182,7 +177,6 @@ var IsoBox = new Class({
         this.showLeft = showLeft;
         this.showRight = showRight;
 
-        console.groupEnd();
         return this;
     },
 
@@ -201,14 +195,12 @@ var IsoBox = new Class({
      */
     setFillStyle: function (fillTop, fillLeft, fillRight)
     {
-        console.group('IsoBox setFillStyle');
         this.fillTop = fillTop;
         this.fillLeft = fillLeft;
         this.fillRight = fillRight;
 
         this.isFilled = true;
 
-        console.groupEnd();
         return this;
     }
 

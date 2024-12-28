@@ -51,7 +51,6 @@ var CanvasTexture = new Class({
 
     function CanvasTexture (manager, key, source, width, height)
     {
-        console.group('CanvasTexture');
         Texture.call(this, manager, key, source, width, height);
 
         this.add('__BASE', 0, 0, 0, width, height);
@@ -169,7 +168,6 @@ var CanvasTexture = new Class({
                 this.pixels = this.imageData.data;
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -185,7 +183,6 @@ var CanvasTexture = new Class({
      */
     update: function ()
     {
-        console.group('CanvasTexture update');
         this.imageData = this.context.getImageData(0, 0, this.width, this.height);
 
         this.data = this.imageData.data;
@@ -210,7 +207,6 @@ var CanvasTexture = new Class({
             this.refresh();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -230,7 +226,6 @@ var CanvasTexture = new Class({
      */
     draw: function (x, y, source, update)
     {
-        console.group('CanvasTexture draw');
         if (update === undefined) { update = true; }
 
         this.context.drawImage(source, x, y);
@@ -240,7 +235,6 @@ var CanvasTexture = new Class({
             this.update();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -261,7 +255,6 @@ var CanvasTexture = new Class({
      */
     drawFrame: function (key, frame, x, y, update)
     {
-        console.group('CanvasTexture drawFrame');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (update === undefined) { update = true; }
@@ -292,7 +285,6 @@ var CanvasTexture = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -315,7 +307,6 @@ var CanvasTexture = new Class({
      */
     setPixel: function (x, y, red, green, blue, alpha)
     {
-        console.group('CanvasTexture setPixel');
         if (alpha === undefined) { alpha = 255; }
 
         x = Math.abs(Math.floor(x));
@@ -335,7 +326,6 @@ var CanvasTexture = new Class({
             this.context.putImageData(imageData, x, y);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -357,7 +347,6 @@ var CanvasTexture = new Class({
      */
     putData: function (imageData, x, y, dirtyX, dirtyY, dirtyWidth, dirtyHeight)
     {
-        console.group('CanvasTexture putData');
         if (dirtyX === undefined) { dirtyX = 0; }
         if (dirtyY === undefined) { dirtyY = 0; }
         if (dirtyWidth === undefined) { dirtyWidth = imageData.width; }
@@ -365,7 +354,6 @@ var CanvasTexture = new Class({
 
         this.context.putImageData(imageData, x, y, dirtyX, dirtyY, dirtyWidth, dirtyHeight);
 
-        console.groupEnd();
         return this;
     },
 
@@ -385,7 +373,6 @@ var CanvasTexture = new Class({
      */
     getData: function (x, y, width, height)
     {
-        console.group('CanvasTexture getData');
         x = Clamp(Math.floor(x), 0, this.width - 1);
         y = Clamp(Math.floor(y), 0, this.height - 1);
         width = Clamp(width, 1, this.width - x);
@@ -393,7 +380,6 @@ var CanvasTexture = new Class({
 
         var imageData = this.context.getImageData(x, y, width, height);
 
-        console.groupEnd();
         return imageData;
     },
 
@@ -414,7 +400,6 @@ var CanvasTexture = new Class({
      */
     getPixel: function (x, y, out)
     {
-        console.group('CanvasTexture getPixel');
         if (!out)
         {
             out = new Color();
@@ -434,7 +419,6 @@ var CanvasTexture = new Class({
             out.setTo(r, g, b, a);
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -459,7 +443,6 @@ var CanvasTexture = new Class({
      */
     getPixels: function (x, y, width, height)
     {
-        console.group('CanvasTexture getPixels');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (width === undefined) { width = this.width; }
@@ -491,7 +474,6 @@ var CanvasTexture = new Class({
             out.push(row);
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -513,18 +495,15 @@ var CanvasTexture = new Class({
      */
     getIndex: function (x, y)
     {
-        console.group('CanvasTexture getIndex');
         x = Math.abs(Math.round(x));
         y = Math.abs(Math.round(y));
 
         if (x < this.width && y < this.height)
         {
-            console.groupEnd();
             return (x + y * this.width) * 4;
         }
         else
         {
-            console.groupEnd();
             return -1;
         }
     },
@@ -541,10 +520,8 @@ var CanvasTexture = new Class({
      */
     refresh: function ()
     {
-        console.group('CanvasTexture refresh');
         this._source.update();
 
-        console.groupEnd();
         return this;
     },
 
@@ -558,8 +535,6 @@ var CanvasTexture = new Class({
      */
     getCanvas: function ()
     {
-        console.group('CanvasTexture getCanvas');
-        console.groupEnd();
         return this.canvas;
     },
 
@@ -573,8 +548,6 @@ var CanvasTexture = new Class({
      */
     getContext: function ()
     {
-        console.group('CanvasTexture getContext');
-        console.groupEnd();
         return this.context;
     },
 
@@ -595,7 +568,6 @@ var CanvasTexture = new Class({
      */
     clear: function (x, y, width, height, update)
     {
-        console.group('CanvasTexture clear');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (width === undefined) { width = this.width; }
@@ -609,7 +581,6 @@ var CanvasTexture = new Class({
             this.update();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -626,7 +597,6 @@ var CanvasTexture = new Class({
      */
     setSize: function (width, height)
     {
-        console.group('CanvasTexture setSize');
         if (height === undefined) { height = width; }
 
         if (width !== this.width || height !== this.height)
@@ -650,7 +620,6 @@ var CanvasTexture = new Class({
             this.refresh();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -662,7 +631,6 @@ var CanvasTexture = new Class({
      */
     destroy: function ()
     {
-        console.group('CanvasTexture destroy');
         Texture.prototype.destroy.call(this);
 
         this._source = null;
@@ -672,7 +640,6 @@ var CanvasTexture = new Class({
         this.data = null;
         this.pixels = null;
         this.buffer = null;
-        console.groupEnd();
     }
 
 });

@@ -31,7 +31,6 @@ var Frame = new Class({
 
     function Frame (texture, name, sourceIndex, x, y, width, height)
     {
-        console.group('Frame');
         /**
          * The Texture this Frame is a part of.
          *
@@ -335,7 +334,6 @@ var Frame = new Class({
         };
 
         this.setSize(width, height, x, y);
-        console.groupEnd();
     },
 
     /**
@@ -351,16 +349,13 @@ var Frame = new Class({
      */
     setCutPosition: function (x, y)
     {
-        console.group('Frame setCutPosition');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
 
         this.cutX = x;
         this.cutY = y;
 
-        const result = this.updateUVs();
-        console.groupEnd();
-        return result;
+        return this.updateUVs();
     },
 
     /**
@@ -376,13 +371,10 @@ var Frame = new Class({
      */
     setCutSize: function (width, height)
     {
-        console.group('Frame setCutSize');
         this.cutWidth = width;
         this.cutHeight = height;
 
-        const result = this.updateUVs();
-        console.groupEnd();
-        return result;
+        return this.updateUVs();
     },
 
     /**
@@ -403,7 +395,6 @@ var Frame = new Class({
      */
     setSize: function (width, height, x, y)
     {
-        console.group('Frame setSize');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
 
@@ -444,9 +435,7 @@ var Frame = new Class({
         drawImage.width = width;
         drawImage.height = height;
 
-        const result = this.updateUVs();
-        console.groupEnd();
-        return result;
+        return this.updateUVs();
     },
 
     /**
@@ -466,7 +455,6 @@ var Frame = new Class({
      */
     setTrim: function (actualWidth, actualHeight, destX, destY, destWidth, destHeight)
     {
-        console.group('Frame setTrim');
         var data = this.data;
         var ss = data.spriteSourceSize;
 
@@ -497,9 +485,7 @@ var Frame = new Class({
         this.centerX = Math.floor(destWidth / 2);
         this.centerY = Math.floor(destHeight / 2);
 
-        const result = this.updateUVs();
-        console.groupEnd();
-        return result;
+        return this.updateUVs();
     },
 
     /**
@@ -521,7 +507,6 @@ var Frame = new Class({
      */
     setScale9: function (x, y, width, height)
     {
-        console.group('Frame setScale9');
         var data = this.data;
 
         data.scale9 = true;
@@ -532,7 +517,6 @@ var Frame = new Class({
         data.scale9Borders.w = width;
         data.scale9Borders.h = height;
 
-        console.groupEnd();
         return this;
     },
 
@@ -560,7 +544,6 @@ var Frame = new Class({
      */
     setCropUVs: function (crop, x, y, width, height, flipX, flipY)
     {
-        console.group('Frame setCropUVs');
         //  Clamp the input values
 
         var cx = this.cutX;
@@ -677,7 +660,6 @@ var Frame = new Class({
         crop.flipX = flipX;
         crop.flipY = flipY;
 
-        console.groupEnd();
         return crop;
     },
 
@@ -696,10 +678,7 @@ var Frame = new Class({
      */
     updateCropUVs: function (crop, flipX, flipY)
     {
-        console.group('Frame updateCropUVs');
-        const result = this.setCropUVs(crop, crop.x, crop.y, crop.width, crop.height, flipX, flipY);
-        console.groupEnd();
-        return result;
+        return this.setCropUVs(crop, crop.x, crop.y, crop.width, crop.height, flipX, flipY);
     },
 
     /**
@@ -722,7 +701,6 @@ var Frame = new Class({
      */
     setUVs: function (width, height, u0, v0, u1, v1)
     {
-        console.group('Frame setUVs');
         //  Canvas data
 
         var cd = this.data.drawImage;
@@ -738,7 +716,6 @@ var Frame = new Class({
         this.u1 = u1;
         this.v1 = v1;
 
-        console.groupEnd();
         return this;
     },
 
@@ -752,7 +729,6 @@ var Frame = new Class({
      */
     updateUVs: function ()
     {
-        console.group('Frame updateUVs');
         var cx = this.cutX;
         var cy = this.cutY;
         var cw = this.cutWidth;
@@ -776,7 +752,6 @@ var Frame = new Class({
         this.u1 = (cx + cw) / tw;
         this.v1 = (cy + ch) / th;
 
-        console.groupEnd();
         return this;
     },
 
@@ -790,7 +765,6 @@ var Frame = new Class({
      */
     updateUVsInverted: function ()
     {
-        console.group('Frame updateUVsInverted');
         var tw = this.source.width;
         var th = this.source.height;
 
@@ -800,7 +774,6 @@ var Frame = new Class({
         this.u1 = this.cutX / tw;
         this.v1 = (this.cutY + this.cutWidth) / th;
 
-        console.groupEnd();
         return this;
     },
 
@@ -814,7 +787,6 @@ var Frame = new Class({
      */
     clone: function ()
     {
-        console.group('Frame clone');
         var clone = new Frame(this.texture, this.name, this.sourceIndex);
 
         clone.cutX = this.cutX;
@@ -840,7 +812,6 @@ var Frame = new Class({
 
         clone.updateUVs();
 
-        console.groupEnd();
         return clone;
     },
 
@@ -852,12 +823,10 @@ var Frame = new Class({
      */
     destroy: function ()
     {
-        console.group('Frame destroy');
         this.texture = null;
         this.source = null;
         this.customData = null;
         this.data = null;
-        console.groupEnd();
     },
 
     /**

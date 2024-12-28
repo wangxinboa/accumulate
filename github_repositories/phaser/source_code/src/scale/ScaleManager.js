@@ -130,7 +130,6 @@ var ScaleManager = new Class({
 
     function ScaleManager (game)
     {
-        console.group('ScaleManager');
         EventEmitter.call(this);
 
         /**
@@ -397,7 +396,6 @@ var ScaleManager = new Class({
             fullScreenError: NOOP
 
         };
-        console.groupEnd();
     },
 
     /**
@@ -410,12 +408,10 @@ var ScaleManager = new Class({
      */
     preBoot: function ()
     {
-        console.group('ScaleManager preBoot');
         //  Parse the config to get the scaling values we need
         this.parseConfig(this.game.config);
 
         this.game.events.once(GameEvents.BOOT, this.boot, this);
-        console.groupEnd();
     },
 
     /**
@@ -429,7 +425,6 @@ var ScaleManager = new Class({
      */
     boot: function ()
     {
-        console.group('ScaleManager boot');
         var game = this.game;
 
         this.canvas = game.canvas;
@@ -465,7 +460,6 @@ var ScaleManager = new Class({
         game.events.once(GameEvents.DESTROY, this.destroy, this);
 
         this.startListeners();
-        console.groupEnd();
     },
 
     /**
@@ -479,7 +473,6 @@ var ScaleManager = new Class({
      */
     parseConfig: function (config)
     {
-        console.group('ScaleManager parseConfig');
         //  Get the parent element, if any
         this.getParent(config);
 
@@ -600,7 +593,6 @@ var ScaleManager = new Class({
         }
 
         this.orientation = GetScreenOrientation(width, height);
-        console.groupEnd();
     },
 
     /**
@@ -613,22 +605,16 @@ var ScaleManager = new Class({
      */
     getParent: function (config)
     {
-        console.group('ScaleManager getParent');
         var parent = config.parent;
-        console.info('ScaleManager getParent config.parent:', config.parent);
 
         if (parent === null)
         {
-            console.info('ScaleManager getParent parent === null');
             //  User is responsible for managing the parent
-            console.groupEnd();
             return;
         }
 
         this.parent = GetTarget(parent);
         this.parentIsWindow = (this.parent === document.body);
-        console.info('ScaleManager getParent this.parent:', this.parent);
-        console.info('ScaleManager getParent this.parentIsWindow:', this.parentIsWindow);
 
         if (config.expandParent && config.scaleMode !== CONST.SCALE_MODE.NONE)
         {
@@ -656,9 +642,7 @@ var ScaleManager = new Class({
         if (config.fullscreenTarget && !this.fullscreenTarget)
         {
             this.fullscreenTarget = GetTarget(config.fullscreenTarget);
-            console.info('ScaleManager getParent this.fullscreenTarget:', this.fullscreenTarget);
         }
-        console.groupEnd();
     },
 
     /**
@@ -672,15 +656,12 @@ var ScaleManager = new Class({
      */
     getParentBounds: function ()
     {
-        console.group('ScaleManager getParentBounds');
         if (!this.parent)
         {
-            console.groupEnd();
             return false;
         }
 
         var parentSize = this.parentSize;
-        console.info('ScaleManager getParentBounds parentSize:', JSON.stringify(parentSize, null, 2));
 
         // Ref. http://msdn.microsoft.com/en-us/library/hh781509(v=vs.85).aspx for getBoundingClientRect
 
@@ -690,10 +671,7 @@ var ScaleManager = new Class({
         // are relative to the top-left of the viewport.
 
         var DOMRect = this.parent.getBoundingClientRect();
-        console.info('ScaleManager getParentBounds DOMRect:', JSON.stringify(DOMRect, null, 2));
 
-        console.info('ScaleManager getParentBounds this.parentIsWindow:', this.parentIsWindow);
-        console.info('ScaleManager getParentBounds this.game.device.os.iOS:', this.game.device.os.iOS);
         if (this.parentIsWindow && this.game.device.os.iOS)
         {
             DOMRect.height = GetInnerHeight(true);
@@ -702,14 +680,10 @@ var ScaleManager = new Class({
         var newWidth = DOMRect.width;
         var newHeight = DOMRect.height;
 
-        console.info('ScaleManager getParentBounds parentSize.width !== newWidth:', parentSize.width !== newWidth);
-        console.info('ScaleManager getParentBounds parentSize.height !== newHeight:', parentSize.height !== newHeight);
         if (parentSize.width !== newWidth || parentSize.height !== newHeight)
         {
             parentSize.setSize(newWidth, newHeight);
 
-            console.info('ScaleManager getParentBounds parentSize:', JSON.stringify(parentSize, null, 2));
-            console.groupEnd();
             return true;
         }
         else if (this.canvas)
@@ -719,12 +693,10 @@ var ScaleManager = new Class({
 
             if (canvasRect.x !== canvasBounds.x || canvasRect.y !== canvasBounds.y)
             {
-                console.groupEnd();
                 return true;
             }
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -743,16 +715,13 @@ var ScaleManager = new Class({
      */
     lockOrientation: function (orientation)
     {
-        console.group('ScaleManager lockOrientation');
         var lock = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
 
         if (lock)
         {
-            console.groupEnd();
             return lock.call(screen, orientation);
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -773,12 +742,9 @@ var ScaleManager = new Class({
      */
     setParentSize: function (width, height)
     {
-        console.group('ScaleManager setParentSize');
         this.parentSize.setSize(width, height);
 
-        const result = this.refresh();
-        console.groupEnd();
-        return result;
+        return this.refresh();
     },
 
     /**
@@ -799,7 +765,6 @@ var ScaleManager = new Class({
      */
     setGameSize: function (width, height)
     {
-        console.group('ScaleManager setGameSize');
         var autoRound = this.autoRound;
 
         if (autoRound)
@@ -830,9 +795,7 @@ var ScaleManager = new Class({
         this.canvas.width = this.baseSize.width;
         this.canvas.height = this.baseSize.height;
 
-        const result = this.refresh(previousWidth, previousHeight);
-        console.groupEnd();
-        return result;
+        return this.refresh(previousWidth, previousHeight);
     },
 
     /**
@@ -866,7 +829,6 @@ var ScaleManager = new Class({
      */
     resize: function (width, height)
     {
-        console.group('ScaleManager resize');
         var zoom = this.zoom;
         var autoRound = this.autoRound;
 
@@ -915,9 +877,7 @@ var ScaleManager = new Class({
             style.height = styleHeight + 'px';
         }
 
-        const result = this.refresh(previousWidth, previousHeight);
-        console.groupEnd();
-        return result;
+        return this.refresh(previousWidth, previousHeight);
     },
 
     /**
@@ -933,13 +893,10 @@ var ScaleManager = new Class({
      */
     setZoom: function (value)
     {
-        console.group('ScaleManager setZoom');
         this.zoom = value;
         this._resetZoom = true;
 
-        const result = this.refresh();
-        console.groupEnd();
-        return result;
+        return this.refresh();
     },
 
     /**
@@ -953,13 +910,10 @@ var ScaleManager = new Class({
      */
     setMaxZoom: function ()
     {
-        console.group('ScaleManager setMaxZoom');
         this.zoom = this.getMaxZoom();
         this._resetZoom = true;
 
-        const result = this.refresh();
-        console.groupEnd();
-        return result;
+        return this.refresh();
     },
 
     /**
@@ -984,15 +938,12 @@ var ScaleManager = new Class({
      */
     setSnap: function (snapWidth, snapHeight)
     {
-        console.group('ScaleManager setSnap');
         if (snapWidth === undefined) { snapWidth = 0; }
         if (snapHeight === undefined) { snapHeight = snapWidth; }
 
         this.displaySize.setSnap(snapWidth, snapHeight);
 
-        const result = this.refresh();
-        console.groupEnd();
-        return result;
+        return this.refresh();
     },
 
     /**
@@ -1014,7 +965,6 @@ var ScaleManager = new Class({
      */
     refresh: function (previousWidth, previousHeight)
     {
-        console.group('ScaleManager refresh');
         if (previousWidth === undefined) { previousWidth = this.width; }
         if (previousHeight === undefined) { previousHeight = this.height; }
 
@@ -1041,7 +991,6 @@ var ScaleManager = new Class({
 
         this.emit(Events.RESIZE, this.gameSize, this.baseSize, this.displaySize, previousWidth, previousHeight);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1056,7 +1005,6 @@ var ScaleManager = new Class({
      */
     updateOrientation: function ()
     {
-        console.group('ScaleManager updateOrientation');
         if (this._checkOrientation)
         {
             this._checkOrientation = false;
@@ -1070,7 +1018,6 @@ var ScaleManager = new Class({
                 this.emit(Events.ORIENTATION_CHANGE, newOrientation);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -1081,7 +1028,6 @@ var ScaleManager = new Class({
      */
     updateScale: function ()
     {
-        console.group('ScaleManager updateScale');
         var style = this.canvas.style;
 
         var width = this.gameSize.width;
@@ -1211,7 +1157,6 @@ var ScaleManager = new Class({
 
         //  Finally, update the centering
         this.updateCenter();
-        console.groupEnd();
     },
 
     /**
@@ -1226,13 +1171,10 @@ var ScaleManager = new Class({
      */
     getMaxZoom: function ()
     {
-        console.group('ScaleManager getMaxZoom');
         var zoomH = SnapFloor(this.parentSize.width, this.gameSize.width, 0, true);
         var zoomV = SnapFloor(this.parentSize.height, this.gameSize.height, 0, true);
 
-        const result = Math.max(Math.min(zoomH, zoomV), 1);
-        console.groupEnd();
-        return result;
+        return Math.max(Math.min(zoomH, zoomV), 1);
     },
 
     /**
@@ -1253,12 +1195,10 @@ var ScaleManager = new Class({
      */
     updateCenter: function ()
     {
-        console.group('ScaleManager updateCenter');
         var autoCenter = this.autoCenter;
 
         if (autoCenter === CONST.CENTER.NO_CENTER)
         {
-            console.groupEnd();
             return;
         }
 
@@ -1288,7 +1228,6 @@ var ScaleManager = new Class({
 
         style.marginLeft = offsetX + 'px';
         style.marginTop = offsetY + 'px';
-        console.groupEnd();
     },
 
     /**
@@ -1300,7 +1239,6 @@ var ScaleManager = new Class({
      */
     updateBounds: function ()
     {
-        console.group('ScaleManager updateBounds');
         var bounds = this.canvasBounds;
         var clientRect = this.canvas.getBoundingClientRect();
 
@@ -1308,7 +1246,6 @@ var ScaleManager = new Class({
         bounds.y = clientRect.top + (window.pageYOffset || 0) - (document.documentElement.clientTop || 0);
         bounds.width = clientRect.width;
         bounds.height = clientRect.height;
-        console.groupEnd();
     },
 
     /**
@@ -1323,10 +1260,7 @@ var ScaleManager = new Class({
      */
     transformX: function (pageX)
     {
-        console.group('ScaleManager transformX');
-        const result = (pageX - this.canvasBounds.left) * this.displayScale.x;
-        console.groupEnd();
-        return result;
+        return (pageX - this.canvasBounds.left) * this.displayScale.x;
     },
 
     /**
@@ -1341,10 +1275,7 @@ var ScaleManager = new Class({
      */
     transformY: function (pageY)
     {
-        console.group('ScaleManager transformY');
-        const result =  (pageY - this.canvasBounds.top) * this.displayScale.y;
-        console.groupEnd();
-        return result;
+        return (pageY - this.canvasBounds.top) * this.displayScale.y;
     },
 
     /**
@@ -1382,7 +1313,6 @@ var ScaleManager = new Class({
      */
     startFullscreen: function (fullscreenOptions)
     {
-        console.group('ScaleManager startFullscreen');
         if (fullscreenOptions === undefined) { fullscreenOptions = { navigationUI: 'hide' }; }
 
         var fullscreen = this.fullscreen;
@@ -1391,7 +1321,6 @@ var ScaleManager = new Class({
         {
             this.emit(Events.FULLSCREEN_UNSUPPORTED);
 
-            console.groupEnd();
             return;
         }
 
@@ -1408,7 +1337,6 @@ var ScaleManager = new Class({
                 fsTarget[fullscreen.request](fullscreenOptions);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -1422,13 +1350,11 @@ var ScaleManager = new Class({
      */
     fullscreenSuccessHandler: function ()
     {
-        console.group('ScaleManager fullscreenSuccessHandler');
         this.getParentBounds();
 
         this.refresh();
 
         this.emit(Events.ENTER_FULLSCREEN);
-        console.groupEnd();
     },
 
     /**
@@ -1444,11 +1370,9 @@ var ScaleManager = new Class({
      */
     fullscreenErrorHandler: function (error)
     {
-        console.group('ScaleManager fullscreenErrorHandler');
         this.removeFullscreenTarget();
 
         this.emit(Events.FULLSCREEN_FAILED, error);
-        console.groupEnd();
     },
 
     /**
@@ -1461,7 +1385,6 @@ var ScaleManager = new Class({
      */
     getFullscreenTarget: function ()
     {
-        console.group('ScaleManager getFullscreenTarget');
         if (!this.fullscreenTarget)
         {
             var fsTarget = document.createElement('div');
@@ -1485,7 +1408,6 @@ var ScaleManager = new Class({
             this.fullscreenTarget.appendChild(this.canvas);
         }
 
-        console.groupEnd();
         return this.fullscreenTarget;
     },
 
@@ -1497,7 +1419,6 @@ var ScaleManager = new Class({
      */
     removeFullscreenTarget: function ()
     {
-        console.group('ScaleManager removeFullscreenTarget');
         if (this._createdFullscreenTarget)
         {
             var fsTarget = this.fullscreenTarget;
@@ -1511,7 +1432,6 @@ var ScaleManager = new Class({
                 parent.removeChild(fsTarget);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -1523,14 +1443,12 @@ var ScaleManager = new Class({
      */
     stopFullscreen: function ()
     {
-        console.group('ScaleManager stopFullscreen');
         var fullscreen = this.fullscreen;
 
         if (!fullscreen.available)
         {
             this.emit(Events.FULLSCREEN_UNSUPPORTED);
 
-            console.groupEnd();
             return false;
         }
 
@@ -1540,7 +1458,6 @@ var ScaleManager = new Class({
         }
 
         this.removeFullscreenTarget();
-        console.groupEnd();
     },
 
     /**
@@ -1552,14 +1469,12 @@ var ScaleManager = new Class({
      */
     leaveFullScreenSuccessHandler: function ()
     {
-        console.group('ScaleManager leaveFullScreenSuccessHandler');
         //  Get the parent size again as it will have changed
         this.getParentBounds();
 
         this.emit(Events.LEAVE_FULLSCREEN);
 
         this.refresh();
-        console.groupEnd();
     },
 
     /**
@@ -1583,7 +1498,6 @@ var ScaleManager = new Class({
      */
     toggleFullscreen: function (fullscreenOptions)
     {
-        console.group('ScaleManager toggleFullscreen');
         if (this.fullscreen.active)
         {
             this.stopFullscreen();
@@ -1592,7 +1506,6 @@ var ScaleManager = new Class({
         {
             this.startFullscreen(fullscreenOptions);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1603,7 +1516,6 @@ var ScaleManager = new Class({
      */
     startListeners: function ()
     {
-        console.group('ScaleManager startListeners');
         var _this = this;
         var listeners = this.domlisteners;
 
@@ -1660,7 +1572,6 @@ var ScaleManager = new Class({
             document.addEventListener('MSFullscreenChange', listeners.fullScreenChange, false);
             document.addEventListener('MSFullscreenError', listeners.fullScreenError, false);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1672,7 +1583,6 @@ var ScaleManager = new Class({
      */
     onFullScreenChange: function ()
     {
-        console.group('ScaleManager onFullScreenChange');
         if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement || document.mozFullScreenElement)
         {
             this.fullscreenSuccessHandler();
@@ -1683,7 +1593,6 @@ var ScaleManager = new Class({
             this.stopFullscreen();
             this.leaveFullScreenSuccessHandler();
         }
-        console.groupEnd();
     },
 
     /**
@@ -1694,9 +1603,7 @@ var ScaleManager = new Class({
      */
     onFullScreenError: function ()
     {
-        console.group('ScaleManager onFullScreenChange');
         this.removeFullscreenTarget();
-        console.groupEnd();
     },
 
     /**
@@ -1712,7 +1619,6 @@ var ScaleManager = new Class({
      */
     getViewPort: function (camera, out)
     {
-        console.group('ScaleManager getViewPort');
         if (!(camera instanceof Camera))
         {
             out = camera;
@@ -1763,7 +1669,6 @@ var ScaleManager = new Class({
             out.centerY = camera.centerY + camera.scrollY;
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -1779,10 +1684,8 @@ var ScaleManager = new Class({
      */
     step: function (time, delta)
     {
-        console.group('ScaleManager step');
         if (!this.parent)
         {
-            console.groupEnd();
             return;
         }
 
@@ -1799,7 +1702,6 @@ var ScaleManager = new Class({
             this.dirty = false;
             this._lastCheck = 0;
         }
-        console.groupEnd();
     },
 
     /**
@@ -1810,7 +1712,6 @@ var ScaleManager = new Class({
      */
     stopListeners: function ()
     {
-        console.group('ScaleManager stopListeners');
         var listeners = this.domlisteners;
 
         if (screen.orientation && screen.orientation.addEventListener)
@@ -1835,7 +1736,6 @@ var ScaleManager = new Class({
         //  MS Specific
         document.removeEventListener('MSFullscreenChange', listeners.fullScreenChange, false);
         document.removeEventListener('MSFullscreenError', listeners.fullScreenError, false);
-        console.groupEnd();
     },
 
     /**
@@ -1847,7 +1747,6 @@ var ScaleManager = new Class({
      */
     destroy: function ()
     {
-        console.group('ScaleManager destroy');
         this.removeAllListeners();
 
         this.stopListeners();
@@ -1862,7 +1761,6 @@ var ScaleManager = new Class({
         this.gameSize.destroy();
         this.baseSize.destroy();
         this.displaySize.destroy();
-        console.groupEnd();
     },
 
     /**

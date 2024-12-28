@@ -16,7 +16,6 @@
  */
 var Clone = function (obj)
 {
-    console.group('Clone');
     var clone = {};
 
     for (var key in obj)
@@ -31,7 +30,6 @@ var Clone = function (obj)
         }
     }
 
-    console.groupEnd();
     return clone;
 };
 

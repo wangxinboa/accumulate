@@ -83,7 +83,6 @@ var PointLight = new Class({
 
     function PointLight (scene, x, y, color, radius, intensity, attenuation)
     {
-        console.group('PointLight');
         if (color === undefined) { color = 0xffffff; }
         if (radius === undefined) { radius = 128; }
         if (intensity === undefined) { intensity = 1; }
@@ -136,7 +135,6 @@ var PointLight = new Class({
         this.height = radius * 2;
 
         this._radius = radius;
-        console.groupEnd();
     },
 
     /**

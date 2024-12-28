@@ -22,7 +22,6 @@ var GetFastValue = require('../../utils/object/GetFastValue');
  */
 var WebGLSnapshot = function (sourceContext, config)
 {
-    console.group('WebGLSnapshot');
     var gl = sourceContext;
 
     var callback = GetFastValue(config, 'callback');
@@ -101,7 +100,6 @@ var WebGLSnapshot = function (sourceContext, config)
 
         image.src = canvas.toDataURL(type, encoderOptions);
     }
-    console.groupEnd();
 };
 
 module.exports = WebGLSnapshot;

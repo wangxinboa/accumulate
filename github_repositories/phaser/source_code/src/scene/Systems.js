@@ -35,7 +35,6 @@ var Systems = new Class({
 
     function Systems (scene, config)
     {
-        console.group('Systems');
         /**
          * A reference to the Scene that these Systems belong to.
          *
@@ -303,7 +302,6 @@ var Systems = new Class({
          * @since 3.10.0
          */
         this.sceneUpdate = NOOP;
-        console.groupEnd();
     },
 
     /**
@@ -320,7 +318,6 @@ var Systems = new Class({
      */
     init: function (game)
     {
-        console.group('Systems init');
         this.settings.status = CONST.INIT;
 
         //  This will get replaced by the SceneManager with the actual update function, if it exists, once create is over.
@@ -341,7 +338,6 @@ var Systems = new Class({
         this.events.emit(Events.BOOT, this);
 
         this.settings.isBooted = true;
-        console.groupEnd();
     },
 
     /**
@@ -359,7 +355,6 @@ var Systems = new Class({
      */
     step: function (time, delta)
     {
-        console.group('Systems step');
         var events = this.events;
 
         events.emit(Events.PRE_UPDATE, time, delta);
@@ -369,7 +364,6 @@ var Systems = new Class({
         this.sceneUpdate.call(this.scene, time, delta);
 
         events.emit(Events.POST_UPDATE, time, delta);
-        console.groupEnd();
     },
 
     /**
@@ -385,7 +379,6 @@ var Systems = new Class({
      */
     render: function (renderer)
     {
-        console.group('Systems render');
         var displayList = this.displayList;
 
         displayList.depthSort();
@@ -395,7 +388,6 @@ var Systems = new Class({
         this.cameras.render(renderer, displayList);
 
         this.events.emit(Events.RENDER, renderer);
-        console.groupEnd();
     },
 
     /**
@@ -406,9 +398,7 @@ var Systems = new Class({
      */
     queueDepthSort: function ()
     {
-        console.group('Systems queueDepthSort');
         this.displayList.queueDepthSort();
-        console.groupEnd();
     },
 
     /**
@@ -419,9 +409,7 @@ var Systems = new Class({
      */
     depthSort: function ()
     {
-        console.group('Systems depthSort');
         this.displayList.depthSort();
-        console.groupEnd();
     },
 
     /**
@@ -439,7 +427,6 @@ var Systems = new Class({
      */
     pause: function (data)
     {
-        console.group('Systems pause');
         var settings = this.settings;
         var status = this.getStatus();
 
@@ -456,7 +443,6 @@ var Systems = new Class({
             this.events.emit(Events.PAUSE, this, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -473,7 +459,6 @@ var Systems = new Class({
      */
     resume: function (data)
     {
-        console.group('Systems resume');
         var events = this.events;
         var settings = this.settings;
 
@@ -486,7 +471,6 @@ var Systems = new Class({
             events.emit(Events.RESUME, this, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -508,7 +492,6 @@ var Systems = new Class({
      */
     sleep: function (data)
     {
-        console.group('Systems sleep');
         var settings = this.settings;
         var status = this.getStatus();
 
@@ -526,7 +509,6 @@ var Systems = new Class({
             this.events.emit(Events.SLEEP, this, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -543,7 +525,6 @@ var Systems = new Class({
      */
     wake: function (data)
     {
-        console.group('Systems wake');
         var events = this.events;
         var settings = this.settings;
 
@@ -559,7 +540,6 @@ var Systems = new Class({
             events.emit(Events.TRANSITION_WAKE, settings.transitionFrom, settings.transitionDuration);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -576,8 +556,6 @@ var Systems = new Class({
      */
     getData: function ()
     {
-        console.group('Systems getData');
-        console.groupEnd();
         return this.settings.data;
     },
 
@@ -591,8 +569,6 @@ var Systems = new Class({
      */
     getStatus: function ()
     {
-        console.group('Systems getStatus');
-        console.groupEnd();
         return this.settings.status;
     },
 
@@ -606,10 +582,8 @@ var Systems = new Class({
      */
     canInput: function ()
     {
-        console.group('Systems canInput');
         var status = this.settings.status;
 
-        console.groupEnd();
         return (status > CONST.PENDING && status <= CONST.RUNNING);
     },
 
@@ -623,8 +597,6 @@ var Systems = new Class({
      */
     isSleeping: function ()
     {
-        console.group('Systems isSleeping');
-        console.groupEnd();
         return (this.settings.status === CONST.SLEEPING);
     },
 
@@ -638,8 +610,6 @@ var Systems = new Class({
      */
     isActive: function ()
     {
-        console.group('Systems isActive');
-        console.groupEnd();
         return (this.settings.status === CONST.RUNNING);
     },
 
@@ -653,8 +623,6 @@ var Systems = new Class({
      */
     isPaused: function ()
     {
-        console.group('Systems isPaused');
-        console.groupEnd();
         return (this.settings.status === CONST.PAUSED);
     },
 
@@ -668,8 +636,6 @@ var Systems = new Class({
      */
     isTransitioning: function ()
     {
-        console.group('Systems isTransitioning');
-        console.groupEnd();
         return (this.settings.isTransition || this.scenePlugin._target !== null);
     },
 
@@ -683,8 +649,6 @@ var Systems = new Class({
      */
     isTransitionOut: function ()
     {
-        console.group('Systems isTransitionOut');
-        console.groupEnd();
         return (this.scenePlugin._target !== null && this.scenePlugin._duration > 0);
     },
 
@@ -698,8 +662,6 @@ var Systems = new Class({
      */
     isTransitionIn: function ()
     {
-        console.group('Systems isTransitionIn');
-        console.groupEnd();
         return (this.settings.isTransition);
     },
 
@@ -713,8 +675,6 @@ var Systems = new Class({
      */
     isVisible: function ()
     {
-        console.group('Systems isVisible');
-        console.groupEnd();
         return this.settings.visible;
     },
 
@@ -731,10 +691,8 @@ var Systems = new Class({
      */
     setVisible: function (value)
     {
-        console.group('Systems setVisible');
         this.settings.visible = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -753,18 +711,13 @@ var Systems = new Class({
      */
     setActive: function (value, data)
     {
-        console.group('Systems setActive');
         if (value)
         {
-            const result = this.resume(data);
-            console.groupEnd();
-            return result;
+            return this.resume(data);
         }
         else
         {
-            const result = this.pause(data);
-            console.groupEnd();
-            return result;
+            return this.pause(data);
         }
     },
 
@@ -781,7 +734,6 @@ var Systems = new Class({
      */
     start: function (data)
     {
-        console.group('Systems start');
         var events = this.events;
         var settings = this.settings;
 
@@ -800,7 +752,6 @@ var Systems = new Class({
 
         //  For user-land code to listen out for
         events.emit(Events.READY, this, data);
-        console.groupEnd();
     },
 
     /**
@@ -818,7 +769,6 @@ var Systems = new Class({
      */
     shutdown: function (data)
     {
-        console.group('Systems shutdown');
         var events = this.events;
         var settings = this.settings;
 
@@ -833,7 +783,6 @@ var Systems = new Class({
         settings.visible = false;
 
         events.emit(Events.SHUTDOWN, this, data);
-        console.groupEnd();
     },
 
     /**
@@ -848,7 +797,6 @@ var Systems = new Class({
      */
     destroy: function ()
     {
-        console.group('Systems destroy');
         var events = this.events;
         var settings = this.settings;
 
@@ -867,7 +815,6 @@ var Systems = new Class({
         {
             this[props[i]] = null;
         }
-        console.groupEnd();
     }
 
 });

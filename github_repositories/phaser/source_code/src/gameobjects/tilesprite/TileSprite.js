@@ -97,7 +97,6 @@ var TileSprite = new Class({
 
     function TileSprite (scene, x, y, width, height, textureKey, frameKey)
     {
-        console.group('TileSprite');
         var renderer = scene.sys.renderer;
 
         GameObject.call(this, scene, 'TileSprite');
@@ -302,7 +301,6 @@ var TileSprite = new Class({
         this.setOriginFromFrame();
         this.initPipeline();
         this.initPostPipeline(true);
-        console.groupEnd();
     },
 
     /**
@@ -320,12 +318,9 @@ var TileSprite = new Class({
      */
     setTexture: function (key, frame)
     {
-        console.group('TileSprite setTexture');
         this.displayTexture = this.scene.sys.textures.get(key);
 
-        const result = this.setFrame(frame);
-        console.groupEnd();
-        return result;
+        return this.setFrame(frame);
     },
 
     /**
@@ -344,7 +339,6 @@ var TileSprite = new Class({
      */
     setFrame: function (frame)
     {
-        console.group('TileSprite setFrame');
         var newFrame = this.displayTexture.get(frame);
 
         this.potWidth = GetPowerOfTwo(newFrame.width);
@@ -368,7 +362,6 @@ var TileSprite = new Class({
 
         this.updateTileTexture();
 
-        console.groupEnd();
         return this;
     },
 
@@ -385,7 +378,6 @@ var TileSprite = new Class({
      */
     setTilePosition: function (x, y)
     {
-        console.group('TileSprite setTilePosition');
         if (x !== undefined)
         {
             this.tilePositionX = x;
@@ -396,7 +388,6 @@ var TileSprite = new Class({
             this.tilePositionY = y;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -413,14 +404,12 @@ var TileSprite = new Class({
      */
     setTileScale: function (x, y)
     {
-        console.group('TileSprite setTileScale');
         if (x === undefined) { x = this.tileScaleX; }
         if (y === undefined) { y = x; }
 
         this.tileScaleX = x;
         this.tileScaleY = y;
 
-        console.groupEnd();
         return this;
     },
 
@@ -433,10 +422,8 @@ var TileSprite = new Class({
      */
     updateTileTexture: function ()
     {
-        console.group('TileSprite updateTileTexture');
         if (!this.dirty || !this.renderer)
         {
-            console.groupEnd();
             return;
         }
 
@@ -450,7 +437,6 @@ var TileSprite = new Class({
 
             this.dirty = false;
 
-            console.groupEnd();
             return;
         }
 
@@ -496,7 +482,6 @@ var TileSprite = new Class({
         this.updateCanvas();
 
         this.dirty = false;
-        console.groupEnd();
     },
 
     /**
@@ -508,7 +493,6 @@ var TileSprite = new Class({
      */
     updateCanvas: function ()
     {
-        console.group('TileSprite updateCanvas');
         var canvas = this.canvas;
 
         if (canvas.width !== this.width || canvas.height !== this.height)
@@ -525,7 +509,6 @@ var TileSprite = new Class({
         if (!this.dirty || this.renderer && this.renderer.gl)
         {
             this.dirty = false;
-            console.groupEnd();
             return;
         }
 
@@ -557,7 +540,6 @@ var TileSprite = new Class({
         ctx.restore();
 
         this.dirty = false;
-        console.groupEnd();
     },
 
     /**
@@ -569,7 +551,6 @@ var TileSprite = new Class({
      */
     preDestroy: function ()
     {
-        console.group('TileSprite preDestroy');
         if (this.renderer && this.renderer.gl)
         {
             this.renderer.deleteTexture(this.fillPattern);
@@ -593,7 +574,6 @@ var TileSprite = new Class({
         }
 
         this.renderer = null;
-        console.groupEnd();
     },
 
     /**

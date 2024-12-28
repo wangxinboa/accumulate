@@ -23,10 +23,8 @@ var Mesh = require('./Mesh');
  *
  * @return {Phaser.GameObjects.Mesh} The Game Object that was created.
  */
-console.group('GameObjectCreator.register mesh');
 GameObjectCreator.register('mesh', function (config, addToScene)
 {
-    console.group('GameObjectCreator.register mesh factoryFunction');
     if (config === undefined) { config = {}; }
 
     var key = GetAdvancedValue(config, 'key', null);
@@ -48,7 +46,5 @@ GameObjectCreator.register('mesh', function (config, addToScene)
 
     BuildGameObject(this.scene, mesh, config);
 
-    console.groupEnd();
     return mesh;
 });
-console.groupEnd();

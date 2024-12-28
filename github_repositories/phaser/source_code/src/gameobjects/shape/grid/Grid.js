@@ -55,7 +55,6 @@ var Grid = new Class({
 
     function Grid (scene, x, y, width, height, cellWidth, cellHeight, fillColor, fillAlpha, outlineFillColor, outlineFillAlpha)
     {
-        console.group('Grid');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (width === undefined) { width = 128; }
@@ -160,7 +159,6 @@ var Grid = new Class({
         }
 
         this.updateDisplayOrigin();
-        console.groupEnd();
     },
 
     /**
@@ -183,7 +181,6 @@ var Grid = new Class({
      */
     setFillStyle: function (fillColor, fillAlpha)
     {
-        console.group('Grid setFillStyle');
         if (fillAlpha === undefined) { fillAlpha = 1; }
 
         if (fillColor === undefined)
@@ -197,7 +194,6 @@ var Grid = new Class({
             this.showCells = true;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -220,7 +216,6 @@ var Grid = new Class({
      */
     setAltFillStyle: function (fillColor, fillAlpha)
     {
-        console.group('Grid setAltFillStyle');
         if (fillAlpha === undefined) { fillAlpha = 1; }
 
         if (fillColor === undefined)
@@ -234,7 +229,6 @@ var Grid = new Class({
             this.showAltCells = true;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -258,7 +252,6 @@ var Grid = new Class({
      */
     setOutlineStyle: function (fillColor, fillAlpha)
     {
-        console.group('Grid setOutlineStyle');
         if (fillAlpha === undefined) { fillAlpha = 1; }
 
         if (fillColor === undefined)
@@ -272,7 +265,6 @@ var Grid = new Class({
             this.showOutline = true;
         }
 
-        console.groupEnd();
         return this;
     }
 

@@ -22,7 +22,6 @@ var SetTransform = require('../../../renderer/canvas/utils/SetTransform');
  */
 var DynamicBitmapTextCanvasRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('DynamicBitmapTextCanvasRenderer');
     var text = src._text;
     var textLength = text.length;
 
@@ -30,7 +29,6 @@ var DynamicBitmapTextCanvasRenderer = function (renderer, src, camera, parentMat
 
     if (textLength === 0 || !SetTransform(renderer, ctx, src, camera, parentMatrix))
     {
-        console.groupEnd();
         return;
     }
 
@@ -205,7 +203,6 @@ var DynamicBitmapTextCanvasRenderer = function (renderer, src, camera, parentMat
     }
 
     ctx.restore();
-    console.groupEnd();
 };
 
 module.exports = DynamicBitmapTextCanvasRenderer;

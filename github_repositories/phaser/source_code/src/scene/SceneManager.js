@@ -42,7 +42,6 @@ var SceneManager = new Class({
 
     function SceneManager (game, sceneConfig)
     {
-        console.group('SceneManager');
         /**
          * The Game that this SceneManager belongs to.
          *
@@ -175,7 +174,6 @@ var SceneManager = new Class({
         }
 
         game.events.once(GameEvents.READY, this.bootQueue, this);
-        console.groupEnd();
     },
 
     /**
@@ -188,10 +186,8 @@ var SceneManager = new Class({
      */
     bootQueue: function ()
     {
-        console.group('SceneManager bootQueue');
         if (this.isBooted)
         {
-            console.groupEnd();
             return;
         }
 
@@ -267,7 +263,6 @@ var SceneManager = new Class({
         }
 
         this._start.length = 0;
-        console.groupEnd();
     },
 
     /**
@@ -278,13 +273,11 @@ var SceneManager = new Class({
      */
     processQueue: function ()
     {
-        console.group('SceneManager processQueue');
         var pendingLength = this._pending.length;
         var queueLength = this._queue.length;
 
         if (pendingLength === 0 && queueLength === 0)
         {
-            console.groupEnd();
             return;
         }
 
@@ -321,7 +314,6 @@ var SceneManager = new Class({
         }
 
         this._queue.length = 0;
-        console.groupEnd();
     },
 
     /**
@@ -350,7 +342,6 @@ var SceneManager = new Class({
      */
     add: function (key, sceneConfig, autoStart, data)
     {
-        console.group('SceneManager add');
         if (autoStart === undefined) { autoStart = false; }
         if (data === undefined) { data = {}; }
 
@@ -369,7 +360,6 @@ var SceneManager = new Class({
                 this._data[key] = { data: data };
             }
 
-            console.groupEnd();
             return null;
         }
 
@@ -414,7 +404,6 @@ var SceneManager = new Class({
             }
         }
 
-        console.groupEnd();
         return newScene;
     },
 
@@ -436,19 +425,15 @@ var SceneManager = new Class({
      */
     remove: function (key)
     {
-        console.group('SceneManager remove');
         if (this.isProcessing)
         {
-            const result = this.queueOp('remove', key);
-            console.groupEnd();
-            return result;
+            return this.queueOp('remove', key);
         }
 
         var sceneToRemove = this.getScene(key);
 
         if (!sceneToRemove || sceneToRemove.sys.isTransitioning())
         {
-            console.groupEnd();
             return this;
         }
 
@@ -469,7 +454,6 @@ var SceneManager = new Class({
             sceneToRemove.sys.destroy();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -485,7 +469,6 @@ var SceneManager = new Class({
      */
     bootScene: function (scene)
     {
-        console.group('SceneManager bootScene');
         var sys = scene.sys;
         var settings = sys.settings;
 
@@ -528,7 +511,6 @@ var SceneManager = new Class({
             //  No preload? Then there was nothing to load either
             this.create(scene);
         }
-        console.groupEnd();
     },
 
     /**
@@ -544,9 +526,7 @@ var SceneManager = new Class({
      */
     loadComplete: function (loader)
     {
-        console.group('SceneManager loadComplete');
         this.create(loader.scene);
-        console.groupEnd();
     },
 
     /**
@@ -560,9 +540,7 @@ var SceneManager = new Class({
      */
     payloadComplete: function (loader)
     {
-        console.group('SceneManager payloadComplete');
         this.bootScene(loader.scene);
-        console.groupEnd();
     },
 
     /**
@@ -576,7 +554,6 @@ var SceneManager = new Class({
      */
     update: function (time, delta)
     {
-        console.group('SceneManager update');
         this.processQueue();
 
         this.isProcessing = true;
@@ -596,7 +573,6 @@ var SceneManager = new Class({
                 sys.scenePlugin.step(time, delta);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -609,7 +585,6 @@ var SceneManager = new Class({
      */
     render: function (renderer)
     {
-        console.group('SceneManager render');
         //  Loop through the scenes in forward order
         for (var i = 0; i < this.scenes.length; i++)
         {
@@ -622,7 +597,6 @@ var SceneManager = new Class({
         }
 
         this.isProcessing = false;
-        console.groupEnd();
     },
 
     /**
@@ -638,7 +612,6 @@ var SceneManager = new Class({
      */
     create: function (scene)
     {
-        console.group('SceneManager create');
         var sys = scene.sys;
         var settings = sys.settings;
 
@@ -650,7 +623,6 @@ var SceneManager = new Class({
 
             if (settings.status === CONST.DESTROYED)
             {
-                console.groupEnd();
                 return;
             }
         }
@@ -669,7 +641,6 @@ var SceneManager = new Class({
         settings.status = CONST.RUNNING;
 
         sys.events.emit(Events.CREATE, scene);
-        console.groupEnd();
     },
 
     /**
@@ -686,7 +657,6 @@ var SceneManager = new Class({
      */
     createSceneFromFunction: function (key, scene)
     {
-        console.group('SceneManager createSceneFromFunction');
         var newScene = new scene();
 
         if (newScene instanceof Scene)
@@ -703,9 +673,7 @@ var SceneManager = new Class({
                 throw new Error('Cannot add Scene with duplicate key: ' + key);
             }
 
-            const result = this.createSceneFromInstance(key, newScene);
-            console.groupEnd();
-            return result;
+            return this.createSceneFromInstance(key, newScene);
         }
         else
         {
@@ -715,7 +683,6 @@ var SceneManager = new Class({
 
             newScene.sys.init(this.game);
 
-            console.groupEnd();
             return newScene;
         }
     },
@@ -734,7 +701,6 @@ var SceneManager = new Class({
      */
     createSceneFromInstance: function (key, newScene)
     {
-        console.group('SceneManager createSceneFromInstance');
         var configKey = newScene.sys.settings.key;
 
         if (configKey === '')
@@ -744,7 +710,6 @@ var SceneManager = new Class({
 
         newScene.sys.init(this.game);
 
-        console.groupEnd();
         return newScene;
     },
 
@@ -762,7 +727,6 @@ var SceneManager = new Class({
      */
     createSceneFromObject: function (key, sceneConfig)
     {
-        console.group('SceneManager createSceneFromObject');
         var newScene = new Scene(sceneConfig);
 
         var configKey = newScene.sys.settings.key;
@@ -829,7 +793,6 @@ var SceneManager = new Class({
             }
         }
 
-        console.groupEnd();
         return newScene;
     },
 
@@ -847,12 +810,10 @@ var SceneManager = new Class({
      */
     getKey: function (key, sceneConfig)
     {
-        console.group('SceneManager getKey');
         if (!key) { key = 'default'; }
 
         if (typeof sceneConfig === 'function')
         {
-            console.groupEnd();
             return key;
         }
         else if (sceneConfig instanceof Scene)
@@ -868,12 +829,10 @@ var SceneManager = new Class({
 
         if (this.keys.hasOwnProperty(key))
         {
-            console.groupEnd();
             throw new Error('Cannot add Scene with duplicate key: ' + key);
         }
         else
         {
-            console.groupEnd();
             return key;
         }
     },
@@ -897,7 +856,6 @@ var SceneManager = new Class({
      */
     getScenes: function (isActive, inReverse)
     {
-        console.group('SceneManager getScenes');
         if (isActive === undefined) { isActive = true; }
         if (inReverse === undefined) { inReverse = false; }
 
@@ -914,9 +872,7 @@ var SceneManager = new Class({
             }
         }
 
-        const result = (inReverse) ? out.reverse() : out;
-        console.groupEnd();
-        return result;
+        return (inReverse) ? out.reverse() : out;
     },
 
     /**
@@ -938,12 +894,10 @@ var SceneManager = new Class({
      */
     getScene: function (key)
     {
-        console.group('SceneManager getScene');
         if (typeof key === 'string')
         {
             if (this.keys[key])
             {
-                console.groupEnd();
                 return this.keys[key];
             }
         }
@@ -953,13 +907,11 @@ var SceneManager = new Class({
             {
                 if (key === this.scenes[i])
                 {
-                    console.groupEnd();
                     return key;
                 }
             }
         }
 
-        console.groupEnd();
         return null;
     },
 
@@ -978,17 +930,13 @@ var SceneManager = new Class({
      */
     isActive: function (key)
     {
-        console.group('SceneManager isActive');
         var scene = this.getScene(key);
 
         if (scene)
         {
-            const result = scene.sys.isActive();
-            console.groupEnd();
-            return result;
+            return scene.sys.isActive();
         }
 
-        console.groupEnd();
         return null;
     },
 
@@ -1007,17 +955,13 @@ var SceneManager = new Class({
      */
     isPaused: function (key)
     {
-        console.group('SceneManager isPaused');
         var scene = this.getScene(key);
 
         if (scene)
         {
-            const result = scene.sys.isPaused();
-            console.groupEnd();
-            return result;
+            return scene.sys.isPaused();
         }
 
-        console.groupEnd();
         return null;
     },
 
@@ -1036,17 +980,13 @@ var SceneManager = new Class({
      */
     isVisible: function (key)
     {
-        console.group('SceneManager isVisible');
         var scene = this.getScene(key);
 
         if (scene)
         {
-            const result = scene.sys.isVisible();
-            console.groupEnd();
-            return result;
+            return scene.sys.isVisible();
         }
 
-        console.groupEnd();
         return null;
     },
 
@@ -1065,17 +1005,13 @@ var SceneManager = new Class({
      */
     isSleeping: function (key)
     {
-        console.group('SceneManager isSleeping');
         var scene = this.getScene(key);
 
         if (scene)
         {
-            const result = scene.sys.isSleeping();
-            console.groupEnd();
-            return result;
+            return scene.sys.isSleeping();
         }
 
-        console.groupEnd();
         return null;
     },
 
@@ -1095,7 +1031,6 @@ var SceneManager = new Class({
      */
     pause: function (key, data)
     {
-        console.group('SceneManager pause');
         var scene = this.getScene(key);
 
         if (scene)
@@ -1103,7 +1038,6 @@ var SceneManager = new Class({
             scene.sys.pause(data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1123,7 +1057,6 @@ var SceneManager = new Class({
      */
     resume: function (key, data)
     {
-        console.group('SceneManager resume');
         var scene = this.getScene(key);
 
         if (scene)
@@ -1131,7 +1064,6 @@ var SceneManager = new Class({
             scene.sys.resume(data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1151,7 +1083,6 @@ var SceneManager = new Class({
      */
     sleep: function (key, data)
     {
-        console.group('SceneManager sleep');
         var scene = this.getScene(key);
 
         if (scene && !scene.sys.isTransitioning())
@@ -1159,7 +1090,6 @@ var SceneManager = new Class({
             scene.sys.sleep(data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1179,7 +1109,6 @@ var SceneManager = new Class({
      */
     wake: function (key, data)
     {
-        console.group('SceneManager wake');
         var scene = this.getScene(key);
 
         if (scene)
@@ -1187,7 +1116,6 @@ var SceneManager = new Class({
             scene.sys.wake(data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1213,7 +1141,6 @@ var SceneManager = new Class({
      */
     run: function (key, data)
     {
-        console.group('SceneManager run');
         var scene = this.getScene(key);
 
         if (!scene)
@@ -1226,7 +1153,6 @@ var SceneManager = new Class({
                     break;
                 }
             }
-            console.groupEnd();
             return this;
         }
 
@@ -1245,7 +1171,6 @@ var SceneManager = new Class({
             //  Not actually running?
             this.start(key, data);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1266,7 +1191,6 @@ var SceneManager = new Class({
      */
     start: function (key, data)
     {
-        console.group('SceneManager start');
         //  If the Scene Manager is not running, then put the Scene into a holding pattern
         if (!this.isBooted)
         {
@@ -1275,7 +1199,6 @@ var SceneManager = new Class({
                 data: data
             };
 
-            console.groupEnd();
             return this;
         }
 
@@ -1284,7 +1207,6 @@ var SceneManager = new Class({
         if (!scene)
         {
             console.warn('Scene key not found: ' + key);
-            console.groupEnd();
             return this;
         }
 
@@ -1295,7 +1217,6 @@ var SceneManager = new Class({
         //  let it continue.
         if (status >= CONST.START && status <= CONST.CREATING)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -1338,7 +1259,6 @@ var SceneManager = new Class({
 
                     loader.start();
 
-                    console.groupEnd();
                     return this;
                 }
             }
@@ -1346,7 +1266,6 @@ var SceneManager = new Class({
 
         this.bootScene(scene);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1366,7 +1285,6 @@ var SceneManager = new Class({
      */
     stop: function (key, data)
     {
-        console.group('SceneManager stop');
         var scene = this.getScene(key);
 
         if (scene && !scene.sys.isTransitioning() && scene.sys.settings.status !== CONST.SHUTDOWN)
@@ -1382,7 +1300,6 @@ var SceneManager = new Class({
             scene.sys.shutdown(data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1403,7 +1320,6 @@ var SceneManager = new Class({
      */
     switch: function (from, to, data)
     {
-        console.group('SceneManager switch');
         var sceneA = this.getScene(from);
         var sceneB = this.getScene(to);
 
@@ -1421,7 +1337,6 @@ var SceneManager = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1440,8 +1355,6 @@ var SceneManager = new Class({
      */
     getAt: function (index)
     {
-        console.group('SceneManager getAt');
-        console.groupEnd();
         return this.scenes[index];
     },
 
@@ -1460,10 +1373,8 @@ var SceneManager = new Class({
      */
     getIndex: function (key)
     {
-        console.group('SceneManager getIndex');
         var scene = this.getScene(key);
 
-        console.groupEnd();
         return this.scenes.indexOf(scene);
     },
 
@@ -1484,12 +1395,9 @@ var SceneManager = new Class({
      */
     bringToTop: function (key)
     {
-        console.group('SceneManager bringToTop');
         if (this.isProcessing)
         {
-            const result = this.queueOp('bringToTop', key);
-            console.groupEnd();
-            return result;
+            return this.queueOp('bringToTop', key);
         }
 
         var index = this.getIndex(key);
@@ -1503,7 +1411,6 @@ var SceneManager = new Class({
             scenes.push(scene);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1524,12 +1431,9 @@ var SceneManager = new Class({
      */
     sendToBack: function (key)
     {
-        console.group('SceneManager sendToBack');
         if (this.isProcessing)
         {
-            const result = this.queueOp('sendToBack', key);
-            console.groupEnd();
-            return result;
+            return this.queueOp('sendToBack', key);
         }
 
         var index = this.getIndex(key);
@@ -1542,7 +1446,6 @@ var SceneManager = new Class({
             this.scenes.unshift(scene);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1561,12 +1464,9 @@ var SceneManager = new Class({
      */
     moveDown: function (key)
     {
-        console.group('SceneManager moveDown');
         if (this.isProcessing)
         {
-            const result = this.queueOp('moveDown', key);
-            console.groupEnd();
-            return result;
+            return this.queueOp('moveDown', key);
         }
 
         var indexA = this.getIndex(key);
@@ -1581,7 +1481,6 @@ var SceneManager = new Class({
             this.scenes[indexB] = sceneA;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1600,12 +1499,9 @@ var SceneManager = new Class({
      */
     moveUp: function (key)
     {
-        console.group('SceneManager moveUp');
         if (this.isProcessing)
         {
-            const result = this.queueOp('moveUp', key);
-            console.groupEnd();
-            return result;
+            return this.queueOp('moveUp', key);
         }
 
         var indexA = this.getIndex(key);
@@ -1620,7 +1516,6 @@ var SceneManager = new Class({
             this.scenes[indexB] = sceneA;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1643,18 +1538,14 @@ var SceneManager = new Class({
      */
     moveAbove: function (keyA, keyB)
     {
-        console.group('SceneManager moveAbove');
         if (keyA === keyB)
         {
-            console.groupEnd();
             return this;
         }
 
         if (this.isProcessing)
         {
-            const result = this.queueOp('moveAbove', keyA, keyB);
-            console.groupEnd();
-            return result;
+            return this.queueOp('moveAbove', keyA, keyB);
         }
 
         var indexA = this.getIndex(keyA);
@@ -1671,7 +1562,6 @@ var SceneManager = new Class({
             this.scenes.splice(indexA + (indexB > indexA), 0, tempScene);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1694,18 +1584,14 @@ var SceneManager = new Class({
      */
     moveBelow: function (keyA, keyB)
     {
-        console.group('SceneManager moveBelow');
         if (keyA === keyB)
         {
-            console.groupEnd();
             return this;
         }
 
         if (this.isProcessing)
         {
-            const result = this.queueOp('moveBelow', keyA, keyB);
-            console.groupEnd();
-            return result;
+            return this.queueOp('moveBelow', keyA, keyB);
         }
 
         var indexA = this.getIndex(keyA);
@@ -1729,7 +1615,6 @@ var SceneManager = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1749,10 +1634,8 @@ var SceneManager = new Class({
      */
     queueOp: function (op, keyA, keyB, data)
     {
-        console.group('SceneManager queueOp');
         this._queue.push({ op: op, keyA: keyA, keyB: keyB, data: data });
 
-        console.groupEnd();
         return this;
     },
 
@@ -1772,18 +1655,14 @@ var SceneManager = new Class({
      */
     swapPosition: function (keyA, keyB)
     {
-        console.group('SceneManager swapPosition');
         if (keyA === keyB)
         {
-            console.groupEnd();
             return this;
         }
 
         if (this.isProcessing)
         {
-            const result = this.queueOp('swapPosition', keyA, keyB);
-            console.groupEnd();
-            return result;
+            return this.queueOp('swapPosition', keyA, keyB);
         }
 
         var indexA = this.getIndex(keyA);
@@ -1797,7 +1676,6 @@ var SceneManager = new Class({
             this.scenes[indexB] = tempScene;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1809,7 +1687,6 @@ var SceneManager = new Class({
      */
     dump: function ()
     {
-        console.group('SceneManager dump');
         var out = [];
         var map = [ 'pending', 'init', 'start', 'loading', 'creating', 'running', 'paused', 'sleeping', 'shutdown', 'destroyed' ];
 
@@ -1824,7 +1701,6 @@ var SceneManager = new Class({
         }
 
         console.log(out.join('\n'));
-        console.groupEnd();
     },
 
     /**
@@ -1839,7 +1715,6 @@ var SceneManager = new Class({
      */
     destroy: function ()
     {
-        console.group('SceneManager destroy');
         for (var i = 0; i < this.scenes.length; i++)
         {
             var sys = this.scenes[i].sys;
@@ -1859,7 +1734,6 @@ var SceneManager = new Class({
 
         this.game = null;
         this.systemScene = null;
-        console.groupEnd();
     }
 
 });

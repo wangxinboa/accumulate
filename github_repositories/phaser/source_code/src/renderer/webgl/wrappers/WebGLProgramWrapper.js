@@ -29,7 +29,6 @@ var WebGLProgramWrapper = new Class({
 
     function WebGLProgramWrapper (gl, vertexSource, fragmentSource)
     {
-        console.group('WebGLProgramWrapper');
         /**
          * The WebGLProgram being wrapped by this class.
          *
@@ -72,7 +71,6 @@ var WebGLProgramWrapper = new Class({
         this.fragmentSource = fragmentSource;
 
         this.createResource();
-        console.groupEnd();
     },
 
     /**
@@ -87,12 +85,10 @@ var WebGLProgramWrapper = new Class({
      */
     createResource: function ()
     {
-        console.group('WebGLProgramWrapper createResource');
         var gl = this.gl;
 
         if (gl.isContextLost())
         {
-            console.groupEnd();
             // GL state can't be updated right now.
             // `createResource` will run when the context is restored.
             return;
@@ -113,13 +109,11 @@ var WebGLProgramWrapper = new Class({
 
         if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS))
         {
-            console.groupEnd();
             throw new Error('Vertex ' + failed + gl.getShaderInfoLog(vs));
         }
 
         if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS))
         {
-            console.groupEnd();
             throw new Error('Fragment ' + failed + gl.getShaderInfoLog(fs));
         }
 
@@ -130,14 +124,12 @@ var WebGLProgramWrapper = new Class({
 
         if (!gl.getProgramParameter(program, gl.LINK_STATUS))
         {
-            console.groupEnd();
             throw new Error('Link ' + failed + gl.getProgramInfoLog(program));
         }
 
         gl.useProgram(program);
 
         this.webGLProgram = program;
-        console.groupEnd();
     },
 
     /**
@@ -148,10 +140,8 @@ var WebGLProgramWrapper = new Class({
      */
     destroy: function ()
     {
-        console.group('WebGLProgramWrapper destroy');
         if (!this.webGLProgram)
         {
-            console.groupEnd();
             return;
         }
 
@@ -162,7 +152,6 @@ var WebGLProgramWrapper = new Class({
 
         this.webGLProgram = null;
         this.gl = null;
-        console.groupEnd();
     }
 });
 

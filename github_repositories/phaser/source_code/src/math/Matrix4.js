@@ -32,7 +32,6 @@ var Matrix4 = new Class({
 
     function Matrix4 (m)
     {
-        console.group('Matrix4');
         /**
          * The matrix values.
          *
@@ -52,7 +51,6 @@ var Matrix4 = new Class({
             //  Default to identity
             this.identity();
         }
-        console.groupEnd();
     },
 
     /**

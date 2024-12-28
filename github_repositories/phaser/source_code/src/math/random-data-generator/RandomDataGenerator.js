@@ -32,7 +32,6 @@ var RandomDataGenerator = new Class({
 
     function RandomDataGenerator (seeds)
     {
-        console.group('RandomDataGenerator');
         if (seeds === undefined) { seeds = [ (Date.now() * Math.random()).toString() ]; }
 
         /**
@@ -103,7 +102,6 @@ var RandomDataGenerator = new Class({
         {
             this.init(seeds);
         }
-        console.groupEnd();
     },
 
     /**
@@ -117,7 +115,6 @@ var RandomDataGenerator = new Class({
      */
     rnd: function ()
     {
-        console.group('RandomDataGenerator rnd');
         var t = 2091639 * this.s0 + this.c * 2.3283064365386963e-10; // 2^-32
 
         this.c = t | 0;
@@ -125,7 +122,6 @@ var RandomDataGenerator = new Class({
         this.s1 = this.s2;
         this.s2 = t - this.c;
 
-        console.groupEnd();
         return this.s2;
     },
 
@@ -142,7 +138,6 @@ var RandomDataGenerator = new Class({
      */
     hash: function (data)
     {
-        console.group('RandomDataGenerator hash');
         var h;
         var n = this.n;
 
@@ -162,7 +157,6 @@ var RandomDataGenerator = new Class({
 
         this.n = n;
 
-        console.groupEnd();
         return (n >>> 0) * 2.3283064365386963e-10;// 2^-32
     },
 
@@ -176,7 +170,6 @@ var RandomDataGenerator = new Class({
      */
     init: function (seeds)
     {
-        console.group('RandomDataGenerator init');
         if (typeof seeds === 'string')
         {
             this.state(seeds);
@@ -185,7 +178,6 @@ var RandomDataGenerator = new Class({
         {
             this.sow(seeds);
         }
-        console.groupEnd();
     },
 
     /**
@@ -200,7 +192,6 @@ var RandomDataGenerator = new Class({
      */
     sow: function (seeds)
     {
-        console.group('RandomDataGenerator sow');
         // Always reset to default seed
         this.n = 0xefc8249d;
         this.s0 = this.hash(' ');
@@ -210,7 +201,6 @@ var RandomDataGenerator = new Class({
 
         if (!seeds)
         {
-        	console.groupEnd();
             return;
         }
 
@@ -226,7 +216,6 @@ var RandomDataGenerator = new Class({
             this.s2 -= this.hash(seed);
             this.s2 += ~~(this.s2 < 0);
         }
-        console.groupEnd();
     },
 
     /**
@@ -239,11 +228,8 @@ var RandomDataGenerator = new Class({
      */
     integer: function ()
     {
-        console.group('RandomDataGenerator integer');
         // 2^32
-        const result = this.rnd() * 0x100000000;
-        console.groupEnd();
-        return result;
+        return this.rnd() * 0x100000000;
     },
 
     /**
@@ -256,11 +242,8 @@ var RandomDataGenerator = new Class({
      */
     frac: function ()
     {
-        console.group('RandomDataGenerator frac');
         // 2^-53
-        const result = this.rnd() + (this.rnd() * 0x200000 | 0) * 1.1102230246251565e-16;
-        console.groupEnd();
-        return result;
+        return this.rnd() + (this.rnd() * 0x200000 | 0) * 1.1102230246251565e-16;
     },
 
     /**
@@ -273,10 +256,7 @@ var RandomDataGenerator = new Class({
      */
     real: function ()
     {
-        console.group('RandomDataGenerator real');
-        const result = this.integer() + this.frac();
-        console.groupEnd();
-        return result;
+        return this.integer() + this.frac();
     },
 
     /**
@@ -292,10 +272,7 @@ var RandomDataGenerator = new Class({
      */
     integerInRange: function (min, max)
     {
-        console.group('RandomDataGenerator integerInRange');
-        const result = Math.floor(this.realInRange(0, max - min + 1) + min);
-        console.groupEnd();
-        return result;
+        return Math.floor(this.realInRange(0, max - min + 1) + min);
     },
 
     /**
@@ -312,10 +289,7 @@ var RandomDataGenerator = new Class({
      */
     between: function (min, max)
     {
-        console.group('RandomDataGenerator between');
-        const result = Math.floor(this.realInRange(0, max - min + 1) + min);
-        console.groupEnd();
-        return result;
+        return Math.floor(this.realInRange(0, max - min + 1) + min);
     },
 
     /**
@@ -331,10 +305,7 @@ var RandomDataGenerator = new Class({
      */
     realInRange: function (min, max)
     {
-        console.group('RandomDataGenerator realInRange');
-        const result = this.frac() * (max - min) + min;
-        console.groupEnd();
-        return result;
+        return this.frac() * (max - min) + min;
     },
 
     /**
@@ -347,10 +318,7 @@ var RandomDataGenerator = new Class({
      */
     normal: function ()
     {
-        console.group('RandomDataGenerator normal');
-        const result = 1 - (2 * this.frac());
-        console.groupEnd();
-        return result;
+        return 1 - (2 * this.frac());
     },
 
     /**
@@ -363,7 +331,6 @@ var RandomDataGenerator = new Class({
      */
     uuid: function ()
     {
-        console.group('RandomDataGenerator uuid');
         var a = '';
         var b = '';
 
@@ -372,7 +339,6 @@ var RandomDataGenerator = new Class({
             // eslint-disable-next-line no-empty
         }
 
-        console.groupEnd();
         return b;
     },
 
@@ -392,10 +358,7 @@ var RandomDataGenerator = new Class({
      */
     pick: function (array)
     {
-        console.group('RandomDataGenerator pick');
-        const result = array[this.integerInRange(0, array.length - 1)];
-        console.groupEnd();
-        return result;
+        return array[this.integerInRange(0, array.length - 1)];
     },
 
     /**
@@ -408,10 +371,7 @@ var RandomDataGenerator = new Class({
      */
     sign: function ()
     {
-        console.group('RandomDataGenerator sign');
-        const result = this.pick(this.signs);
-        console.groupEnd();
-        return result;
+        return this.pick(this.signs);
     },
 
     /**
@@ -430,10 +390,7 @@ var RandomDataGenerator = new Class({
      */
     weightedPick: function (array)
     {
-        console.group('RandomDataGenerator weightedPick');
-        const result = array[~~(Math.pow(this.frac(), 2) * (array.length - 0.5) + 0.5)];
-        console.groupEnd();
-        return result;
+        return array[~~(Math.pow(this.frac(), 2) * (array.length - 0.5) + 0.5)];
     },
 
     /**
@@ -449,10 +406,7 @@ var RandomDataGenerator = new Class({
      */
     timestamp: function (min, max)
     {
-        console.group('RandomDataGenerator timestamp');
-        const result = this.realInRange(min || 946684800000, max || 1577862000000);
-        console.groupEnd();
-        return result;
+        return this.realInRange(min || 946684800000, max || 1577862000000);
     },
 
     /**
@@ -465,10 +419,7 @@ var RandomDataGenerator = new Class({
      */
     angle: function ()
     {
-        console.group('RandomDataGenerator angle');
-        const result = this.integerInRange(-180, 180);
-        console.groupEnd();
-        return result;
+        return this.integerInRange(-180, 180);
     },
 
     /**
@@ -481,10 +432,7 @@ var RandomDataGenerator = new Class({
      */
     rotation: function ()
     {
-        console.group('RandomDataGenerator rotation');
-        const result = this.realInRange(-3.1415926, 3.1415926);
-        console.groupEnd();
-        return result;
+        return this.realInRange(-3.1415926, 3.1415926);
     },
 
     /**
@@ -509,7 +457,6 @@ var RandomDataGenerator = new Class({
      */
     state: function (state)
     {
-        console.group('RandomDataGenerator state');
         if (typeof state === 'string' && state.match(/^!rnd/))
         {
             state = state.split(',');
@@ -520,7 +467,6 @@ var RandomDataGenerator = new Class({
             this.s2 = parseFloat(state[4]);
         }
 
-        console.groupEnd();
         return [ '!rnd', this.c, this.s0, this.s1, this.s2 ].join(',');
     },
 
@@ -539,7 +485,6 @@ var RandomDataGenerator = new Class({
      */
     shuffle: function (array)
     {
-        console.group('RandomDataGenerator shuffle');
         var len = array.length - 1;
 
         for (var i = len; i > 0; i--)
@@ -551,7 +496,6 @@ var RandomDataGenerator = new Class({
             array[i] = itemAtIndex;
         }
 
-        console.groupEnd();
         return array;
     }
 

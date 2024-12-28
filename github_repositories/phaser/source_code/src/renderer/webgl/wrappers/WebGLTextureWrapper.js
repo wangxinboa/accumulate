@@ -42,7 +42,6 @@ var WebGLTextureWrapper = new Class({
 
     function WebGLTextureWrapper (gl, mipLevel, minFilter, magFilter, wrapT, wrapS, format, pixels, width, height, pma, forceSize, flipY)
     {
-        console.group('WebGLTextureWrapper');
         /**
          * The WebGLTexture that this wrapper is wrapping.
          *
@@ -198,7 +197,6 @@ var WebGLTextureWrapper = new Class({
         this.__SPECTOR_Metadata = {};
 
         this.createResource();
-        console.groupEnd();
     },
 
     /**
@@ -212,14 +210,12 @@ var WebGLTextureWrapper = new Class({
      */
     createResource: function ()
     {
-        console.group('WebGLTextureWrapper createResource');
         var gl = this.gl;
 
         if (gl.isContextLost())
         {
             // GL state can't be updated right now.
             // `createResource` will run when the context is restored.
-            console.groupEnd();
             return;
         }
 
@@ -227,7 +223,6 @@ var WebGLTextureWrapper = new Class({
         {
             // Use the source texture directly.
             this.webGLTexture = this.pixels.webGLTexture;
-            console.groupEnd();
             return;
         }
 
@@ -241,7 +236,6 @@ var WebGLTextureWrapper = new Class({
         this.webGLTexture = texture;
 
         this._processTexture();
-        console.groupEnd();
     },
 
     /**
@@ -264,10 +258,8 @@ var WebGLTextureWrapper = new Class({
      */
     update: function (source, width, height, flipY, wrapS, wrapT, minFilter, magFilter, format)
     {
-        console.group('WebGLTextureWrapper update');
         if (width === 0 || height === 0)
         {
-            console.groupEnd();
             return;
         }
 
@@ -288,12 +280,10 @@ var WebGLTextureWrapper = new Class({
         {
             // GL state can't be updated right now.
             // `createResource` will run when the context is restored.
-            console.groupEnd();
             return;
         }
 
         this._processTexture();
-        console.groupEnd();
     },
 
     /**
@@ -306,7 +296,6 @@ var WebGLTextureWrapper = new Class({
      */
     _processTexture: function ()
     {
-        console.group('WebGLTextureWrapper _processTexture');
         var gl = this.gl;
 
         gl.activeTexture(gl.TEXTURE0);
@@ -381,7 +370,6 @@ var WebGLTextureWrapper = new Class({
         {
             gl.bindTexture(gl.TEXTURE_2D, null);
         }
-        console.groupEnd();
     },
 
     /**
@@ -420,10 +408,8 @@ var WebGLTextureWrapper = new Class({
      */
     destroy: function ()
     {
-        console.group('WebGLTextureWrapper destroy');
         if (this.webGLTexture === null)
         {
-            console.groupEnd();
             return;
         }
 
@@ -439,7 +425,6 @@ var WebGLTextureWrapper = new Class({
         this.pixels = null;
         this.webGLTexture = null;
         this.gl = null;
-        console.groupEnd();
     }
 });
 

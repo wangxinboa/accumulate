@@ -90,7 +90,6 @@ var BitmapText = new Class({
 
     function BitmapText (scene, x, y, font, text, size, align)
     {
-        console.group('BitmapText');
         if (text === undefined) { text = ''; }
         if (align === undefined) { align = 0; }
 
@@ -299,7 +298,6 @@ var BitmapText = new Class({
         this.initPostPipeline();
 
         this.setText(text);
-        console.groupEnd();
     },
 
     /**
@@ -313,12 +311,10 @@ var BitmapText = new Class({
      */
     setLeftAlign: function ()
     {
-        console.group('BitmapText setLeftAlign');
         this._align = BitmapText.ALIGN_LEFT;
 
         this._dirty = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -333,12 +329,10 @@ var BitmapText = new Class({
      */
     setCenterAlign: function ()
     {
-        console.group('BitmapText setCenterAlign');
         this._align = BitmapText.ALIGN_CENTER;
 
         this._dirty = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -353,12 +347,10 @@ var BitmapText = new Class({
      */
     setRightAlign: function ()
     {
-        console.group('BitmapText setRightAlign');
         this._align = BitmapText.ALIGN_RIGHT;
 
         this._dirty = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -374,12 +366,10 @@ var BitmapText = new Class({
      */
     setFontSize: function (size)
     {
-        console.group('BitmapText setFontSize');
         this._fontSize = size;
 
         this._dirty = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -397,14 +387,12 @@ var BitmapText = new Class({
      */
     setLetterSpacing: function (spacing)
     {
-        console.group('BitmapText setLetterSpacing');
         if (spacing === undefined) { spacing = 0; }
 
         this._letterSpacing = spacing;
 
         this._dirty = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -425,12 +413,10 @@ var BitmapText = new Class({
      */
     setLineSpacing: function (spacing)
     {
-        console.group('BitmapText setLineSpacing');
         if (spacing === undefined) { spacing = 0; }
 
         this.lineSpacing = spacing;
 
-        console.groupEnd();
         return this;
     },
 
@@ -448,7 +434,6 @@ var BitmapText = new Class({
      */
     setText: function (value)
     {
-        console.group('BitmapText setText');
         if (!value && value !== 0)
         {
             value = '';
@@ -468,7 +453,6 @@ var BitmapText = new Class({
             this.updateDisplayOrigin();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -497,7 +481,6 @@ var BitmapText = new Class({
      */
     setDropShadow: function (x, y, color, alpha)
     {
-        console.group('BitmapText setDropShadow');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (color === undefined) { color = 0x000000; }
@@ -508,7 +491,6 @@ var BitmapText = new Class({
         this.dropShadowColor = color;
         this.dropShadowAlpha = alpha;
 
-        console.groupEnd();
         return this;
     },
 
@@ -555,7 +537,6 @@ var BitmapText = new Class({
      */
     setCharacterTint: function (start, length, tintFill, topLeft, topRight, bottomLeft, bottomRight)
     {
-        console.group('BitmapText setCharacterTint');
         if (start === undefined) { start = 0; }
         if (length === undefined) { length = 1; }
         if (tintFill === undefined) { tintFill = false; }
@@ -619,7 +600,6 @@ var BitmapText = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -666,7 +646,6 @@ var BitmapText = new Class({
      */
     setWordTint: function (word, count, tintFill, topLeft, topRight, bottomLeft, bottomRight)
     {
-        console.group('BitmapText setWordTint');
         if (count === undefined) { count = 1; }
 
         var bounds = this.getTextBounds();
@@ -689,13 +668,11 @@ var BitmapText = new Class({
 
                 if (total === count)
                 {
-                    console.groupEnd();
                     return this;
                 }
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -720,7 +697,6 @@ var BitmapText = new Class({
      */
     getTextBounds: function (round)
     {
-        console.group('BitmapText getTextBounds');
         //  local = The BitmapText based on fontSize and 0x0 coords
         //  global = The BitmapText, taking into account scale and world position
         //  lines = The BitmapText line data
@@ -734,7 +710,6 @@ var BitmapText = new Class({
             this._dirty = false;
         }
 
-        console.groupEnd();
         return bounds;
     },
 
@@ -764,7 +739,6 @@ var BitmapText = new Class({
      */
     getCharacterAt: function (x, y, camera)
     {
-        console.group('BitmapText getCharacterAt');
         var point = this.getLocalPoint(x, y, null, camera);
 
         var bounds = this.getTextBounds();
@@ -781,12 +755,10 @@ var BitmapText = new Class({
 
             if (tempRect.contains(point.x, point.y))
             {
-                console.groupEnd();
                 return char;
             }
         }
 
-        console.groupEnd();
         return null;
     },
 
@@ -801,12 +773,10 @@ var BitmapText = new Class({
      */
     updateDisplayOrigin: function ()
     {
-        console.group('BitmapText updateDisplayOrigin');
         this._dirty = true;
 
         this.getTextBounds(false);
 
-        console.groupEnd();
         return this;
     },
 
@@ -827,7 +797,6 @@ var BitmapText = new Class({
      */
     setFont: function (key, size, align)
     {
-        console.group('BitmapText setFont');
         if (size === undefined) { size = this._fontSize; }
         if (align === undefined) { align = this._align; }
 
@@ -846,7 +815,6 @@ var BitmapText = new Class({
             GetBitmapTextSize(this, false, true, this._bounds);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -872,7 +840,6 @@ var BitmapText = new Class({
      */
     setMaxWidth: function (value, wordWrapCharCode)
     {
-        console.group('BitmapText setMaxWidth');
         this._maxWidth = value;
 
         this._dirty = true;
@@ -882,7 +849,6 @@ var BitmapText = new Class({
             this.wordWrapCharCode = wordWrapCharCode;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1141,7 +1107,6 @@ var BitmapText = new Class({
      */
     toJSON: function ()
     {
-        console.group('BitmapText toJSON');
         var out = Components.ToJSON(this);
 
         //  Extra data is added here
@@ -1157,7 +1122,6 @@ var BitmapText = new Class({
 
         out.data = data;
 
-        console.groupEnd();
         return out;
     },
 
@@ -1170,11 +1134,9 @@ var BitmapText = new Class({
      */
     preDestroy: function ()
     {
-        console.group('BitmapText preDestroy');
         this.charColors.length = 0;
         this._bounds = null;
         this.fontData = null;
-        console.groupEnd();
     }
 
 });

@@ -22,7 +22,6 @@ var IsPlainObject = require('./IsPlainObject');
  */
 var Extend = function ()
 {
-    console.group('Extend');
     var options, name, src, copy, copyIsArray, clone,
         target = arguments[0] || {},
         i = 1,
@@ -89,7 +88,6 @@ var Extend = function ()
         }
     }
 
-    console.groupEnd();
     // Return the modified object
     return target;
 };

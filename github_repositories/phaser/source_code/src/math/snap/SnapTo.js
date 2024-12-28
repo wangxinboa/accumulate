@@ -21,19 +21,16 @@
  */
 var SnapTo = function (value, gap, start, divide)
 {
-    console.group('SnapTo');
     if (start === undefined) { start = 0; }
 
     if (gap === 0)
     {
-        console.groupEnd();
         return value;
     }
 
     value -= start;
     value = gap * Math.round(value / gap);
 
-    console.groupEnd();
     return (divide) ? (start + value) / gap : start + value;
 };
 

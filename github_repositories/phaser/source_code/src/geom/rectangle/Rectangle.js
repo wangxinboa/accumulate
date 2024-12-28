@@ -32,7 +32,6 @@ var Rectangle = new Class({
 
     function Rectangle (x, y, width, height)
     {
-        console.group('Rectangle');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (width === undefined) { width = 0; }
@@ -88,7 +87,6 @@ var Rectangle = new Class({
          * @since 3.0.0
          */
         this.height = height;
-        console.groupEnd();
     },
 
     /**
@@ -104,10 +102,7 @@ var Rectangle = new Class({
      */
     contains: function (x, y)
     {
-        console.group('Rectangle contains');
-        const result = Contains(this, x, y);
-        console.groupEnd();
-        return result;
+        return Contains(this, x, y);
     },
 
     /**
@@ -129,10 +124,7 @@ var Rectangle = new Class({
      */
     getPoint: function (position, output)
     {
-        console.group('Rectangle getPoint');
-        const result = GetPoint(this, position, output);
-        console.groupEnd();
-        return result;
+        return GetPoint(this, position, output);
     },
 
     /**
@@ -151,10 +143,7 @@ var Rectangle = new Class({
      */
     getPoints: function (quantity, stepRate, output)
     {
-        console.group('Rectangle getPoints');
-        const result = GetPoints(this, quantity, stepRate, output);
-        console.groupEnd();
-        return result;
+        return GetPoints(this, quantity, stepRate, output);
     },
 
     /**
@@ -171,10 +160,7 @@ var Rectangle = new Class({
      */
     getRandomPoint: function (point)
     {
-        console.group('Rectangle getRandomPoint');
-        const result = Random(this, point);
-        console.groupEnd();
-        return result;
+        return Random(this, point);
     },
 
     /**
@@ -192,13 +178,11 @@ var Rectangle = new Class({
      */
     setTo: function (x, y, width, height)
     {
-        console.group('Rectangle setTo');
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
 
-        console.groupEnd();
         return this;
     },
 
@@ -212,10 +196,7 @@ var Rectangle = new Class({
      */
     setEmpty: function ()
     {
-        console.group('Rectangle setEmpty');
-        const result = this.setTo(0, 0, 0, 0);
-        console.groupEnd();
-        return result;
+        return this.setTo(0, 0, 0, 0);
     },
 
     /**
@@ -231,13 +212,11 @@ var Rectangle = new Class({
      */
     setPosition: function (x, y)
     {
-        console.group('Rectangle setPosition');
         if (y === undefined) { y = x; }
 
         this.x = x;
         this.y = y;
 
-        console.groupEnd();
         return this;
     },
 
@@ -254,13 +233,11 @@ var Rectangle = new Class({
      */
     setSize: function (width, height)
     {
-        console.group('Rectangle setSize');
         if (height === undefined) { height = width; }
 
         this.width = width;
         this.height = height;
 
-        console.groupEnd();
         return this;
     },
 
@@ -274,10 +251,7 @@ var Rectangle = new Class({
      */
     isEmpty: function ()
     {
-        console.group('Rectangle isEmpty');
-        const result = (this.width <= 0 || this.height <= 0);
-        console.groupEnd();
-        return result;
+        return (this.width <= 0 || this.height <= 0);
     },
 
     /**
@@ -294,12 +268,10 @@ var Rectangle = new Class({
      */
     getLineA: function (line)
     {
-        console.group('Rectangle getLineA');
         if (line === undefined) { line = new Line(); }
 
         line.setTo(this.x, this.y, this.right, this.y);
 
-        console.groupEnd();
         return line;
     },
 
@@ -317,12 +289,10 @@ var Rectangle = new Class({
      */
     getLineB: function (line)
     {
-        console.group('Rectangle getLineB');
         if (line === undefined) { line = new Line(); }
 
         line.setTo(this.right, this.y, this.right, this.bottom);
 
-        console.groupEnd();
         return line;
     },
 
@@ -340,12 +310,10 @@ var Rectangle = new Class({
      */
     getLineC: function (line)
     {
-        console.group('Rectangle getLineC');
         if (line === undefined) { line = new Line(); }
 
         line.setTo(this.right, this.bottom, this.x, this.bottom);
 
-        console.groupEnd();
         return line;
     },
 
@@ -363,12 +331,10 @@ var Rectangle = new Class({
      */
     getLineD: function (line)
     {
-        console.group('Rectangle getLineD');
         if (line === undefined) { line = new Line(); }
 
         line.setTo(this.x, this.bottom, this.x, this.y);
 
-        console.groupEnd();
         return line;
     },
 

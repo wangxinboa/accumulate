@@ -40,11 +40,9 @@ var AnimationJSONFile = new Class({
 
     function AnimationJSONFile (loader, key, url, xhrSettings, dataKey)
     {
-        console.group('AnimationJSONFile');
         JSONFile.call(this, loader, key, url, xhrSettings, dataKey);
 
         this.type = 'animationJSON';
-        console.groupEnd();
     },
 
     /**
@@ -56,13 +54,11 @@ var AnimationJSONFile = new Class({
      */
     onProcess: function ()
     {
-        console.group('AnimationJSONFile onProcess');
         //  We need to hook into this event:
         this.loader.once(LoaderEvents.POST_PROCESS, this.onLoadComplete, this);
 
         //  But the rest is the same as a normal JSON file
         JSONFile.prototype.onProcess.call(this);
-        console.groupEnd();
     },
 
     /**
@@ -73,9 +69,7 @@ var AnimationJSONFile = new Class({
      */
     onLoadComplete: function ()
     {
-        console.group('AnimationJSONFile onLoadComplete');
         this.loader.systems.anims.fromJSON(this.data);
-        console.groupEnd();
     }
 
 });
@@ -177,10 +171,8 @@ var AnimationJSONFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register animation');
 FileTypesManager.register('animation', function (key, url, dataKey, xhrSettings)
 {
-    console.group('FileTypesManager.register animation factoryFunction');
     //  Supports an Object file definition in the key argument
     //  Or an array of objects in the key argument
     //  Or a single entry where all arguments have been defined
@@ -197,9 +189,7 @@ FileTypesManager.register('animation', function (key, url, dataKey, xhrSettings)
         this.addFile(new AnimationJSONFile(this, key, url, xhrSettings, dataKey));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = AnimationJSONFile;

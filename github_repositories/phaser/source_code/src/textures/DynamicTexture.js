@@ -67,7 +67,6 @@ var DynamicTexture = new Class({
 
     function DynamicTexture (manager, key, width, height)
     {
-        console.group('DynamicTexture');
         if (width === undefined) { width = 256; }
         if (height === undefined) { height = 256; }
 
@@ -228,7 +227,6 @@ var DynamicTexture = new Class({
         this.pipeline = (!isCanvas) ? renderer.pipelines.get(PIPELINES.SINGLE_PIPELINE) : null;
 
         this.setSize(width, height);
-        console.groupEnd();
     },
 
     /**
@@ -251,7 +249,6 @@ var DynamicTexture = new Class({
      */
     setSize: function (width, height)
     {
-        console.group('DynamicTexture setSize');
         if (height === undefined) { height = width; }
 
         var frame = this.get();
@@ -311,7 +308,6 @@ var DynamicTexture = new Class({
             frame.setSize(width, height, frame.cutX, frame.cutY);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -328,7 +324,6 @@ var DynamicTexture = new Class({
      */
     setFromRenderTarget: function ()
     {
-        console.group('DynamicTexture setFromRenderTarget');
         var frame = this.get();
         var source = frame.source;
         var renderTarget = this.renderTarget;
@@ -338,7 +333,6 @@ var DynamicTexture = new Class({
 
         source.glTexture = renderTarget.texture;
 
-        console.groupEnd();
         return this;
     },
 
@@ -356,10 +350,8 @@ var DynamicTexture = new Class({
      */
     setIsSpriteTexture: function (value)
     {
-        console.group('DynamicTexture setIsSpriteTexture');
         this.isSpriteTexture = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -385,7 +377,6 @@ var DynamicTexture = new Class({
      */
     fill: function (rgb, alpha, x, y, width, height)
     {
-        console.group('DynamicTexture fill');
         var camera = this.camera;
         var renderer = this.renderer;
 
@@ -436,7 +427,6 @@ var DynamicTexture = new Class({
 
         this.dirty = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -455,7 +445,6 @@ var DynamicTexture = new Class({
      */
     clear: function (x, y, width, height)
     {
-        console.group('DynamicTexture clear');
         if (this.dirty)
         {
             var ctx = this.context;
@@ -484,7 +473,6 @@ var DynamicTexture = new Class({
             this.dirty = false;
         }
         
-        console.groupEnd();
         return this;
     },
 
@@ -512,7 +500,6 @@ var DynamicTexture = new Class({
      */
     stamp: function (key, frame, x, y, config)
     {
-        console.group('DynamicTexture stamp');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
 
@@ -566,7 +553,6 @@ var DynamicTexture = new Class({
             this._eraseMode = false;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -623,14 +609,12 @@ var DynamicTexture = new Class({
      */
     erase: function (entries, x, y)
     {
-        console.group('DynamicTexture erase');
         this._eraseMode = true;
 
         this.draw(entries, x, y);
 
         this._eraseMode = false;
 
-        console.groupEnd();
         return this;
     },
 
@@ -695,12 +679,10 @@ var DynamicTexture = new Class({
      */
     draw: function (entries, x, y, alpha, tint)
     {
-        console.group('DynamicTexture draw');
         this.beginDraw();
         this.batchDraw(entries, x, y, alpha, tint);
         this.endDraw();
 
-        console.groupEnd();
         return this;
     },
 
@@ -740,12 +722,10 @@ var DynamicTexture = new Class({
      */
     drawFrame: function (key, frame, x, y, alpha, tint)
     {
-        console.group('DynamicTexture drawFrame');
         this.beginDraw();
         this.batchDrawFrame(key, frame, x, y, alpha, tint);
         this.endDraw();
 
-        console.groupEnd();
         return this;
     },
 
@@ -785,7 +765,6 @@ var DynamicTexture = new Class({
      */
     repeat: function (key, frame, x, y, width, height, alpha, tint, skipBatch)
     {
-        console.group('DynamicTexture repeat');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (width === undefined) { width = this.width; }
@@ -805,7 +784,6 @@ var DynamicTexture = new Class({
 
         if (!frame)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -937,7 +915,6 @@ var DynamicTexture = new Class({
             this.endDraw();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -984,7 +961,6 @@ var DynamicTexture = new Class({
      */
     beginDraw: function ()
     {
-        console.group('DynamicTexture beginDraw');
         if (!this.isDrawing)
         {
             var camera = this.camera;
@@ -1005,7 +981,6 @@ var DynamicTexture = new Class({
             this.isDrawing = true;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1087,7 +1062,6 @@ var DynamicTexture = new Class({
      */
     batchDraw: function (entries, x, y, alpha, tint)
     {
-        console.group('DynamicTexture batchDraw');
         if (!Array.isArray(entries))
         {
             entries = [ entries ];
@@ -1095,7 +1069,6 @@ var DynamicTexture = new Class({
 
         this.batchList(entries, x, y, alpha, tint);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1151,7 +1124,6 @@ var DynamicTexture = new Class({
      */
     batchDrawFrame: function (key, frame, x, y, alpha, tint)
     {
-        console.group('DynamicTexture batchDrawFrame');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (alpha === undefined) { alpha = 1; }
@@ -1171,7 +1143,6 @@ var DynamicTexture = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1220,7 +1191,6 @@ var DynamicTexture = new Class({
      */
     endDraw: function (erase)
     {
-        console.group('DynamicTexture endDraw');
         if (erase === undefined) { erase = this._eraseMode; }
 
         if (this.isDrawing)
@@ -1249,7 +1219,6 @@ var DynamicTexture = new Class({
             this.isDrawing = false;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1268,12 +1237,10 @@ var DynamicTexture = new Class({
      */
     batchList: function (children, x, y, alpha, tint)
     {
-        console.group('DynamicTexture batchList');
         var len = children.length;
 
         if (len === 0)
         {
-            console.groupEnd();
             return;
         }
 
@@ -1312,7 +1279,6 @@ var DynamicTexture = new Class({
                 this.batchList(entry, x, y, alpha, tint);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -1328,7 +1294,6 @@ var DynamicTexture = new Class({
      */
     batchGroup: function (children, x, y)
     {
-        console.group('DynamicTexture batchGroup');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
 
@@ -1341,7 +1306,6 @@ var DynamicTexture = new Class({
                 this.batchGameObject(entry, entry.x + x, entry.y + y);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -1357,7 +1321,6 @@ var DynamicTexture = new Class({
      */
     batchGameObject: function (gameObject, x, y)
     {
-        console.group('DynamicTexture batchGameObject');
         if (x === undefined) { x = gameObject.x; }
         if (y === undefined) { y = gameObject.y; }
 
@@ -1419,7 +1382,6 @@ var DynamicTexture = new Class({
         }
 
         gameObject.setPosition(prevX, prevY);
-        console.groupEnd();
     },
 
     /**
@@ -1438,14 +1400,12 @@ var DynamicTexture = new Class({
      */
     batchTextureFrameKey: function (key, frame, x, y, alpha, tint)
     {
-        console.group('DynamicTexture batchTextureFrameKey');
         var textureFrame = this.manager.getFrame(key, frame);
 
         if (textureFrame)
         {
             this.batchTextureFrame(textureFrame, x, y, alpha, tint);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1463,7 +1423,6 @@ var DynamicTexture = new Class({
      */
     batchTextureFrame: function (textureFrame, x, y, alpha, tint)
     {
-        console.group('DynamicTexture batchTextureFrame');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (alpha === undefined) { alpha = 1; }
@@ -1497,7 +1456,6 @@ var DynamicTexture = new Class({
 
             ctx.restore();
         }
-        console.groupEnd();
     },
 
     /**
@@ -1530,7 +1488,6 @@ var DynamicTexture = new Class({
      */
     snapshotArea: function (x, y, width, height, callback, type, encoderOptions)
     {
-        console.group('DynamicTexture snapshotArea');
         if (this.renderTarget)
         {
             this.renderer.snapshotFramebuffer(this.renderTarget.framebuffer, this.width, this.height, callback, false, x, y, width, height, type, encoderOptions);
@@ -1540,7 +1497,6 @@ var DynamicTexture = new Class({
             this.renderer.snapshotCanvas(this.canvas, callback, false, x, y, width, height, type, encoderOptions);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1570,10 +1526,7 @@ var DynamicTexture = new Class({
      */
     snapshot: function (callback, type, encoderOptions)
     {
-        console.group('DynamicTexture snapshot');
-        const result = this.snapshotArea(0, 0, this.width, this.height, callback, type, encoderOptions);
-        console.groupEnd();
-        return result;
+        return this.snapshotArea(0, 0, this.width, this.height, callback, type, encoderOptions);
     },
 
     /**
@@ -1599,10 +1552,7 @@ var DynamicTexture = new Class({
      */
     snapshotPixel: function (x, y, callback)
     {
-        console.group('DynamicTexture snapshotPixel');
-        const result = this.snapshotArea(x, y, 1, 1, callback, 'pixel');
-        console.groupEnd();
-        return result;
+        return this.snapshotArea(x, y, 1, 1, callback, 'pixel');
     },
 
     /**
@@ -1615,13 +1565,10 @@ var DynamicTexture = new Class({
      */
     getWebGLTexture: function ()
     {
-        console.group('DynamicTexture getWebGLTexture');
         if (this.renderTarget)
         {
-            console.groupEnd();
             return this.renderTarget.texture;
         }
-        console.groupEnd();
     },
 
     /**
@@ -1637,14 +1584,12 @@ var DynamicTexture = new Class({
      */
     renderWebGL: function (renderer, src, camera, parentMatrix)
     {
-        console.group('DynamicTexture renderWebGL');
         var stamp = this.manager.resetStamp();
 
         stamp.setTexture(this);
         stamp.setOrigin(0);
 
         stamp.renderWebGL(renderer, stamp, camera, parentMatrix);
-        console.groupEnd();
     },
 
     /**
@@ -1670,7 +1615,6 @@ var DynamicTexture = new Class({
      */
     destroy: function ()
     {
-        console.group('DynamicTexture destroy');
         var stamp = this.manager.stamp;
 
         if (stamp && stamp.texture === this)
@@ -1692,7 +1636,6 @@ var DynamicTexture = new Class({
         this.canvas = null;
         this.context = null;
         this.renderer = null;
-        console.groupEnd();
     }
 
 });

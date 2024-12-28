@@ -29,7 +29,6 @@ var WebGLUniformLocationWrapper = new Class({
 
     function WebGLUniformLocationWrapper (gl, program, name)
     {
-        console.group('WebGLUniformLocationWrapper');
         /**
          * The WebGLUniformLocation being wrapped by this class.
          *
@@ -72,7 +71,6 @@ var WebGLUniformLocationWrapper = new Class({
         this.name = name;
 
         this.createResource();
-        console.groupEnd();
     },
 
     /**
@@ -83,11 +81,9 @@ var WebGLUniformLocationWrapper = new Class({
      */
     createResource: function ()
     {
-        console.group('WebGLUniformLocationWrapper createResource');
         if (this.program.webGLProgram === null)
         {
             this.webGLUniformLocation = null;
-            console.groupEnd();
             return;
         }
 
@@ -97,12 +93,10 @@ var WebGLUniformLocationWrapper = new Class({
         {
             // GL state can't be updated right now.
             // `createResource` will run when the context is restored.
-            console.groupEnd();
             return;
         }
 
         this.webGLUniformLocation = gl.getUniformLocation(this.program.webGLProgram, this.name);
-        console.groupEnd();
     },
 
     /**
@@ -113,12 +107,10 @@ var WebGLUniformLocationWrapper = new Class({
      */
     destroy: function ()
     {
-        console.group('WebGLUniformLocationWrapper destroy');
         this.gl = null;
         this.program = null;
         this.name = null;
         this.webGLUniformLocation = null;
-        console.groupEnd();
     }
 });
 

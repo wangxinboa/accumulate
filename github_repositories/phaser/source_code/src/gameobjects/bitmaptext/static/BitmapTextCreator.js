@@ -23,10 +23,8 @@ var GetValue = require('../../../utils/object/GetValue');
  * 
  * @return {Phaser.GameObjects.BitmapText} The Game Object that was created.
  */
-console.group('GameObjectCreator.register bitmapText');
 GameObjectCreator.register('bitmapText', function (config, addToScene)
 {
-    console.group('GameObjectCreator.register bitmapText factoryFunction');
     if (config === undefined) { config = {}; }
 
     var font = GetValue(config, 'font', '');
@@ -43,9 +41,7 @@ GameObjectCreator.register('bitmapText', function (config, addToScene)
 
     BuildGameObject(this.scene, bitmapText, config);
 
-    console.groupEnd();
     return bitmapText;
 });
 
-console.groupEnd();
 //  When registering a factory function 'this' refers to the GameObjectCreator context.

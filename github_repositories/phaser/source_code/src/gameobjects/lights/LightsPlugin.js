@@ -49,7 +49,6 @@ var LightsPlugin = new Class({
 
     function LightsPlugin (scene)
     {
-        console.group('LightsPlugin');
         /**
          * A reference to the Scene that this Lights Plugin belongs to.
          *
@@ -74,7 +73,6 @@ var LightsPlugin = new Class({
         }
 
         LightsManager.call(this);
-        console.groupEnd();
     },
 
     /**
@@ -85,12 +83,10 @@ var LightsPlugin = new Class({
      */
     boot: function ()
     {
-        console.group('LightsPlugin boot');
         var eventEmitter = this.systems.events;
 
         eventEmitter.on(SceneEvents.SHUTDOWN, this.shutdown, this);
         eventEmitter.on(SceneEvents.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -103,18 +99,14 @@ var LightsPlugin = new Class({
      */
     destroy: function ()
     {
-        console.group('LightsPlugin destroy');
         this.shutdown();
 
         this.scene = undefined;
         this.systems = undefined;
-        console.groupEnd();
     }
 
 });
 
-console.group('PluginCache.register plane');
 PluginCache.register('LightsPlugin', LightsPlugin, 'lights');
 
-console.groupEnd();
 module.exports = LightsPlugin;

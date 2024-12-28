@@ -65,8 +65,6 @@ var Game = new Class({
 
     function Game (config)
     {
-        console.group('%cGame 初始化', 'font-size: 18px; color: #ffffff; background-color: #000000;');
-        console.group('%cGame 初始化属性', 'font-size: 16px; color: #ffffff; background-color: #000000;');
         /**
          * The parsed Game Configuration object.
          *
@@ -78,7 +76,6 @@ var Game = new Class({
          * @since 3.0.0
          */
         this.config = new Config(config);
-        console.info('Game this.config:', this.config);
 
         /**
          * A reference to either the Canvas or WebGL Renderer that this Game is using.
@@ -154,9 +151,7 @@ var Game = new Class({
          * @type {Phaser.Events.EventEmitter}
          * @since 3.0.0
          */
-        console.group('Game 初始化 events 属性');
         this.events = new EventEmitter();
-        console.groupEnd();
 
         /**
          * An instance of the Animation Manager.
@@ -200,9 +195,7 @@ var Game = new Class({
          * @type {Phaser.Data.DataManager}
          * @since 3.0.0
          */
-        console.group('Game 初始化 registry 属性');
         this.registry = new DataManager(this, new EventEmitter());
-        console.groupEnd();
 
         /**
          * An instance of the Input Manager.
@@ -359,10 +352,8 @@ var Game = new Class({
          */
         this.isPaused = false;
 
-        console.groupEnd();
         //  Wait for the DOM Ready event, then call boot.
         DOMContentLoaded(this.boot.bind(this));
-        console.groupEnd();
     },
 
     /**
@@ -378,11 +369,9 @@ var Game = new Class({
      */
     boot: function ()
     {
-        console.group('%cGame boot', 'font-size: 16px; color: #ffffff; background-color: #000000;');
         if (!PluginCache.hasCore('EventEmitter'))
         {
             console.warn('Aborting. Core Plugins missing.');
-            console.groupEnd();
             return;
         }
 
@@ -398,27 +387,18 @@ var Game = new Class({
 
         DebugHeader(this);
 
-        console.info('Game boot 添加 this.canvas 到 this.config.parent 中');
         AddToDOM(this.canvas, this.config.parent);
 
         //  The Texture Manager has to wait on a couple of non-blocking events before it's fully ready.
         //  So it will emit this internal event when done:
         this.textures.once(TextureEvents.READY, this.texturesReady, this);
 
-        console.group('%cGame boot this.events.emit(Events.BOOT);', 'font-size: 14px; color: #ffffff; background-color: #000000;');
-        console.groupCollapsed('Game boot this.events.emit(Events.BOOT); 执行的函数');
-        this.events.listeners(Events.BOOT).forEach((fun) => {
-            console.info(fun);
-        });
-        console.groupEnd();
         this.events.emit(Events.BOOT);
-        console.groupEnd();
 
         if (typeof WEBGL_DEBUG && window)
         {
             window.PHASER_GAME = this;
         }
-        console.groupEnd();
     },
 
     /**
@@ -432,17 +412,10 @@ var Game = new Class({
      */
     texturesReady: function ()
     {
-        console.group('Game texturesReady');
         //  Start all the other systems
-        console.groupCollapsed('Game texturesReady this.events.emit(Events.READY); 执行的函数');
-        this.events.listeners(Events.READY).forEach((fun) => {
-            console.info(fun);
-        });
-        console.groupEnd();
         this.events.emit(Events.READY);
 
         this.start();
-        console.groupEnd();
     },
 
     /**
@@ -456,7 +429,6 @@ var Game = new Class({
      */
     start: function ()
     {
-        console.group('Game start');
         this.isRunning = true;
 
         this.config.postBoot(this);
@@ -478,7 +450,6 @@ var Game = new Class({
         eventEmitter.on(Events.VISIBLE, this.onVisible, this);
         eventEmitter.on(Events.BLUR, this.onBlur, this);
         eventEmitter.on(Events.FOCUS, this.onFocus, this);
-        console.groupEnd();
     },
 
     /**
@@ -502,17 +473,13 @@ var Game = new Class({
      */
     step: function (time, delta)
     {
-        console.group('Game step');
         if (this.pendingDestroy)
         {
-            const result = this.runDestroy();
-            console.groupEnd();
-            return result;
+            return this.runDestroy();
         }
 
         if (this.isPaused)
         {
-            console.groupEnd();
             return;
         }
 
@@ -553,7 +520,6 @@ var Game = new Class({
         //  The final event before the step repeats. Your last chance to do anything to the canvas before it all starts again.
 
         eventEmitter.emit(Events.POST_RENDER, renderer, time, delta);
-        console.groupEnd();
     },
 
     /**
@@ -576,17 +542,13 @@ var Game = new Class({
      */
     headlessStep: function (time, delta)
     {
-        console.group('Game headlessStep');
         if (this.pendingDestroy)
         {
-            const result = this.runDestroy();
-            console.groupEnd();
-            return result;
+            return this.runDestroy();
         }
 
         if (this.isPaused)
         {
-            console.groupEnd();
             return;
         }
 
@@ -614,7 +576,6 @@ var Game = new Class({
         eventEmitter.emit(Events.PRE_RENDER, null, time, delta);
 
         eventEmitter.emit(Events.POST_RENDER, null, time, delta);
-        console.groupEnd();
     },
 
     /**
@@ -628,11 +589,9 @@ var Game = new Class({
      */
     onHidden: function ()
     {
-        console.group('Game onHidden');
         this.loop.pause();
 
         this.events.emit(Events.PAUSE);
-        console.groupEnd();
     },
 
     /**
@@ -648,7 +607,6 @@ var Game = new Class({
      */
     pause: function ()
     {
-        console.group('Game pause');
         var wasPaused = this.isPaused;
 
         this.isPaused = true;
@@ -657,7 +615,6 @@ var Game = new Class({
         {
             this.events.emit(Events.PAUSE);
         }
-        console.groupEnd();
     },
 
     /**
@@ -671,11 +628,9 @@ var Game = new Class({
      */
     onVisible: function ()
     {
-        console.group('Game onVisible');
         this.loop.resume();
 
         this.events.emit(Events.RESUME, this.loop.pauseDuration);
-        console.groupEnd();
     },
 
     /**
@@ -689,7 +644,6 @@ var Game = new Class({
      */
     resume: function ()
     {
-        console.group('Game resume');
         var wasPaused = this.isPaused;
 
         this.isPaused = false;
@@ -698,7 +652,6 @@ var Game = new Class({
         {
             this.events.emit(Events.RESUME, 0);
         }
-        console.groupEnd();
     },
 
     /**
@@ -711,11 +664,9 @@ var Game = new Class({
      */
     onBlur: function ()
     {
-        console.group('Game onBlur');
         this.hasFocus = false;
 
         this.loop.blur();
-        console.groupEnd();
     },
 
     /**
@@ -728,11 +679,9 @@ var Game = new Class({
      */
     onFocus: function ()
     {
-        console.group('Game onFocus');
         this.hasFocus = true;
 
         this.loop.focus();
-        console.groupEnd();
     },
 
     /**
@@ -747,10 +696,7 @@ var Game = new Class({
      */
     getFrame: function ()
     {
-        console.group('Game getFrame');
-        const result = this.loop.frame;
-        console.groupEnd();
-        return result;
+        return this.loop.frame;
     },
 
     /**
@@ -763,10 +709,7 @@ var Game = new Class({
      */
     getTime: function ()
     {
-        console.group('Game getTime');
-        const result =  this.loop.now;
-        console.groupEnd();
-        return result;
+        return this.loop.now;
     },
 
     /**
@@ -788,14 +731,12 @@ var Game = new Class({
      */
     destroy: function (removeCanvas, noReturn)
     {
-        console.group('Game destroy');
         if (noReturn === undefined) { noReturn = false; }
 
         this.pendingDestroy = true;
 
         this.removeCanvas = removeCanvas;
         this.noReturn = noReturn;
-        console.groupEnd();
     },
 
     /**
@@ -807,7 +748,6 @@ var Game = new Class({
      */
     runDestroy: function ()
     {
-        console.group('Game runDestroy');
         this.scene.destroy();
 
         this.events.emit(Events.DESTROY);
@@ -837,7 +777,6 @@ var Game = new Class({
         this.loop.destroy();
 
         this.pendingDestroy = false;
-        console.groupEnd();
     }
 
 });

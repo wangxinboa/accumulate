@@ -62,7 +62,6 @@ var TextStyle = new Class({
 
     function TextStyle (text, style)
     {
-        console.group('TextStyle');
         /**
          * The Text object that this TextStyle is styling.
          *
@@ -359,7 +358,6 @@ var TextStyle = new Class({
 
         //  Set to defaults + user style
         this.setStyle(style, false, true);
-        console.groupEnd();
     },
 
     /**
@@ -385,7 +383,6 @@ var TextStyle = new Class({
      */
     setStyle: function (style, updateText, setDefaults)
     {
-        console.group('TextStyle setStyle');
         if (updateText === undefined) { updateText = true; }
         if (setDefaults === undefined) { setDefaults = false; }
 
@@ -445,13 +442,10 @@ var TextStyle = new Class({
 
         if (updateText)
         {
-            const result = this.parent.updateText();
-            console.groupEnd();
-            return result;
+            return this.parent.updateText();
         }
         else
         {
-            console.groupEnd();
             return this.parent;
         }
     },
@@ -467,9 +461,7 @@ var TextStyle = new Class({
      */
     syncFont: function (canvas, context)
     {
-        console.group('TextStyle syncFont');
         context.font = this._font;
-        console.groupEnd();
     },
 
     /**
@@ -483,7 +475,6 @@ var TextStyle = new Class({
      */
     syncStyle: function (canvas, context)
     {
-        console.group('TextStyle syncStyle');
         context.textBaseline = 'alphabetic';
 
         context.fillStyle = this.color;
@@ -492,7 +483,6 @@ var TextStyle = new Class({
         context.lineWidth = this.strokeThickness;
         context.lineCap = 'round';
         context.lineJoin = 'round';
-        console.groupEnd();
     },
 
     /**
@@ -506,7 +496,6 @@ var TextStyle = new Class({
      */
     syncShadow: function (context, enabled)
     {
-        console.group('TextStyle syncShadow');
         if (enabled)
         {
             context.shadowOffsetX = this.shadowOffsetX;
@@ -521,7 +510,6 @@ var TextStyle = new Class({
             context.shadowColor = 0;
             context.shadowBlur = 0;
         }
-        console.groupEnd();
     },
 
     /**
@@ -536,7 +524,6 @@ var TextStyle = new Class({
      */
     update: function (recalculateMetrics)
     {
-        console.group('TextStyle update');
         if (recalculateMetrics)
         {
             this._font = [ this.fontStyle, this.fontSize, this.fontFamily ].join(' ').trim();
@@ -544,9 +531,7 @@ var TextStyle = new Class({
             this.metrics = MeasureText(this);
         }
 
-        const result = this.parent.updateText();
-        console.groupEnd();
-        return result;
+        return this.parent.updateText();
     },
 
     /**
@@ -567,7 +552,6 @@ var TextStyle = new Class({
      */
     setFont: function (font, updateText)
     {
-        console.group('TextStyle setFont');
         if (updateText === undefined) { updateText = true; }
 
         var fontFamily = font;
@@ -603,7 +587,6 @@ var TextStyle = new Class({
             }
         }
 
-        console.groupEnd();
         return this.parent;
     },
 
@@ -619,7 +602,6 @@ var TextStyle = new Class({
      */
     setFontFamily: function (family)
     {
-        console.group('TextStyle setFontFamily');
         if (this.fontFamily !== family)
         {
             this.fontFamily = family;
@@ -627,7 +609,6 @@ var TextStyle = new Class({
             this.update(true);
         }
 
-        console.groupEnd();
         return this.parent;
     },
 
@@ -643,7 +624,6 @@ var TextStyle = new Class({
      */
     setFontStyle: function (style)
     {
-        console.group('TextStyle setFontStyle');
         if (this.fontStyle !== style)
         {
             this.fontStyle = style;
@@ -651,7 +631,6 @@ var TextStyle = new Class({
             this.update(true);
         }
 
-        console.groupEnd();
         return this.parent;
     },
 
@@ -667,7 +646,6 @@ var TextStyle = new Class({
      */
     setFontSize: function (size)
     {
-        console.group('TextStyle setFontSize');
         if (typeof size === 'number')
         {
             size = size.toString() + 'px';
@@ -680,7 +658,6 @@ var TextStyle = new Class({
             this.update(true);
         }
 
-        console.groupEnd();
         return this.parent;
     },
 
@@ -696,12 +673,9 @@ var TextStyle = new Class({
      */
     setTestString: function (string)
     {
-        console.group('TextStyle setTestString');
         this.testString = string;
 
-        const result = this.update(true);
-        console.groupEnd();
-        return result;
+        return this.update(true);
     },
 
     /**
@@ -719,7 +693,6 @@ var TextStyle = new Class({
      */
     setFixedSize: function (width, height)
     {
-        console.group('TextStyle setFixedSize');
         this.fixedWidth = width;
         this.fixedHeight = height;
 
@@ -733,9 +706,7 @@ var TextStyle = new Class({
             this.parent.height = height;
         }
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -750,12 +721,9 @@ var TextStyle = new Class({
      */
     setBackgroundColor: function (color)
     {
-        console.group('TextStyle setBackgroundColor');
         this.backgroundColor = color;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -770,12 +738,9 @@ var TextStyle = new Class({
      */
     setFill: function (color)
     {
-        console.group('TextStyle setFill');
         this.color = color;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -790,12 +755,9 @@ var TextStyle = new Class({
      */
     setColor: function (color)
     {
-        console.group('TextStyle setColor');
         this.color = color;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -815,12 +777,9 @@ var TextStyle = new Class({
      */
     setResolution: function (value)
     {
-        console.group('TextStyle setResolution');
         this.resolution = value;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -836,7 +795,6 @@ var TextStyle = new Class({
      */
     setStroke: function (color, thickness)
     {
-        console.group('TextStyle setStroke');
         if (thickness === undefined) { thickness = this.strokeThickness; }
 
         if (color === undefined && this.strokeThickness !== 0)
@@ -854,7 +812,6 @@ var TextStyle = new Class({
             this.update(true);
         }
 
-        console.groupEnd();
         return this.parent;
     },
 
@@ -878,7 +835,6 @@ var TextStyle = new Class({
      */
     setShadow: function (x, y, color, blur, shadowStroke, shadowFill)
     {
-        console.group('TextStyle setShadow');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (color === undefined) { color = '#000'; }
@@ -893,9 +849,7 @@ var TextStyle = new Class({
         this.shadowStroke = shadowStroke;
         this.shadowFill = shadowFill;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -911,16 +865,13 @@ var TextStyle = new Class({
      */
     setShadowOffset: function (x, y)
     {
-        console.group('TextStyle setShadowOffset');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = x; }
 
         this.shadowOffsetX = x;
         this.shadowOffsetY = y;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -935,14 +886,11 @@ var TextStyle = new Class({
      */
     setShadowColor: function (color)
     {
-        console.group('TextStyle setShadowColor');
         if (color === undefined) { color = '#000'; }
 
         this.shadowColor = color;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -957,14 +905,11 @@ var TextStyle = new Class({
      */
     setShadowBlur: function (blur)
     {
-        console.group('TextStyle setShadowBlur');
         if (blur === undefined) { blur = 0; }
 
         this.shadowBlur = blur;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -979,12 +924,9 @@ var TextStyle = new Class({
      */
     setShadowStroke: function (enabled)
     {
-        console.group('TextStyle setShadowStroke');
         this.shadowStroke = enabled;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -999,12 +941,9 @@ var TextStyle = new Class({
      */
     setShadowFill: function (enabled)
     {
-        console.group('TextStyle setShadowFill');
         this.shadowFill = enabled;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -1024,15 +963,12 @@ var TextStyle = new Class({
      */
     setWordWrapWidth: function (width, useAdvancedWrap)
     {
-        console.group('TextStyle setWordWrapWidth');
         if (useAdvancedWrap === undefined) { useAdvancedWrap = false; }
 
         this.wordWrapWidth = width;
         this.wordWrapUseAdvanced = useAdvancedWrap;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -1053,15 +989,12 @@ var TextStyle = new Class({
      */
     setWordWrapCallback: function (callback, scope)
     {
-        console.group('TextStyle setWordWrapCallback');
         if (scope === undefined) { scope = null; }
 
         this.wordWrapCallback = callback;
         this.wordWrapCallbackScope = scope;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -1080,14 +1013,11 @@ var TextStyle = new Class({
      */
     setAlign: function (align)
     {
-        console.group('TextStyle setAlign');
         if (align === undefined) { align = 'left'; }
 
         this.align = align;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -1102,14 +1032,11 @@ var TextStyle = new Class({
      */
     setMaxLines: function (max)
     {
-        console.group('TextStyle setMaxLines');
         if (max === undefined) { max = 0; }
 
         this.maxLines = max;
 
-        const result = this.update(false);
-        console.groupEnd();
-        return result;
+        return this.update(false);
     },
 
     /**
@@ -1122,10 +1049,8 @@ var TextStyle = new Class({
      */
     getTextMetrics: function ()
     {
-        console.group('TextStyle getTextMetrics');
         var metrics = this.metrics;
 
-        console.groupEnd();
         return {
             ascent: metrics.ascent,
             descent: metrics.descent,
@@ -1143,7 +1068,6 @@ var TextStyle = new Class({
      */
     toJSON: function ()
     {
-        console.group('TextStyle toJSON');
         var output = {};
 
         for (var key in propertyMap)
@@ -1153,7 +1077,6 @@ var TextStyle = new Class({
 
         output.metrics = this.getTextMetrics();
 
-        console.groupEnd();
         return output;
     },
 
@@ -1165,9 +1088,7 @@ var TextStyle = new Class({
      */
     destroy: function ()
     {
-        console.group('TextStyle destroy');
         this.parent = undefined;
-        console.groupEnd();
     }
 
 });

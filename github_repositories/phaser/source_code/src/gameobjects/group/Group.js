@@ -45,7 +45,6 @@ var Group = new Class({
 
     function Group (scene, children, config)
     {
-        console.group('Group');
         EventEmitter.call(this);
 
         //  They can pass in any of the following as the first argument:
@@ -257,23 +256,18 @@ var Group = new Class({
 
         this.on(Events.ADDED_TO_SCENE, this.addedToScene, this);
         this.on(Events.REMOVED_FROM_SCENE, this.removedFromScene, this);
-        console.groupEnd();
     },
 
     //  Overrides Game Object method
     addedToScene: function ()
     {
-        console.group('Group addedToScene');
         this.scene.sys.updateList.add(this);
-        console.groupEnd();
     },
 
     //  Overrides Game Object method
     removedFromScene: function ()
     {
-        console.group('Group removedFromScene');
         this.scene.sys.updateList.remove(this);
-        console.groupEnd();
     },
 
     /**
@@ -295,7 +289,6 @@ var Group = new Class({
      */
     create: function (x, y, key, frame, visible, active)
     {
-        console.group('Group create');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (key === undefined) { key = this.defaultKey; }
@@ -306,7 +299,6 @@ var Group = new Class({
         //  Pool?
         if (this.isFull())
         {
-            console.groupEnd();
             return null;
         }
 
@@ -320,7 +312,6 @@ var Group = new Class({
 
         this.add(child);
 
-        console.groupEnd();
         return child;
     },
 
@@ -340,10 +331,8 @@ var Group = new Class({
      */
     createMultiple: function (config)
     {
-        console.group('Group createMultiple');
         if (this.isFull())
         {
-            console.groupEnd();
             return [];
         }
 
@@ -364,7 +353,6 @@ var Group = new Class({
             }
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -380,10 +368,8 @@ var Group = new Class({
      */
     createFromConfig: function (options)
     {
-        console.group('Group createFromConfig');
         if (this.isFull())
         {
-            console.groupEnd();
             return [];
         }
 
@@ -399,7 +385,6 @@ var Group = new Class({
         //  Can't do anything without at least a key
         if (key === undefined)
         {
-            console.groupEnd();
             return entries;
         }
         else
@@ -554,7 +539,6 @@ var Group = new Class({
             this.createMultipleCallback.call(this, entries);
         }
 
-        console.groupEnd();
         return entries;
     },
 
@@ -569,10 +553,8 @@ var Group = new Class({
      */
     preUpdate: function (time, delta)
     {
-        console.group('Group preUpdate');
         if (!this.runChildUpdate || this.children.size === 0)
         {
-            console.groupEnd();
             return;
         }
 
@@ -588,7 +570,6 @@ var Group = new Class({
                 item.update(time, delta);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -606,12 +587,10 @@ var Group = new Class({
      */
     add: function (child, addToScene)
     {
-        console.group('Group add');
         if (addToScene === undefined) { addToScene = false; }
 
         if (this.isFull())
         {
-            console.groupEnd();
             return this;
         }
 
@@ -635,7 +614,6 @@ var Group = new Class({
 
         child.on(Events.DESTROY, this.remove, this);
 
-        console.groupEnd();
         return this;
     },
 
@@ -654,7 +632,6 @@ var Group = new Class({
      */
     addMultiple: function (children, addToScene)
     {
-        console.group('Group addMultiple');
         if (addToScene === undefined) { addToScene = false; }
 
         if (Array.isArray(children))
@@ -665,7 +642,6 @@ var Group = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -685,13 +661,11 @@ var Group = new Class({
      */
     remove: function (child, removeFromScene, destroyChild)
     {
-        console.group('Group remove');
         if (removeFromScene === undefined) { removeFromScene = false; }
         if (destroyChild === undefined) { destroyChild = false; }
 
         if (!this.children.contains(child))
         {
-            console.groupEnd();
             return this;
         }
 
@@ -719,7 +693,6 @@ var Group = new Class({
             child.removeFromUpdateList();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -738,7 +711,6 @@ var Group = new Class({
      */
     clear: function (removeFromScene, destroyChild)
     {
-        console.group('Group clear');
         if (removeFromScene === undefined) { removeFromScene = false; }
         if (destroyChild === undefined) { destroyChild = false; }
 
@@ -763,7 +735,6 @@ var Group = new Class({
 
         this.children.clear();
 
-        console.groupEnd();
         return this;
     },
 
@@ -779,10 +750,7 @@ var Group = new Class({
      */
     contains: function (child)
     {
-        console.group('Group contains');
-        const result = this.children.contains(child);
-        console.groupEnd();
-        return result;
+        return this.children.contains(child);
     },
 
     /**
@@ -795,10 +763,7 @@ var Group = new Class({
      */
     getChildren: function ()
     {
-        console.group('Group getChildren');
-        const result = this.children.entries;
-        console.groupEnd();
-        return result;
+        return this.children.entries;
     },
 
     /**
@@ -811,10 +776,7 @@ var Group = new Class({
      */
     getLength: function ()
     {
-        console.group('Group getLength');
-        const result = this.children.size;
-        console.groupEnd();
-        return result;
+        return this.children.size;
     },
 
     /**
@@ -838,10 +800,7 @@ var Group = new Class({
      */
     getMatching: function (property, value, startIndex, endIndex)
     {
-        console.group('Group getMatching');
-        const result = GetAll(this.children.entries, property, value, startIndex, endIndex);
-        console.groupEnd();
-        return result;
+        return GetAll(this.children.entries, property, value, startIndex, endIndex);
     },
 
     /**
@@ -866,10 +825,7 @@ var Group = new Class({
      */
     getFirst: function (state, createIfNull, x, y, key, frame, visible)
     {
-        console.group('Group getFirst');
-        const result = this.getHandler(true, 1, state, createIfNull, x, y, key, frame, visible);
-        console.groupEnd();
-        return result;
+        return this.getHandler(true, 1, state, createIfNull, x, y, key, frame, visible);
     },
 
     /**
@@ -895,10 +851,7 @@ var Group = new Class({
      */
     getFirstNth: function (nth, state, createIfNull, x, y, key, frame, visible)
     {
-        console.group('Group getFirstNth');
-        const result = this.getHandler(true, nth, state, createIfNull, x, y, key, frame, visible);
-        console.groupEnd();
-        return result;
+        return this.getHandler(true, nth, state, createIfNull, x, y, key, frame, visible);
     },
 
     /**
@@ -923,10 +876,7 @@ var Group = new Class({
      */
     getLast: function (state, createIfNull, x, y, key, frame, visible)
     {
-        console.group('Group getLast');
-        const result = this.getHandler(false, 1, state, createIfNull, x, y, key, frame, visible);
-        console.groupEnd();
-        return result;
+        return this.getHandler(false, 1, state, createIfNull, x, y, key, frame, visible);
     },
 
     /**
@@ -952,10 +902,7 @@ var Group = new Class({
      */
     getLastNth: function (nth, state, createIfNull, x, y, key, frame, visible)
     {
-        console.group('Group getLastNth');
-        const result = this.getHandler(false, nth, state, createIfNull, x, y, key, frame, visible);
-        console.groupEnd();
-        return result;
+        return this.getHandler(false, nth, state, createIfNull, x, y, key, frame, visible);
     },
 
     /**
@@ -983,7 +930,6 @@ var Group = new Class({
      */
     getHandler: function (forwards, nth, state, createIfNull, x, y, key, frame, visible)
     {
-        console.group('Group getHandler');
         if (state === undefined) { state = false; }
         if (createIfNull === undefined) { createIfNull = false; }
 
@@ -1048,19 +994,16 @@ var Group = new Class({
                 gameObject.y = y;
             }
 
-            console.groupEnd();
             return gameObject;
         }
 
         //  Got this far? We need to create or bail
         if (createIfNull)
         {
-            console.groupEnd();
             return this.create(x, y, key, frame, visible);
         }
         else
         {
-            console.groupEnd();
             return null;
         }
     },
@@ -1086,10 +1029,7 @@ var Group = new Class({
      */
     get: function (x, y, key, frame, visible)
     {
-        console.group('Group get');
-        const result = this.getFirst(false, true, x, y, key, frame, visible);
-        console.groupEnd();
-        return result;
+        return this.getFirst(false, true, x, y, key, frame, visible);
     },
 
     /**
@@ -1113,10 +1053,7 @@ var Group = new Class({
      */
     getFirstAlive: function (createIfNull, x, y, key, frame, visible)
     {
-        console.group('Group getFirstAlive');
-        const result = this.getFirst(true, createIfNull, x, y, key, frame, visible);
-        console.groupEnd();
-        return result;
+        return this.getFirst(true, createIfNull, x, y, key, frame, visible);
     },
 
     /**
@@ -1141,10 +1078,7 @@ var Group = new Class({
      */
     getFirstDead: function (createIfNull, x, y, key, frame, visible)
     {
-        console.group('Group getFirstDead');
-        const result = this.getFirst(false, createIfNull, x, y, key, frame, visible);
-        console.groupEnd();
-        return result;
+        return this.getFirst(false, createIfNull, x, y, key, frame, visible);
     },
 
     /**
@@ -1160,10 +1094,8 @@ var Group = new Class({
      */
     playAnimation: function (key, startFrame)
     {
-        console.group('Group playAnimation');
         Actions.PlayAnimation(this.children.entries, key, startFrame);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1177,15 +1109,12 @@ var Group = new Class({
      */
     isFull: function ()
     {
-        console.group('Group isFull');
         if (this.maxSize === -1)
         {
-            console.groupEnd();
             return false;
         }
         else
         {
-            console.groupEnd();
             return (this.children.size >= this.maxSize);
         }
     },
@@ -1202,7 +1131,6 @@ var Group = new Class({
      */
     countActive: function (value)
     {
-        console.group('Group countActive');
         if (value === undefined) { value = true; }
 
         var total = 0;
@@ -1215,7 +1143,6 @@ var Group = new Class({
             }
         }
 
-        console.groupEnd();
         return total;
     },
 
@@ -1229,10 +1156,7 @@ var Group = new Class({
      */
     getTotalUsed: function ()
     {
-        console.group('Group getTotalUsed');
-        const result = this.countActive();
-        console.groupEnd();
-        return result;
+        return this.countActive();
     },
 
     /**
@@ -1247,11 +1171,9 @@ var Group = new Class({
      */
     getTotalFree: function ()
     {
-        console.group('Group getTotalFree');
         var used = this.getTotalUsed();
         var capacity = (this.maxSize === -1) ? 999999999999 : this.maxSize;
 
-        console.groupEnd();
         return (capacity - used);
     },
 
@@ -1268,10 +1190,8 @@ var Group = new Class({
      */
     setActive: function (value)
     {
-        console.group('Group setActive');
         this.active = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1288,10 +1208,8 @@ var Group = new Class({
      */
     setName: function (value)
     {
-        console.group('Group setName');
         this.name = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1311,10 +1229,8 @@ var Group = new Class({
      */
     propertyValueSet: function (key, value, step, index, direction)
     {
-        console.group('Group propertyValueSet');
         Actions.PropertyValueSet(this.children.entries, key, value, step, index, direction);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1334,10 +1250,8 @@ var Group = new Class({
      */
     propertyValueInc: function (key, value, step, index, direction)
     {
-        console.group('Group propertyValueInc');
         Actions.PropertyValueInc(this.children.entries, key, value, step, index, direction);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1354,10 +1268,8 @@ var Group = new Class({
      */
     setX: function (value, step)
     {
-        console.group('Group setX');
         Actions.SetX(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1374,10 +1286,8 @@ var Group = new Class({
      */
     setY: function (value, step)
     {
-        console.group('Group setY');
         Actions.SetY(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1396,10 +1306,8 @@ var Group = new Class({
      */
     setXY: function (x, y, stepX, stepY)
     {
-        console.group('Group setXY');
         Actions.SetXY(this.children.entries, x, y, stepX, stepY);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1416,10 +1324,8 @@ var Group = new Class({
      */
     incX: function (value, step)
     {
-        console.group('Group incX');
         Actions.IncX(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1436,10 +1342,8 @@ var Group = new Class({
      */
     incY: function (value, step)
     {
-        console.group('Group incY');
         Actions.IncY(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1458,10 +1362,8 @@ var Group = new Class({
      */
     incXY: function (x, y, stepX, stepY)
     {
-        console.group('Group incXY');
         Actions.IncXY(this.children.entries, x, y, stepX, stepY);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1482,10 +1384,8 @@ var Group = new Class({
      */
     shiftPosition: function (x, y, direction)
     {
-        console.group('Group shiftPosition');
         Actions.ShiftPosition(this.children.entries, x, y, direction);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1502,10 +1402,8 @@ var Group = new Class({
      */
     angle: function (value, step)
     {
-        console.group('Group angle');
         Actions.Angle(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1522,10 +1420,8 @@ var Group = new Class({
      */
     rotate: function (value, step)
     {
-        console.group('Group rotate');
         Actions.Rotate(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1542,10 +1438,8 @@ var Group = new Class({
      */
     rotateAround: function (point, angle)
     {
-        console.group('Group rotateAround');
         Actions.RotateAround(this.children.entries, point, angle);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1563,10 +1457,8 @@ var Group = new Class({
      */
     rotateAroundDistance: function (point, angle, distance)
     {
-        console.group('Group rotateAroundDistance');
         Actions.RotateAroundDistance(this.children.entries, point, angle, distance);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1583,10 +1475,8 @@ var Group = new Class({
      */
     setAlpha: function (value, step)
     {
-        console.group('Group setAlpha');
         Actions.SetAlpha(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1605,10 +1495,8 @@ var Group = new Class({
      */
     setTint: function (topLeft, topRight, bottomLeft, bottomRight)
     {
-        console.group('Group setTint');
         Actions.SetTint(this.children.entries, topLeft, topRight, bottomLeft, bottomRight);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1627,10 +1515,8 @@ var Group = new Class({
      */
     setOrigin: function (originX, originY, stepX, stepY)
     {
-        console.group('Group setOrigin');
         Actions.SetOrigin(this.children.entries, originX, originY, stepX, stepY);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1647,10 +1533,8 @@ var Group = new Class({
      */
     scaleX: function (value, step)
     {
-        console.group('Group scaleX');
         Actions.ScaleX(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1667,10 +1551,8 @@ var Group = new Class({
      */
     scaleY: function (value, step)
     {
-        console.group('Group scaleY');
         Actions.ScaleY(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1689,10 +1571,8 @@ var Group = new Class({
      */
     scaleXY: function (scaleX, scaleY, stepX, stepY)
     {
-        console.group('Group scaleXY');
         Actions.ScaleXY(this.children.entries, scaleX, scaleY, stepX, stepY);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1709,10 +1589,8 @@ var Group = new Class({
      */
     setDepth: function (value, step)
     {
-        console.group('Group setDepth');
         Actions.SetDepth(this.children.entries, value, step);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1728,10 +1606,8 @@ var Group = new Class({
      */
     setBlendMode: function (value)
     {
-        console.group('Group setBlendMode');
         Actions.SetBlendMode(this.children.entries, value);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1748,10 +1624,8 @@ var Group = new Class({
      */
     setHitArea: function (hitArea, hitAreaCallback)
     {
-        console.group('Group setHitArea');
         Actions.SetHitArea(this.children.entries, hitArea, hitAreaCallback);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1765,10 +1639,8 @@ var Group = new Class({
      */
     shuffle: function ()
     {
-        console.group('Group shuffle');
         Actions.Shuffle(this.children.entries);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1782,12 +1654,10 @@ var Group = new Class({
      */
     kill: function (gameObject)
     {
-        console.group('Group kill');
         if (this.children.contains(gameObject))
         {
             gameObject.setActive(false);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1800,13 +1670,11 @@ var Group = new Class({
      */
     killAndHide: function (gameObject)
     {
-        console.group('Group killAndHide');
         if (this.children.contains(gameObject))
         {
             gameObject.setActive(false);
             gameObject.setVisible(false);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1823,10 +1691,8 @@ var Group = new Class({
      */
     setVisible: function (value, index, direction)
     {
-        console.group('Group setVisible');
         Actions.SetVisible(this.children.entries, value, index, direction);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1840,10 +1706,8 @@ var Group = new Class({
      */
     toggleVisible: function ()
     {
-        console.group('Group toggleVisible');
         Actions.ToggleVisible(this.children.entries);
 
-        console.groupEnd();
         return this;
     },
 
@@ -1866,14 +1730,12 @@ var Group = new Class({
      */
     destroy: function (destroyChildren, removeFromScene)
     {
-        console.group('Group destroy');
         if (destroyChildren === undefined) { destroyChildren = false; }
         if (removeFromScene === undefined) { removeFromScene = false; }
 
         //  This Game Object had already been destroyed
         if (!this.scene || this.ignoreDestroy)
         {
-            console.groupEnd();
             return;
         }
 
@@ -1887,7 +1749,6 @@ var Group = new Class({
 
         this.scene = undefined;
         this.children = undefined;
-        console.groupEnd();
     }
 
 });

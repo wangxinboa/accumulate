@@ -29,7 +29,6 @@ var WebGLAttribLocationWrapper = new Class({
 
     function WebGLAttribLocationWrapper (gl, program, name)
     {
-        console.group('WebGLAttribLocationWrapper');
         /**
          * The WebGLAttribLocation being wrapped by this class.
          *
@@ -72,7 +71,6 @@ var WebGLAttribLocationWrapper = new Class({
         this.name = name;
 
         this.createResource();
-        console.groupEnd();
     },
 
     /**
@@ -83,11 +81,9 @@ var WebGLAttribLocationWrapper = new Class({
      */
     createResource: function ()
     {
-        console.group('WebGLAttribLocationWrapper createResource');
         if (this.program.webGLProgram === null)
         {
             this.webGLAttribLocation = -1;
-            console.groupEnd();
             return;
         }
 
@@ -95,14 +91,12 @@ var WebGLAttribLocationWrapper = new Class({
 
         if (gl.isContextLost())
         {
-            console.groupEnd();
             // GL state can't be updated right now.
             // `createResource` will run when the context is restored.
             return;
         }
 
         this.webGLAttribLocation = gl.getAttribLocation(this.program.webGLProgram, this.name);
-        console.groupEnd();
     },
 
     /**
@@ -113,12 +107,10 @@ var WebGLAttribLocationWrapper = new Class({
      */
     destroy: function ()
     {
-        console.group('WebGLAttribLocationWrapper destroy');
         this.gl = null;
         this.program = null;
         this.name = null;
         this.webGLAttribLocation = -1;
-        console.groupEnd();
     }
 });
 

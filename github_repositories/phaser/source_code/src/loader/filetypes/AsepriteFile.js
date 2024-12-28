@@ -43,7 +43,6 @@ var AsepriteFile = new Class({
 
     function AsepriteFile (loader, key, textureURL, atlasURL, textureXhrSettings, atlasXhrSettings)
     {
-        console.group('AsepriteFile');
         var image;
         var data;
 
@@ -83,7 +82,6 @@ var AsepriteFile = new Class({
         {
             MultiFile.call(this, loader, 'atlasjson', key, [ image, data ]);
         }
-        console.groupEnd();
     },
 
     /**
@@ -94,7 +92,6 @@ var AsepriteFile = new Class({
      */
     addToCache: function ()
     {
-        console.group('AsepriteFile addToCache');
         if (this.isReadyToProcess())
         {
             var image = this.files[0];
@@ -107,7 +104,6 @@ var AsepriteFile = new Class({
 
             this.complete = true;
         }
-        console.groupEnd();
     }
 
 });
@@ -238,10 +234,8 @@ var AsepriteFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register aseprite');
 FileTypesManager.register('aseprite', function (key, textureURL, atlasURL, textureXhrSettings, atlasXhrSettings)
 {
-    console.group('FileTypesManager.register aseprite factoryFunction');
     var multifile;
 
     //  Supports an Object file definition in the key argument
@@ -264,9 +258,7 @@ FileTypesManager.register('aseprite', function (key, textureURL, atlasURL, textu
         this.addFile(multifile.files);
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = AsepriteFile;

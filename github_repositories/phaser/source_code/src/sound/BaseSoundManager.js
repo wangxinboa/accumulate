@@ -39,7 +39,6 @@ var BaseSoundManager = new Class({
 
     function BaseSoundManager (game)
     {
-        console.group('BaseSoundManager');
         EventEmitter.call(this);
 
         /**
@@ -178,7 +177,6 @@ var BaseSoundManager = new Class({
         game.events.on(GameEvents.FOCUS, this.onGameFocus, this);
         game.events.on(GameEvents.PRE_STEP, this.update, this);
         game.events.once(GameEvents.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -210,7 +208,6 @@ var BaseSoundManager = new Class({
      */
     addAudioSprite: function (key, config)
     {
-        console.group('BaseSoundManager addAudioSprite');
         if (config === undefined) { config = {}; }
 
         var sound = this.add(key, config);
@@ -238,7 +235,6 @@ var BaseSoundManager = new Class({
             });
         }
 
-        console.groupEnd();
         return sound;
     },
 
@@ -258,10 +254,7 @@ var BaseSoundManager = new Class({
      */
     get: function (key)
     {
-        console.group('BaseSoundManager get');
-        const result = GetFirst(this.sounds, 'key', key);
-        console.groupEnd();
-        return result;
+        return GetFirst(this.sounds, 'key', key);
     },
 
     /**
@@ -282,18 +275,13 @@ var BaseSoundManager = new Class({
      */
     getAll: function (key)
     {
-        console.group('BaseSoundManager getAll');
         if (key)
         {
-            const result = GetAll(this.sounds, 'key', key);
-            console.groupEnd();
-            return result;
+            return GetAll(this.sounds, 'key', key);
         }
         else
         {
-            const result = GetAll(this.sounds);
-            console.groupEnd();
-            return result;
+            return GetAll(this.sounds);
         }
     },
 
@@ -312,10 +300,7 @@ var BaseSoundManager = new Class({
      */
     getAllPlaying: function ()
     {
-        console.group('BaseSoundManager getAllPlaying');
-        const result = GetAll(this.sounds, 'isPlaying', true);
-        console.groupEnd();
-        return result;
+        return GetAll(this.sounds, 'isPlaying', true);
     },
 
     /**
@@ -336,7 +321,6 @@ var BaseSoundManager = new Class({
      */
     play: function (key, extra)
     {
-        console.group('BaseSoundManager play');
         var sound = this.add(key);
 
         sound.once(Events.COMPLETE, sound.destroy, sound);
@@ -347,22 +331,16 @@ var BaseSoundManager = new Class({
             {
                 sound.addMarker(extra);
 
-                const result = sound.play(extra.name);
-                console.groupEnd();
-                return result;
+                return sound.play(extra.name);
             }
             else
             {
-                const result = sound.play(extra);
-                console.groupEnd();
-                return result;
+                return sound.play(extra);
             }
         }
         else
         {
-            const result = sound.play();
-            console.groupEnd();
-            return result;
+            return sound.play();
         }
     },
 
@@ -383,14 +361,11 @@ var BaseSoundManager = new Class({
      */
     playAudioSprite: function (key, spriteName, config)
     {
-        console.group('BaseSoundManager playAudioSprite');
         var sound = this.addAudioSprite(key);
 
         sound.once(Events.COMPLETE, sound.destroy, sound);
 
-        const result = sound.play(spriteName, config);
-        console.groupEnd();
-        return result;
+        return sound.play(spriteName, config);
     },
 
     /**
@@ -406,7 +381,6 @@ var BaseSoundManager = new Class({
      */
     remove: function (sound)
     {
-        console.group('BaseSoundManager remove');
         var index = this.sounds.indexOf(sound);
 
         if (index !== -1)
@@ -415,11 +389,9 @@ var BaseSoundManager = new Class({
 
             this.sounds.splice(index, 1);
 
-            console.groupEnd();
             return true;
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -431,14 +403,12 @@ var BaseSoundManager = new Class({
      */
     removeAll: function ()
     {
-        console.group('BaseSoundManager removeAll');
         this.sounds.forEach(function (sound)
         {
             sound.destroy();
         });
 
         this.sounds.length = 0;
-        console.groupEnd();
     },
 
     /**
@@ -454,7 +424,6 @@ var BaseSoundManager = new Class({
      */
     removeByKey: function (key)
     {
-        console.group('BaseSoundManager removeByKey');
         var removed = 0;
 
         for (var i = this.sounds.length - 1; i >= 0; i--)
@@ -471,7 +440,6 @@ var BaseSoundManager = new Class({
             }
         }
 
-        console.groupEnd();
         return removed;
     },
 
@@ -484,14 +452,12 @@ var BaseSoundManager = new Class({
      */
     pauseAll: function ()
     {
-        console.group('BaseSoundManager pauseAll');
         this.forEachActiveSound(function (sound)
         {
             sound.pause();
         });
 
         this.emit(Events.PAUSE_ALL, this);
-        console.groupEnd();
     },
 
     /**
@@ -503,14 +469,12 @@ var BaseSoundManager = new Class({
      */
     resumeAll: function ()
     {
-        console.group('BaseSoundManager resumeAll');
         this.forEachActiveSound(function (sound)
         {
             sound.resume();
         });
 
         this.emit(Events.RESUME_ALL, this);
-        console.groupEnd();
     },
 
     /**
@@ -539,14 +503,12 @@ var BaseSoundManager = new Class({
      */
     stopAll: function ()
     {
-        console.group('BaseSoundManager stopAll');
         this.forEachActiveSound(function (sound)
         {
             sound.stop();
         });
 
         this.emit(Events.STOP_ALL, this);
-        console.groupEnd();
     },
 
     /**
@@ -561,7 +523,6 @@ var BaseSoundManager = new Class({
      */
     stopByKey: function (key)
     {
-        console.group('BaseSoundManager stopByKey');
         var stopped = 0;
 
         this.getAll(key).forEach(function (sound)
@@ -569,7 +530,6 @@ var BaseSoundManager = new Class({
             if (sound.stop()) { stopped++; }
         });
 
-        console.groupEnd();
         return stopped;
     },
 
@@ -587,7 +547,6 @@ var BaseSoundManager = new Class({
      */
     isPlaying: function (key)
     {
-        console.group('BaseSoundManager isPlaying');
         var sounds = this.sounds;
         var i = sounds.length - 1;
         var sound;
@@ -600,7 +559,6 @@ var BaseSoundManager = new Class({
 
                 if (sound.isPlaying)
                 {
-                    console.groupEnd();
                     return true;
                 }
             }
@@ -613,13 +571,11 @@ var BaseSoundManager = new Class({
 
                 if (sound.key === key && sound.isPlaying)
                 {
-                    console.groupEnd();
                     return true;
                 }
             }
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -667,14 +623,12 @@ var BaseSoundManager = new Class({
      */
     onGameBlur: function ()
     {
-        console.group('BaseSoundManager onGameBlur');
         this.gameLostFocus = true;
 
         if (this.pauseOnBlur)
         {
             this.onBlur();
         }
-        console.groupEnd();
     },
 
     /**
@@ -686,14 +640,12 @@ var BaseSoundManager = new Class({
      */
     onGameFocus: function ()
     {
-        console.group('BaseSoundManager onGameFocus');
         this.gameLostFocus = false;
 
         if (this.pauseOnBlur)
         {
             this.onFocus();
         }
-        console.groupEnd();
     },
 
     /**
@@ -710,7 +662,6 @@ var BaseSoundManager = new Class({
      */
     update: function (time, delta)
     {
-        console.group('BaseSoundManager update');
         if (this.unlocked)
         {
             this.unlocked = false;
@@ -731,7 +682,6 @@ var BaseSoundManager = new Class({
         {
             sound.update(time, delta);
         });
-        console.groupEnd();
     },
 
     /**
@@ -742,7 +692,6 @@ var BaseSoundManager = new Class({
      */
     destroy: function ()
     {
-        console.group('BaseSoundManager destroy');
         this.game.events.off(GameEvents.BLUR, this.onGameBlur, this);
         this.game.events.off(GameEvents.FOCUS, this.onGameFocus, this);
         this.game.events.off(GameEvents.PRE_STEP, this.update, this);
@@ -755,7 +704,6 @@ var BaseSoundManager = new Class({
         this.sounds = null;
         this.listenerPosition = null;
         this.game = null;
-        console.groupEnd();
     },
 
     /**
@@ -770,7 +718,6 @@ var BaseSoundManager = new Class({
      */
     forEachActiveSound: function (callback, scope)
     {
-        console.group('BaseSoundManager forEachActiveSound');
         var _this = this;
 
         this.sounds.forEach(function (sound, index)
@@ -780,7 +727,6 @@ var BaseSoundManager = new Class({
                 callback.call(scope || _this, sound, index, _this.sounds);
             }
         });
-        console.groupEnd();
     },
 
     /**
@@ -799,10 +745,8 @@ var BaseSoundManager = new Class({
      */
     setRate: function (value)
     {
-        console.group('BaseSoundManager setRate');
         this.rate = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -851,10 +795,8 @@ var BaseSoundManager = new Class({
      */
     setDetune: function (value)
     {
-        console.group('BaseSoundManager setDetune');
         this.detune = value;
 
-        console.groupEnd();
         return this;
     },
 

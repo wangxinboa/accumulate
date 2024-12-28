@@ -43,7 +43,6 @@ var JSONFile = new Class({
 
     function JSONFile (loader, key, url, xhrSettings, dataKey)
     {
-        console.group('JSONFile');
         var extension = 'json';
 
         if (IsPlainObject(key))
@@ -84,7 +83,6 @@ var JSONFile = new Class({
 
             this.state = CONST.FILE_POPULATED;
         }
-        console.groupEnd();
     },
 
     /**
@@ -96,7 +94,6 @@ var JSONFile = new Class({
      */
     onProcess: function ()
     {
-        console.group('JSONFile onProcess');
         if (this.state !== CONST.FILE_POPULATED)
         {
             this.state = CONST.FILE_PROCESSING;
@@ -125,7 +122,6 @@ var JSONFile = new Class({
         }
 
         this.onProcessComplete();
-        console.groupEnd();
     }
 
 });
@@ -216,10 +212,8 @@ var JSONFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register json');
 FileTypesManager.register('json', function (key, url, dataKey, xhrSettings)
 {
-    console.group('FileTypesManager.register json factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -233,9 +227,7 @@ FileTypesManager.register('json', function (key, url, dataKey, xhrSettings)
         this.addFile(new JSONFile(this, key, url, xhrSettings, dataKey));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = JSONFile;

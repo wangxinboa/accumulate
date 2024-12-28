@@ -35,7 +35,6 @@ var Config = new Class({
 
     function Config (config)
     {
-        console.group('Config');
         if (config === undefined) { config = {}; }
 
         var defaultBannerColor = [
@@ -652,7 +651,6 @@ var Config = new Class({
                 this.renderType = CONST.CANVAS;
             }
         }
-        console.groupEnd();
     }
 
 });

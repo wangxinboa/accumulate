@@ -34,7 +34,6 @@ var GameObject = new Class({
 
     function GameObject (scene, type)
     {
-        console.group('GameObject');
         EventEmitter.call(this);
 
         /**
@@ -212,7 +211,6 @@ var GameObject = new Class({
 
         //  Tell the Scene to re-sort the children
         scene.sys.queueDepthSort();
-        console.groupEnd();
     },
 
     /**
@@ -228,10 +226,8 @@ var GameObject = new Class({
      */
     setActive: function (value)
     {
-        console.group('GameObject setActive');
         this.active = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -248,10 +244,8 @@ var GameObject = new Class({
      */
     setName: function (value)
     {
-        console.group('GameObject setName');
         this.name = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -274,10 +268,8 @@ var GameObject = new Class({
      */
     setState: function (value)
     {
-        console.group('GameObject setState');
         this.state = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -292,13 +284,11 @@ var GameObject = new Class({
      */
     setDataEnabled: function ()
     {
-        console.group('GameObject setDataEnabled');
         if (!this.data)
         {
             this.data = new DataManager(this);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -354,7 +344,6 @@ var GameObject = new Class({
      */
     setData: function (key, value)
     {
-        console.group('GameObject setData');
         if (!this.data)
         {
             this.data = new DataManager(this);
@@ -362,7 +351,6 @@ var GameObject = new Class({
 
         this.data.set(key, value);
 
-        console.groupEnd();
         return this;
     },
 
@@ -386,7 +374,6 @@ var GameObject = new Class({
      */
     incData: function (key, amount)
     {
-        console.group('GameObject incData');
         if (!this.data)
         {
             this.data = new DataManager(this);
@@ -394,7 +381,6 @@ var GameObject = new Class({
 
         this.data.inc(key, amount);
 
-        console.groupEnd();
         return this;
     },
 
@@ -417,7 +403,6 @@ var GameObject = new Class({
      */
     toggleData: function (key)
     {
-        console.group('GameObject toggleData');
         if (!this.data)
         {
             this.data = new DataManager(this);
@@ -425,7 +410,6 @@ var GameObject = new Class({
 
         this.data.toggle(key);
 
-        console.groupEnd();
         return this;
     },
 
@@ -461,15 +445,12 @@ var GameObject = new Class({
      */
     getData: function (key)
     {
-        console.group('GameObject getData');
         if (!this.data)
         {
             this.data = new DataManager(this);
         }
 
-        const result = this.data.get(key);
-        console.groupEnd();
-        return result;
+        return this.data.get(key);
     },
 
     /**
@@ -505,10 +486,8 @@ var GameObject = new Class({
      */
     setInteractive: function (hitArea, hitAreaCallback, dropZone)
     {
-        console.group('GameObject setInteractive');
         this.scene.sys.input.enable(this, hitArea, hitAreaCallback, dropZone);
 
-        console.groupEnd();
         return this;
     },
 
@@ -530,12 +509,10 @@ var GameObject = new Class({
      */
     disableInteractive: function (resetCursor)
     {
-        console.group('GameObject disableInteractive');
         if (resetCursor === undefined) { resetCursor = false; }
 
         this.scene.sys.input.disable(this, resetCursor);
 
-        console.groupEnd();
         return this;
     },
 
@@ -568,7 +545,6 @@ var GameObject = new Class({
      */
     removeInteractive: function (resetCursor)
     {
-        console.group('GameObject removeInteractive');
         if (resetCursor === undefined) { resetCursor = false; }
 
         this.scene.sys.input.clear(this);
@@ -580,7 +556,6 @@ var GameObject = new Class({
 
         this.input = undefined;
 
-        console.groupEnd();
         return this;
     },
 
@@ -636,10 +611,7 @@ var GameObject = new Class({
      */
     toJSON: function ()
     {
-        console.group('GameObject toJSON');
-        const result =  ComponentsToJSON(this);
-        console.groupEnd();
-        return result;
+        return ComponentsToJSON(this);
     },
 
     /**
@@ -655,12 +627,9 @@ var GameObject = new Class({
      */
     willRender: function (camera)
     {
-        console.group('GameObject willRender');
         var listWillRender = (this.displayList && this.displayList.active) ? this.displayList.willRender(camera) : true;
 
-        const result = !(!listWillRender || GameObject.RENDER_MASK !== this.renderFlags || (this.cameraFilter !== 0 && (this.cameraFilter & camera.id)));
-        console.groupEnd();
-        return result;
+        return !(!listWillRender || GameObject.RENDER_MASK !== this.renderFlags || (this.cameraFilter !== 0 && (this.cameraFilter & camera.id)));
     },
 
     /**
@@ -678,7 +647,6 @@ var GameObject = new Class({
      */
     getIndexList: function ()
     {
-        console.group('GameObject getIndexList');
         // eslint-disable-next-line consistent-this
         var child = this;
         var parent = this.parentContainer;
@@ -710,7 +678,6 @@ var GameObject = new Class({
             indexes.unshift(this.scene.sys.displayList.getIndex(child));
         }
 
-        console.groupEnd();
         return indexes;
     },
 
@@ -741,7 +708,6 @@ var GameObject = new Class({
      */
     addToDisplayList: function (displayList)
     {
-        console.group('GameObject addToDisplayList');
         if (displayList === undefined) { displayList = this.scene.sys.displayList; }
 
         if (this.displayList && this.displayList !== displayList)
@@ -763,7 +729,6 @@ var GameObject = new Class({
             displayList.events.emit(SceneEvents.ADDED_TO_SCENE, this, this.scene);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -784,13 +749,11 @@ var GameObject = new Class({
      */
     addToUpdateList: function ()
     {
-        console.group('GameObject addToUpdateList');
         if (this.scene && this.preUpdate)
         {
             this.scene.sys.updateList.add(this);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -814,7 +777,6 @@ var GameObject = new Class({
      */
     removeFromDisplayList: function ()
     {
-        console.group('GameObject removeFromDisplayList');
         var displayList = this.displayList || this.scene.sys.displayList;
 
         if (displayList && displayList.exists(this))
@@ -830,7 +792,6 @@ var GameObject = new Class({
             displayList.events.emit(SceneEvents.REMOVED_FROM_SCENE, this, this.scene);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -851,13 +812,11 @@ var GameObject = new Class({
      */
     removeFromUpdateList: function ()
     {
-        console.group('GameObject removeFromUpdateList');
         if (this.scene && this.preUpdate)
         {
             this.scene.sys.updateList.remove(this);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -879,7 +838,6 @@ var GameObject = new Class({
      */
     getDisplayList: function ()
     {
-        console.group('GameObject getDisplayList');
         var list = null;
 
         if (this.parentContainer)
@@ -891,7 +849,6 @@ var GameObject = new Class({
             list = this.displayList.list;
         }
 
-        console.groupEnd();
         return list;
     },
 
@@ -916,11 +873,9 @@ var GameObject = new Class({
      */
     destroy: function (fromScene)
     {
-        console.group('GameObject destroy');
         //  This Game Object has already been destroyed
         if (!this.scene || this.ignoreDestroy)
         {
-            console.groupEnd();
             return;
         }
 
@@ -983,7 +938,6 @@ var GameObject = new Class({
 
         this.scene = undefined;
         this.parentContainer = undefined;
-        console.groupEnd();
     }
 
 });

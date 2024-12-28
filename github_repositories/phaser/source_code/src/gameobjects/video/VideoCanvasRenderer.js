@@ -20,14 +20,12 @@
  */
 var VideoCanvasRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('VideoCanvasRenderer');
     if (src.videoTexture)
     {
         camera.addToRenderList(src);
 
         renderer.batchSprite(src, src.frame, camera, parentMatrix);
     }
-    console.groupEnd();
 };
 
 module.exports = VideoCanvasRenderer;

@@ -27,13 +27,11 @@ module.exports = {
      */
     getTintFromFloats: function (r, g, b, a)
     {
-        console.group('getTintFromFloats');
         var ur = ((r * 255) | 0) & 0xff;
         var ug = ((g * 255) | 0) & 0xff;
         var ub = ((b * 255) | 0) & 0xff;
         var ua = ((a * 255) | 0) & 0xff;
 
-        console.groupEnd();
         return ((ua << 24) | (ur << 16) | (ug << 8) | ub) >>> 0;
     },
 
@@ -51,10 +49,8 @@ module.exports = {
      */
     getTintAppendFloatAlpha: function (rgb, a)
     {
-        console.group('getTintAppendFloatAlpha');
         var ua = ((a * 255) | 0) & 0xff;
 
-        console.groupEnd();
         return ((ua << 24) | rgb) >>> 0;
     },
 
@@ -73,13 +69,11 @@ module.exports = {
      */
     getTintAppendFloatAlphaAndSwap: function (rgb, a)
     {
-        console.group('getTintAppendFloatAlphaAndSwap');
         var ur = ((rgb >> 16) | 0) & 0xff;
         var ug = ((rgb >> 8) | 0) & 0xff;
         var ub = (rgb | 0) & 0xff;
         var ua = ((a * 255) | 0) & 0xff;
 
-        console.groupEnd();
         return ((ua << 24) | (ub << 16) | (ug << 8) | ur) >>> 0;
     },
 
@@ -95,12 +89,10 @@ module.exports = {
      */
     getFloatsFromUintRGB: function (rgb)
     {
-        console.group('getFloatsFromUintRGB');
         var ur = ((rgb >> 16) | 0) & 0xff;
         var ug = ((rgb >> 8) | 0) & 0xff;
         var ub = (rgb | 0) & 0xff;
 
-        console.groupEnd();
         return [ ur / 255, ug / 255, ub / 255 ];
     },
 
@@ -120,7 +112,6 @@ module.exports = {
      */
     checkShaderMax: function (gl, maxTextures)
     {
-        console.group('checkShaderMax');
         //  Note: This is the maximum number of TIUs that a _fragment_ shader supports
         //  https://www.khronos.org/opengl/wiki/Common_Mistakes#Texture_Unit
 
@@ -129,12 +120,10 @@ module.exports = {
 
         if (!maxTextures || maxTextures === -1)
         {
-            console.groupEnd();
             return gpuMax;
         }
         else
         {
-            console.groupEnd();
             return Math.min(gpuMax, maxTextures);
         }
     },
@@ -153,10 +142,8 @@ module.exports = {
      */
     parseFragmentShaderMaxTextures: function (fragmentShaderSource, maxTextures)
     {
-        console.group('parseFragmentShaderMaxTextures');
         if (!fragmentShaderSource)
         {
-            console.groupEnd();
             return '';
         }
 
@@ -181,9 +168,7 @@ module.exports = {
 
         fragmentShaderSource = fragmentShaderSource.replace(/%count%/gi, maxTextures.toString());
 
-        const result = fragmentShaderSource.replace(/%forloop%/gi, src);
-        console.groupEnd();
-        return result;
+        return fragmentShaderSource.replace(/%forloop%/gi, src);
     },
 
     /**
@@ -202,7 +187,6 @@ module.exports = {
      */
     setGlowQuality: function (shader, game, quality, distance)
     {
-        console.group('setGlowQuality');
         if (quality === undefined)
         {
             quality = game.config.glowFXQuality;
@@ -216,7 +200,6 @@ module.exports = {
         shader = shader.replace(/__SIZE__/gi, (1 / quality / distance).toFixed(7));
         shader = shader.replace(/__DIST__/gi, distance.toFixed(0) + '.0');
 
-        console.groupEnd();
         return shader;
     }
 

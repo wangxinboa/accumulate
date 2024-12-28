@@ -40,7 +40,6 @@ var ScenePluginFile = new Class({
 
     function ScenePluginFile (loader, key, url, systemKey, sceneKey, xhrSettings)
     {
-        console.group('ScenePluginFile');
         var extension = 'js';
 
         if (IsPlainObject(key))
@@ -78,7 +77,6 @@ var ScenePluginFile = new Class({
 
             this.state = CONST.FILE_POPULATED;
         }
-        console.groupEnd();
     },
 
     /**
@@ -90,7 +88,6 @@ var ScenePluginFile = new Class({
      */
     onProcess: function ()
     {
-        console.group('ScenePluginFile onProcess');
         var pluginManager = this.loader.systems.plugins;
         var config = this.config;
 
@@ -119,7 +116,6 @@ var ScenePluginFile = new Class({
         }
 
         this.onProcessComplete();
-        console.groupEnd();
     }
 
 });
@@ -183,10 +179,8 @@ var ScenePluginFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register scenePlugin');
 FileTypesManager.register('scenePlugin', function (key, url, systemKey, sceneKey, xhrSettings)
 {
-    console.group('FileTypesManager.register scenePlugin factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -200,9 +194,7 @@ FileTypesManager.register('scenePlugin', function (key, url, systemKey, sceneKey
         this.addFile(new ScenePluginFile(this, key, url, systemKey, sceneKey, xhrSettings));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = ScenePluginFile;

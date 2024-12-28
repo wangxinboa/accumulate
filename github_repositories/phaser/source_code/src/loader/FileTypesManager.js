@@ -25,12 +25,10 @@ var FileTypesManager = {
      */
     install: function (loader)
     {
-        console.group('FileTypesManager install');
         for (var key in types)
         {
             loader[key] = types[key];
         }
-        console.groupEnd();
     },
 
     /**
@@ -46,9 +44,7 @@ var FileTypesManager = {
      */
     register: function (key, factoryFunction)
     {
-        console.group('FileTypesManager register');
         types[key] = factoryFunction;
-        console.groupEnd();
     },
 
     /**
@@ -59,9 +55,7 @@ var FileTypesManager = {
      */
     destroy: function ()
     {
-        console.group('FileTypesManager destroy');
         types = {};
-        console.groupEnd();
     }
 
 };

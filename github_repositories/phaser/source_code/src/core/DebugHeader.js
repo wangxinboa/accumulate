@@ -18,13 +18,10 @@ var CONST = require('../const');
  */
 var DebugHeader = function (game)
 {
-    console.group('DebugHeader');
     var config = game.config;
 
     if (config.hideBanner)
     {
-        console.info('DebugHeader config.hideBanner 为 true, 无操作')
-        console.groupEnd();
         return;
     }
 
@@ -121,7 +118,6 @@ var DebugHeader = function (game)
     {
         console.log('Phaser v' + CONST.VERSION + ' / https://phaser.io');
     }
-    console.groupEnd();
 };
 
 module.exports = DebugHeader;

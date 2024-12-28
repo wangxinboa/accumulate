@@ -77,7 +77,6 @@ var Sprite = new Class({
 
     function Sprite (scene, x, y, texture, frame)
     {
-        console.group('Sprite');
         GameObject.call(this, scene, 'Sprite');
 
         /**
@@ -109,23 +108,18 @@ var Sprite = new Class({
         this.setOriginFromFrame();
         this.initPipeline();
         this.initPostPipeline(true);
-        console.groupEnd();
     },
 
     //  Overrides Game Object method
     addedToScene: function ()
     {
-        console.group('Sprite addedToScene');
         this.scene.sys.updateList.add(this);
-        console.groupEnd();
     },
 
     //  Overrides Game Object method
     removedFromScene: function ()
     {
-        console.group('Sprite removedFromScene');
         this.scene.sys.updateList.remove(this);
-        console.groupEnd();
     },
 
     /**
@@ -140,9 +134,7 @@ var Sprite = new Class({
      */
     preUpdate: function (time, delta)
     {
-        console.group('Sprite preUpdate');
         this.anims.update(time, delta);
-        console.groupEnd();
     },
 
     /**
@@ -207,10 +199,7 @@ var Sprite = new Class({
      */
     play: function (key, ignoreIfPlaying)
     {
-        console.group('Sprite preUpdate');
-        const result = this.anims.play(key, ignoreIfPlaying);
-        console.groupEnd();
-        return result;
+        return this.anims.play(key, ignoreIfPlaying);
     },
 
     /**
@@ -275,10 +264,7 @@ var Sprite = new Class({
      */
     playReverse: function (key, ignoreIfPlaying)
     {
-        console.group('Sprite playReverse');
-        const result = this.anims.playReverse(key, ignoreIfPlaying);
-        console.groupEnd();
-        return result;
+        return this.anims.playReverse(key, ignoreIfPlaying);
     },
 
     /**
@@ -308,10 +294,7 @@ var Sprite = new Class({
      */
     playAfterDelay: function (key, delay)
     {
-        console.group('Sprite playAfterDelay');
-        const result = this.anims.playAfterDelay(key, delay);
-        console.groupEnd();
-        return result;
+        return this.anims.playAfterDelay(key, delay);
     },
 
     /**
@@ -338,10 +321,7 @@ var Sprite = new Class({
      */
     playAfterRepeat: function (key, repeatCount)
     {
-        console.group('Sprite playAfterRepeat');
-        const result = this.anims.playAfterRepeat(key, repeatCount);
-        console.groupEnd();
-        return result;
+        return this.anims.playAfterRepeat(key, repeatCount);
     },
 
     /**
@@ -373,10 +353,7 @@ var Sprite = new Class({
      */
     chain: function (key)
     {
-        console.group('Sprite chain');
-        const result = this.anims.chain(key);
-        console.groupEnd();
-        return result;
+        return this.anims.chain(key);
     },
 
     /**
@@ -394,10 +371,7 @@ var Sprite = new Class({
      */
     stop: function ()
     {
-        console.group('Sprite stop');
-        const result = this.anims.stop();
-        console.groupEnd();
-        return result;
+        return this.anims.stop();
     },
 
     /**
@@ -420,10 +394,7 @@ var Sprite = new Class({
      */
     stopAfterDelay: function (delay)
     {
-        console.group('Sprite stopAfterDelay');
-        const result = this.anims.stopAfterDelay(delay);
-        console.groupEnd();
-        return result;
+        return this.anims.stopAfterDelay(delay);
     },
 
     /**
@@ -446,10 +417,7 @@ var Sprite = new Class({
      */
     stopAfterRepeat: function (repeatCount)
     {
-        console.group('Sprite stopAfterRepeat');
-        const result = this.anims.stopAfterRepeat(repeatCount);
-        console.groupEnd();
-        return result;
+        return this.anims.stopAfterRepeat(repeatCount);
     },
 
     /**
@@ -473,10 +441,7 @@ var Sprite = new Class({
      */
     stopOnFrame: function (frame)
     {
-        console.group('Sprite stopOnFrame');
-        const result = this.anims.stopOnFrame(frame);
-        console.groupEnd();
-        return result;
+        return this.anims.stopOnFrame(frame);
     },
 
     /**
@@ -489,10 +454,7 @@ var Sprite = new Class({
      */
     toJSON: function ()
     {
-        console.group('Sprite toJSON');
-        const result =  Components.ToJSON(this);
-        console.groupEnd();
-        return result;
+        return Components.ToJSON(this);
     },
 
     /**
@@ -504,11 +466,9 @@ var Sprite = new Class({
      */
     preDestroy: function ()
     {
-        console.group('Sprite preDestroy');
         this.anims.destroy();
 
         this.anims = undefined;
-        return result;
     }
 
 });

@@ -25,30 +25,20 @@ var SoundManagerCreator = {
 
     create: function (game)
     {
-        console.group('SoundManagerCreator create');
         var audioConfig = game.config.audio;
         var deviceAudio = game.device.audio;
 
         if (audioConfig.noAudio || (!deviceAudio.webAudio && !deviceAudio.audioData))
         {
-            console.info('SoundManagerCreator create 是 NoAudioSoundManager');
-            const result = new NoAudioSoundManager(game);
-            console.groupEnd();
-            return result;
+            return new NoAudioSoundManager(game);
         }
 
         if (deviceAudio.webAudio && !audioConfig.disableWebAudio)
         {
-            console.info('SoundManagerCreator create 是 WebAudioSoundManager');
-            const result = new WebAudioSoundManager(game);
-            console.groupEnd();
-            return result
+            return new WebAudioSoundManager(game);
         }
 
-        console.info('SoundManagerCreator create 是 HTML5AudioSoundManager');
-        const result = new HTML5AudioSoundManager(game);
-        console.groupEnd();
-        return result
+        return new HTML5AudioSoundManager(game);
     }
 
 };

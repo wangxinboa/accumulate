@@ -39,7 +39,6 @@ var VideoFile = new Class({
 
     function VideoFile (loader, key, url, noAudio)
     {
-        console.group('VideoFile');
         if (noAudio === undefined) { noAudio = false; }
 
         if (IsPlainObject(key))
@@ -70,7 +69,6 @@ var VideoFile = new Class({
         };
 
         File.call(this, loader, fileConfig);
-        config.groupEnd();
     },
 
     /**
@@ -82,7 +80,6 @@ var VideoFile = new Class({
     */
     onProcess: function ()
     {
-        console.group('VideoFile onProcess');
         this.data = {
             url: this.src,
             noAudio: this.config.noAudio,
@@ -90,7 +87,6 @@ var VideoFile = new Class({
         };
 
         this.onProcessComplete();
-        config.groupEnd();
     },
 
     /**
@@ -103,7 +99,6 @@ var VideoFile = new Class({
      */
     load: function ()
     {
-        console.group('VideoFile load');
         //  We set these, but we don't actually load anything (the Video Game Object does that)
 
         this.src = GetURL(this, this.loader.baseURL);
@@ -111,7 +106,6 @@ var VideoFile = new Class({
         this.state = CONST.FILE_LOADED;
 
         this.loader.nextFile(this, true);
-        config.groupEnd();
     }
 
 });
@@ -175,10 +169,8 @@ var VideoFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register video');
 FileTypesManager.register('video', function (key, urls, noAudio)
 {
-    console.group('FileTypesManager.register video factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -191,9 +183,7 @@ FileTypesManager.register('video', function (key, urls, noAudio)
         this.addFile(new VideoFile(this, key, urls, noAudio));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = VideoFile;

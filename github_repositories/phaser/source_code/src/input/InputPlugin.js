@@ -79,7 +79,6 @@ var InputPlugin = new Class({
 
     function InputPlugin (scene)
     {
-        console.group('InputPlugin');
         EventEmitter.call(this);
 
         /**
@@ -389,7 +388,6 @@ var InputPlugin = new Class({
 
         scene.sys.events.once(SceneEvents.BOOT, this.boot, this);
         scene.sys.events.on(SceneEvents.START, this.start, this);
-        console.groupEnd();
     },
 
     /**
@@ -403,7 +401,6 @@ var InputPlugin = new Class({
      */
     boot: function ()
     {
-        console.group('InputPlugin boot');
         this.cameras = this.systems.cameras;
 
         this.displayList = this.systems.displayList;
@@ -412,7 +409,6 @@ var InputPlugin = new Class({
 
         //  Registered input plugins listen for this
         this.pluginEvents.emit(Events.BOOT);
-        console.groupEnd();
     },
 
     /**
@@ -427,7 +423,6 @@ var InputPlugin = new Class({
      */
     start: function ()
     {
-        console.group('InputPlugin start');
         var eventEmitter = this.systems.events;
 
         eventEmitter.on(SceneEvents.TRANSITION_START, this.transitionIn, this);
@@ -446,7 +441,6 @@ var InputPlugin = new Class({
 
         //  Registered input plugins listen for this
         this.pluginEvents.emit(Events.START);
-        console.groupEnd();
     },
 
     /**
@@ -459,12 +453,10 @@ var InputPlugin = new Class({
      */
     onGameOver: function (event)
     {
-        console.group('InputPlugin onGameOver');
         if (this.isActive())
         {
             this.emit(Events.GAME_OVER, event.timeStamp, event);
         }
-        console.groupEnd();
     },
 
     /**
@@ -477,12 +469,10 @@ var InputPlugin = new Class({
      */
     onGameOut: function (event)
     {
-        console.group('InputPlugin onGameOut');
         if (this.isActive())
         {
             this.emit(Events.GAME_OUT, event.timeStamp, event);
         }
-        console.groupEnd();
     },
 
     /**
@@ -496,7 +486,6 @@ var InputPlugin = new Class({
      */
     preUpdate: function ()
     {
-        console.group('InputPlugin preUpdate');
         //  Registered input plugins listen for this
         this.pluginEvents.emit(Events.PRE_UPDATE);
 
@@ -509,7 +498,6 @@ var InputPlugin = new Class({
         if (toRemove === 0 && toInsert === 0)
         {
             //  Quick bail
-            console.groupEnd();
             return;
         }
 
@@ -535,7 +523,6 @@ var InputPlugin = new Class({
 
         //  Move pendingInsertion to list (also clears pendingInsertion at the same time)
         this._list = current.concat(insertList.splice(0));
-        console.groupEnd();
     },
 
     /**
@@ -548,10 +535,7 @@ var InputPlugin = new Class({
      */
     isActive: function ()
     {
-        console.group('InputPlugin isActive');
-        const result = (this.manager && this.manager.enabled && this.enabled && this.scene.sys.canInput());
-        console.groupEnd();
-        return result;
+        return (this.manager && this.manager.enabled && this.enabled && this.scene.sys.canInput());
     },
 
     /**
@@ -569,12 +553,10 @@ var InputPlugin = new Class({
      */
     setCursor: function (interactiveObject)
     {
-        console.group('InputPlugin setCursor');
         if (this.manager)
         {
             this.manager.setCursor(interactiveObject);
         }
-        console.groupEnd();
     },
 
     /**
@@ -586,12 +568,10 @@ var InputPlugin = new Class({
      */
     resetCursor: function ()
     {
-        console.group('InputPlugin resetCursor');
         if (this.manager)
         {
             this.manager.resetCursor(null, true);
         }
-        console.groupEnd();
     },
 
     /**
@@ -608,10 +588,8 @@ var InputPlugin = new Class({
      */
     updatePoll: function (time, delta)
     {
-        console.group('InputPlugin updatePoll');
         if (!this.isActive())
         {
-            console.groupEnd();
             return false;
         }
 
@@ -624,7 +602,6 @@ var InputPlugin = new Class({
         {
             this._updatedThisFrame = false;
 
-            console.groupEnd();
             return false;
         }
 
@@ -641,7 +618,6 @@ var InputPlugin = new Class({
         //  No point going any further if there aren't any interactive objects
         if (this._list.length === 0)
         {
-            console.groupEnd();
             return false;
         }
 
@@ -649,7 +625,6 @@ var InputPlugin = new Class({
 
         if (rate === -1)
         {
-            console.groupEnd();
             return false;
         }
         else if (rate > 0)
@@ -663,7 +638,6 @@ var InputPlugin = new Class({
             }
             else
             {
-                console.groupEnd();
                 //  Not enough time has elapsed since the last poll, so abort now
                 return false;
             }
@@ -715,7 +689,6 @@ var InputPlugin = new Class({
             }
         }
 
-        console.groupEnd();
         return captured;
     },
 
@@ -735,10 +708,8 @@ var InputPlugin = new Class({
      */
     update: function (type, pointers)
     {
-        console.group('InputPlugin update');
         if (!this.isActive())
         {
-            console.groupEnd();
             return false;
         }
 
@@ -820,7 +791,6 @@ var InputPlugin = new Class({
 
         this._updatedThisFrame = true;
 
-        console.groupEnd();
         return captured;
     },
 
@@ -838,7 +808,6 @@ var InputPlugin = new Class({
      */
     clear: function (gameObject, skipQueue)
     {
-        console.group('InputPlugin clear');
         if (skipQueue === undefined) { skipQueue = false; }
 
         this.disable(gameObject);
@@ -872,7 +841,6 @@ var InputPlugin = new Class({
             this._draggable.splice(index, 1);
         }
 
-        console.groupEnd();
         return gameObject;
     },
 
@@ -892,7 +860,6 @@ var InputPlugin = new Class({
      */
     disable: function (gameObject, resetCursor)
     {
-        console.group('InputPlugin disable');
         if (resetCursor === undefined) { resetCursor = false; }
 
         var input = gameObject.input;
@@ -930,7 +897,6 @@ var InputPlugin = new Class({
             this.resetCursor();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -963,7 +929,6 @@ var InputPlugin = new Class({
      */
     enable: function (gameObject, hitArea, hitAreaCallback, dropZone)
     {
-        console.group('InputPlugin enable');
         if (dropZone === undefined) { dropZone = false; }
 
         if (gameObject.input)
@@ -982,7 +947,6 @@ var InputPlugin = new Class({
             gameObject.input.dropZone = dropZone;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1002,7 +966,6 @@ var InputPlugin = new Class({
      */
     hitTestPointer: function (pointer)
     {
-        console.group('InputPlugin hitTestPointer');
         var cameras = this.cameras.getCamerasBelowPointer(pointer);
 
         for (var c = 0; c < cameras.length; c++)
@@ -1028,7 +991,6 @@ var InputPlugin = new Class({
             {
                 pointer.camera = camera;
 
-                console.groupEnd();
                 return over;
             }
         }
@@ -1038,7 +1000,6 @@ var InputPlugin = new Class({
 
         pointer.camera = cameras[0];
 
-        console.groupEnd();
         return [];
     },
 
@@ -1059,7 +1020,6 @@ var InputPlugin = new Class({
      */
     processDownEvents: function (pointer)
     {
-        console.group('InputPlugin processDownEvents');
         var total = 0;
         var currentlyOver = this._temp;
 
@@ -1119,7 +1079,6 @@ var InputPlugin = new Class({
             }
         }
 
-        console.groupEnd();
         return total;
     },
 
@@ -1144,8 +1103,6 @@ var InputPlugin = new Class({
      */
     getDragState: function (pointer)
     {
-        console.group('InputPlugin getDragState');
-        console.groupEnd();
         return this._dragState[pointer.id];
     },
 
@@ -1169,8 +1126,6 @@ var InputPlugin = new Class({
      */
     setDragState: function (pointer, state)
     {
-        console.group('InputPlugin setDragState');
-        console.groupEnd();
         this._dragState[pointer.id] = state;
     },
 
@@ -1187,7 +1142,6 @@ var InputPlugin = new Class({
      */
     processDragThresholdEvent: function (pointer, time)
     {
-        console.group('InputPlugin processDragThresholdEvent');
         var passed = false;
         var timeThreshold = this.dragTimeThreshold;
         var distanceThreshold = this.dragDistanceThreshold;
@@ -1207,9 +1161,7 @@ var InputPlugin = new Class({
         {
             this.setDragState(pointer, 3);
 
-            const result = this.processDragStartList(pointer);
-            console.groupEnd();
-            return result;
+            return this.processDragStartList(pointer);
         }
     },
 
@@ -1228,11 +1180,9 @@ var InputPlugin = new Class({
      */
     processDragStartList: function (pointer)
     {
-        console.group('InputPlugin processDragStartList');
         //  3 = Pointer meets criteria and is freshly down, notify the draglist
         if (this.getDragState(pointer) !== 3)
         {
-            console.groupEnd();
             return 0;
         }
 
@@ -1269,7 +1219,6 @@ var InputPlugin = new Class({
 
         this.setDragState(pointer, 4);
 
-        console.groupEnd();
         return list.length;
     },
 
@@ -1287,12 +1236,10 @@ var InputPlugin = new Class({
      */
     processDragDownEvent: function (pointer)
     {
-        console.group('InputPlugin processDragDownEvent');
         var currentlyOver = this._temp;
 
         if (this._draggable.length === 0 || currentlyOver.length === 0 || !pointer.primaryDown || this.getDragState(pointer) !== 0)
         {
-            console.groupEnd();
             //  There are no draggable items, no over items or the pointer isn't down, so let's not even bother going further
             return 0;
         }
@@ -1317,7 +1264,6 @@ var InputPlugin = new Class({
         {
             this.setDragState(pointer, 0);
 
-            console.groupEnd();
             return 0;
         }
         else if (draglist.length > 1)
@@ -1338,16 +1284,13 @@ var InputPlugin = new Class({
             //  No drag criteria, so snap immediately to mode 3
             this.setDragState(pointer, 3);
 
-            const result = this.processDragStartList(pointer);
-            console.groupEnd();
-            return result;
+            return this.processDragStartList(pointer);
         }
         else
         {
             //  Check the distance / time on the next event
             this.setDragState(pointer, 2);
 
-            console.groupEnd();
             return 0;
         }
     },
@@ -1373,7 +1316,6 @@ var InputPlugin = new Class({
      */
     processDragMoveEvent: function (pointer)
     {
-        console.group('InputPlugin processDragMoveEvent');
         //  2 = Pointer being checked if meets drag criteria
         if (this.getDragState(pointer) === 2)
         {
@@ -1382,7 +1324,6 @@ var InputPlugin = new Class({
 
         if (this.getDragState(pointer) !== 4)
         {
-            console.groupEnd();
             return 0;
         }
 
@@ -1501,7 +1442,6 @@ var InputPlugin = new Class({
             this.emit(Events.DRAG, pointer, gameObject, dragX, dragY);
         }
 
-        console.groupEnd();
         return list.length;
     },
 
@@ -1523,7 +1463,6 @@ var InputPlugin = new Class({
      */
     processDragUpEvent: function (pointer)
     {
-        console.group('InputPlugin processDragUpEvent');
         //  5 = Pointer was actively dragging but has been released, notify draglist
         var list = this._drag[pointer.id];
 
@@ -1577,7 +1516,6 @@ var InputPlugin = new Class({
 
         list.splice(0);
 
-        console.groupEnd();
         return 0;
     },
 
@@ -1597,7 +1535,6 @@ var InputPlugin = new Class({
      */
     processMoveEvents: function (pointer)
     {
-        console.group('InputPlugin processMoveEvents');
         var total = 0;
         var currentlyOver = this._temp;
 
@@ -1649,7 +1586,6 @@ var InputPlugin = new Class({
             this.emit(Events.POINTER_MOVE, pointer, currentlyOver);
         }
 
-        console.groupEnd();
         return total;
     },
 
@@ -1669,7 +1605,6 @@ var InputPlugin = new Class({
      */
     processWheelEvent: function (pointer)
     {
-        console.group('InputPlugin processWheelEvent');
         var total = 0;
         var currentlyOver = this._temp;
 
@@ -1720,7 +1655,6 @@ var InputPlugin = new Class({
             this.emit(Events.POINTER_WHEEL, pointer, currentlyOver, dx, dy, dz);
         }
 
-        console.groupEnd();
         return total;
     },
 
@@ -1741,7 +1675,6 @@ var InputPlugin = new Class({
      */
     processOverEvents: function (pointer)
     {
-        console.group('InputPlugin processOverEvents');
         var currentlyOver = this._temp;
 
         var totalInteracted = 0;
@@ -1804,7 +1737,6 @@ var InputPlugin = new Class({
         //  Then sort it into display list order
         this._over[pointer.id] = justOver;
 
-        console.groupEnd();
         return totalInteracted;
     },
 
@@ -1825,7 +1757,6 @@ var InputPlugin = new Class({
      */
     processOutEvents: function (pointer)
     {
-        console.group('InputPlugin processOutEvents');
         var previouslyOver = this._over[pointer.id];
 
         var totalInteracted = 0;
@@ -1887,7 +1818,6 @@ var InputPlugin = new Class({
             this._over[pointer.id] = [];
         }
 
-        console.groupEnd();
         return totalInteracted;
     },
 
@@ -1910,7 +1840,6 @@ var InputPlugin = new Class({
      */
     processOverOutEvents: function (pointer)
     {
-        console.group('InputPlugin processOverOutEvents');
         var currentlyOver = this._temp;
 
         var i;
@@ -2071,7 +2000,6 @@ var InputPlugin = new Class({
         //  Then sort it into display list order
         this._over[pointer.id] = this.sortGameObjects(previouslyOver, pointer);
 
-        console.groupEnd();
         return totalInteracted;
     },
 
@@ -2092,7 +2020,6 @@ var InputPlugin = new Class({
      */
     processUpEvents: function (pointer)
     {
-        console.group('InputPlugin processUpEvents');
         var currentlyOver = this._temp;
 
         var _eventData = this._eventData;
@@ -2147,7 +2074,6 @@ var InputPlugin = new Class({
             }
         }
 
-        console.groupEnd();
         return currentlyOver.length;
     },
 
@@ -2171,9 +2097,7 @@ var InputPlugin = new Class({
      */
     forceDownState: function (pointer, gameObject)
     {
-        console.group('InputPlugin forceDownState');
         this.forceState(pointer, gameObject, Events.GAMEOBJECT_POINTER_DOWN, Events.GAMEOBJECT_DOWN, false);
-        console.groupEnd();
     },
 
     /**
@@ -2196,9 +2120,7 @@ var InputPlugin = new Class({
      */
     forceUpState: function (pointer, gameObject)
     {
-        console.group('InputPlugin forceUpState');
         this.forceState(pointer, gameObject, Events.GAMEOBJECT_POINTER_UP, Events.GAMEOBJECT_UP, false);
-        console.groupEnd();
     },
 
     /**
@@ -2221,9 +2143,7 @@ var InputPlugin = new Class({
      */
     forceOverState: function (pointer, gameObject)
     {
-        console.group('InputPlugin forceOverState');
         this.forceState(pointer, gameObject, Events.GAMEOBJECT_POINTER_OVER, Events.GAMEOBJECT_OVER, true);
-        console.groupEnd();
     },
 
     /**
@@ -2246,9 +2166,7 @@ var InputPlugin = new Class({
      */
     forceOutState: function (pointer, gameObject)
     {
-        console.group('InputPlugin forceOutState');
         this.forceState(pointer, gameObject, Events.GAMEOBJECT_POINTER_OUT, Events.GAMEOBJECT_OUT, false);
-        console.groupEnd();
     },
 
     /**
@@ -2265,7 +2183,6 @@ var InputPlugin = new Class({
      */
     forceState: function (pointer, gameObject, gameObjectEvent, inputPluginEvent, setCursor)
     {
-        console.group('InputPlugin forceState');
         var _eventData = this._eventData;
         var _eventContainer = this._eventContainer;
 
@@ -2285,7 +2202,6 @@ var InputPlugin = new Class({
                 this.emit(inputPluginEvent, pointer, gameObject, _eventContainer);
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -2301,13 +2217,11 @@ var InputPlugin = new Class({
      */
     queueForInsertion: function (child)
     {
-        console.group('InputPlugin queueForInsertion');
         if (this._pendingInsertion.indexOf(child) === -1 && this._list.indexOf(child) === -1)
         {
             this._pendingInsertion.push(child);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2324,10 +2238,8 @@ var InputPlugin = new Class({
      */
     queueForRemoval: function (child)
     {
-        console.group('InputPlugin queueForRemoval');
         this._pendingRemoval.push(child);
 
-        console.groupEnd();
         return this;
     },
 
@@ -2348,7 +2260,6 @@ var InputPlugin = new Class({
      */
     setDraggable: function (gameObjects, value)
     {
-        console.group('InputPlugin setDraggable');
         if (value === undefined) { value = true; }
 
         if (!Array.isArray(gameObjects))
@@ -2374,7 +2285,6 @@ var InputPlugin = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2413,14 +2323,11 @@ var InputPlugin = new Class({
      */
     makePixelPerfect: function (alphaTolerance)
     {
-        console.group('InputPlugin makePixelPerfect');
         if (alphaTolerance === undefined) { alphaTolerance = 1; }
 
         var textureManager = this.systems.textures;
 
-        const result = CreatePixelPerfectHandler(textureManager, alphaTolerance);
-        console.groupEnd();
-        return result;
+        return CreatePixelPerfectHandler(textureManager, alphaTolerance);
     },
 
     /**
@@ -2449,12 +2356,9 @@ var InputPlugin = new Class({
      */
     setHitArea: function (gameObjects, hitArea, hitAreaCallback)
     {
-        console.group('InputPlugin setHitArea');
         if (hitArea === undefined)
         {
-            const result = this.setHitAreaFromTexture(gameObjects);
-            console.groupEnd();
-            return result;
+            return this.setHitAreaFromTexture(gameObjects);
         }
 
         if (!Array.isArray(gameObjects))
@@ -2477,9 +2381,7 @@ var InputPlugin = new Class({
             // Check if any supplied Game Object is a Mesh based Game Object
             var isMesh = gameObjects.some(function (gameObject)
             {
-                const result = gameObject.hasOwnProperty('faces');
-                console.groupEnd();
-                return result;
+                return gameObject.hasOwnProperty('faces');
             });
 
             if (!isMesh)
@@ -2541,7 +2443,6 @@ var InputPlugin = new Class({
             this.queueForInsertion(gameObject);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2562,14 +2463,11 @@ var InputPlugin = new Class({
      */
     setHitAreaCircle: function (gameObjects, x, y, radius, callback)
     {
-        console.group('InputPlugin setHitAreaCircle');
         if (callback === undefined) { callback = CircleContains; }
 
         var shape = new Circle(x, y, radius);
 
-        const result = this.setHitArea(gameObjects, shape, callback);
-        console.groupEnd();
-        return result;
+        return this.setHitArea(gameObjects, shape, callback);
     },
 
     /**
@@ -2590,14 +2488,11 @@ var InputPlugin = new Class({
      */
     setHitAreaEllipse: function (gameObjects, x, y, width, height, callback)
     {
-        console.group('InputPlugin setHitAreaEllipse');
         if (callback === undefined) { callback = EllipseContains; }
 
         var shape = new Ellipse(x, y, width, height);
 
-        const result = this.setHitArea(gameObjects, shape, callback);
-        console.groupEnd();
-        return result;
+        return this.setHitArea(gameObjects, shape, callback);
     },
 
     /**
@@ -2614,7 +2509,6 @@ var InputPlugin = new Class({
      */
     setHitAreaFromTexture: function (gameObjects, callback)
     {
-        console.group('InputPlugin setHitAreaFromTexture');
         if (callback === undefined) { callback = RectangleContains; }
 
         if (!Array.isArray(gameObjects))
@@ -2656,7 +2550,6 @@ var InputPlugin = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2678,14 +2571,11 @@ var InputPlugin = new Class({
      */
     setHitAreaRectangle: function (gameObjects, x, y, width, height, callback)
     {
-        console.group('InputPlugin setHitAreaRectangle');
         if (callback === undefined) { callback = RectangleContains; }
 
         var shape = new Rectangle(x, y, width, height);
 
-        const result = this.setHitArea(gameObjects, shape, callback);
-        console.groupEnd();
-        return result;
+        return this.setHitArea(gameObjects, shape, callback);
     },
 
     /**
@@ -2708,14 +2598,11 @@ var InputPlugin = new Class({
      */
     setHitAreaTriangle: function (gameObjects, x1, y1, x2, y2, x3, y3, callback)
     {
-        console.group('InputPlugin setHitAreaTriangle');
         if (callback === undefined) { callback = TriangleContains; }
 
         var shape = new Triangle(x1, y1, x2, y2, x3, y3);
 
-        const result = this.setHitArea(gameObjects, shape, callback);
-        console.groupEnd();
-        return result;
+        return this.setHitArea(gameObjects, shape, callback);
     },
 
     /**
@@ -2753,14 +2640,12 @@ var InputPlugin = new Class({
      */
     enableDebug: function (gameObject, color)
     {
-        console.group('InputPlugin enableDebug');
         if (color === undefined) { color = 0x00ff00; }
 
         var input = gameObject.input;
 
         if (!input || !input.hitArea)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -2857,7 +2742,6 @@ var InputPlugin = new Class({
             input.hitAreaDebug = debug;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2875,7 +2759,6 @@ var InputPlugin = new Class({
      */
     removeDebug: function (gameObject)
     {
-        console.group('InputPlugin removeDebug');
         var input = gameObject.input;
 
         if (input && input.hitAreaDebug)
@@ -2888,7 +2771,6 @@ var InputPlugin = new Class({
             input.hitAreaDebug = null;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -2909,10 +2791,7 @@ var InputPlugin = new Class({
      */
     setPollAlways: function ()
     {
-        console.group('InputPlugin setPollAlways');
-        const result = this.setPollRate(0);
-        console.groupEnd();
-        return result;
+        return this.setPollRate(0);
     },
 
     /**
@@ -2928,10 +2807,7 @@ var InputPlugin = new Class({
      */
     setPollOnMove: function ()
     {
-        console.group('InputPlugin setPollOnMove');
-        const result = this.setPollRate(-1);
-        console.groupEnd();
-        return result;
+        return this.setPollRate(-1);
     },
 
     /**
@@ -2947,11 +2823,9 @@ var InputPlugin = new Class({
      */
     setPollRate: function (value)
     {
-        console.group('InputPlugin setPollRate');
         this.pollRate = value;
         this._pollTimer = 0;
 
-        console.groupEnd();
         return this;
     },
 
@@ -2969,10 +2843,8 @@ var InputPlugin = new Class({
      */
     setGlobalTopOnly: function (value)
     {
-        console.group('InputPlugin setGlobalTopOnly');
         this.manager.globalTopOnly = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -2991,10 +2863,8 @@ var InputPlugin = new Class({
      */
     setTopOnly: function (value)
     {
-        console.group('InputPlugin setTopOnly');
         this.topOnly = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -3012,24 +2882,20 @@ var InputPlugin = new Class({
      */
     sortGameObjects: function (gameObjects, pointer)
     {
-        console.group('InputPlugin sortGameObjects');
         if (gameObjects.length < 2 || !pointer.camera)
         {
-            console.groupEnd();
             return gameObjects;
         }
 
         var list = pointer.camera.renderList;
 
-        const result = gameObjects.sort(function (childA, childB)
+        return gameObjects.sort(function (childA, childB)
         {
             var indexA = Math.max(list.indexOf(childA), 0);
             var indexB = Math.max(list.indexOf(childB), 0);
 
             return indexB - indexA;
         });
-        console.groupEnd();
-        return result;
     },
 
     /**
@@ -3045,18 +2911,14 @@ var InputPlugin = new Class({
      */
     sortDropZones: function (gameObjects)
     {
-        console.group('InputPlugin sortDropZones');
         if (gameObjects.length < 2)
         {
-            console.groupEnd();
             return gameObjects;
         }
 
         this.scene.sys.depthSort();
 
-        const result = gameObjects.sort(this.sortDropZoneHandler.bind(this));
-        console.groupEnd();
-        return result;
+        return gameObjects.sort(this.sortDropZoneHandler.bind(this));
     },
 
     /**
@@ -3076,30 +2938,23 @@ var InputPlugin = new Class({
      */
     sortDropZoneHandler: function (childA, childB)
     {
-        console.group('InputPlugin sortDropZoneHandler');
         if (!childA.parentContainer && !childB.parentContainer)
         {
             //  Quick bail out when neither child has a container
-            const result = this.displayList.getIndex(childB) - this.displayList.getIndex(childA);
-            console.groupEnd();
-            return result;
+            return this.displayList.getIndex(childB) - this.displayList.getIndex(childA);
         }
         else if (childA.parentContainer === childB.parentContainer)
         {
             //  Quick bail out when both children have the same container
-            const result = childB.parentContainer.getIndex(childB) - childA.parentContainer.getIndex(childA);
-            console.groupEnd();
-            return result;
+            return childB.parentContainer.getIndex(childB) - childA.parentContainer.getIndex(childA);
         }
         else if (childA.parentContainer === childB)
         {
-            console.groupEnd();
             //  Quick bail out when childA is a child of childB
             return -1;
         }
         else if (childB.parentContainer === childA)
         {
-            console.groupEnd();
             //  Quick bail out when childA is a child of childB
             return 1;
         }
@@ -3122,17 +2977,14 @@ var InputPlugin = new Class({
                 }
                 else
                 {
-                    console.groupEnd();
                     //  Non-matching parents, so return
                     return indexB - indexA;
                 }
             }
 
-            console.groupEnd();
             return listB.length - listA.length;
         }
 
-        console.groupEnd();
         //  Technically this shouldn't happen, but ...
         // eslint-disable-next-line no-unreachable
         return 0;
@@ -3151,10 +3003,8 @@ var InputPlugin = new Class({
      */
     stopPropagation: function ()
     {
-        console.group('InputPlugin stopPropagation');
         this.manager._tempSkip = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -3178,10 +3028,7 @@ var InputPlugin = new Class({
      */
     addPointer: function (quantity)
     {
-        console.group('InputPlugin addPointer');
-        const result = this.manager.addPointer(quantity);
-        console.groupEnd();
-        return result;
+        return this.manager.addPointer(quantity);
     },
 
     /**
@@ -3213,10 +3060,8 @@ var InputPlugin = new Class({
      */
     setDefaultCursor: function (cursor)
     {
-        console.group('InputPlugin setDefaultCursor');
         this.manager.setDefaultCursor(cursor);
 
-        console.groupEnd();
         return this;
     },
 
@@ -3229,9 +3074,7 @@ var InputPlugin = new Class({
      */
     transitionIn: function ()
     {
-        console.group('InputPlugin transitionIn');
         this.enabled = this.settings.transitionAllowInput;
-        console.groupEnd();
     },
 
     /**
@@ -3243,12 +3086,10 @@ var InputPlugin = new Class({
      */
     transitionComplete: function ()
     {
-        console.group('InputPlugin transitionComplete');
         if (!this.settings.transitionAllowInput)
         {
             this.enabled = true;
         }
-        console.groupEnd();
     },
 
     /**
@@ -3260,9 +3101,7 @@ var InputPlugin = new Class({
      */
     transitionOut: function ()
     {
-        console.group('InputPlugin transitionOut');
         this.enabled = this.settings.transitionAllowInput;
-        console.groupEnd();
     },
 
     /**
@@ -3276,7 +3115,6 @@ var InputPlugin = new Class({
      */
     shutdown: function ()
     {
-        console.group('InputPlugin shutdown');
         //  Registered input plugins listen for this
         this.pluginEvents.emit(Events.SHUTDOWN);
 
@@ -3310,7 +3148,6 @@ var InputPlugin = new Class({
         manager.events.off(Events.GAME_OVER, this.onGameOver, this);
 
         eventEmitter.off(SceneEvents.SHUTDOWN, this.shutdown, this);
-        console.groupEnd();
     },
 
     /**
@@ -3324,14 +3161,12 @@ var InputPlugin = new Class({
      */
     resetPointers: function ()
     {
-        console.group('InputPlugin resetPointers');
         var pointers = this.manager.pointers;
 
         for (var i = 0; i < pointers.length; i++)
         {
             pointers[i].reset();
         }
-        console.groupEnd();
     },
 
     /**
@@ -3345,7 +3180,6 @@ var InputPlugin = new Class({
      */
     destroy: function ()
     {
-        console.group('InputPlugin destroy');
         this.shutdown();
 
         //  Registered input plugins listen for this
@@ -3360,7 +3194,6 @@ var InputPlugin = new Class({
         this.manager = null;
         this.events = null;
         this.mouse = null;
-        console.groupEnd();
     },
 
     /**
@@ -3634,8 +3467,6 @@ var InputPlugin = new Class({
 
 });
 
-console.group('PluginCache.register InputPlugin');
 PluginCache.register('InputPlugin', InputPlugin, 'input');
 
-console.groupEnd();
 module.exports = InputPlugin;

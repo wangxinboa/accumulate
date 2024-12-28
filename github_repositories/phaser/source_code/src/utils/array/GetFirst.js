@@ -29,7 +29,6 @@ var SafeRange = require('./SafeRange');
  */
 var GetFirst = function (array, property, value, startIndex, endIndex)
 {
-    console.group('GetFirst');
     if (startIndex === undefined) { startIndex = 0; }
     if (endIndex === undefined) { endIndex = array.length; }
 
@@ -43,13 +42,11 @@ var GetFirst = function (array, property, value, startIndex, endIndex)
                 (property && value === undefined && child.hasOwnProperty(property)) ||
                 (property && value !== undefined && child[property] === value))
             {
-                console.groupEnd();
                 return child;
             }
         }
     }
 
-    console.groupEnd();
     return null;
 };
 

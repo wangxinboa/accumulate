@@ -28,13 +28,8 @@ var GameObjectFactory = require('../GameObjectFactory');
  */
 if (typeof WEBGL_RENDERER)
 {
-    console.group('GameObjectCreator.register shader');
     GameObjectFactory.register('shader', function (key, x, y, width, height, textures, textureData)
     {
-        console.group('GameObjectCreator.register shader factoryFunction');
-        const result = this.displayList.add(new Shader(this.scene, key, x, y, width, height, textures, textureData));
-        console.groupEnd();
-        return result;
+        return this.displayList.add(new Shader(this.scene, key, x, y, width, height, textures, textureData));
     });
-    console.groupEnd();
 }

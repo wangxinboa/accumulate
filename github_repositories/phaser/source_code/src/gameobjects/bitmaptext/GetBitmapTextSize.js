@@ -27,7 +27,6 @@
  */
 var GetBitmapTextSize = function (src, round, updateOrigin, out)
 {
-    console.group('GetBitmapTextSize');
     if (updateOrigin === undefined) { updateOrigin = false; }
 
     if (out === undefined)
@@ -58,7 +57,6 @@ var GetBitmapTextSize = function (src, round, updateOrigin, out)
             scaleY: 0
         };
 
-        console.groupEnd();
         return out;
     }
 
@@ -431,7 +429,6 @@ var GetBitmapTextSize = function (src, round, updateOrigin, out)
     out.scaleX = src.scaleX;
     out.scaleY = src.scaleY;
 
-    console.groupEnd();
     return out;
 };
 

@@ -49,7 +49,6 @@ var TweenFrameData = new Class({
 
     function TweenFrameData (tween, targetIndex, texture, frame, delay, duration, hold, repeat, repeatDelay, flipX, flipY)
     {
-        console.group('TweenFrameData');
         BaseTweenData.call(this, tween, targetIndex, delay, duration, false, hold, repeat, repeatDelay, flipX, flipY);
 
         /**
@@ -109,7 +108,6 @@ var TweenFrameData = new Class({
          * @since 3.60.0
          */
         this.yoyo = (repeat !== 0) ? true : false;
-        console.groupEnd();
     },
 
     /**
@@ -124,7 +122,6 @@ var TweenFrameData = new Class({
      */
     reset: function (isSeeking)
     {
-        console.group('TweenFrameData reset');
         BaseTweenData.prototype.reset.call(this);
 
         var target = this.tween.targets[this.targetIndex];
@@ -139,7 +136,6 @@ var TweenFrameData = new Class({
         {
             target.setTexture(this.startTexture, this.startFrame);
         }
-        console.groupEnd();
     },
 
     /**
@@ -156,7 +152,6 @@ var TweenFrameData = new Class({
      */
     update: function (delta)
     {
-        console.group('TweenFrameData update');
         var tween = this.tween;
         var targetIndex = this.targetIndex;
         var target = tween.targets[targetIndex];
@@ -166,7 +161,6 @@ var TweenFrameData = new Class({
         {
             this.setCompleteState();
 
-            console.groupEnd();
             return false;
         }
 
@@ -208,7 +202,6 @@ var TweenFrameData = new Class({
 
             this.setPlayingForwardState();
 
-            console.groupEnd();
             return true;
         }
 
@@ -269,9 +262,7 @@ var TweenFrameData = new Class({
         }
 
         //  Return TRUE if this TweenData still playing, otherwise FALSE
-        const result = !this.isComplete();
-        console.groupEnd();
-        return result;
+        return !this.isComplete();
     },
 
     /**
@@ -286,7 +277,6 @@ var TweenFrameData = new Class({
      */
     dispatchEvent: function (event, callback)
     {
-        console.group('TweenFrameData dispatchEvent');
         var tween = this.tween;
 
         if (!tween.isSeeking)
@@ -303,7 +293,6 @@ var TweenFrameData = new Class({
                 handler.func.apply(tween.callbackScope, [ tween, target, key ].concat(handler.params));
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -314,14 +303,12 @@ var TweenFrameData = new Class({
      */
     destroy: function ()
     {
-        console.group('TweenFrameData destroy');
         BaseTweenData.prototype.destroy.call(this);
 
         this.startTexture = null;
         this.endTexture = null;
         this.startFrame = null;
         this.endFrame = null;
-        console.groupEnd();
     }
 
 });

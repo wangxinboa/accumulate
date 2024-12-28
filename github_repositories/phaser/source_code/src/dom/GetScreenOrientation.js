@@ -19,26 +19,22 @@ var CONST = require('../scale/const');
  */
 var GetScreenOrientation = function (width, height)
 {
-    console.group('GetScreenOrientation');
     var screen = window.screen;
     var orientation = (screen) ? screen.orientation || screen.mozOrientation || screen.msOrientation : false;
 
     if (orientation && typeof orientation.type === 'string')
     {
-        console.groupEnd();
         //  Screen Orientation API specification
         return orientation.type;
     }
     else if (typeof orientation === 'string')
     {
-        console.groupEnd();
         //  moz / ms-orientation are strings
         return orientation;
     }
 
     if (typeof window.orientation === 'number')
     {
-        console.groupEnd();
         //  Do this check first, as iOS supports this, but also has an incomplete window.screen implementation
         //  This may change by device based on "natural" orientation.
         return (window.orientation === 0 || window.orientation === 180) ? CONST.ORIENTATION.PORTRAIT : CONST.ORIENTATION.LANDSCAPE;
@@ -47,21 +43,17 @@ var GetScreenOrientation = function (width, height)
     {
         if (window.matchMedia('(orientation: portrait)').matches)
         {
-            console.groupEnd();
             return CONST.ORIENTATION.PORTRAIT;
         }
         else if (window.matchMedia('(orientation: landscape)').matches)
         {
-            console.groupEnd();
             return CONST.ORIENTATION.LANDSCAPE;
         }
     }
     else
     {
-        console.groupEnd();
         return (height > width) ? CONST.ORIENTATION.PORTRAIT : CONST.ORIENTATION.LANDSCAPE;
     }
-    console.groupEnd();
 };
 
 module.exports = GetScreenOrientation;

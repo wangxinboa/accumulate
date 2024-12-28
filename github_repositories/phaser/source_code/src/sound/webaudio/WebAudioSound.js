@@ -32,7 +32,6 @@ var WebAudioSound = new Class({
 
     function WebAudioSound (manager, key, config)
     {
-        console.group('WebAudioSound');
         if (config === undefined) { config = {}; }
 
         /**
@@ -234,7 +233,6 @@ var WebAudioSound = new Class({
         this.totalDuration = this.audioBuffer.duration;
 
         BaseSound.call(this, manager, key, config);
-        console.groupEnd();
     },
 
     /**
@@ -257,10 +255,8 @@ var WebAudioSound = new Class({
      */
     play: function (markerName, config)
     {
-        console.group('WebAudioSound play');
         if (!BaseSound.prototype.play.call(this, markerName, config))
         {
-            console.groupEnd();
             return false;
         }
 
@@ -270,7 +266,6 @@ var WebAudioSound = new Class({
 
         this.emit(Events.PLAY, this);
 
-        console.groupEnd();
         return true;
     },
 
@@ -285,16 +280,13 @@ var WebAudioSound = new Class({
      */
     pause: function ()
     {
-        console.group('WebAudioSound pause');
         if (this.manager.context.currentTime < this.startTime)
         {
-            console.groupEnd();
             return false;
         }
 
         if (!BaseSound.prototype.pause.call(this))
         {
-            console.groupEnd();
             return false;
         }
 
@@ -304,7 +296,6 @@ var WebAudioSound = new Class({
 
         this.emit(Events.PAUSE, this);
 
-        console.groupEnd();
         return true;
     },
 
@@ -319,16 +310,13 @@ var WebAudioSound = new Class({
      */
     resume: function ()
     {
-        console.group('WebAudioSound resume');
         if (this.manager.context.currentTime < this.startTime)
         {
-            console.groupEnd();
             return false;
         }
 
         if (!BaseSound.prototype.resume.call(this))
         {
-            console.groupEnd();
             return false;
         }
 
@@ -337,7 +325,6 @@ var WebAudioSound = new Class({
 
         this.emit(Events.RESUME, this);
 
-        console.groupEnd();
         return true;
     },
 
@@ -352,10 +339,8 @@ var WebAudioSound = new Class({
      */
     stop: function ()
     {
-        console.group('WebAudioSound stop');
         if (!BaseSound.prototype.stop.call(this))
         {
-            console.groupEnd();
             return false;
         }
 
@@ -364,7 +349,6 @@ var WebAudioSound = new Class({
 
         this.emit(Events.STOP, this);
 
-        console.groupEnd();
         return true;
     },
 
@@ -377,7 +361,6 @@ var WebAudioSound = new Class({
      */
     createAndStartBufferSource: function ()
     {
-        console.group('WebAudioSound createAndStartBufferSource');
         var seek = this.currentConfig.seek;
         var delay = this.currentConfig.delay;
         var when = this.manager.context.currentTime + delay;
@@ -393,7 +376,6 @@ var WebAudioSound = new Class({
         this.source.start(Math.max(0, when), Math.max(0, offset), Math.max(0, duration));
 
         this.resetConfig();
-        console.groupEnd();
     },
 
     /**
@@ -404,7 +386,6 @@ var WebAudioSound = new Class({
      */
     createAndStartLoopBufferSource: function ()
     {
-        console.group('WebAudioSound createAndStartLoopBufferSource');
         var when = this.getLoopTime();
         var offset = this.currentMarker ? this.currentMarker.start : 0;
         var duration = this.duration;
@@ -413,7 +394,6 @@ var WebAudioSound = new Class({
         this.loopSource = this.createBufferSource();
         this.loopSource.playbackRate.setValueAtTime(this.totalRate, 0);
         this.loopSource.start(Math.max(0, when), Math.max(0, offset), Math.max(0, duration));
-        console.groupEnd();
     },
 
     /**
@@ -426,7 +406,6 @@ var WebAudioSound = new Class({
      */
     createBufferSource: function ()
     {
-        console.group('WebAudioSound createBufferSource');
         var _this = this;
         var source = this.manager.context.createBufferSource();
 
@@ -436,7 +415,6 @@ var WebAudioSound = new Class({
 
         source.onended = function (ev)
         {
-            console.group('WebAudioSound createBufferSource source.onended');
             var target = ev.target;
 
             if (target === _this.source || target === _this.loopSource)
@@ -452,11 +430,9 @@ var WebAudioSound = new Class({
                 }
             }
 
-            console.groupEnd();
             // else was stopped
         };
 
-        console.groupEnd();
         return source;
     },
 
@@ -468,7 +444,6 @@ var WebAudioSound = new Class({
      */
     stopAndRemoveBufferSource: function ()
     {
-        console.group('WebAudioSound stopAndRemoveBufferSource');
         if (this.source)
         {
             var tempSource = this.source;
@@ -484,7 +459,6 @@ var WebAudioSound = new Class({
         this.hasEnded = false;
 
         this.stopAndRemoveLoopBufferSource();
-        console.groupEnd();
     },
 
     /**
@@ -495,7 +469,6 @@ var WebAudioSound = new Class({
      */
     stopAndRemoveLoopBufferSource: function ()
     {
-        console.group('WebAudioSound stopAndRemoveLoopBufferSource');
         if (this.loopSource)
         {
             this.loopSource.stop();
@@ -504,7 +477,6 @@ var WebAudioSound = new Class({
         }
 
         this.loopTime = 0;
-        console.groupEnd();
     },
 
     /**
@@ -515,7 +487,6 @@ var WebAudioSound = new Class({
      */
     applyConfig: function ()
     {
-        console.group('WebAudioSound applyConfig');
         this.rateUpdates.length = 0;
 
         this.rateUpdates.push({
@@ -552,7 +523,6 @@ var WebAudioSound = new Class({
         }
 
         BaseSound.prototype.applyConfig.call(this);
-        console.groupEnd();
     },
 
     /**
@@ -641,7 +611,6 @@ var WebAudioSound = new Class({
      */
     update: function ()
     {
-        console.group('WebAudioSound update');
         if (this.isPlaying && this.spatialSource)
         {
             var x = GetFastValue(this.spatialSource, 'x', null);
@@ -682,7 +651,6 @@ var WebAudioSound = new Class({
 
             this.emit(Events.LOOPED, this);
         }
-        console.groupEnd();
     },
 
     /**
@@ -694,10 +662,8 @@ var WebAudioSound = new Class({
      */
     destroy: function ()
     {
-        console.group('WebAudioSound destroy');
         if (this.pendingRemove)
         {
-            console.groupEnd();
             return;
         }
 
@@ -725,7 +691,6 @@ var WebAudioSound = new Class({
 
         this.rateUpdates.length = 0;
         this.rateUpdates = null;
-        console.groupEnd();
     },
 
     /**
@@ -736,7 +701,6 @@ var WebAudioSound = new Class({
      */
     calculateRate: function ()
     {
-        console.group('WebAudioSound calculateRate');
         BaseSound.prototype.calculateRate.call(this);
 
         var now = this.manager.context.currentTime;
@@ -759,7 +723,6 @@ var WebAudioSound = new Class({
                 this.createAndStartLoopBufferSource();
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -770,7 +733,6 @@ var WebAudioSound = new Class({
      */
     getCurrentTime: function ()
     {
-        console.group('WebAudioSound getCurrentTime');
         var currentTime = 0;
 
         for (var i = 0; i < this.rateUpdates.length; i++)
@@ -789,7 +751,6 @@ var WebAudioSound = new Class({
             currentTime += (nextTime - this.rateUpdates[i].time) * this.rateUpdates[i].rate;
         }
 
-        console.groupEnd();
         return currentTime;
     },
 
@@ -802,7 +763,6 @@ var WebAudioSound = new Class({
      */
     getLoopTime: function ()
     {
-        console.group('WebAudioSound getLoopTime');
         var lastRateUpdateCurrentTime = 0;
 
         for (var i = 0; i < this.rateUpdates.length - 1; i++)
@@ -812,9 +772,7 @@ var WebAudioSound = new Class({
 
         var lastRateUpdate = this.rateUpdates[this.rateUpdates.length - 1];
 
-        const result = this.playTime + lastRateUpdate.time + (this.duration - lastRateUpdateCurrentTime) / lastRateUpdate.rate;
-        console.groupEnd();
-        return result;
+        return this.playTime + lastRateUpdate.time + (this.duration - lastRateUpdateCurrentTime) / lastRateUpdate.rate;
     },
 
     /**
@@ -862,10 +820,8 @@ var WebAudioSound = new Class({
      */
     setRate: function (value)
     {
-        console.group('WebAudioSound setRate');
         this.rate = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -911,10 +867,8 @@ var WebAudioSound = new Class({
      */
     setDetune: function (value)
     {
-        console.group('WebAudioSound setDetune');
         this.detune = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -958,10 +912,8 @@ var WebAudioSound = new Class({
      */
     setMute: function (value)
     {
-        console.group('WebAudioSound setMute');
         this.mute = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1003,10 +955,8 @@ var WebAudioSound = new Class({
      */
     setVolume: function (value)
     {
-        console.group('WebAudioSound setVolume');
         this.volume = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1081,10 +1031,8 @@ var WebAudioSound = new Class({
      */
     setSeek: function (value)
     {
-        console.group('WebAudioSound setSeek');
         this.seek = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1135,10 +1083,8 @@ var WebAudioSound = new Class({
      */
     setLoop: function (value)
     {
-        console.group('WebAudioSound setLoop');
         this.loop = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1195,10 +1141,8 @@ var WebAudioSound = new Class({
      */
     setPan: function (value)
     {
-        console.group('WebAudioSound setPan');
         this.pan = value;
 
-        console.groupEnd();
         return this;
     }
 

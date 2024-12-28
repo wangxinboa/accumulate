@@ -40,7 +40,6 @@ var HTMLTextureFile = new Class({
 
     function HTMLTextureFile (loader, key, url, width, height, xhrSettings)
     {
-        console.group('HTMLTextureFile');
         if (width === undefined) { width = 512; }
         if (height === undefined) { height = 512; }
 
@@ -73,7 +72,6 @@ var HTMLTextureFile = new Class({
         };
 
         File.call(this, loader, fileConfig);
-        console.groupEnd();
     },
 
     /**
@@ -85,7 +83,6 @@ var HTMLTextureFile = new Class({
      */
     onProcess: function ()
     {
-        console.group('HTMLTextureFile onProcess');
         this.state = CONST.FILE_PROCESSING;
 
         var w = this.config.width;
@@ -114,7 +111,6 @@ var HTMLTextureFile = new Class({
 
             _this.onProcessComplete();
 
-            console.groupEnd();
             return;
         }
 
@@ -137,7 +133,6 @@ var HTMLTextureFile = new Class({
         };
 
         File.createObjectURL(this.data, blob, 'image/svg+xml');
-        console.groupEnd();
     },
 
     /**
@@ -148,9 +143,7 @@ var HTMLTextureFile = new Class({
      */
     addToCache: function ()
     {
-        console.group('HTMLTextureFile addToCache');
         this.cache.addImage(this.key, this.data);
-        console.groupEnd();
     }
 
 });
@@ -236,10 +229,8 @@ var HTMLTextureFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register htmlTexture');
 FileTypesManager.register('htmlTexture', function (key, url, width, height, xhrSettings)
 {
-    console.group('FileTypesManager.register htmlTexture factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -253,9 +244,7 @@ FileTypesManager.register('htmlTexture', function (key, url, width, height, xhrS
         this.addFile(new HTMLTextureFile(this, key, url, width, height, xhrSettings));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = HTMLTextureFile;

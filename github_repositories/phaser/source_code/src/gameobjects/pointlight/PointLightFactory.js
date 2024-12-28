@@ -48,13 +48,7 @@ var PointLight = require('./PointLight');
  *
  * @return {Phaser.GameObjects.PointLight} The Game Object that was created.
  */
-console.group('GameObjectFactory.register pointlight');
 GameObjectFactory.register('pointlight', function (x, y, color, radius, intensity, attenuation)
 {
-    console.group('GameObjectFactory.register pointlight factoryFunction');
-    const result = this.displayList.add(new PointLight(this.scene, x, y, color, radius, intensity, attenuation));
-    console.groupEnd();
-    return result;
+    return this.displayList.add(new PointLight(this.scene, x, y, color, radius, intensity, attenuation));
 });
-
-console.groupEnd();

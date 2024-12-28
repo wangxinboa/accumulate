@@ -22,19 +22,16 @@
  */
 var SnapFloor = function (value, gap, start, divide)
 {
-    console.group('SnapFloor');
     if (start === undefined) { start = 0; }
 
     if (gap === 0)
     {
-        console.groupEnd();
         return value;
     }
 
     value -= start;
     value = gap * Math.floor(value / gap);
 
-    console.groupEnd();
     return (divide) ? (start + value) / gap : start + value;
 };
 

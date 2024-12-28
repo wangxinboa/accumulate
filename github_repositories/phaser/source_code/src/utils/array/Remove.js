@@ -25,7 +25,6 @@ var SpliceOne = require('./SpliceOne');
  */
 var Remove = function (array, item, callback, context)
 {
-    console.group('Remove');
     if (context === undefined) { context = array; }
 
     var index;
@@ -44,12 +43,10 @@ var Remove = function (array, item, callback, context)
                 callback.call(context, item);
             }
 
-            console.groupEnd();
             return item;
         }
         else
         {
-            console.groupEnd();
             return null;
         }
     }
@@ -80,7 +77,6 @@ var Remove = function (array, item, callback, context)
         itemLength--;
     }
 
-    console.groupEnd();
     return removed;
 };
 

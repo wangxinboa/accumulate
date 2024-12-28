@@ -48,11 +48,9 @@ var PathFollower = new Class({
 
     function PathFollower (scene, path, x, y, texture, frame)
     {
-        console.group('PathFollower');
         Sprite.call(this, scene, x, y, texture, frame);
 
         this.path = path;
-        console.groupEnd();
     },
 
     /**
@@ -69,10 +67,8 @@ var PathFollower = new Class({
      */
     preUpdate: function (time, delta)
     {
-        console.group('PathFollower preUpdate');
         this.anims.update(time, delta);
         this.pathUpdate(time);
-        console.groupEnd();
     }
 
 });

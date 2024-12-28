@@ -24,7 +24,6 @@ var RequestAnimationFrame = new Class({
 
     function RequestAnimationFrame ()
     {
-        console.group('RequestAnimationFrame');
         /**
          * True if RequestAnimationFrame is running, otherwise false.
          *
@@ -92,9 +91,8 @@ var RequestAnimationFrame = new Class({
             _this.callback(time);
 
             if (_this.isRunning)
-            {   
-                console.info('%cRequestAnimationFrame 为了方便阅读打印信息, 将代码注释了', 'font-size: 18px; color: #ffffff; background-color: #000000;');
-                // _this.timeOutID = window.requestAnimationFrame(step);
+            {
+                _this.timeOutID = window.requestAnimationFrame(step);
             }
         };
 
@@ -117,7 +115,6 @@ var RequestAnimationFrame = new Class({
 
             _this.callback(window.performance.now());
         };
-        console.groupEnd();
     },
 
     /**
@@ -132,10 +129,8 @@ var RequestAnimationFrame = new Class({
      */
     start: function (callback, forceSetTimeOut, delay)
     {
-        console.group('RequestAnimationFrame start');
         if (this.isRunning)
         {
-            console.groupEnd();
             return;
         }
 
@@ -148,7 +143,6 @@ var RequestAnimationFrame = new Class({
         this.isRunning = true;
 
         this.timeOutID = (forceSetTimeOut) ? window.setTimeout(this.stepTimeout, 0) : window.requestAnimationFrame(this.step);
-        console.groupEnd();
     },
 
     /**
@@ -159,7 +153,6 @@ var RequestAnimationFrame = new Class({
      */
     stop: function ()
     {
-        console.group('RequestAnimationFrame stop');
         this.isRunning = false;
 
         if (this.isSetTimeOut)
@@ -170,7 +163,6 @@ var RequestAnimationFrame = new Class({
         {
             window.cancelAnimationFrame(this.timeOutID);
         }
-        console.groupEnd();
     },
 
     /**
@@ -181,11 +173,9 @@ var RequestAnimationFrame = new Class({
      */
     destroy: function ()
     {
-        console.group('RequestAnimationFrame destroy');
         this.stop();
 
         this.callback = NOOP;
-        console.groupEnd();
     }
 
 });

@@ -23,12 +23,10 @@ var Clone = require('../../utils/object/Clone');
  */
 var JSONHash = function (texture, sourceIndex, json)
 {
-    console.group('Parsers JSONHash');
     //  Malformed?
     if (!json['frames'])
     {
         console.warn('Invalid Texture Atlas JSON Hash given, missing \'frames\' Object');
-        console.groupEnd();
         return;
     }
 
@@ -120,7 +118,6 @@ var JSONHash = function (texture, sourceIndex, json)
         }
     }
 
-    console.groupEnd();
     return texture;
 };
 

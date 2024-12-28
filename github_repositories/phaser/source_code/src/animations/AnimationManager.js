@@ -42,7 +42,6 @@ var AnimationManager = new Class({
 
     function AnimationManager (game)
     {
-        console.group('AnimationManager');
         EventEmitter.call(this);
 
         /**
@@ -120,7 +119,6 @@ var AnimationManager = new Class({
         this.name = 'AnimationManager';
 
         game.events.once(GameEvents.BOOT, this.boot, this);
-        console.groupEnd();
     },
 
     /**
@@ -132,11 +130,9 @@ var AnimationManager = new Class({
      */
     boot: function ()
     {
-        console.group('AnimationManager boot: 只是添加了 this.destroy 到 this.game.events 的 GameEvents.DESTROY 中');
         this.textureManager = this.game.textures;
 
         this.game.events.once(GameEvents.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -169,7 +165,6 @@ var AnimationManager = new Class({
      */
     addMix: function (animA, animB, delay)
     {
-        console.group('AnimationManager addMix');
         var anims = this.anims;
         var mixes = this.mixes;
 
@@ -190,7 +185,6 @@ var AnimationManager = new Class({
             mixes.set(keyA, mixObj);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -216,7 +210,6 @@ var AnimationManager = new Class({
      */
     removeMix: function (animA, animB)
     {
-        console.group('AnimationManager removeMix');
         var mixes = this.mixes;
 
         var keyA = (typeof(animA) === 'string') ? animA : animA.key;
@@ -242,7 +235,6 @@ var AnimationManager = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -264,7 +256,6 @@ var AnimationManager = new Class({
      */
     getMix: function (animA, animB)
     {
-        console.group('AnimationManager getMix');
         var mixes = this.mixes;
 
         var keyA = (typeof(animA) === 'string') ? animA : animA.key;
@@ -274,12 +265,10 @@ var AnimationManager = new Class({
 
         if (mixObj && mixObj.hasOwnProperty(keyB))
         {
-            console.groupEnd();
             return mixObj[keyB];
         }
         else
         {
-            console.groupEnd();
             return 0;
         }
     },
@@ -298,12 +287,10 @@ var AnimationManager = new Class({
      */
     add: function (key, animation)
     {
-        console.group('AnimationManager add');
         if (this.anims.has(key))
         {
             console.warn('Animation key exists: ' + key);
 
-            console.groupEnd();
             return this;
         }
 
@@ -313,7 +300,6 @@ var AnimationManager = new Class({
 
         this.emit(Events.ADD_ANIMATION, key, animation);
 
-        console.groupEnd();
         return this;
     },
 
@@ -331,10 +317,7 @@ var AnimationManager = new Class({
      */
     exists: function (key)
     {
-        console.group('AnimationManager exists');
-        const result = this.anims.has(key);
-        console.groupEnd();
-        return result;
+        return this.anims.has(key);
     },
 
     /**
@@ -416,7 +399,6 @@ var AnimationManager = new Class({
      */
     createFromAseprite: function (key, tags, target)
     {
-        console.group('AnimationManager createFromAseprite');
         var output = [];
 
         var data = this.game.cache.json.get(key);
@@ -425,7 +407,6 @@ var AnimationManager = new Class({
         {
             console.warn('No Aseprite data found for: ' + key);
 
-            console.groupEnd();
             return output;
         }
 
@@ -450,7 +431,6 @@ var AnimationManager = new Class({
                 if (!name)
                 {
                     //  Skip if no name
-                    console.groupEnd();
                     return;
                 }
 
@@ -506,7 +486,6 @@ var AnimationManager = new Class({
             });
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -533,7 +512,6 @@ var AnimationManager = new Class({
      */
     create: function (config)
     {
-        console.group('AnimationManager create');
         var key = config.key;
 
         var anim = false;
@@ -556,7 +534,6 @@ var AnimationManager = new Class({
             }
         }
 
-        console.groupEnd();
         return anim;
     },
 
@@ -573,7 +550,6 @@ var AnimationManager = new Class({
      */
     fromJSON: function (data, clearCurrentAnimations)
     {
-        console.group('AnimationManager fromJSON');
         if (clearCurrentAnimations === undefined) { clearCurrentAnimations = false; }
 
         if (clearCurrentAnimations)
@@ -607,7 +583,6 @@ var AnimationManager = new Class({
             output.push(this.create(data));
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -652,7 +627,6 @@ var AnimationManager = new Class({
      */
     generateFrameNames: function (key, config)
     {
-        console.group('AnimationManager generateFrameNames');
         var prefix = GetValue(config, 'prefix', '');
         var start = GetValue(config, 'start', 0);
         var end = GetValue(config, 'end', 0);
@@ -665,7 +639,6 @@ var AnimationManager = new Class({
         {
             console.warn('Texture "%s" not found', key);
 
-            console.groupEnd();
             return out;
         }
 
@@ -673,7 +646,6 @@ var AnimationManager = new Class({
 
         if (!texture)
         {
-            console.groupEnd();
             return out;
         }
 
@@ -711,7 +683,6 @@ var AnimationManager = new Class({
             }
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -764,7 +735,6 @@ var AnimationManager = new Class({
      */
     generateFrameNumbers: function (key, config)
     {
-        console.group('AnimationManager generateFrameNumbers');
         var start = GetValue(config, 'start', 0);
         var end = GetValue(config, 'end', -1);
         var first = GetValue(config, 'first', false);
@@ -775,7 +745,6 @@ var AnimationManager = new Class({
         {
             console.warn('Texture "%s" not found', key);
 
-            console.groupEnd();
             return out;
         }
 
@@ -783,7 +752,6 @@ var AnimationManager = new Class({
 
         if (!texture)
         {
-            console.groupEnd();
             return out;
         }
 
@@ -819,7 +787,6 @@ var AnimationManager = new Class({
             }
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -835,10 +802,7 @@ var AnimationManager = new Class({
      */
     get: function (key)
     {
-        console.group('AnimationManager get');
-        const result = this.anims.get(key);
-        console.groupEnd();
-        return result;
+        return this.anims.get(key);
     },
 
     /**
@@ -855,7 +819,6 @@ var AnimationManager = new Class({
      */
     getAnimsFromTexture: function (key)
     {
-        console.group('AnimationManager getAnimsFromTexture');
         var texture = this.textureManager.get(key);
 
         var match = texture.key;
@@ -879,7 +842,6 @@ var AnimationManager = new Class({
             }
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -894,7 +856,6 @@ var AnimationManager = new Class({
      */
     pauseAll: function ()
     {
-        console.group('AnimationManager pauseAll');
         if (!this.paused)
         {
             this.paused = true;
@@ -902,7 +863,6 @@ var AnimationManager = new Class({
             this.emit(Events.PAUSE_ALL);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -919,7 +879,6 @@ var AnimationManager = new Class({
      */
     play: function (key, children)
     {
-        console.group('AnimationManager play');
         if (!Array.isArray(children))
         {
             children = [ children ];
@@ -930,7 +889,6 @@ var AnimationManager = new Class({
             children[i].anims.play(key);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -975,7 +933,6 @@ var AnimationManager = new Class({
      */
     staggerPlay: function (key, children, stagger, staggerFirst)
     {
-        console.group('AnimationManager staggerPlay');
         if (stagger === undefined) { stagger = 0; }
         if (staggerFirst === undefined) { staggerFirst = true; }
 
@@ -998,7 +955,6 @@ var AnimationManager = new Class({
             children[i].anims.playAfterDelay(key, time);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1018,7 +974,6 @@ var AnimationManager = new Class({
      */
     remove: function (key)
     {
-        console.group('AnimationManager remove');
         var anim = this.get(key);
 
         if (anim)
@@ -1030,7 +985,6 @@ var AnimationManager = new Class({
             this.removeMix(key);
         }
 
-        console.groupEnd();
         return anim;
     },
 
@@ -1045,7 +999,6 @@ var AnimationManager = new Class({
      */
     resumeAll: function ()
     {
-        console.group('AnimationManager resumeAll');
         if (this.paused)
         {
             this.paused = false;
@@ -1053,7 +1006,6 @@ var AnimationManager = new Class({
             this.emit(Events.RESUME_ALL);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1070,7 +1022,6 @@ var AnimationManager = new Class({
      */
     toJSON: function (key)
     {
-        console.group('AnimationManager toJSON');
         var output = {
             anims: [],
             globalTimeScale: this.globalTimeScale
@@ -1088,7 +1039,6 @@ var AnimationManager = new Class({
             });
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -1101,14 +1051,12 @@ var AnimationManager = new Class({
      */
     destroy: function ()
     {
-        console.group('AnimationManager destroy');
         this.anims.clear();
         this.mixes.clear();
 
         this.textureManager = null;
 
         this.game = null;
-        console.groupEnd();
     }
 
 });

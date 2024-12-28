@@ -31,7 +31,6 @@ var WebGLBufferWrapper = new Class({
 
     function WebGLBufferWrapper (gl, initialDataOrSize, bufferType, bufferUsage)
     {
-        console.group('WebGLBufferWrapper');
         /**
          * The WebGLBuffer being wrapped by this class.
          *
@@ -85,7 +84,6 @@ var WebGLBufferWrapper = new Class({
         this.bufferUsage = bufferUsage;
 
         this.createResource();
-        console.groupEnd();
     },
 
     /**
@@ -99,10 +97,8 @@ var WebGLBufferWrapper = new Class({
      */
     createResource: function ()
     {
-        console.group('WebGLBufferWrapper createResource');
         if (this.initialDataOrSize === null)
         {
-            console.groupEnd();
             return;
         }
 
@@ -110,7 +106,6 @@ var WebGLBufferWrapper = new Class({
 
         if (gl.isContextLost())
         {
-            console.groupEnd();
             // GL state can't be updated right now.
             // `createResource` will run when the context is restored.
             return;
@@ -124,7 +119,6 @@ var WebGLBufferWrapper = new Class({
         gl.bindBuffer(bufferType, this.webGLBuffer);
         gl.bufferData(bufferType, this.initialDataOrSize, this.bufferUsage);
         gl.bindBuffer(bufferType, null);
-        console.groupEnd();
     },
 
     /**
@@ -135,7 +129,6 @@ var WebGLBufferWrapper = new Class({
      */
     destroy: function ()
     {
-        console.group('WebGLBufferWrapper destroy');
         var gl = this.gl;
         if (!gl.isContextLost())
         {
@@ -144,7 +137,6 @@ var WebGLBufferWrapper = new Class({
         this.webGLBuffer = null;
         this.initialDataOrSize = null;
         this.gl = null;
-        console.groupEnd();
     }
 });
 

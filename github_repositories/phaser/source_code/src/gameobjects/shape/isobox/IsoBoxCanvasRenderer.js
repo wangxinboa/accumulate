@@ -23,7 +23,6 @@ var SetTransform = require('../../../renderer/canvas/utils/SetTransform');
  */
 var IsoBoxCanvasRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('IsoBoxCanvasRenderer');
     camera.addToRenderList(src);
 
     var ctx = renderer.currentContext;
@@ -92,7 +91,6 @@ var IsoBoxCanvasRenderer = function (renderer, src, camera, parentMatrix)
         //  Restore the context saved in SetTransform
         ctx.restore();
     }
-    console.groupEnd();
 };
 
 module.exports = IsoBoxCanvasRenderer;

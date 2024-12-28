@@ -42,7 +42,6 @@ var Texture = new Class({
 
     function Texture (manager, key, source, width, height)
     {
-        console.group('Texture');
         if (!Array.isArray(source))
         {
             source = [ source ];
@@ -132,7 +131,6 @@ var Texture = new Class({
         {
             this.source.push(new TextureSource(this, source[i], width, height));
         }
-        console.groupEnd();
     },
 
     /**
@@ -156,10 +154,8 @@ var Texture = new Class({
      */
     add: function (name, sourceIndex, x, y, width, height)
     {
-        console.group('Texture add');
         if (this.has(name))
         {
-            console.groupEnd();
             return null;
         }
 
@@ -178,7 +174,6 @@ var Texture = new Class({
 
         this.frameTotal++;
 
-        console.groupEnd();
         return frame;
     },
 
@@ -197,7 +192,6 @@ var Texture = new Class({
      */
     remove: function (name)
     {
-        console.group('Texture remove');
         if (this.has(name))
         {
             var frame = this.get(name);
@@ -206,11 +200,9 @@ var Texture = new Class({
 
             delete this.frames[name];
 
-            console.groupEnd();
             return true;
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -226,10 +218,7 @@ var Texture = new Class({
      */
     has: function (name)
     {
-        console.group('Texture has');
-        const result = this.frames.hasOwnProperty(name);
-        console.groupEnd();
-        return result;
+        return this.frames.hasOwnProperty(name);
     },
 
     /**
@@ -248,7 +237,6 @@ var Texture = new Class({
      */
     get: function (name)
     {
-        console.group('Texture get');
         //  null, undefined, empty string, zero
         if (!name)
         {
@@ -264,7 +252,6 @@ var Texture = new Class({
             frame = this.frames[this.firstFrame];
         }
 
-        console.groupEnd();
         return frame;
     },
 
@@ -283,17 +270,14 @@ var Texture = new Class({
      */
     getTextureSourceIndex: function (source)
     {
-        console.group('Texture getTextureSourceIndex');
         for (var i = 0; i < this.source.length; i++)
         {
             if (this.source[i] === source)
             {
-                console.groupEnd();
                 return i;
             }
         }
 
-        console.groupEnd();
         return -1;
     },
 
@@ -310,7 +294,6 @@ var Texture = new Class({
      */
     getFramesFromTextureSource: function (sourceIndex, includeBase)
     {
-        console.group('Texture getFramesFromTextureSource');
         if (includeBase === undefined) { includeBase = false; }
 
         var out = [];
@@ -330,7 +313,6 @@ var Texture = new Class({
             }
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -350,7 +332,6 @@ var Texture = new Class({
      */
     getFrameBounds: function (sourceIndex)
     {
-        console.group('Texture getFrameBounds');
         if (sourceIndex === undefined) { sourceIndex = 0; }
 
         var frames = this.getFramesFromTextureSource(sourceIndex, true);
@@ -387,7 +368,6 @@ var Texture = new Class({
             }
         }
 
-        console.groupEnd();
         return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
     },
 
@@ -406,7 +386,6 @@ var Texture = new Class({
      */
     getFrameNames: function (includeBase)
     {
-        console.group('Texture getFrameNames');
         if (includeBase === undefined) { includeBase = false; }
 
         var out = Object.keys(this.frames);
@@ -421,7 +400,6 @@ var Texture = new Class({
             }
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -439,7 +417,6 @@ var Texture = new Class({
      */
     getSourceImage: function (name)
     {
-        console.group('Texture getSourceImage');
         if (name === undefined || name === null || this.frameTotal === 1)
         {
             name = '__BASE';
@@ -449,14 +426,12 @@ var Texture = new Class({
 
         if (frame)
         {
-            console.groupEnd();
             return frame.source.image;
         }
         else
         {
             console.warn(TEXTURE_MISSING_ERROR, this.key, name);
 
-            console.groupEnd();
             return this.frames['__BASE'].source.image;
         }
     },
@@ -476,7 +451,6 @@ var Texture = new Class({
      */
     getDataSourceImage: function (name)
     {
-        console.group('Texture getDataSourceImage');
         if (name === undefined || name === null || this.frameTotal === 1)
         {
             name = '__BASE';
@@ -496,7 +470,6 @@ var Texture = new Class({
             idx = frame.sourceIndex;
         }
 
-        console.groupEnd();
         return this.dataSource[idx].image;
     },
 
@@ -513,7 +486,6 @@ var Texture = new Class({
      */
     setDataSource: function (data)
     {
-        console.group('Texture setDataSource');
         if (!Array.isArray(data))
         {
             data = [ data ];
@@ -525,7 +497,6 @@ var Texture = new Class({
 
             this.dataSource.push(new TextureSource(this, data[i], source.width, source.height));
         }
-        console.groupEnd();
     },
 
     /**
@@ -544,7 +515,6 @@ var Texture = new Class({
      */
     setFilter: function (filterMode)
     {
-        console.group('Texture setFilter');
         var i;
 
         for (i = 0; i < this.source.length; i++)
@@ -556,7 +526,6 @@ var Texture = new Class({
         {
             this.dataSource[i].setFilter(filterMode);
         }
-        console.groupEnd();
     },
 
     /**
@@ -567,7 +536,6 @@ var Texture = new Class({
      */
     destroy: function ()
     {
-        console.group('Texture destroy');
         var i;
         var source = this.source;
         var dataSource = this.dataSource;
@@ -605,7 +573,6 @@ var Texture = new Class({
         this.manager.removeKey(this.key);
 
         this.manager = null;
-        console.groupEnd();
     }
 
 });

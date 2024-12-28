@@ -35,14 +35,12 @@ var GetFastValue = require('../../utils/object/GetFastValue');
  */
 var SpriteSheet = function (texture, sourceIndex, x, y, width, height, config)
 {
-    console.group('Parsers SpriteSheet');
     var frameWidth = GetFastValue(config, 'frameWidth', null);
     var frameHeight = GetFastValue(config, 'frameHeight', frameWidth);
 
     //  If missing we can't proceed
     if (frameWidth === null)
     {
-        console.groupEnd();
         throw new Error('TextureManager.SpriteSheet: Invalid frameWidth given.');
     }
 
@@ -121,7 +119,6 @@ var SpriteSheet = function (texture, sourceIndex, x, y, width, height, config)
         }
     }
 
-    console.groupEnd();
     return texture;
 };
 

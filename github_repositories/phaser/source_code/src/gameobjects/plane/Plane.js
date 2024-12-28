@@ -64,7 +64,6 @@ var Plane = new Class({
 
     function Plane (scene, x, y, texture, frame, width, height, tile)
     {
-        console.group('Plane');
         if (!texture) { texture = '__DEFAULT'; }
 
         Mesh.call(this, scene, x, y, texture, frame);
@@ -136,7 +135,6 @@ var Plane = new Class({
         this.setGridSize(width, height, tile);
         this.setSizeToFrame(false);
         this.setViewHeight();
-        console.groupEnd();
     },
 
     /**
@@ -197,7 +195,6 @@ var Plane = new Class({
      */
     setGridSize: function (width, height, tile)
     {
-        console.group('Plane setGridSize');
         if (width === undefined) { width = 8; }
         if (height === undefined) { height = 8; }
         if (tile === undefined) { tile = false; }
@@ -224,7 +221,6 @@ var Plane = new Class({
             flipY: flipY
         });
 
-        console.groupEnd();
         return this;
     },
 
@@ -243,7 +239,6 @@ var Plane = new Class({
      */
     setSizeToFrame: function (resetUV)
     {
-        console.group('Plane setSizeToFrame');
         if (resetUV === undefined) { resetUV = true; }
 
         var frame = this.frame;
@@ -257,7 +252,6 @@ var Plane = new Class({
 
         if (!resetUV)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -336,7 +330,6 @@ var Plane = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -355,7 +348,6 @@ var Plane = new Class({
      */
     setViewHeight: function (value)
     {
-        console.group('Plane setViewHeight');
         if (value === undefined) { value = this.frame.height; }
 
         var vFOV = this.fov * (Math.PI / 180);
@@ -363,7 +355,6 @@ var Plane = new Class({
         this.viewPosition.z = (this.height / value) / (Math.tan(vFOV / 2));
 
         this.dirtyCache[10] = 1;
-        console.groupEnd();
     },
 
     /**
@@ -389,7 +380,6 @@ var Plane = new Class({
      */
     createCheckerboard: function (color1, color2, alpha1, alpha2, height)
     {
-        console.group('Plane createCheckerboard');
         if (color1 === undefined) { color1 = 0xffffff; }
         if (color2 === undefined) { color2 = 0x0000ff; }
         if (alpha1 === undefined) { alpha1 = 255; }
@@ -428,7 +418,6 @@ var Plane = new Class({
 
         this.setViewHeight(height);
 
-        console.groupEnd();
         return this;
     },
 
@@ -441,14 +430,12 @@ var Plane = new Class({
      */
     removeCheckerboard: function ()
     {
-        console.group('Plane removeCheckerboard');
         if (this._checkerboard)
         {
             this._checkerboard.destroy();
 
             this._checkerboard = null;
         }
-        console.groupEnd();
     },
 
     /**
@@ -515,10 +502,7 @@ var Plane = new Class({
      */
     play: function (key, ignoreIfPlaying)
     {
-        console.group('Plane play');
-        const result = this.anims.play(key, ignoreIfPlaying);
-        console.groupEnd();
-        return result;
+        return this.anims.play(key, ignoreIfPlaying);
     },
 
     /**
@@ -585,10 +569,7 @@ var Plane = new Class({
      */
     playReverse: function (key, ignoreIfPlaying)
     {
-        console.group('Plane playReverse');
-        const result = this.anims.playReverse(key, ignoreIfPlaying);
-        console.groupEnd();
-        return result;
+        return this.anims.playReverse(key, ignoreIfPlaying);
     },
 
     /**
@@ -616,10 +597,7 @@ var Plane = new Class({
      */
     playAfterDelay: function (key, delay)
     {
-        console.group('Plane playAfterDelay');
-        const result = this.anims.playAfterDelay(key, delay);
-        console.groupEnd();
-        return result;
+        return this.anims.playAfterDelay(key, delay);
     },
 
     /**
@@ -646,10 +624,7 @@ var Plane = new Class({
      */
     playAfterRepeat: function (key, repeatCount)
     {
-        console.group('Plane playAfterRepeat');
-        const result = this.anims.playAfterRepeat(key, repeatCount);
-        console.groupEnd();
-        return result;
+        return this.anims.playAfterRepeat(key, repeatCount);
     },
 
     /**
@@ -667,10 +642,7 @@ var Plane = new Class({
      */
     stop: function ()
     {
-        console.group('Plane stop');
-        const result = this.anims.stop();
-        console.groupEnd();
-        return result;
+        return this.anims.stop();
     },
 
     /**
@@ -693,10 +665,7 @@ var Plane = new Class({
      */
     stopAfterDelay: function (delay)
     {
-        console.group('Plane stopAfterDelay');
-        const result = this.anims.stopAfterDelay(delay);
-        console.groupEnd();
-        return result;
+        return this.anims.stopAfterDelay(delay);
     },
 
     /**
@@ -719,10 +688,7 @@ var Plane = new Class({
      */
     stopAfterRepeat: function (repeatCount)
     {
-        console.group('Plane stopAfterRepeat');
-        const result = this.anims.stopAfterRepeat(repeatCount);
-        console.groupEnd();
-        return result;
+        return this.anims.stopAfterRepeat(repeatCount);
     },
 
     /**
@@ -746,10 +712,7 @@ var Plane = new Class({
      */
     stopOnFrame: function (frame)
     {
-        console.group('Plane stopOnFrame');
-        const result = this.anims.stopOnFrame(frame);
-        console.groupEnd();
-        return result;
+        return this.anims.stopOnFrame(frame);
     },
 
     /**
@@ -765,11 +728,9 @@ var Plane = new Class({
      */
     preUpdate: function (time, delta)
     {
-        console.group('Plane preUpdate');
         Mesh.prototype.preUpdate.call(this, time, delta);
 
         this.anims.update(time, delta);
-        console.groupEnd();
     },
 
     /**
@@ -781,7 +742,6 @@ var Plane = new Class({
      */
     preDestroy: function ()
     {
-        console.group('Plane preDestroy');
         this.clear();
         this.removeCheckerboard();
 
@@ -791,7 +751,6 @@ var Plane = new Class({
 
         this.debugCallback = null;
         this.debugGraphic = null;
-        console.groupEnd();
     }
 
 });

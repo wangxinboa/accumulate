@@ -29,7 +29,6 @@ var GameObjectFactory = new Class({
 
     function GameObjectFactory (scene)
     {
-        console.group('GameObjectFactory');
         /**
          * The Scene to which this Game Object Factory belongs.
          *
@@ -82,7 +81,6 @@ var GameObjectFactory = new Class({
 
         this.events.once(SceneEvents.BOOT, this.boot, this);
         this.events.on(SceneEvents.START, this.start, this);
-        console.groupEnd();
     },
 
     /**
@@ -95,12 +93,10 @@ var GameObjectFactory = new Class({
      */
     boot: function ()
     {
-        console.group('GameObjectFactory boot');
         this.displayList = this.systems.displayList;
         this.updateList = this.systems.updateList;
 
         this.events.once(SceneEvents.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -114,9 +110,7 @@ var GameObjectFactory = new Class({
      */
     start: function ()
     {
-        console.group('GameObjectFactory start');
         this.events.once(SceneEvents.SHUTDOWN, this.shutdown, this);
-        console.groupEnd();
     },
 
     /**
@@ -136,7 +130,6 @@ var GameObjectFactory = new Class({
      */
     existing: function (child)
     {
-        console.group('GameObjectFactory existing');
         if (child.renderCanvas || child.renderWebGL)
         {
             this.displayList.add(child);
@@ -149,7 +142,6 @@ var GameObjectFactory = new Class({
             this.updateList.add(child);
         }
 
-        console.groupEnd();
         return child;
     },
 
@@ -163,9 +155,7 @@ var GameObjectFactory = new Class({
      */
     shutdown: function ()
     {
-        console.group('GameObjectFactory shutdown');
         this.events.off(SceneEvents.SHUTDOWN, this.shutdown, this);
-        console.groupEnd();
     },
 
     /**
@@ -178,7 +168,6 @@ var GameObjectFactory = new Class({
      */
     destroy: function ()
     {
-        console.group('GameObjectFactory destroy');
         this.shutdown();
 
         this.events.off(SceneEvents.START, this.start, this);
@@ -189,7 +178,6 @@ var GameObjectFactory = new Class({
 
         this.displayList = null;
         this.updateList = null;
-        console.groupEnd();
     }
 
 });
@@ -209,12 +197,10 @@ var GameObjectFactory = new Class({
  */
 GameObjectFactory.register = function (factoryType, factoryFunction)
 {
-    console.group('GameObjectFactory register');
     if (!GameObjectFactory.prototype.hasOwnProperty(factoryType))
     {
         GameObjectFactory.prototype[factoryType] = factoryFunction;
     }
-    console.groupEnd();
 };
 
 /**
@@ -230,16 +216,12 @@ GameObjectFactory.register = function (factoryType, factoryFunction)
  */
 GameObjectFactory.remove = function (factoryType)
 {
-    console.group('GameObjectFactory remove');
     if (GameObjectFactory.prototype.hasOwnProperty(factoryType))
     {
         delete GameObjectFactory.prototype[factoryType];
     }
-    console.groupEnd();
 };
 
-console.group("PluginCache.register GameObjectFactory");
 PluginCache.register('GameObjectFactory', GameObjectFactory, 'add');
 
-console.groupEnd();
 module.exports = GameObjectFactory;

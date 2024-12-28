@@ -19,7 +19,6 @@
  */
 var SortByDigits = function (array)
 {
-    console.group('SortByDigits');
     var re = /\D/g;
 
     array.sort(function (a, b)
@@ -27,7 +26,6 @@ var SortByDigits = function (array)
         return (parseInt(a.replace(re, ''), 10) - parseInt(b.replace(re, ''), 10));
     });
 
-    console.groupEnd();
     return array;
 };
 

@@ -22,7 +22,6 @@ var Utils = require('../../renderer/webgl/Utils');
  */
 var TileSpriteWebGLRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('TileSpriteWebGLRenderer');
     src.updateCanvas();
 
     var width = src.width;
@@ -30,7 +29,6 @@ var TileSpriteWebGLRenderer = function (renderer, src, camera, parentMatrix)
 
     if (width === 0 || height === 0)
     {
-        console.groupEnd();
         return;
     }
 
@@ -66,7 +64,6 @@ var TileSpriteWebGLRenderer = function (renderer, src, camera, parentMatrix)
         false,
         textureUnit
     );
-    console.groupEnd();
 };
 
 module.exports = TileSpriteWebGLRenderer;

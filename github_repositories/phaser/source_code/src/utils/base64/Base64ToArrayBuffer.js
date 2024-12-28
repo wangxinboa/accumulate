@@ -27,7 +27,6 @@ for (var i = 0; i < chars.length; i++)
  */
 var Base64ToArrayBuffer = function (base64)
 {
-    console.group('Base64ToArrayBuffer');
     //  Is it a data uri? if so, strip the header away
     base64 = base64.substr(base64.indexOf(',') + 1);
 
@@ -64,7 +63,6 @@ var Base64ToArrayBuffer = function (base64)
         bytes[p++] = ((encoded3 & 3) << 6) | (encoded4 & 63);
     }
 
-    console.groupEnd();
     return arrayBuffer;
 };
 

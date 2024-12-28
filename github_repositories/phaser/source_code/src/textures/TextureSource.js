@@ -35,7 +35,6 @@ var TextureSource = new Class({
 
     function TextureSource (texture, source, width, height, flipY)
     {
-        console.group('TextureSource');
         if (flipY === undefined) { flipY = false; }
 
         var game = texture.manager.game;
@@ -201,7 +200,6 @@ var TextureSource = new Class({
         this.flipY = flipY;
 
         this.init(game);
-        console.groupEnd();
     },
 
     /**
@@ -214,7 +212,6 @@ var TextureSource = new Class({
      */
     init: function (game)
     {
-        console.group('TextureSource init');
         var renderer = this.renderer;
 
         if (renderer)
@@ -273,7 +270,6 @@ var TextureSource = new Class({
         {
             this.setFilter(1);
         }
-        console.groupEnd();
     },
 
     /**
@@ -290,14 +286,12 @@ var TextureSource = new Class({
      */
     setFilter: function (filterMode)
     {
-        console.group('TextureSource setFilter');
         if (this.renderer && this.renderer.gl)
         {
             this.renderer.setTextureFilter(this.glTexture, filterMode);
         }
 
         this.scaleMode = filterMode;
-        console.groupEnd();
     },
 
     /**
@@ -310,15 +304,13 @@ var TextureSource = new Class({
      */
     setFlipY: function (value)
     {
-        console.group('TextureSource setFlipY');
         if (value === undefined) { value = true; }
 
-        if (value === this.flipY) { console.groupEnd(); return this; }
+        if (value === this.flipY) { return this; }
 
         this.flipY = value;
         this.update();
 
-        console.groupEnd();
         return this;
     },
 
@@ -331,7 +323,6 @@ var TextureSource = new Class({
      */
     update: function ()
     {
-        console.group('TextureSource update');
         var renderer = this.renderer;
         var image = this.image;
         var flipY = this.flipY;
@@ -345,7 +336,6 @@ var TextureSource = new Class({
         {
             renderer.updateVideoTexture(image, this.glTexture, flipY);
         }
-        console.groupEnd();
     },
 
     /**
@@ -356,7 +346,6 @@ var TextureSource = new Class({
      */
     destroy: function ()
     {
-        console.group('TextureSource destroy');
         if (this.glTexture)
         {
             this.renderer.deleteTexture(this.glTexture);
@@ -372,7 +361,6 @@ var TextureSource = new Class({
         this.source = null;
         this.image = null;
         this.glTexture = null;
-        console.groupEnd();
     }
 
 });

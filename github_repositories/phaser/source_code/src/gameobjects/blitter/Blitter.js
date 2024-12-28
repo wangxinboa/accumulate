@@ -82,7 +82,6 @@ var Blitter = new Class({
 
     function Blitter (scene, x, y, texture, frame)
     {
-        console.group('Blitter');
         GameObject.call(this, scene, 'Blitter');
 
         this.setTexture(texture, frame);
@@ -121,7 +120,6 @@ var Blitter = new Class({
          * @since 3.0.0
          */
         this.dirty = false;
-        console.groupEnd();
     },
 
     /**
@@ -143,7 +141,6 @@ var Blitter = new Class({
      */
     create: function (x, y, frame, visible, index)
     {
-        console.group('Blitter create');
         if (visible === undefined) { visible = true; }
         if (index === undefined) { index = this.children.length; }
 
@@ -162,7 +159,6 @@ var Blitter = new Class({
 
         this.dirty = true;
 
-        console.groupEnd();
         return bob;
     },
 
@@ -181,7 +177,6 @@ var Blitter = new Class({
      */
     createFromCallback: function (callback, quantity, frame, visible)
     {
-        console.group('Blitter createFromCallback');
         var bobs = this.createMultiple(quantity, frame, visible);
 
         for (var i = 0; i < bobs.length; i++)
@@ -191,7 +186,6 @@ var Blitter = new Class({
             callback.call(this, bob, i);
         }
 
-        console.groupEnd();
         return bobs;
     },
 
@@ -214,7 +208,6 @@ var Blitter = new Class({
      */
     createMultiple: function (quantity, frame, visible)
     {
-        console.group('Blitter createMultiple');
         if (frame === undefined) { frame = this.frame.name; }
         if (visible === undefined) { visible = true; }
 
@@ -234,7 +227,6 @@ var Blitter = new Class({
             }
         });
 
-        console.groupEnd();
         return bobs;
     },
 
@@ -250,10 +242,7 @@ var Blitter = new Class({
      */
     childCanRender: function (child)
     {
-        console.group('Blitter childCanRender');
-        const result = (child.visible && child.alpha > 0);
-        console.groupEnd();
-        return result;
+        return (child.visible && child.alpha > 0);
     },
 
     /**
@@ -267,14 +256,12 @@ var Blitter = new Class({
      */
     getRenderList: function ()
     {
-        console.group('Blitter getRenderList');
         if (this.dirty)
         {
             this.renderList = this.children.list.filter(this.childCanRender, this);
             this.dirty = false;
         }
 
-        console.groupEnd();
         return this.renderList;
     },
 
@@ -286,10 +273,8 @@ var Blitter = new Class({
      */
     clear: function ()
     {
-        console.group('Blitter clear');
         this.children.removeAll();
         this.dirty = true;
-        console.groupEnd();
     },
 
     /**
@@ -301,11 +286,9 @@ var Blitter = new Class({
      */
     preDestroy: function ()
     {
-        console.group('Blitter preDestroy');
         this.children.destroy();
 
         this.renderList = [];
-        console.groupEnd();
     }
 
 });

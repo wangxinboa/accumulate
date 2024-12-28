@@ -45,11 +45,8 @@ var Audio = {
 
 function init ()
 {
-    console.group('Device Audio init');
     if (typeof importScripts === 'function')
     {
-        console.info("importScripts === 'function' 比较奇怪是什么环境");
-        console.groupEnd();
         return Audio;
     }
 
@@ -66,17 +63,14 @@ function init ()
         {
             var CanPlay = function (type1, type2)
             {
-                console.group('Device Audio init CanPlay');
                 var canPlayType1 = audioElement.canPlayType('audio/' + type1).replace(/^no$/, '');
 
                 if (type2)
                 {
-                    console.groupEnd();
                     return Boolean(canPlayType1 || audioElement.canPlayType('audio/' + type2).replace(/^no$/, ''));
                 }
                 else
                 {
-                    console.groupEnd();
                     return Boolean(canPlayType1);
                 }
             };
@@ -120,8 +114,6 @@ function init ()
         //  Nothing to do here
     }
 
-    console.info('Audio:', JSON.stringify(Audio, null, 2));
-    console.groupEnd();
     return Audio;
 }
 

@@ -63,7 +63,6 @@ var PluginManager = new Class({
 
     function PluginManager (game)
     {
-        console.group('PluginManager');
         EventEmitter.call(this);
 
         /**
@@ -122,7 +121,6 @@ var PluginManager = new Class({
         {
             game.events.once(GameEvents.BOOT, this.boot, this);
         }
-        console.groupEnd();
     },
 
     /**
@@ -134,7 +132,6 @@ var PluginManager = new Class({
      */
     boot: function ()
     {
-        console.group('PluginManager boot');
         var i;
         var entry;
         var key;
@@ -209,7 +206,6 @@ var PluginManager = new Class({
         this._pendingScene = [];
 
         this.game.events.once(GameEvents.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -229,7 +225,6 @@ var PluginManager = new Class({
      */
     addToScene: function (sys, globalPlugins, scenePlugins)
     {
-        console.group('PluginManager addToScene');
         var i;
         var pluginKey;
         var pluginList;
@@ -310,7 +305,6 @@ var PluginManager = new Class({
                 scene[entry.mapping] = entry.plugin;
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -324,13 +318,11 @@ var PluginManager = new Class({
      */
     getDefaultScenePlugins: function ()
     {
-        console.group('PluginManager getDefaultScenePlugins');
         var list = this.game.config.defaultPlugins;
 
         //  Merge in custom Scene plugins
         list = list.concat(this.scenePlugins);
 
-        console.groupEnd();
         return list;
     },
 
@@ -365,13 +357,11 @@ var PluginManager = new Class({
      */
     installScenePlugin: function (key, plugin, mapping, addToScene, fromLoader)
     {
-        console.group('PluginManager installScenePlugin');
         if (fromLoader === undefined) { fromLoader = false; }
 
         if (typeof plugin !== 'function')
         {
             console.warn('Invalid Scene Plugin: ' + key);
-            console.groupEnd();
             return;
         }
 
@@ -389,7 +379,6 @@ var PluginManager = new Class({
         {
             //  Plugin wasn't from the loader but already exists
             console.warn('Scene Plugin key in use: ' + key);
-            console.groupEnd();
             return;
         }
 
@@ -406,7 +395,6 @@ var PluginManager = new Class({
 
             instance.boot();
         }
-        console.groupEnd();
     },
 
     /**
@@ -442,7 +430,6 @@ var PluginManager = new Class({
      */
     install: function (key, plugin, start, mapping, data)
     {
-        console.group('PluginManager install');
         if (start === undefined) { start = false; }
         if (mapping === undefined) { mapping = null; }
         if (data === undefined) { data = null; }
@@ -450,14 +437,12 @@ var PluginManager = new Class({
         if (typeof plugin !== 'function')
         {
             console.warn('Invalid Plugin: ' + key);
-            console.groupEnd();
             return null;
         }
 
         if (PluginCache.hasCustom(key))
         {
             console.warn('Plugin key in use: ' + key);
-            console.groupEnd();
             return null;
         }
 
@@ -477,13 +462,10 @@ var PluginManager = new Class({
 
             if (start)
             {
-                const result = this.start(key);
-                console.groupEnd();
-                return result;
+                return this.start(key);
             }
         }
 
-        console.groupEnd();
         return null;
     },
 
@@ -500,7 +482,6 @@ var PluginManager = new Class({
      */
     getIndex: function (key)
     {
-        console.group('PluginManager getIndex');
         var list = this.plugins;
 
         for (var i = 0; i < list.length; i++)
@@ -509,12 +490,10 @@ var PluginManager = new Class({
 
             if (entry.key === key)
             {
-                console.groupEnd();
                 return i;
             }
         }
 
-        console.groupEnd();
         return -1;
     },
 
@@ -531,15 +510,12 @@ var PluginManager = new Class({
      */
     getEntry: function (key)
     {
-        console.group('PluginManager getEntry');
         var idx = this.getIndex(key);
 
         if (idx !== -1)
         {
-            console.groupEnd();
             return this.plugins[idx];
         }
-        console.groupEnd();
     },
 
     /**
@@ -554,10 +530,8 @@ var PluginManager = new Class({
      */
     isActive: function (key)
     {
-        console.group('PluginManager isActive');
         var entry = this.getEntry(key);
 
-        console.groupEnd();
         return (entry && entry.active);
     },
 
@@ -582,7 +556,6 @@ var PluginManager = new Class({
      */
     start: function (key, runAs)
     {
-        console.group('PluginManager start');
         if (runAs === undefined) { runAs = key; }
 
         var entry = this.getEntry(runAs);
@@ -599,7 +572,6 @@ var PluginManager = new Class({
             entry = this.createEntry(key, runAs);
         }
 
-        console.groupEnd();
         return (entry) ? entry.plugin : null;
     },
 
@@ -617,7 +589,6 @@ var PluginManager = new Class({
      */
     createEntry: function (key, runAs)
     {
-        console.group('PluginManager createEntry');
         var entry = PluginCache.getCustom(key);
 
         if (entry)
@@ -638,7 +609,6 @@ var PluginManager = new Class({
             instance.start();
         }
 
-        console.groupEnd();
         return entry;
     },
 
@@ -659,7 +629,6 @@ var PluginManager = new Class({
      */
     stop: function (key)
     {
-        console.group('PluginManager stop');
         var entry = this.getEntry(key);
 
         if (entry && entry.active)
@@ -668,7 +637,6 @@ var PluginManager = new Class({
             entry.plugin.stop();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -688,14 +656,12 @@ var PluginManager = new Class({
      */
     get: function (key, autoStart)
     {
-        console.group('PluginManager get');
         if (autoStart === undefined) { autoStart = true; }
 
         var entry = this.getEntry(key);
 
         if (entry)
         {
-            console.groupEnd();
             return entry.plugin;
         }
         else
@@ -706,17 +672,14 @@ var PluginManager = new Class({
             {
                 entry = this.createEntry(key, key);
 
-                console.groupEnd();
                 return (entry) ? entry.plugin : null;
             }
             else if (plugin)
             {
-                console.groupEnd();
                 return plugin;
             }
         }
 
-        console.groupEnd();
         return null;
     },
 
@@ -733,10 +696,7 @@ var PluginManager = new Class({
      */
     getClass: function (key)
     {
-        console.group('PluginManager getClass');
-        const results = PluginCache.getCustomClass(key);
-        console.groupEnd();
-        return results;
+        return PluginCache.getCustomClass(key);
     },
 
     /**
@@ -751,7 +711,6 @@ var PluginManager = new Class({
      */
     removeGlobalPlugin: function (key)
     {
-        console.group('PluginManager removeGlobalPlugin');
         var entry = this.getEntry(key);
 
         if (entry)
@@ -760,7 +719,6 @@ var PluginManager = new Class({
         }
 
         PluginCache.removeCustom(key);
-        console.groupEnd();
     },
 
     /**
@@ -777,11 +735,9 @@ var PluginManager = new Class({
      */
     removeScenePlugin: function (key)
     {
-        console.group('PluginManager removeScenePlugin');
         Remove(this.scenePlugins, key);
 
         PluginCache.remove(key);
-        console.groupEnd();
     },
 
     /**
@@ -820,7 +776,6 @@ var PluginManager = new Class({
      */
     registerGameObject: function (key, factoryCallback, creatorCallback)
     {
-        console.group('PluginManager registerGameObject');
         if (factoryCallback)
         {
             GameObjectFactory.register(key, factoryCallback);
@@ -831,7 +786,6 @@ var PluginManager = new Class({
             GameObjectCreator.register(key, creatorCallback);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -848,7 +802,6 @@ var PluginManager = new Class({
      */
     removeGameObject: function (key, removeFromFactory, removeFromCreator)
     {
-        console.group('PluginManager removeGameObject');
         if (removeFromFactory === undefined) { removeFromFactory = true; }
         if (removeFromCreator === undefined) { removeFromCreator = true; }
 
@@ -862,7 +815,6 @@ var PluginManager = new Class({
             GameObjectCreator.remove(key);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -902,14 +854,12 @@ var PluginManager = new Class({
      */
     registerFileType: function (key, callback, addToScene)
     {
-        console.group('PluginManager registerFileType');
         FileTypesManager.register(key, callback);
 
         if (addToScene && addToScene.sys.load)
         {
             addToScene.sys.load[key] = callback;
         }
-        console.groupEnd();
     },
 
     /**
@@ -923,7 +873,6 @@ var PluginManager = new Class({
      */
     destroy: function ()
     {
-        console.group('PluginManager destroy');
         for (var i = 0; i < this.plugins.length; i++)
         {
             this.plugins[i].plugin.destroy();
@@ -939,7 +888,6 @@ var PluginManager = new Class({
         this.game = null;
         this.plugins = [];
         this.scenePlugins = [];
-        console.groupEnd();
     }
 
 });

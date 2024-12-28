@@ -23,7 +23,6 @@ var Utils = require('../../../renderer/webgl/Utils');
  */
 var IsoBoxWebGLRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('IsoBoxWebGLRenderer');
     camera.addToRenderList(src);
 
     var pipeline = renderer.pipelines.set(src.pipeline);
@@ -42,7 +41,6 @@ var IsoBoxWebGLRenderer = function (renderer, src, camera, parentMatrix)
 
     if (!src.isFilled)
     {
-        console.groupEnd();
         return;
     }
 
@@ -127,7 +125,6 @@ var IsoBoxWebGLRenderer = function (renderer, src, camera, parentMatrix)
     }
 
     renderer.pipelines.postBatch(src);
-    console.groupEnd();
 };
 
 module.exports = IsoBoxWebGLRenderer;

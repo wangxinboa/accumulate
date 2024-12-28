@@ -36,7 +36,6 @@ var DataManager = new Class({
 
     function DataManager (parent, eventEmitter)
     {
-        console.group('DataManager');
         /**
          * The object that this DataManager belongs to.
          *
@@ -112,7 +111,6 @@ var DataManager = new Class({
         {
             this.events.once(Events.DESTROY, this.destroy, this);
         }
-        console.groupEnd();
     },
 
     /**
@@ -147,7 +145,6 @@ var DataManager = new Class({
      */
     get: function (key)
     {
-        console.group('DataManager get');
         var list = this.list;
 
         if (Array.isArray(key))
@@ -159,12 +156,10 @@ var DataManager = new Class({
                 output.push(list[key[i]]);
             }
 
-            console.groupEnd();
             return output;
         }
         else
         {
-            console.groupEnd();
             return list[key];
         }
     },
@@ -179,7 +174,6 @@ var DataManager = new Class({
      */
     getAll: function ()
     {
-        console.group('DataManager getAll');
         var results = {};
 
         for (var key in this.list)
@@ -190,7 +184,6 @@ var DataManager = new Class({
             }
         }
 
-        console.groupEnd();
         return results;
     },
 
@@ -206,7 +199,6 @@ var DataManager = new Class({
      */
     query: function (search)
     {
-        console.group('DataManager query');
         var results = {};
 
         for (var key in this.list)
@@ -217,7 +209,6 @@ var DataManager = new Class({
             }
         }
 
-        console.groupEnd();
         return results;
     },
 
@@ -271,18 +262,14 @@ var DataManager = new Class({
      */
     set: function (key, data)
     {
-        console.group('DataManager set');
         if (this._frozen)
         {
-            console.groupEnd();
             return this;
         }
 
         if (typeof key === 'string')
         {
-            const result = this.setValue(key, data);
-            console.groupEnd();
-            return result;
+            return this.setValue(key, data);
         }
         else
         {
@@ -292,7 +279,6 @@ var DataManager = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -314,10 +300,8 @@ var DataManager = new Class({
      */
     inc: function (key, amount)
     {
-        console.group('DataManager inc');
         if (this._frozen)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -335,7 +319,6 @@ var DataManager = new Class({
 
         this.set(key, (value + amount));
 
-        console.groupEnd();
         return this;
     },
 
@@ -356,16 +339,13 @@ var DataManager = new Class({
      */
     toggle: function (key)
     {
-        console.group('DataManager toggle');
         if (this._frozen)
         {
-            console.groupEnd();
             return this;
         }
 
         this.set(key, !this.get(key));
 
-        console.groupEnd();
         return this;
     },
 
@@ -386,10 +366,8 @@ var DataManager = new Class({
      */
     setValue: function (key, data)
     {
-        console.group('DataManager setValue');
         if (this._frozen)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -435,7 +413,6 @@ var DataManager = new Class({
             events.emit(Events.SET_DATA, parent, key, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -453,7 +430,6 @@ var DataManager = new Class({
      */
     each: function (callback, context)
     {
-        console.group('DataManager each');
         var args = [ this.parent, null, undefined ];
 
         for (var i = 1; i < arguments.length; i++)
@@ -469,7 +445,6 @@ var DataManager = new Class({
             callback.apply(context, args);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -492,7 +467,6 @@ var DataManager = new Class({
      */
     merge: function (data, overwrite)
     {
-        console.group('DataManager merge');
         if (overwrite === undefined) { overwrite = true; }
 
         //  Merge data from another component into this one
@@ -504,7 +478,6 @@ var DataManager = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -530,10 +503,8 @@ var DataManager = new Class({
      */
     remove: function (key)
     {
-        console.group('DataManager remove');
         if (this._frozen)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -546,11 +517,9 @@ var DataManager = new Class({
         }
         else
         {
-            console.groupEnd();
             return this.removeValue(key);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -568,7 +537,6 @@ var DataManager = new Class({
      */
     removeValue: function (key)
     {
-        console.group('DataManager removeValue');
         if (this.has(key))
         {
             var data = this.list[key];
@@ -579,7 +547,6 @@ var DataManager = new Class({
             this.events.emit(Events.REMOVE_DATA, this.parent, key, data);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -596,7 +563,6 @@ var DataManager = new Class({
      */
     pop: function (key)
     {
-        console.group('DataManager pop');
         var data = undefined;
 
         if (!this._frozen && this.has(key))
@@ -609,7 +575,6 @@ var DataManager = new Class({
             this.events.emit(Events.REMOVE_DATA, this.parent, key, data);
         }
 
-        console.groupEnd();
         return data;
     },
 
@@ -628,10 +593,7 @@ var DataManager = new Class({
      */
     has: function (key)
     {
-        console.group('DataManager has');
-        const result = this.list.hasOwnProperty(key);
-        console.groupEnd();
-        return result;
+        return this.list.hasOwnProperty(key);
     },
 
     /**
@@ -647,10 +609,8 @@ var DataManager = new Class({
      */
     setFreeze: function (value)
     {
-        console.group('DataManager setFreeze');
         this._frozen = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -664,7 +624,6 @@ var DataManager = new Class({
      */
     reset: function ()
     {
-        console.group('DataManager reset');
         for (var key in this.list)
         {
             delete this.list[key];
@@ -673,7 +632,6 @@ var DataManager = new Class({
 
         this._frozen = false;
 
-        console.groupEnd();
         return this;
     },
 
@@ -685,7 +643,6 @@ var DataManager = new Class({
      */
     destroy: function ()
     {
-        console.group('DataManager destroy');
         this.reset();
 
         this.events.off(Events.CHANGE_DATA);
@@ -693,7 +650,6 @@ var DataManager = new Class({
         this.events.off(Events.REMOVE_DATA);
 
         this.parent = null;
-        console.groupEnd();
     },
 
     /**

@@ -34,10 +34,8 @@ var Fullscreen = {
 */
 function init ()
 {
-    console.group('Device Fullscreen init');
     if (typeof importScripts === 'function')
     {
-        console.groupEnd();
         return Fullscreen;
     }
 
@@ -99,8 +97,6 @@ function init ()
 
     Object.defineProperty(Fullscreen, 'active', { get: function () { return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement); } });
 
-    console.info('Fullscreen:', JSON.stringify(Fullscreen, null, 2));
-    console.groupEnd();
     return Fullscreen;
 }
 

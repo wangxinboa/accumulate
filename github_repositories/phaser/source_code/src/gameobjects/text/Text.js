@@ -110,7 +110,6 @@ var Text = new Class({
 
     function Text (scene, x, y, text, style)
     {
-        console.group('Text');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
 
@@ -306,7 +305,6 @@ var Text = new Class({
         {
             this.setLineSpacing(style.lineSpacing);
         }
-        console.groupEnd();
     },
 
     /**
@@ -317,10 +315,8 @@ var Text = new Class({
      */
     initRTL: function ()
     {
-        console.group('Text initRTL');
         if (!this.style.rtl)
         {
-            console.groupEnd();
             return;
         }
 
@@ -341,7 +337,6 @@ var Text = new Class({
 
         //  And finally we set the x origin
         this.originX = 1;
-        console.groupEnd();
     },
 
     /**
@@ -357,7 +352,6 @@ var Text = new Class({
      */
     runWordWrap: function (text)
     {
-        console.group('Text runWordWrap');
         var style = this.style;
 
         if (style.wordWrapCallback)
@@ -369,27 +363,21 @@ var Text = new Class({
                 wrappedLines = wrappedLines.join('\n');
             }
 
-            console.groupEnd();
             return wrappedLines;
         }
         else if (style.wordWrapWidth)
         {
             if (style.wordWrapUseAdvanced)
             {
-                const result = this.advancedWordWrap(text, this.context, this.style.wordWrapWidth);
-                console.groupEnd();
-                return result;
+                return this.advancedWordWrap(text, this.context, this.style.wordWrapWidth);
             }
             else
             {
-                const result = this.basicWordWrap(text, this.context, this.style.wordWrapWidth);
-                console.groupEnd();
-                return result;
+                return this.basicWordWrap(text, this.context, this.style.wordWrapWidth);
             }
         }
         else
         {
-            console.groupEnd();
             return text;
         }
     },
@@ -411,7 +399,6 @@ var Text = new Class({
      */
     advancedWordWrap: function (text, context, wordWrapWidth)
     {
-        console.group('Text advancedWordWrap');
         var output = '';
 
         // Condense consecutive spaces and split into lines
@@ -514,7 +501,6 @@ var Text = new Class({
         // Trim the end of the string
         output = output.replace(/[\s|\n]*$/gi, '');
 
-        console.groupEnd();
         return output;
     },
 
@@ -533,7 +519,6 @@ var Text = new Class({
      */
     basicWordWrap: function (text, context, wordWrapWidth)
     {
-        console.group('Text basicWordWrap');
         var result = '';
         var lines = text.split(this.splitRegExp);
         var lastLineIndex = lines.length - 1;
@@ -586,7 +571,6 @@ var Text = new Class({
             }
         }
 
-        console.groupEnd();
         return result;
     },
 
@@ -603,16 +587,13 @@ var Text = new Class({
      */
     getWrappedText: function (text)
     {
-        console.group('Text getWrappedText');
         if (text === undefined) { text = this._text; }
 
         this.style.syncFont(this.canvas, this.context);
 
         var wrappedLines = this.runWordWrap(text);
 
-        const result = wrappedLines.split(this.splitRegExp);
-        console.groupEnd();
-        return result;
+        return wrappedLines.split(this.splitRegExp);
     },
 
     /**
@@ -629,7 +610,6 @@ var Text = new Class({
      */
     setText: function (value)
     {
-        console.group('Text setText');
         if (!value && value !== 0)
         {
             value = '';
@@ -647,7 +627,6 @@ var Text = new Class({
             this.updateText();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -666,7 +645,6 @@ var Text = new Class({
      */
     appendText: function (value, addCR)
     {
-        console.group('Text appendText');
         if (addCR === undefined) { addCR = true; }
 
         if (!value && value !== 0)
@@ -690,7 +668,6 @@ var Text = new Class({
             this.updateText();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -715,10 +692,7 @@ var Text = new Class({
      */
     setStyle: function (style)
     {
-        console.group('Text setStyle');
-        const result = this.style.setStyle(style);
-        console.groupEnd();
-        return result;
+        return this.style.setStyle(style);
     },
 
     /**
@@ -754,10 +728,7 @@ var Text = new Class({
      */
     setFont: function (font)
     {
-        console.group('Text setFont');
-        const result = this.style.setFont(font);
-        console.groupEnd();
-        return result;
+        return this.style.setFont(font);
     },
 
     /**
@@ -788,10 +759,7 @@ var Text = new Class({
      */
     setFontFamily: function (family)
     {
-        console.group('Text setFontFamily');
-        const result = this.style.setFontFamily(family);
-        console.groupEnd();
-        return result;
+        return this.style.setFontFamily(family);
     },
 
     /**
@@ -806,10 +774,7 @@ var Text = new Class({
      */
     setFontSize: function (size)
     {
-        console.group('Text setFontSize');
-        const result = this.style.setFontSize(size);
-        console.groupEnd();
-        return result;
+        return this.style.setFontSize(size);
     },
 
     /**
@@ -824,10 +789,7 @@ var Text = new Class({
      */
     setFontStyle: function (style)
     {
-        console.group('Text setFontStyle');
-        const result = this.style.setFontStyle(style);
-        console.groupEnd();
-        return result;
+        return this.style.setFontStyle(style);
     },
 
     /**
@@ -845,10 +807,7 @@ var Text = new Class({
      */
     setFixedSize: function (width, height)
     {
-        console.group('Text setFixedSize');
-        const result = this.style.setFixedSize(width, height);
-        console.groupEnd();
-        return result;
+        return this.style.setFixedSize(width, height);
     },
 
     /**
@@ -863,10 +822,7 @@ var Text = new Class({
      */
     setBackgroundColor: function (color)
     {
-        console.group('Text setBackgroundColor');
-        const result = this.style.setBackgroundColor(color);
-        console.groupEnd();
-        return result;
+        return this.style.setBackgroundColor(color);
     },
 
     /**
@@ -886,10 +842,7 @@ var Text = new Class({
      */
     setFill: function (fillStyle)
     {
-        console.group('Text setFill');
-        const result = this.style.setFill(fillStyle);
-        console.groupEnd();
-        return result;
+        return this.style.setFill(fillStyle);
     },
 
     /**
@@ -904,10 +857,7 @@ var Text = new Class({
      */
     setColor: function (color)
     {
-        console.group('Text setColor');
-        const result = this.style.setColor(color);
-        console.groupEnd();
-        return result;
+        return this.style.setColor(color);
     },
 
     /**
@@ -923,10 +873,7 @@ var Text = new Class({
      */
     setStroke: function (color, thickness)
     {
-        console.group('Text setStroke');
-        const result = this.style.setStroke(color, thickness);
-        console.groupEnd();
-        return result;
+        return this.style.setStroke(color, thickness);
     },
 
     /**
@@ -946,10 +893,7 @@ var Text = new Class({
      */
     setShadow: function (x, y, color, blur, shadowStroke, shadowFill)
     {
-        console.group('Text setShadow');
-        const result = this.style.setShadow(x, y, color, blur, shadowStroke, shadowFill);
-        console.groupEnd();
-        return result;
+        return this.style.setShadow(x, y, color, blur, shadowStroke, shadowFill);
     },
 
     /**
@@ -965,10 +909,7 @@ var Text = new Class({
      */
     setShadowOffset: function (x, y)
     {
-        console.group('Text setShadowOffset');
-        const result = this.style.setShadowOffset(x, y);
-        console.groupEnd();
-        return result;
+        return this.style.setShadowOffset(x, y);
     },
 
     /**
@@ -983,10 +924,7 @@ var Text = new Class({
      */
     setShadowColor: function (color)
     {
-        console.group('Text setShadowColor');
-        const result = this.style.setShadowColor(color);
-        console.groupEnd();
-        return result;
+        return this.style.setShadowColor(color);
     },
 
     /**
@@ -1001,10 +939,7 @@ var Text = new Class({
      */
     setShadowBlur: function (blur)
     {
-        console.group('Text setShadowBlur');
-        const result = this.style.setShadowBlur(blur);
-        console.groupEnd();
-        return result;
+        return this.style.setShadowBlur(blur);
     },
 
     /**
@@ -1019,10 +954,7 @@ var Text = new Class({
      */
     setShadowStroke: function (enabled)
     {
-        console.group('Text setShadowStroke');
-        const result = this.style.setShadowStroke(enabled);
-        console.groupEnd();
-        return result;
+        return this.style.setShadowStroke(enabled);
     },
 
     /**
@@ -1037,10 +969,7 @@ var Text = new Class({
      */
     setShadowFill: function (enabled)
     {
-        console.group('Text setShadowFill');
-        const result = this.style.setShadowFill(enabled);
-        console.groupEnd();
-        return result;
+        return this.style.setShadowFill(enabled);
     },
 
     /**
@@ -1058,10 +987,7 @@ var Text = new Class({
      */
     setWordWrapWidth: function (width, useAdvancedWrap)
     {
-        console.group('Text setWordWrapWidth');
-        const result = this.style.setWordWrapWidth(width, useAdvancedWrap);
-        console.groupEnd();
-        return result;
+        return this.style.setWordWrapWidth(width, useAdvancedWrap);
     },
 
     /**
@@ -1080,10 +1006,7 @@ var Text = new Class({
      */
     setWordWrapCallback: function (callback, scope)
     {
-        console.group('Text setWordWrapCallback');
-        const result = this.style.setWordWrapCallback(callback, scope);
-        console.groupEnd();
-        return result;
+        return this.style.setWordWrapCallback(callback, scope);
     },
 
     /**
@@ -1102,10 +1025,7 @@ var Text = new Class({
      */
     setAlign: function (align)
     {
-        console.group('Text setAlign');
-        const result = this.style.setAlign(align);
-        console.groupEnd();
-        return result;
+        return this.style.setAlign(align);
     },
 
     /**
@@ -1125,10 +1045,7 @@ var Text = new Class({
      */
     setResolution: function (value)
     {
-        console.group('Text setResolution');
-        const result = this.style.setResolution(value);
-        console.groupEnd();
-        return result;
+        return this.style.setResolution(value);
     },
 
     /**
@@ -1146,12 +1063,9 @@ var Text = new Class({
      */
     setLineSpacing: function (value)
     {
-        console.group('Text setLineSpacing');
         this.lineSpacing = value;
 
-        const result = this.updateText();
-        console.groupEnd();
-        return result;
+        return this.updateText();
     },
 
     /**
@@ -1175,12 +1089,9 @@ var Text = new Class({
      */
     setLetterSpacing: function (value)
     {
-        console.group('Text setLetterSpacing');
         this.letterSpacing = value;
 
-        const result = this.updateText();
-        console.groupEnd();
-        return result;
+        return this.updateText();
     },
 
     /**
@@ -1202,7 +1113,6 @@ var Text = new Class({
      */
     setPadding: function (left, top, right, bottom)
     {
-        console.group('Text setPadding');
         if (typeof left === 'object')
         {
             var config = left;
@@ -1247,9 +1157,7 @@ var Text = new Class({
         this.padding.right = right;
         this.padding.bottom = bottom;
 
-        const result = this.updateText();
-        console.groupEnd();
-        return result;
+        return this.updateText();
     },
 
     /**
@@ -1264,10 +1172,7 @@ var Text = new Class({
      */
     setMaxLines: function (max)
     {
-        console.group('Text setMaxLines');
-        const result = this.style.setMaxLines(max);
-        console.groupEnd();
-        return result;
+        return this.style.setMaxLines(max);
     },
 
     /**
@@ -1282,14 +1187,12 @@ var Text = new Class({
      */
     setRTL: function (rtl)
     {
-        console.group('Text setRTL');
         if (rtl === undefined) { rtl = true; }
 
         var style = this.style;
 
         if (style.rtl === rtl)
         {
-            console.groupEnd();
             return this;
         }
 
@@ -1318,7 +1221,6 @@ var Text = new Class({
             style.align = 'left';
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1332,7 +1234,6 @@ var Text = new Class({
      */
     updateText: function ()
     {
-        console.group('Text updateText');
         var canvas = this.canvas;
         var context = this.context;
         var style = this.style;
@@ -1557,7 +1458,6 @@ var Text = new Class({
             input.hitArea.height = this.height;
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -1571,10 +1471,7 @@ var Text = new Class({
      */
     getTextMetrics: function ()
     {
-        console.group('Text getTextMetrics');
-        const result = this.style.getTextMetrics();
-        console.groupEnd();
-        return result;
+        return this.style.getTextMetrics();
     },
 
     /**
@@ -1608,7 +1505,6 @@ var Text = new Class({
      */
     toJSON: function ()
     {
-        console.group('Text toJSON');
         var out = Components.ToJSON(this);
 
         //  Extra Text data is added here
@@ -1627,7 +1523,6 @@ var Text = new Class({
 
         out.data = data;
 
-        console.groupEnd();
         return out;
     },
 
@@ -1640,7 +1535,6 @@ var Text = new Class({
      */
     preDestroy: function ()
     {
-        console.group('Text preDestroy');
         RemoveFromDOM(this.canvas);
 
         CanvasPool.remove(this.canvas);
@@ -1651,7 +1545,6 @@ var Text = new Class({
         {
             texture.destroy();
         }
-        console.groupEnd();
     }
 
     /**

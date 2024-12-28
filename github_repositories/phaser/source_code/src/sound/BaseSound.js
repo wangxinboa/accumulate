@@ -33,7 +33,6 @@ var BaseSound = new Class({
 
     function BaseSound (manager, key, config)
     {
-        console.group('BaseSound');
         EventEmitter.call(this);
 
         /**
@@ -178,7 +177,6 @@ var BaseSound = new Class({
          * @since 3.0.0
          */
         this.pendingRemove = false;
-        console.groupEnd();
     },
 
     /**
@@ -194,10 +192,8 @@ var BaseSound = new Class({
      */
     addMarker: function (marker)
     {
-        console.group('BaseSound addMarker');
         if (!marker || !marker.name || typeof marker.name !== 'string')
         {
-            console.groupEnd();
             return false;
         }
 
@@ -206,7 +202,6 @@ var BaseSound = new Class({
             // eslint-disable-next-line no-console
             console.error('addMarker ' + marker.name + ' already exists in Sound');
 
-            console.groupEnd();
             return false;
         }
 
@@ -228,7 +223,6 @@ var BaseSound = new Class({
 
         this.markers[marker.name] = marker;
 
-        console.groupEnd();
         return true;
     },
 
@@ -244,10 +238,8 @@ var BaseSound = new Class({
      */
     updateMarker: function (marker)
     {
-        console.group('BaseSound updateMarker');
         if (!marker || !marker.name || typeof marker.name !== 'string')
         {
-            console.groupEnd();
             return false;
         }
 
@@ -256,13 +248,11 @@ var BaseSound = new Class({
             // eslint-disable-next-line no-console
             console.warn('Audio Marker: ' + marker.name + ' missing in Sound: ' + this.key);
 
-            console.groupEnd();
             return false;
         }
 
         this.markers[marker.name] = Extend(true, this.markers[marker.name], marker);
 
-        console.groupEnd();
         return true;
     },
 
@@ -278,18 +268,15 @@ var BaseSound = new Class({
      */
     removeMarker: function (markerName)
     {
-        console.group('BaseSound removeMarker');
         var marker = this.markers[markerName];
 
         if (!marker)
         {
-            console.groupEnd();
             return null;
         }
 
         this.markers[markerName] = null;
 
-        console.groupEnd();
         return marker;
     },
 
@@ -309,7 +296,6 @@ var BaseSound = new Class({
      */
     play: function (markerName, config)
     {
-        console.group('BaseSound play');
         if (markerName === undefined) { markerName = ''; }
 
         if (typeof markerName === 'object')
@@ -320,7 +306,6 @@ var BaseSound = new Class({
 
         if (typeof markerName !== 'string')
         {
-            console.groupEnd();
             return false;
         }
 
@@ -337,7 +322,6 @@ var BaseSound = new Class({
                 // eslint-disable-next-line no-console
                 console.warn('Marker: ' + markerName + ' missing in Sound: ' + this.key);
 
-                console.groupEnd();
                 return false;
             }
 
@@ -353,7 +337,6 @@ var BaseSound = new Class({
         this.isPlaying = true;
         this.isPaused = false;
 
-        console.groupEnd();
         return true;
     },
 
@@ -369,17 +352,14 @@ var BaseSound = new Class({
      */
     pause: function ()
     {
-        console.group('BaseSound pause');
         if (this.isPaused || !this.isPlaying)
         {
-            console.groupEnd();
             return false;
         }
 
         this.isPlaying = false;
         this.isPaused = true;
 
-        console.groupEnd();
         return true;
     },
 
@@ -395,17 +375,14 @@ var BaseSound = new Class({
      */
     resume: function ()
     {
-        console.group('BaseSound resume');
         if (!this.isPaused || this.isPlaying)
         {
-            console.groupEnd();
             return false;
         }
 
         this.isPlaying = true;
         this.isPaused = false;
 
-        console.groupEnd();
         return true;
     },
 
@@ -419,10 +396,8 @@ var BaseSound = new Class({
      */
     stop: function ()
     {
-        console.group('BaseSound stop');
         if (!this.isPaused && !this.isPlaying)
         {
-            console.groupEnd();
             return false;
         }
 
@@ -431,7 +406,6 @@ var BaseSound = new Class({
 
         this.resetConfig();
 
-        console.groupEnd();
         return true;
     },
 
@@ -443,14 +417,12 @@ var BaseSound = new Class({
      */
     applyConfig: function ()
     {
-        console.group('BaseSound applyConfig');
         this.mute = this.currentConfig.mute;
         this.volume = this.currentConfig.volume;
         this.rate = this.currentConfig.rate;
         this.detune = this.currentConfig.detune;
         this.loop = this.currentConfig.loop;
         this.pan = this.currentConfig.pan;
-        console.groupEnd();
     },
 
     /**
@@ -461,10 +433,8 @@ var BaseSound = new Class({
      */
     resetConfig: function ()
     {
-        console.group('BaseSound resetConfig');
         this.currentConfig.seek = 0;
         this.currentConfig.delay = 0;
-        console.groupEnd();
     },
 
     /**
@@ -486,13 +456,11 @@ var BaseSound = new Class({
      */
     calculateRate: function ()
     {
-        console.group('BaseSound calculateRate');
         var cent = 1.0005777895065548; // Math.pow(2, 1/1200);
         var totalDetune = this.currentConfig.detune + this.manager.detune;
         var detuneRate = Math.pow(cent, totalDetune);
 
         this.totalRate = this.currentConfig.rate * this.manager.rate * detuneRate;
-        console.groupEnd();
     },
 
     /**
@@ -504,10 +472,8 @@ var BaseSound = new Class({
      */
     destroy: function ()
     {
-        console.group('BaseSound destroy');
         if (this.pendingRemove)
         {
-            console.groupEnd();
             return;
         }
 
@@ -524,7 +490,6 @@ var BaseSound = new Class({
         this.currentConfig = null;
         this.markers = null;
         this.currentMarker = null;
-        console.groupEnd();
     }
 
 });

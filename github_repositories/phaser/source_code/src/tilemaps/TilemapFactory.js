@@ -36,10 +36,8 @@ var ParseToTilemap = require('./ParseToTilemap');
  *
  * @return {Phaser.Tilemaps.Tilemap}
  */
-console.group('GameObjectFactory.register tilemap');
 GameObjectFactory.register('tilemap', function (key, tileWidth, tileHeight, width, height, data, insertNull)
 {
-    console.group('GameObjectFactory.register tilemap factoryFunction');
     // Allow users to specify null to indicate that they want the default value, since null is
     // shorter & more legible than undefined. Convert null to undefined to allow ParseToTilemap
     // defaults to take effect.
@@ -50,12 +48,9 @@ GameObjectFactory.register('tilemap', function (key, tileWidth, tileHeight, widt
     if (width === null) { width = undefined; }
     if (height === null) { height = undefined; }
 
-    const result = ParseToTilemap(this.scene, key, tileWidth, tileHeight, width, height, data, insertNull);
-    console.groupEnd();
-    return result;
+    return ParseToTilemap(this.scene, key, tileWidth, tileHeight, width, height, data, insertNull);
 });
 
-console.groupEnd();
 //  When registering a factory function 'this' refers to the GameObjectFactory context.
 //
 //  There are several properties available to use:

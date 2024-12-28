@@ -34,11 +34,9 @@ var PluginCache = {};
  */
 PluginCache.register = function (key, plugin, mapping, custom)
 {
-    console.group('PluginCache register');
     if (custom === undefined) { custom = false; }
 
     corePlugins[key] = { plugin: plugin, mapping: mapping, custom: custom };
-    console.groupEnd();
 };
 
 /**
@@ -55,9 +53,7 @@ PluginCache.register = function (key, plugin, mapping, custom)
  */
 PluginCache.registerCustom = function (key, plugin, mapping, data)
 {
-    console.group('PluginCache registerCustom');
     customPlugins[key] = { plugin: plugin, mapping: mapping, data: data };
-    console.groupEnd();
 };
 
 /**
@@ -72,10 +68,7 @@ PluginCache.registerCustom = function (key, plugin, mapping, data)
  */
 PluginCache.hasCore = function (key)
 {
-    console.group('PluginCache hasCore');
-    const result = corePlugins.hasOwnProperty(key);
-    console.groupEnd();
-    return result;
+    return corePlugins.hasOwnProperty(key);
 };
 
 /**
@@ -90,10 +83,7 @@ PluginCache.hasCore = function (key)
  */
 PluginCache.hasCustom = function (key)
 {
-    console.group('PluginCache hasCustom');
-    const result = customPlugins.hasOwnProperty(key);
-    console.groupEnd();
-    return result;
+    return customPlugins.hasOwnProperty(key);
 };
 
 /**
@@ -108,10 +98,7 @@ PluginCache.hasCustom = function (key)
  */
 PluginCache.getCore = function (key)
 {
-    console.group('PluginCache getCore');
-    const result = corePlugins[key];
-    console.groupEnd();
-    return result;
+    return corePlugins[key];
 };
 
 /**
@@ -126,10 +113,7 @@ PluginCache.getCore = function (key)
  */
 PluginCache.getCustom = function (key)
 {
-    console.group('PluginCache getCustom');
-    const result = customPlugins[key];
-    console.groupEnd();
-    return result;
+    return customPlugins[key];
 };
 
 /**
@@ -144,10 +128,7 @@ PluginCache.getCustom = function (key)
  */
 PluginCache.getCustomClass = function (key)
 {
-    console.group('PluginCache getCustomClass');
-    const result = (customPlugins.hasOwnProperty(key)) ? customPlugins[key].plugin : null;
-    console.groupEnd();
-    return result;
+    return (customPlugins.hasOwnProperty(key)) ? customPlugins[key].plugin : null;
 };
 
 /**
@@ -160,12 +141,10 @@ PluginCache.getCustomClass = function (key)
  */
 PluginCache.remove = function (key)
 {
-    console.group('PluginCache remove');
     if (corePlugins.hasOwnProperty(key))
     {
         delete corePlugins[key];
     }
-    console.groupEnd();
 };
 
 /**
@@ -178,12 +157,10 @@ PluginCache.remove = function (key)
  */
 PluginCache.removeCustom = function (key)
 {
-    console.group('PluginCache removeCustom');
     if (customPlugins.hasOwnProperty(key))
     {
         delete customPlugins[key];
     }
-    console.groupEnd();
 };
 
 /**
@@ -197,7 +174,6 @@ PluginCache.removeCustom = function (key)
  */
 PluginCache.destroyCorePlugins = function ()
 {
-    console.group('PluginCache destroyCorePlugins');
     for (var key in corePlugins)
     {
         if (corePlugins.hasOwnProperty(key))
@@ -205,7 +181,6 @@ PluginCache.destroyCorePlugins = function ()
             delete corePlugins[key];
         }
     }
-    console.groupEnd();
 };
 
 /**
@@ -216,7 +191,6 @@ PluginCache.destroyCorePlugins = function ()
  */
 PluginCache.destroyCustomPlugins = function ()
 {
-    console.group('PluginCache destroyCustomPlugins');
     for (var key in customPlugins)
     {
         if (customPlugins.hasOwnProperty(key))
@@ -224,7 +198,6 @@ PluginCache.destroyCustomPlugins = function ()
             delete customPlugins[key];
         }
     }
-    console.groupEnd();
 };
 
 module.exports = PluginCache;

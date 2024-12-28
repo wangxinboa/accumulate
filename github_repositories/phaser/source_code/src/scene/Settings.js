@@ -27,7 +27,6 @@ var Settings = {
      */
     create: function (config)
     {
-        console.group('Settings create');
         if (typeof config === 'string')
         {
             config = { key: config };
@@ -38,7 +37,6 @@ var Settings = {
             config = {};
         }
 
-        console.groupEnd();
         return {
 
             status: CONST.PENDING,

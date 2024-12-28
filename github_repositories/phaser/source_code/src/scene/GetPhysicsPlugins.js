@@ -19,14 +19,12 @@ var UppercaseFirst = require('../utils/string/UppercaseFirst');
  */
 var GetPhysicsPlugins = function (sys)
 {
-    console.group('GetPhysicsPlugins');
     var defaultSystem = sys.game.config.defaultPhysicsSystem;
     var sceneSystems = GetFastValue(sys.settings, 'physics', false);
 
     if (!defaultSystem && !sceneSystems)
     {
         //  No default physics system or systems in this scene
-        console.groupEnd();
         return;
     }
 
@@ -52,7 +50,6 @@ var GetPhysicsPlugins = function (sys)
     }
 
     //  An array of Physics systems to start for this Scene
-    console.groupEnd();
     return output;
 };
 

@@ -32,7 +32,6 @@ var HTML5AudioSound = new Class({
 
     function HTML5AudioSound (manager, key, config)
     {
-        console.group('HTML5AudioSound');
         if (config === undefined) { config = {}; }
 
         /**
@@ -48,7 +47,6 @@ var HTML5AudioSound = new Class({
 
         if (!this.tags)
         {
-            console.groupEnd();
             throw new Error('No cached audio asset with key "' + key);
         }
 
@@ -90,7 +88,6 @@ var HTML5AudioSound = new Class({
         this.totalDuration = this.tags[0].duration;
 
         BaseSound.call(this, manager, key, config);
-        console.groupEnd();
     },
 
     /**
@@ -114,29 +111,24 @@ var HTML5AudioSound = new Class({
      */
     play: function (markerName, config)
     {
-        console.group('HTML5AudioSound play');
         if (this.manager.isLocked(this, 'play', [ markerName, config ]))
         {
-            console.groupEnd();
             return false;
         }
 
         if (!BaseSound.prototype.play.call(this, markerName, config))
         {
-            console.groupEnd();
             return false;
         }
 
         //  \/\/\/ isPlaying = true, isPaused = false \/\/\/
         if (!this.pickAndPlayAudioTag())
         {
-            console.groupEnd();
             return false;
         }
 
         this.emit(Events.PLAY, this);
 
-        console.groupEnd();
         return true;
     },
 
@@ -151,22 +143,18 @@ var HTML5AudioSound = new Class({
      */
     pause: function ()
     {
-        console.group('HTML5AudioSound pause');
         if (this.manager.isLocked(this, 'pause'))
         {
-            console.groupEnd();
             return false;
         }
 
         if (this.startTime > 0)
         {
-            console.groupEnd();
             return false;
         }
 
         if (!BaseSound.prototype.pause.call(this))
         {
-            console.groupEnd();
             return false;
         }
 
@@ -177,7 +165,6 @@ var HTML5AudioSound = new Class({
 
         this.emit(Events.PAUSE, this);
 
-        console.groupEnd();
         return true;
     },
 
@@ -192,35 +179,29 @@ var HTML5AudioSound = new Class({
      */
     resume: function ()
     {
-        console.group('HTML5AudioSound resume');
         if (this.manager.isLocked(this, 'resume'))
         {
-            console.groupEnd();
             return false;
         }
 
         if (this.startTime > 0)
         {
-            console.groupEnd();
             return false;
         }
 
         if (!BaseSound.prototype.resume.call(this))
         {
-            console.groupEnd();
             return false;
         }
 
         //  \/\/\/ isPlaying = true, isPaused = false \/\/\/
         if (!this.pickAndPlayAudioTag())
         {
-            console.groupEnd();
             return false;
         }
 
         this.emit(Events.RESUME, this);
 
-        console.groupEnd();
         return true;
     },
 
@@ -235,16 +216,13 @@ var HTML5AudioSound = new Class({
      */
     stop: function ()
     {
-        console.group('HTML5AudioSound stop');
         if (this.manager.isLocked(this, 'stop'))
         {
-            console.groupEnd();
             return false;
         }
 
         if (!BaseSound.prototype.stop.call(this))
         {
-            console.groupEnd();
             return false;
         }
 
@@ -253,7 +231,6 @@ var HTML5AudioSound = new Class({
 
         this.emit(Events.STOP, this);
 
-        console.groupEnd();
         return true;
     },
 
@@ -267,12 +244,10 @@ var HTML5AudioSound = new Class({
      */
     pickAndPlayAudioTag: function ()
     {
-        console.group('HTML5AudioSound pickAndPlayAudioTag');
         if (!this.pickAudioTag())
         {
             this.reset();
 
-            console.groupEnd();
             return false;
         }
 
@@ -305,7 +280,6 @@ var HTML5AudioSound = new Class({
 
         this.resetConfig();
 
-        console.groupEnd();
         return true;
     },
 
@@ -323,10 +297,8 @@ var HTML5AudioSound = new Class({
      */
     pickAudioTag: function ()
     {
-        console.group('HTML5AudioSound pickAudioTag');
         if (this.audio)
         {
-            console.groupEnd();
             return true;
         }
 
@@ -338,14 +310,12 @@ var HTML5AudioSound = new Class({
             {
                 audio.dataset.used = 'true';
                 this.audio = audio;
-                console.groupEnd();
                 return true;
             }
         }
 
         if (!this.manager.override)
         {
-            console.groupEnd();
             return false;
         }
 
@@ -378,7 +348,6 @@ var HTML5AudioSound = new Class({
         selectedSound.startTime = 0;
         selectedSound.previousTime = 0;
 
-        console.groupEnd();
         return true;
     },
 
@@ -391,7 +360,6 @@ var HTML5AudioSound = new Class({
      */
     playCatchPromise: function ()
     {
-        console.group('HTML5AudioSound playCatchPromise');
         var playPromise = this.audio.play();
 
         if (playPromise)
@@ -402,7 +370,6 @@ var HTML5AudioSound = new Class({
                 console.warn(reason);
             });
         }
-        console.groupEnd();
     },
 
     /**
@@ -413,7 +380,6 @@ var HTML5AudioSound = new Class({
      */
     stopAndReleaseAudioTag: function ()
     {
-        console.group('HTML5AudioSound stopAndReleaseAudioTag');
         this.startTime = 0;
         this.previousTime = 0;
 
@@ -423,7 +389,6 @@ var HTML5AudioSound = new Class({
             this.audio.dataset.used = 'false';
             this.audio = null;
         }
-        console.groupEnd();
     },
 
     /**
@@ -435,9 +400,7 @@ var HTML5AudioSound = new Class({
      */
     reset: function ()
     {
-        console.group('HTML5AudioSound reset');
         BaseSound.prototype.stop.call(this);
-        console.groupEnd();
     },
 
     /**
@@ -449,7 +412,6 @@ var HTML5AudioSound = new Class({
      */
     onBlur: function ()
     {
-        console.group('HTML5AudioSound onBlur');
         this.isPlaying = false;
         this.isPaused = true;
 
@@ -458,7 +420,6 @@ var HTML5AudioSound = new Class({
         this.currentConfig.delay = Math.max(0, (this.startTime - window.performance.now()) / 1000);
 
         this.stopAndReleaseAudioTag();
-        console.groupEnd();
     },
 
     /**
@@ -470,11 +431,9 @@ var HTML5AudioSound = new Class({
      */
     onFocus: function ()
     {
-        console.group('HTML5AudioSound onFocus');
         this.isPlaying = true;
         this.isPaused = false;
         this.pickAndPlayAudioTag();
-        console.groupEnd();
     },
 
     /**
@@ -489,10 +448,8 @@ var HTML5AudioSound = new Class({
      */
     update: function (time)
     {
-        console.group('HTML5AudioSound update');
         if (!this.isPlaying)
         {
-            console.groupEnd();
             return;
         }
 
@@ -507,7 +464,6 @@ var HTML5AudioSound = new Class({
                 this.playCatchPromise();
             }
 
-            console.groupEnd();
             return;
         }
 
@@ -542,12 +498,10 @@ var HTML5AudioSound = new Class({
 
             this.emit(Events.COMPLETE, this);
 
-            console.groupEnd();
             return;
         }
 
         this.previousTime = currentTime;
-        console.groupEnd();
     },
 
     /**
@@ -559,7 +513,6 @@ var HTML5AudioSound = new Class({
      */
     destroy: function ()
     {
-        console.group('HTML5AudioSound destroy');
         BaseSound.prototype.destroy.call(this);
 
         this.tags = null;
@@ -568,7 +521,6 @@ var HTML5AudioSound = new Class({
         {
             this.stopAndReleaseAudioTag();
         }
-        console.groupEnd();
     },
 
     /**
@@ -579,12 +531,10 @@ var HTML5AudioSound = new Class({
      */
     updateMute: function ()
     {
-        console.group('HTML5AudioSound updateMute');
         if (this.audio)
         {
             this.audio.muted = this.currentConfig.mute || this.manager.mute;
         }
-        console.groupEnd();
     },
 
     /**
@@ -595,12 +545,10 @@ var HTML5AudioSound = new Class({
      */
     updateVolume: function ()
     {
-        console.group('HTML5AudioSound updateVolume');
         if (this.audio)
         {
             this.audio.volume = Clamp(this.currentConfig.volume * this.manager.volume, 0, 1);
         }
-        console.groupEnd();
     },
 
     /**
@@ -611,14 +559,12 @@ var HTML5AudioSound = new Class({
      */
     calculateRate: function ()
     {
-        console.group('HTML5AudioSound calculateRate');
         BaseSound.prototype.calculateRate.call(this);
 
         if (this.audio)
         {
             this.audio.playbackRate = this.totalRate;
         }
-        console.groupEnd();
     },
 
     /**
@@ -666,10 +612,8 @@ var HTML5AudioSound = new Class({
      */
     setMute: function (value)
     {
-        console.group('HTML5AudioSound setMute');
         this.mute = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -717,10 +661,8 @@ var HTML5AudioSound = new Class({
      */
     setVolume: function (value)
     {
-        console.group('HTML5AudioSound setVolume');
         this.volume = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -776,10 +718,8 @@ var HTML5AudioSound = new Class({
      */
     setRate: function (value)
     {
-        console.group('HTML5AudioSound setRate');
         this.rate = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -832,10 +772,8 @@ var HTML5AudioSound = new Class({
      */
     setDetune: function (value)
     {
-        console.group('HTML5AudioSound setDetune');
         this.detune = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -912,10 +850,8 @@ var HTML5AudioSound = new Class({
      */
     setSeek: function (value)
     {
-        console.group('HTML5AudioSound setSeek');
         this.seek = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -967,10 +903,8 @@ var HTML5AudioSound = new Class({
      */
     setLoop: function (value)
     {
-        console.group('HTML5AudioSound setLoop');
         this.loop = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -1015,10 +949,8 @@ var HTML5AudioSound = new Class({
      */
     setPan: function (value)
     {
-        console.group('HTML5AudioSound setPan');
         this.pan = value;
 
-        console.groupEnd();
         return this;
     }
 

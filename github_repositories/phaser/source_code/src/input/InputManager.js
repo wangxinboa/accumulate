@@ -44,7 +44,6 @@ var InputManager = new Class({
 
     function InputManager (game, config)
     {
-        console.group('InputManager');
         /**
          * The Game instance that owns the Input Manager.
          * A Game only maintains on instance of the Input Manager at any time.
@@ -298,7 +297,6 @@ var InputManager = new Class({
         this.mousePointerContainer = [ this.mousePointer ];
 
         game.events.once(GameEvents.BOOT, this.boot, this);
-        console.groupEnd();
     },
 
     /**
@@ -312,7 +310,6 @@ var InputManager = new Class({
      */
     boot: function ()
     {
-        console.group('InputManager boot');
         var game = this.game;
         var events = game.events;
 
@@ -325,7 +322,6 @@ var InputManager = new Class({
         events.on(GameEvents.PRE_RENDER, this.preRender, this);
 
         events.once(GameEvents.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -340,11 +336,9 @@ var InputManager = new Class({
      */
     setCanvasOver: function (event)
     {
-        console.group('InputManager setCanvasOver');
         this.isOver = true;
 
         this.events.emit(Events.GAME_OVER, event);
-        console.groupEnd();
     },
 
     /**
@@ -359,11 +353,9 @@ var InputManager = new Class({
      */
     setCanvasOut: function (event)
     {
-        console.group('InputManager setCanvasOut');
         this.isOver = false;
 
         this.events.emit(Events.GAME_OUT, event);
-        console.groupEnd();
     },
 
     /**
@@ -375,7 +367,6 @@ var InputManager = new Class({
      */
     preRender: function ()
     {
-        console.group('InputManager preRender');
         var time = this.game.loop.now;
         var delta = this.game.loop.delta;
         var scenes = this.game.scene.getScenes(true, true);
@@ -391,11 +382,9 @@ var InputManager = new Class({
             if (scene.sys.input && scene.sys.input.updatePoll(time, delta) && this.globalTopOnly)
             {
                 //  If the Scene returns true, it means it captured some input that no other Scene should get, so we bail out
-                console.groupEnd();
                 return;
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -425,14 +414,12 @@ var InputManager = new Class({
      */
     setDefaultCursor: function (cursor)
     {
-        console.group('InputManager setDefaultCursor');
         this.defaultCursor = cursor;
 
         if (this.canvas.style.cursor !== cursor)
         {
             this.canvas.style.cursor = cursor;
         }
-        console.groupEnd();
     },
 
     /**
@@ -450,12 +437,10 @@ var InputManager = new Class({
      */
     setCursor: function (interactiveObject)
     {
-        console.group('InputManager setCursor');
         if (interactiveObject.cursor)
         {
             this.canvas.style.cursor = interactiveObject.cursor;
         }
-        console.groupEnd();
     },
 
     /**
@@ -472,12 +457,10 @@ var InputManager = new Class({
      */
     resetCursor: function (interactiveObject, forceReset)
     {
-        console.group('InputManager resetCursor');
         if ((forceReset || (interactiveObject && interactiveObject.cursor)) && this.canvas)
         {
             this.canvas.style.cursor = this.defaultCursor;
         }
-        console.groupEnd();
     },
 
     /**
@@ -500,7 +483,6 @@ var InputManager = new Class({
      */
     addPointer: function (quantity)
     {
-        console.group('InputManager addPointer');
         if (quantity === undefined) { quantity = 1; }
 
         var output = [];
@@ -525,7 +507,6 @@ var InputManager = new Class({
             output.push(pointer);
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -542,7 +523,6 @@ var InputManager = new Class({
      */
     updateInputPlugins: function (type, pointers)
     {
-        console.group('InputManager updateInputPlugins');
         var scenes = this.game.scene.getScenes(false, true);
 
         this._tempSkip = false;
@@ -558,12 +538,10 @@ var InputManager = new Class({
                 if ((capture && this.globalTopOnly) || this._tempSkip)
                 {
                     //  If the Scene returns true, or called stopPropagation, it means it captured some input that no other Scene should get, so we bail out
-                    console.groupEnd();
                     return;
                 }
             }
         }
-        console.groupEnd();
     },
 
     //  event.targetTouches = list of all touches on the TARGET ELEMENT (i.e. game dom element)
@@ -581,7 +559,6 @@ var InputManager = new Class({
      */
     onTouchStart: function (event)
     {
-        console.group('InputManager onTouchStart');
         var pointers = this.pointers;
         var changed = [];
 
@@ -607,7 +584,6 @@ var InputManager = new Class({
         }
 
         this.updateInputPlugins(CONST.TOUCH_START, changed);
-        console.groupEnd();
     },
 
     /**
@@ -621,7 +597,6 @@ var InputManager = new Class({
      */
     onTouchMove: function (event)
     {
-        console.group('InputManager onTouchMove');
         var pointers = this.pointers;
         var changed = [];
 
@@ -662,7 +637,6 @@ var InputManager = new Class({
         }
 
         this.updateInputPlugins(CONST.TOUCH_MOVE, changed);
-        console.groupEnd();
     },
 
     //  For touch end its a list of the touch points that have been removed from the surface
@@ -680,7 +654,6 @@ var InputManager = new Class({
      */
     onTouchEnd: function (event)
     {
-        console.group('InputManager onTouchEnd');
         var pointers = this.pointers;
         var changed = [];
 
@@ -704,7 +677,6 @@ var InputManager = new Class({
         }
 
         this.updateInputPlugins(CONST.TOUCH_END, changed);
-        console.groupEnd();
     },
 
     /**
@@ -718,7 +690,6 @@ var InputManager = new Class({
      */
     onTouchCancel: function (event)
     {
-        console.group('InputManager onTouchCancel');
         var pointers = this.pointers;
         var changed = [];
 
@@ -742,7 +713,6 @@ var InputManager = new Class({
         }
 
         this.updateInputPlugins(CONST.TOUCH_CANCEL, changed);
-        console.groupEnd();
     },
 
     /**
@@ -756,7 +726,6 @@ var InputManager = new Class({
      */
     onMouseDown: function (event)
     {
-        console.group('InputManager onMouseDown');
         var mousePointer = this.mousePointer;
 
         mousePointer.down(event);
@@ -766,7 +735,6 @@ var InputManager = new Class({
         this.activePointer = mousePointer;
 
         this.updateInputPlugins(CONST.MOUSE_DOWN, this.mousePointerContainer);
-        console.groupEnd();
     },
 
     /**
@@ -780,7 +748,6 @@ var InputManager = new Class({
      */
     onMouseMove: function (event)
     {
-        console.group('InputManager onMouseMove');
         var mousePointer = this.mousePointer;
 
         mousePointer.move(event);
@@ -790,7 +757,6 @@ var InputManager = new Class({
         this.activePointer = mousePointer;
 
         this.updateInputPlugins(CONST.MOUSE_MOVE, this.mousePointerContainer);
-        console.groupEnd();
     },
 
     /**
@@ -804,7 +770,6 @@ var InputManager = new Class({
      */
     onMouseUp: function (event)
     {
-        console.group('InputManager onMouseUp');
         var mousePointer = this.mousePointer;
 
         mousePointer.up(event);
@@ -814,7 +779,6 @@ var InputManager = new Class({
         this.activePointer = mousePointer;
 
         this.updateInputPlugins(CONST.MOUSE_UP, this.mousePointerContainer);
-        console.groupEnd();
     },
 
     /**
@@ -828,7 +792,6 @@ var InputManager = new Class({
      */
     onMouseWheel: function (event)
     {
-        console.group('InputManager onMouseWheel');
         var mousePointer = this.mousePointer;
 
         mousePointer.wheel(event);
@@ -836,7 +799,6 @@ var InputManager = new Class({
         this.activePointer = mousePointer;
 
         this.updateInputPlugins(CONST.MOUSE_WHEEL, this.mousePointerContainer);
-        console.groupEnd();
     },
 
     /**
@@ -851,13 +813,11 @@ var InputManager = new Class({
      */
     onPointerLockChange: function (event)
     {
-        console.group('InputManager onPointerLockChange');
         var isLocked = this.mouse.locked;
 
         this.mousePointer.locked = isLocked;
 
         this.events.emit(Events.POINTERLOCK_CHANGE, event, isLocked);
-        console.groupEnd();
     },
 
     /**
@@ -877,12 +837,10 @@ var InputManager = new Class({
      */
     inputCandidate: function (gameObject, camera)
     {
-        console.group('InputManager inputCandidate');
         var input = gameObject.input;
 
         if (!input || !input.enabled || !gameObject.willRender(camera))
         {
-            console.groupEnd();
             return false;
         }
 
@@ -904,7 +862,6 @@ var InputManager = new Class({
             } while (parent);
         }
 
-        console.groupEnd();
         return visible;
     },
 
@@ -930,7 +887,6 @@ var InputManager = new Class({
      */
     hitTest: function (pointer, gameObjects, camera, output)
     {
-        console.group('InputManager hitTest');
         if (output === undefined) { output = this._tempHitTest; }
 
         var tempPoint = this._tempPoint;
@@ -985,7 +941,6 @@ var InputManager = new Class({
             }
         }
 
-        console.groupEnd();
         return output;
     },
 
@@ -1007,7 +962,6 @@ var InputManager = new Class({
      */
     pointWithinHitArea: function (gameObject, x, y)
     {
-        console.group('InputManager pointWithinHitArea');
         //  Normalize the origin
         x += gameObject.displayOriginX;
         y += gameObject.displayOriginY;
@@ -1019,12 +973,10 @@ var InputManager = new Class({
             input.localX = x;
             input.localY = y;
 
-            console.groupEnd();
             return true;
         }
         else
         {
-            console.groupEnd();
             return false;
         }
     },
@@ -1047,10 +999,8 @@ var InputManager = new Class({
      */
     pointWithinInteractiveObject: function (object, x, y)
     {
-        console.group('InputManager pointWithinInteractiveObject');
         if (!object.hitArea)
         {
-            console.groupEnd();
             return false;
         }
 
@@ -1061,9 +1011,7 @@ var InputManager = new Class({
         object.localX = x;
         object.localY = y;
 
-        const result = object.hitAreaCallback(object.hitArea, x, y, object);
-        console.groupEnd();
-        return result;
+        return object.hitAreaCallback(object.hitArea, x, y, object);
     },
 
     /**
@@ -1079,7 +1027,6 @@ var InputManager = new Class({
      */
     transformPointer: function (pointer, pageX, pageY, wasMove)
     {
-        console.group('InputManager transformPointer');
         var p0 = pointer.position;
         var p1 = pointer.prevPosition;
 
@@ -1105,7 +1052,6 @@ var InputManager = new Class({
             p0.x = x * a + p1.x * (1 - a);
             p0.y = y * a + p1.y * (1 - a);
         }
-        console.groupEnd();
     },
 
     /**
@@ -1118,7 +1064,6 @@ var InputManager = new Class({
      */
     destroy: function ()
     {
-        console.group('InputManager destroy');
         this.events.removeAllListeners();
 
         this.game.events.off(GameEvents.PRE_RENDER);
@@ -1148,7 +1093,6 @@ var InputManager = new Class({
         this._tempMatrix.destroy();
         this.canvas = null;
         this.game = null;
-        console.groupEnd();
     }
 
 });

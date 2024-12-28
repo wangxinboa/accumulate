@@ -173,8 +173,6 @@ var EventEmitter = new Class({
  * @return {this} `this`.
  */
 
-console.group('PluginCache.register EventEmitter');
 PluginCache.register('EventEmitter', EventEmitter, 'events');
 
-console.groupEnd();
 module.exports = EventEmitter;

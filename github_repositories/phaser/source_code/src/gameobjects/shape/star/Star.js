@@ -53,7 +53,6 @@ var Star = new Class({
 
     function Star (scene, x, y, points, innerRadius, outerRadius, fillColor, fillAlpha)
     {
-        console.group('Star');
         if (x === undefined) { x = 0; }
         if (y === undefined) { y = 0; }
         if (points === undefined) { points = 5; }
@@ -105,7 +104,6 @@ var Star = new Class({
 
         this.updateDisplayOrigin();
         this.updateData();
-        console.groupEnd();
     },
 
     /**
@@ -121,12 +119,9 @@ var Star = new Class({
      */
     setPoints: function (value)
     {
-        console.group('Star setPoints');
         this._points = value;
 
-        const result = this.updateData();
-        console.groupEnd();
-        return result;
+        return this.updateData();
     },
 
     /**
@@ -142,12 +137,9 @@ var Star = new Class({
      */
     setInnerRadius: function (value)
     {
-        console.group('Star setInnerRadius');
         this._innerRadius = value;
 
-        const result = this.updateData();
-        console.groupEnd();
-        return result;
+        return this.updateData();
     },
 
     /**
@@ -163,12 +155,9 @@ var Star = new Class({
      */
     setOuterRadius: function (value)
     {
-        console.group('Star setOuterRadius');
         this._outerRadius = value;
 
-        const result = this.updateData();
-        console.groupEnd();
-        return result;
+        return this.updateData();
     },
 
     /**
@@ -254,7 +243,6 @@ var Star = new Class({
      */
     updateData: function ()
     {
-        console.group('Star updateData');
         var path = [];
 
         var points = this._points;
@@ -286,7 +274,6 @@ var Star = new Class({
         this.pathIndexes = Earcut(path);
         this.pathData = path;
 
-        console.groupEnd();
         return this;
     }
 

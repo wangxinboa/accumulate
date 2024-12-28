@@ -48,7 +48,6 @@ var BitmapMaskPipeline = new Class({
 
     function BitmapMaskPipeline (config)
     {
-        console.group('BitmapMaskPipeline');
         config.fragShader = GetFastValue(config, 'fragShader', ShaderSourceFS),
         config.vertShader = GetFastValue(config, 'vertShader', ShaderSourceVS),
         config.batchSize = GetFastValue(config, 'batchSize', 1),
@@ -62,26 +61,21 @@ var BitmapMaskPipeline = new Class({
         ]);
 
         WebGLPipeline.call(this, config);
-        console.groupEnd();
     },
 
     boot: function ()
     {
-        console.group('BitmapMaskPipeline boot');
         WebGLPipeline.prototype.boot.call(this);
 
         this.set1i('uMainSampler', 0);
         this.set1i('uMaskSampler', 1);
-        console.groupEnd();
     },
 
     resize: function (width, height)
     {
-        console.group('BitmapMaskPipeline resize');
         WebGLPipeline.prototype.resize.call(this, width, height);
 
         this.set2f('uResolution', width, height);
-        console.groupEnd();
     },
 
     /**
@@ -97,9 +91,7 @@ var BitmapMaskPipeline = new Class({
      */
     beginMask: function (mask, maskedObject, camera)
     {
-        console.group('BitmapMaskPipeline beginMask');
         this.renderer.beginBitmapMask(mask, camera);
-        console.groupEnd();
     },
 
     /**
@@ -117,7 +109,6 @@ var BitmapMaskPipeline = new Class({
      */
     endMask: function (mask, camera, renderTarget)
     {
-        console.group('BitmapMaskPipeline endMask');
         var gl = this.gl;
         var renderer = this.renderer;
 
@@ -146,7 +137,6 @@ var BitmapMaskPipeline = new Class({
             //  Clear gl.TEXTURE1
             gl.bindTexture(gl.TEXTURE_2D, null);
         }
-        console.groupEnd();
     }
 
 });

@@ -37,7 +37,6 @@ var WebAudioSoundManager = new Class({
 
     function WebAudioSoundManager (game)
     {
-        console.group('WebAudioSoundManager');
         /**
          * The AudioContext being used for playback.
          *
@@ -90,7 +89,6 @@ var WebAudioSoundManager = new Class({
         {
             game.events.once(GameEvents.BOOT, this.unlock, this);
         }
-        console.groupEnd();
     },
 
     /**
@@ -109,28 +107,23 @@ var WebAudioSoundManager = new Class({
      */
     createAudioContext: function (game)
     {
-        console.group('WebAudioSoundManager createAudioContext');
         var audioConfig = game.config.audio;
 
         if (audioConfig.context)
         {
             audioConfig.context.resume();
 
-            console.groupEnd();
             return audioConfig.context;
         }
 
         if (window.hasOwnProperty('AudioContext'))
         {
-            console.groupEnd();
             return new AudioContext();
         }
         else if (window.hasOwnProperty('webkitAudioContext'))
         {
-            console.groupEnd();
             return new window.webkitAudioContext();
         }
-        console.groupEnd();
     },
 
     /**
@@ -149,7 +142,6 @@ var WebAudioSoundManager = new Class({
      */
     setAudioContext: function (context)
     {
-        console.group('WebAudioSoundManager setAudioContext');
         if (this.context)
         {
             this.context.close();
@@ -175,7 +167,6 @@ var WebAudioSoundManager = new Class({
 
         this.destination = this.masterMuteNode;
 
-        console.groupEnd();
         return this;
     },
 
@@ -192,12 +183,10 @@ var WebAudioSoundManager = new Class({
      */
     add: function (key, config)
     {
-        console.group('WebAudioSoundManager add');
         var sound = new WebAudioSound(this, key, config);
 
         this.sounds.push(sound);
 
-        console.groupEnd();
         return sound;
     },
 
@@ -225,7 +214,6 @@ var WebAudioSoundManager = new Class({
      */
     decodeAudio: function (audioKey, audioData)
     {
-        console.group('WebAudioSoundManager decodeAudio');
         var audioFiles;
 
         if (!Array.isArray(audioKey))
@@ -281,7 +269,6 @@ var WebAudioSoundManager = new Class({
 
             this.context.decodeAudioData(data, success, failure);
         }
-        console.groupEnd();
     },
 
     /**
@@ -301,13 +288,11 @@ var WebAudioSoundManager = new Class({
      */
     setListenerPosition: function (x, y)
     {
-        console.group('WebAudioSoundManager setListenerPosition');
         if (x === undefined) { x = this.game.scale.width / 2; }
         if (y === undefined) { y = this.game.scale.height / 2; }
 
         this.listenerPosition.set(x, y);
 
-        console.groupEnd();
         return this;
     },
 
@@ -321,14 +306,12 @@ var WebAudioSoundManager = new Class({
      */
     unlock: function ()
     {
-        console.group('WebAudioSoundManager unlock');
         var _this = this;
 
         var body = document.body;
 
         var unlockHandler = function unlockHandler ()
         {
-            console.group('WebAudioSoundManager unlock unlockHandler');
             if (_this.context && body)
             {
                 var bodyRemove = body.removeEventListener.bind(body);
@@ -349,7 +332,6 @@ var WebAudioSoundManager = new Class({
                     bodyRemove('keydown', unlockHandler);
                 });
             }
-            console.groupEnd();
         };
 
         if (body)
@@ -359,7 +341,6 @@ var WebAudioSoundManager = new Class({
             body.addEventListener('click', unlockHandler, false);
             body.addEventListener('keydown', unlockHandler, false);
         }
-        console.groupEnd();
     },
 
     /**
@@ -372,12 +353,10 @@ var WebAudioSoundManager = new Class({
      */
     onBlur: function ()
     {
-        console.group('WebAudioSoundManager onBlur');
         if (!this.locked)
         {
             this.context.suspend();
         }
-        console.groupEnd();
     },
 
     /**
@@ -390,14 +369,12 @@ var WebAudioSoundManager = new Class({
      */
     onFocus: function ()
     {
-        console.group('WebAudioSoundManager onFocus');
         var context = this.context;
 
         if (context && !this.locked && (context.state === 'suspended' || context.state === 'interrupted'))
         {
             context.resume();
         }
-        console.groupEnd();
     },
 
     /**
@@ -415,7 +392,6 @@ var WebAudioSoundManager = new Class({
      */
     update: function (time, delta)
     {
-        console.group('WebAudioSoundManager update');
         var listener = this.context.listener;
 
         if (listener && listener.positionX !== undefined)
@@ -440,7 +416,6 @@ var WebAudioSoundManager = new Class({
         {
             this.onFocus();
         }
-        console.groupEnd();
     },
 
     /**
@@ -452,7 +427,6 @@ var WebAudioSoundManager = new Class({
      */
     destroy: function ()
     {
-        console.group('WebAudioSoundManager destroy');
         this.destination = null;
         this.masterVolumeNode.disconnect();
         this.masterVolumeNode = null;
@@ -474,7 +448,6 @@ var WebAudioSoundManager = new Class({
         }
 
         BaseSoundManager.prototype.destroy.call(this);
-        console.groupEnd();
     },
 
     /**
@@ -490,10 +463,8 @@ var WebAudioSoundManager = new Class({
      */
     setMute: function (value)
     {
-        console.group('WebAudioSoundManager setMute');
         this.mute = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -532,10 +503,8 @@ var WebAudioSoundManager = new Class({
      */
     setVolume: function (value)
     {
-        console.group('WebAudioSoundManager setVolume');
         this.volume = value;
 
-        console.groupEnd();
         return this;
     },
 

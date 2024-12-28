@@ -35,7 +35,6 @@ var DisplayList = new Class({
 
     function DisplayList (scene)
     {
-        console.group('DisplayList');
         List.call(this, scene);
 
         /**
@@ -81,7 +80,6 @@ var DisplayList = new Class({
 
         this.events.once(SceneEvents.BOOT, this.boot, this);
         this.events.on(SceneEvents.START, this.start, this);
-        console.groupEnd();
     },
 
     /**
@@ -94,9 +92,7 @@ var DisplayList = new Class({
      */
     boot: function ()
     {
-        console.group('DisplayList boot');
         this.events.once(SceneEvents.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -112,7 +108,6 @@ var DisplayList = new Class({
      */
     addChildCallback: function (gameObject)
     {
-        console.group('DisplayList addChildCallback');
         if (gameObject.displayList && gameObject.displayList !== this)
         {
             gameObject.removeFromDisplayList();
@@ -133,7 +128,6 @@ var DisplayList = new Class({
 
             this.events.emit(SceneEvents.ADDED_TO_SCENE, gameObject, this.scene);
         }
-        console.groupEnd();
     },
 
     /**
@@ -149,7 +143,6 @@ var DisplayList = new Class({
      */
     removeChildCallback: function (gameObject)
     {
-        console.group('DisplayList removeChildCallback');
         this.queueDepthSort();
 
         gameObject.displayList = null;
@@ -157,7 +150,6 @@ var DisplayList = new Class({
         gameObject.emit(GameObjectEvents.REMOVED_FROM_SCENE, gameObject, this.scene);
 
         this.events.emit(SceneEvents.REMOVED_FROM_SCENE, gameObject, this.scene);
-        console.groupEnd();
     },
 
     /**
@@ -171,9 +163,7 @@ var DisplayList = new Class({
      */
     start: function ()
     {
-        console.group('DisplayList start');
         this.events.once(SceneEvents.SHUTDOWN, this.shutdown, this);
-        console.groupEnd();
     },
 
     /**
@@ -184,9 +174,7 @@ var DisplayList = new Class({
      */
     queueDepthSort: function ()
     {
-        console.group('DisplayList queueDepthSort');
         this.sortChildrenFlag = true;
-        console.groupEnd();
     },
 
     /**
@@ -197,14 +185,12 @@ var DisplayList = new Class({
      */
     depthSort: function ()
     {
-        console.group('DisplayList depthSort');
         if (this.sortChildrenFlag)
         {
             StableSort(this.list, this.sortByDepth);
 
             this.sortChildrenFlag = false;
         }
-        console.groupEnd();
     },
 
     /**
@@ -220,10 +206,7 @@ var DisplayList = new Class({
      */
     sortByDepth: function (childA, childB)
     {
-        console.group('DisplayList sortByDepth');
-        const result = childA._depth - childB._depth;
-        console.groupEnd();
-        return result;
+        return childA._depth - childB._depth;
     },
 
     /**
@@ -237,10 +220,7 @@ var DisplayList = new Class({
      */
     getChildren: function ()
     {
-        console.group('DisplayList getChildren');
-        const result = this.list;
-        console.groupEnd();
-        return result;
+        return this.list;
     },
 
     /**
@@ -254,7 +234,6 @@ var DisplayList = new Class({
      */
     shutdown: function ()
     {
-        console.group('DisplayList shutdown');
         var list = this.list;
 
         while (list.length)
@@ -263,7 +242,6 @@ var DisplayList = new Class({
         }
 
         this.events.off(SceneEvents.SHUTDOWN, this.shutdown, this);
-        console.groupEnd();
     },
 
     /**
@@ -276,7 +254,6 @@ var DisplayList = new Class({
      */
     destroy: function ()
     {
-        console.group('DisplayList destroy');
         this.shutdown();
 
         this.events.off(SceneEvents.START, this.start, this);
@@ -284,13 +261,10 @@ var DisplayList = new Class({
         this.scene = null;
         this.systems = null;
         this.events = null;
-        console.groupEnd();
     }
 
 });
 
-console.group('PluginCache.register DisplayList');
 PluginCache.register('DisplayList', DisplayList, 'displayList');
 
-console.groupEnd();
 module.exports = DisplayList;

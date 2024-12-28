@@ -30,7 +30,6 @@ var SafeRange = require('./SafeRange');
  */
 var GetAll = function (array, property, value, startIndex, endIndex)
 {
-    console.group('GetAll');
     if (startIndex === undefined) { startIndex = 0; }
     if (endIndex === undefined) { endIndex = array.length; }
 
@@ -51,7 +50,6 @@ var GetAll = function (array, property, value, startIndex, endIndex)
         }
     }
 
-    console.groupEnd();
     return output;
 };
 

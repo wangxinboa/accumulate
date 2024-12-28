@@ -42,7 +42,6 @@ var HTML5AudioSoundManager = new Class({
 
     function HTML5AudioSoundManager (game)
     {
-        console.group('HTML5AudioSoundManager');
         /**
          * Flag indicating whether if there are no idle instances of HTML5 Audio tag,
          * for any particular sound, if one of the used tags should be hijacked and used
@@ -138,7 +137,6 @@ var HTML5AudioSoundManager = new Class({
         this._volume = 1;
 
         BaseSoundManager.call(this, game);
-        console.groupEnd();
     },
 
     /**
@@ -154,12 +152,10 @@ var HTML5AudioSoundManager = new Class({
      */
     add: function (key, config)
     {
-        console.group('HTML5AudioSoundManager add');
         var sound = new HTML5AudioSound(this, key, config);
 
         this.sounds.push(sound);
 
-        console.groupEnd();
         return sound;
     },
 
@@ -172,7 +168,6 @@ var HTML5AudioSoundManager = new Class({
      */
     unlock: function ()
     {
-        console.group('HTML5AudioSoundManager unlock');
         this.locked = false;
 
         var _this = this;
@@ -194,7 +189,6 @@ var HTML5AudioSoundManager = new Class({
 
         if (!this.locked)
         {
-            console.groupEnd();
             return;
         }
 
@@ -288,7 +282,6 @@ var HTML5AudioSoundManager = new Class({
 
         document.body.addEventListener('touchmove', detectMove, false);
         document.body.addEventListener('touchend', unlock, false);
-        console.groupEnd();
     },
 
     /**
@@ -301,7 +294,6 @@ var HTML5AudioSoundManager = new Class({
      */
     onBlur: function ()
     {
-        console.group('HTML5AudioSoundManager onBlur');
         this.forEachActiveSound(function (sound)
         {
             if (sound.isPlaying)
@@ -310,7 +302,6 @@ var HTML5AudioSoundManager = new Class({
                 sound.onBlur();
             }
         });
-        console.groupEnd();
     },
 
     /**
@@ -323,14 +314,12 @@ var HTML5AudioSoundManager = new Class({
      */
     onFocus: function ()
     {
-        console.group('HTML5AudioSoundManager onFocus');
         this.onBlurPausedSounds.forEach(function (sound)
         {
             sound.onFocus();
         });
 
         this.onBlurPausedSounds.length = 0;
-        console.groupEnd();
     },
 
     /**
@@ -342,12 +331,10 @@ var HTML5AudioSoundManager = new Class({
      */
     destroy: function ()
     {
-        console.group('HTML5AudioSoundManager destroy');
         BaseSoundManager.prototype.destroy.call(this);
 
         this.onBlurPausedSounds.length = 0;
         this.onBlurPausedSounds = null;
-        console.groupEnd();
     },
 
     /**
@@ -367,7 +354,6 @@ var HTML5AudioSoundManager = new Class({
      */
     isLocked: function (sound, prop, value)
     {
-        console.group('HTML5AudioSoundManager isLocked');
         if (sound.tags[0].dataset.locked === 'true')
         {
             this.lockedActionsQueue.push({
@@ -376,11 +362,9 @@ var HTML5AudioSoundManager = new Class({
                 value: value
             });
 
-            console.groupEnd();
             return true;
         }
 
-        console.groupEnd();
         return false;
     },
 
@@ -397,10 +381,8 @@ var HTML5AudioSoundManager = new Class({
      */
     setMute: function (value)
     {
-        console.group('HTML5AudioSoundManager setMute');
         this.mute = value;
 
-        console.groupEnd();
         return this;
     },
 
@@ -444,10 +426,8 @@ var HTML5AudioSoundManager = new Class({
      */
     setVolume: function (value)
     {
-        console.group('HTML5AudioSoundManager setVolume');
         this.volume = value;
 
-        console.groupEnd();
         return this;
     },
 

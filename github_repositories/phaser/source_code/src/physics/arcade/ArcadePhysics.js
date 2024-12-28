@@ -43,7 +43,6 @@ var ArcadePhysics = new Class({
 
     function ArcadePhysics (scene)
     {
-        console.group('ArcadePhysics');
         /**
          * The Scene that this Plugin belongs to.
          *
@@ -101,7 +100,6 @@ var ArcadePhysics = new Class({
 
         scene.sys.events.once(SceneEvents.BOOT, this.boot, this);
         scene.sys.events.on(SceneEvents.START, this.start, this);
-        console.groupEnd();
     },
 
     /**
@@ -114,12 +112,10 @@ var ArcadePhysics = new Class({
      */
     boot: function ()
     {
-        console.group('ArcadePhysics boot');
         this.world = new World(this.scene, this.config);
         this.add = new Factory(this.world);
 
         this.systems.events.once(SceneEvents.DESTROY, this.destroy, this);
-        console.groupEnd();
     },
 
     /**
@@ -133,7 +129,6 @@ var ArcadePhysics = new Class({
      */
     start: function ()
     {
-        console.group('ArcadePhysics start');
         if (!this.world)
         {
             this.world = new World(this.scene, this.config);
@@ -149,7 +144,6 @@ var ArcadePhysics = new Class({
 
         eventEmitter.on(SceneEvents.POST_UPDATE, this.world.postUpdate, this.world);
         eventEmitter.once(SceneEvents.SHUTDOWN, this.shutdown, this);
-        console.groupEnd();
     },
 
     /**
@@ -162,9 +156,7 @@ var ArcadePhysics = new Class({
      */
     enableUpdate: function ()
     {
-        console.group('ArcadePhysics enableUpdate');
         this.systems.events.on(SceneEvents.UPDATE, this.world.update, this.world);
-        console.groupEnd();
     },
 
     /**
@@ -183,9 +175,7 @@ var ArcadePhysics = new Class({
      */
     disableUpdate: function ()
     {
-        console.group('ArcadePhysics disableUpdate');
         this.systems.events.off(SceneEvents.UPDATE, this.world.update, this.world);
-        console.groupEnd();
     },
 
     /**
@@ -198,7 +188,6 @@ var ArcadePhysics = new Class({
      */
     getConfig: function ()
     {
-        console.group('ArcadePhysics getConfig');
         var gameConfig = this.systems.game.config.physics;
         var sceneConfig = this.systems.settings.physics;
 
@@ -207,7 +196,6 @@ var ArcadePhysics = new Class({
             GetFastValue(gameConfig, 'arcade', {})
         );
 
-        console.groupEnd();
         return config;
     },
 
@@ -228,10 +216,8 @@ var ArcadePhysics = new Class({
      */
     nextCategory: function ()
     {
-        console.group('ArcadePhysics nextCategory');
         this._category = this._category << 1;
 
-        console.groupEnd();
         return this._category;
     },
 
@@ -253,14 +239,11 @@ var ArcadePhysics = new Class({
      */
     overlap: function (object1, object2, overlapCallback, processCallback, callbackContext)
     {
-        console.group('ArcadePhysics overlap');
         if (overlapCallback === undefined) { overlapCallback = null; }
         if (processCallback === undefined) { processCallback = null; }
         if (callbackContext === undefined) { callbackContext = overlapCallback; }
 
-        const result = this.world.collideObjects(object1, object2, overlapCallback, processCallback, callbackContext, true);
-        console.groupEnd();
-        return result;
+        return this.world.collideObjects(object1, object2, overlapCallback, processCallback, callbackContext, true);
     },
 
     /**
@@ -298,14 +281,11 @@ var ArcadePhysics = new Class({
      */
     collide: function (object1, object2, collideCallback, processCallback, callbackContext)
     {
-        console.group('ArcadePhysics collide');
         if (collideCallback === undefined) { collideCallback = null; }
         if (processCallback === undefined) { processCallback = null; }
         if (callbackContext === undefined) { callbackContext = collideCallback; }
 
-        const result = this.world.collideObjects(object1, object2, collideCallback, processCallback, callbackContext, false);
-        console.groupEnd();
-        return result;
+        return this.world.collideObjects(object1, object2, collideCallback, processCallback, callbackContext, false);
     },
 
     /**
@@ -338,10 +318,7 @@ var ArcadePhysics = new Class({
      */
     collideTiles: function (sprite, tiles, collideCallback, processCallback, callbackContext)
     {
-        console.group('ArcadePhysics collideTiles');
-        const result = this.world.collideTiles(sprite, tiles, collideCallback, processCallback, callbackContext);
-        console.groupEnd();
-        return result;
+        return this.world.collideTiles(sprite, tiles, collideCallback, processCallback, callbackContext);
     },
 
     /**
@@ -369,10 +346,7 @@ var ArcadePhysics = new Class({
      */
     overlapTiles: function (sprite, tiles, collideCallback, processCallback, callbackContext)
     {
-        console.group('ArcadePhysics overlapTiles');
-        const result = this.world.overlapTiles(sprite, tiles, collideCallback, processCallback, callbackContext);
-        console.groupEnd();
-        return result;
+        return this.world.overlapTiles(sprite, tiles, collideCallback, processCallback, callbackContext);
     },
 
     /**
@@ -385,10 +359,7 @@ var ArcadePhysics = new Class({
      */
     pause: function ()
     {
-        console.group('ArcadePhysics pause');
-        const result = this.world.pause();
-        console.groupEnd();
-        return result;
+        return this.world.pause();
     },
 
     /**
@@ -401,10 +372,7 @@ var ArcadePhysics = new Class({
      */
     resume: function ()
     {
-        console.group('ArcadePhysics resume');
-        const result = this.world.resume();
-        console.groupEnd();
-        return result;
+        return this.world.resume();
     },
 
     /**
@@ -429,7 +397,6 @@ var ArcadePhysics = new Class({
      */
     accelerateTo: function (gameObject, x, y, speed, xSpeedMax, ySpeedMax)
     {
-        console.group('ArcadePhysics accelerateTo');
         if (speed === undefined) { speed = 60; }
 
         var angle = Math.atan2(y - gameObject.y, x - gameObject.x);
@@ -441,7 +408,6 @@ var ArcadePhysics = new Class({
             gameObject.body.maxVelocity.set(xSpeedMax, ySpeedMax);
         }
 
-        console.groupEnd();
         return angle;
     },
 
@@ -466,10 +432,7 @@ var ArcadePhysics = new Class({
      */
     accelerateToObject: function (gameObject, destination, speed, xSpeedMax, ySpeedMax)
     {
-        console.group('ArcadePhysics accelerateToObject');
-        const result = this.accelerateTo(gameObject, destination.x, destination.y, speed, xSpeedMax, ySpeedMax);
-        console.groupEnd();
-        return result;
+        return this.accelerateTo(gameObject, destination.x, destination.y, speed, xSpeedMax, ySpeedMax);
     },
 
     /**
@@ -494,7 +457,6 @@ var ArcadePhysics = new Class({
      */
     closest: function (source, targets)
     {
-        console.group('ArcadePhysics closest');
         if (!targets)
         {
             targets = this.world.bodies.entries;
@@ -525,7 +487,6 @@ var ArcadePhysics = new Class({
             }
         }
 
-        console.groupEnd();
         return closest;
     },
 
@@ -550,7 +511,6 @@ var ArcadePhysics = new Class({
      */
     furthest: function (source, targets)
     {
-        console.group('ArcadePhysics furthest');
         if (!targets)
         {
             targets = this.world.bodies.entries;
@@ -582,7 +542,6 @@ var ArcadePhysics = new Class({
 
         }
 
-        console.groupEnd();
         return farthest;
     },
 
@@ -607,7 +566,6 @@ var ArcadePhysics = new Class({
      */
     moveTo: function (gameObject, x, y, speed, maxTime)
     {
-        console.group('ArcadePhysics moveTo');
         if (speed === undefined) { speed = 60; }
         if (maxTime === undefined) { maxTime = 0; }
 
@@ -621,7 +579,6 @@ var ArcadePhysics = new Class({
 
         gameObject.body.velocity.setToPolar(angle, speed);
 
-        console.groupEnd();
         return angle;
     },
 
@@ -645,10 +602,7 @@ var ArcadePhysics = new Class({
      */
     moveToObject: function (gameObject, destination, speed, maxTime)
     {
-        console.group('ArcadePhysics moveToObject');
-        const result = this.moveTo(gameObject, destination.x, destination.y, speed, maxTime);
-        console.groupEnd();
-        return result;
+        return this.moveTo(gameObject, destination.x, destination.y, speed, maxTime);
     },
 
     /**
@@ -666,13 +620,10 @@ var ArcadePhysics = new Class({
      */
     velocityFromAngle: function (angle, speed, vec2)
     {
-        console.group('ArcadePhysics velocityFromAngle');
         if (speed === undefined) { speed = 60; }
         if (vec2 === undefined) { vec2 = new Vector2(); }
 
-        const result = vec2.setToPolar(DegToRad(angle), speed);
-        console.groupEnd();
-        return result;
+        return vec2.setToPolar(DegToRad(angle), speed);
     },
 
     /**
@@ -690,13 +641,10 @@ var ArcadePhysics = new Class({
      */
     velocityFromRotation: function (rotation, speed, vec2)
     {
-        console.group('ArcadePhysics velocityFromRotation');
         if (speed === undefined) { speed = 60; }
         if (vec2 === undefined) { vec2 = new Vector2(); }
 
-        const result = vec2.setToPolar(rotation, speed);
-        console.groupEnd();
-        return result;
+        return vec2.setToPolar(rotation, speed);
     },
 
     /**
@@ -723,10 +671,7 @@ var ArcadePhysics = new Class({
      */
     overlapRect: function (x, y, width, height, includeDynamic, includeStatic)
     {
-        console.group('ArcadePhysics overlapRect');
-        const result = OverlapRect(this.world, x, y, width, height, includeDynamic, includeStatic);
-        console.groupEnd();
-        return result;
+        return OverlapRect(this.world, x, y, width, height, includeDynamic, includeStatic);
     },
 
     /**
@@ -752,10 +697,7 @@ var ArcadePhysics = new Class({
      */
     overlapCirc: function (x, y, radius, includeDynamic, includeStatic)
     {
-        console.group('ArcadePhysics overlapCirc');
-        const result = OverlapCirc(this.world, x, y, radius, includeDynamic, includeStatic);
-        console.groupEnd();
-        return result;
+        return OverlapCirc(this.world, x, y, radius, includeDynamic, includeStatic);
     },
 
     /**
@@ -767,10 +709,8 @@ var ArcadePhysics = new Class({
      */
     shutdown: function ()
     {
-        console.group('ArcadePhysics shutdown');
         if (!this.world)
         {
-            console.groupEnd();
             //  Already destroyed
             return;
         }
@@ -787,7 +727,6 @@ var ArcadePhysics = new Class({
         this.add = null;
         this.world = null;
         this._category = 1;
-        console.groupEnd();
     },
 
     /**
@@ -799,20 +738,16 @@ var ArcadePhysics = new Class({
      */
     destroy: function ()
     {
-        console.group('ArcadePhysics destroy');
         this.shutdown();
 
         this.scene.sys.events.off(SceneEvents.START, this.start, this);
 
         this.scene = null;
         this.systems = null;
-        console.groupEnd();
     }
 
 });
 
-console.group('PluginCache.register ArcadePhysics');
 PluginCache.register('ArcadePhysics', ArcadePhysics, 'arcadePhysics');
 
-console.groupEnd();
 module.exports = ArcadePhysics;

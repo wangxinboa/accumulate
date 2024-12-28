@@ -20,11 +20,9 @@
  */
 var ImageWebGLRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('ImageWebGLRenderer');
     camera.addToRenderList(src);
 
     this.pipeline.batchSprite(src, camera, parentMatrix);
-    console.groupEnd();
 };
 
 module.exports = ImageWebGLRenderer;

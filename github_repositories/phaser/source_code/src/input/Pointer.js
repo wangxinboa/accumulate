@@ -41,7 +41,6 @@ var Pointer = new Class({
 
     function Pointer (manager, id)
     {
-        console.group('Pointer');
         /**
          * A reference to the Input Manager.
          *
@@ -492,7 +491,6 @@ var Pointer = new Class({
          * @since 3.18.0
          */
         this.deltaZ = 0;
-        console.groupEnd();
     },
 
     /**
@@ -511,14 +509,12 @@ var Pointer = new Class({
      */
     updateWorldPoint: function (camera)
     {
-        console.group('Pointer updateWorldPoint');
         //  Stores the world point inside of tempPoint
         var temp = camera.getWorldPoint(this.x, this.y);
 
         this.worldX = temp.x;
         this.worldY = temp.y;
 
-        console.groupEnd();
         return this;
     },
 
@@ -536,10 +532,7 @@ var Pointer = new Class({
      */
     positionToCamera: function (camera, output)
     {
-        console.group('Pointer positionToCamera');
-        const result = camera.getWorldPoint(this.x, this.y, output);
-        console.groupEnd();
-        return result;
+        return camera.getWorldPoint(this.x, this.y, output);
     },
 
     /**
@@ -552,7 +545,6 @@ var Pointer = new Class({
      */
     updateMotion: function ()
     {
-        console.group('Pointer updateMotion');
         var cx = this.position.x;
         var cy = this.position.y;
 
@@ -561,7 +553,6 @@ var Pointer = new Class({
 
         if (cx === mx && cy === my)
         {
-            console.groupEnd();
             //  Nothing to do here
             return;
         }
@@ -590,7 +581,6 @@ var Pointer = new Class({
         this.angle = Angle(vx, vy, cx, cy);
 
         this.distance = Math.sqrt(dx * dx + dy * dy);
-        console.groupEnd();
     },
 
     /**
@@ -604,7 +594,6 @@ var Pointer = new Class({
      */
     up: function (event)
     {
-        console.group('Pointer up');
         if ('buttons' in event)
         {
             this.buttons = event.buttons;
@@ -636,7 +625,6 @@ var Pointer = new Class({
 
             this.wasTouch = false;
         }
-        console.groupEnd();
     },
 
     /**
@@ -650,7 +638,6 @@ var Pointer = new Class({
      */
     down: function (event)
     {
-        console.group('Pointer down');
         if ('buttons' in event)
         {
             this.buttons = event.buttons;
@@ -688,7 +675,6 @@ var Pointer = new Class({
         }
 
         this.wasTouch = false;
-        console.groupEnd();
     },
 
     /**
@@ -702,7 +688,6 @@ var Pointer = new Class({
      */
     move: function (event)
     {
-        console.group('Pointer move');
         if ('buttons' in event)
         {
             this.buttons = event.buttons;
@@ -723,7 +708,6 @@ var Pointer = new Class({
         this.moveTime = event.timeStamp;
 
         this.wasTouch = false;
-        console.groupEnd();
     },
 
     /**
@@ -737,7 +721,6 @@ var Pointer = new Class({
      */
     wheel: function (event)
     {
-        console.group('Pointer wheel');
         if ('buttons' in event)
         {
             this.buttons = event.buttons;
@@ -753,7 +736,6 @@ var Pointer = new Class({
         this.deltaZ = event.deltaZ;
 
         this.wasTouch = false;
-        console.groupEnd();
     },
 
     /**
@@ -768,7 +750,6 @@ var Pointer = new Class({
      */
     touchstart: function (touch, event)
     {
-        console.group('Pointer touchstart');
         if (touch['pointerId'])
         {
             this.pointerId = touch.pointerId;
@@ -798,7 +779,6 @@ var Pointer = new Class({
         this.wasCanceled = false;
 
         this.updateMotion();
-        console.groupEnd();
     },
 
     /**
@@ -813,7 +793,6 @@ var Pointer = new Class({
      */
     touchmove: function (touch, event)
     {
-        console.group('Pointer touchmove');
         this.event = event;
 
         //  Sets the local x/y properties
@@ -824,7 +803,6 @@ var Pointer = new Class({
         this.wasTouch = true;
 
         this.updateMotion();
-        console.groupEnd();
     },
 
     /**
@@ -839,7 +817,6 @@ var Pointer = new Class({
      */
     touchend: function (touch, event)
     {
-        console.group('Pointer touchend');
         this.buttons = 0;
 
         this.event = event;
@@ -862,7 +839,6 @@ var Pointer = new Class({
         this.active = false;
 
         this.updateMotion();
-        console.groupEnd();
     },
 
     /**
@@ -877,7 +853,6 @@ var Pointer = new Class({
      */
     touchcancel: function (touch, event)
     {
-        console.group('Pointer touchcancel');
         this.buttons = 0;
 
         this.event = event;
@@ -898,7 +873,6 @@ var Pointer = new Class({
         this.wasCanceled = true;
 
         this.active = false;
-        console.groupEnd();
     },
 
     /**
@@ -911,10 +885,7 @@ var Pointer = new Class({
      */
     noButtonDown: function ()
     {
-        console.group('Pointer noButtonDown');
-        const result = (this.buttons === 0);
-        console.groupEnd();
-        return result;
+        return (this.buttons === 0);
     },
 
     /**
@@ -927,10 +898,7 @@ var Pointer = new Class({
      */
     leftButtonDown: function ()
     {
-        console.group('Pointer leftButtonDown');
-        const result = (this.buttons & 1) ? true : false;
-        console.groupEnd();
-        return result;
+        return (this.buttons & 1) ? true : false;
     },
 
     /**
@@ -943,10 +911,7 @@ var Pointer = new Class({
      */
     rightButtonDown: function ()
     {
-        console.group('Pointer rightButtonDown');
-        const result = (this.buttons & 2) ? true : false;
-        console.groupEnd();
-        return result;
+        return (this.buttons & 2) ? true : false;
     },
 
     /**
@@ -959,10 +924,7 @@ var Pointer = new Class({
      */
     middleButtonDown: function ()
     {
-        console.group('Pointer middleButtonDown');
-        const result = (this.buttons & 4) ? true : false;
-        console.groupEnd();
-        return result;
+        return (this.buttons & 4) ? true : false;
     },
 
     /**
@@ -975,10 +937,7 @@ var Pointer = new Class({
      */
     backButtonDown: function ()
     {
-        console.group('Pointer backButtonDown');
-        const result = (this.buttons & 8) ? true : false;
-        console.groupEnd();
-        return result;
+        return (this.buttons & 8) ? true : false;
     },
 
     /**
@@ -991,10 +950,7 @@ var Pointer = new Class({
      */
     forwardButtonDown: function ()
     {
-        console.group('Pointer forwardButtonDown');
-        const result = (this.buttons & 16) ? true : false;
-        console.groupEnd();
-        return result;
+        return (this.buttons & 16) ? true : false;
     },
 
     /**
@@ -1007,10 +963,7 @@ var Pointer = new Class({
      */
     leftButtonReleased: function ()
     {
-        console.group('Pointer leftButtonReleased');
-        const result = this.buttons === 0 ? (this.button === 0 && !this.isDown) : this.button === 0;
-        console.groupEnd();
-        return result;
+        return this.buttons === 0 ? (this.button === 0 && !this.isDown) : this.button === 0;
     },
 
     /**
@@ -1023,10 +976,7 @@ var Pointer = new Class({
      */
     rightButtonReleased: function ()
     {
-        console.group('Pointer rightButtonReleased');
-        const result = this.buttons === 0 ? (this.button === 2 && !this.isDown) : this.button === 2;
-        console.groupEnd();
-        return result;
+        return this.buttons === 0 ? (this.button === 2 && !this.isDown) : this.button === 2;
     },
 
     /**
@@ -1039,10 +989,7 @@ var Pointer = new Class({
      */
     middleButtonReleased: function ()
     {
-        console.group('Pointer middleButtonReleased');
-        const result = this.buttons === 0 ? (this.button === 1 && !this.isDown) : this.button === 1;
-        console.groupEnd();
-        return result;
+        return this.buttons === 0 ? (this.button === 1 && !this.isDown) : this.button === 1;
     },
 
     /**
@@ -1055,10 +1002,7 @@ var Pointer = new Class({
      */
     backButtonReleased: function ()
     {
-        console.group('Pointer backButtonReleased');
-        const result = this.buttons === 0 ? (this.button === 3 && !this.isDown) : this.button === 3;
-        console.groupEnd();
-        return result;
+        return this.buttons === 0 ? (this.button === 3 && !this.isDown) : this.button === 3;
     },
 
     /**
@@ -1071,10 +1015,7 @@ var Pointer = new Class({
      */
     forwardButtonReleased: function ()
     {
-        console.group('Pointer forwardButtonReleased');
-        const result = this.buttons === 0 ? (this.button === 4 && !this.isDown) : this.button === 4;
-        console.groupEnd();
-        return result;
+        return this.buttons === 0 ? (this.button === 4 && !this.isDown) : this.button === 4;
     },
 
     /**
@@ -1094,18 +1035,13 @@ var Pointer = new Class({
      */
     getDistance: function ()
     {
-        console.group('Pointer getDistance');
         if (this.isDown)
         {
-            const result = Distance(this.downX, this.downY, this.x, this.y);
-            console.groupEnd();
-            return result;
+            return Distance(this.downX, this.downY, this.x, this.y);
         }
         else
         {
-            const result = Distance(this.downX, this.downY, this.upX, this.upY);
-            console.groupEnd();
-            return result;
+            return Distance(this.downX, this.downY, this.upX, this.upY);
         }
     },
 
@@ -1123,18 +1059,13 @@ var Pointer = new Class({
      */
     getDistanceX: function ()
     {
-        console.group('Pointer getDistanceX');
         if (this.isDown)
         {
-            const result = Math.abs(this.downX - this.x);
-            console.groupEnd();
-            return result;
+            return Math.abs(this.downX - this.x);
         }
         else
         {
-            const result = Math.abs(this.downX - this.upX);
-            console.groupEnd();
-            return result;
+            return Math.abs(this.downX - this.upX);
         }
     },
 
@@ -1152,18 +1083,13 @@ var Pointer = new Class({
      */
     getDistanceY: function ()
     {
-        console.group('Pointer getDistanceY');
         if (this.isDown)
         {
-            const result = Math.abs(this.downY - this.y);
-            console.groupEnd();
-            return result;
+            return Math.abs(this.downY - this.y);
         }
         else
         {
-            const result = Math.abs(this.downY - this.upY);
-            console.groupEnd();
-            return result;
+            return Math.abs(this.downY - this.upY);
         }
     },
 
@@ -1181,18 +1107,13 @@ var Pointer = new Class({
      */
     getDuration: function ()
     {
-        console.group('Pointer getDuration');
         if (this.isDown)
         {
-            const result = (this.manager.time - this.downTime);
-            console.groupEnd();
-            return result;
+            return (this.manager.time - this.downTime);
         }
         else
         {
-            const result = (this.upTime - this.downTime);
-            console.groupEnd();
-            return result;
+            return (this.upTime - this.downTime);
         }
     },
 
@@ -1215,18 +1136,13 @@ var Pointer = new Class({
      */
     getAngle: function ()
     {
-        console.group('Pointer getAngle');
         if (this.isDown)
         {
-            const result = Angle(this.downX, this.downY, this.x, this.y);
-            console.groupEnd();
-            return result;
+            return Angle(this.downX, this.downY, this.x, this.y);
         }
         else
         {
-            const result = Angle(this.downX, this.downY, this.upX, this.upY);
-            console.groupEnd();
-            return result;
+            return Angle(this.downX, this.downY, this.upX, this.upY);
         }
     },
 
@@ -1262,7 +1178,6 @@ var Pointer = new Class({
      */
     getInterpolatedPosition: function (steps, out)
     {
-        console.group('Pointer getInterpolatedPosition');
         if (steps === undefined) { steps = 10; }
         if (out === undefined) { out = []; }
 
@@ -1279,7 +1194,6 @@ var Pointer = new Class({
             out[i] = { x: SmoothStepInterpolation(t, prevX, curX), y: SmoothStepInterpolation(t, prevY, curY) };
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -1291,7 +1205,6 @@ var Pointer = new Class({
      */
     reset: function ()
     {
-        console.group('Pointer reset');
         this.event = null;
         this.downElement = null;
         this.upElement = null;
@@ -1327,7 +1240,6 @@ var Pointer = new Class({
         this.deltaZ = 0;
 
         this.active = (this.id === 0) ? true : false;
-        console.groupEnd();
     },
 
     /**
@@ -1338,11 +1250,9 @@ var Pointer = new Class({
      */
     destroy: function ()
     {
-        console.group('Pointer destroy');
         this.camera = null;
         this.manager = null;
         this.position = null;
-        console.groupEnd();
     },
 
     /**

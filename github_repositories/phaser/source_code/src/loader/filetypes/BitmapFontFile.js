@@ -42,7 +42,6 @@ var BitmapFontFile = new Class({
 
     function BitmapFontFile (loader, key, textureURL, fontDataURL, textureXhrSettings, fontDataXhrSettings)
     {
-        console.group('BitmapFontFile');
         var image;
         var data;
 
@@ -82,7 +81,6 @@ var BitmapFontFile = new Class({
         {
             MultiFile.call(this, loader, 'bitmapfont', key, [ image, data ]);
         }
-        console.groupEnd();
     },
 
     /**
@@ -93,7 +91,6 @@ var BitmapFontFile = new Class({
      */
     addToCache: function ()
     {
-        console.group('BitmapFontFile addToCache');
         if (this.isReadyToProcess())
         {
             var image = this.files[0];
@@ -109,7 +106,6 @@ var BitmapFontFile = new Class({
 
             this.complete = true;
         }
-        console.groupEnd();
     }
 
 });
@@ -214,10 +210,8 @@ var BitmapFontFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register bitmapFont');
 FileTypesManager.register('bitmapFont', function (key, textureURL, fontDataURL, textureXhrSettings, fontDataXhrSettings)
 {
-    console.group('FileTypesManager.register bitmapFont factoryFunction');
     var multifile;
 
     //  Supports an Object file definition in the key argument
@@ -240,9 +234,7 @@ FileTypesManager.register('bitmapFont', function (key, textureURL, fontDataURL, 
         this.addFile(multifile.files);
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = BitmapFontFile;

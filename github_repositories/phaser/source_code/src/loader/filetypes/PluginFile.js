@@ -40,7 +40,6 @@ var PluginFile = new Class({
 
     function PluginFile (loader, key, url, start, mapping, xhrSettings)
     {
-        console.group('PluginFile');
         var extension = 'js';
 
         if (IsPlainObject(key))
@@ -78,7 +77,6 @@ var PluginFile = new Class({
 
             this.state = CONST.FILE_POPULATED;
         }
-        console.groupEnd();
     },
 
     /**
@@ -90,7 +88,6 @@ var PluginFile = new Class({
      */
     onProcess: function ()
     {
-        console.group('PluginFile onProcess');
         var pluginManager = this.loader.systems.plugins;
         var config = this.config;
 
@@ -125,7 +122,6 @@ var PluginFile = new Class({
         }
 
         this.onProcessComplete();
-        console.groupEnd();
     }
 
 });
@@ -189,10 +185,8 @@ var PluginFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register plugin');
 FileTypesManager.register('plugin', function (key, url, start, mapping, xhrSettings)
 {
-    console.group('FileTypesManager.register plugin factoryFunction');
     if (Array.isArray(key))
     {
         for (var i = 0; i < key.length; i++)
@@ -206,9 +200,7 @@ FileTypesManager.register('plugin', function (key, url, start, mapping, xhrSetti
         this.addFile(new PluginFile(this, key, url, start, mapping, xhrSettings));
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = PluginFile;

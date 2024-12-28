@@ -23,7 +23,6 @@ var SetTransform = require('../../../renderer/canvas/utils/SetTransform');
  */
 var LineCanvasRenderer = function (renderer, src, camera, parentMatrix)
 {
-    console.group('LineCanvasRenderer');
     camera.addToRenderList(src);
 
     var ctx = renderer.currentContext;
@@ -48,7 +47,6 @@ var LineCanvasRenderer = function (renderer, src, camera, parentMatrix)
         //  Restore the context saved in SetTransform
         ctx.restore();
     }
-    console.groupEnd();
 };
 
 module.exports = LineCanvasRenderer;

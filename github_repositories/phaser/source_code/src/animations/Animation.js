@@ -42,7 +42,6 @@ var Animation = new Class({
 
     function Animation (manager, key, config)
     {
-        console.group('Animation');
         /**
          * A reference to the global Animation Manager.
          *
@@ -225,7 +224,6 @@ var Animation = new Class({
             this.manager.on(Events.PAUSE_ALL, this.pause, this);
             this.manager.on(Events.RESUME_ALL, this.resume, this);
         }
-        console.groupEnd();
     },
 
     /**
@@ -238,8 +236,6 @@ var Animation = new Class({
      */
     getTotalFrames: function ()
     {
-        console.group('Animation getTotalFrames');
-        console.groupEnd();
         return this.frames.length;
     },
 
@@ -256,7 +252,6 @@ var Animation = new Class({
      */
     calculateDuration: function (target, totalFrames, duration, frameRate)
     {
-        console.group('Animation calculateDuration');
         if (duration === null && frameRate === null)
         {
             //  No duration or frameRate given, use default frameRate of 24fps
@@ -281,7 +276,6 @@ var Animation = new Class({
         }
 
         target.msPerFrame = 1000 / target.frameRate;
-        console.groupEnd();
     },
 
     /**
@@ -296,10 +290,7 @@ var Animation = new Class({
      */
     addFrame: function (config)
     {
-        console.group('Animation addFrame');
-        const result = this.addFrameAt(this.frames.length, config);
-        console.groupEnd();
-        return result;
+        return this.addFrameAt(this.frames.length, config);
     },
 
     /**
@@ -315,7 +306,6 @@ var Animation = new Class({
      */
     addFrameAt: function (index, config)
     {
-        console.group('Animation addFrameAt');
         var newFrames = this.getFrames(this.manager.textureManager, config);
 
         if (newFrames.length > 0)
@@ -339,7 +329,6 @@ var Animation = new Class({
             this.updateFrameSequence();
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -355,8 +344,6 @@ var Animation = new Class({
      */
     checkFrame: function (index)
     {
-        console.group('Animation checkFrame');
-        console.groupEnd();
         return (index >= 0 && index < this.frames.length);
     },
 
@@ -372,12 +359,10 @@ var Animation = new Class({
      */
     getFirstTick: function (state)
     {
-        console.group('Animation getFirstTick');
         //  When is the first update due?
         state.accumulator = 0;
 
         state.nextTick = (state.currentFrame.duration) ? state.currentFrame.duration : state.msPerFrame;
-        console.groupEnd();
     },
 
     /**
@@ -392,8 +377,6 @@ var Animation = new Class({
      */
     getFrameAt: function (index)
     {
-        console.group('Animation getFrameAt');
-        console.groupEnd();
         return this.frames[index];
     },
 
@@ -411,7 +394,6 @@ var Animation = new Class({
      */
     getFrames: function (textureManager, frames, defaultTextureKey, sortFrames)
     {
-        console.group('Animation getFrames');
         if (sortFrames === undefined) { sortFrames = true; }
 
         var out = [];
@@ -430,7 +412,6 @@ var Animation = new Class({
             {
                 console.warn('Texture "%s" not found', textureKey);
 
-                console.groupEnd();
                 return out;
             }
 
@@ -452,7 +433,6 @@ var Animation = new Class({
 
         if (!Array.isArray(frames) || frames.length === 0)
         {
-            console.groupEnd();
             return out;
         }
 
@@ -520,7 +500,6 @@ var Animation = new Class({
             }
         }
 
-        console.groupEnd();
         return out;
     },
 
@@ -534,11 +513,9 @@ var Animation = new Class({
      */
     getNextTick: function (state)
     {
-        console.group('Animation getNextTick');
         state.accumulator -= state.nextTick;
 
         state.nextTick = (state.currentFrame.duration) ? state.currentFrame.duration : state.msPerFrame;
-        console.groupEnd();
     },
 
     /**
@@ -553,12 +530,9 @@ var Animation = new Class({
      */
     getFrameByProgress: function (value)
     {
-        console.group('Animation getFrameByProgress');
         value = Clamp(value, 0, 1);
 
-        const result = FindClosestInSorted(value, this.frames, 'progress');
-        console.groupEnd();
-        return result;
+        return FindClosestInSorted(value, this.frames, 'progress');
     },
 
     /**
@@ -571,7 +545,6 @@ var Animation = new Class({
      */
     nextFrame: function (state)
     {
-        console.group('Animation nextFrame');
         var frame = state.currentFrame;
 
         if (frame.isLast)
@@ -605,7 +578,6 @@ var Animation = new Class({
         {
             this.updateAndGetNextTick(state, frame.nextFrame);
         }
-        console.groupEnd();
     },
 
     /**
@@ -620,7 +592,6 @@ var Animation = new Class({
      */
     handleYoyoFrame: function (state, isReverse)
     {
-        console.group('Animation handleYoyoFrame');
         if (!isReverse) { isReverse = false; }
 
         if (state.inReverse === !isReverse && state.repeatCounter > 0)
@@ -632,7 +603,6 @@ var Animation = new Class({
 
             this.repeatAnimation(state);
 
-            console.groupEnd();
             return;
         }
 
@@ -640,7 +610,6 @@ var Animation = new Class({
         {
             state.complete();
 
-            console.groupEnd();
             return;
         }
 
@@ -649,7 +618,6 @@ var Animation = new Class({
         var frame = (isReverse) ? state.currentFrame.nextFrame : state.currentFrame.prevFrame;
 
         this.updateAndGetNextTick(state, frame);
-        console.groupEnd();
     },
 
     /**
@@ -662,8 +630,6 @@ var Animation = new Class({
      */
     getLastFrame: function ()
     {
-        console.group('Animation getLastFrame');
-        console.groupEnd();
         return this.frames[this.frames.length - 1];
     },
 
@@ -678,7 +644,6 @@ var Animation = new Class({
      */
     previousFrame: function (state)
     {
-        console.group('Animation previousFrame');
         var frame = state.currentFrame;
 
         if (frame.isFirst)
@@ -711,7 +676,6 @@ var Animation = new Class({
         {
             this.updateAndGetNextTick(state, frame.prevFrame);
         }
-        console.groupEnd();
     },
 
     /**
@@ -726,11 +690,9 @@ var Animation = new Class({
      */
     updateAndGetNextTick: function (state, frame)
     {
-        console.group('Animation updateAndGetNextTick');
         state.setCurrentFrame(frame);
 
         this.getNextTick(state);
-        console.groupEnd();
     },
 
     /**
@@ -746,7 +708,6 @@ var Animation = new Class({
      */
     removeFrame: function (frame)
     {
-        console.group('Animation removeFrame');
         var index = this.frames.indexOf(frame);
 
         if (index !== -1)
@@ -754,7 +715,6 @@ var Animation = new Class({
             this.removeFrameAt(index);
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -771,12 +731,10 @@ var Animation = new Class({
      */
     removeFrameAt: function (index)
     {
-        console.group('Animation removeFrameAt');
         this.frames.splice(index, 1);
 
         this.updateFrameSequence();
 
-        console.groupEnd();
         return this;
     },
 
@@ -794,14 +752,11 @@ var Animation = new Class({
      */
     repeatAnimation: function (state)
     {
-        console.group('Animation repeatAnimation');
         if (state._pendingStop === 2)
         {
             if (state._pendingStopValue === 0)
             {
-                const result = state.stop();
-                console.groupEnd();
-                return result;
+                return state.stop();
             }
             else
             {
@@ -835,7 +790,6 @@ var Animation = new Class({
                 state.handleRepeat();
             }
         }
-        console.groupEnd();
     },
 
     /**
@@ -848,7 +802,6 @@ var Animation = new Class({
      */
     toJSON: function ()
     {
-        console.group('Animation toJSON');
         var output = {
             key: this.key,
             type: this.type,
@@ -871,7 +824,6 @@ var Animation = new Class({
             output.frames.push(frame.toJSON());
         });
 
-        console.groupEnd();
         return output;
     },
 
@@ -885,7 +837,6 @@ var Animation = new Class({
      */
     updateFrameSequence: function ()
     {
-        console.group('Animation updateFrameSequence');
         var len = this.frames.length;
         var slice = 1 / (len - 1);
 
@@ -930,7 +881,6 @@ var Animation = new Class({
             }
         }
 
-        console.groupEnd();
         return this;
     },
 
@@ -944,10 +894,8 @@ var Animation = new Class({
      */
     pause: function ()
     {
-        console.group('Animation pause');
         this.paused = true;
 
-        console.groupEnd();
         return this;
     },
 
@@ -961,10 +909,8 @@ var Animation = new Class({
      */
     resume: function ()
     {
-        console.group('Animation resume');
         this.paused = false;
 
-        console.groupEnd();
         return this;
     },
 
@@ -978,7 +924,6 @@ var Animation = new Class({
      */
     destroy: function ()
     {
-        console.group('Animation destroy');
         if (this.manager.off)
         {
             this.manager.off(Events.PAUSE_ALL, this.pause, this);
@@ -995,7 +940,6 @@ var Animation = new Class({
         this.frames = [];
 
         this.manager = null;
-        console.groupEnd();
     }
 
 });

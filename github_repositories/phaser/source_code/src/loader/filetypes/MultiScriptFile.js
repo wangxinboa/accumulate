@@ -38,7 +38,6 @@ var MultiScriptFile = new Class({
 
     function MultiScriptFile (loader, key, url, xhrSettings)
     {
-        console.group('MultiScriptFile');
         var extension = 'js';
         var files = [];
 
@@ -76,7 +75,6 @@ var MultiScriptFile = new Class({
         }
 
         MultiFile.call(this, loader, 'scripts', key, files);
-        console.groupEnd();
     },
 
     /**
@@ -87,7 +85,6 @@ var MultiScriptFile = new Class({
      */
     addToCache: function ()
     {
-        console.group('MultiScriptFile addToCache');
         if (this.isReadyToProcess())
         {
             for (var i = 0; i < this.files.length; i++)
@@ -105,7 +102,6 @@ var MultiScriptFile = new Class({
 
             this.complete = true;
         }
-        console.groupEnd();
     }
 
 });
@@ -185,10 +181,8 @@ var MultiScriptFile = new Class({
  *
  * @return {this} The Loader instance.
  */
-console.group('FileTypesManager.register scripts');
 FileTypesManager.register('scripts', function (key, url, xhrSettings)
 {
-    console.group('FileTypesManager.register scripts factoryFunction');
     var multifile;
 
     //  Supports an Object file definition in the key argument
@@ -211,9 +205,7 @@ FileTypesManager.register('scripts', function (key, url, xhrSettings)
         this.addFile(multifile.files);
     }
 
-    console.groupEnd();
     return this;
 });
-console.groupEnd();
 
 module.exports = MultiScriptFile;
