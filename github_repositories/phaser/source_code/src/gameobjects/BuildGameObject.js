@@ -119,4 +119,4 @@ var BuildGameObject = function (scene, gameObject, config)
     return gameObject;
 };
 
-module.exports = BuildGameObject;
+module.exports = phaserFunMark(BuildGameObject);

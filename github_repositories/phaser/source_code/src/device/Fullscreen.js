@@ -100,4 +100,4 @@ function init ()
     return Fullscreen;
 }
 
-module.exports = init();
+module.exports = phaserFunMark(init, 'Fullscreen init')();

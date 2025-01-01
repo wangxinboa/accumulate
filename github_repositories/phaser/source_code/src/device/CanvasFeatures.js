@@ -109,4 +109,4 @@ function init ()
     return CanvasFeatures;
 }
 
-module.exports = init();
+module.exports = phaserFunMark(init, 'CanvasFeatures init')();

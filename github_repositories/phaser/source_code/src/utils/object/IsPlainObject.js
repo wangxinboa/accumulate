@@ -47,4 +47,4 @@ var IsPlainObject = function (obj)
     return true;
 };
 
-module.exports = IsPlainObject;
+module.exports = phaserFunMark(IsPlainObject);

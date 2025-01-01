@@ -65,4 +65,4 @@ var LineWebGLRenderer = function (renderer, src, camera, parentMatrix)
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = LineWebGLRenderer;
+module.exports = phaserFunMark(LineWebGLRenderer);

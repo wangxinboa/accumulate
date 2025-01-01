@@ -287,4 +287,4 @@ var DynamicBitmapTextWebGLRenderer = function (renderer, src, camera, parentMatr
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = DynamicBitmapTextWebGLRenderer;
+module.exports = phaserFunMark(DynamicBitmapTextWebGLRenderer);

@@ -121,4 +121,4 @@ var JSONHash = function (texture, sourceIndex, json)
     return texture;
 };
 
-module.exports = JSONHash;
+module.exports = phaserFunMark(JSONHash);

@@ -75,4 +75,4 @@ var TriangleWebGLRenderer = function (renderer, src, camera, parentMatrix)
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = TriangleWebGLRenderer;
+module.exports = phaserFunMark(TriangleWebGLRenderer);

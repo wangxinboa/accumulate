@@ -109,4 +109,4 @@ function init ()
     return Browser;
 }
 
-module.exports = init();
+module.exports = phaserFunMark(init, 'Browser init')();

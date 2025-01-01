@@ -53,4 +53,4 @@ var FillPathWebGL = function (pipeline, calcMatrix, src, alpha, dx, dy)
     }
 };
 
-module.exports = FillPathWebGL;
+module.exports = phaserFunMark(FillPathWebGL);

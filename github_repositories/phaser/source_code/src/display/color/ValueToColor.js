@@ -47,4 +47,4 @@ var ValueToColor = function (input)
     }
 };
 
-module.exports = ValueToColor;
+module.exports = phaserFunMark(ValueToColor);

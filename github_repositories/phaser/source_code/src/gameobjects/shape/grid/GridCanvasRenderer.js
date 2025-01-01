@@ -181,4 +181,4 @@ var GridCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = GridCanvasRenderer;
+module.exports = phaserFunMark(GridCanvasRenderer);

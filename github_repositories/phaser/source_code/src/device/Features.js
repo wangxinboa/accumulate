@@ -190,4 +190,4 @@ function init ()
     return Features;
 }
 
-module.exports = init();
+module.exports = phaserFunMark(init, 'Features init')();

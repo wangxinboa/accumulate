@@ -106,4 +106,4 @@ var IsoTriangleCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = IsoTriangleCanvasRenderer;
+module.exports = phaserFunMark(IsoTriangleCanvasRenderer);

@@ -52,4 +52,4 @@ var PolygonWebGLRenderer = function (renderer, src, camera, parentMatrix)
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = PolygonWebGLRenderer;
+module.exports = phaserFunMark(PolygonWebGLRenderer);

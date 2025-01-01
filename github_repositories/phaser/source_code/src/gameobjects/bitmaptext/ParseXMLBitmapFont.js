@@ -152,4 +152,4 @@ var ParseXMLBitmapFont = function (xml, frame, xSpacing, ySpacing, texture)
     return data;
 };
 
-module.exports = ParseXMLBitmapFont;
+module.exports = phaserFunMark(ParseXMLBitmapFont);

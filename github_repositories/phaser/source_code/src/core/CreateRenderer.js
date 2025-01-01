@@ -135,4 +135,4 @@ var CreateRenderer = function (game)
     }
 };
 
-module.exports = CreateRenderer;
+module.exports = phaserFunMark(CreateRenderer);

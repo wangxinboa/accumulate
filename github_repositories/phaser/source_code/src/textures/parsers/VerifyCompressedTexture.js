@@ -321,4 +321,4 @@ var formatCheckers = {
     0x8C4F: checkS3TCSRGB
 };
 
-module.exports = verifyCompressedTexture;
+module.exports = phaserFunMark(verifyCompressedTexture);

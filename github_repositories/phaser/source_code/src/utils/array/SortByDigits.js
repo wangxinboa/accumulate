@@ -29,4 +29,4 @@ var SortByDigits = function (array)
     return array;
 };
 
-module.exports = SortByDigits;
+module.exports = phaserFunMark(SortByDigits);

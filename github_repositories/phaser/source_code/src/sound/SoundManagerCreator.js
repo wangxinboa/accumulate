@@ -21,7 +21,7 @@ var WebAudioSoundManager = require('./webaudio/WebAudioSoundManager');
  *
  * @return {(Phaser.Sound.HTML5AudioSoundManager|Phaser.Sound.WebAudioSoundManager|Phaser.Sound.NoAudioSoundManager)} The Sound Manager instance that was created.
  */
-var SoundManagerCreator = {
+var SoundManagerCreator = phaserObjectFunMark({
 
     create: function (game)
     {
@@ -41,6 +41,6 @@ var SoundManagerCreator = {
         return new HTML5AudioSoundManager(game);
     }
 
-};
+}, 'src/sound/SoundManagerCreator.js');
 
 module.exports = SoundManagerCreator;

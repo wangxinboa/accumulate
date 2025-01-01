@@ -77,4 +77,4 @@ var StarCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = StarCanvasRenderer;
+module.exports = phaserFunMark(StarCanvasRenderer);

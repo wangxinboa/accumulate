@@ -25,4 +25,4 @@ var ImageCanvasRenderer = function (renderer, src, camera, parentMatrix)
     renderer.batchSprite(src, src.frame, camera, parentMatrix);
 };
 
-module.exports = ImageCanvasRenderer;
+module.exports = phaserFunMark(ImageCanvasRenderer);

@@ -53,4 +53,4 @@ var GetAll = function (array, property, value, startIndex, endIndex)
     return output;
 };
 
-module.exports = GetAll;
+module.exports = phaserFunMark(GetAll);

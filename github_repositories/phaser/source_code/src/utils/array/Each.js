@@ -37,4 +37,4 @@ var Each = function (array, callback, context)
     return array;
 };
 
-module.exports = Each;
+module.exports = phaserFunMark(Each);

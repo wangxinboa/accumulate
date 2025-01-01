@@ -30,4 +30,4 @@ var Call = function (items, callback, context)
     return items;
 };
 
-module.exports = Call;
+module.exports = phaserFunMark(Call);

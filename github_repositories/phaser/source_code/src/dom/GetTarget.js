@@ -42,4 +42,4 @@ var GetTarget = function (element)
     return target;
 };
 
-module.exports = GetTarget;
+module.exports = phaserFunMark(GetTarget);

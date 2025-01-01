@@ -34,4 +34,4 @@ var SnapTo = function (value, gap, start, divide)
     return (divide) ? (start + value) / gap : start + value;
 };
 
-module.exports = SnapTo;
+module.exports = phaserFunMark(SnapTo);

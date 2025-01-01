@@ -28,4 +28,4 @@ var VideoWebGLRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = VideoWebGLRenderer;
+module.exports = phaserFunMark(VideoWebGLRenderer);

@@ -24,4 +24,4 @@ var IntegerToColor = function (input)
     return new Color(rgb.r, rgb.g, rgb.b, rgb.a);
 };
 
-module.exports = IntegerToColor;
+module.exports = phaserFunMark(IntegerToColor);

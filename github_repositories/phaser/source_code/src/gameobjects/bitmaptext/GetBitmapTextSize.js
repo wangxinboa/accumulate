@@ -432,4 +432,4 @@ var GetBitmapTextSize = function (src, round, updateOrigin, out)
     return out;
 };
 
-module.exports = GetBitmapTextSize;
+module.exports = phaserFunMark(GetBitmapTextSize);

@@ -44,4 +44,4 @@ var AlignTo = function (items, position, offsetX, offsetY)
     return items;
 };
 
-module.exports = AlignTo;
+module.exports = phaserFunMark(AlignTo);

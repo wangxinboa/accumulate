@@ -307,4 +307,4 @@ var PVRParser = function (data)
     };
 };
 
-module.exports = PVRParser;
+module.exports = phaserFunMark(PVRParser);

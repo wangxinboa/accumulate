@@ -92,7 +92,8 @@ var RequestAnimationFrame = new Class({
 
             if (_this.isRunning)
             {
-                _this.timeOutID = window.requestAnimationFrame(step);
+                console.info('%cRequestAnimationFrame 为了方便阅读打印信息, 将代码注释了', 'font-size: 18px; color: #ffffff; background-color: #000000;');
+                //_this.timeOutID = window.requestAnimationFrame(step);
             }
         };
 

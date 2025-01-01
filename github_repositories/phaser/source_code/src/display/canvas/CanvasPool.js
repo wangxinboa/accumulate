@@ -40,7 +40,7 @@ var CanvasPool = function ()
      *
      * @return {HTMLCanvasElement} The canvas element that was created or pulled from the pool
      */
-    var create = function (parent, width, height, canvasType, selfParent)
+    var create = phaserFunMark(function (parent, width, height, canvasType, selfParent)
     {
         if (width === undefined) { width = 1; }
         if (height === undefined) { height = 1; }
@@ -86,7 +86,7 @@ var CanvasPool = function ()
         }
 
         return canvas;
-    };
+    }, 'CanvasPool.create');
 
     /**
      * Creates a new Canvas DOM element, or pulls one from the pool if free.
@@ -100,10 +100,10 @@ var CanvasPool = function ()
      *
      * @return {HTMLCanvasElement} The created canvas.
      */
-    var create2D = function (parent, width, height)
+    var create2D = phaserFunMark(function (parent, width, height)
     {
         return create(parent, width, height, CONST.CANVAS);
-    };
+    }, 'CanvasPool.create2D');
 
     /**
      * Creates a new Canvas DOM element, or pulls one from the pool if free.
@@ -117,10 +117,10 @@ var CanvasPool = function ()
      *
      * @return {HTMLCanvasElement} The created WebGL canvas.
      */
-    var createWebGL = function (parent, width, height)
+    var createWebGL = phaserFunMark(function (parent, width, height)
     {
         return create(parent, width, height, CONST.WEBGL);
-    };
+    }, 'CanvasPool.createWebGL');
 
     /**
      * Gets the first free canvas index from the pool.
@@ -132,7 +132,7 @@ var CanvasPool = function ()
      *
      * @return {HTMLCanvasElement} The first free canvas, or `null` if a WebGL canvas was requested or if the pool doesn't have free canvases.
      */
-    var first = function (canvasType)
+    var first = phaserFunMark(function (canvasType)
     {
         if (canvasType === undefined) { canvasType = CONST.CANVAS; }
 
@@ -152,7 +152,7 @@ var CanvasPool = function ()
         }
 
         return null;
-    };
+    }, 'CanvasPool.first');
 
     /**
      * Looks up a canvas based on its parent, and if found puts it back in the pool, freeing it up for re-use.
@@ -163,7 +163,7 @@ var CanvasPool = function ()
      *
      * @param {*} parent - The canvas or the parent of the canvas to free.
      */
-    var remove = function (parent)
+    var remove = phaserFunMark(function (parent)
     {
         //  Check to see if the parent is a canvas object
         var isCanvas = parent instanceof HTMLCanvasElement;
@@ -177,7 +177,7 @@ var CanvasPool = function ()
                 container.canvas.height = 1;
             }
         });
-    };
+    }, 'CanvasPool.remove');
 
     /**
      * Gets the total number of used canvas elements in the pool.
@@ -187,7 +187,7 @@ var CanvasPool = function ()
      *
      * @return {number} The number of used canvases.
      */
-    var total = function ()
+    var total = phaserFunMark(function ()
     {
         var c = 0;
 
@@ -200,7 +200,7 @@ var CanvasPool = function ()
         });
 
         return c;
-    };
+    }, 'CanvasPool.total');
 
     /**
      * Gets the total number of free canvas elements in the pool.
@@ -210,10 +210,10 @@ var CanvasPool = function ()
      *
      * @return {number} The number of free canvases.
      */
-    var free = function ()
+    var free = phaserFunMark(function ()
     {
         return pool.length - total();
-    };
+    }, 'CanvasPool.free');
 
     /**
      * Disable context smoothing on any new Canvas element created.
@@ -221,10 +221,10 @@ var CanvasPool = function ()
      * @function Phaser.Display.Canvas.CanvasPool.disableSmoothing
      * @since 3.0.0
      */
-    var disableSmoothing = function ()
+    var disableSmoothing = phaserFunMark(function ()
     {
         _disableContextSmoothing = true;
-    };
+    }, 'CanvasPool.disableSmoothing');
 
     /**
      * Enable context smoothing on any new Canvas element created.
@@ -232,10 +232,10 @@ var CanvasPool = function ()
      * @function Phaser.Display.Canvas.CanvasPool.enableSmoothing
      * @since 3.0.0
      */
-    var enableSmoothing = function ()
+    var enableSmoothing = phaserFunMark(function ()
     {
         _disableContextSmoothing = false;
-    };
+    }, 'CanvasPool.enableSmoothing');
 
     return {
         create2D: create2D,
@@ -252,4 +252,4 @@ var CanvasPool = function ()
 };
 
 //  If we export the called function here, it'll only be invoked once (not every time it's required).
-module.exports = CanvasPool();
+module.exports = phaserFunMark(CanvasPool)();

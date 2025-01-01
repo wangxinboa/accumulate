@@ -117,4 +117,4 @@ var JSONArray = function (texture, sourceIndex, json)
     return texture;
 };
 
-module.exports = JSONArray;
+module.exports = phaserFunMark(JSONArray);

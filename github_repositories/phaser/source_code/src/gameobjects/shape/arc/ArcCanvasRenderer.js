@@ -68,4 +68,4 @@ var ArcCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = ArcCanvasRenderer;
+module.exports = phaserFunMark(ArcCanvasRenderer);

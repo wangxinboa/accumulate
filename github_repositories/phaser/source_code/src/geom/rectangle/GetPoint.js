@@ -72,4 +72,4 @@ var GetPoint = function (rectangle, position, out)
     return out;
 };
 
-module.exports = GetPoint;
+module.exports = phaserFunMark(GetPoint);

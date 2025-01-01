@@ -53,4 +53,4 @@ var GetPhysicsPlugins = function (sys)
     return output;
 };
 
-module.exports = GetPhysicsPlugins;
+module.exports = phaserFunMark(GetPhysicsPlugins);

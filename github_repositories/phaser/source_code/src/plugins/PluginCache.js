@@ -200,4 +200,4 @@ PluginCache.destroyCustomPlugins = function ()
     }
 };
 
-module.exports = PluginCache;
+module.exports = phaserObjectFunMark(PluginCache, 'src/plugins/PluginCache.js');

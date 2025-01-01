@@ -240,6 +240,7 @@ function Class (definition)
     //  Now we grab the actual definition which defines the overrides.
     extend(initialize, definition, true, Extends);
 
+	return phaserClassMark(initialize);
     return initialize;
 }
 

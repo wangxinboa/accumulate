@@ -182,4 +182,4 @@ var SpriteSheetFromAtlas = function (texture, frame, config)
     return texture;
 };
 
-module.exports = SpriteSheetFromAtlas;
+module.exports = phaserFunMark(SpriteSheetFromAtlas);

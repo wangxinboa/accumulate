@@ -10,7 +10,7 @@
  * @namespace Phaser.Renderer.WebGL.Utils
  * @since 3.0.0
  */
-module.exports = {
+module.exports = phaserObjectFunMark({
 
     /**
      * Packs four floats on a range from 0.0 to 1.0 into a single Uint32
@@ -203,4 +203,4 @@ module.exports = {
         return shader;
     }
 
-};
+}, 'src/renderer/webgl/Utils.js');

@@ -1,3 +1,4 @@
+MarkLogs.mark('phaser 初始化');
 /**
  * @author       Richard Davey <rich@phaser.io>
  * @copyright    2013-2024 Phaser Studio Inc.
@@ -53,3 +54,5 @@ export const LEFT = CONST.LEFT;
 export const RIGHT = CONST.RIGHT;
 export const UP = CONST.UP;
 export const DOWN = CONST.DOWN;
+
+MarkLogs.markEnd();

@@ -146,4 +146,4 @@ function init ()
     return Video;
 }
 
-module.exports = init();
+module.exports = phaserFunMark(init, 'Video init')();

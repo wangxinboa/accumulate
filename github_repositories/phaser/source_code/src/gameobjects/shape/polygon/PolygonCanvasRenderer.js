@@ -80,4 +80,4 @@ var PolygonCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = PolygonCanvasRenderer;
+module.exports = phaserFunMark(PolygonCanvasRenderer);

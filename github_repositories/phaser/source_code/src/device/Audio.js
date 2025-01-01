@@ -117,4 +117,4 @@ function init ()
     return Audio;
 }
 
-module.exports = init();
+module.exports = phaserFunMark(init, 'Audio init')();

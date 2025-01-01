@@ -26,4 +26,4 @@ var Canvas = function (texture, sourceIndex)
     return texture;
 };
 
-module.exports = Canvas;
+module.exports = phaserFunMark(Canvas);

@@ -13,7 +13,7 @@ var InjectionMap = require('./InjectionMap');
  * @namespace Phaser.Scenes.Settings
  */
 
-var Settings = {
+var Settings = phaserObjectFunMark({
 
     /**
      * Takes a Scene configuration object and returns a fully formed System Settings object.
@@ -85,6 +85,6 @@ var Settings = {
         };
     }
 
-};
+}, 'src/scene/Settings.js');
 
 module.exports = Settings;

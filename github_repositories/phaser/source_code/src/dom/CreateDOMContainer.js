@@ -35,4 +35,4 @@ var CreateDOMContainer = function (game)
     AddToDOM(div, config.parent);
 };
 
-module.exports = CreateDOMContainer;
+module.exports = phaserFunMark(CreateDOMContainer);

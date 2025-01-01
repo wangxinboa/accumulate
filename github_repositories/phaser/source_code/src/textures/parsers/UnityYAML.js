@@ -34,6 +34,7 @@ var addFrame = function (texture, sourceIndex, name, frame)
     }
     */
 };
+phaserFunMark(addFrame);
 
 /**
  * Parses a Unity YAML File and creates Frames in the Texture.
@@ -129,7 +130,7 @@ var UnityYAML = function (texture, sourceIndex, yaml)
     return texture;
 };
 
-module.exports = UnityYAML;
+module.exports = phaserFunMark(UnityYAML);
 
 /*
 Example data:

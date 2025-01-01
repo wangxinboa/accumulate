@@ -66,4 +66,4 @@ var Base64ToArrayBuffer = function (base64)
     return arrayBuffer;
 };
 
-module.exports = Base64ToArrayBuffer;
+module.exports = phaserFunMark(Base64ToArrayBuffer);

@@ -71,4 +71,4 @@ function init ()
     return Input;
 }
 
-module.exports = init();
+module.exports = phaserFunMark(init, 'Input init')();

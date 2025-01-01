@@ -93,4 +93,4 @@ var IsoBoxCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = IsoBoxCanvasRenderer;
+module.exports = phaserFunMark(IsoBoxCanvasRenderer);

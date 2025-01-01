@@ -39,4 +39,4 @@ var SafeRange = function (array, startIndex, endIndex, throwError)
     }
 };
 
-module.exports = SafeRange;
+module.exports = phaserFunMark(SafeRange);

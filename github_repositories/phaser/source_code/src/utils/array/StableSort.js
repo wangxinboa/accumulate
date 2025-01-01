@@ -180,4 +180,4 @@ var StableSort = function (array, compare)
     return array;
 };
 
-module.exports = StableSort;
+module.exports = phaserFunMark(StableSort);

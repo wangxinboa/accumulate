@@ -192,4 +192,4 @@ var GridWebGLRenderer = function (renderer, src, camera, parentMatrix)
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = GridWebGLRenderer;
+module.exports = phaserFunMark(GridWebGLRenderer);

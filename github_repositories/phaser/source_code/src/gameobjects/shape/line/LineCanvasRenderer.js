@@ -49,4 +49,4 @@ var LineCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = LineCanvasRenderer;
+module.exports = phaserFunMark(LineCanvasRenderer);

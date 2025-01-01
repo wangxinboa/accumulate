@@ -38,4 +38,4 @@ var GetScenePlugins = function (sys)
     }
 };
 
-module.exports = GetScenePlugins;
+module.exports = phaserFunMark(GetScenePlugins);

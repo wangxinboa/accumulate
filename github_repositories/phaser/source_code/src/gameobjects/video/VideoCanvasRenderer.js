@@ -28,4 +28,4 @@ var VideoCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = VideoCanvasRenderer;
+module.exports = phaserFunMark(VideoCanvasRenderer);
