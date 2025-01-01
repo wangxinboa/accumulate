@@ -1,5 +1,4 @@
-//import MarkClass from './class/mark_class.js';
-import MarkFunction from './mark_function.js';
+import MarkFunction from '../../../tools/code_analysis/javascript/code_mark/mark_function.js';
 import { isFunction } from '../../../javascript_utils/data_type/is_type.js';
 import { phaserClassAlias } from './phaser_cache.js';
 

@@ -1,4 +1,4 @@
-import MarkLogs from "./mark_logs.js";
+import MarkLogs from './mark_logs.js';
 
 export const AllMarkFunction = {};
 

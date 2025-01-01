@@ -1,5 +1,3 @@
-
-
 const isConsole = true;
 
 class MarkNode {

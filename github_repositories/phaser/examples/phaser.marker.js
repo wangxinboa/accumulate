@@ -4,8 +4,8 @@ import {
 	phaserObjectFunMark,
 } from '../phaser_mark/phaser_mark.js';
 import { phaserClassCache } from '../phaser_mark/phaser_cache.js';
-import { AllMarkFunction } from '../phaser_mark/mark_function.js';
-import MarkLogs from '../phaser_mark/mark_logs.js';
+import { AllMarkFunction } from '../../../tools/code_analysis/javascript/code_mark/mark_function.js';
+import MarkLogs from '../../../tools/code_analysis/javascript/code_mark/mark_logs.js';
 
 
 globalThis.phaserClassMark = phaserClassMark;
