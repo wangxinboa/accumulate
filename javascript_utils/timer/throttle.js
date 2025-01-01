@@ -7,12 +7,12 @@ import getNow from './now.js';
  *
  * @return {function}             返回客户调用函数   
  */
- export default function throttle(func, wait) {
+export default function throttle(func, wait) {
 	let context, args, result,
-			now,
-			previous = null;
+		now,
+		previous = null;
 
-	function run(){
+	function run() {
 		result = func.apply(context, args);
 		context = args = null;
 		previous = now;
@@ -24,10 +24,10 @@ import getNow from './now.js';
 
 		context = this;
 		args = arguments;
-		if ( previous === null ) {//previous 还未初始化
+		if (previous === null) {//previous 还未初始化
 			run();
-		}else{
-			if( now - previous > wait ){
+		} else {
+			if (now - previous > wait) {
 				run();
 			}
 		}

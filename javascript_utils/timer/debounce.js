@@ -2,14 +2,14 @@ import getNow from './now.js';
 /**
  * underscore 防抖函数，返回函数连续调用时，空闲时间必须大于或等于 wait，func 才会执行
  *
- * @param  {function} func        回调函数
- * @param  {number}   wait        表示时间窗口的间隔
- * @return {function}             返回客户调用函数
+ * @param  {function}   func        回调函数
+ * @param  {number}     wait        表示时间窗口的间隔
+ * @return {function}               返回客户调用函数
  */
 export default function debounce(func, wait) {
 	let timeout, args, context, timestamp, result;
- 
- 	function run() {
+
+	function run() {
 		// 现在和上一次时间戳比较
 		let gap = getNow() - timestamp;
 		// 如果当前间隔时间少于设定时间且大于0就重新设置定时器
@@ -21,7 +21,7 @@ export default function debounce(func, wait) {
 			timeout = context = args = null;
 		}
 	};
- 
+
 	function debounce() {
 		context = this;
 		args = arguments;
