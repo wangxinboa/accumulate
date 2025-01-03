@@ -82,4 +82,4 @@ var VisibilityHandler = function (game)
     }
 };
 
-module.exports = phaserFunMark(VisibilityHandler);
+module.exports = phaserFunctionMark(VisibilityHandler);

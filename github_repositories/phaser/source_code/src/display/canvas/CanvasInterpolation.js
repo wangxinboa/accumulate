@@ -54,4 +54,4 @@ var CanvasInterpolation = {
 
 };
 
-module.exports = phaserObjectFunMark(CanvasInterpolation, 'src/display/canvas/CanvasInterpolation.js');
+module.exports = phaserObjectMark(CanvasInterpolation, 'src/display/canvas/CanvasInterpolation.js');

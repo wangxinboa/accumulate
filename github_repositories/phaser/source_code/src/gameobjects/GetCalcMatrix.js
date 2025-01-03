@@ -62,4 +62,4 @@ var GetCalcMatrix = function (src, camera, parentMatrix)
     return result;
 };
 
-module.exports = phaserFunMark(GetCalcMatrix);
+module.exports = phaserFunctionMark(GetCalcMatrix);

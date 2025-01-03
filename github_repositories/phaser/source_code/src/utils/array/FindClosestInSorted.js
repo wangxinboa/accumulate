@@ -75,4 +75,4 @@ var FindClosestInSorted = function (value, array, key)
     }
 };
 
-module.exports = phaserFunMark(FindClosestInSorted);
+module.exports = phaserFunctionMark(FindClosestInSorted);

@@ -56,4 +56,4 @@ var GetScreenOrientation = function (width, height)
     }
 };
 
-module.exports = phaserFunMark(GetScreenOrientation);
+module.exports = phaserFunctionMark(GetScreenOrientation);

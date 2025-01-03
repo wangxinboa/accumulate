@@ -62,4 +62,4 @@ var TextWebGLRenderer = function (renderer, src, camera, parentMatrix)
     );
 };
 
-module.exports = phaserFunMark(TextWebGLRenderer);
+module.exports = phaserFunctionMark(TextWebGLRenderer);

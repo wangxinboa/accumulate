@@ -110,4 +110,4 @@ var GridAlign = function (items, options)
     return items;
 };
 
-module.exports = phaserFunMark(GridAlign);
+module.exports = phaserFunctionMark(GridAlign);

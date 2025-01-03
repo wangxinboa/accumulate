@@ -27,7 +27,7 @@
 			point;
 			graphics;
 
-			create = phaserFunMark(function () {
+			create = phaserFunctionMark(function () {
 				this.graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x2266aa } });
 
 				this.point = new Phaser.Math.Vector2(250, 0);
@@ -43,7 +43,7 @@
 				});
 			}, 'Example create');
 
-			update = phaserFunMark(function () {
+			update = phaserFunctionMark(function () {
 				this.graphics.clear();
 
 				this.angle += 0.005;

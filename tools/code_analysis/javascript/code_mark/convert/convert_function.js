@@ -1,5 +1,6 @@
-import MarkFunction from "../mark_function.js";
+import proxyFunction from "../proxy_function.js";
 
 export default function convertFunction(originalFunction, functionName) {
-	return new MarkFunction(originalFunction, functionName).getMarkedFunction();
+
+	return proxyFunction(originalFunction, functionName);
 }

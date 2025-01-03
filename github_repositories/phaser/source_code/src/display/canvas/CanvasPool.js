@@ -40,7 +40,7 @@ var CanvasPool = function ()
      *
      * @return {HTMLCanvasElement} The canvas element that was created or pulled from the pool
      */
-    var create = phaserFunMark(function (parent, width, height, canvasType, selfParent)
+    var create = phaserFunctionMark(function (parent, width, height, canvasType, selfParent)
     {
         if (width === undefined) { width = 1; }
         if (height === undefined) { height = 1; }
@@ -100,7 +100,7 @@ var CanvasPool = function ()
      *
      * @return {HTMLCanvasElement} The created canvas.
      */
-    var create2D = phaserFunMark(function (parent, width, height)
+    var create2D = phaserFunctionMark(function (parent, width, height)
     {
         return create(parent, width, height, CONST.CANVAS);
     }, 'CanvasPool.create2D');
@@ -117,7 +117,7 @@ var CanvasPool = function ()
      *
      * @return {HTMLCanvasElement} The created WebGL canvas.
      */
-    var createWebGL = phaserFunMark(function (parent, width, height)
+    var createWebGL = phaserFunctionMark(function (parent, width, height)
     {
         return create(parent, width, height, CONST.WEBGL);
     }, 'CanvasPool.createWebGL');
@@ -132,7 +132,7 @@ var CanvasPool = function ()
      *
      * @return {HTMLCanvasElement} The first free canvas, or `null` if a WebGL canvas was requested or if the pool doesn't have free canvases.
      */
-    var first = phaserFunMark(function (canvasType)
+    var first = phaserFunctionMark(function (canvasType)
     {
         if (canvasType === undefined) { canvasType = CONST.CANVAS; }
 
@@ -163,7 +163,7 @@ var CanvasPool = function ()
      *
      * @param {*} parent - The canvas or the parent of the canvas to free.
      */
-    var remove = phaserFunMark(function (parent)
+    var remove = phaserFunctionMark(function (parent)
     {
         //  Check to see if the parent is a canvas object
         var isCanvas = parent instanceof HTMLCanvasElement;
@@ -187,7 +187,7 @@ var CanvasPool = function ()
      *
      * @return {number} The number of used canvases.
      */
-    var total = phaserFunMark(function ()
+    var total = phaserFunctionMark(function ()
     {
         var c = 0;
 
@@ -210,7 +210,7 @@ var CanvasPool = function ()
      *
      * @return {number} The number of free canvases.
      */
-    var free = phaserFunMark(function ()
+    var free = phaserFunctionMark(function ()
     {
         return pool.length - total();
     }, 'CanvasPool.free');
@@ -221,7 +221,7 @@ var CanvasPool = function ()
      * @function Phaser.Display.Canvas.CanvasPool.disableSmoothing
      * @since 3.0.0
      */
-    var disableSmoothing = phaserFunMark(function ()
+    var disableSmoothing = phaserFunctionMark(function ()
     {
         _disableContextSmoothing = true;
     }, 'CanvasPool.disableSmoothing');
@@ -232,7 +232,7 @@ var CanvasPool = function ()
      * @function Phaser.Display.Canvas.CanvasPool.enableSmoothing
      * @since 3.0.0
      */
-    var enableSmoothing = phaserFunMark(function ()
+    var enableSmoothing = phaserFunctionMark(function ()
     {
         _disableContextSmoothing = false;
     }, 'CanvasPool.enableSmoothing');
@@ -252,4 +252,4 @@ var CanvasPool = function ()
 };
 
 //  If we export the called function here, it'll only be invoked once (not every time it's required).
-module.exports = phaserFunMark(CanvasPool)();
+module.exports = phaserFunctionMark(CanvasPool)();

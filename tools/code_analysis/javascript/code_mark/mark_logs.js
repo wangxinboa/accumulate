@@ -1,21 +1,20 @@
 const isConsole = true;
 
 class MarkNode {
-	constructor(key, parent, message = null) {
+	constructor(key, parent) {
 
 		this.key = key;
 		this.parent = parent;
 		this.children = [];
-		this.message = message;
 	}
 
-	addChildren(key, message) {
-		const newMarkNode = new MarkNode(key, this, message);
+	addChildren(key) {
+		const newMarkNode = new MarkNode(key, this);
 		this.children.push(newMarkNode);
 		return newMarkNode;
 	}
 	isEmpty() {
-		return this.message === null;
+		return this.key === null;
 	}
 
 	toJSON() {
@@ -32,25 +31,25 @@ let nowMarkNode = rootMarkNode;
 
 const MarkLogs = {
 	rootMarkNode,
-	mark(key, message) {
+	mark(title, key = null, message) {
 		if (isConsole) {
-			globalThis.console.group(`${key}${message === null ? '-(空节点)' : ''}`);
+			globalThis.console.group(`${title}${key === null ? '-(空节点)' : ''}`);
 			if (message) {
-				globalThis.console.groupCollapsed(`${key} 执行信息`);
+				globalThis.console.groupCollapsed(`${title} 执行信息`);
 				message.markConsole();
 				globalThis.console.trace();
 				globalThis.console.groupEnd();
 			}
 		}
-		const previousMarkNode = nowMarkNode;
-		let previousMarkNodeHasMessage = previousMarkNode;
-		while (previousMarkNodeHasMessage.isEmpty() && previousMarkNodeHasMessage.parent) {
-			previousMarkNodeHasMessage = previousMarkNodeHasMessage.parent;
+		const prentMarkNode = nowMarkNode;
+		let prentNotEmptyMarkNode = prentMarkNode;
+		while (prentNotEmptyMarkNode.isEmpty() && prentNotEmptyMarkNode.parent) {
+			prentNotEmptyMarkNode = prentNotEmptyMarkNode.parent;
 		}
-		nowMarkNode = nowMarkNode.addChildren(key, message);
+		nowMarkNode = nowMarkNode.addChildren(key);
 		return {
-			previousMarkNode,
-			previousMarkNodeHasMessage,
+			prentMarkNode,
+			prentNotEmptyMarkNode,
 			nowMarkNode,
 		};
 	},

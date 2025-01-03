@@ -26,4 +26,4 @@ var Image = function (texture, sourceIndex)
     return texture;
 };
 
-module.exports = phaserFunMark(Image);
+module.exports = phaserFunctionMark(Image, 'src/textures/parsers/Image.js');

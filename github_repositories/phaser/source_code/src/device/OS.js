@@ -183,4 +183,4 @@ function init ()
     return OS;
 }
 
-module.exports = phaserFunMark(init, 'OS init')();
+module.exports = phaserFunctionMark(init, 'OS init')();

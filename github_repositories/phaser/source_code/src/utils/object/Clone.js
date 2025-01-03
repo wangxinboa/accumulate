@@ -33,4 +33,4 @@ var Clone = function (obj)
     return clone;
 };
 
-module.exports = phaserFunMark(Clone);
+module.exports = phaserFunctionMark(Clone);

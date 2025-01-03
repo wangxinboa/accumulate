@@ -102,4 +102,4 @@ var WebGLSnapshot = function (sourceContext, config)
     }
 };
 
-module.exports = phaserFunMark(WebGLSnapshot);
+module.exports = phaserFunctionMark(WebGLSnapshot);

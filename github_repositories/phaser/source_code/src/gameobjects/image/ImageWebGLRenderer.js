@@ -25,4 +25,4 @@ var ImageWebGLRenderer = function (renderer, src, camera, parentMatrix)
     this.pipeline.batchSprite(src, camera, parentMatrix);
 };
 
-module.exports = phaserFunMark(ImageWebGLRenderer);
+module.exports = phaserFunctionMark(ImageWebGLRenderer);

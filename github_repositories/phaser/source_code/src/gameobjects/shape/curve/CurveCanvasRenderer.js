@@ -80,4 +80,4 @@ var CurveCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = phaserFunMark(CurveCanvasRenderer);
+module.exports = phaserFunctionMark(CurveCanvasRenderer);

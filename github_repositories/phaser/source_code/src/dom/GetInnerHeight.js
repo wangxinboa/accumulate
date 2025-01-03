@@ -50,4 +50,4 @@ var GetInnerHeight = function (iOS)
     }
 };
 
-module.exports = phaserFunMark(GetInnerHeight);
+module.exports = phaserFunctionMark(GetInnerHeight);

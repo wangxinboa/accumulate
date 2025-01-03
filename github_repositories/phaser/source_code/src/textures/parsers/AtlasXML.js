@@ -72,4 +72,4 @@ var AtlasXML = function (texture, sourceIndex, xml)
     return texture;
 };
 
-module.exports = phaserFunMark(AtlasXML);
+module.exports = phaserFunctionMark(AtlasXML);

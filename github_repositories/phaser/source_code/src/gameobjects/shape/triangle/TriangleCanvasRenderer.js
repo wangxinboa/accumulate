@@ -67,4 +67,4 @@ var TriangleCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = phaserFunMark(TriangleCanvasRenderer);
+module.exports = phaserFunctionMark(TriangleCanvasRenderer);

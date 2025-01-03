@@ -205,4 +205,4 @@ var DynamicBitmapTextCanvasRenderer = function (renderer, src, camera, parentMat
     ctx.restore();
 };
 
-module.exports = phaserFunMark(DynamicBitmapTextCanvasRenderer);
+module.exports = phaserFunctionMark(DynamicBitmapTextCanvasRenderer);

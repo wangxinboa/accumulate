@@ -52,4 +52,4 @@ var StarWebGLRenderer = function (renderer, src, camera, parentMatrix)
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = phaserFunMark(StarWebGLRenderer);
+module.exports = phaserFunctionMark(StarWebGLRenderer);

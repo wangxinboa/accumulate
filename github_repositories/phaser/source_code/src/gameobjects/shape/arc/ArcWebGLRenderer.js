@@ -52,4 +52,4 @@ var ArcWebGLRenderer = function (renderer, src, camera, parentMatrix)
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = phaserFunMark(ArcWebGLRenderer);
+module.exports = phaserFunctionMark(ArcWebGLRenderer);

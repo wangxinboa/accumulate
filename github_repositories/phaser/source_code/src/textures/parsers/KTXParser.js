@@ -93,4 +93,4 @@ var KTXParser = function (data)
     };
 };
 
-module.exports = phaserFunMark(KTXParser);
+module.exports = phaserFunctionMark(KTXParser);

@@ -84,4 +84,4 @@ var NumberArray = function (start, end, prefix, suffix)
     return result;
 };
 
-module.exports = phaserFunMark(NumberArray);
+module.exports = phaserFunctionMark(NumberArray);

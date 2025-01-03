@@ -77,4 +77,4 @@ var EllipseCanvasRenderer = function (renderer, src, camera, parentMatrix)
     }
 };
 
-module.exports = phaserFunMark(EllipseCanvasRenderer);
+module.exports = phaserFunctionMark(EllipseCanvasRenderer);

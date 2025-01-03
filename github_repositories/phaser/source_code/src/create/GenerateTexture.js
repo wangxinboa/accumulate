@@ -113,4 +113,4 @@ var GenerateTexture = function (config)
     return canvas;
 };
 
-module.exports = phaserFunMark(GenerateTexture);
+module.exports = phaserFunctionMark(GenerateTexture);

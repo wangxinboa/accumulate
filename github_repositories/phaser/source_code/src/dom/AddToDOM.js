@@ -49,4 +49,4 @@ var AddToDOM = function (element, parent)
     return element;
 };
 
-module.exports = phaserFunMark(AddToDOM);
+module.exports = phaserFunctionMark(AddToDOM);

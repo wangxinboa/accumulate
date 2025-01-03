@@ -60,4 +60,4 @@ var FileTypesManager = {
 
 };
 
-module.exports = phaserObjectFunMark(FileTypesManager, 'src/loader/FileTypesManager.js');
+module.exports = phaserObjectMark(FileTypesManager, 'src/loader/FileTypesManager.js');

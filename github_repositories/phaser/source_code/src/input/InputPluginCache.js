@@ -99,4 +99,4 @@ InputPluginCache.remove = function (key)
     }
 };
 
-module.exports = phaserObjectFunMark(InputPluginCache, 'src/input/InputPluginCache.js');
+module.exports = phaserObjectMark(InputPluginCache, 'src/input/InputPluginCache.js');

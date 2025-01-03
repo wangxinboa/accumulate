@@ -80,4 +80,4 @@ var Remove = function (array, item, callback, context)
     return removed;
 };
 
-module.exports = phaserFunMark(Remove);
+module.exports = phaserFunctionMark(Remove);

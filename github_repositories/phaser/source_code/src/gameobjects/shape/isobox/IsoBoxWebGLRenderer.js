@@ -127,4 +127,4 @@ var IsoBoxWebGLRenderer = function (renderer, src, camera, parentMatrix)
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = phaserFunMark(IsoBoxWebGLRenderer);
+module.exports = phaserFunctionMark(IsoBoxWebGLRenderer);

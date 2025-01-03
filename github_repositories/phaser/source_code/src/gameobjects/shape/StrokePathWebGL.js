@@ -64,4 +64,4 @@ var StrokePathWebGL = function (pipeline, src, alpha, dx, dy)
     }
 };
 
-module.exports = phaserFunMark(StrokePathWebGL);
+module.exports = phaserFunctionMark(StrokePathWebGL);

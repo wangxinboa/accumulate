@@ -30,4 +30,4 @@ var TextCanvasRenderer = function (renderer, src, camera, parentMatrix)
     renderer.batchSprite(src, src.frame, camera, parentMatrix);
 };
 
-module.exports = phaserFunMark(TextCanvasRenderer);
+module.exports = phaserFunctionMark(TextCanvasRenderer);

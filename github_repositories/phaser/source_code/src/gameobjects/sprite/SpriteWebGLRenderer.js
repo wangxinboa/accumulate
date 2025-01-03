@@ -25,4 +25,4 @@ var SpriteWebGLRenderer = function (renderer, src, camera, parentMatrix)
     src.pipeline.batchSprite(src, camera, parentMatrix);
 };
 
-module.exports = phaserFunMark(SpriteWebGLRenderer);
+module.exports = phaserFunctionMark(SpriteWebGLRenderer);

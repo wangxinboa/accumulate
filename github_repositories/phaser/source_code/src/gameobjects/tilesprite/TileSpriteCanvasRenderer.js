@@ -27,4 +27,4 @@ var TileSpriteCanvasRenderer = function (renderer, src, camera, parentMatrix)
     renderer.batchSprite(src, src.frame, camera, parentMatrix);
 };
 
-module.exports = phaserFunMark(TileSpriteCanvasRenderer);
+module.exports = phaserFunctionMark(TileSpriteCanvasRenderer);

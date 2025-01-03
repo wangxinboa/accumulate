@@ -64,4 +64,4 @@ var RectangleWebGLRenderer = function (renderer, src, camera, parentMatrix)
     renderer.pipelines.postBatch(src);
 };
 
-module.exports = phaserFunMark(RectangleWebGLRenderer);
+module.exports = phaserFunctionMark(RectangleWebGLRenderer);

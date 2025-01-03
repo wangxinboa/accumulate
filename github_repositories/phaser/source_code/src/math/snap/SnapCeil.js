@@ -35,4 +35,4 @@ var SnapCeil = function (value, gap, start, divide)
     return (divide) ? (start + value) / gap : start + value;
 };
 
-module.exports = phaserFunMark(SnapCeil);
+module.exports = phaserFunctionMark(SnapCeil);

@@ -35,4 +35,4 @@ var SnapFloor = function (value, gap, start, divide)
     return (divide) ? (start + value) / gap : start + value;
 };
 
-module.exports = phaserFunMark(SnapFloor);
+module.exports = phaserFunctionMark(SnapFloor);

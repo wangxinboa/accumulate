@@ -92,4 +92,4 @@ var Extend = function ()
     return target;
 };
 
-module.exports = phaserFunMark(Extend);
+module.exports = phaserFunctionMark(Extend);

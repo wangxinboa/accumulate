@@ -357,12 +357,12 @@ var TextureManager = new Class({
 
             var image = new Image();
 
-            image.onerror = phaserFunMark(function ()
+            image.onerror = phaserFunctionMark(function ()
             {
                 _this.emit(Events.ERROR, key);
             }, `TextureManager addBase64 ${key} image.onerror`);
 
-            image.onload = phaserFunMark(function ()
+            image.onload = phaserFunctionMark(function ()
             {
                 var texture = _this.create(key, image);
 

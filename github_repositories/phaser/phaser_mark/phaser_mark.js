@@ -1,13 +1,17 @@
 import { isFunction } from '../../../javascript_utils/data_type/is_type.js';
-import { phaserClassCache, phaserClassAlias } from './phaser_cache.js';
 import convertClass from '../../../tools/code_analysis/javascript/code_mark/convert/convert_class.js';
 import convertFunction from '../../../tools/code_analysis/javascript/code_mark/convert/convert_function.js';
-import { AllMarkFunction } from '../../../tools/code_analysis/javascript/code_mark/mark_function.js';
+import { AllProxyFunctionMessage, AllProxyFunctionMap } from '../../../tools/code_analysis/javascript/code_mark/proxy_function.js';
 import MarkLogs from '../../../tools/code_analysis/javascript/code_mark/mark_logs.js';
 
-globalThis.phaserClassCache = phaserClassCache;
-globalThis.AllMarkFunction = AllMarkFunction;
+import { phaserClassCache, phaserClassAlias } from './phaser_cache.js';
+
+globalThis.AllProxyFunctionMap = AllProxyFunctionMap;
+globalThis.AllProxyFunctionMessage = AllProxyFunctionMessage;
 globalThis.MarkLogs = MarkLogs;
+
+
+globalThis.phaserClassCache = phaserClassCache;
 
 globalThis.phaserClassMark = function phaserClassMark(phaserClass, aliasName) {
 	let className = aliasName || phaserClass.name;
@@ -19,21 +23,21 @@ globalThis.phaserClassMark = function phaserClassMark(phaserClass, aliasName) {
 	return convertClass(phaserClass, className);
 }
 
-globalThis.phaserFunMark = function phaserFunMark(phaserFun, aliasName) {
-	const functionName = aliasName || phaserFun.name;
-	return convertFunction(phaserFun, functionName);
+globalThis.phaserFunctionMark = function phaserFunctionMark(phaserFunction, aliasName) {
+	const functionName = aliasName || phaserFunction.name;
+	return convertFunction(phaserFunction, functionName);
 }
 
-globalThis.phaserObjectFunMark = function phaserObjectFunMark(phaserObjectFun, objectName) {
-	const markedObjectFun = {};
-	for (let key in phaserObjectFun) {
-		const fun = phaserObjectFun[key];
+globalThis.phaserObjectMark = function phaserObjectMark(phaserObject, objectName) {
+	const markedObject = {};
+	for (let key in phaserObject) {
+		const fun = phaserObject[key];
 		if (isFunction(fun)) {
-			markedObjectFun[key] = phaserFunMark(fun, `${objectName}.${key}`);
+			markedObject[key] = phaserFunctionMark(fun, `${objectName}.${key}`);
 		} else {
-			// throw new Error(`phaserObjectFunMark phaserObjectFun 中的 ${key} 属性值不是 function`);
+			// throw new Error(`phaserObjectFunctionMark phaserObjectFuntion 中的 ${key} 属性值不是 function`);
 		}
 	}
 
-	return markedObjectFun;
+	return markedObject;
 }

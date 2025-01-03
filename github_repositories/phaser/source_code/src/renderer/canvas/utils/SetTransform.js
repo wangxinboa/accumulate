@@ -59,4 +59,4 @@ var SetTransform = function (renderer, ctx, src, camera, parentMatrix)
     return true;
 };
 
-module.exports = phaserFunMark(SetTransform);
+module.exports = phaserFunctionMark(SetTransform);

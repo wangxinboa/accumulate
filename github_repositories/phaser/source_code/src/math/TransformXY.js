@@ -46,4 +46,4 @@ var TransformXY = function (x, y, positionX, positionY, rotation, scaleX, scaleY
     return output;
 };
 
-module.exports = phaserFunMark(TransformXY);
+module.exports = phaserFunctionMark(TransformXY);

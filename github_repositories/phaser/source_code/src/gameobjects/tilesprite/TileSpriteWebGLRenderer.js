@@ -66,4 +66,4 @@ var TileSpriteWebGLRenderer = function (renderer, src, camera, parentMatrix)
     );
 };
 
-module.exports = phaserFunMark(TileSpriteWebGLRenderer);
+module.exports = phaserFunctionMark(TileSpriteWebGLRenderer);

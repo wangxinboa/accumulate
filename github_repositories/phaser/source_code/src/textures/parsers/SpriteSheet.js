@@ -122,4 +122,4 @@ var SpriteSheet = function (texture, sourceIndex, x, y, width, height, config)
     return texture;
 };
 
-module.exports = phaserFunMark(SpriteSheet);
+module.exports = phaserFunctionMark(SpriteSheet);

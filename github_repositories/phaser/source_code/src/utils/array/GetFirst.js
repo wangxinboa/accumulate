@@ -50,4 +50,4 @@ var GetFirst = function (array, property, value, startIndex, endIndex)
     return null;
 };
 
-module.exports = phaserFunMark(GetFirst, 'src/utils/array/GetFirst.js GetFirst');
+module.exports = phaserFunctionMark(GetFirst, 'src/utils/array/GetFirst.js GetFirst');

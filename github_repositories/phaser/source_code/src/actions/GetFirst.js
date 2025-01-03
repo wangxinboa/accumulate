@@ -49,4 +49,4 @@ var GetFirst = function (items, compare, index)
     return null;
 };
 
-module.exports = phaserFunMark(GetFirst, 'src/actions/GetFirst.js GetFirst');
+module.exports = phaserFunctionMark(GetFirst, 'src/actions/GetFirst.js GetFirst');

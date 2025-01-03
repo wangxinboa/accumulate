@@ -13,7 +13,7 @@ var InjectionMap = require('./InjectionMap');
  * @namespace Phaser.Scenes.Settings
  */
 
-var Settings = phaserObjectFunMark({
+var Settings = phaserObjectMark({
 
     /**
      * Takes a Scene configuration object and returns a fully formed System Settings object.
