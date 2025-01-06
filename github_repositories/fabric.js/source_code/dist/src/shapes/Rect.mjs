@@ -12,7 +12,7 @@ const rectDefaultValues = {
   ry: 0
 };
 const RECT_PROPS = ['rx', 'ry'];
-class Rect extends FabricObject {
+const Rect = fabricJsClassMark(class Rect extends FabricObject {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), Rect.ownDefaults);
   }
@@ -132,7 +132,7 @@ class Rect extends FabricObject {
   }
 
   /* _FROM_SVG_END_ */
-}
+})
 /**
  * Horizontal border radius
  * @type Number

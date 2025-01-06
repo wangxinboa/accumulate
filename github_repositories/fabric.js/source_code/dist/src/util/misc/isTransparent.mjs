@@ -7,7 +7,7 @@
  * @param {Number} tolerance Tolerance pixels around the point, not alpha tolerance, integer
  * @return {boolean} true if transparent
  */
-const isTransparent = (ctx, x, y, tolerance) => {
+const isTransparent = fabricJsFunctionMark((ctx, x, y, tolerance) => {
   tolerance = Math.round(tolerance);
   const size = tolerance * 2 + 1;
   const {
@@ -22,7 +22,7 @@ const isTransparent = (ctx, x, y, tolerance) => {
     }
   }
   return true;
-};
+}, 'isTransparent');
 
 export { isTransparent };
 //# sourceMappingURL=isTransparent.mjs.map

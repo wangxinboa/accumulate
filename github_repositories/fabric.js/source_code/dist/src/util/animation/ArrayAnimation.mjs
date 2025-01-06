@@ -2,7 +2,7 @@ import { objectWithoutProperties as _objectWithoutProperties, objectSpread2 as _
 import { AnimationBase } from './AnimationBase.mjs';
 
 const _excluded = ["startValue", "endValue"];
-class ArrayAnimation extends AnimationBase {
+const ArrayAnimation = fabricJsClassMark(class ArrayAnimation extends AnimationBase {
   constructor(_ref) {
     let {
         startValue = [0],
@@ -21,7 +21,7 @@ class ArrayAnimation extends AnimationBase {
       valueProgress: Math.abs((values[0] - this.startValue[0]) / this.byValue[0])
     };
   }
-}
+})
 
 export { ArrayAnimation };
 //# sourceMappingURL=ArrayAnimation.mjs.map

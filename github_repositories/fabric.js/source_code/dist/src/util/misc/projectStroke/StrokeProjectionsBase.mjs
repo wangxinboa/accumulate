@@ -7,7 +7,7 @@ import { createVector } from '../vectors.mjs';
  * @todo consider removing skewing from points before calculating stroke projection,
  * see https://github.com/fabricjs/fabric.js/commit/494a10ee2f8c2278ae9a55b20bf50cf6ee25b064#commitcomment-94751537
  */
-class StrokeProjectionsBase {
+const StrokeProjectionsBase = fabricJsClassMark(class StrokeProjectionsBase {
   constructor(options) {
     this.options = options;
     this.strokeProjectionMagnitude = this.options.strokeWidth / 2;
@@ -38,7 +38,7 @@ class StrokeProjectionsBase {
   scaleUnitVector(unitVector, scalar) {
     return unitVector.multiply(this.strokeUniformScalar).scalarMultiply(scalar);
   }
-}
+})
 
 export { StrokeProjectionsBase };
 //# sourceMappingURL=StrokeProjectionsBase.mjs.map

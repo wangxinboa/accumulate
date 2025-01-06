@@ -31,7 +31,7 @@ const reTransformAll = new RegExp(transform, 'g');
  * @param {String} attributeValue String containing attribute value
  * @return {TTransformMatrix} Array of 6 elements representing transformation matrix
  */
-function parseTransformAttribute(attributeValue) {
+const parseTransformAttribute = fabricJsFunctionMark(function parseTransformAttribute(attributeValue) {
   // first we clean the string
   attributeValue = cleanupSvgAttribute(attributeValue)
   // remove spaces around front parentheses
@@ -84,7 +84,7 @@ function parseTransformAttribute(attributeValue) {
     matrices.push(matrix);
   }
   return multiplyTransformMatrixArray(matrices);
-}
+})
 
 export { parseTransformAttribute };
 //# sourceMappingURL=parseTransformAttribute.mjs.map

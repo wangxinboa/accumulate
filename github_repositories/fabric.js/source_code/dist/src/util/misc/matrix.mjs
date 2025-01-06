@@ -4,7 +4,7 @@ import { cos } from './cos.mjs';
 import { radiansToDegrees, degreesToRadians } from './radiansDegreesConversion.mjs';
 import { sin } from './sin.mjs';
 
-const isIdentityMatrix = mat => mat.every((value, index) => value === iMatrix[index]);
+const isIdentityMatrix = fabricJsFunctionMark(mat => mat.every((value, index) => value === iMatrix[index]), 'isIdentityMatrix');
 
 /**
  * Apply transform t to point p
@@ -14,14 +14,14 @@ const isIdentityMatrix = mat => mat.every((value, index) => value === iMatrix[in
  * @param  {Boolean} [ignoreOffset] Indicates that the offset should not be applied
  * @return {Point} The transformed point
  */
-const transformPoint = (p, t, ignoreOffset) => new Point(p).transform(t, ignoreOffset);
+const transformPoint = fabricJsFunctionMark((p, t, ignoreOffset) => new Point(p).transform(t, ignoreOffset), 'transformPoint');
 
 /**
  * Invert transformation t
  * @param {Array} t The transform
  * @return {Array} The inverted transform
  */
-const invertTransform = t => {
+const invertTransform = fabricJsFunctionMark(t => {
   const a = 1 / (t[0] * t[3] - t[1] * t[2]),
     r = [a * t[3], -a * t[1], -a * t[2], a * t[0], 0, 0],
     {
@@ -31,7 +31,7 @@ const invertTransform = t => {
   r[4] = -x;
   r[5] = -y;
   return r;
-};
+}, 'invertTransform');
 
 /**
  * Multiply matrix A by matrix B to nest transformations
@@ -40,7 +40,7 @@ const invertTransform = t => {
  * @param  {Boolean} is2x2 flag to multiply matrices as 2x2 matrices
  * @return {TMat2D} The product of the two transform matrices
  */
-const multiplyTransformMatrices = (a, b, is2x2) => [a[0] * b[0] + a[2] * b[1], a[1] * b[0] + a[3] * b[1], a[0] * b[2] + a[2] * b[3], a[1] * b[2] + a[3] * b[3], is2x2 ? 0 : a[0] * b[4] + a[2] * b[5] + a[4], is2x2 ? 0 : a[1] * b[4] + a[3] * b[5] + a[5]];
+const multiplyTransformMatrices = fabricJsFunctionMark((a, b, is2x2) => [a[0] * b[0] + a[2] * b[1], a[1] * b[0] + a[3] * b[1], a[0] * b[2] + a[2] * b[3], a[1] * b[2] + a[3] * b[3], is2x2 ? 0 : a[0] * b[4] + a[2] * b[5] + a[4], is2x2 ? 0 : a[1] * b[4] + a[3] * b[5] + a[5]], 'multiplyTransformMatrices');
 
 /**
  * Multiplies {@link matrices} such that a matrix defines the plane for the rest of the matrices **after** it
@@ -51,18 +51,18 @@ const multiplyTransformMatrices = (a, b, is2x2) => [a[0] * b[0] + a[2] * b[1], a
  * @param [is2x2] flag to multiply matrices as 2x2 matrices
  * @returns the multiplication product
  */
-const multiplyTransformMatrixArray = (matrices, is2x2) => matrices.reduceRight((product, curr) => curr && product ? multiplyTransformMatrices(curr, product, is2x2) : curr || product, undefined) || iMatrix.concat();
-const calcPlaneRotation = _ref => {
+const multiplyTransformMatrixArray = fabricJsFunctionMark((matrices, is2x2) => matrices.reduceRight((product, curr) => curr && product ? multiplyTransformMatrices(curr, product, is2x2) : curr || product, undefined) || iMatrix.concat(), 'multiplyTransformMatrixArray');
+const calcPlaneRotation = fabricJsFunctionMark(_ref => {
   let [a, b] = _ref;
   return Math.atan2(b, a);
-};
+}, 'calcPlaneRotation');
 
 /**
  * Decomposes standard 2x3 matrix into transform components
  * @param  {TMat2D} a transformMatrix
  * @return {Object} Components of transform
  */
-const qrDecompose = a => {
+const qrDecompose = fabricJsFunctionMark(a => {
   const angle = calcPlaneRotation(a),
     denom = Math.pow(a[0], 2) + Math.pow(a[1], 2),
     scaleX = Math.sqrt(denom),
@@ -77,7 +77,7 @@ const qrDecompose = a => {
     translateX: a[4] || 0,
     translateY: a[5] || 0
   };
-};
+}, 'qrDecompose');
 
 /**
  * Generate a translation matrix
@@ -93,10 +93,10 @@ const qrDecompose = a => {
  * @param {number} [y] translation on Y axis
  * @returns {TMat2D} matrix
  */
-const createTranslateMatrix = function (x) {
+const createTranslateMatrix = fabricJsFunctionMark(function (x) {
   let y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   return [1, 0, 0, 1, x, y];
-};
+}, 'createTranslateMatrix');
 
 /**
  * Generate a rotation matrix around around a point (x,y), defaulting to (0,0)
@@ -111,7 +111,7 @@ const createTranslateMatrix = function (x) {
  * @param {XY} [pivotPoint] pivot point to rotate around
  * @returns {TMat2D} matrix
  */
-function createRotateMatrix() {
+const createRotateMatrix = fabricJsFunctionMark(function createRotateMatrix() {
   let {
     angle = 0
   } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -123,7 +123,7 @@ function createRotateMatrix() {
     cosValue = cos(angleRadiant),
     sinValue = sin(angleRadiant);
   return [cosValue, sinValue, -sinValue, cosValue, x ? x - (cosValue * x - sinValue * y) : 0, y ? y - (sinValue * x + cosValue * y) : 0];
-}
+})
 
 /**
  * Generate a scale matrix around the point (0,0)
@@ -139,11 +139,11 @@ function createRotateMatrix() {
  * @param {number} [y] scale on Y axis
  * @returns {TMat2D} matrix
  */
-const createScaleMatrix = function (x) {
+const createScaleMatrix = fabricJsFunctionMark(function (x) {
   let y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : x;
   return [x, 0, 0, y, 0, 0];
-};
-const angleToSkew = angle => Math.tan(degreesToRadians(angle));
+}, 'createScaleMatrix');
+const angleToSkew = fabricJsFunctionMark(angle => Math.tan(degreesToRadians(angle)), 'angleToSkew');
 
 /**
  * Generate a skew matrix for the X axis
@@ -158,7 +158,7 @@ const angleToSkew = angle => Math.tan(degreesToRadians(angle));
  * @param {TDegree} skewValue translation on X axis
  * @returns {TMat2D} matrix
  */
-const createSkewXMatrix = skewValue => [1, 0, angleToSkew(skewValue), 1, 0, 0];
+const createSkewXMatrix = fabricJsFunctionMark(skewValue => [1, 0, angleToSkew(skewValue), 1, 0, 0], 'createSkewXMatrix');
 
 /**
  * Generate a skew matrix for the Y axis
@@ -173,7 +173,7 @@ const createSkewXMatrix = skewValue => [1, 0, angleToSkew(skewValue), 1, 0, 0];
  * @param {TDegree} skewValue translation on Y axis
  * @returns {TMat2D} matrix
  */
-const createSkewYMatrix = skewValue => [1, angleToSkew(skewValue), 0, 1, 0, 0];
+const createSkewYMatrix = fabricJsFunctionMark(skewValue => [1, angleToSkew(skewValue), 0, 1, 0, 0], 'createSkewYMatrix');
 
 /**
  * Returns a transform matrix starting from an object of the same kind of
@@ -190,7 +190,7 @@ const createSkewYMatrix = skewValue => [1, angleToSkew(skewValue), 0, 1, 0, 0];
  * @param  {Number} [options.skewY]
  * @return {Number[]} transform matrix
  */
-const calcDimensionsMatrix = _ref2 => {
+const calcDimensionsMatrix = fabricJsFunctionMark(_ref2 => {
   let {
     scaleX = 1,
     scaleY = 1,
@@ -207,7 +207,7 @@ const calcDimensionsMatrix = _ref2 => {
     matrix = multiplyTransformMatrices(matrix, createSkewYMatrix(skewY), true);
   }
   return matrix;
-};
+}, 'calcDimensionsMatrix');
 
 /**
  * Returns a transform matrix starting from an object of the same kind of
@@ -226,7 +226,7 @@ const calcDimensionsMatrix = _ref2 => {
  * @param  {Number} [options.translateY]
  * @return {Number[]} transform matrix
  */
-const composeMatrix = options => {
+const composeMatrix = fabricJsFunctionMark(options => {
   const {
     translateX = 0,
     translateY = 0,
@@ -243,7 +243,7 @@ const composeMatrix = options => {
     matrix = multiplyTransformMatrices(matrix, scaleMatrix);
   }
   return matrix;
-};
+}, 'composeMatrix');
 
 export { angleToSkew, calcDimensionsMatrix, calcPlaneRotation, composeMatrix, createRotateMatrix, createScaleMatrix, createSkewXMatrix, createSkewYMatrix, createTranslateMatrix, invertTransform, isIdentityMatrix, multiplyTransformMatrices, multiplyTransformMatrixArray, qrDecompose, transformPoint };
 //# sourceMappingURL=matrix.mjs.map

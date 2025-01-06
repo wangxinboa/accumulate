@@ -12,7 +12,7 @@ import { LayoutManager } from './LayoutManager.mjs';
  * original group of the children ( the one referenced under the parent property )
  * This subclass of the LayoutManager has a single duty to fill the gap of this difference.`
  */
-class ActiveSelectionLayoutManager extends LayoutManager {
+const ActiveSelectionLayoutManager = fabricJsClassMark(class ActiveSelectionLayoutManager extends LayoutManager {
   subscribeTargets(context) {
     const activeSelection = context.target;
     const parents = context.targets.reduce((parents, target) => {
@@ -44,7 +44,7 @@ class ActiveSelectionLayoutManager extends LayoutManager {
       });
     });
   }
-}
+})
 
 export { ActiveSelectionLayoutManager };
 //# sourceMappingURL=ActiveSelectionLayoutManager.mjs.map

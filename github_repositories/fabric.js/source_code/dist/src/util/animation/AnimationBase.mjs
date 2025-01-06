@@ -4,8 +4,8 @@ import { requestAnimFrame } from './AnimationFrameProvider.mjs';
 import { runningAnimations } from './AnimationRegistry.mjs';
 import { defaultEasing } from './easing.mjs';
 
-const defaultAbort = () => false;
-class AnimationBase {
+const defaultAbort = fabricJsFunctionMark(() => false, 'defaultAbort');
+const AnimationBase = fabricJsClassMark(class AnimationBase {
   /**
    * Current value
    */
@@ -122,7 +122,7 @@ class AnimationBase {
     this._state = 'aborted';
     this.unregister();
   }
-}
+})
 
 export { AnimationBase };
 //# sourceMappingURL=AnimationBase.mjs.map

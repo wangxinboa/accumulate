@@ -13,7 +13,7 @@ const _excluded = ["target", "oldTarget", "fireCanvas", "e"];
 const addEventOptions = {
   passive: false
 };
-const getEventPoints = (canvas, e) => {
+const getEventPoints = fabricJsFunctionMark((canvas, e) => {
   const viewportPoint = canvas.getViewportPoint(e);
   const scenePoint = canvas.getScenePoint(e);
   return {
@@ -22,23 +22,23 @@ const getEventPoints = (canvas, e) => {
     pointer: viewportPoint,
     absolutePointer: scenePoint
   };
-};
+}, 'getEventPoints');
 
 // just to be clear, the utils are now deprecated and those are here exactly as minifier helpers
 // because el.addEventListener can't me be minified while a const yes and we use it 47 times in this file.
 // few bytes but why give it away.
-const addListener = function (el) {
+const addListener = fabricJsFunctionMark(function (el) {
   for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     args[_key - 1] = arguments[_key];
   }
   return el.addEventListener(...args);
-};
-const removeListener = function (el) {
+}, 'addListener');
+const removeListener = fabricJsFunctionMark(function (el) {
   for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
     args[_key2 - 1] = arguments[_key2];
   }
   return el.removeEventListener(...args);
-};
+}, 'removeListener');
 const syntheticEventConfig = {
   mouse: {
     in: 'over',
@@ -57,7 +57,7 @@ const syntheticEventConfig = {
     canvasOut: 'drag:leave'
   }
 };
-class Canvas extends SelectableCanvas {
+const Canvas = fabricJsClassMark(class Canvas extends SelectableCanvas {
   constructor(el) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     super(el, options);
@@ -1304,7 +1304,7 @@ class Canvas extends SelectableCanvas {
     this.textEditingManager.dispose();
     super.destroy();
   }
-}
+})
 
 export { Canvas };
 //# sourceMappingURL=Canvas.mjs.map

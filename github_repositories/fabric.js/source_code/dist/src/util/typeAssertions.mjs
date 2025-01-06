@@ -1,21 +1,21 @@
-const isFiller = filler => {
+const isFiller = fabricJsFunctionMark(filler => {
   return !!filler && filler.toLive !== undefined;
-};
-const isSerializableFiller = filler => {
+}, 'isFiller');
+const isSerializableFiller = fabricJsFunctionMark(filler => {
   return !!filler && typeof filler.toObject === 'function';
-};
-const isPattern = filler => {
+}, 'isSerializableFiller');
+const isPattern = fabricJsFunctionMark(filler => {
   return !!filler && filler.offsetX !== undefined && 'source' in filler;
-};
-const isTextObject = fabricObject => {
+}, 'isPattern');
+const isTextObject = fabricJsFunctionMark(fabricObject => {
   return !!fabricObject && typeof fabricObject._renderText === 'function';
-};
-const isPath = fabricObject => {
+}, 'isTextObject');
+const isPath = fabricJsFunctionMark(fabricObject => {
   // we could use instanceof but that would mean pulling in Text code for a simple check
   // @todo discuss what to do and how to do
   return !!fabricObject && typeof fabricObject._renderPathCommands === 'function';
-};
-const isActiveSelection = fabricObject => !!fabricObject && 'multiSelectionStacking' in fabricObject;
+}, 'isPath');
+const isActiveSelection = fabricJsFunctionMark(fabricObject => !!fabricObject && 'multiSelectionStacking' in fabricObject, 'isActiveSelection');
 
 export { isActiveSelection, isFiller, isPath, isPattern, isSerializableFiller, isTextObject };
 //# sourceMappingURL=typeAssertions.mjs.map

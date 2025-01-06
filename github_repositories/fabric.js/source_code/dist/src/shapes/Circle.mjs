@@ -17,7 +17,7 @@ const circleDefaultValues = {
   endAngle: 360,
   counterClockwise: false
 };
-class Circle extends FabricObject {
+const Circle = fabricJsClassMark(class Circle extends FabricObject {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), Circle.ownDefaults);
   }
@@ -162,7 +162,7 @@ class Circle extends FabricObject {
   static fromObject(object) {
     return super._fromObject(object);
   }
-}
+})
 _defineProperty(Circle, "type", 'Circle');
 _defineProperty(Circle, "cacheProperties", [...cacheProperties, ...CIRCLE_PROPS]);
 _defineProperty(Circle, "ownDefaults", circleDefaultValues);

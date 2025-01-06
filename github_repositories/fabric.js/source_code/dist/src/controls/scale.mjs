@@ -9,11 +9,11 @@ import { SCALING, SCALE_X, SCALE_Y } from '../constants.mjs';
  * @param {FabricObject} fabricObject the fabric object about to scale
  * @return {Boolean} true if scale is proportional
  */
-function scaleIsProportional(eventData, fabricObject) {
+const scaleIsProportional = fabricJsFunctionMark(function scaleIsProportional(eventData, fabricObject) {
   const canvas = fabricObject.canvas,
     uniformIsToggled = eventData[canvas.uniScaleKey];
   return canvas.uniformScaling && !uniformIsToggled || !canvas.uniformScaling && uniformIsToggled;
-}
+})
 
 /**
  * Inspect fabricObject to understand if the current scaling action is allowed
@@ -22,7 +22,7 @@ function scaleIsProportional(eventData, fabricObject) {
  * @param {Boolean} scaleProportionally true if we are trying to scale proportionally
  * @return {Boolean} true if scaling is not allowed at current conditions
  */
-function scalingIsForbidden(fabricObject, by, scaleProportionally) {
+const scalingIsForbidden = fabricJsFunctionMark(function scalingIsForbidden(fabricObject, by, scaleProportionally) {
   const lockX = isLocked(fabricObject, 'lockScalingX'),
     lockY = isLocked(fabricObject, 'lockScalingY');
   if (lockX && lockY) {
@@ -51,7 +51,7 @@ function scalingIsForbidden(fabricObject, by, scaleProportionally) {
     return true;
   }
   return false;
-}
+})
 const scaleMap = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne', 'e'];
 
 /**
@@ -61,7 +61,7 @@ const scaleMap = ['e', 'se', 's', 'sw', 'w', 'nw', 'n', 'ne', 'e'];
  * @param {FabricObject} fabricObject the fabric object that is interested in the action
  * @return {String} a valid css string for the cursor
  */
-const scaleCursorStyleHandler = (eventData, control, fabricObject) => {
+const scaleCursorStyleHandler = fabricJsFunctionMark((eventData, control, fabricObject) => {
   const scaleProportionally = scaleIsProportional(eventData, fabricObject),
     by = control.x !== 0 && control.y === 0 ? 'x' : control.x === 0 && control.y !== 0 ? 'y' : '';
   if (scalingIsForbidden(fabricObject, by, scaleProportionally)) {
@@ -69,7 +69,7 @@ const scaleCursorStyleHandler = (eventData, control, fabricObject) => {
   }
   const n = findCornerQuadrant(fabricObject, control);
   return "".concat(scaleMap[n], "-resize");
-};
+}, 'scaleCursorStyleHandler');
 
 /**
  * Basic scaling logic, reused with different constrain for scaling X,Y, freely or equally.
@@ -83,7 +83,7 @@ const scaleCursorStyleHandler = (eventData, control, fabricObject) => {
  * @return {Boolean} true if some change happened
  * @private
  */
-function scaleObject(eventData, transform, x, y) {
+const scaleObject = fabricJsFunctionMark(function scaleObject(eventData, transform, x, y) {
   let options = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
   const target = transform.target,
     by = options.by,
@@ -158,7 +158,7 @@ function scaleObject(eventData, transform, x, y) {
     by === 'y' && target.set(SCALE_Y, scaleY);
   }
   return oldScaleX !== target.scaleX || oldScaleY !== target.scaleY;
-}
+})
 
 /**
  * Generic scaling logic, to scale from corners either equally or freely.
@@ -169,9 +169,9 @@ function scaleObject(eventData, transform, x, y) {
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const scaleObjectFromCorner = (eventData, transform, x, y) => {
+const scaleObjectFromCorner = fabricJsFunctionMark((eventData, transform, x, y) => {
   return scaleObject(eventData, transform, x, y);
-};
+}, 'scaleObjectFromCorner');
 
 /**
  * Scaling logic for the X axis.
@@ -182,11 +182,11 @@ const scaleObjectFromCorner = (eventData, transform, x, y) => {
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const scaleObjectX = (eventData, transform, x, y) => {
+const scaleObjectX = fabricJsFunctionMark((eventData, transform, x, y) => {
   return scaleObject(eventData, transform, x, y, {
     by: 'x'
   });
-};
+}, 'scaleObjectX');
 
 /**
  * Scaling logic for the Y axis.
@@ -197,14 +197,14 @@ const scaleObjectX = (eventData, transform, x, y) => {
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const scaleObjectY = (eventData, transform, x, y) => {
+const scaleObjectY = fabricJsFunctionMark((eventData, transform, x, y) => {
   return scaleObject(eventData, transform, x, y, {
     by: 'y'
   });
-};
+}, 'scaleObjectY');
 const scalingEqually = wrapWithFireEvent(SCALING, wrapWithFixedAnchor(scaleObjectFromCorner));
-const scalingX = wrapWithFireEvent(SCALING, wrapWithFixedAnchor(scaleObjectX));
-const scalingY = wrapWithFireEvent(SCALING, wrapWithFixedAnchor(scaleObjectY));
+const scalingX = fabricJsFunctionMark(wrapWithFireEvent(SCALING, wrapWithFixedAnchor(scaleObjectX)), 'scalingX');
+const scalingY = fabricJsFunctionMark(wrapWithFireEvent(SCALING, wrapWithFixedAnchor(scaleObjectY)), 'scalingY');
 
 export { scaleCursorStyleHandler, scaleIsProportional, scaleObjectFromCorner, scalingEqually, scalingIsForbidden, scalingX, scalingY };
 //# sourceMappingURL=scale.mjs.map

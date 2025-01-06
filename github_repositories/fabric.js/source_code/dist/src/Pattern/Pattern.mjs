@@ -14,7 +14,7 @@ const _excluded = ["type", "source", "patternTransform"];
  * @see {@link http://fabricjs.com/patterns demo}
  * @see {@link http://fabricjs.com/dynamic-patterns demo}
  */
-class Pattern {
+const Pattern = fabricJsClassMark(class Pattern {
   /**
    * Legacy identifier of the class. Prefer using this.constructor.type 'Pattern'
    * or utils like isPattern, or instance of to indentify a pattern in your code.
@@ -176,7 +176,7 @@ class Pattern {
       source: img
     }));
   }
-}
+})
 _defineProperty(Pattern, "type", 'Pattern');
 classRegistry.setClass(Pattern);
 // kept for compatibility reason

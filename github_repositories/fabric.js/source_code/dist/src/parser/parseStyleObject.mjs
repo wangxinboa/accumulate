@@ -4,7 +4,7 @@
  * @param style
  * @param oStyle
  */
-function parseStyleObject(style, oStyle) {
+const parseStyleObject = fabricJsFunctionMark(function parseStyleObject(style, oStyle) {
   Object.entries(style).forEach(_ref => {
     let [prop, value] = _ref;
     if (value === undefined) {
@@ -12,7 +12,7 @@ function parseStyleObject(style, oStyle) {
     }
     oStyle[prop.toLowerCase()] = value;
   });
-}
+})
 
 export { parseStyleObject };
 //# sourceMappingURL=parseStyleObject.mjs.map

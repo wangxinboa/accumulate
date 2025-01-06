@@ -16,7 +16,7 @@ const brightnessDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-class Brightness extends BaseFilter {
+const Brightness = fabricJsClassMark(class Brightness extends BaseFilter {
   getFragmentSource() {
     return fragmentSource;
   }
@@ -53,7 +53,7 @@ class Brightness extends BaseFilter {
   sendUniformData(gl, uniformLocations) {
     gl.uniform1f(uniformLocations.uBrightness, this.brightness);
   }
-}
+})
 /**
  * Brightness value, from -1 to 1.
  * translated to -255 to 255 for 2d

@@ -13,7 +13,7 @@ import { cacheProperties } from './Object/defaultValues.mjs';
 
 const _excluded = ["path", "left", "top"],
   _excluded2 = ["d"];
-class Path extends FabricObject {
+const Path = fabricJsClassMark(class Path extends FabricObject {
   /**
    * Constructor
    * @param {TComplexPathData} path Path data (sequence of coordinates and corresponding "command" tokens)
@@ -307,7 +307,7 @@ class Path extends FabricObject {
       top: undefined
     }));
   }
-}
+})
 /**
  * Array of path points
  * @type Array

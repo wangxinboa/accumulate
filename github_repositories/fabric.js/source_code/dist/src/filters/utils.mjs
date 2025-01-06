@@ -2,9 +2,9 @@ import { getFabricWindow } from '../env/index.mjs';
 import { createCanvasElementFor, createCanvasElement } from '../util/misc/dom.mjs';
 import { WebGLFilterBackend } from './WebGLFilterBackend.mjs';
 
-const isWebGLPipelineState = options => {
+const isWebGLPipelineState = fabricJsFunctionMark(options => {
   return options.webgl !== undefined;
-};
+}, 'isWebGLPipelineState');
 
 /**
  * Pick a method to copy data from GL context to 2d canvas.  In some browsers using
@@ -12,7 +12,7 @@ const isWebGLPipelineState = options => {
  * and drivers.
  * putImageData is faster than drawImage for that specific operation.
  */
-const isPutImageFaster = (width, height) => {
+const isPutImageFaster = fabricJsFunctionMark((width, height) => {
   const targetCanvas = createCanvasElementFor({
     width,
     height
@@ -37,7 +37,7 @@ const isPutImageFaster = (width, height) => {
   WebGLFilterBackend.prototype.copyGLTo2DPutImageData.call(testContext, gl, testPipelineState);
   const putImageDataTime = getFabricWindow().performance.now() - startTime;
   return drawImageTime > putImageDataTime;
-};
+}, 'isPutImageFaster');
 
 export { isPutImageFaster, isWebGLPipelineState };
 //# sourceMappingURL=utils.mjs.map

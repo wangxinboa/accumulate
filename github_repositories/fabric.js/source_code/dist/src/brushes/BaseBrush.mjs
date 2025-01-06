@@ -4,7 +4,7 @@ import { Color } from '../color/Color.mjs';
 /**
  * @see {@link http://fabricjs.com/freedrawing|Freedrawing demo}
  */
-class BaseBrush {
+const BaseBrush = fabricJsClassMark(class BaseBrush {
   /**
    * @todo add type
    */
@@ -132,7 +132,7 @@ class BaseBrush {
   _isOutSideCanvas(pointer) {
     return pointer.x < 0 || pointer.x > this.canvas.getWidth() || pointer.y < 0 || pointer.y > this.canvas.getHeight();
   }
-}
+})
 
 export { BaseBrush };
 //# sourceMappingURL=BaseBrush.mjs.map

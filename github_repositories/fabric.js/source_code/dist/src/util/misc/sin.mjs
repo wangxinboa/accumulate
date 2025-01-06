@@ -7,7 +7,7 @@ import { halfPI } from '../../constants.mjs';
  * @param {TRadian} angle the angle
  * @return {Number} the sin value for angle.
  */
-const sin = angle => {
+const sin = fabricJsFunctionMark(angle => {
   if (angle === 0) {
     return 0;
   }
@@ -22,7 +22,7 @@ const sin = angle => {
       return -value;
   }
   return Math.sin(angle);
-};
+}, 'sin');
 
 export { sin };
 //# sourceMappingURL=sin.mjs.map

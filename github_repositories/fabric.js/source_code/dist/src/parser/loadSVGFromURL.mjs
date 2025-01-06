@@ -16,7 +16,7 @@ import { parseSVGDocument, createEmptyResponse } from './parseSVGDocument.mjs';
  * @param {String} [options.crossOrigin] crossOrigin setting to use for external resources
  * @param {AbortSignal} [options.signal] handle aborting, see https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal
  */
-function loadSVGFromURL(url, reviver) {
+const loadSVGFromURL = fabricJsFunctionMark(function loadSVGFromURL(url, reviver) {
   let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   // need to handle error properly
   return new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ function loadSVGFromURL(url, reviver) {
     // this is an unhappy path, we dont care about speed
     return createEmptyResponse();
   });
-}
+})
 
 export { loadSVGFromURL };
 //# sourceMappingURL=loadSVGFromURL.mjs.map

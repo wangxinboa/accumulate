@@ -27,7 +27,7 @@ const blendImageDefaultValues = {
  * object.applyFilters();
  * canvas.renderAll();
  */
-class BlendImage extends BaseFilter {
+const BlendImage = fabricJsClassMark(class BlendImage extends BaseFilter {
   getCacheKey() {
     return "".concat(this.type, "_").concat(this.mode);
   }
@@ -160,7 +160,7 @@ class BlendImage extends BaseFilter {
       image: enlivedImage
     })));
   }
-}
+})
 /**
  * Image to make the blend operation with.
  **/

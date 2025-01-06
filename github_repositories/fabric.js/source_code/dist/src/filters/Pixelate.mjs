@@ -16,7 +16,7 @@ const pixelateDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-class Pixelate extends BaseFilter {
+const Pixelate = fabricJsClassMark(class Pixelate extends BaseFilter {
   /**
    * Apply the Pixelate operation to a Uint8ClampedArray representing the pixels of an image.
    *
@@ -70,7 +70,7 @@ class Pixelate extends BaseFilter {
   sendUniformData(gl, uniformLocations) {
     gl.uniform1f(uniformLocations.uBlocksize, this.blocksize);
   }
-}
+})
 _defineProperty(Pixelate, "type", 'Pixelate');
 _defineProperty(Pixelate, "defaults", pixelateDefaultValues);
 _defineProperty(Pixelate, "uniformLocations", ['uBlocksize']);

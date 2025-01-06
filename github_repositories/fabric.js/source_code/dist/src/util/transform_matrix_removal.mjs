@@ -7,7 +7,7 @@ import { qrDecompose } from './misc/matrix.mjs';
  * untransformed coordinates
  * @private
  */
-const _assignTransformMatrixProps = object => {
+const _assignTransformMatrixProps = fabricJsFunctionMark(object => {
   if (object.transformMatrix) {
     const {
       scaleX,
@@ -23,7 +23,7 @@ const _assignTransformMatrixProps = object => {
     object.skewX = skewX;
     object.skewY = 0;
   }
-};
+}, '_assignTransformMatrixProps');
 
 /**
  * This function is an helper for svg import. it removes the transform matrix
@@ -31,7 +31,7 @@ const _assignTransformMatrixProps = object => {
  * @private
  * @param {Object} preserveAspectRatioOptions
  */
-const removeTransformMatrixForSvgParsing = (object, preserveAspectRatioOptions) => {
+const removeTransformMatrixForSvgParsing = fabricJsFunctionMark((object, preserveAspectRatioOptions) => {
   let center = object._findCenterFromElement();
   if (object.transformMatrix) {
     _assignTransformMatrixProps(object);
@@ -49,7 +49,7 @@ const removeTransformMatrixForSvgParsing = (object, preserveAspectRatioOptions) 
     object.height = preserveAspectRatioOptions.height;
   }
   object.setPositionByOrigin(center, CENTER, CENTER);
-};
+}, 'removeTransformMatrixForSvgParsing');
 
 export { removeTransformMatrixForSvgParsing };
 //# sourceMappingURL=transform_matrix_removal.mjs.map

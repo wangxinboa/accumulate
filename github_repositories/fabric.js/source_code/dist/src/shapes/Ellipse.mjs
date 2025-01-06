@@ -11,7 +11,7 @@ const ellipseDefaultValues = {
   ry: 0
 };
 const ELLIPSE_PROPS = ['rx', 'ry'];
-class Ellipse extends FabricObject {
+const Ellipse = fabricJsClassMark(class Ellipse extends FabricObject {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), Ellipse.ownDefaults);
   }
@@ -119,7 +119,7 @@ class Ellipse extends FabricObject {
   }
 
   /* _FROM_SVG_END_ */
-}
+})
 /**
  * Horizontal radius
  * @type Number

@@ -6,7 +6,7 @@ const triangleDefaultValues = {
   width: 100,
   height: 100
 };
-class Triangle extends FabricObject {
+const Triangle = fabricJsClassMark(class Triangle extends FabricObject {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), Triangle.ownDefaults);
   }
@@ -47,7 +47,7 @@ class Triangle extends FabricObject {
       points = "".concat(-widthBy2, " ").concat(heightBy2, ",0 ").concat(-heightBy2, ",").concat(widthBy2, " ").concat(heightBy2);
     return ['<polygon ', 'COMMON_PARTS', 'points="', points, '" />'];
   }
-}
+})
 _defineProperty(Triangle, "type", 'Triangle');
 _defineProperty(Triangle, "ownDefaults", triangleDefaultValues);
 classRegistry.setClass(Triangle);

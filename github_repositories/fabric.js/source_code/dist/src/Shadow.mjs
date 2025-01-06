@@ -39,7 +39,7 @@ const shadowDefaultValues = {
   includeDefaultValues: true,
   nonScaling: false
 };
-class Shadow {
+const Shadow = fabricJsClassMark(class Shadow {
   /**
    * @see {@link http://fabricjs.com/shadows|Shadow demo}
    * @param {Object|String} [options] Options object with any of color, blur, offsetX, offsetY properties or string (e.g. "rgba(0,0,0,0.2) 2px 2px 10px")
@@ -122,7 +122,7 @@ class Shadow {
   static async fromObject(options) {
     return new this(options);
   }
-}
+})
 /**
  * Shadow color
  * @type String

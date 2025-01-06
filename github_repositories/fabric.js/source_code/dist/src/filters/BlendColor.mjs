@@ -26,7 +26,7 @@ const blendColorDefaultValues = {
  * object.applyFilters();
  * canvas.renderAll();
  */
-class BlendColor extends BaseFilter {
+const BlendColor = fabricJsClassMark(class BlendColor extends BaseFilter {
   getCacheKey() {
     return "".concat(this.type, "_").concat(this.mode);
   }
@@ -128,7 +128,7 @@ class BlendColor extends BaseFilter {
     source[3] = this.alpha;
     gl.uniform4fv(uniformLocations.uColor, source);
   }
-}
+})
 /**
  * Color to make the blend operation with. default to a reddish color since black or white
  * gives always strong result.

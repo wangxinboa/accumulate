@@ -8,7 +8,7 @@ import { rgb2Hsl, hexify, greyAverage, fromAlphaToFloat, hue2rgb } from './util.
  * @class Color common color operations
  * @tutorial {@link http://fabricjs.com/fabric-intro-part-2/#colors colors}
  */
-class Color {
+const Color = fabricJsClassMark(class Color {
   /**
    *
    * @param {string} [color] optional in hex or rgb(a) or hsl format or from known color list
@@ -315,7 +315,7 @@ class Color {
     // Value is probably just a number already in degrees eg '50'
     return numeric;
   }
-}
+})
 
 export { Color };
 //# sourceMappingURL=Color.mjs.map

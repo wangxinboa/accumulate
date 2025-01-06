@@ -15,7 +15,7 @@ import { StrokeProjectionsBase } from './StrokeProjectionsBase.mjs';
  * - Playground to understand how the line joins works: https://hypertolosana.github.io/efficient-webgl-stroking/index.html
  * - View the calculated projections for each of the control points: https://codesandbox.io/s/project-stroke-points-with-context-to-trace-b8jc4j?file=/src/index.js
  */
-class StrokeLineCapProjections extends StrokeProjectionsBase {
+const StrokeLineCapProjections = fabricJsClassMark(class StrokeLineCapProjections extends StrokeProjectionsBase {
   /**
    * edge point
    */
@@ -105,7 +105,7 @@ class StrokeLineCapProjections extends StrokeProjectionsBase {
       projectedPoint: point
     }));
   }
-}
+})
 
 export { StrokeLineCapProjections };
 //# sourceMappingURL=StrokeLineCapProjections.mjs.map

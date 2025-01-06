@@ -19,7 +19,7 @@ const blurDefaultValues = {
  * object.applyFilters();
  * canvas.renderAll();
  */
-class Blur extends BaseFilter {
+const Blur = fabricJsClassMark(class Blur extends BaseFilter {
   getFragmentSource() {
     return fragmentSource;
   }
@@ -141,7 +141,7 @@ class Blur extends BaseFilter {
     }
     return delta;
   }
-}
+})
 /**
  * blur value, in percentage of image dimensions.
  * specific to keep the image blur constant at different resolutions

@@ -76,7 +76,7 @@ const iTextDefaultValues = _objectSpread2({
  *   Select line:                    triple click
  * ```
  */
-class IText extends ITextClickBehavior {
+const IText = fabricJsClassMark(class IText extends ITextClickBehavior {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), IText.ownDefaults);
   }
@@ -523,7 +523,7 @@ class IText extends ITextClickBehavior {
     this.draggableTextDelegate.dispose();
     super.dispose();
   }
-}
+})
 /**
  * Index where text selection starts (or where cursor is when there is no selection)
  * @type Number

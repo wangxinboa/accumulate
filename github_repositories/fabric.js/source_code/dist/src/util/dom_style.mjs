@@ -5,7 +5,7 @@
  * @param {HTMLElement} element
  * @param {Object | string} styles
  */
-function setStyle(element, styles) {
+const setStyle = fabricJsFunctionMark(function setStyle(element, styles) {
   const elementStyle = element.style;
   if (!elementStyle || !styles) {
     return;
@@ -17,7 +17,7 @@ function setStyle(element, styles) {
       return elementStyle.setProperty(property, value);
     });
   }
-}
+})
 
 export { setStyle };
 //# sourceMappingURL=dom_style.mjs.map

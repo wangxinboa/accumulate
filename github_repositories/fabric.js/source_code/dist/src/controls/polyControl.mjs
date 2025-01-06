@@ -11,7 +11,7 @@ const ACTION_NAME = MODIFY_POLY;
  * This function locates the controls.
  * It'll be used both for drawing and for interaction.
  */
-const createPolyPositionHandler = pointIndex => {
+const createPolyPositionHandler = fabricJsFunctionMark(pointIndex => {
   return function (dim, finalMatrix, polyObject) {
     const {
       points,
@@ -19,7 +19,7 @@ const createPolyPositionHandler = pointIndex => {
     } = polyObject;
     return new Point(points[pointIndex]).subtract(pathOffset).transform(multiplyTransformMatrices(polyObject.getViewportTransform(), polyObject.calcTransformMatrix()));
   };
-};
+}, 'createPolyPositionHandler');
 
 /**
  * This function defines what the control does.
@@ -28,7 +28,7 @@ const createPolyPositionHandler = pointIndex => {
  * and the current position in canvas coordinate `transform.target` is a reference to the
  * current object being transformed.
  */
-const polyActionHandler = (eventData, transform, x, y) => {
+const polyActionHandler = fabricJsFunctionMark((eventData, transform, x, y) => {
   const {
     target,
     pointIndex
@@ -38,12 +38,12 @@ const polyActionHandler = (eventData, transform, x, y) => {
   poly.points[pointIndex] = mouseLocalPosition.add(poly.pathOffset);
   poly.setDimensions();
   return true;
-};
+}, 'polyActionHandler');
 
 /**
  * Keep the polygon in the same position when we change its `width`/`height`/`top`/`left`.
  */
-const factoryPolyActionHandler = (pointIndex, fn) => {
+const factoryPolyActionHandler = fabricJsFunctionMark((pointIndex, fn) => {
   return function (eventData, transform, x, y) {
     const poly = transform.target,
       anchorPoint = new Point(poly.points[(pointIndex > 0 ? pointIndex : poly.points.length) - 1]),
@@ -57,9 +57,9 @@ const factoryPolyActionHandler = (pointIndex, fn) => {
     poly.top -= diff.y;
     return actionPerformed;
   };
-};
-const createPolyActionHandler = pointIndex => wrapWithFireEvent(ACTION_NAME, factoryPolyActionHandler(pointIndex, polyActionHandler));
-function createPolyControls(arg0) {
+}, 'factoryPolyActionHandler');
+const createPolyActionHandler = fabricJsFunctionMark(pointIndex => wrapWithFireEvent(ACTION_NAME, factoryPolyActionHandler(pointIndex, polyActionHandler)), 'createPolyActionHandler');
+const createPolyControls = fabricJsFunctionMark(function createPolyControls(arg0) {
   let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const controls = {};
   for (let idx = 0; idx < (typeof arg0 === 'number' ? arg0 : arg0.points.length); idx++) {
@@ -70,7 +70,7 @@ function createPolyControls(arg0) {
     }, options));
   }
   return controls;
-}
+})
 
 export { createPolyActionHandler, createPolyControls, createPolyPositionHandler, factoryPolyActionHandler, polyActionHandler };
 //# sourceMappingURL=polyControl.mjs.map

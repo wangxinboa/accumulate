@@ -5,7 +5,7 @@
  * @param {String} points points attribute string
  * @return {Array} array of points
  */
-function parsePointsAttribute(points) {
+const parsePointsAttribute = fabricJsFunctionMark(function parsePointsAttribute(points) {
   // points attribute is required and must not be empty
   if (!points) {
     return [];
@@ -26,7 +26,7 @@ function parsePointsAttribute(points) {
   //   return null;
   // }
   return parsedPoints;
-}
+})
 
 export { parsePointsAttribute };
 //# sourceMappingURL=parsePointsAttribute.mjs.map

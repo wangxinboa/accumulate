@@ -2,9 +2,9 @@ import { ValueAnimation } from './ValueAnimation.mjs';
 import { ArrayAnimation } from './ArrayAnimation.mjs';
 import { ColorAnimation } from './ColorAnimation.mjs';
 
-const isArrayAnimation = options => {
+const isArrayAnimation = fabricJsFunctionMark(options => {
   return Array.isArray(options.startValue) || Array.isArray(options.endValue);
-};
+}, 'isArrayAnimation');
 
 /**
  * Changes value(s) from startValue to endValue within a certain period of time,
@@ -33,16 +33,16 @@ const isArrayAnimation = options => {
  *
  */
 
-function animate(options) {
+const animate = fabricJsFunctionMark(function animate(options) {
   const animation = isArrayAnimation(options) ? new ArrayAnimation(options) : new ValueAnimation(options);
   animation.start();
   return animation;
-}
-function animateColor(options) {
+})
+const animateColor = fabricJsFunctionMark(function animateColor(options) {
   const animation = new ColorAnimation(options);
   animation.start();
   return animation;
-}
+})
 
 export { animate, animateColor };
 //# sourceMappingURL=animate.mjs.map

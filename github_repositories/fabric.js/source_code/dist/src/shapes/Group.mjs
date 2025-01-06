@@ -17,9 +17,9 @@ const _excluded = ["type", "objects", "layoutManager"];
  * would stay in the group's constructor interface and create confusion, therefore it was removed.
  * This layout manager doesn't do anything and therefore keeps the exact layout the group had when {@link Group#toObject} was called.
  */
-class NoopLayoutManager extends LayoutManager {
+const NoopLayoutManager = fabricJsClassMark(class NoopLayoutManager extends LayoutManager {
   performLayout() {}
-}
+})
 const groupDefaultValues = {
   strokeWidth: 0,
   subTargetCheck: false,
@@ -32,7 +32,7 @@ const groupDefaultValues = {
  * @fires layout:before
  * @fires layout:after
  */
-class Group extends createCollectionMixin(FabricObject) {
+const Group = fabricJsClassMark(class Group extends createCollectionMixin(FabricObject) {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), Group.ownDefaults);
   }
@@ -589,7 +589,7 @@ class Group extends createCollectionMixin(FabricObject) {
       return group;
     });
   }
-}
+})
 _defineProperty(Group, "type", 'Group');
 _defineProperty(Group, "ownDefaults", groupDefaultValues);
 classRegistry.setClass(Group);

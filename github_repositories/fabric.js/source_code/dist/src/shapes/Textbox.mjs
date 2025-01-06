@@ -24,7 +24,7 @@ const textboxDefaultValues = {
  * user can only change width. Height is adjusted automatically based on the
  * wrapping of lines.
  */
-class Textbox extends IText {
+const Textbox = fabricJsClassMark(class Textbox extends IText {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), Textbox.ownDefaults);
   }
@@ -468,7 +468,7 @@ class Textbox extends IText {
     let propertiesToInclude = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     return super.toObject(['minWidth', 'splitByGrapheme', ...propertiesToInclude]);
   }
-}
+})
 /**
  * Minimum width of textbox, in pixels.
  * @type Number

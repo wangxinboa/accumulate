@@ -35,7 +35,7 @@ const skewMap = ['ns', 'nesw', 'ew', 'nwse'];
  * @param {FabricObject} fabricObject the fabric object that is interested in the action
  * @return {String} a valid css string for the cursor
  */
-const skewCursorStyleHandler = (eventData, control, fabricObject) => {
+const skewCursorStyleHandler = fabricJsFunctionMark((eventData, control, fabricObject) => {
   if (control.x !== 0 && isLocked(fabricObject, 'lockSkewingY')) {
     return NOT_ALLOWED_CURSOR;
   }
@@ -44,13 +44,13 @@ const skewCursorStyleHandler = (eventData, control, fabricObject) => {
   }
   const n = findCornerQuadrant(fabricObject, control) % 4;
   return "".concat(skewMap[n], "-resize");
-};
+}, 'skewCursorStyleHandler');
 
 /**
  * Since skewing is applied before scaling, calculations are done in a scaleless plane
  * @see https://github.com/fabricjs/fabric.js/pull/8380
  */
-function skewObject(axis, _ref, pointer) {
+const skewObject = fabricJsFunctionMark(function skewObject(axis, _ref, pointer) {
   let {
       target,
       ex,
@@ -102,7 +102,7 @@ function skewObject(axis, _ref, pointer) {
     compensationFactor !== 1 && target.set(SCALE_X, compensationFactor * scaleX);
   }
   return changed;
-}
+})
 
 /**
  * Wrapped Action handler for skewing on a given axis, takes care of the
@@ -113,7 +113,7 @@ function skewObject(axis, _ref, pointer) {
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-function skewHandler(axis, eventData, transform, x, y) {
+const skewHandler = fabricJsFunctionMark(function skewHandler(axis, eventData, transform, x, y) {
   const {
       target
     } = transform,
@@ -150,7 +150,7 @@ function skewHandler(axis, eventData, transform, x, y) {
     [originKey]: origin,
     skewingSide
   }), x, y);
-}
+})
 
 /**
  * Wrapped Action handler for skewing on the X axis, takes care of the
@@ -161,9 +161,9 @@ function skewHandler(axis, eventData, transform, x, y) {
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const skewHandlerX = (eventData, transform, x, y) => {
+const skewHandlerX = fabricJsFunctionMark((eventData, transform, x, y) => {
   return skewHandler('x', eventData, transform, x, y);
-};
+}, 'skewHandlerX');
 
 /**
  * Wrapped Action handler for skewing on the Y axis, takes care of the
@@ -174,9 +174,9 @@ const skewHandlerX = (eventData, transform, x, y) => {
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const skewHandlerY = (eventData, transform, x, y) => {
+const skewHandlerY = fabricJsFunctionMark((eventData, transform, x, y) => {
   return skewHandler('y', eventData, transform, x, y);
-};
+}, 'skewHandlerY');
 
 export { skewCursorStyleHandler, skewHandlerX, skewHandlerY };
 //# sourceMappingURL=skew.mjs.map

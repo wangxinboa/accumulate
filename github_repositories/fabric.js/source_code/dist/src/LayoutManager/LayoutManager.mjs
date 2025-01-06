@@ -10,7 +10,7 @@ import { classRegistry } from '../ClassRegistry.mjs';
 const _excluded = ["strategy"],
   _excluded2 = ["target", "strategy", "bubbles", "prevStrategy"];
 const LAYOUT_MANAGER = 'layoutManager';
-class LayoutManager {
+const LayoutManager = fabricJsClassMark(class LayoutManager {
   constructor() {
     let strategy = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new FitContentLayout();
     _defineProperty(this, "strategy", void 0);
@@ -256,7 +256,7 @@ class LayoutManager {
   toJSON() {
     return this.toObject();
   }
-}
+})
 classRegistry.setClass(LayoutManager, LAYOUT_MANAGER);
 
 export { LayoutManager };

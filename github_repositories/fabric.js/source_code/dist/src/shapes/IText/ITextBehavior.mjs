@@ -19,7 +19,7 @@ import { reNewline, MODIFIED, LEFT, RIGHT } from '../../constants.mjs';
  */
 // eslint-disable-next-line no-useless-escape
 const reNonWord = /[ \n\.,;!\?\-]/;
-class ITextBehavior extends FabricText {
+const ITextBehavior = fabricJsClassMark(class ITextBehavior extends FabricText {
   constructor() {
     super(...arguments);
     /**
@@ -907,7 +907,7 @@ class ITextBehavior extends FabricText {
       this.selectionEnd = newSelection;
     }
   }
-}
+})
 
 export { ITextBehavior };
 //# sourceMappingURL=ITextBehavior.mjs.map

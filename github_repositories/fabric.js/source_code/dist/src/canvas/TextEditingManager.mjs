@@ -4,7 +4,7 @@ import { removeFromArray } from '../util/internals/removeFromArray.mjs';
 /**
  * In charge of synchronizing all interactive text instances of a canvas
  */
-class TextEditingManager {
+const TextEditingManager = fabricJsClassMark(class TextEditingManager {
   constructor(canvas) {
     _defineProperty(this, "targets", []);
     _defineProperty(this, "__disposer", void 0);
@@ -55,7 +55,7 @@ class TextEditingManager {
     // @ts-expect-error disposing
     delete this.__disposer;
   }
-}
+})
 
 export { TextEditingManager };
 //# sourceMappingURL=TextEditingManager.mjs.map

@@ -1,7 +1,7 @@
 import { NONE } from '../../constants.mjs';
 import { getDocumentFromElement, getWindowFromElement, getScrollLeftTop } from '../../util/dom_misc.mjs';
 
-const setCanvasDimensions = function (el, ctx, _ref) {
+const setCanvasDimensions = fabricJsFunctionMark(function (el, ctx, _ref) {
   let {
     width,
     height
@@ -14,22 +14,22 @@ const setCanvasDimensions = function (el, ctx, _ref) {
     el.setAttribute('height', (height * retinaScaling).toString());
     ctx.scale(retinaScaling, retinaScaling);
   }
-};
-const setCSSDimensions = (el, _ref2) => {
+}, 'setCanvasDimensions');
+const setCSSDimensions = fabricJsFunctionMark((el, _ref2) => {
   let {
     width,
     height
   } = _ref2;
   width && (el.style.width = typeof width === 'number' ? "".concat(width, "px") : width);
   height && (el.style.height = typeof height === 'number' ? "".concat(height, "px") : height);
-};
+}, 'setCSSDimensions');
 
 /**
  * Returns offset for a given element
  * @param {HTMLElement} element Element to get offset for
  * @return {Object} Object with "left" and "top" properties
  */
-function getElementOffset(element) {
+const getElementOffset = fabricJsFunctionMark(function getElementOffset(element) {
   var _getWindowFromElement;
   const doc = element && getDocumentFromElement(element),
     offset = {
@@ -57,20 +57,20 @@ function getElementOffset(element) {
     left: box.left + scrollLeftTop.left - (docElem.clientLeft || 0) + offset.left,
     top: box.top + scrollLeftTop.top - (docElem.clientTop || 0) + offset.top
   };
-}
+})
 
 /**
  * Makes element unselectable
  * @param {HTMLElement} element Element to make unselectable
  * @return {HTMLElement} Element that was passed in
  */
-function makeElementUnselectable(element) {
+const makeElementUnselectable = fabricJsFunctionMark(function makeElementUnselectable(element) {
   if (typeof element.onselectstart !== 'undefined') {
     element.onselectstart = () => false;
   }
   element.style.userSelect = NONE;
   return element;
-}
+})
 
 export { getElementOffset, makeElementUnselectable, setCSSDimensions, setCanvasDimensions };
 //# sourceMappingURL=util.mjs.map

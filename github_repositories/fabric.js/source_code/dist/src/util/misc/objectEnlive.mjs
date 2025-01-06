@@ -9,7 +9,7 @@ import { SignalAbortedError, FabricError } from '../internals/console.mjs';
  * @param {LoadImageOptions} [options] image loading options
  * @returns {Promise<HTMLImageElement>} the loaded image.
  */
-const loadImage = function (url) {
+const loadImage = fabricJsFunctionMark(function (url) {
   let {
     signal,
     crossOrigin = null
@@ -46,7 +46,7 @@ const loadImage = function (url) {
     crossOrigin && (img.crossOrigin = crossOrigin);
     img.src = url;
   });
-};
+}, 'loadImage');
 /**
  * @TODO type this correctly.
  * Creates corresponding fabric instances from their object representations
@@ -57,7 +57,7 @@ const loadImage = function (url) {
  * @param {AbortSignal} [options.signal] handle aborting, see https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal
  * @returns {Promise<FabricObject[]>}
  */
-const enlivenObjects = function (objects) {
+const enlivenObjects = fabricJsFunctionMark(function (objects) {
   let {
     signal,
     reviver = noop
@@ -83,7 +83,7 @@ const enlivenObjects = function (objects) {
       signal && signal.removeEventListener('abort', reject);
     });
   });
-};
+}, 'enlivenObjects');
 
 /**
  * Creates corresponding fabric instances residing in an object, e.g. `clipPath`
@@ -92,7 +92,7 @@ const enlivenObjects = function (objects) {
  * @param {AbortSignal} [options.signal] handle aborting, see https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal
  * @returns {Promise<Record<string, FabricObject | TFiller | null>>} the input object with enlived values
  */
-const enlivenObjectEnlivables = function (serializedObject) {
+const enlivenObjectEnlivables = fabricJsFunctionMark(function (serializedObject) {
   let {
     signal
   } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -139,7 +139,7 @@ const enlivenObjectEnlivables = function (serializedObject) {
       signal && signal.removeEventListener('abort', reject);
     });
   });
-};
+}, 'enlivenObjectEnlivables');
 
 export { enlivenObjectEnlivables, enlivenObjects, loadImage };
 //# sourceMappingURL=objectEnlive.mjs.map

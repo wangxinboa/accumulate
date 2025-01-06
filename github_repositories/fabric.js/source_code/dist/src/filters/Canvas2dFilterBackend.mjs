@@ -4,7 +4,7 @@ import { defineProperty as _defineProperty } from '../../_virtual/_rollupPluginB
  * Canvas 2D filter backend.
  */
 
-class Canvas2dFilterBackend {
+const Canvas2dFilterBackend = fabricJsClassMark(class Canvas2dFilterBackend {
   constructor() {
     /**
      * Experimental. This object is a sort of repository of help layers used to avoid
@@ -56,7 +56,7 @@ class Canvas2dFilterBackend {
     ctx.putImageData(imageDataPostFilter, 0, 0);
     return pipelineState;
   }
-}
+})
 
 export { Canvas2dFilterBackend };
 //# sourceMappingURL=Canvas2dFilterBackend.mjs.map

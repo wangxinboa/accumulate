@@ -13,7 +13,7 @@ import { getTagName } from './getTagName.mjs';
 import { parseTransformAttribute } from './parseTransformAttribute.mjs';
 
 const findTag = el => classRegistry.getSVGClass(getTagName(el).toLowerCase());
-class ElementsParser {
+const ElementsParser = fabricJsClassMark(class ElementsParser {
   constructor(elements, options, reviver, doc, clipPaths) {
     this.elements = elements;
     this.options = options;
@@ -133,7 +133,7 @@ class ElementsParser {
       return;
     }
   }
-}
+})
 
 export { ElementsParser };
 //# sourceMappingURL=elements_parser.mjs.map

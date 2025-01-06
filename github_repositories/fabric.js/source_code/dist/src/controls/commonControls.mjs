@@ -7,7 +7,7 @@ import { scaleCursorStyleHandler, scalingEqually } from './scale.mjs';
 import { scaleSkewCursorStyleHandler, scalingXOrSkewingY, scaleOrSkewActionName, scalingYOrSkewingX } from './scaleSkew.mjs';
 
 // use this function if you want to generate new controls for every instance
-const createObjectDefaultControls = () => ({
+const createObjectDefaultControls = fabricJsFunctionMark(() => ({
   ml: new Control({
     x: -0.5,
     y: 0,
@@ -69,8 +69,8 @@ const createObjectDefaultControls = () => ({
     withConnection: true,
     actionName: ROTATE
   })
-});
-const createResizeControls = () => ({
+}), 'createObjectDefaultControls');
+const createResizeControls = fabricJsFunctionMark(() => ({
   mr: new Control({
     x: 0.5,
     y: 0,
@@ -85,8 +85,8 @@ const createResizeControls = () => ({
     cursorStyleHandler: scaleSkewCursorStyleHandler,
     actionName: RESIZING
   })
-});
-const createTextboxDefaultControls = () => _objectSpread2(_objectSpread2({}, createObjectDefaultControls()), createResizeControls());
+}), 'createResizeControls');
+const createTextboxDefaultControls = fabricJsFunctionMark(() => _objectSpread2(_objectSpread2({}, createObjectDefaultControls()), createResizeControls()), 'createTextboxDefaultControls');
 
 export { createObjectDefaultControls, createResizeControls, createTextboxDefaultControls };
 //# sourceMappingURL=commonControls.mjs.map

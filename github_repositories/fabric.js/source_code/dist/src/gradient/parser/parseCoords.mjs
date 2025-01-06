@@ -2,7 +2,7 @@ import { objectSpread2 as _objectSpread2 } from '../../../_virtual/_rollupPlugin
 import { isPercent } from '../../parser/percent.mjs';
 import { parseGradientUnits, parseType } from './misc.mjs';
 
-function convertPercentUnitsToValues(valuesToConvert, _ref) {
+const convertPercentUnitsToValues = fabricJsFunctionMark(function convertPercentUnitsToValues(valuesToConvert, _ref) {
   let {
     width,
     height,
@@ -33,19 +33,19 @@ function convertPercentUnitsToValues(valuesToConvert, _ref) {
     acc[prop] = finalValue;
     return acc;
   }, {});
-}
-function getValue(el, key) {
+})
+const getValue = fabricJsFunctionMark(function getValue(el, key) {
   return el.getAttribute(key);
-}
-function parseLinearCoords(el) {
+})
+const parseLinearCoords = fabricJsFunctionMark(function parseLinearCoords(el) {
   return {
     x1: getValue(el, 'x1') || 0,
     y1: getValue(el, 'y1') || 0,
     x2: getValue(el, 'x2') || '100%',
     y2: getValue(el, 'y2') || 0
   };
-}
-function parseRadialCoords(el) {
+})
+const parseRadialCoords = fabricJsFunctionMark(function parseRadialCoords(el) {
   return {
     x1: getValue(el, 'fx') || getValue(el, 'cx') || '50%',
     y1: getValue(el, 'fy') || getValue(el, 'cy') || '50%',
@@ -54,12 +54,12 @@ function parseRadialCoords(el) {
     y2: getValue(el, 'cy') || '50%',
     r2: getValue(el, 'r') || '50%'
   };
-}
-function parseCoords(el, size) {
+})
+const parseCoords = fabricJsFunctionMark(function parseCoords(el, size) {
   return convertPercentUnitsToValues(parseType(el) === 'linear' ? parseLinearCoords(el) : parseRadialCoords(el), _objectSpread2(_objectSpread2({}, size), {}, {
     gradientUnits: parseGradientUnits(el)
   }));
-}
+})
 
 export { parseCoords, parseLinearCoords, parseRadialCoords };
 //# sourceMappingURL=parseCoords.mjs.map

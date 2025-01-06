@@ -4,7 +4,7 @@ import { setCanvasDimensions, setCSSDimensions, getElementOffset } from './util.
 import { isHTMLCanvas, createCanvasElement } from '../../util/misc/dom.mjs';
 import { FabricError } from '../../util/internals/console.mjs';
 
-class StaticCanvasDOMManager {
+const StaticCanvasDOMManager = fabricJsClassMark(class StaticCanvasDOMManager {
   constructor(arg0) {
     /**
      * Keeps a copy of the canvas style before setting retina scaling and other potions
@@ -69,7 +69,7 @@ class StaticCanvasDOMManager {
     // @ts-expect-error disposing
     delete this.lower;
   }
-}
+})
 
 export { StaticCanvasDOMManager };
 //# sourceMappingURL=StaticCanvasDOMManager.mjs.map

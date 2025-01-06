@@ -5,13 +5,13 @@
  * @param {*} value
  * @return {Array} original array
  */
-const removeFromArray = (array, value) => {
+const removeFromArray = fabricJsFunctionMark((array, value) => {
   const idx = array.indexOf(value);
   if (idx !== -1) {
     array.splice(idx, 1);
   }
   return array;
-};
+}, 'removeFromArray');
 
 export { removeFromArray };
 //# sourceMappingURL=removeFromArray.mjs.map

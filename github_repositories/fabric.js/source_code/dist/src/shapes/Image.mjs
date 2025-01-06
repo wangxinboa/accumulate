@@ -33,7 +33,7 @@ const IMAGE_PROPS = ['cropX', 'cropY'];
 /**
  * @tutorial {@link http://fabricjs.com/fabric-intro-part-1#images}
  */
-class FabricImage extends FabricObject {
+const FabricImage = fabricJsClassMark(class FabricImage extends FabricObject {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), FabricImage.ownDefaults);
   }
@@ -650,7 +650,7 @@ class FabricImage extends FabricObject {
       return null;
     });
   }
-}
+})
 _defineProperty(FabricImage, "type", 'Image');
 _defineProperty(FabricImage, "cacheProperties", [...cacheProperties, ...IMAGE_PROPS]);
 _defineProperty(FabricImage, "ownDefaults", imageDefaultValues);

@@ -9,7 +9,7 @@ import { classRegistry } from '../../ClassRegistry.mjs';
 /**
  * Layout will adjust the bounding box to match the clip path bounding box.
  */
-class ClipPathLayout extends LayoutStrategy {
+const ClipPathLayout = fabricJsClassMark(class ClipPathLayout extends LayoutStrategy {
   shouldPerformLayout(context) {
     return !!context.target.clipPath && super.shouldPerformLayout(context);
   }
@@ -63,7 +63,7 @@ class ClipPathLayout extends LayoutStrategy {
       }
     }
   }
-}
+})
 _defineProperty(ClipPathLayout, "type", 'clip-path');
 classRegistry.setClass(ClipPathLayout);
 

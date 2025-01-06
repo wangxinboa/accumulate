@@ -6,7 +6,7 @@ import { classRegistry } from '../ClassRegistry.mjs';
 /**
  * A container class that knows how to apply a sequence of filters to an input image.
  */
-class Composed extends BaseFilter {
+const Composed = fabricJsClassMark(class Composed extends BaseFilter {
   constructor() {
     let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     super(options);
@@ -55,7 +55,7 @@ class Composed extends BaseFilter {
       subFilters: enlivedFilters
     }));
   }
-}
+})
 /**
  * A non sparse array of filters to apply
  */

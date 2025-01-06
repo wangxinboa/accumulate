@@ -9,7 +9,7 @@ import { commonEventInfo } from './util.mjs';
  * @param {object} extraEventInfo extra information to pas to the event handler
  * @return {TransformActionHandler<T>} a function with an action handler signature
  */
-const wrapWithFireEvent = (eventName, actionHandler, extraEventInfo) => {
+const wrapWithFireEvent = fabricJsFunctionMark((eventName, actionHandler, extraEventInfo) => {
   return (eventData, transform, x, y) => {
     const actionPerformed = actionHandler(eventData, transform, x, y);
     if (actionPerformed) {
@@ -17,7 +17,7 @@ const wrapWithFireEvent = (eventName, actionHandler, extraEventInfo) => {
     }
     return actionPerformed;
   };
-};
+}, 'wrapWithFireEvent');
 
 export { wrapWithFireEvent };
 //# sourceMappingURL=wrapWithFireEvent.mjs.map

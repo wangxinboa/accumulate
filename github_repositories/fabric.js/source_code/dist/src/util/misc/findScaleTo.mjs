@@ -6,7 +6,7 @@
  * @param {TSize} destination natural unscaled size of the object
  * @return {Number} scale factor to apply to source to fit into destination
  */
-const findScaleToFit = (source, destination) => Math.min(destination.width / source.width, destination.height / source.height);
+const findScaleToFit = fabricJsFunctionMark((source, destination) => Math.min(destination.width / source.width, destination.height / source.height), 'findScaleToFit');
 
 /**
  * Finds the scale for the object source to cover entirely the object destination,
@@ -16,7 +16,7 @@ const findScaleToFit = (source, destination) => Math.min(destination.width / sou
  * @param {TSize} destination natural unscaled size of the object
  * @return {Number} scale factor to apply to source to cover destination
  */
-const findScaleToCover = (source, destination) => Math.max(destination.width / source.width, destination.height / source.height);
+const findScaleToCover = fabricJsFunctionMark((source, destination) => Math.max(destination.width / source.width, destination.height / source.height), 'findScaleToCover');
 
 export { findScaleToCover, findScaleToFit };
 //# sourceMappingURL=findScaleTo.mjs.map

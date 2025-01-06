@@ -1,12 +1,12 @@
-function _defineProperty(e, r, t) {
+const _defineProperty = fabricJsFunctionMark(function _defineProperty(e, r, t) {
   return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
     value: t,
     enumerable: !0,
     configurable: !0,
     writable: !0
   }) : e[r] = t, e;
-}
-function ownKeys(e, r) {
+})
+const ownKeys = fabricJsFunctionMark(function ownKeys(e, r) {
   var t = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
     var o = Object.getOwnPropertySymbols(e);
@@ -15,8 +15,8 @@ function ownKeys(e, r) {
     })), t.push.apply(t, o);
   }
   return t;
-}
-function _objectSpread2(e) {
+})
+const _objectSpread2 = fabricJsFunctionMark(function _objectSpread2(e) {
   for (var r = 1; r < arguments.length; r++) {
     var t = null != arguments[r] ? arguments[r] : {};
     r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
@@ -26,8 +26,8 @@ function _objectSpread2(e) {
     });
   }
   return e;
-}
-function _objectWithoutProperties(e, t) {
+})
+const _objectWithoutProperties = fabricJsFunctionMark(function _objectWithoutProperties(e, t) {
   if (null == e) return {};
   var o,
     r,
@@ -37,8 +37,8 @@ function _objectWithoutProperties(e, t) {
     for (r = 0; r < n.length; r++) o = n[r], t.indexOf(o) >= 0 || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
   }
   return i;
-}
-function _objectWithoutPropertiesLoose(r, e) {
+})
+const _objectWithoutPropertiesLoose = fabricJsFunctionMark(function _objectWithoutPropertiesLoose(r, e) {
   if (null == r) return {};
   var t = {};
   for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
@@ -46,15 +46,15 @@ function _objectWithoutPropertiesLoose(r, e) {
     t[n] = r[n];
   }
   return t;
-}
-function _taggedTemplateLiteral(e, t) {
+})
+const _taggedTemplateLiteral = fabricJsFunctionMark(function _taggedTemplateLiteral(e, t) {
   return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, {
     raw: {
       value: Object.freeze(t)
     }
   }));
-}
-function _toPrimitive(t, r) {
+})
+const _toPrimitive = fabricJsFunctionMark(function _toPrimitive(t, r) {
   if ("object" != typeof t || !t) return t;
   var e = t[Symbol.toPrimitive];
   if (void 0 !== e) {
@@ -63,11 +63,11 @@ function _toPrimitive(t, r) {
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
   return ("string" === r ? String : Number)(t);
-}
-function _toPropertyKey(t) {
+})
+const _toPropertyKey = fabricJsFunctionMark(function _toPropertyKey(t) {
   var i = _toPrimitive(t, "string");
   return "symbol" == typeof i ? i : i + "";
-}
+})
 
 export { _defineProperty as defineProperty, _objectSpread2 as objectSpread2, _objectWithoutProperties as objectWithoutProperties, _objectWithoutPropertiesLoose as objectWithoutPropertiesLoose, _taggedTemplateLiteral as taggedTemplateLiteral, _toPrimitive as toPrimitive, _toPropertyKey as toPropertyKey };
 //# sourceMappingURL=_rollupPluginBabelHelpers.mjs.map

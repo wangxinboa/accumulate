@@ -14,7 +14,7 @@ import '../../util/animation/AnimationRegistry.mjs';
 import { makeElementUnselectable, setCanvasDimensions, setCSSDimensions } from './util.mjs';
 import { StaticCanvasDOMManager } from './StaticCanvasDOMManager.mjs';
 
-class CanvasDOMManager extends StaticCanvasDOMManager {
+const CanvasDOMManager = fabricJsClassMark(class CanvasDOMManager extends StaticCanvasDOMManager {
   constructor(arg0) {
     let {
       allowTouchScrolling = false,
@@ -126,7 +126,7 @@ class CanvasDOMManager extends StaticCanvasDOMManager {
     // @ts-expect-error disposing
     delete this.container;
   }
-}
+})
 
 export { CanvasDOMManager };
 //# sourceMappingURL=CanvasDOMManager.mjs.map

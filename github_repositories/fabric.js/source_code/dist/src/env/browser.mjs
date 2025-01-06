@@ -2,7 +2,7 @@ import { WebGLProbe } from '../filters/GLProbes/WebGLProbe.mjs';
 
 /* eslint-disable no-restricted-globals */
 const copyPasteData = {};
-const getEnv = () => {
+const getEnv = fabricJsFunctionMark(() => {
   return {
     document,
     window,
@@ -13,7 +13,7 @@ const getEnv = () => {
     },
     copyPasteData
   };
-};
+}, 'src/env/browser.mjs getEnv');
 
 export { getEnv };
 //# sourceMappingURL=browser.mjs.map

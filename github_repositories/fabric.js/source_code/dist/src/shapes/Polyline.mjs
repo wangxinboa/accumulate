@@ -21,7 +21,7 @@ const polylineDefaultValues = {
    */
   exactBoundingBox: false
 };
-class Polyline extends FabricObject {
+const Polyline = fabricJsClassMark(class Polyline extends FabricObject {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), Polyline.ownDefaults);
   }
@@ -324,7 +324,7 @@ class Polyline extends FabricObject {
       extraParam: 'points'
     });
   }
-}
+})
 /**
  * Points array
  * @type Array

@@ -12,7 +12,7 @@ import { SignalAbortedError } from './console.mjs';
  * @return {XMLHttpRequest} request
  */
 
-function request(url) {
+const request = fabricJsFunctionMark(function request(url) {
   let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const onComplete = options.onComplete || noop,
     xhr = new (getFabricWindow().XMLHttpRequest)(),
@@ -44,7 +44,7 @@ function request(url) {
   xhr.open('get', url, true);
   xhr.send();
   return xhr;
-}
+})
 
 export { request };
 //# sourceMappingURL=dom_request.mjs.map

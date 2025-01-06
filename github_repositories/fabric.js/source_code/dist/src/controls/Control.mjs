@@ -5,7 +5,7 @@ import { SCALE } from '../constants.mjs';
 import { multiplyTransformMatrixArray, createTranslateMatrix, createRotateMatrix, createScaleMatrix } from '../util/misc/matrix.mjs';
 import { renderSquareControl, renderCircleControl } from './controlRendering.mjs';
 
-class Control {
+const Control = fabricJsClassMark(class Control {
   constructor(options) {
     /**
      * keep track of control visibility.
@@ -280,7 +280,7 @@ class Control {
         renderSquareControl.call(this, ctx, left, top, styleOverride, fabricObject);
     }
   }
-}
+})
 
 export { Control };
 //# sourceMappingURL=Control.mjs.map

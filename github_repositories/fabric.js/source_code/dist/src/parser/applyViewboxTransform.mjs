@@ -5,7 +5,7 @@ import { NONE } from '../constants.mjs';
 /**
  * Add a <g> element that envelop all child elements and makes the viewbox transformMatrix descend on all elements
  */
-function applyViewboxTransform(element) {
+const applyViewboxTransform = fabricJsFunctionMark(function applyViewboxTransform(element) {
   if (!svgViewBoxElementsRegEx.test(element.nodeName)) {
     return {};
   }
@@ -121,7 +121,7 @@ function applyViewboxTransform(element) {
   }
   el.setAttribute('transform', matrix);
   return parsedDim;
-}
+})
 
 export { applyViewboxTransform };
 //# sourceMappingURL=applyViewboxTransform.mjs.map

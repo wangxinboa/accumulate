@@ -7,7 +7,7 @@ import { getRandomInt } from '../util/internals/getRandomInt.mjs';
 import { BaseBrush } from './BaseBrush.mjs';
 import { CENTER } from '../constants.mjs';
 
-class CircleBrush extends BaseBrush {
+const CircleBrush = fabricJsClassMark(class CircleBrush extends BaseBrush {
   constructor(canvas) {
     super(canvas);
     /**
@@ -133,7 +133,7 @@ class CircleBrush extends BaseBrush {
     this.points.push(pointerPoint);
     return pointerPoint;
   }
-}
+})
 
 export { CircleBrush };
 //# sourceMappingURL=CircleBrush.mjs.map

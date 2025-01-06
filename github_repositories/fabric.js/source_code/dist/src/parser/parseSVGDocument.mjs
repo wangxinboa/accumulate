@@ -7,13 +7,13 @@ import { ElementsParser } from './elements_parser.mjs';
 import { log, SignalAbortedError } from '../util/internals/console.mjs';
 import { getTagName } from './getTagName.mjs';
 
-const isValidSvgTag = el => svgValidTagNamesRegEx.test(getTagName(el));
-const createEmptyResponse = () => ({
+const isValidSvgTag = fabricJsFunctionMark(el => svgValidTagNamesRegEx.test(getTagName(el)), 'isValidSvgTag');
+const createEmptyResponse = fabricJsFunctionMark(() => ({
   objects: [],
   elements: [],
   options: {},
   allElements: []
-});
+}), 'createEmptyResponse');
 
 /**
  * Parses an SVG document, converts it to an array of corresponding fabric.* instances and passes them to a callback
@@ -32,7 +32,7 @@ const createEmptyResponse = () => ({
  * {@link SVGParsingOutput} also receives `allElements` array as the last argument. This is the full list of svg nodes available in the document.
  * You may want to use it if you are trying to regroup the objects as they were originally grouped in the SVG. ( This was the reason why it was added )
  */
-async function parseSVGDocument(doc, reviver) {
+const parseSVGDocument = fabricJsFunctionMark(async function parseSVGDocument(doc, reviver) {
   let {
     crossOrigin,
     signal
@@ -75,7 +75,7 @@ async function parseSVGDocument(doc, reviver) {
     options,
     allElements: descendants
   };
-}
+})
 
 export { createEmptyResponse, parseSVGDocument };
 //# sourceMappingURL=parseSVGDocument.mjs.map

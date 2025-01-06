@@ -4,7 +4,7 @@
  * @param {Function} actionHandler the function to wrap
  * @return {Function} a function with an action handler signature
  */
-function wrapWithFixedAnchor(actionHandler) {
+const wrapWithFixedAnchor = fabricJsFunctionMark(function wrapWithFixedAnchor(actionHandler) {
   return (eventData, transform, x, y) => {
     const {
         target,
@@ -19,7 +19,7 @@ function wrapWithFixedAnchor(actionHandler) {
     target.setPositionByOrigin(constraint, transform.originX, transform.originY);
     return actionPerformed;
   };
-}
+})
 
 export { wrapWithFixedAnchor };
 //# sourceMappingURL=wrapWithFixedAnchor.mjs.map

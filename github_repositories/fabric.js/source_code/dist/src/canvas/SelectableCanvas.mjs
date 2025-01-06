@@ -121,7 +121,7 @@ import { isActiveSelection } from '../util/typeAssertions.mjs';
  * });
  *
  */
-class SelectableCanvas extends StaticCanvas {
+const SelectableCanvas = fabricJsClassMark(class SelectableCanvas extends StaticCanvas {
   constructor() {
     super(...arguments);
     // transform config
@@ -1129,7 +1129,7 @@ class SelectableCanvas extends StaticCanvas {
     super._setSVGObject(markup, instance, reviver);
     instance.set(originalProperties);
   }
-}
+})
 _defineProperty(SelectableCanvas, "ownDefaults", canvasDefaults);
 
 export { SelectableCanvas };

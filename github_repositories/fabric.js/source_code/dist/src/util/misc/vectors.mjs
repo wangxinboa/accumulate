@@ -63,7 +63,7 @@ const getOrthonormalVector = function (v) {
  * @param {Point} b
  * @returns {number} the magnitude of Z vector
  */
-const crossProduct = (a, b) => a.x * b.y - a.y * b.x;
+const crossProduct = fabricJsFunctionMark((a, b) => a.x * b.y - a.y * b.x, 'crossProduct');
 
 /**
  * Dot product of two vectors in 2D
@@ -71,7 +71,7 @@ const crossProduct = (a, b) => a.x * b.y - a.y * b.x;
  * @param {Point} b
  * @returns {number}
  */
-const dotProduct = (a, b) => a.x * b.x + a.y * b.y;
+const dotProduct = fabricJsFunctionMark((a, b) => a.x * b.x + a.y * b.y, 'dotProduct');
 
 /**
  * Checks if the vector is between two others. It is considered
@@ -82,13 +82,13 @@ const dotProduct = (a, b) => a.x * b.x + a.y * b.y;
  * @param {Point} b final vector
  * @returns {boolean} true if the vector is among the others
  */
-const isBetweenVectors = (t, a, b) => {
+const isBetweenVectors = fabricJsFunctionMark((t, a, b) => {
   if (t.eq(a) || t.eq(b)) return true;
   const AxB = crossProduct(a, b),
     AxT = crossProduct(a, t),
     BxT = crossProduct(b, t);
   return AxB >= 0 ? AxT >= 0 && BxT <= 0 : !(AxT <= 0 && BxT >= 0);
-};
+}, 'isBetweenVectors');
 
 export { calcAngleBetweenVectors, calcVectorRotation, createVector, crossProduct, dotProduct, getOrthonormalVector, getUnitVector, isBetweenVectors, magnitude, rotateVector };
 //# sourceMappingURL=vectors.mjs.map

@@ -11,7 +11,7 @@ import { CENTER } from '../constants.mjs';
  * @param rects
  * @returns
  */
-function getUniqueRects(rects) {
+const getUniqueRects = fabricJsFunctionMark(function getUniqueRects(rects) {
   const uniqueRects = {};
   const uniqueRectsArray = [];
   for (let i = 0, key; i < rects.length; i++) {
@@ -22,8 +22,8 @@ function getUniqueRects(rects) {
     }
   }
   return uniqueRectsArray;
-}
-class SprayBrush extends BaseBrush {
+})
+const SprayBrush = fabricJsClassMark(class SprayBrush extends BaseBrush {
   /**
    * Constructor
    * @param {Canvas} canvas
@@ -179,7 +179,7 @@ class SprayBrush extends BaseBrush {
     }
     this.sprayChunks.push(this.sprayChunk);
   }
-}
+})
 
 export { SprayBrush };
 //# sourceMappingURL=SprayBrush.mjs.map

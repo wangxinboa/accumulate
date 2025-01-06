@@ -11,7 +11,7 @@ import '../../cache.mjs';
 import '../../parser/constants.mjs';
 import '../../util/animation/AnimationRegistry.mjs';
 
-class StyledText extends FabricObject {
+const StyledText = fabricJsClassMark(class StyledText extends FabricObject {
   /**
    * Returns true if object has no styling or no styling in a line
    * @param {Number} lineIndex , lineIndex is on wrapped lines.
@@ -276,7 +276,7 @@ class StyledText extends FabricObject {
   _deleteLineStyle(lineIndex) {
     delete this.styles[lineIndex];
   }
-}
+})
 _defineProperty(StyledText, "_styleProperties", styleProperties);
 
 export { StyledText };

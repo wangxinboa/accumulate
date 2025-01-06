@@ -9,7 +9,7 @@ import { reFontDeclaration } from './constants.mjs';
  * @param {String} value font declaration
  * @param {Object} oStyle definition
  */
-function parseFontDeclaration(value, oStyle) {
+const parseFontDeclaration = fabricJsFunctionMark(function parseFontDeclaration(value, oStyle) {
   const match = value.match(reFontDeclaration);
   if (!match) {
     return;
@@ -36,7 +36,7 @@ function parseFontDeclaration(value, oStyle) {
   if (lineHeight) {
     oStyle.lineHeight = lineHeight === 'normal' ? 1 : lineHeight;
   }
-}
+})
 
 export { parseFontDeclaration };
 //# sourceMappingURL=parseFontDeclaration.mjs.map

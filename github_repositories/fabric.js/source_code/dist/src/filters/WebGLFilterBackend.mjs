@@ -2,7 +2,7 @@ import { defineProperty as _defineProperty } from '../../_virtual/_rollupPluginB
 import { config } from '../config.mjs';
 import { createCanvasElementFor } from '../util/misc/dom.mjs';
 
-class WebGLFilterBackend {
+const WebGLFilterBackend = fabricJsClassMark(class WebGLFilterBackend {
   constructor() {
     let {
       tileSize = config.textureSize
@@ -293,8 +293,8 @@ class WebGLFilterBackend {
     this.gpuInfo = gpuInfo;
     return gpuInfo;
   }
-}
-function resizeCanvasIfNeeded(pipelineState) {
+})
+const resizeCanvasIfNeeded = fabricJsFunctionMark(function resizeCanvasIfNeeded(pipelineState) {
   const targetCanvas = pipelineState.targetCanvas,
     width = targetCanvas.width,
     height = targetCanvas.height,
@@ -304,7 +304,7 @@ function resizeCanvasIfNeeded(pipelineState) {
     targetCanvas.width = dWidth;
     targetCanvas.height = dHeight;
   }
-}
+})
 
 export { WebGLFilterBackend };
 //# sourceMappingURL=WebGLFilterBackend.mjs.map

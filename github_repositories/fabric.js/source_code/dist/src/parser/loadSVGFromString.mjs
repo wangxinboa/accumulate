@@ -15,12 +15,12 @@ import { parseSVGDocument } from './parseSVGDocument.mjs';
  * @param {String} [options.crossOrigin] crossOrigin setting to use for external resources
  * @param {AbortSignal} [options.signal] handle aborting, see https://developer.mozilla.org/en-US/docs/Web/API/AbortController/signal
  */
-function loadSVGFromString(string, reviver, options) {
+const loadSVGFromString = fabricJsFunctionMark(function loadSVGFromString(string, reviver, options) {
   const parser = new (getFabricWindow().DOMParser)(),
     // should we use `image/svg+xml` here?
     doc = parser.parseFromString(string.trim(), 'text/xml');
   return parseSVGDocument(doc, reviver, options);
-}
+})
 
 export { loadSVGFromString };
 //# sourceMappingURL=loadSVGFromString.mjs.map

@@ -6,24 +6,24 @@
  * and other letters are converted to lowercase.
  * @return {String} Capitalized version of a string
  */
-const capitalize = function (string) {
+const capitalize = fabricJsFunctionMark(function (string) {
   let firstLetterOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   return "".concat(string.charAt(0).toUpperCase()).concat(firstLetterOnly ? string.slice(1) : string.slice(1).toLowerCase());
-};
+}, 'capitalize');
 
 /**
  * Escapes XML in a string
  * @param {String} string String to escape
  * @return {String} Escaped version of a string
  */
-const escapeXml = string => string.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const escapeXml = fabricJsFunctionMark(string => string.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace(/</g, '&lt;').replace(/>/g, '&gt;'), 'escapeXml');
 
 /**
  * Divide a string in the user perceived single units
  * @param {String} textstring String to escape
  * @return {Array} array containing the graphemes
  */
-const graphemeSplit = textstring => {
+const graphemeSplit = fabricJsFunctionMark(textstring => {
   const graphemes = [];
   for (let i = 0, chr; i < textstring.length; i++) {
     if ((chr = getWholeChar(textstring, i)) === false) {
@@ -32,10 +32,10 @@ const graphemeSplit = textstring => {
     graphemes.push(chr);
   }
   return graphemes;
-};
+}, 'graphemeSplit');
 
 // taken from mdn in the charAt doc page.
-const getWholeChar = (str, i) => {
+const getWholeChar = fabricJsFunctionMark((str, i) => {
   const code = str.charCodeAt(i);
   if (isNaN(code)) {
     return ''; // Position not found
@@ -70,7 +70,7 @@ const getWholeChar = (str, i) => {
   // We can pass over low surrogates now as the second component
   // in a pair which we have already processed
   return false;
-};
+}, 'getWholeChar');
 
 export { capitalize, escapeXml, graphemeSplit };
 //# sourceMappingURL=lang_string.mjs.map

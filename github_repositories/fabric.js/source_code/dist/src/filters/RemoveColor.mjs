@@ -20,7 +20,7 @@ const removeColorDefaultValues = {
  * object.applyFilters();
  * canvas.renderAll();
  */
-class RemoveColor extends BaseFilter {
+const RemoveColor = fabricJsClassMark(class RemoveColor extends BaseFilter {
   getFragmentSource() {
     return fragmentShader;
   }
@@ -63,7 +63,7 @@ class RemoveColor extends BaseFilter {
     gl.uniform4fv(uniformLocations.uLow, lowC);
     gl.uniform4fv(uniformLocations.uHigh, highC);
   }
-}
+})
 /**
  * Color to remove, in any format understood by {@link Color}.
  * @param {String} type

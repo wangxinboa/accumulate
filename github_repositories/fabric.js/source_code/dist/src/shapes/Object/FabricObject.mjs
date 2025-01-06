@@ -8,7 +8,7 @@ import { classRegistry } from '../../ClassRegistry.mjs';
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-class FabricObject extends InteractiveFabricObject {}
+const FabricObject = fabricJsClassMark(class FabricObject extends InteractiveFabricObject {}, 'src/shapes/Object/FabricObject.mjs FabricObject')
 applyMixins(FabricObject, [FabricObjectSVGExportMixin]);
 classRegistry.setClass(FabricObject);
 classRegistry.setClass(FabricObject, 'object');

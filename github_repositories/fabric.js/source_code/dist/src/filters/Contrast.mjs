@@ -16,7 +16,7 @@ const contrastDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-class Contrast extends BaseFilter {
+const Contrast = fabricJsClassMark(class Contrast extends BaseFilter {
   getFragmentSource() {
     return fragmentSource;
   }
@@ -54,7 +54,7 @@ class Contrast extends BaseFilter {
   sendUniformData(gl, uniformLocations) {
     gl.uniform1f(uniformLocations.uContrast, this.contrast);
   }
-}
+})
 /**
  * contrast value, range from -1 to 1.
  * @param {Number} contrast

@@ -10,7 +10,7 @@ import { StrokeLineJoinProjections } from './StrokeLineJoinProjections.mjs';
  * @see https://github.com/fabricjs/fabric.js/pull/8344
  *
  */
-const projectStrokeOnPoints = function (points, options) {
+const projectStrokeOnPoints = fabricJsFunctionMark(function (points, options) {
   let openPath = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   const projections = [];
   if (points.length === 0) {
@@ -54,7 +54,7 @@ const projectStrokeOnPoints = function (points, options) {
     }
   });
   return projections;
-};
+}, 'projectStrokeOnPoints');
 
 export { projectStrokeOnPoints };
 //# sourceMappingURL=index.mjs.map

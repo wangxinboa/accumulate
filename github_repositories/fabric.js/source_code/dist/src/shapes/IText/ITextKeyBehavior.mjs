@@ -5,7 +5,7 @@ import { ITextBehavior } from './ITextBehavior.mjs';
 import { getDocumentFromElement } from '../../util/dom_misc.mjs';
 import { RIGHT, LEFT, CHANGED } from '../../constants.mjs';
 
-class ITextKeyBehavior extends ITextBehavior {
+const ITextKeyBehavior = fabricJsClassMark(class ITextKeyBehavior extends ITextBehavior {
   /**
    * For functionalities on keyDown
    * Map a special key to a function of the instance/prototype
@@ -592,7 +592,7 @@ class ITextKeyBehavior extends ITextBehavior {
     }
     return changed;
   }
-}
+})
 
 export { ITextKeyBehavior };
 //# sourceMappingURL=ITextKeyBehavior.mjs.map

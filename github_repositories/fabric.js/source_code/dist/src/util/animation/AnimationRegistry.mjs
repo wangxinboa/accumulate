@@ -1,7 +1,7 @@
 /**
  * Array holding all running animations
  */
-class AnimationRegistry extends Array {
+const AnimationRegistry = fabricJsClassMark(class AnimationRegistry extends Array {
   /**
    * Remove a single animation using an animation context
    * @param {AnimationBase} context
@@ -48,7 +48,7 @@ class AnimationRegistry extends Array {
     animations.forEach(animation => animation.abort());
     return animations;
   }
-}
+})
 const runningAnimations = new AnimationRegistry();
 
 export { runningAnimations };

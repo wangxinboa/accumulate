@@ -9,7 +9,7 @@ import { ITextKeyBehavior } from './ITextKeyBehavior.mjs';
  * `LEFT_CLICK === 0`
  */
 const notALeftClick = e => !!e.button;
-class ITextClickBehavior extends ITextKeyBehavior {
+const ITextClickBehavior = fabricJsClassMark(class ITextClickBehavior extends ITextKeyBehavior {
   constructor() {
     super(...arguments);
     _defineProperty(this, "draggableTextDelegate", void 0);
@@ -253,7 +253,7 @@ class ITextClickBehavior extends ITextKeyBehavior {
     // if object is horizontally flipped, mirror cursor location from the end
     this.flipX ? charLength - charIndex : charIndex, this._text.length);
   }
-}
+})
 
 export { ITextClickBehavior };
 //# sourceMappingURL=ITextClickBehavior.mjs.map

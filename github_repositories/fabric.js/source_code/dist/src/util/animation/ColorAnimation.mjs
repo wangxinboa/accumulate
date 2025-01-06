@@ -5,12 +5,12 @@ import { capValue } from '../misc/capValue.mjs';
 import { AnimationBase } from './AnimationBase.mjs';
 
 const _excluded = ["startValue", "endValue", "easing", "onChange", "onComplete", "abort"];
-const defaultColorEasing = (timeElapsed, startValue, byValue, duration) => {
+const defaultColorEasing = fabricJsFunctionMark((timeElapsed, startValue, byValue, duration) => {
   const durationProgress = 1 - Math.cos(timeElapsed / duration * halfPI);
   return startValue + byValue * durationProgress;
-};
-const wrapColorCallback = callback => callback && ((rgba, valueProgress, durationProgress) => callback(new Color(rgba).toRgba(), valueProgress, durationProgress));
-class ColorAnimation extends AnimationBase {
+}, 'defaultColorEasing');
+const wrapColorCallback = fabricJsFunctionMark(callback => callback && ((rgba, valueProgress, durationProgress) => callback(new Color(rgba).toRgba(), valueProgress, durationProgress)), 'wrapColorCallback');
+const ColorAnimation = fabricJsClassMark(class ColorAnimation extends AnimationBase {
   constructor(_ref) {
     let {
         startValue,
@@ -42,7 +42,7 @@ class ColorAnimation extends AnimationBase {
       value.map((p, i) => this.byValue[i] !== 0 ? Math.abs((p - this.startValue[i]) / this.byValue[i]) : 0).find(p => p !== 0) || 0
     };
   }
-}
+})
 
 export { ColorAnimation };
 //# sourceMappingURL=ColorAnimation.mjs.map

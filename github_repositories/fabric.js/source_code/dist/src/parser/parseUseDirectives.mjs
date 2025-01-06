@@ -3,7 +3,7 @@ import { getMultipleNodes } from './getMultipleNodes.mjs';
 import { applyViewboxTransform } from './applyViewboxTransform.mjs';
 import { parseStyleString } from './parseStyleString.mjs';
 
-function parseUseDirectives(doc) {
+const parseUseDirectives = fabricJsFunctionMark(function parseUseDirectives(doc) {
   const nodelist = getMultipleNodes(doc, ['use', 'svg:use']);
   const skipAttributes = ['x', 'y', 'xlink:href', 'href', 'transform'];
   for (const useElement of nodelist) {
@@ -82,7 +82,7 @@ function parseUseDirectives(doc) {
     clonedOriginal.removeAttribute('id');
     useElement.parentNode.replaceChild(clonedOriginal, useElement);
   }
-}
+})
 
 export { parseUseDirectives };
 //# sourceMappingURL=parseUseDirectives.mjs.map

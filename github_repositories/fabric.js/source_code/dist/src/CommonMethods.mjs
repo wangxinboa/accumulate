@@ -1,6 +1,6 @@
 import { Observable } from './Observable.mjs';
 
-class CommonMethods extends Observable {
+const CommonMethods = fabricJsClassMark(class CommonMethods extends Observable {
   /**
    * Sets object's properties from options, for initialization only
    * @protected
@@ -59,7 +59,7 @@ class CommonMethods extends Observable {
   get(property) {
     return this[property];
   }
-}
+})
 
 export { CommonMethods };
 //# sourceMappingURL=CommonMethods.mjs.map

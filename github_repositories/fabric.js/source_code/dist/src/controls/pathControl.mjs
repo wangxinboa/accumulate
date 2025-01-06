@@ -7,15 +7,15 @@ import { fireEvent } from './fireEvent.mjs';
 import { commonEventInfo } from './util.mjs';
 
 const ACTION_NAME = 'modifyPath';
-const calcPathPointPosition = (pathObject, commandIndex, pointIndex) => {
+const calcPathPointPosition = fabricJsFunctionMark((pathObject, commandIndex, pointIndex) => {
   const {
     path,
     pathOffset
   } = pathObject;
   const command = path[commandIndex];
   return new Point(command[pointIndex] - pathOffset.x, command[pointIndex + 1] - pathOffset.y).transform(multiplyTransformMatrices(pathObject.getViewportTransform(), pathObject.calcTransformMatrix()));
-};
-const movePathPoint = (pathObject, x, y, commandIndex, pointIndex) => {
+}, 'calcPathPointPosition');
+const movePathPoint = fabricJsFunctionMark((pathObject, x, y, commandIndex, pointIndex) => {
   const {
     path,
     pathOffset
@@ -33,19 +33,19 @@ const movePathPoint = (pathObject, x, y, commandIndex, pointIndex) => {
   pathObject.top -= diff.y;
   pathObject.set('dirty', true);
   return true;
-};
+}, 'movePathPoint');
 
 /**
  * This function locates the controls.
  * It'll be used both for drawing and for interaction.
  */
-function pathPositionHandler(dim, finalMatrix, pathObject) {
+const pathPositionHandler = fabricJsFunctionMark(function pathPositionHandler(dim, finalMatrix, pathObject) {
   const {
     commandIndex,
     pointIndex
   } = this;
   return calcPathPointPosition(pathObject, commandIndex, pointIndex);
-}
+})
 
 /**
  * This function defines what the control does.
@@ -54,7 +54,7 @@ function pathPositionHandler(dim, finalMatrix, pathObject) {
  * and the current position in canvas coordinate `transform.target` is a reference to the
  * current object being transformed.
  */
-function pathActionHandler(eventData, transform, x, y) {
+const pathActionHandler = fabricJsFunctionMark(function pathActionHandler(eventData, transform, x, y) {
   const {
     target
   } = transform;
@@ -70,9 +70,9 @@ function pathActionHandler(eventData, transform, x, y) {
     }));
   }
   return actionPerformed;
-}
+})
 const indexFromPrevCommand = previousCommandType => previousCommandType === 'C' ? 5 : previousCommandType === 'Q' ? 3 : 1;
-class PathPointControl extends Control {
+const PathPointControl = fabricJsClassMark(class PathPointControl extends Control {
   constructor(options) {
     super(options);
   }
@@ -84,8 +84,8 @@ class PathPointControl extends Control {
     });
     super.render(ctx, left, top, overrides, fabricObject);
   }
-}
-class PathControlPointControl extends PathPointControl {
+})
+const PathControlPointControl = fabricJsClassMark(class PathControlPointControl extends PathPointControl {
   constructor(options) {
     super(options);
   }
@@ -119,8 +119,8 @@ class PathControlPointControl extends PathPointControl {
     ctx.restore();
     super.render(ctx, left, top, styleOverride, fabricObject);
   }
-}
-const createControl = (commandIndexPos, pointIndexPos, isControlPoint, options, connectToCommandIndex, connectToPointIndex) => new (isControlPoint ? PathControlPointControl : PathPointControl)(_objectSpread2(_objectSpread2({
+})
+const createControl = fabricJsFunctionMark((commandIndexPos, pointIndexPos, isControlPoint, options, connectToCommandIndex, connectToPointIndex) => new (isControlPoint ? PathControlPointControl : PathPointControl)(_objectSpread2(_objectSpread2({
   commandIndex: commandIndexPos,
   pointIndex: pointIndexPos,
   actionName: ACTION_NAME,
@@ -128,8 +128,8 @@ const createControl = (commandIndexPos, pointIndexPos, isControlPoint, options, 
   actionHandler: pathActionHandler,
   connectToCommandIndex,
   connectToPointIndex
-}, options), isControlPoint ? options.controlPointStyle : options.pointStyle));
-function createPathControls(path) {
+}, options), isControlPoint ? options.controlPointStyle : options.pointStyle)), 'createControl');
+const createPathControls = fabricJsFunctionMark(function createPathControls(path) {
   let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const controls = {};
   let previousCommandType = 'M';
@@ -150,7 +150,7 @@ function createPathControls(path) {
     previousCommandType = commandType;
   });
   return controls;
-}
+})
 
 export { createPathControls };
 //# sourceMappingURL=pathControl.mjs.map

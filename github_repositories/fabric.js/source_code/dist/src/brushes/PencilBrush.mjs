@@ -9,10 +9,10 @@ import { BaseBrush } from './BaseBrush.mjs';
  * @param {TSimplePathData} pathData SVG path commands
  * @returns {boolean}
  */
-function isEmptySVGPath(pathData) {
+const isEmptySVGPath = fabricJsFunctionMark(function isEmptySVGPath(pathData) {
   return joinPath(pathData) === 'M 0 0 Q 0 0 0 0 L 0 0';
-}
-class PencilBrush extends BaseBrush {
+})
+const PencilBrush = fabricJsClassMark(class PencilBrush extends BaseBrush {
   constructor(canvas) {
     super(canvas);
     /**
@@ -286,7 +286,7 @@ class PencilBrush extends BaseBrush {
       path: path
     });
   }
-}
+})
 
 export { PencilBrush };
 //# sourceMappingURL=PencilBrush.mjs.map

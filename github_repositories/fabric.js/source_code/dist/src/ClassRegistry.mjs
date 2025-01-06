@@ -14,7 +14,7 @@ import { FabricError } from './util/internals/console.mjs';
 
 const JSON = 'json';
 const SVG = 'svg';
-class ClassRegistry {
+const ClassRegistry = fabricJsClassMark(class ClassRegistry {
   constructor() {
     this[JSON] = new Map();
     this[SVG] = new Map();
@@ -45,7 +45,7 @@ class ClassRegistry {
   setSVGClass(classConstructor, SVGTagName) {
     this[SVG].set(SVGTagName !== null && SVGTagName !== void 0 ? SVGTagName : classConstructor.type.toLowerCase(), classConstructor);
   }
-}
+})
 const classRegistry = new ClassRegistry();
 
 export { ClassRegistry, JSON, SVG, classRegistry };

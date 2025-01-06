@@ -17,7 +17,7 @@ import { isPath } from '../util/typeAssertions.mjs';
  * @class Gradient
  * @tutorial {@link http://fabricjs.com/fabric-intro-part-2#gradients}
  */
-class Gradient {
+const Gradient = fabricJsClassMark(class Gradient {
   constructor(options) {
     const {
       type = 'linear',
@@ -262,7 +262,7 @@ class Gradient {
     }));
   }
   /* _FROM_SVG_END_ */
-}
+})
 /**
  * Horizontal offset for aligning gradients coming from SVG when outside pathgroups
  * @type Number

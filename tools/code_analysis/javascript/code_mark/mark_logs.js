@@ -31,22 +31,23 @@ let nowMarkNode = rootMarkNode;
 
 const MarkLogs = {
 	rootMarkNode,
-	mark(title, key = null, message) {
-		if (isConsole) {
-			globalThis.console.group(`${title}${key === null ? '-(空节点)' : ''}`);
-			if (message) {
-				globalThis.console.groupCollapsed(`${title} 执行信息`);
-				message.markConsole();
-				globalThis.console.trace();
-				globalThis.console.groupEnd();
-			}
-		}
+	mark(title, key = null, args,message) {
 		const prentMarkNode = nowMarkNode;
 		let prentNotEmptyMarkNode = prentMarkNode;
 		while (prentNotEmptyMarkNode.isEmpty() && prentNotEmptyMarkNode.parent) {
 			prentNotEmptyMarkNode = prentNotEmptyMarkNode.parent;
 		}
 		nowMarkNode = nowMarkNode.addChildren(key);
+		if (isConsole) {
+			globalThis.console.group(`${title}${key === null ? '-[空节点]' : ''}-[父节点:${prentMarkNode.key}]`);
+			if (message) {
+				globalThis.console.groupCollapsed(`${title} 执行信息`);
+				globalThis.console.info('执行参数:', args)
+				message.markConsole();
+				globalThis.console.trace();
+				globalThis.console.groupEnd();
+			}
+		}
 		return {
 			prentMarkNode,
 			prentNotEmptyMarkNode,

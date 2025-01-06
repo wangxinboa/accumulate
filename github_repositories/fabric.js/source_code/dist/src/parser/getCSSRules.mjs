@@ -5,7 +5,7 @@ import { objectSpread2 as _objectSpread2 } from '../../_virtual/_rollupPluginBab
  * @param {HTMLElement} doc SVG document to parse
  * @return {Object} CSS rules of this document
  */
-function getCSSRules(doc) {
+const getCSSRules = fabricJsFunctionMark(function getCSSRules(doc) {
   const styles = doc.getElementsByTagName('style');
   let i;
   let len;
@@ -55,7 +55,7 @@ function getCSSRules(doc) {
     });
   }
   return allRules;
-}
+})
 
 export { getCSSRules };
 //# sourceMappingURL=getCSSRules.mjs.map

@@ -5,7 +5,7 @@ import { classRegistry } from '../../ClassRegistry.mjs';
 /**
  * Layout will adjust the bounding box to fit target's objects.
  */
-class FitContentLayout extends LayoutStrategy {
+const FitContentLayout = fabricJsClassMark(class FitContentLayout extends LayoutStrategy {
   /**
    * @override layout on all triggers
    * Override at will
@@ -14,7 +14,7 @@ class FitContentLayout extends LayoutStrategy {
   shouldPerformLayout(context) {
     return true;
   }
-}
+})
 _defineProperty(FitContentLayout, "type", 'fit-content');
 classRegistry.setClass(FitContentLayout);
 

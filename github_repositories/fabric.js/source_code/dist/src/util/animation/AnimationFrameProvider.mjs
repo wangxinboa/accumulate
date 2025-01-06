@@ -1,11 +1,11 @@
 import { getFabricWindow } from '../../env/index.mjs';
 
-function requestAnimFrame(callback) {
+const requestAnimFrame = fabricJsFunctionMark(function requestAnimFrame(callback) {
   return getFabricWindow().requestAnimationFrame(callback);
-}
-function cancelAnimFrame(handle) {
+})
+const cancelAnimFrame = fabricJsFunctionMark(function cancelAnimFrame(handle) {
   return getFabricWindow().cancelAnimationFrame(handle);
-}
+})
 
 export { cancelAnimFrame, requestAnimFrame };
 //# sourceMappingURL=AnimationFrameProvider.mjs.map

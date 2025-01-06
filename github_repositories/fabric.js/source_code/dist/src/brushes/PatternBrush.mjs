@@ -2,7 +2,7 @@ import { Pattern } from '../Pattern/Pattern.mjs';
 import { createCanvasElement } from '../util/misc/dom.mjs';
 import { PencilBrush } from './PencilBrush.mjs';
 
-class PatternBrush extends PencilBrush {
+const PatternBrush = fabricJsClassMark(class PatternBrush extends PencilBrush {
   constructor(canvas) {
     super(canvas);
   }
@@ -53,7 +53,7 @@ class PatternBrush extends PencilBrush {
     });
     return path;
   }
-}
+})
 
 export { PatternBrush };
 //# sourceMappingURL=PatternBrush.mjs.map

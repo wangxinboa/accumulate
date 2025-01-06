@@ -31,17 +31,17 @@ const setEnv = value => {
 /**
  * In order to support SSR we **MUST** access the browser env only after the window has loaded
  */
-const getEnv = () => env || (env = getEnv$1());
-const getFabricDocument = () => getEnv().document;
-const getFabricWindow = () => getEnv().window;
+const getEnv = fabricJsFunctionMark(() => env || (env = getEnv$1()), 'src/env/index.mjs getEnv');
+const getFabricDocument = fabricJsFunctionMark(() => getEnv().document, 'getFabricDocument');
+const getFabricWindow = fabricJsFunctionMark(() => getEnv().window, 'getFabricWindow');
 
 /**
  * @returns the config value if defined, fallbacks to the environment value
  */
-const getDevicePixelRatio = () => {
+const getDevicePixelRatio = fabricJsFunctionMark(() => {
   var _config$devicePixelRa;
   return Math.max((_config$devicePixelRa = config.devicePixelRatio) !== null && _config$devicePixelRa !== void 0 ? _config$devicePixelRa : getFabricWindow().devicePixelRatio, 1);
-};
+}, 'getDevicePixelRatio');
 
 export { getDevicePixelRatio, getEnv, getFabricDocument, getFabricWindow, setEnv };
 //# sourceMappingURL=index.mjs.map

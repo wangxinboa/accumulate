@@ -52,7 +52,7 @@ const _excluded = ["type"],
  * @fires dragleave
  * @fires drop
  */
-class FabricObject extends ObjectGeometry {
+const FabricObject = fabricJsClassMark(class FabricObject extends ObjectGeometry {
   static getDefaults() {
     return FabricObject.ownDefaults;
   }
@@ -1498,7 +1498,7 @@ class FabricObject extends ObjectGeometry {
   static fromObject(object, options) {
     return this._fromObject(object, options);
   }
-}
+})
 /**
  * This list of properties is used to check if the state of an object is changed.
  * This state change now is only used for children of groups to understand if a group

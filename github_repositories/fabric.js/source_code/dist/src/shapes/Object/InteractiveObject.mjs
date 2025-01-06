@@ -8,7 +8,7 @@ import { createObjectDefaultControls } from '../../controls/commonControls.mjs';
 import { interactiveObjectDefaultValues } from './defaultValues.mjs';
 import { SCALE } from '../../constants.mjs';
 
-class InteractiveFabricObject extends FabricObject {
+const InteractiveFabricObject = fabricJsClassMark(class InteractiveFabricObject extends FabricObject {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), InteractiveFabricObject.ownDefaults);
   }
@@ -508,7 +508,7 @@ class InteractiveFabricObject extends FabricObject {
   renderDropTargetEffect(_e) {
     // for subclasses
   }
-}
+})
 /**
  * The object's controls' position in viewport coordinates
  * Calculated by {@link Control#positionHandler} and {@link Control#calcCornerCoords}, depending on {@link padding}.

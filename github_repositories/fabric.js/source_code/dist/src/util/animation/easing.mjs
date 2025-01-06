@@ -5,7 +5,7 @@ import { halfPI, twoMathPi } from '../../constants.mjs';
  * @see {@link http://gizma.com/easing/ Easing Equations by Robert Penner}
  */
 
-const normalize = (a, c, p, s) => {
+const normalize = fabricJsFunctionMark((a, c, p, s) => {
   if (a < Math.abs(c)) {
     a = c;
     s = p / 4;
@@ -23,106 +23,106 @@ const normalize = (a, c, p, s) => {
     p,
     s
   };
-};
-const elastic = (a, s, p, t, d) => a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * twoMathPi / p);
+}, 'normalize');
+const elastic = fabricJsFunctionMark((a, s, p, t, d) => a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * twoMathPi / p), 'elastic');
 
 /**
  * Default sinusoidal easing
  */
-const defaultEasing = (t, b, c, d) => -c * Math.cos(t / d * halfPI) + c + b;
+const defaultEasing = fabricJsFunctionMark((t, b, c, d) => -c * Math.cos(t / d * halfPI) + c + b, 'defaultEasing');
 
 /**
  * Cubic easing in
  */
-const easeInCubic = (t, b, c, d) => c * (t / d) ** 3 + b;
+const easeInCubic = fabricJsFunctionMark((t, b, c, d) => c * (t / d) ** 3 + b, 'easeInCubic');
 
 /**
  * Cubic easing out
  */
-const easeOutCubic = (t, b, c, d) => c * ((t / d - 1) ** 3 + 1) + b;
+const easeOutCubic = fabricJsFunctionMark((t, b, c, d) => c * ((t / d - 1) ** 3 + 1) + b, 'easeOutCubic');
 
 /**
  * Cubic easing in and out
  */
-const easeInOutCubic = (t, b, c, d) => {
+const easeInOutCubic = fabricJsFunctionMark((t, b, c, d) => {
   t /= d / 2;
   if (t < 1) {
     return c / 2 * t ** 3 + b;
   }
   return c / 2 * ((t - 2) ** 3 + 2) + b;
-};
+}, 'easeInOutCubic');
 
 /**
  * Quartic easing in
  */
-const easeInQuart = (t, b, c, d) => c * (t /= d) * t ** 3 + b;
+const easeInQuart = fabricJsFunctionMark((t, b, c, d) => c * (t /= d) * t ** 3 + b, 'easeInQuart');
 
 /**
  * Quartic easing out
  */
-const easeOutQuart = (t, b, c, d) => -c * ((t = t / d - 1) * t ** 3 - 1) + b;
+const easeOutQuart = fabricJsFunctionMark((t, b, c, d) => -c * ((t = t / d - 1) * t ** 3 - 1) + b, 'easeOutQuart');
 
 /**
  * Quartic easing in and out
  */
-const easeInOutQuart = (t, b, c, d) => {
+const easeInOutQuart = fabricJsFunctionMark((t, b, c, d) => {
   t /= d / 2;
   if (t < 1) {
     return c / 2 * t ** 4 + b;
   }
   return -c / 2 * ((t -= 2) * t ** 3 - 2) + b;
-};
+}, 'easeInOutQuart');
 
 /**
  * Quintic easing in
  */
-const easeInQuint = (t, b, c, d) => c * (t / d) ** 5 + b;
+const easeInQuint = fabricJsFunctionMark((t, b, c, d) => c * (t / d) ** 5 + b, 'easeInQuint');
 
 /**
  * Quintic easing out
  */
-const easeOutQuint = (t, b, c, d) => c * ((t / d - 1) ** 5 + 1) + b;
+const easeOutQuint = fabricJsFunctionMark((t, b, c, d) => c * ((t / d - 1) ** 5 + 1) + b, 'easeOutQuint');
 
 /**
  * Quintic easing in and out
  */
-const easeInOutQuint = (t, b, c, d) => {
+const easeInOutQuint = fabricJsFunctionMark((t, b, c, d) => {
   t /= d / 2;
   if (t < 1) {
     return c / 2 * t ** 5 + b;
   }
   return c / 2 * ((t - 2) ** 5 + 2) + b;
-};
+}, 'easeInOutQuint');
 
 /**
  * Sinusoidal easing in
  */
-const easeInSine = (t, b, c, d) => -c * Math.cos(t / d * halfPI) + c + b;
+const easeInSine = fabricJsFunctionMark((t, b, c, d) => -c * Math.cos(t / d * halfPI) + c + b, 'easeInSine');
 
 /**
  * Sinusoidal easing out
  */
-const easeOutSine = (t, b, c, d) => c * Math.sin(t / d * halfPI) + b;
+const easeOutSine = fabricJsFunctionMark((t, b, c, d) => c * Math.sin(t / d * halfPI) + b, 'easeOutSine');
 
 /**
  * Sinusoidal easing in and out
  */
-const easeInOutSine = (t, b, c, d) => -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+const easeInOutSine = fabricJsFunctionMark((t, b, c, d) => -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b, 'easeInOutSine');
 
 /**
  * Exponential easing in
  */
-const easeInExpo = (t, b, c, d) => t === 0 ? b : c * 2 ** (10 * (t / d - 1)) + b;
+const easeInExpo = fabricJsFunctionMark((t, b, c, d) => t === 0 ? b : c * 2 ** (10 * (t / d - 1)) + b, 'easeInExpo');
 
 /**
  * Exponential easing out
  */
-const easeOutExpo = (t, b, c, d) => t === d ? b + c : c * -(2 ** (-10 * t / d) + 1) + b;
+const easeOutExpo = fabricJsFunctionMark((t, b, c, d) => t === d ? b + c : c * -(2 ** (-10 * t / d) + 1) + b, 'easeOutExpo');
 
 /**
  * Exponential easing in and out
  */
-const easeInOutExpo = (t, b, c, d) => {
+const easeInOutExpo = fabricJsFunctionMark((t, b, c, d) => {
   if (t === 0) {
     return b;
   }
@@ -134,33 +134,33 @@ const easeInOutExpo = (t, b, c, d) => {
     return c / 2 * 2 ** (10 * (t - 1)) + b;
   }
   return c / 2 * -(2 ** (-10 * --t) + 2) + b;
-};
+}, 'easeInOutExpo');
 
 /**
  * Circular easing in
  */
-const easeInCirc = (t, b, c, d) => -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+const easeInCirc = fabricJsFunctionMark((t, b, c, d) => -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b, 'easeInCirc');
 
 /**
  * Circular easing out
  */
-const easeOutCirc = (t, b, c, d) => c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
+const easeOutCirc = fabricJsFunctionMark((t, b, c, d) => c * Math.sqrt(1 - (t = t / d - 1) * t) + b, 'easeOutCirc');
 
 /**
  * Circular easing in and out
  */
-const easeInOutCirc = (t, b, c, d) => {
+const easeInOutCirc = fabricJsFunctionMark((t, b, c, d) => {
   t /= d / 2;
   if (t < 1) {
     return -c / 2 * (Math.sqrt(1 - t ** 2) - 1) + b;
   }
   return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
-};
+}, 'easeInOutCirc');
 
 /**
  * Elastic easing in
  */
-const easeInElastic = (t, b, c, d) => {
+const easeInElastic = fabricJsFunctionMark((t, b, c, d) => {
   const s = 1.70158,
     a = c;
   let p = 0;
@@ -180,12 +180,12 @@ const easeInElastic = (t, b, c, d) => {
     p: normP
   } = normalize(a, c, p, s);
   return -elastic(normA, normS, normP, t, d) + b;
-};
+}, 'easeInElastic');
 
 /**
  * Elastic easing out
  */
-const easeOutElastic = (t, b, c, d) => {
+const easeOutElastic = fabricJsFunctionMark((t, b, c, d) => {
   const s = 1.70158,
     a = c;
   let p = 0;
@@ -206,12 +206,12 @@ const easeOutElastic = (t, b, c, d) => {
     c: normC
   } = normalize(a, c, p, s);
   return normA * 2 ** (-10 * t) * Math.sin((t * d - normS) * twoMathPi / normP) + normC + b;
-};
+}, 'easeOutElastic');
 
 /**
  * Elastic easing in and out
  */
-const easeInOutElastic = (t, b, c, d) => {
+const easeInOutElastic = fabricJsFunctionMark((t, b, c, d) => {
   const s = 1.70158,
     a = c;
   let p = 0;
@@ -235,40 +235,40 @@ const easeInOutElastic = (t, b, c, d) => {
     return -0.5 * elastic(normA, normS, normP, t, d) + b;
   }
   return normA * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - normS) * twoMathPi / normP) * 0.5 + normC + b;
-};
+}, 'easeInOutElastic');
 
 /**
  * Backwards easing in
  */
-const easeInBack = function (t, b, c, d) {
+const easeInBack = fabricJsFunctionMark(function (t, b, c, d) {
   let s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1.70158;
   return c * (t /= d) * t * ((s + 1) * t - s) + b;
-};
+}, 'easeInBack');
 
 /**
  * Backwards easing out
  */
-const easeOutBack = function (t, b, c, d) {
+const easeOutBack = fabricJsFunctionMark(function (t, b, c, d) {
   let s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1.70158;
   return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-};
+}, 'easeOutBack');
 
 /**
  * Backwards easing in and out
  */
-const easeInOutBack = function (t, b, c, d) {
+const easeInOutBack = fabricJsFunctionMark(function (t, b, c, d) {
   let s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1.70158;
   t /= d / 2;
   if (t < 1) {
     return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
   }
   return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
-};
+}, 'easeInOutBack');
 
 /**
  * Bouncing easing out
  */
-const easeOutBounce = (t, b, c, d) => {
+const easeOutBounce = fabricJsFunctionMark((t, b, c, d) => {
   if ((t /= d) < 1 / 2.75) {
     return c * (7.5625 * t * t) + b;
   } else if (t < 2 / 2.75) {
@@ -278,38 +278,38 @@ const easeOutBounce = (t, b, c, d) => {
   } else {
     return c * (7.5625 * (t -= 2.625 / 2.75) * t + 0.984375) + b;
   }
-};
+}, 'easeOutBounce');
 
 /**
  * Bouncing easing in
  */
-const easeInBounce = (t, b, c, d) => c - easeOutBounce(d - t, 0, c, d) + b;
+const easeInBounce = fabricJsFunctionMark((t, b, c, d) => c - easeOutBounce(d - t, 0, c, d) + b, 'easeInBounce');
 
 /**
  * Bouncing easing in and out
  */
-const easeInOutBounce = (t, b, c, d) => t < d / 2 ? easeInBounce(t * 2, 0, c, d) * 0.5 + b : easeOutBounce(t * 2 - d, 0, c, d) * 0.5 + c * 0.5 + b;
+const easeInOutBounce = fabricJsFunctionMark((t, b, c, d) => t < d / 2 ? easeInBounce(t * 2, 0, c, d) * 0.5 + b : easeOutBounce(t * 2 - d, 0, c, d) * 0.5 + c * 0.5 + b, 'easeInOutBounce');
 
 /**
  * Quadratic easing in
  */
-const easeInQuad = (t, b, c, d) => c * (t /= d) * t + b;
+const easeInQuad = fabricJsFunctionMark((t, b, c, d) => c * (t /= d) * t + b, 'easeInQuad');
 
 /**
  * Quadratic easing out
  */
-const easeOutQuad = (t, b, c, d) => -c * (t /= d) * (t - 2) + b;
+const easeOutQuad = fabricJsFunctionMark((t, b, c, d) => -c * (t /= d) * (t - 2) + b, 'easeOutQuad');
 
 /**
  * Quadratic easing in and out
  */
-const easeInOutQuad = (t, b, c, d) => {
+const easeInOutQuad = fabricJsFunctionMark((t, b, c, d) => {
   t /= d / 2;
   if (t < 1) {
     return c / 2 * t ** 2 + b;
   }
   return -c / 2 * (--t * (t - 2) - 1) + b;
-};
+}, 'easeInOutQuad');
 
 export { defaultEasing, easeInBack, easeInBounce, easeInCirc, easeInCubic, easeInElastic, easeInExpo, easeInOutBack, easeInOutBounce, easeInOutCirc, easeInOutCubic, easeInOutElastic, easeInOutExpo, easeInOutQuad, easeInOutQuart, easeInOutQuint, easeInOutSine, easeInQuad, easeInQuart, easeInQuint, easeInSine, easeOutBack, easeOutBounce, easeOutCirc, easeOutCubic, easeOutElastic, easeOutExpo, easeOutQuad, easeOutQuart, easeOutQuint, easeOutSine };
 //# sourceMappingURL=easing.mjs.map

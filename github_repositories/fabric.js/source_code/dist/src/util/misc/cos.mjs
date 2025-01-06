@@ -7,7 +7,7 @@ import { halfPI } from '../../constants.mjs';
  * @param {TRadian} angle the angle
  * @return {Number} the cosin value for angle.
  */
-const cos = angle => {
+const cos = fabricJsFunctionMark(angle => {
   if (angle === 0) {
     return 1;
   }
@@ -20,7 +20,7 @@ const cos = angle => {
       return -1;
   }
   return Math.cos(angle);
-};
+}, 'cos');
 
 export { cos };
 //# sourceMappingURL=cos.mjs.map

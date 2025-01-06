@@ -14,7 +14,7 @@ const invertDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters(canvas.renderAll.bind(canvas));
  */
-class Invert extends BaseFilter {
+const Invert = fabricJsClassMark(class Invert extends BaseFilter {
   /**
    * Apply the Invert operation to a Uint8Array representing the pixels of an image.
    *
@@ -60,7 +60,7 @@ class Invert extends BaseFilter {
     gl.uniform1i(uniformLocations.uInvert, Number(this.invert));
     gl.uniform1i(uniformLocations.uAlpha, Number(this.alpha));
   }
-}
+})
 /**
  * Invert also alpha.
  * @param {Boolean} alpha

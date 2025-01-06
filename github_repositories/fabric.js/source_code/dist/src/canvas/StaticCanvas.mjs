@@ -34,7 +34,7 @@ import { getDevicePixelRatio } from '../env/index.mjs';
  * @fires object:removed
  */
 // TODO: fix `EventSpec` inheritance https://github.com/microsoft/TypeScript/issues/26154#issuecomment-1366616260
-class StaticCanvas extends createCollectionMixin(CommonMethods) {
+const StaticCanvas = fabricJsClassMark(class StaticCanvas extends createCollectionMixin(CommonMethods) {
   // background
 
   // overlay
@@ -1262,7 +1262,7 @@ class StaticCanvas extends createCollectionMixin(CommonMethods) {
   toString() {
     return "#<Canvas (".concat(this.complexity(), "): { objects: ").concat(this._objects.length, " }>");
   }
-}
+})
 _defineProperty(StaticCanvas, "ownDefaults", staticCanvasDefaults);
 
 export { StaticCanvas };

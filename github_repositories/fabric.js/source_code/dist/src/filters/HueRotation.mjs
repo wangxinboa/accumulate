@@ -17,7 +17,7 @@ const hueRotationDefaultValues = _objectSpread2(_objectSpread2({}, colorMatrixDe
  * object.filters.push(filter);
  * object.applyFilters();
  */
-class HueRotation extends ColorMatrix {
+const HueRotation = fabricJsClassMark(class HueRotation extends ColorMatrix {
   calculateMatrix() {
     const rad = this.rotation * Math.PI,
       cosine = cos(rad),
@@ -40,7 +40,7 @@ class HueRotation extends ColorMatrix {
       rotation: this.rotation
     };
   }
-}
+})
 /**
  * HueRotation value, from -1 to 1.
  */

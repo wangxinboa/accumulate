@@ -3,7 +3,7 @@ import { createVector } from './util/misc/vectors.mjs';
 
 /* Adaptation of work of Kevin Lindsey (kevin@kevlindev.com) */
 
-class Intersection {
+const Intersection = fabricJsClassMark(class Intersection {
   constructor(status) {
     this.status = status;
     this.points = [];
@@ -259,7 +259,7 @@ class Intersection {
       bottomLeft = new Point(min.x, max.y);
     return Intersection.intersectPolygonPolygon(points, [min, topRight, max, bottomLeft]);
   }
-}
+})
 
 export { Intersection };
 //# sourceMappingURL=Intersection.mjs.map

@@ -4,7 +4,7 @@ import { ifNaN } from '../../util/internals/ifNaN.mjs';
 
 const RE_KEY_VALUE_PAIRS = /\s*;\s*/;
 const RE_KEY_VALUE = /\s*:\s*/;
-function parseColorStop(el, multiplier) {
+const parseColorStop = fabricJsFunctionMark(function parseColorStop(el, multiplier) {
   let colorValue, opacity;
   const style = el.getAttribute('style');
   if (style) {
@@ -27,8 +27,8 @@ function parseColorStop(el, multiplier) {
     color: color.toRgb(),
     opacity: ifNaN(parseFloat(opacity || el.getAttribute('stop-opacity') || ''), 1) * color.getAlpha() * multiplier
   };
-}
-function parseColorStops(el, opacityAttr) {
+})
+const parseColorStops = fabricJsFunctionMark(function parseColorStops(el, opacityAttr) {
   const colorStops = [],
     colorStopEls = el.getElementsByTagName('stop'),
     multiplier = parsePercent(opacityAttr, 1);
@@ -36,7 +36,7 @@ function parseColorStops(el, opacityAttr) {
     colorStops.push(parseColorStop(colorStopEls[i], multiplier));
   }
   return colorStops;
-}
+})
 
 export { parseColorStops };
 //# sourceMappingURL=parseColorStops.mjs.map

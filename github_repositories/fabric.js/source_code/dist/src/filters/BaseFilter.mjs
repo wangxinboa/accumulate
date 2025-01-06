@@ -8,7 +8,7 @@ import { createCanvasElementFor } from '../util/misc/dom.mjs';
 const _excluded = ["type"],
   _excluded2 = ["type"];
 const regex = new RegExp(highPsourceCode, 'g');
-class BaseFilter {
+const BaseFilter = fabricJsClassMark(class BaseFilter {
   /**
    * Filter type
    * @param {String} type
@@ -319,7 +319,7 @@ class BaseFilter {
     let filterOptions = _objectWithoutProperties(_ref2, _excluded2);
     return new this(filterOptions);
   }
-}
+})
 _defineProperty(BaseFilter, "type", 'BaseFilter');
 /**
  * Contains the uniform locations for the fragment shader.

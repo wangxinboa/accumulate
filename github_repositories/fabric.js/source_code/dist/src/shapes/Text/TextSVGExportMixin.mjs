@@ -9,15 +9,15 @@ import { STROKE, FILL } from '../../constants.mjs';
 
 const multipleSpacesRegex = /  +/g;
 const dblQuoteRegex = /"/g;
-function createSVGInlineRect(color, left, top, width, height) {
+const createSVGInlineRect = fabricJsFunctionMark(function createSVGInlineRect(color, left, top, width, height) {
   return "\t\t".concat(createSVGRect(color, {
     left,
     top,
     width,
     height
   }), "\n");
-}
-class TextSVGExportMixin extends FabricObjectSVGExportMixin {
+})
+const TextSVGExportMixin = fabricJsClassMark(class TextSVGExportMixin extends FabricObjectSVGExportMixin {
   _toSVG() {
     const offsets = this._getSVGLeftTopOffsets(),
       textAndBg = this._getSVGTextAndBg(offsets.textTop, offsets.textLeft);
@@ -213,7 +213,7 @@ class TextSVGExportMixin extends FabricObjectSVGExportMixin {
   getSvgTextDecoration(style) {
     return ['overline', 'underline', 'line-through'].filter(decoration => style[decoration.replace('-', '')]).join(' ');
   }
-}
+})
 
 export { TextSVGExportMixin };
 //# sourceMappingURL=TextSVGExportMixin.mjs.map

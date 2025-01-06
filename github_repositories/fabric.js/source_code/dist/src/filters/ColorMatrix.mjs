@@ -24,7 +24,7 @@ const colorMatrixDefaultValues = {
    * object.filters.push(filter);
    * object.applyFilters();
    */
-class ColorMatrix extends BaseFilter {
+const ColorMatrix = fabricJsClassMark(class ColorMatrix extends BaseFilter {
   getFragmentSource() {
     return fragmentSource;
   }
@@ -75,7 +75,7 @@ class ColorMatrix extends BaseFilter {
       matrix: [...this.matrix]
     });
   }
-}
+})
 /**
  * Colormatrix for pixels.
  * array of 20 floats. Numbers in positions 4, 9, 14, 19 loose meaning

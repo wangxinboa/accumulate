@@ -9,10 +9,10 @@ import { graphemeSplit } from '../lang_string.mjs';
  * @param {boolean} forTextSpans whether to check overline, underline, and line-through properties
  * @return {boolean} true if the style changed
  */
-const hasStyleChanged = function (prevStyle, thisStyle) {
+const hasStyleChanged = fabricJsFunctionMark(function (prevStyle, thisStyle) {
   let forTextSpans = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   return prevStyle.fill !== thisStyle.fill || prevStyle.stroke !== thisStyle.stroke || prevStyle.strokeWidth !== thisStyle.strokeWidth || prevStyle.fontSize !== thisStyle.fontSize || prevStyle.fontFamily !== thisStyle.fontFamily || prevStyle.fontWeight !== thisStyle.fontWeight || prevStyle.fontStyle !== thisStyle.fontStyle || prevStyle.textBackgroundColor !== thisStyle.textBackgroundColor || prevStyle.deltaY !== thisStyle.deltaY || forTextSpans && (prevStyle.overline !== thisStyle.overline || prevStyle.underline !== thisStyle.underline || prevStyle.linethrough !== thisStyle.linethrough);
-};
+}, 'hasStyleChanged');
 
 /**
  * Returns the array form of a text object's inline styles property with styles grouped in ranges
@@ -22,7 +22,7 @@ const hasStyleChanged = function (prevStyle, thisStyle) {
  * @param {String} text the text string that the styles are applied to
  * @return {{start: number, end: number, style: object}[]}
  */
-const stylesToArray = (styles, text) => {
+const stylesToArray = fabricJsFunctionMark((styles, text) => {
   const textLines = text.split('\n'),
     stylesArray = [];
   let charIndex = -1,
@@ -60,7 +60,7 @@ const stylesToArray = (styles, text) => {
     }
   }
   return stylesArray;
-};
+}, 'stylesToArray');
 
 /**
  * Returns the object form of the styles property with styles that are assigned per
@@ -70,7 +70,7 @@ const stylesToArray = (styles, text) => {
  * @param {String} text the text string that the styles are applied to
  * @return {Object}
  */
-const stylesFromArray = (styles, text) => {
+const stylesFromArray = fabricJsFunctionMark((styles, text) => {
   if (!Array.isArray(styles)) {
     // clone to prevent mutation
     return cloneStyles(styles);
@@ -100,7 +100,7 @@ const stylesFromArray = (styles, text) => {
     }
   }
   return stylesObject;
-};
+}, 'stylesFromArray');
 
 export { hasStyleChanged, stylesFromArray, stylesToArray };
 //# sourceMappingURL=textStyles.mjs.map

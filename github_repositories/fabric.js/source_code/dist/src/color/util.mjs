@@ -4,7 +4,7 @@
  * @param {Number} t
  * @return {Number}
  */
-const hue2rgb = (p, q, t) => {
+const hue2rgb = fabricJsFunctionMark((p, q, t) => {
   if (t < 0) {
     t += 1;
   }
@@ -21,7 +21,7 @@ const hue2rgb = (p, q, t) => {
     return p + (q - p) * (2 / 3 - t) * 6;
   }
   return p;
-};
+}, 'hue2rgb');
 
 /**
  * Adapted from {@link https://gist.github.com/mjackson/5311256 https://gist.github.com/mjackson}
@@ -31,7 +31,7 @@ const hue2rgb = (p, q, t) => {
  * @param {Number} a Alpha color value pass through
  * @return {TRGBColorSource} Hsl color
  */
-const rgb2Hsl = (r, g, b, a) => {
+const rgb2Hsl = fabricJsFunctionMark((r, g, b, a) => {
   r /= 255;
   g /= 255;
   b /= 255;
@@ -58,25 +58,25 @@ const rgb2Hsl = (r, g, b, a) => {
     h /= 6;
   }
   return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100), a];
-};
-const fromAlphaToFloat = function () {
+}, 'rgb2Hsl');
+const fromAlphaToFloat = fabricJsFunctionMark(function () {
   let value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '1';
   return parseFloat(value) / (value.endsWith('%') ? 100 : 1);
-};
+}, 'fromAlphaToFloat');
 
 /**
  * Convert a value in the inclusive range [0, 255] to hex
  */
-const hexify = value => Math.min(Math.round(value), 255).toString(16).toUpperCase().padStart(2, '0');
+const hexify = fabricJsFunctionMark(value => Math.min(Math.round(value), 255).toString(16).toUpperCase().padStart(2, '0'), 'hexify');
 
 /**
  * Calculate the grey average value for rgb and pass through alpha
  */
-const greyAverage = _ref => {
+const greyAverage = fabricJsFunctionMark(_ref => {
   let [r, g, b, a = 1] = _ref;
   const avg = Math.round(r * 0.3 + g * 0.59 + b * 0.11);
   return [avg, avg, avg, a];
-};
+}, 'greyAverage');
 
 export { fromAlphaToFloat, greyAverage, hexify, hue2rgb, rgb2Hsl };
 //# sourceMappingURL=util.mjs.map

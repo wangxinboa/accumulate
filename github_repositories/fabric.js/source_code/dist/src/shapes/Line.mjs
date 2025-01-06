@@ -21,7 +21,7 @@ const _excluded = ["x1", "y1", "x2", "y2"],
 // @TODO this code is terrible and Line should be a special case of polyline.
 
 const coordProps = ['x1', 'x2', 'y1', 'y2'];
-class Line extends FabricObject {
+const Line = fabricJsClassMark(class Line extends FabricObject {
   /**
    * Constructor
    * @param {Array} [points] Array of points
@@ -255,7 +255,7 @@ class Line extends FabricObject {
       extraParam: 'points'
     });
   }
-}
+})
 /**
  * x value or first line edge
  * @type number

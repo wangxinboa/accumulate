@@ -16,7 +16,7 @@ const saturationDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-class Saturation extends BaseFilter {
+const Saturation = fabricJsClassMark(class Saturation extends BaseFilter {
   getFragmentSource() {
     return fragmentSource;
   }
@@ -57,7 +57,7 @@ class Saturation extends BaseFilter {
   isNeutralState() {
     return this.saturation === 0;
   }
-}
+})
 /**
  * Saturation value, from -1 to 1.
  * Increases/decreases the color saturation.

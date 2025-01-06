@@ -9,7 +9,7 @@ import { resolveOrigin } from '../../util/misc/resolveOrigin.mjs';
 import { sizeAfterTransform } from '../../util/misc/objectTransforms.mjs';
 import { CommonMethods } from '../../CommonMethods.mjs';
 
-class ObjectGeometry extends CommonMethods {
+const ObjectGeometry = fabricJsClassMark(class ObjectGeometry extends CommonMethods {
   // #region Geometry
 
   /**
@@ -650,7 +650,7 @@ class ObjectGeometry extends CommonMethods {
   _getLeftTopCoords() {
     return this.translateToOriginPoint(this.getRelativeCenterPoint(), LEFT, TOP);
   }
-}
+})
 
 export { ObjectGeometry };
 //# sourceMappingURL=ObjectGeometry.mjs.map

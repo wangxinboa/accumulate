@@ -14,9 +14,9 @@ class ProxyFunctionMessage {
 		this.usedParentMap = {};
 	}
 
-	mark(title) {
+	mark(title, args) {
 		this.used++;
-		const { prentNotEmptyMarkNode } = MarkLogs.mark(title, this.key, this);
+		const { prentNotEmptyMarkNode } = MarkLogs.mark(title, this.key, args, this);
 		const { key: parentKey } = prentNotEmptyMarkNode;
 		this.usedLogs.push(prentNotEmptyMarkNode);
 		if (!this.usedParentMap[parentKey]) {
@@ -45,14 +45,19 @@ export default function proxyFunction(originalFunction, key) {
 
 	const markFunctionMessage = new ProxyFunctionMessage(originalFunction, key);
 	const proxy = new Proxy(originalFunction, {
-		construct(target, args) {
-			markFunctionMessage.mark(`${key} 初始化`);
-			const result = new target(...args);
+		construct(target, args, newTarget) {
+			markFunctionMessage.mark(`${key} 初始化`, args);
+			let result = null;
+			if (target === newTarget) {
+				result = new target(...args);
+			} else {
+				result = Reflect.construct(target, args, newTarget);
+			}
 			markFunctionMessage.markEnd();
 			return result;
 		},
 		apply(target, thisArg, argumentsList) {
-			markFunctionMessage.mark(key);
+			markFunctionMessage.mark(key, argumentsList);
 			const result = target.call(thisArg, ...argumentsList);
 			markFunctionMessage.markEnd();
 			return result;

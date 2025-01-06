@@ -5,7 +5,7 @@ import { doesSomeParentMatch } from './doesSomeParentMatch.mjs';
  * @private
  */
 
-function elementMatchesRule(element, selectors) {
+const elementMatchesRule = fabricJsFunctionMark(function elementMatchesRule(element, selectors) {
   let parentMatching = true;
   // start from rightmost selector.
   const firstMatching = selectorMatches(element, selectors.pop());
@@ -13,7 +13,7 @@ function elementMatchesRule(element, selectors) {
     parentMatching = doesSomeParentMatch(element, selectors);
   }
   return firstMatching && parentMatching && selectors.length === 0;
-}
+})
 
 export { elementMatchesRule };
 //# sourceMappingURL=elementMatchesRule.mjs.map

@@ -12,7 +12,7 @@ import { degreesToRadians } from '../util/misc/radiansDegreesConversion.mjs';
  * @param {Object} styleOverride override for FabricObject controls style
  * @param {FabricObject} fabricObject the fabric object for which we are rendering controls
  */
-function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
+const renderCircleControl = fabricJsFunctionMark(function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
   styleOverride = styleOverride || {};
   const xSize = this.sizeX || styleOverride.cornerSize || fabricObject.cornerSize,
     ySize = this.sizeY || styleOverride.cornerSize || fabricObject.cornerSize,
@@ -44,7 +44,7 @@ function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
     ctx.stroke();
   }
   ctx.restore();
-}
+})
 
 /**
  * Render a square control, as per fabric features.
@@ -57,7 +57,7 @@ function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
  * @param {Object} styleOverride override for FabricObject controls style
  * @param {FabricObject} fabricObject the fabric object for which we are rendering controls
  */
-function renderSquareControl(ctx, left, top, styleOverride, fabricObject) {
+const renderSquareControl = fabricJsFunctionMark(function renderSquareControl(ctx, left, top, styleOverride, fabricObject) {
   styleOverride = styleOverride || {};
   const xSize = this.sizeX || styleOverride.cornerSize || fabricObject.cornerSize,
     ySize = this.sizeY || styleOverride.cornerSize || fabricObject.cornerSize,
@@ -81,7 +81,7 @@ function renderSquareControl(ctx, left, top, styleOverride, fabricObject) {
     ctx.strokeRect(-xSizeBy2, -ySizeBy2, xSize, ySize);
   }
   ctx.restore();
-}
+})
 
 export { renderCircleControl, renderSquareControl };
 //# sourceMappingURL=controlRendering.mjs.map

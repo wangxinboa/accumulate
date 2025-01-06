@@ -4,7 +4,7 @@ import { GLProbe } from './GLProbe.mjs';
 /**
  * Lazy initialize WebGL constants
  */
-class WebGLProbe extends GLProbe {
+const WebGLProbe = fabricJsClassMark(class WebGLProbe extends GLProbe {
   /**
    * Tests if webgl supports certain precision
    * @param {WebGL} Canvas WebGL context to test on
@@ -37,7 +37,7 @@ class WebGLProbe extends GLProbe {
   isSupported(textureSize) {
     return !!this.maxTextureSize && this.maxTextureSize >= textureSize;
   }
-}
+})
 
 export { WebGLProbe };
 //# sourceMappingURL=WebGLProbe.mjs.map

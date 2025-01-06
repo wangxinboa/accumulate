@@ -14,7 +14,7 @@ const grayscaleDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-class Grayscale extends BaseFilter {
+const Grayscale = fabricJsClassMark(class Grayscale extends BaseFilter {
   /**
    * Apply the Grayscale operation to a Uint8Array representing the pixels of an image.
    *
@@ -71,7 +71,7 @@ class Grayscale extends BaseFilter {
   isNeutralState() {
     return false;
   }
-}
+})
 _defineProperty(Grayscale, "type", 'Grayscale');
 _defineProperty(Grayscale, "defaults", grayscaleDefaultValues);
 _defineProperty(Grayscale, "uniformLocations", ['uMode']);

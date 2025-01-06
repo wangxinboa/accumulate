@@ -12,7 +12,7 @@ const originOffset = {
  * @returns number
  */
 
-const resolveOrigin = originValue => typeof originValue === 'string' ? originOffset[originValue] : originValue - 0.5;
+const resolveOrigin = fabricJsFunctionMark(originValue => typeof originValue === 'string' ? originOffset[originValue] : originValue - 0.5, 'resolveOrigin');
 
 export { resolveOrigin };
 //# sourceMappingURL=resolveOrigin.mjs.map

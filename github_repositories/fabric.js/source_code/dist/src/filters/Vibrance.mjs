@@ -16,7 +16,7 @@ const vibranceDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-class Vibrance extends BaseFilter {
+const Vibrance = fabricJsClassMark(class Vibrance extends BaseFilter {
   getFragmentSource() {
     return fragmentSource;
   }
@@ -59,7 +59,7 @@ class Vibrance extends BaseFilter {
   isNeutralState() {
     return this.vibrance === 0;
   }
-}
+})
 /**
  * Vibrance value, from -1 to 1.
  * Increases/decreases the saturation of more muted colors with less effect on saturated colors.

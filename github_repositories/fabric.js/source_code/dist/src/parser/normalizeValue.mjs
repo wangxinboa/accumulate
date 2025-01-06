@@ -3,7 +3,7 @@ import { parseUnit } from '../util/misc/svgParsing.mjs';
 import { parseTransformAttribute } from './parseTransformAttribute.mjs';
 import { FILL, STROKE, NONE, LEFT, RIGHT, CENTER } from '../constants.mjs';
 
-function normalizeValue(attr, value, parentAttributes, fontSize) {
+const normalizeValue = fabricJsFunctionMark(function normalizeValue(attr, value, parentAttributes, fontSize) {
   const isArray = Array.isArray(value);
   let parsed;
   let ouputValue = value;
@@ -56,7 +56,7 @@ function normalizeValue(attr, value, parentAttributes, fontSize) {
     parsed = isArray ? value.map(parseUnit) : parseUnit(value, fontSize);
   }
   return !isArray && isNaN(parsed) ? ouputValue : parsed;
-}
+})
 
 export { normalizeValue };
 //# sourceMappingURL=normalizeValue.mjs.map

@@ -4,7 +4,7 @@ import { defineProperty as _defineProperty } from '../_virtual/_rollupPluginBabe
  * @tutorial {@link http://fabricjs.com/fabric-intro-part-2#events}
  * @see {@link http://fabricjs.com/events|Events demo}
  */
-class Observable {
+const Observable = fabricJsClassMark(class Observable {
   constructor() {
     _defineProperty(this, "__eventListeners", {});
   }
@@ -153,7 +153,7 @@ class Observable {
       }
     }
   }
-}
+})
 
 export { Observable };
 //# sourceMappingURL=Observable.mjs.map

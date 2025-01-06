@@ -3,7 +3,7 @@
  * @param {XY[]} points
  * @return {Object} Object with left, top, width, height properties
  */
-const makeBoundingBoxFromPoints = points => {
+const makeBoundingBoxFromPoints = fabricJsFunctionMark(points => {
   let left = 0,
     top = 0,
     width = 0,
@@ -24,7 +24,7 @@ const makeBoundingBoxFromPoints = points => {
     width: width - left,
     height: height - top
   };
-};
+}, 'makeBoundingBoxFromPoints');
 
 export { makeBoundingBoxFromPoints };
 //# sourceMappingURL=boundingBoxFromPoints.mjs.map

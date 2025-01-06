@@ -10,7 +10,7 @@ import { getObjectBounds } from './utils.mjs';
  *
  * In charge of calculating the bounding box of the passed objects.
  */
-class LayoutStrategy {
+const LayoutStrategy = fabricJsClassMark(class LayoutStrategy {
   /**
    * Used by the `LayoutManager` to perform layout
    * @TODO/fix: if this method is calcResult, should calc unconditionally.
@@ -87,7 +87,7 @@ class LayoutStrategy {
       };
     }
   }
-}
+})
 /**
  * override by subclass for persistence (TS does not support `static abstract`)
  */

@@ -29,7 +29,7 @@ const rotationStyleHandler = (eventData, control, fabricObject) => {
  * @return {Boolean} true if some change happened
  * @private
  */
-const rotateObjectWithSnapping = (eventData, _ref, x, y) => {
+const rotateObjectWithSnapping = fabricJsFunctionMark((eventData, _ref, x, y) => {
   let {
     target,
     ex,
@@ -66,7 +66,7 @@ const rotateObjectWithSnapping = (eventData, _ref, x, y) => {
   // TODO: why aren't we using set?
   target.angle = angle;
   return hasRotated;
-};
+}, 'rotateObjectWithSnapping');
 const rotationWithSnapping = wrapWithFireEvent(ROTATING, wrapWithFixedAnchor(rotateObjectWithSnapping));
 
 export { rotationStyleHandler, rotationWithSnapping };

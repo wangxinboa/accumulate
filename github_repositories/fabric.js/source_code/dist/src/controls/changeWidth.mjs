@@ -13,7 +13,7 @@ import { wrapWithFixedAnchor } from './wrapWithFixedAnchor.mjs';
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const changeObjectWidth = (eventData, transform, x, y) => {
+const changeObjectWidth = fabricJsFunctionMark((eventData, transform, x, y) => {
   const localPoint = getLocalPoint(transform, transform.originX, transform.originY, x, y);
   //  make sure the control changes width ONLY from it's side of target
   if (resolveOrigin(transform.originX) === resolveOrigin(CENTER) || resolveOrigin(transform.originX) === resolveOrigin(RIGHT) && localPoint.x < 0 || resolveOrigin(transform.originX) === resolveOrigin(LEFT) && localPoint.x > 0) {
@@ -29,7 +29,7 @@ const changeObjectWidth = (eventData, transform, x, y) => {
     return oldWidth !== target.width;
   }
   return false;
-};
+}, 'changeObjectWidth');
 const changeWidth = wrapWithFireEvent(RESIZING, wrapWithFixedAnchor(changeObjectWidth));
 
 export { changeObjectWidth, changeWidth };

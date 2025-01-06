@@ -16,7 +16,7 @@ import { setStrokeFillOpacity } from './setStrokeFillOpacity.mjs';
  * @param {Array} attributes Array of attributes to parse
  * @return {Object} object containing parsed attributes' names/values
  */
-function parseAttributes(element, attributes, cssRules) {
+const parseAttributes = fabricJsFunctionMark(function parseAttributes(element, attributes, cssRules) {
   if (!element) {
     return {};
   }
@@ -59,7 +59,7 @@ function parseAttributes(element, attributes, cssRules) {
   }
   const mergedAttrs = _objectSpread2(_objectSpread2({}, parentAttributes), normalizedStyle);
   return svgValidParentsRegEx.test(element.nodeName) ? mergedAttrs : setStrokeFillOpacity(mergedAttrs);
-}
+})
 
 export { parseAttributes };
 //# sourceMappingURL=parseAttributes.mjs.map

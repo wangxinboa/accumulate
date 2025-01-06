@@ -23,7 +23,7 @@ let measuringContext;
  * Return a context for measurement of text string.
  * if created it gets stored for reuse
  */
-function getMeasuringContext() {
+const getMeasuringContext = fabricJsFunctionMark(function getMeasuringContext() {
   if (!measuringContext) {
     const canvas = createCanvasElementFor({
       width: 0,
@@ -32,7 +32,7 @@ function getMeasuringContext() {
     measuringContext = canvas.getContext('2d');
   }
   return measuringContext;
-}
+})
 
 /**
  * Measure and return the info of a single grapheme.
@@ -46,7 +46,7 @@ function getMeasuringContext() {
  * Text class
  * @tutorial {@link http://fabricjs.com/fabric-intro-part-2#text}
  */
-class FabricText extends StyledText {
+const FabricText = fabricJsClassMark(class FabricText extends StyledText {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), FabricText.ownDefaults);
   }
@@ -1284,7 +1284,7 @@ class FabricText extends StyledText {
       extraParam: 'text'
     });
   }
-}
+})
 /**
  * Properties that requires a text layout recalculation when changed
  * @type string[]

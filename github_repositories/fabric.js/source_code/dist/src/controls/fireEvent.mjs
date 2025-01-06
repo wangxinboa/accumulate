@@ -1,6 +1,6 @@
 import { objectSpread2 as _objectSpread2 } from '../../_virtual/_rollupPluginBabelHelpers.mjs';
 
-const fireEvent = (eventName, options) => {
+const fireEvent = fabricJsFunctionMark((eventName, options) => {
   var _target$canvas;
   const {
     transform: {
@@ -11,7 +11,7 @@ const fireEvent = (eventName, options) => {
     target
   }));
   target.fire(eventName, options);
-};
+}, 'fireEvent');
 
 export { fireEvent };
 //# sourceMappingURL=fireEvent.mjs.map

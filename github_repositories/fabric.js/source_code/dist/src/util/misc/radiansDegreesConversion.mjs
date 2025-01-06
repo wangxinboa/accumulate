@@ -5,14 +5,14 @@ import { PiBy180 } from '../../constants.mjs';
  * @param {TDegree} degrees value in degrees
  * @return {TRadian} value in radians
  */
-const degreesToRadians = degrees => degrees * PiBy180;
+const degreesToRadians = fabricJsFunctionMark(degrees => degrees * PiBy180, 'degreesToRadians');
 
 /**
  * Transforms radians to degrees.
  * @param {TRadian} radians value in radians
  * @return {TDegree} value in degrees
  */
-const radiansToDegrees = radians => radians / PiBy180;
+const radiansToDegrees = fabricJsFunctionMark(radians => radians / PiBy180, 'radiansToDegrees');
 
 export { degreesToRadians, radiansToDegrees };
 //# sourceMappingURL=radiansDegreesConversion.mjs.map

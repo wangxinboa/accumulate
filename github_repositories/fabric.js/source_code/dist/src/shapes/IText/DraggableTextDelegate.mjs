@@ -15,7 +15,7 @@ import { NONE, CHANGED } from '../../constants.mjs';
  * - {@link end} is called from `mouseup` {@link IText#mouseUpHandler}, blocking IText default click behavior
  * - in case the drag session didn't occur, {@link end} handles a click, since logic to do so was blocked during `mousedown`
  */
-class DraggableTextDelegate {
+const DraggableTextDelegate = fabricJsClassMark(class DraggableTextDelegate {
   constructor(target) {
     _defineProperty(this, "target", void 0);
     _defineProperty(this, "__mouseDownInPlace", false);
@@ -340,7 +340,7 @@ class DraggableTextDelegate {
   dispose() {
     this._dispose && this._dispose();
   }
-}
+})
 
 export { DraggableTextDelegate };
 //# sourceMappingURL=DraggableTextDelegate.mjs.map

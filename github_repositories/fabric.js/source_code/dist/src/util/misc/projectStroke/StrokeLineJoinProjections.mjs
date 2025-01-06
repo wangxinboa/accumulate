@@ -19,7 +19,7 @@ const zeroVector = new Point();
  * - View the calculated projections for each of the control points: https://codesandbox.io/s/project-stroke-points-with-context-to-trace-b8jc4j?file=/src/index.js
  *
  */
-class StrokeLineJoinProjections extends StrokeProjectionsBase {
+const StrokeLineJoinProjections = fabricJsClassMark(class StrokeLineJoinProjections extends StrokeProjectionsBase {
   static getOrthogonalRotationFactor(vector1, vector2) {
     const angle = vector2 ? calcAngleBetweenVectors(vector1, vector2) : calcVectorRotation(vector1);
     return Math.abs(angle) < halfPI ? -1 : 1;
@@ -224,7 +224,7 @@ class StrokeLineJoinProjections extends StrokeProjectionsBase {
       bisector: this.bisector
     }));
   }
-}
+})
 
 export { StrokeLineJoinProjections };
 //# sourceMappingURL=StrokeLineJoinProjections.mjs.map

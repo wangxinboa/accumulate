@@ -12,7 +12,7 @@ const colorAttributesMap = {
  * @param {Object} attributes Array of attributes to parse
  */
 
-function setStrokeFillOpacity(attributes) {
+const setStrokeFillOpacity = fabricJsFunctionMark(function setStrokeFillOpacity(attributes) {
   const defaults = FabricObject.getDefaults();
   Object.entries(colorAttributesMap).forEach(_ref => {
     let [attr, colorAttr] = _ref;
@@ -32,7 +32,7 @@ function setStrokeFillOpacity(attributes) {
     attributes[attr] = color.setAlpha(toFixed(color.getAlpha() * attributes[colorAttr], 2)).toRgba();
   });
   return attributes;
-}
+})
 
 export { setStrokeFillOpacity };
 //# sourceMappingURL=setStrokeFillOpacity.mjs.map

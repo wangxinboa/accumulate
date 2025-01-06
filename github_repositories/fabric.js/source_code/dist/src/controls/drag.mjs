@@ -11,7 +11,7 @@ import { isLocked, commonEventInfo } from './util.mjs';
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if the translation occurred
  */
-const dragHandler = (eventData, transform, x, y) => {
+const dragHandler = fabricJsFunctionMark((eventData, transform, x, y) => {
   const {
       target,
       offsetX,
@@ -27,7 +27,7 @@ const dragHandler = (eventData, transform, x, y) => {
     fireEvent(MOVING, commonEventInfo(eventData, transform, x, y));
   }
   return moveX || moveY;
-};
+}, 'dragHandler');
 
 export { dragHandler };
 //# sourceMappingURL=drag.mjs.map

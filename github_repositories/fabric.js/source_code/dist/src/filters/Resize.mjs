@@ -17,7 +17,7 @@ const resizeDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters(canvas.renderAll.bind(canvas));
  */
-class Resize extends BaseFilter {
+const Resize = fabricJsClassMark(class Resize extends BaseFilter {
   /**
    * Send data from this filter to its shader program's uniforms.
    *
@@ -402,7 +402,7 @@ class Resize extends BaseFilter {
     }
     return img2;
   }
-}
+})
 /**
  * Resize type
  * for webgl resizeType is just lanczos, for canvas2d can be:

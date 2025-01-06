@@ -17,7 +17,7 @@ const gammaDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-class Gamma extends BaseFilter {
+const Gamma = fabricJsClassMark(class Gamma extends BaseFilter {
   getFragmentSource() {
     return fragmentSource;
   }
@@ -87,7 +87,7 @@ class Gamma extends BaseFilter {
       gamma: this.gamma.concat()
     };
   }
-}
+})
 /**
  * Gamma array value, from 0.01 to 2.2.
  * @param {Array} gamma

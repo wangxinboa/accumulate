@@ -20,7 +20,7 @@ import { Group } from '../../shapes/Group.mjs';
  * @param {fabric.Object} c2
  * @returns {fabric.Object} merged clip path
  */
-const mergeClipPaths = (c1, c2) => {
+const mergeClipPaths = fabricJsFunctionMark((c1, c2) => {
   var _b$group;
   let a = c1,
     b = c2;
@@ -41,7 +41,7 @@ const mergeClipPaths = (c1, c2) => {
     clipPath: b,
     inverted
   });
-};
+}, 'mergeClipPaths');
 
 export { mergeClipPaths };
 //# sourceMappingURL=mergeClipPaths.mjs.map

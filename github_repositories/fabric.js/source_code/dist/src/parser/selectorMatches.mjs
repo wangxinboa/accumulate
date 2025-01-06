@@ -1,4 +1,4 @@
-function selectorMatches(element, selector) {
+const selectorMatches = fabricJsFunctionMark(function selectorMatches(element, selector) {
   const nodeName = element.nodeName;
   const classNames = element.getAttribute('class');
   const id = element.getAttribute('id');
@@ -20,7 +20,7 @@ function selectorMatches(element, selector) {
     }
   }
   return selector.length === 0;
-}
+})
 
 export { selectorMatches };
 //# sourceMappingURL=selectorMatches.mjs.map

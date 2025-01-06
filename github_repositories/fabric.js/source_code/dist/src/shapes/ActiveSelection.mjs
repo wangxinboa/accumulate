@@ -20,7 +20,7 @@ const activeSelectionDefaultValues = {
  * // override the default `ActiveSelection` class
  * classRegistry.setClass(MyActiveSelection)
  */
-class ActiveSelection extends Group {
+const ActiveSelection = fabricJsClassMark(class ActiveSelection extends Group {
   static getDefaults() {
     return _objectSpread2(_objectSpread2({}, super.getDefaults()), ActiveSelection.ownDefaults);
   }
@@ -227,7 +227,7 @@ class ActiveSelection extends Group {
     super._renderControls(ctx, styleOverride);
     ctx.restore();
   }
-}
+})
 _defineProperty(ActiveSelection, "type", 'ActiveSelection');
 _defineProperty(ActiveSelection, "ownDefaults", activeSelectionDefaultValues);
 classRegistry.setClass(ActiveSelection);

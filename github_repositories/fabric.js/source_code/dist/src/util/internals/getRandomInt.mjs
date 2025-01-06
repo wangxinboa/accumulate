@@ -4,7 +4,7 @@
  * @param {Number} max upper limit
  * @return {Number} random value (between min and max)
  */
-const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const getRandomInt = fabricJsFunctionMark((min, max) => Math.floor(Math.random() * (max - min + 1)) + min, 'getRandomInt');
 
 export { getRandomInt };
 //# sourceMappingURL=getRandomInt.mjs.map

@@ -2,11 +2,11 @@ import { defineProperty as _defineProperty } from '../_virtual/_rollupPluginBabe
 import { removeFromArray } from './util/internals/removeFromArray.mjs';
 import { Point } from './Point.mjs';
 
-const isCollection = fabricObject => {
+const isCollection = fabricJsFunctionMark(fabricObject => {
   return !!fabricObject && Array.isArray(fabricObject._objects);
-};
-function createCollectionMixin(Base) {
-  class Collection extends Base {
+}, 'isCollection');
+const createCollectionMixin = fabricJsFunctionMark(function createCollectionMixin(Base) {
+  const Collection = fabricJsClassMark(class Collection extends Base {
     constructor() {
       super(...arguments);
       /**
@@ -327,11 +327,11 @@ function createCollectionMixin(Base) {
       }
       return objects;
     }
-  }
+  }, `Collection extends ${Base.name}`);
 
   // https://github.com/microsoft/TypeScript/issues/32080
   return Collection;
-}
+})
 
 export { createCollectionMixin, isCollection };
 //# sourceMappingURL=Collection.mjs.map

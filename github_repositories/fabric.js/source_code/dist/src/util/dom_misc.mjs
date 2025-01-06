@@ -3,7 +3,7 @@
  * @param {HTMLElement} element Element to operate on
  * @return {Object} Object with left/top values
  */
-function getScrollLeftTop(element) {
+const getScrollLeftTop = fabricJsFunctionMark(function getScrollLeftTop(element) {
   const doc = element && getDocumentFromElement(element);
   let left = 0,
     top = 0;
@@ -40,12 +40,12 @@ function getScrollLeftTop(element) {
     left,
     top
   };
-}
+})
 const getDocumentFromElement = el => el.ownerDocument || null;
-const getWindowFromElement = el => {
+const getWindowFromElement = fabricJsFunctionMark(el => {
   var _el$ownerDocument;
   return ((_el$ownerDocument = el.ownerDocument) === null || _el$ownerDocument === void 0 ? void 0 : _el$ownerDocument.defaultView) || null;
-};
+}, 'getWindowFromElement');
 
 export { getDocumentFromElement, getScrollLeftTop, getWindowFromElement };
 //# sourceMappingURL=dom_misc.mjs.map

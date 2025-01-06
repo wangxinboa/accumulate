@@ -17,7 +17,7 @@ const noiseDefaultValues = {
  * object.applyFilters();
  * canvas.renderAll();
  */
-class Noise extends BaseFilter {
+const Noise = fabricJsClassMark(class Noise extends BaseFilter {
   getFragmentSource() {
     return fragmentSource;
   }
@@ -56,7 +56,7 @@ class Noise extends BaseFilter {
   isNeutralState() {
     return this.noise === 0;
   }
-}
+})
 /**
  * Noise value, from
  * @param {Number} noise

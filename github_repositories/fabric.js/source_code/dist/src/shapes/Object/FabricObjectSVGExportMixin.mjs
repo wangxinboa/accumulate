@@ -3,7 +3,7 @@ import { colorPropToSVG, matrixToSVG } from '../../util/misc/svgParsing.mjs';
 import { NONE, FILL, STROKE } from '../../constants.mjs';
 import { isFiller } from '../../util/typeAssertions.mjs';
 
-class FabricObjectSVGExportMixin {
+const FabricObjectSVGExportMixin = fabricJsClassMark(class FabricObjectSVGExportMixin {
   /**
    * When an object is being exported as SVG as a clippath, a reference inside the SVG is needed.
    * This reference is a UID in the fabric namespace and is temporary stored here.
@@ -159,7 +159,7 @@ class FabricObjectSVGExportMixin {
   addPaintOrder() {
     return this.paintFirst !== FILL ? " paint-order=\"".concat(this.paintFirst, "\" ") : '';
   }
-}
+})
 
 export { FabricObjectSVGExportMixin };
 //# sourceMappingURL=FabricObjectSVGExportMixin.mjs.map

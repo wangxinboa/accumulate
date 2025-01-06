@@ -1,6 +1,6 @@
 import { objectSpread2 as _objectSpread2, defineProperty as _defineProperty } from '../_virtual/_rollupPluginBabelHelpers.mjs';
 
-class BaseConfiguration {
+const BaseConfiguration = fabricJsClassMark(class BaseConfiguration {
   constructor() {
     /**
      * Browser-specific constant to adjust CanvasRenderingContext2D.shadowBlur value,
@@ -106,8 +106,8 @@ class BaseConfiguration {
      */
     _defineProperty(this, "NUM_FRACTION_DIGITS", 4);
   }
-}
-class Configuration extends BaseConfiguration {
+})
+const Configuration = fabricJsClassMark(class Configuration extends BaseConfiguration {
   constructor(config) {
     super();
     this.configure(config);
@@ -141,7 +141,7 @@ class Configuration extends BaseConfiguration {
     }, {})) || defaults;
     this.configure(config);
   }
-}
+})
 const config = new Configuration();
 
 export { Configuration, config };

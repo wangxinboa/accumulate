@@ -1,6 +1,6 @@
 import { objectSpread2 as _objectSpread2 } from '../../../_virtual/_rollupPluginBabelHelpers.mjs';
 
-const cloneStyles = style => {
+const cloneStyles = fabricJsFunctionMark(style => {
   const newObj = {};
   Object.keys(style).forEach(key => {
     newObj[key] = {};
@@ -9,7 +9,7 @@ const cloneStyles = style => {
     });
   });
   return newObj;
-};
+}, 'cloneStyles');
 
 export { cloneStyles };
 //# sourceMappingURL=cloneStyles.mjs.map

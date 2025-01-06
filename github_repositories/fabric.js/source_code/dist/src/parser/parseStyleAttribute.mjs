@@ -8,7 +8,7 @@ import { parseStyleString } from './parseStyleString.mjs';
  * @param {SVGElement} element Element to parse
  * @return {Object} Objects with values parsed from style attribute of an element
  */
-function parseStyleAttribute(element) {
+const parseStyleAttribute = fabricJsFunctionMark(function parseStyleAttribute(element) {
   const oStyle = {},
     style = element.getAttribute('style');
   if (!style) {
@@ -20,7 +20,7 @@ function parseStyleAttribute(element) {
     parseStyleObject(style, oStyle);
   }
   return oStyle;
-}
+})
 
 export { parseStyleAttribute };
 //# sourceMappingURL=parseStyleAttribute.mjs.map

@@ -32,7 +32,7 @@ const repeatedCommands = {
  * @param fromX starting point of arc x
  * @param fromY starting point of arc y
  */
-const segmentToBezier = (theta1, theta2, cosTh, sinTh, rx, ry, cx1, cy1, mT, fromX, fromY) => {
+const segmentToBezier = fabricJsFunctionMark((theta1, theta2, cosTh, sinTh, rx, ry, cx1, cy1, mT, fromX, fromY) => {
   const costh1 = cos(theta1),
     sinth1 = sin(theta1),
     costh2 = cos(theta2),
@@ -44,7 +44,7 @@ const segmentToBezier = (theta1, theta2, cosTh, sinTh, rx, ry, cx1, cy1, mT, fro
     cp2X = toX + mT * (cosTh * rx * sinth2 + sinTh * ry * costh2),
     cp2Y = toY + mT * (sinTh * rx * sinth2 - cosTh * ry * costh2);
   return ['C', cp1X, cp1Y, cp2X, cp2Y, toX, toY];
-};
+}, 'segmentToBezier');
 
 /**
  * Adapted from {@link http://dxr.mozilla.org/mozilla-central/source/dom/svg/SVGPathDataParser.cpp}
@@ -58,7 +58,7 @@ const segmentToBezier = (theta1, theta2, cosTh, sinTh, rx, ry, cx1, cy1, mT, fro
  * @param {number} sweep 0 or 1 flag
  * @param rotateX
  */
-const arcToSegments = (toX, toY, rx, ry, large, sweep, rotateX) => {
+const arcToSegments = fabricJsFunctionMark((toX, toY, rx, ry, large, sweep, rotateX) => {
   if (rx === 0 || ry === 0) {
     return [];
   }
@@ -111,7 +111,7 @@ const arcToSegments = (toX, toY, rx, ry, large, sweep, rotateX) => {
     th3 += mDelta;
   }
   return result;
-};
+}, 'arcToSegments');
 
 /**
  * @private
@@ -121,7 +121,7 @@ const arcToSegments = (toX, toY, rx, ry, large, sweep, rotateX) => {
  * @param vx v endpoint x
  * @param vy v endpoint y
  */
-const calcVectorAngle = (ux, uy, vx, vy) => {
+const calcVectorAngle = fabricJsFunctionMark((ux, uy, vx, vy) => {
   const ta = Math.atan2(uy, ux),
     tb = Math.atan2(vy, vx);
   if (tb >= ta) {
@@ -129,7 +129,7 @@ const calcVectorAngle = (ux, uy, vx, vy) => {
   } else {
     return 2 * Math.PI - (ta - tb);
   }
-};
+}, 'calcVectorAngle');
 
 // functions for the Cubic beizer
 // taken from: https://github.com/konvajs/konva/blob/7.0.5/src/shapes/Path.ts#L350
@@ -152,7 +152,7 @@ const CB4 = t => (1 - t) ** 3;
  * @param {number} endy
  * @return {TRectBounds} the rectangular bounds
  */
-function getBoundsOfCurve(begx, begy, cp1x, cp1y, cp2x, cp2y, endx, endy) {
+const getBoundsOfCurve = fabricJsFunctionMark(function getBoundsOfCurve(begx, begy, cp1x, cp1y, cp2x, cp2y, endx, endy) {
   let argsString;
   if (config.cachesBoundsOfCurve) {
     // eslint-disable-next-line
@@ -218,7 +218,7 @@ function getBoundsOfCurve(begx, begy, cp1x, cp1y, cp2x, cp2y, endx, endy) {
     cache.boundsOfCurveCache[argsString] = result;
   }
   return result;
-}
+})
 
 /**
  * Converts arc to a bunch of cubic Bezier curves
@@ -226,7 +226,7 @@ function getBoundsOfCurve(begx, begy, cp1x, cp1y, cp2x, cp2y, endx, endy) {
  * @param {number} fy starting point y
  * @param {TParsedArcCommand} coords Arc command
  */
-const fromArcToBeziers = (fx, fy, _ref) => {
+const fromArcToBeziers = fabricJsFunctionMark((fx, fy, _ref) => {
   let [_, rx, ry, rot, large, sweep, tx, ty] = _ref;
   const segsNorm = arcToSegments(tx - fx, ty - fy, rx, ry, large, sweep, rot);
   for (let i = 0, len = segsNorm.length; i < len; i++) {
@@ -238,7 +238,7 @@ const fromArcToBeziers = (fx, fy, _ref) => {
     segsNorm[i][6] += fy;
   }
   return segsNorm;
-};
+}, 'fromArcToBeziers');
 
 /**
  * This function takes a parsed SVG path and makes it simpler for fabricJS logic.
@@ -251,7 +251,7 @@ const fromArcToBeziers = (fx, fy, _ref) => {
  * @return {TSimplePathData} the simplified array of commands of a parsed SVG path for `Path`
  * TODO: figure out how to remove the type assertions in a nice way
  */
-const makePathSimpler = path => {
+const makePathSimpler = fabricJsFunctionMark(path => {
   // x and y represent the last point of the path, AKA the previous command point.
   // we add them to each relative command to make it an absolute comment.
   // we also swap the v V h H with L, because are easier to transform.
@@ -413,7 +413,7 @@ const makePathSimpler = path => {
     }
   }
   return destinationPath;
-};
+}, 'makePathSimpler');
 
 // todo verify if we can just use the point class here
 /**
@@ -424,7 +424,7 @@ const makePathSimpler = path => {
  * @param {number} y2 starting point y
  * @return {number} length of segment
  */
-const calcLineLength = (x1, y1, x2, y2) => Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+const calcLineLength = fabricJsFunctionMark((x1, y1, x2, y2) => Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2), 'calcLineLength');
 
 /**
  * Get an iterator that takes a percentage and returns a point
@@ -437,40 +437,40 @@ const calcLineLength = (x1, y1, x2, y2) => Math.sqrt((x2 - x1) ** 2 + (y2 - y1) 
  * @param {number} endx
  * @param {number} endy
  */
-const getPointOnCubicBezierIterator = (begx, begy, cp1x, cp1y, cp2x, cp2y, endx, endy) => pct => {
+const getPointOnCubicBezierIterator = fabricJsFunctionMark((begx, begy, cp1x, cp1y, cp2x, cp2y, endx, endy) => pct => {
   const c1 = CB1(pct),
     c2 = CB2(pct),
     c3 = CB3(pct),
     c4 = CB4(pct);
   return new Point(endx * c1 + cp2x * c2 + cp1x * c3 + begx * c4, endy * c1 + cp2y * c2 + cp1y * c3 + begy * c4);
-};
+}, 'getPointOnCubicBezierIterator');
 const QB1 = t => t ** 2;
 const QB2 = t => 2 * t * (1 - t);
 const QB3 = t => (1 - t) ** 2;
-const getTangentCubicIterator = (p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y) => pct => {
+const getTangentCubicIterator = fabricJsFunctionMark((p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y) => pct => {
   const qb1 = QB1(pct),
     qb2 = QB2(pct),
     qb3 = QB3(pct),
     tangentX = 3 * (qb3 * (p2x - p1x) + qb2 * (p3x - p2x) + qb1 * (p4x - p3x)),
     tangentY = 3 * (qb3 * (p2y - p1y) + qb2 * (p3y - p2y) + qb1 * (p4y - p3y));
   return Math.atan2(tangentY, tangentX);
-};
-const getPointOnQuadraticBezierIterator = (p1x, p1y, p2x, p2y, p3x, p3y) => pct => {
+}, 'getTangentCubicIterator');
+const getPointOnQuadraticBezierIterator = fabricJsFunctionMark((p1x, p1y, p2x, p2y, p3x, p3y) => pct => {
   const c1 = QB1(pct),
     c2 = QB2(pct),
     c3 = QB3(pct);
   return new Point(p3x * c1 + p2x * c2 + p1x * c3, p3y * c1 + p2y * c2 + p1y * c3);
-};
-const getTangentQuadraticIterator = (p1x, p1y, p2x, p2y, p3x, p3y) => pct => {
+}, 'getPointOnQuadraticBezierIterator');
+const getTangentQuadraticIterator = fabricJsFunctionMark((p1x, p1y, p2x, p2y, p3x, p3y) => pct => {
   const invT = 1 - pct,
     tangentX = 2 * (invT * (p2x - p1x) + pct * (p3x - p2x)),
     tangentY = 2 * (invT * (p2y - p1y) + pct * (p3y - p2y));
   return Math.atan2(tangentY, tangentX);
-};
+}, 'getTangentQuadraticIterator');
 
 // this will run over a path segment (a cubic or quadratic segment) and approximate it
 // with 100 segments. This will good enough to calculate the length of the curve
-const pathIterator = (iterator, x1, y1) => {
+const pathIterator = fabricJsFunctionMark((iterator, x1, y1) => {
   let tempP = new Point(x1, y1),
     tmpLen = 0;
   for (let perc = 1; perc <= 100; perc += 1) {
@@ -479,7 +479,7 @@ const pathIterator = (iterator, x1, y1) => {
     tempP = p;
   }
   return tmpLen;
-};
+}, 'pathIterator');
 
 /**
  * Given a pathInfo, and a distance in pixels, find the percentage from 0 to 1
@@ -489,7 +489,7 @@ const pathIterator = (iterator, x1, y1) => {
  * @param {number} distance from starting point, in pixels.
  * @return {TPointAngle} info object with x and y ( the point on canvas ) and angle, the tangent on that point;
  */
-const findPercentageForDistance = (segInfo, distance) => {
+const findPercentageForDistance = fabricJsFunctionMark((segInfo, distance) => {
   let perc = 0,
     tmpLen = 0,
     tempP = {
@@ -522,14 +522,14 @@ const findPercentageForDistance = (segInfo, distance) => {
   return _objectSpread2(_objectSpread2({}, p), {}, {
     angle: angleFinder(lastPerc)
   });
-};
+}, 'findPercentageForDistance');
 
 /**
  * Run over a parsed and simplified path and extract some information (length of each command and starting point)
  * @param {TSimplePathData} path parsed path commands
  * @return {TPathSegmentInfo[]} path commands information
  */
-const getPathSegmentsInfo = path => {
+const getPathSegmentsInfo = fabricJsFunctionMark(path => {
   let totalLength = 0,
     //x2 and y2 are the coords of segment start
     //x1 and y1 are the coords of the current point
@@ -597,7 +597,7 @@ const getPathSegmentsInfo = path => {
     y: y1
   });
   return info;
-};
+}, 'getPathSegmentsInfo');
 
 /**
  * Get the point on the path that is distance along the path
@@ -605,7 +605,7 @@ const getPathSegmentsInfo = path => {
  * @param distance
  * @param infos
  */
-const getPointOnPath = function (path, distance) {
+const getPointOnPath = fabricJsFunctionMark(function (path, distance) {
   let infos = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : getPathSegmentsInfo(path);
   let i = 0;
   while (distance - infos[i].length > 0 && i < infos.length - 2) {
@@ -636,7 +636,7 @@ const getPointOnPath = function (path, distance) {
       return findPercentageForDistance(segInfo, distance);
     // throw Error('Invalid command');
   }
-};
+}, 'getPointOnPath');
 const rePathCmdAll = new RegExp(rePathCommand, 'gi');
 const regExpArcCommandPoints = new RegExp(reArcCommandPoints, 'g');
 const reMyNum = new RegExp(reNum, 'gi');
@@ -662,7 +662,7 @@ const commandLengths = {
  *   ['Q', 9, 12, 2, 1, 4, 0],
  * ];
  */
-const parsePath = pathString => {
+const parsePath = fabricJsFunctionMark(pathString => {
   var _pathString$match;
   const chain = [];
   const all = (_pathString$match = pathString.match(rePathCmdAll)) !== null && _pathString$match !== void 0 ? _pathString$match : [];
@@ -702,7 +702,7 @@ const parsePath = pathString => {
     }
   }
   return chain;
-};
+}, 'parsePath');
 
 /**
  *
@@ -711,7 +711,7 @@ const parsePath = pathString => {
  * @param {number} [correction] Apply a correction to the path (usually we use `width / 1000`). If value is undefined 0 is used as the correction value.
  * @return {(string|number)[][]} An array of SVG path commands
  */
-const getSmoothPathFromPoints = function (points) {
+const getSmoothPathFromPoints = fabricJsFunctionMark(function (points) {
   let correction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   let p1 = new Point(points[0]),
     p2 = new Point(points[1]),
@@ -745,7 +745,7 @@ const getSmoothPathFromPoints = function (points) {
   }
   path.push(['L', p1.x + multSignX * correction, p1.y + multSignY * correction]);
   return path;
-};
+}, 'getSmoothPathFromPoints');
 
 /**
  * Transform a path by transforming each segment.
@@ -756,7 +756,7 @@ const getSmoothPathFromPoints = function (points) {
  * @param {Point} [pathOffset] `Path.pathOffset`
  * @returns {TSimplePathData} the transformed path
  */
-const transformPath = (path, transform, pathOffset) => {
+const transformPath = fabricJsFunctionMark((path, transform, pathOffset) => {
   if (pathOffset) {
     transform = multiplyTransformMatrices(transform, [1, 0, 0, 1, -pathOffset.x, -pathOffset.y]);
   }
@@ -776,7 +776,7 @@ const transformPath = (path, transform, pathOffset) => {
     }
     return newSegment;
   });
-};
+}, 'transformPath');
 
 /**
  * Returns an array of path commands to create a regular polygon
@@ -784,7 +784,7 @@ const transformPath = (path, transform, pathOffset) => {
  * @param {number} radius
  * @returns {TSimplePathData} An array of SVG path commands
  */
-const getRegularPolygonPath = (numVertexes, radius) => {
+const getRegularPolygonPath = fabricJsFunctionMark((numVertexes, radius) => {
   const interiorAngle = Math.PI * 2 / numVertexes;
   // rotationAdjustment rotates the path by 1/2 the interior angle so that the polygon always has a flat side on the bottom
   // This isn't strictly necessary, but it's how we tend to think of and expect polygons to be drawn
@@ -803,7 +803,7 @@ const getRegularPolygonPath = (numVertexes, radius) => {
   }
   d[numVertexes] = ['Z'];
   return d;
-};
+}, 'getRegularPolygonPath');
 
 /**
  * Join path commands to go back to svg format
@@ -811,12 +811,12 @@ const getRegularPolygonPath = (numVertexes, radius) => {
  * @param {number} fractionDigits number of fraction digits to "leave"
  * @return {String} joined path 'M 0 0 L 20 30'
  */
-const joinPath = (pathData, fractionDigits) => pathData.map(segment => {
+const joinPath = fabricJsFunctionMark((pathData, fractionDigits) => pathData.map(segment => {
   return segment.map((arg, i) => {
     if (i === 0) return arg;
     return fractionDigits === undefined ? arg : toFixed(arg, fractionDigits);
   }).join(' ');
-}).join(' ');
+}).join(' '), 'joinPath');
 
 export { fromArcToBeziers, getBoundsOfCurve, getPathSegmentsInfo, getPointOnPath, getRegularPolygonPath, getSmoothPathFromPoints, joinPath, makePathSimpler, parsePath, transformPath };
 //# sourceMappingURL=index.mjs.map

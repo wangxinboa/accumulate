@@ -1,4 +1,4 @@
-function getMultipleNodes(doc, nodeNames) {
+const getMultipleNodes = fabricJsFunctionMark(function getMultipleNodes(doc, nodeNames) {
   let nodeName,
     nodeArray = [],
     nodeList,
@@ -10,7 +10,7 @@ function getMultipleNodes(doc, nodeNames) {
     nodeArray = nodeArray.concat(Array.from(nodeList));
   }
   return nodeArray;
-}
+})
 
 export { getMultipleNodes };
 //# sourceMappingURL=getMultipleNodes.mjs.map

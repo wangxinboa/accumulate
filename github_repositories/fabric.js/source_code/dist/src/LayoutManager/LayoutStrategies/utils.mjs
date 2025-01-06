@@ -8,7 +8,7 @@ import { calcPlaneChangeMatrix, sendVectorToPlane } from '../../util/misc/planeC
  * in the {@link group} plane, taking into account objects that {@link group} is their parent
  * but also belong to the active selection.
  */
-const getObjectBounds = (destinationGroup, object) => {
+const getObjectBounds = fabricJsFunctionMark((destinationGroup, object) => {
   const {
     strokeUniform,
     strokeWidth,
@@ -23,7 +23,7 @@ const getObjectBounds = (destinationGroup, object) => {
   const scalingStrokeWidth = !strokeUniform && accountForStroke ? strokeWidth : 0;
   const sizeVector = sizeAfterTransform(width + scalingStrokeWidth, height + scalingStrokeWidth, multiplyTransformMatrixArray([t, object.calcOwnMatrix()], true)).add(strokeUniformVector).scalarDivide(2);
   return [objectCenter.subtract(sizeVector), objectCenter.add(sizeVector)];
-};
+}, 'getObjectBounds');
 
 export { getObjectBounds };
 //# sourceMappingURL=utils.mjs.map

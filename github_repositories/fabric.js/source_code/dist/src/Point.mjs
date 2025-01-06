@@ -4,7 +4,7 @@ import { sin } from './util/misc/sin.mjs';
 /**
  * Adaptation of work of Kevin Lindsey(kevin@kevlindev.com)
  */
-class Point {
+const Point = fabricJsClassMark(class Point {
   constructor() {
     let arg0 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
     let y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -365,7 +365,7 @@ class Point {
     let ignoreOffset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     return new Point(t[0] * this.x + t[2] * this.y + (ignoreOffset ? 0 : t[4]), t[1] * this.x + t[3] * this.y + (ignoreOffset ? 0 : t[5]));
   }
-}
+})
 const ZERO = new Point(0, 0);
 
 export { Point, ZERO };

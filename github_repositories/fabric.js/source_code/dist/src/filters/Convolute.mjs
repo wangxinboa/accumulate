@@ -48,7 +48,7 @@ const convoluteDefaultValues = {
  * object.applyFilters();
  * canvas.renderAll();
  */
-class Convolute extends BaseFilter {
+const Convolute = fabricJsClassMark(class Convolute extends BaseFilter {
   getCacheKey() {
     return "".concat(this.type, "_").concat(Math.sqrt(this.matrix.length), "_").concat(this.opaque ? 1 : 0);
   }
@@ -137,7 +137,7 @@ class Convolute extends BaseFilter {
       matrix: [...this.matrix]
     });
   }
-}
+})
 /*
  * Opaque value (true/false)
  */

@@ -1,7 +1,7 @@
 import { defineProperty as _defineProperty } from '../_virtual/_rollupPluginBabelHelpers.mjs';
 import { config } from './config.mjs';
 
-class Cache {
+const Cache = fabricJsClassMark(class Cache {
   constructor() {
     /**
      * Cache of widths of chars in text rendering.
@@ -73,7 +73,7 @@ class Cache {
     // this is an internal utility
     return [Math.floor(roughWidth), Math.floor(perfLimitSizeTotal / roughWidth)];
   }
-}
+})
 const cache = new Cache();
 
 export { Cache, cache };
