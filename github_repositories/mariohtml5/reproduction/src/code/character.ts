@@ -629,7 +629,7 @@ export default class Character extends NotchSprite {
 			this.Die();
 		}
 	}
-	Win(): void{
+	Win(): void {
 		this.XDeathPos = this.X | 0;
 		this.YDeathPos = this.Y | 0;
 		this.World!.Paused = true;
