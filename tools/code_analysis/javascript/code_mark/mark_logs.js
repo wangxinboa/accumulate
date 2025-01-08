@@ -31,7 +31,7 @@ let nowMarkNode = rootMarkNode;
 
 const MarkLogs = {
 	rootMarkNode,
-	mark(title, key = null, args,message) {
+	mark(title, key = null, args, message) {
 		const prentMarkNode = nowMarkNode;
 		let prentNotEmptyMarkNode = prentMarkNode;
 		while (prentNotEmptyMarkNode.isEmpty() && prentNotEmptyMarkNode.parent) {
