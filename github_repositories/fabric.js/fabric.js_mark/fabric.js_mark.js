@@ -1,4 +1,4 @@
-import { isFunction, isOriginalFunction } from '../../../javascript_utils/data_type/is_type.js';
+import { isFunction, isOriginalFunction, isObject } from '../../../javascript_utils/data_type/is_type.js';
 import convertClass from '../../../tools/code_analysis/javascript/code_mark/convert/convert_class.js';
 import convertFunction from '../../../tools/code_analysis/javascript/code_mark/convert/convert_function.js';
 import { AllProxyFunctionMessage, AllProxyFunctionMap } from '../../../tools/code_analysis/javascript/code_mark/proxy_function.js';
@@ -22,10 +22,6 @@ globalThis.fabricJsClassMark = function fabricJsClassMark(fabricJsClass, aliasNa
 		throw new Error(`fabricJsClassMark AllFabricJsClass 已存在 ${className} class`);
 	}
 	AllFabricJsClass[className] = fabricJsClass;
-	//const aliasMessaage = phaserClassAlias[className];
-	//if (aliasMessaage) {
-	//	className = aliasMessaage.alias[aliasMessaage.nowIndex++];
-	//}
 
 	return convertClass(fabricJsClass, className);
 }
@@ -46,3 +42,18 @@ globalThis.fabricJsFunctionMark = function fabricJsFunctionMark(fabricJsFunction
 
 	return convertFunction(fabricJsFunction, functionName);
 }
+
+
+globalThis.fabricJsObjectMark = function fabricJsObjectMark(fabricJsObject, objectName) {
+	const markedObject = {};
+	for (let key in fabricJsObject) {
+		const val = fabricJsObject[key];
+		if (isFunction(val)) {
+			markedObject[key] = fabricJsObject[key] = fabricJsClassMark(val, `${objectName}.${key}`);
+		} else if (isObject(val)) {
+			fabricJsObjectMark(val, `${objectName}.${key}`);
+		}
+	}
+	return markedObject;
+}
+
