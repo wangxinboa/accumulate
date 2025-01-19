@@ -16,39 +16,12 @@
 
 <body>
 	<canvas id="renderCanvas" class="fill"></canvas>
-	<script type="module">
-		import '../fabric.js_mark/fabric.js_mark.js';
-		import fabric from './fabric.js.modules.js';
 
-		const canvasDom = document.getElementById('renderCanvas');
-		canvasDom.width = canvasDom.clientWidth;
-		canvasDom.height = canvasDom.clientHeight;
 
-		const canvas = new fabric.Canvas(canvasDom);
-
-		// create a rectangle object
-		const rect = new fabric.Rect({
-			left: 100,
-			top: 100,
-			fill: 'red',
-			width: 20,
-			height: 20,
-			angle: 45 // only change
-
-		});
-
-		// "add" rectangle onto canvas
-		canvas.add(rect);
-
-		//change it a bit
-		rect.set({
-			fill: 'green',
-			strokeWidth: 5,
-			stroke: 'rgba(100,200,200,0.5)',
-			angle: 15,
-			flipY: true
-		});
-	</script>
+	<script defer type="text/javascript" src="/fabric.js/dist/all.js"></script>
+	<script defer type="text/javascript" src="/fabric.js/lib/cufon.js"></script>
+	<script defer type="text/javascript" src="/fabric.js/test/fonts/Delicious_500.font.js"></script>
+	<script defer type="module" src="./fabric.js.start.js"></script>
 </body>
 
 </html>
