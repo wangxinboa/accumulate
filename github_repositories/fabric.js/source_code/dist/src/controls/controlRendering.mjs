@@ -12,38 +12,38 @@ import { degreesToRadians } from '../util/misc/radiansDegreesConversion.mjs';
  * @param {Object} styleOverride override for FabricObject controls style
  * @param {FabricObject} fabricObject the fabric object for which we are rendering controls
  */
-const renderCircleControl = fabricJsFunctionMark(function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
-  styleOverride = styleOverride || {};
-  const xSize = this.sizeX || styleOverride.cornerSize || fabricObject.cornerSize,
-    ySize = this.sizeY || styleOverride.cornerSize || fabricObject.cornerSize,
-    transparentCorners = typeof styleOverride.transparentCorners !== 'undefined' ? styleOverride.transparentCorners : fabricObject.transparentCorners,
-    methodName = transparentCorners ? STROKE : FILL,
-    stroke = !transparentCorners && (styleOverride.cornerStrokeColor || fabricObject.cornerStrokeColor);
-  let myLeft = left,
-    myTop = top,
-    size;
-  ctx.save();
-  ctx.fillStyle = styleOverride.cornerColor || fabricObject.cornerColor || '';
-  ctx.strokeStyle = styleOverride.cornerStrokeColor || fabricObject.cornerStrokeColor || '';
-  // TODO: use proper ellipse code.
-  if (xSize > ySize) {
-    size = xSize;
-    ctx.scale(1.0, ySize / xSize);
-    myTop = top * xSize / ySize;
-  } else if (ySize > xSize) {
-    size = ySize;
-    ctx.scale(xSize / ySize, 1.0);
-    myLeft = left * ySize / xSize;
-  } else {
-    size = xSize;
-  }
-  ctx.beginPath();
-  ctx.arc(myLeft, myTop, size / 2, 0, twoMathPi, false);
-  ctx[methodName]();
-  if (stroke) {
-    ctx.stroke();
-  }
-  ctx.restore();
+const renderCircleControl = codeMarkFunction(function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
+	styleOverride = styleOverride || {};
+	const xSize = this.sizeX || styleOverride.cornerSize || fabricObject.cornerSize,
+		ySize = this.sizeY || styleOverride.cornerSize || fabricObject.cornerSize,
+		transparentCorners = typeof styleOverride.transparentCorners !== 'undefined' ? styleOverride.transparentCorners : fabricObject.transparentCorners,
+		methodName = transparentCorners ? STROKE : FILL,
+		stroke = !transparentCorners && (styleOverride.cornerStrokeColor || fabricObject.cornerStrokeColor);
+	let myLeft = left,
+		myTop = top,
+		size;
+	ctx.save();
+	ctx.fillStyle = styleOverride.cornerColor || fabricObject.cornerColor || '';
+	ctx.strokeStyle = styleOverride.cornerStrokeColor || fabricObject.cornerStrokeColor || '';
+	// TODO: use proper ellipse code.
+	if (xSize > ySize) {
+		size = xSize;
+		ctx.scale(1.0, ySize / xSize);
+		myTop = top * xSize / ySize;
+	} else if (ySize > xSize) {
+		size = ySize;
+		ctx.scale(xSize / ySize, 1.0);
+		myLeft = left * ySize / xSize;
+	} else {
+		size = xSize;
+	}
+	ctx.beginPath();
+	ctx.arc(myLeft, myTop, size / 2, 0, twoMathPi, false);
+	ctx[methodName]();
+	if (stroke) {
+		ctx.stroke();
+	}
+	ctx.restore();
 })
 
 /**
@@ -57,30 +57,30 @@ const renderCircleControl = fabricJsFunctionMark(function renderCircleControl(ct
  * @param {Object} styleOverride override for FabricObject controls style
  * @param {FabricObject} fabricObject the fabric object for which we are rendering controls
  */
-const renderSquareControl = fabricJsFunctionMark(function renderSquareControl(ctx, left, top, styleOverride, fabricObject) {
-  styleOverride = styleOverride || {};
-  const xSize = this.sizeX || styleOverride.cornerSize || fabricObject.cornerSize,
-    ySize = this.sizeY || styleOverride.cornerSize || fabricObject.cornerSize,
-    transparentCorners = typeof styleOverride.transparentCorners !== 'undefined' ? styleOverride.transparentCorners : fabricObject.transparentCorners,
-    methodName = transparentCorners ? STROKE : FILL,
-    stroke = !transparentCorners && (styleOverride.cornerStrokeColor || fabricObject.cornerStrokeColor),
-    xSizeBy2 = xSize / 2,
-    ySizeBy2 = ySize / 2;
-  ctx.save();
-  ctx.fillStyle = styleOverride.cornerColor || fabricObject.cornerColor || '';
-  ctx.strokeStyle = styleOverride.cornerStrokeColor || fabricObject.cornerStrokeColor || '';
-  ctx.translate(left, top);
-  //  angle is relative to canvas plane
-  const angle = fabricObject.getTotalAngle();
-  ctx.rotate(degreesToRadians(angle));
-  // this does not work, and fixed with ( && ) does not make sense.
-  // to have real transparent corners we need the controls on upperCanvas
-  // transparentCorners || ctx.clearRect(-xSizeBy2, -ySizeBy2, xSize, ySize);
-  ctx["".concat(methodName, "Rect")](-xSizeBy2, -ySizeBy2, xSize, ySize);
-  if (stroke) {
-    ctx.strokeRect(-xSizeBy2, -ySizeBy2, xSize, ySize);
-  }
-  ctx.restore();
+const renderSquareControl = codeMarkFunction(function renderSquareControl(ctx, left, top, styleOverride, fabricObject) {
+	styleOverride = styleOverride || {};
+	const xSize = this.sizeX || styleOverride.cornerSize || fabricObject.cornerSize,
+		ySize = this.sizeY || styleOverride.cornerSize || fabricObject.cornerSize,
+		transparentCorners = typeof styleOverride.transparentCorners !== 'undefined' ? styleOverride.transparentCorners : fabricObject.transparentCorners,
+		methodName = transparentCorners ? STROKE : FILL,
+		stroke = !transparentCorners && (styleOverride.cornerStrokeColor || fabricObject.cornerStrokeColor),
+		xSizeBy2 = xSize / 2,
+		ySizeBy2 = ySize / 2;
+	ctx.save();
+	ctx.fillStyle = styleOverride.cornerColor || fabricObject.cornerColor || '';
+	ctx.strokeStyle = styleOverride.cornerStrokeColor || fabricObject.cornerStrokeColor || '';
+	ctx.translate(left, top);
+	//  angle is relative to canvas plane
+	const angle = fabricObject.getTotalAngle();
+	ctx.rotate(degreesToRadians(angle));
+	// this does not work, and fixed with ( && ) does not make sense.
+	// to have real transparent corners we need the controls on upperCanvas
+	// transparentCorners || ctx.clearRect(-xSizeBy2, -ySizeBy2, xSize, ySize);
+	ctx["".concat(methodName, "Rect")](-xSizeBy2, -ySizeBy2, xSize, ySize);
+	if (stroke) {
+		ctx.strokeRect(-xSizeBy2, -ySizeBy2, xSize, ySize);
+	}
+	ctx.restore();
 })
 
 export { renderCircleControl, renderSquareControl };

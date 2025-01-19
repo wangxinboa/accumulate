@@ -4,14 +4,14 @@
  * @param style
  * @param oStyle
  */
-const parseStyleObject = fabricJsFunctionMark(function parseStyleObject(style, oStyle) {
-  Object.entries(style).forEach(_ref => {
-    let [prop, value] = _ref;
-    if (value === undefined) {
-      return;
-    }
-    oStyle[prop.toLowerCase()] = value;
-  });
+const parseStyleObject = codeMarkFunction(function parseStyleObject(style, oStyle) {
+	Object.entries(style).forEach(_ref => {
+		let [prop, value] = _ref;
+		if (value === undefined) {
+			return;
+		}
+		oStyle[prop.toLowerCase()] = value;
+	});
 })
 
 export { parseStyleObject };

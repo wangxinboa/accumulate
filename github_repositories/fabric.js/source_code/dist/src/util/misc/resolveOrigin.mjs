@@ -1,9 +1,9 @@
 const originOffset = {
-  left: -0.5,
-  top: -0.5,
-  center: 0,
-  bottom: 0.5,
-  right: 0.5
+	left: -0.5,
+	top: -0.5,
+	center: 0,
+	bottom: 0.5,
+	right: 0.5
 };
 /**
  * Resolves origin value relative to center
@@ -12,7 +12,7 @@ const originOffset = {
  * @returns number
  */
 
-const resolveOrigin = fabricJsFunctionMark(originValue => typeof originValue === 'string' ? originOffset[originValue] : originValue - 0.5, 'resolveOrigin');
+const resolveOrigin = codeMarkFunction(originValue => typeof originValue === 'string' ? originOffset[originValue] : originValue - 0.5, 'resolveOrigin');
 
 export { resolveOrigin };
 //# sourceMappingURL=resolveOrigin.mjs.map

@@ -14,37 +14,37 @@ import { FabricError } from './util/internals/console.mjs';
 
 const JSON = 'json';
 const SVG = 'svg';
-const ClassRegistry = fabricJsClassMark(class ClassRegistry {
-  constructor() {
-    this[JSON] = new Map();
-    this[SVG] = new Map();
-  }
-  has(classType) {
-    return this[JSON].has(classType);
-  }
-  getClass(classType) {
-    const constructor = this[JSON].get(classType);
-    if (!constructor) {
-      throw new FabricError("No class registered for ".concat(classType));
-    }
-    return constructor;
-  }
-  setClass(classConstructor, classType) {
-    if (classType) {
-      this[JSON].set(classType, classConstructor);
-    } else {
-      this[JSON].set(classConstructor.type, classConstructor);
-      // legacy
-      // @TODO: needs to be removed in fabric 7 or 8
-      this[JSON].set(classConstructor.type.toLowerCase(), classConstructor);
-    }
-  }
-  getSVGClass(SVGTagName) {
-    return this[SVG].get(SVGTagName);
-  }
-  setSVGClass(classConstructor, SVGTagName) {
-    this[SVG].set(SVGTagName !== null && SVGTagName !== void 0 ? SVGTagName : classConstructor.type.toLowerCase(), classConstructor);
-  }
+const ClassRegistry = codeMarkClass(class ClassRegistry {
+	constructor() {
+		this[JSON] = new Map();
+		this[SVG] = new Map();
+	}
+	has(classType) {
+		return this[JSON].has(classType);
+	}
+	getClass(classType) {
+		const constructor = this[JSON].get(classType);
+		if (!constructor) {
+			throw new FabricError("No class registered for ".concat(classType));
+		}
+		return constructor;
+	}
+	setClass(classConstructor, classType) {
+		if (classType) {
+			this[JSON].set(classType, classConstructor);
+		} else {
+			this[JSON].set(classConstructor.type, classConstructor);
+			// legacy
+			// @TODO: needs to be removed in fabric 7 or 8
+			this[JSON].set(classConstructor.type.toLowerCase(), classConstructor);
+		}
+	}
+	getSVGClass(SVGTagName) {
+		return this[SVG].get(SVGTagName);
+	}
+	setSVGClass(classConstructor, SVGTagName) {
+		this[SVG].set(SVGTagName !== null && SVGTagName !== void 0 ? SVGTagName : classConstructor.type.toLowerCase(), classConstructor);
+	}
 })
 const classRegistry = new ClassRegistry();
 

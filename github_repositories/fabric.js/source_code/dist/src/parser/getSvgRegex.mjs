@@ -1,5 +1,5 @@
-const getSvgRegex = fabricJsFunctionMark(function getSvgRegex(arr) {
-  return new RegExp('^(' + arr.join('|') + ')\\b', 'i');
+const getSvgRegex = codeMarkFunction(function getSvgRegex(arr) {
+	return new RegExp('^(' + arr.join('|') + ')\\b', 'i');
 })
 
 export { getSvgRegex };

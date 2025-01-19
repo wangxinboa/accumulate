@@ -17,10 +17,10 @@ const _excluded = ["translateX", "translateY", "scaleX", "scaleY"];
  * @param {FabricObject} object the object you want to transform
  * @param {TMat2D} transform the destination transform
  */
-const removeTransformFromObject = fabricJsFunctionMark((object, transform) => {
-  const inverted = invertTransform(transform),
-    finalTransform = multiplyTransformMatrices(inverted, object.calcOwnMatrix());
-  applyTransformToObject(object, finalTransform);
+const removeTransformFromObject = codeMarkFunction((object, transform) => {
+	const inverted = invertTransform(transform),
+		finalTransform = multiplyTransformMatrices(inverted, object.calcOwnMatrix());
+	applyTransformToObject(object, finalTransform);
 }, 'removeTransformFromObject');
 
 /**
@@ -31,44 +31,44 @@ const removeTransformFromObject = fabricJsFunctionMark((object, transform) => {
  * @param {FabricObject} object the object you want to transform
  * @param {Array} transform the destination transform
  */
-const addTransformToObject = fabricJsFunctionMark((object, transform) => applyTransformToObject(object, multiplyTransformMatrices(transform, object.calcOwnMatrix())), 'addTransformToObject');
+const addTransformToObject = codeMarkFunction((object, transform) => applyTransformToObject(object, multiplyTransformMatrices(transform, object.calcOwnMatrix())), 'addTransformToObject');
 
 /**
  * discard an object transform state and apply the one from the matrix.
  * @param {FabricObject} object the object you want to transform
  * @param {Array} transform the destination transform
  */
-const applyTransformToObject = fabricJsFunctionMark((object, transform) => {
-  const _qrDecompose = qrDecompose(transform),
-    {
-      translateX,
-      translateY,
-      scaleX,
-      scaleY
-    } = _qrDecompose,
-    otherOptions = _objectWithoutProperties(_qrDecompose, _excluded),
-    center = new Point(translateX, translateY);
-  object.flipX = false;
-  object.flipY = false;
-  Object.assign(object, otherOptions);
-  object.set({
-    scaleX,
-    scaleY
-  });
-  object.setPositionByOrigin(center, CENTER, CENTER);
+const applyTransformToObject = codeMarkFunction((object, transform) => {
+	const _qrDecompose = qrDecompose(transform),
+		{
+			translateX,
+			translateY,
+			scaleX,
+			scaleY
+		} = _qrDecompose,
+		otherOptions = _objectWithoutProperties(_qrDecompose, _excluded),
+		center = new Point(translateX, translateY);
+	object.flipX = false;
+	object.flipY = false;
+	Object.assign(object, otherOptions);
+	object.set({
+		scaleX,
+		scaleY
+	});
+	object.setPositionByOrigin(center, CENTER, CENTER);
 }, 'applyTransformToObject');
 /**
  * reset an object transform state to neutral. Top and left are not accounted for
  * @param  {FabricObject} target object to transform
  */
-const resetObjectTransform = fabricJsFunctionMark(target => {
-  target.scaleX = 1;
-  target.scaleY = 1;
-  target.skewX = 0;
-  target.skewY = 0;
-  target.flipX = false;
-  target.flipY = false;
-  target.rotate(0);
+const resetObjectTransform = codeMarkFunction(target => {
+	target.scaleX = 1;
+	target.scaleY = 1;
+	target.skewX = 0;
+	target.skewY = 0;
+	target.flipX = false;
+	target.flipY = false;
+	target.rotate(0);
 }, 'resetObjectTransform');
 
 /**
@@ -76,16 +76,16 @@ const resetObjectTransform = fabricJsFunctionMark(target => {
  * @param  {FabricObject} target object to read from
  * @return {Object} Components of transform
  */
-const saveObjectTransform = fabricJsFunctionMark(target => ({
-  scaleX: target.scaleX,
-  scaleY: target.scaleY,
-  skewX: target.skewX,
-  skewY: target.skewY,
-  angle: target.angle,
-  left: target.left,
-  flipX: target.flipX,
-  flipY: target.flipY,
-  top: target.top
+const saveObjectTransform = codeMarkFunction(target => ({
+	scaleX: target.scaleX,
+	scaleY: target.scaleY,
+	skewX: target.skewX,
+	skewY: target.skewY,
+	angle: target.angle,
+	left: target.left,
+	flipX: target.flipX,
+	flipY: target.flipY,
+	top: target.top
 }), 'saveObjectTransform');
 
 /**
@@ -97,12 +97,12 @@ const saveObjectTransform = fabricJsFunctionMark(target => ({
  * @param {TMat2D} t
  * @returns {Point} size
  */
-const sizeAfterTransform = fabricJsFunctionMark((width, height, t) => {
-  const dimX = width / 2,
-    dimY = height / 2,
-    points = [new Point(-dimX, -dimY), new Point(dimX, -dimY), new Point(-dimX, dimY), new Point(dimX, dimY)].map(p => p.transform(t)),
-    bbox = makeBoundingBoxFromPoints(points);
-  return new Point(bbox.width, bbox.height);
+const sizeAfterTransform = codeMarkFunction((width, height, t) => {
+	const dimX = width / 2,
+		dimY = height / 2,
+		points = [new Point(-dimX, -dimY), new Point(dimX, -dimY), new Point(-dimX, dimY), new Point(dimX, dimY)].map(p => p.transform(t)),
+		bbox = makeBoundingBoxFromPoints(points);
+	return new Point(bbox.width, bbox.height);
 }, 'sizeAfterTransform');
 
 export { addTransformToObject, applyTransformToObject, removeTransformFromObject, resetObjectTransform, saveObjectTransform, sizeAfterTransform };

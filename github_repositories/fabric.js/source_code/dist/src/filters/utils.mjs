@@ -2,8 +2,8 @@ import { getFabricWindow } from '../env/index.mjs';
 import { createCanvasElementFor, createCanvasElement } from '../util/misc/dom.mjs';
 import { WebGLFilterBackend } from './WebGLFilterBackend.mjs';
 
-const isWebGLPipelineState = fabricJsFunctionMark(options => {
-  return options.webgl !== undefined;
+const isWebGLPipelineState = codeMarkFunction(options => {
+	return options.webgl !== undefined;
 }, 'isWebGLPipelineState');
 
 /**
@@ -12,31 +12,31 @@ const isWebGLPipelineState = fabricJsFunctionMark(options => {
  * and drivers.
  * putImageData is faster than drawImage for that specific operation.
  */
-const isPutImageFaster = fabricJsFunctionMark((width, height) => {
-  const targetCanvas = createCanvasElementFor({
-    width,
-    height
-  });
-  const sourceCanvas = createCanvasElement();
-  const gl = sourceCanvas.getContext('webgl');
-  // eslint-disable-next-line no-undef
-  const imageBuffer = new ArrayBuffer(width * height * 4);
-  const testContext = {
-    imageBuffer: imageBuffer
-  };
-  const testPipelineState = {
-    destinationWidth: width,
-    destinationHeight: height,
-    targetCanvas: targetCanvas
-  };
-  let startTime;
-  startTime = getFabricWindow().performance.now();
-  WebGLFilterBackend.prototype.copyGLTo2D.call(testContext, gl, testPipelineState);
-  const drawImageTime = getFabricWindow().performance.now() - startTime;
-  startTime = getFabricWindow().performance.now();
-  WebGLFilterBackend.prototype.copyGLTo2DPutImageData.call(testContext, gl, testPipelineState);
-  const putImageDataTime = getFabricWindow().performance.now() - startTime;
-  return drawImageTime > putImageDataTime;
+const isPutImageFaster = codeMarkFunction((width, height) => {
+	const targetCanvas = createCanvasElementFor({
+		width,
+		height
+	});
+	const sourceCanvas = createCanvasElement();
+	const gl = sourceCanvas.getContext('webgl');
+	// eslint-disable-next-line no-undef
+	const imageBuffer = new ArrayBuffer(width * height * 4);
+	const testContext = {
+		imageBuffer: imageBuffer
+	};
+	const testPipelineState = {
+		destinationWidth: width,
+		destinationHeight: height,
+		targetCanvas: targetCanvas
+	};
+	let startTime;
+	startTime = getFabricWindow().performance.now();
+	WebGLFilterBackend.prototype.copyGLTo2D.call(testContext, gl, testPipelineState);
+	const drawImageTime = getFabricWindow().performance.now() - startTime;
+	startTime = getFabricWindow().performance.now();
+	WebGLFilterBackend.prototype.copyGLTo2DPutImageData.call(testContext, gl, testPipelineState);
+	const putImageDataTime = getFabricWindow().performance.now() - startTime;
+	return drawImageTime > putImageDataTime;
 }, 'isPutImageFaster');
 
 export { isPutImageFaster, isWebGLPipelineState };

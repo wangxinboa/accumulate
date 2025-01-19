@@ -4,7 +4,7 @@ import { classRegistry } from '../ClassRegistry.mjs';
 import { fragmentSource } from './shaders/vibrance.mjs';
 
 const vibranceDefaultValues = {
-  vibrance: 0
+	vibrance: 0
 };
 
 /**
@@ -16,49 +16,49 @@ const vibranceDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-const Vibrance = fabricJsClassMark(class Vibrance extends BaseFilter {
-  getFragmentSource() {
-    return fragmentSource;
-  }
+const Vibrance = codeMarkClass(class Vibrance extends BaseFilter {
+	getFragmentSource() {
+		return fragmentSource;
+	}
 
-  /**
-   * Apply the Vibrance operation to a Uint8ClampedArray representing the pixels of an image.
-   *
-   * @param {Object} options
-   * @param {ImageData} options.imageData The Uint8ClampedArray to be filtered.
-   */
-  applyTo2d(_ref) {
-    let {
-      imageData: {
-        data
-      }
-    } = _ref;
-    const adjust = -this.vibrance;
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-      const max = Math.max(r, g, b);
-      const avg = (r + g + b) / 3;
-      const amt = Math.abs(max - avg) * 2 / 255 * adjust;
-      data[i] += max !== r ? (max - r) * amt : 0;
-      data[i + 1] += max !== g ? (max - g) * amt : 0;
-      data[i + 2] += max !== b ? (max - b) * amt : 0;
-    }
-  }
+	/**
+	 * Apply the Vibrance operation to a Uint8ClampedArray representing the pixels of an image.
+	 *
+	 * @param {Object} options
+	 * @param {ImageData} options.imageData The Uint8ClampedArray to be filtered.
+	 */
+	applyTo2d(_ref) {
+		let {
+			imageData: {
+				data
+			}
+		} = _ref;
+		const adjust = -this.vibrance;
+		for (let i = 0; i < data.length; i += 4) {
+			const r = data[i];
+			const g = data[i + 1];
+			const b = data[i + 2];
+			const max = Math.max(r, g, b);
+			const avg = (r + g + b) / 3;
+			const amt = Math.abs(max - avg) * 2 / 255 * adjust;
+			data[i] += max !== r ? (max - r) * amt : 0;
+			data[i + 1] += max !== g ? (max - g) * amt : 0;
+			data[i + 2] += max !== b ? (max - b) * amt : 0;
+		}
+	}
 
-  /**
-   * Send data from this filter to its shader program's uniforms.
-   *
-   * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
-   * @param {TWebGLUniformLocationMap} uniformLocations A map of string uniform names to WebGLUniformLocation objects
-   */
-  sendUniformData(gl, uniformLocations) {
-    gl.uniform1f(uniformLocations.uVibrance, -this.vibrance);
-  }
-  isNeutralState() {
-    return this.vibrance === 0;
-  }
+	/**
+	 * Send data from this filter to its shader program's uniforms.
+	 *
+	 * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
+	 * @param {TWebGLUniformLocationMap} uniformLocations A map of string uniform names to WebGLUniformLocation objects
+	 */
+	sendUniformData(gl, uniformLocations) {
+		gl.uniform1f(uniformLocations.uVibrance, -this.vibrance);
+	}
+	isNeutralState() {
+		return this.vibrance === 0;
+	}
 })
 /**
  * Vibrance value, from -1 to 1.

@@ -9,18 +9,18 @@ let filterBackend;
 /**
  * Verifies if it is possible to initialize webgl or fallback on a canvas2d filtering backend
  */
-const initFilterBackend = fabricJsFunctionMark(function initFilterBackend() {
-  const {
-    WebGLProbe
-  } = getEnv();
-  WebGLProbe.queryWebGL(createCanvasElement());
-  if (config.enableGLFiltering && WebGLProbe.isSupported(config.textureSize)) {
-    return new WebGLFilterBackend({
-      tileSize: config.textureSize
-    });
-  } else {
-    return new Canvas2dFilterBackend();
-  }
+const initFilterBackend = codeMarkFunction(function initFilterBackend() {
+	const {
+		WebGLProbe
+	} = getEnv();
+	WebGLProbe.queryWebGL(createCanvasElement());
+	if (config.enableGLFiltering && WebGLProbe.isSupported(config.textureSize)) {
+		return new WebGLFilterBackend({
+			tileSize: config.textureSize
+		});
+	} else {
+		return new Canvas2dFilterBackend();
+	}
 })
 
 /**
@@ -28,15 +28,15 @@ const initFilterBackend = fabricJsFunctionMark(function initFilterBackend() {
  * @param [strict] pass `true` to create the backend if it wasn't created yet (default behavior),
  * pass `false` to get the backend ref without mutating it
  */
-const getFilterBackend = fabricJsFunctionMark(function getFilterBackend() {
-  let strict = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-  if (!filterBackend && strict) {
-    filterBackend = initFilterBackend();
-  }
-  return filterBackend;
+const getFilterBackend = codeMarkFunction(function getFilterBackend() {
+	let strict = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+	if (!filterBackend && strict) {
+		filterBackend = initFilterBackend();
+	}
+	return filterBackend;
 })
-const setFilterBackend = fabricJsFunctionMark(function setFilterBackend(backend) {
-  filterBackend = backend;
+const setFilterBackend = codeMarkFunction(function setFilterBackend(backend) {
+	filterBackend = backend;
 })
 
 export { getFilterBackend, initFilterBackend, setFilterBackend };

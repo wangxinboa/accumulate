@@ -6,7 +6,7 @@
  * @param {TRadian} radians The radians of the angle for the rotation
  * @return {Point} The new rotated point
  */
-const rotatePoint = fabricJsFunctionMark((point, origin, radians) => point.rotate(radians, origin), 'rotatePoint');
+const rotatePoint = codeMarkFunction((point, origin, radians) => point.rotate(radians, origin), 'rotatePoint');
 
 export { rotatePoint };
 //# sourceMappingURL=rotatePoint.mjs.map

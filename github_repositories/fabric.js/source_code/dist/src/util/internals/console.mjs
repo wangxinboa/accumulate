@@ -1,21 +1,21 @@
-const log = fabricJsFunctionMark(function (severity) {
-  for (var _len = arguments.length, optionalParams = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    optionalParams[_key - 1] = arguments[_key];
-  }
-  return (
-    // eslint-disable-next-line no-restricted-syntax
-    console[severity]('fabric', ...optionalParams)
-  );
+const log = codeMarkFunction(function (severity) {
+	for (var _len = arguments.length, optionalParams = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+		optionalParams[_key - 1] = arguments[_key];
+	}
+	return (
+		// eslint-disable-next-line no-restricted-syntax
+		console[severity]('fabric', ...optionalParams)
+	);
 }, 'log');
-const FabricError = fabricJsClassMark(class FabricError extends Error {
-  constructor(message, options) {
-    super("fabric: ".concat(message), options);
-  }
+const FabricError = codeMarkClass(class FabricError extends Error {
+	constructor(message, options) {
+		super("fabric: ".concat(message), options);
+	}
 })
-const SignalAbortedError = fabricJsClassMark(class SignalAbortedError extends FabricError {
-  constructor(context) {
-    super("".concat(context, " 'options.signal' is in 'aborted' state"));
-  }
+const SignalAbortedError = codeMarkClass(class SignalAbortedError extends FabricError {
+	constructor(context) {
+		super("".concat(context, " 'options.signal' is in 'aborted' state"));
+	}
 })
 
 export { FabricError, SignalAbortedError, log };

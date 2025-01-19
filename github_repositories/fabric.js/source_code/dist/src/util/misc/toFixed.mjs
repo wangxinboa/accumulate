@@ -4,7 +4,7 @@
  * @param {number} fractionDigits number of fraction digits to "leave"
  * @return {number}
  */
-const toFixed = fabricJsFunctionMark((number, fractionDigits) => parseFloat(Number(number).toFixed(fractionDigits)), 'toFixed');
+const toFixed = codeMarkFunction((number, fractionDigits) => parseFloat(Number(number).toFixed(fractionDigits)), 'toFixed');
 
 export { toFixed };
 //# sourceMappingURL=toFixed.mjs.map

@@ -12,38 +12,38 @@ import { SignalAbortedError } from './console.mjs';
  * @return {XMLHttpRequest} request
  */
 
-const request = fabricJsFunctionMark(function request(url) {
-  let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  const onComplete = options.onComplete || noop,
-    xhr = new (getFabricWindow().XMLHttpRequest)(),
-    signal = options.signal,
-    abort = function () {
-      xhr.abort();
-    },
-    removeListener = function () {
-      signal && signal.removeEventListener('abort', abort);
-      xhr.onerror = xhr.ontimeout = noop;
-    };
-  if (signal && signal.aborted) {
-    throw new SignalAbortedError('request');
-  } else if (signal) {
-    signal.addEventListener('abort', abort, {
-      once: true
-    });
-  }
+const request = codeMarkFunction(function request(url) {
+	let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	const onComplete = options.onComplete || noop,
+		xhr = new (getFabricWindow().XMLHttpRequest)(),
+		signal = options.signal,
+		abort = function () {
+			xhr.abort();
+		},
+		removeListener = function () {
+			signal && signal.removeEventListener('abort', abort);
+			xhr.onerror = xhr.ontimeout = noop;
+		};
+	if (signal && signal.aborted) {
+		throw new SignalAbortedError('request');
+	} else if (signal) {
+		signal.addEventListener('abort', abort, {
+			once: true
+		});
+	}
 
-  /** @ignore */
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      removeListener();
-      onComplete(xhr);
-      xhr.onreadystatechange = noop;
-    }
-  };
-  xhr.onerror = xhr.ontimeout = removeListener;
-  xhr.open('get', url, true);
-  xhr.send();
-  return xhr;
+	/** @ignore */
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4) {
+			removeListener();
+			onComplete(xhr);
+			xhr.onreadystatechange = noop;
+		}
+	};
+	xhr.onerror = xhr.ontimeout = removeListener;
+	xhr.open('get', url, true);
+	xhr.send();
+	return xhr;
 })
 
 export { request };

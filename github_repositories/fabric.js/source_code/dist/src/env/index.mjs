@@ -25,22 +25,22 @@ let env;
  * // done with setup, using fabric is now safe
  */
 const setEnv = value => {
-  env = value;
+	env = value;
 };
 
 /**
  * In order to support SSR we **MUST** access the browser env only after the window has loaded
  */
-const getEnv = fabricJsFunctionMark(() => env || (env = getEnv$1()), 'src/env/index.mjs getEnv');
-const getFabricDocument = fabricJsFunctionMark(() => getEnv().document, 'getFabricDocument');
-const getFabricWindow = fabricJsFunctionMark(() => getEnv().window, 'getFabricWindow');
+const getEnv = codeMarkFunction(() => env || (env = getEnv$1()), 'src/env/index.mjs getEnv');
+const getFabricDocument = codeMarkFunction(() => getEnv().document, 'getFabricDocument');
+const getFabricWindow = codeMarkFunction(() => getEnv().window, 'getFabricWindow');
 
 /**
  * @returns the config value if defined, fallbacks to the environment value
  */
-const getDevicePixelRatio = fabricJsFunctionMark(() => {
-  var _config$devicePixelRa;
-  return Math.max((_config$devicePixelRa = config.devicePixelRatio) !== null && _config$devicePixelRa !== void 0 ? _config$devicePixelRa : getFabricWindow().devicePixelRatio, 1);
+const getDevicePixelRatio = codeMarkFunction(() => {
+	var _config$devicePixelRa;
+	return Math.max((_config$devicePixelRa = config.devicePixelRatio) !== null && _config$devicePixelRa !== void 0 ? _config$devicePixelRa : getFabricWindow().devicePixelRatio, 1);
 }, 'getDevicePixelRatio');
 
 export { getDevicePixelRatio, getEnv, getFabricDocument, getFabricWindow, setEnv };

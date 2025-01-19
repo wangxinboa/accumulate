@@ -7,21 +7,21 @@ import { halfPI } from '../../constants.mjs';
  * @param {TRadian} angle the angle
  * @return {Number} the sin value for angle.
  */
-const sin = fabricJsFunctionMark(angle => {
-  if (angle === 0) {
-    return 0;
-  }
-  const angleSlice = angle / halfPI;
-  const value = Math.sign(angle);
-  switch (angleSlice) {
-    case 1:
-      return value;
-    case 2:
-      return 0;
-    case 3:
-      return -value;
-  }
-  return Math.sin(angle);
+const sin = codeMarkFunction(angle => {
+	if (angle === 0) {
+		return 0;
+	}
+	const angleSlice = angle / halfPI;
+	const value = Math.sign(angle);
+	switch (angleSlice) {
+		case 1:
+			return value;
+		case 2:
+			return 0;
+		case 3:
+			return -value;
+	}
+	return Math.sin(angle);
 }, 'sin');
 
 export { sin };

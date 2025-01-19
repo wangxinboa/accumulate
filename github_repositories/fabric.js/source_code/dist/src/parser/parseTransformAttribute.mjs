@@ -31,59 +31,59 @@ const reTransformAll = new RegExp(transform, 'g');
  * @param {String} attributeValue String containing attribute value
  * @return {TTransformMatrix} Array of 6 elements representing transformation matrix
  */
-const parseTransformAttribute = fabricJsFunctionMark(function parseTransformAttribute(attributeValue) {
-  // first we clean the string
-  attributeValue = cleanupSvgAttribute(attributeValue)
-  // remove spaces around front parentheses
-  .replace(/\s*([()])\s*/gi, '$1');
+const parseTransformAttribute = codeMarkFunction(function parseTransformAttribute(attributeValue) {
+	// first we clean the string
+	attributeValue = cleanupSvgAttribute(attributeValue)
+		// remove spaces around front parentheses
+		.replace(/\s*([()])\s*/gi, '$1');
 
-  // start with identity matrix
-  const matrices = [];
+	// start with identity matrix
+	const matrices = [];
 
-  // return if no argument was given or
-  // an argument does not match transform attribute regexp
-  if (!attributeValue || attributeValue && !reTransformList.test(attributeValue)) {
-    return [...iMatrix];
-  }
-  for (const match of attributeValue.matchAll(reTransformAll)) {
-    const transformMatch = reTransform.exec(match[0]);
-    if (!transformMatch) {
-      continue;
-    }
-    let matrix = iMatrix;
-    const matchedParams = transformMatch.filter(m => !!m);
-    const [, operation, ...rawArgs] = matchedParams;
-    const [arg0, arg1, arg2, arg3, arg4, arg5] = rawArgs.map(arg => parseFloat(arg));
-    switch (operation) {
-      case 'translate':
-        matrix = createTranslateMatrix(arg0, arg1);
-        break;
-      case ROTATE:
-        matrix = createRotateMatrix({
-          angle: arg0
-        }, {
-          x: arg1,
-          y: arg2
-        });
-        break;
-      case SCALE:
-        matrix = createScaleMatrix(arg0, arg1);
-        break;
-      case SKEW_X:
-        matrix = createSkewXMatrix(arg0);
-        break;
-      case SKEW_Y:
-        matrix = createSkewYMatrix(arg0);
-        break;
-      case 'matrix':
-        matrix = [arg0, arg1, arg2, arg3, arg4, arg5];
-        break;
-    }
+	// return if no argument was given or
+	// an argument does not match transform attribute regexp
+	if (!attributeValue || attributeValue && !reTransformList.test(attributeValue)) {
+		return [...iMatrix];
+	}
+	for (const match of attributeValue.matchAll(reTransformAll)) {
+		const transformMatch = reTransform.exec(match[0]);
+		if (!transformMatch) {
+			continue;
+		}
+		let matrix = iMatrix;
+		const matchedParams = transformMatch.filter(m => !!m);
+		const [, operation, ...rawArgs] = matchedParams;
+		const [arg0, arg1, arg2, arg3, arg4, arg5] = rawArgs.map(arg => parseFloat(arg));
+		switch (operation) {
+			case 'translate':
+				matrix = createTranslateMatrix(arg0, arg1);
+				break;
+			case ROTATE:
+				matrix = createRotateMatrix({
+					angle: arg0
+				}, {
+					x: arg1,
+					y: arg2
+				});
+				break;
+			case SCALE:
+				matrix = createScaleMatrix(arg0, arg1);
+				break;
+			case SKEW_X:
+				matrix = createSkewXMatrix(arg0);
+				break;
+			case SKEW_Y:
+				matrix = createSkewYMatrix(arg0);
+				break;
+			case 'matrix':
+				matrix = [arg0, arg1, arg2, arg3, arg4, arg5];
+				break;
+		}
 
-    // snapshot current matrix into matrices array
-    matrices.push(matrix);
-  }
-  return multiplyTransformMatrixArray(matrices);
+		// snapshot current matrix into matrices array
+		matrices.push(matrix);
+	}
+	return multiplyTransformMatrixArray(matrices);
 })
 
 export { parseTransformAttribute };

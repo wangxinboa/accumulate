@@ -5,15 +5,15 @@ import { classRegistry } from '../../ClassRegistry.mjs';
 /**
  * Layout will adjust the bounding box to fit target's objects.
  */
-const FitContentLayout = fabricJsClassMark(class FitContentLayout extends LayoutStrategy {
-  /**
-   * @override layout on all triggers
-   * Override at will
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  shouldPerformLayout(context) {
-    return true;
-  }
+const FitContentLayout = codeMarkClass(class FitContentLayout extends LayoutStrategy {
+	/**
+	 * @override layout on all triggers
+	 * Override at will
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	shouldPerformLayout(context) {
+		return true;
+	}
 })
 _defineProperty(FitContentLayout, "type", 'fit-content');
 classRegistry.setClass(FitContentLayout);

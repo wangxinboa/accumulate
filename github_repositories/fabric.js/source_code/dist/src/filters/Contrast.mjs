@@ -4,7 +4,7 @@ import { classRegistry } from '../ClassRegistry.mjs';
 import { fragmentSource } from './shaders/constrast.mjs';
 
 const contrastDefaultValues = {
-  contrast: 0
+	contrast: 0
 };
 
 /**
@@ -16,44 +16,44 @@ const contrastDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-const Contrast = fabricJsClassMark(class Contrast extends BaseFilter {
-  getFragmentSource() {
-    return fragmentSource;
-  }
-  isNeutralState() {
-    return this.contrast === 0;
-  }
+const Contrast = codeMarkClass(class Contrast extends BaseFilter {
+	getFragmentSource() {
+		return fragmentSource;
+	}
+	isNeutralState() {
+		return this.contrast === 0;
+	}
 
-  /**
-   * Apply the Contrast operation to a Uint8Array representing the pixels of an image.
-   *
-   * @param {Object} options
-   * @param {ImageData} options.imageData The Uint8Array to be filtered.
-   */
-  applyTo2d(_ref) {
-    let {
-      imageData: {
-        data
-      }
-    } = _ref;
-    const contrast = Math.floor(this.contrast * 255),
-      contrastF = 259 * (contrast + 255) / (255 * (259 - contrast));
-    for (let i = 0; i < data.length; i += 4) {
-      data[i] = contrastF * (data[i] - 128) + 128;
-      data[i + 1] = contrastF * (data[i + 1] - 128) + 128;
-      data[i + 2] = contrastF * (data[i + 2] - 128) + 128;
-    }
-  }
+	/**
+	 * Apply the Contrast operation to a Uint8Array representing the pixels of an image.
+	 *
+	 * @param {Object} options
+	 * @param {ImageData} options.imageData The Uint8Array to be filtered.
+	 */
+	applyTo2d(_ref) {
+		let {
+			imageData: {
+				data
+			}
+		} = _ref;
+		const contrast = Math.floor(this.contrast * 255),
+			contrastF = 259 * (contrast + 255) / (255 * (259 - contrast));
+		for (let i = 0; i < data.length; i += 4) {
+			data[i] = contrastF * (data[i] - 128) + 128;
+			data[i + 1] = contrastF * (data[i + 1] - 128) + 128;
+			data[i + 2] = contrastF * (data[i + 2] - 128) + 128;
+		}
+	}
 
-  /**
-   * Send data from this filter to its shader program's uniforms.
-   *
-   * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
-   * @param {Object} uniformLocations A map of string uniform names to WebGLUniformLocation objects
-   */
-  sendUniformData(gl, uniformLocations) {
-    gl.uniform1f(uniformLocations.uContrast, this.contrast);
-  }
+	/**
+	 * Send data from this filter to its shader program's uniforms.
+	 *
+	 * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
+	 * @param {Object} uniformLocations A map of string uniform names to WebGLUniformLocation objects
+	 */
+	sendUniformData(gl, uniformLocations) {
+		gl.uniform1f(uniformLocations.uContrast, this.contrast);
+	}
 })
 /**
  * contrast value, range from -1 to 1.

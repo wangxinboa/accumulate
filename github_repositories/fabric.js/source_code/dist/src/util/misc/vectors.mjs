@@ -53,8 +53,8 @@ const getUnitVector = v => v.eq(zero) ? v : v.scalarDivide(magnitude(v));
  * @returns {Point} the unit orthogonal vector
  */
 const getOrthonormalVector = function (v) {
-  let counterClockwise = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  return getUnitVector(new Point(-v.y, v.x).scalarMultiply(counterClockwise ? 1 : -1));
+	let counterClockwise = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+	return getUnitVector(new Point(-v.y, v.x).scalarMultiply(counterClockwise ? 1 : -1));
 };
 
 /**
@@ -63,7 +63,7 @@ const getOrthonormalVector = function (v) {
  * @param {Point} b
  * @returns {number} the magnitude of Z vector
  */
-const crossProduct = fabricJsFunctionMark((a, b) => a.x * b.y - a.y * b.x, 'crossProduct');
+const crossProduct = codeMarkFunction((a, b) => a.x * b.y - a.y * b.x, 'crossProduct');
 
 /**
  * Dot product of two vectors in 2D
@@ -71,7 +71,7 @@ const crossProduct = fabricJsFunctionMark((a, b) => a.x * b.y - a.y * b.x, 'cros
  * @param {Point} b
  * @returns {number}
  */
-const dotProduct = fabricJsFunctionMark((a, b) => a.x * b.x + a.y * b.y, 'dotProduct');
+const dotProduct = codeMarkFunction((a, b) => a.x * b.x + a.y * b.y, 'dotProduct');
 
 /**
  * Checks if the vector is between two others. It is considered
@@ -82,12 +82,12 @@ const dotProduct = fabricJsFunctionMark((a, b) => a.x * b.x + a.y * b.y, 'dotPro
  * @param {Point} b final vector
  * @returns {boolean} true if the vector is among the others
  */
-const isBetweenVectors = fabricJsFunctionMark((t, a, b) => {
-  if (t.eq(a) || t.eq(b)) return true;
-  const AxB = crossProduct(a, b),
-    AxT = crossProduct(a, t),
-    BxT = crossProduct(b, t);
-  return AxB >= 0 ? AxT >= 0 && BxT <= 0 : !(AxT <= 0 && BxT >= 0);
+const isBetweenVectors = codeMarkFunction((t, a, b) => {
+	if (t.eq(a) || t.eq(b)) return true;
+	const AxB = crossProduct(a, b),
+		AxT = crossProduct(a, t),
+		BxT = crossProduct(b, t);
+	return AxB >= 0 ? AxT >= 0 && BxT <= 0 : !(AxT <= 0 && BxT >= 0);
 }, 'isBetweenVectors');
 
 export { calcAngleBetweenVectors, calcVectorRotation, createVector, crossProduct, dotProduct, getOrthonormalVector, getUnitVector, isBetweenVectors, magnitude, rotateVector };

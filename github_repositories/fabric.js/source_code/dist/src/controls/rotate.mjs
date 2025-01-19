@@ -13,10 +13,10 @@ import { wrapWithFixedAnchor } from './wrapWithFixedAnchor.mjs';
  * @return {String} a valid css string for the cursor
  */
 const rotationStyleHandler = (eventData, control, fabricObject) => {
-  if (fabricObject.lockRotation) {
-    return NOT_ALLOWED_CURSOR;
-  }
-  return control.cursorStyle;
+	if (fabricObject.lockRotation) {
+		return NOT_ALLOWED_CURSOR;
+	}
+	return control.cursorStyle;
 };
 
 /**
@@ -29,43 +29,43 @@ const rotationStyleHandler = (eventData, control, fabricObject) => {
  * @return {Boolean} true if some change happened
  * @private
  */
-const rotateObjectWithSnapping = fabricJsFunctionMark((eventData, _ref, x, y) => {
-  let {
-    target,
-    ex,
-    ey,
-    theta,
-    originX,
-    originY
-  } = _ref;
-  const pivotPoint = target.translateToOriginPoint(target.getRelativeCenterPoint(), originX, originY);
-  if (isLocked(target, 'lockRotation')) {
-    return false;
-  }
-  const lastAngle = Math.atan2(ey - pivotPoint.y, ex - pivotPoint.x),
-    curAngle = Math.atan2(y - pivotPoint.y, x - pivotPoint.x);
-  let angle = radiansToDegrees(curAngle - lastAngle + theta);
-  if (target.snapAngle && target.snapAngle > 0) {
-    const snapAngle = target.snapAngle,
-      snapThreshold = target.snapThreshold || snapAngle,
-      rightAngleLocked = Math.ceil(angle / snapAngle) * snapAngle,
-      leftAngleLocked = Math.floor(angle / snapAngle) * snapAngle;
-    if (Math.abs(angle - leftAngleLocked) < snapThreshold) {
-      angle = leftAngleLocked;
-    } else if (Math.abs(angle - rightAngleLocked) < snapThreshold) {
-      angle = rightAngleLocked;
-    }
-  }
+const rotateObjectWithSnapping = codeMarkFunction((eventData, _ref, x, y) => {
+	let {
+		target,
+		ex,
+		ey,
+		theta,
+		originX,
+		originY
+	} = _ref;
+	const pivotPoint = target.translateToOriginPoint(target.getRelativeCenterPoint(), originX, originY);
+	if (isLocked(target, 'lockRotation')) {
+		return false;
+	}
+	const lastAngle = Math.atan2(ey - pivotPoint.y, ex - pivotPoint.x),
+		curAngle = Math.atan2(y - pivotPoint.y, x - pivotPoint.x);
+	let angle = radiansToDegrees(curAngle - lastAngle + theta);
+	if (target.snapAngle && target.snapAngle > 0) {
+		const snapAngle = target.snapAngle,
+			snapThreshold = target.snapThreshold || snapAngle,
+			rightAngleLocked = Math.ceil(angle / snapAngle) * snapAngle,
+			leftAngleLocked = Math.floor(angle / snapAngle) * snapAngle;
+		if (Math.abs(angle - leftAngleLocked) < snapThreshold) {
+			angle = leftAngleLocked;
+		} else if (Math.abs(angle - rightAngleLocked) < snapThreshold) {
+			angle = rightAngleLocked;
+		}
+	}
 
-  // normalize angle to positive value
-  if (angle < 0) {
-    angle = 360 + angle;
-  }
-  angle %= 360;
-  const hasRotated = target.angle !== angle;
-  // TODO: why aren't we using set?
-  target.angle = angle;
-  return hasRotated;
+	// normalize angle to positive value
+	if (angle < 0) {
+		angle = 360 + angle;
+	}
+	angle %= 360;
+	const hasRotated = target.angle !== angle;
+	// TODO: why aren't we using set?
+	target.angle = angle;
+	return hasRotated;
 }, 'rotateObjectWithSnapping');
 const rotationWithSnapping = wrapWithFireEvent(ROTATING, wrapWithFixedAnchor(rotateObjectWithSnapping));
 

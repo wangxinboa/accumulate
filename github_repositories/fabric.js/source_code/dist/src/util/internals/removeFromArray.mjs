@@ -5,12 +5,12 @@
  * @param {*} value
  * @return {Array} original array
  */
-const removeFromArray = fabricJsFunctionMark((array, value) => {
-  const idx = array.indexOf(value);
-  if (idx !== -1) {
-    array.splice(idx, 1);
-  }
-  return array;
+const removeFromArray = codeMarkFunction((array, value) => {
+	const idx = array.indexOf(value);
+	if (idx !== -1) {
+		array.splice(idx, 1);
+	}
+	return array;
 }, 'removeFromArray');
 
 export { removeFromArray };

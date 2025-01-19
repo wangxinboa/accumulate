@@ -7,22 +7,22 @@ import { qrDecompose } from './misc/matrix.mjs';
  * untransformed coordinates
  * @private
  */
-const _assignTransformMatrixProps = fabricJsFunctionMark(object => {
-  if (object.transformMatrix) {
-    const {
-      scaleX,
-      scaleY,
-      angle,
-      skewX
-    } = qrDecompose(object.transformMatrix);
-    object.flipX = false;
-    object.flipY = false;
-    object.set(SCALE_X, scaleX);
-    object.set(SCALE_Y, scaleY);
-    object.angle = angle;
-    object.skewX = skewX;
-    object.skewY = 0;
-  }
+const _assignTransformMatrixProps = codeMarkFunction(object => {
+	if (object.transformMatrix) {
+		const {
+			scaleX,
+			scaleY,
+			angle,
+			skewX
+		} = qrDecompose(object.transformMatrix);
+		object.flipX = false;
+		object.flipY = false;
+		object.set(SCALE_X, scaleX);
+		object.set(SCALE_Y, scaleY);
+		object.angle = angle;
+		object.skewX = skewX;
+		object.skewY = 0;
+	}
 }, '_assignTransformMatrixProps');
 
 /**
@@ -31,24 +31,24 @@ const _assignTransformMatrixProps = fabricJsFunctionMark(object => {
  * @private
  * @param {Object} preserveAspectRatioOptions
  */
-const removeTransformMatrixForSvgParsing = fabricJsFunctionMark((object, preserveAspectRatioOptions) => {
-  let center = object._findCenterFromElement();
-  if (object.transformMatrix) {
-    _assignTransformMatrixProps(object);
-    center = center.transform(object.transformMatrix);
-  }
-  delete object.transformMatrix;
-  if (preserveAspectRatioOptions) {
-    object.scaleX *= preserveAspectRatioOptions.scaleX;
-    object.scaleY *= preserveAspectRatioOptions.scaleY;
-    object.cropX = preserveAspectRatioOptions.cropX;
-    object.cropY = preserveAspectRatioOptions.cropY;
-    center.x += preserveAspectRatioOptions.offsetLeft;
-    center.y += preserveAspectRatioOptions.offsetTop;
-    object.width = preserveAspectRatioOptions.width;
-    object.height = preserveAspectRatioOptions.height;
-  }
-  object.setPositionByOrigin(center, CENTER, CENTER);
+const removeTransformMatrixForSvgParsing = codeMarkFunction((object, preserveAspectRatioOptions) => {
+	let center = object._findCenterFromElement();
+	if (object.transformMatrix) {
+		_assignTransformMatrixProps(object);
+		center = center.transform(object.transformMatrix);
+	}
+	delete object.transformMatrix;
+	if (preserveAspectRatioOptions) {
+		object.scaleX *= preserveAspectRatioOptions.scaleX;
+		object.scaleY *= preserveAspectRatioOptions.scaleY;
+		object.cropX = preserveAspectRatioOptions.cropX;
+		object.cropY = preserveAspectRatioOptions.cropY;
+		center.x += preserveAspectRatioOptions.offsetLeft;
+		center.y += preserveAspectRatioOptions.offsetTop;
+		object.width = preserveAspectRatioOptions.width;
+		object.height = preserveAspectRatioOptions.height;
+	}
+	object.setPositionByOrigin(center, CENTER, CENTER);
 }, 'removeTransformMatrixForSvgParsing');
 
 export { removeTransformMatrixForSvgParsing };

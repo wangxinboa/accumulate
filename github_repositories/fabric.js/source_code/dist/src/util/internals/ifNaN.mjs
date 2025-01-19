@@ -4,8 +4,8 @@
  * @param [valueIfNaN]
  * @returns `fallback` is `value is NaN
  */
-const ifNaN = fabricJsFunctionMark((value, valueIfNaN) => {
-  return isNaN(value) && typeof valueIfNaN === 'number' ? valueIfNaN : value;
+const ifNaN = codeMarkFunction((value, valueIfNaN) => {
+	return isNaN(value) && typeof valueIfNaN === 'number' ? valueIfNaN : value;
 }, 'ifNaN');
 
 export { ifNaN };

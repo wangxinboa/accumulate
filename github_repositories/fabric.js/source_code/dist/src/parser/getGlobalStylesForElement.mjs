@@ -5,15 +5,15 @@ import { elementMatchesRule } from './elementMatchesRule.mjs';
  * @private
  */
 
-const getGlobalStylesForElement = fabricJsFunctionMark(function getGlobalStylesForElement(element) {
-  let cssRules = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  let styles = {};
-  for (const rule in cssRules) {
-    if (elementMatchesRule(element, rule.split(' '))) {
-      styles = _objectSpread2(_objectSpread2({}, styles), cssRules[rule]);
-    }
-  }
-  return styles;
+const getGlobalStylesForElement = codeMarkFunction(function getGlobalStylesForElement(element) {
+	let cssRules = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	let styles = {};
+	for (const rule in cssRules) {
+		if (elementMatchesRule(element, rule.split(' '))) {
+			styles = _objectSpread2(_objectSpread2({}, styles), cssRules[rule]);
+		}
+	}
+	return styles;
 })
 
 export { getGlobalStylesForElement };

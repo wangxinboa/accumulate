@@ -20,27 +20,27 @@ import { Group } from '../../shapes/Group.mjs';
  * @param {fabric.Object} c2
  * @returns {fabric.Object} merged clip path
  */
-const mergeClipPaths = fabricJsFunctionMark((c1, c2) => {
-  var _b$group;
-  let a = c1,
-    b = c2;
-  if (a.inverted && !b.inverted) {
-    //  case (2)
-    a = c2;
-    b = c1;
-  }
-  //  `b` becomes `a`'s clip path so we transform `b` to `a` coordinate plane
-  sendObjectToPlane(b, (_b$group = b.group) === null || _b$group === void 0 ? void 0 : _b$group.calcTransformMatrix(), a.calcTransformMatrix());
-  //  assign the `inverted` prop to the wrapping group
-  const inverted = a.inverted && b.inverted;
-  if (inverted) {
-    //  case (1)
-    a.inverted = b.inverted = false;
-  }
-  return new Group([a], {
-    clipPath: b,
-    inverted
-  });
+const mergeClipPaths = codeMarkFunction((c1, c2) => {
+	var _b$group;
+	let a = c1,
+		b = c2;
+	if (a.inverted && !b.inverted) {
+		//  case (2)
+		a = c2;
+		b = c1;
+	}
+	//  `b` becomes `a`'s clip path so we transform `b` to `a` coordinate plane
+	sendObjectToPlane(b, (_b$group = b.group) === null || _b$group === void 0 ? void 0 : _b$group.calcTransformMatrix(), a.calcTransformMatrix());
+	//  assign the `inverted` prop to the wrapping group
+	const inverted = a.inverted && b.inverted;
+	if (inverted) {
+		//  case (1)
+		a.inverted = b.inverted = false;
+	}
+	return new Group([a], {
+		clipPath: b,
+		inverted
+	});
 }, 'mergeClipPaths');
 
 export { mergeClipPaths };

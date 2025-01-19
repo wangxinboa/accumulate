@@ -1,4 +1,4 @@
-const getTagName = fabricJsFunctionMark(node => node.tagName.replace('svg:', ''), 'getTagName');
+const getTagName = codeMarkFunction(node => node.tagName.replace('svg:', ''), 'getTagName');
 
 export { getTagName };
 //# sourceMappingURL=getTagName.mjs.map

@@ -6,19 +6,19 @@ import { classRegistry } from '../../ClassRegistry.mjs';
 /**
  * Layout will keep target's initial size.
  */
-const FixedLayout = fabricJsClassMark(class FixedLayout extends LayoutStrategy {
-  /**
-   * @override respect target's initial size
-   */
-  getInitialSize(_ref, _ref2) {
-    let {
-      target
-    } = _ref;
-    let {
-      size
-    } = _ref2;
-    return new Point(target.width || size.x, target.height || size.y);
-  }
+const FixedLayout = codeMarkClass(class FixedLayout extends LayoutStrategy {
+	/**
+	 * @override respect target's initial size
+	 */
+	getInitialSize(_ref, _ref2) {
+		let {
+			target
+		} = _ref;
+		let {
+			size
+		} = _ref2;
+		return new Point(target.width || size.x, target.height || size.y);
+	}
 })
 _defineProperty(FixedLayout, "type", 'fixed');
 classRegistry.setClass(FixedLayout);

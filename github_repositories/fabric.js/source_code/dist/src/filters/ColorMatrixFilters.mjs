@@ -2,21 +2,21 @@ import { defineProperty as _defineProperty } from '../../_virtual/_rollupPluginB
 import { ColorMatrix } from './ColorMatrix.mjs';
 import { classRegistry } from '../ClassRegistry.mjs';
 
-const createColorMatrixFilter = fabricJsFunctionMark(function createColorMatrixFilter(key, matrix) {
-  var _Class;
-  const newClass = (_Class = class newClass extends ColorMatrix {
-    toObject() {
-      return {
-        type: this.type,
-        colorsOnly: this.colorsOnly
-      };
-    }
-  }, _defineProperty(_Class, "type", key), _defineProperty(_Class, "defaults", {
-    colorsOnly: false,
-    matrix
-  }), _Class);
-  classRegistry.setClass(newClass, key);
-  return newClass;
+const createColorMatrixFilter = codeMarkFunction(function createColorMatrixFilter(key, matrix) {
+	var _Class;
+	const newClass = (_Class = class newClass extends ColorMatrix {
+		toObject() {
+			return {
+				type: this.type,
+				colorsOnly: this.colorsOnly
+			};
+		}
+	}, _defineProperty(_Class, "type", key), _defineProperty(_Class, "defaults", {
+		colorsOnly: false,
+		matrix
+	}), _Class);
+	classRegistry.setClass(newClass, key);
+	return newClass;
 })
 const Brownie = createColorMatrixFilter('Brownie', [0.5997, 0.34553, -0.27082, 0, 0.186, -0.0377, 0.86095, 0.15059, 0, -0.1449, 0.24113, -0.07441, 0.44972, 0, -0.02965, 0, 0, 0, 1, 0]);
 const Vintage = createColorMatrixFilter('Vintage', [0.62793, 0.32021, -0.03965, 0, 0.03784, 0.02578, 0.64411, 0.03259, 0, 0.02926, 0.0466, -0.08512, 0.52416, 0, 0.02023, 0, 0, 0, 1, 0]);

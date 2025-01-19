@@ -9,10 +9,10 @@ import { applyTransformToObject } from './objectTransforms.mjs';
  * @param [to]
  * @returns
  */
-const calcPlaneChangeMatrix = fabricJsFunctionMark(function () {
-  let from = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : iMatrix;
-  let to = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : iMatrix;
-  return multiplyTransformMatrices(invertTransform(to), from);
+const calcPlaneChangeMatrix = codeMarkFunction(function () {
+	let from = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : iMatrix;
+	let to = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : iMatrix;
+	return multiplyTransformMatrices(invertTransform(to), from);
 }, 'calcPlaneChangeMatrix');
 
 /**
@@ -31,19 +31,19 @@ const calcPlaneChangeMatrix = fabricJsFunctionMark(function () {
  * @param {TMat2D} [to] destination plane matrix to contain object. Passing `undefined` means `point` should be sent to the canvas coordinate plane.
  * @returns {Point} transformed point
  */
-const sendPointToPlane = fabricJsFunctionMark(function (point) {
-  let from = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : iMatrix;
-  let to = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : iMatrix;
-  return point.transform(calcPlaneChangeMatrix(from, to));
+const sendPointToPlane = codeMarkFunction(function (point) {
+	let from = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : iMatrix;
+	let to = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : iMatrix;
+	return point.transform(calcPlaneChangeMatrix(from, to));
 }, 'sendPointToPlane');
 
 /**
  * See {@link sendPointToPlane}
  */
-const sendVectorToPlane = fabricJsFunctionMark(function (point) {
-  let from = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : iMatrix;
-  let to = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : iMatrix;
-  return point.transform(calcPlaneChangeMatrix(from, to), true);
+const sendVectorToPlane = codeMarkFunction(function (point) {
+	let from = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : iMatrix;
+	let to = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : iMatrix;
+	return point.transform(calcPlaneChangeMatrix(from, to), true);
 }, 'sendVectorToPlane');
 
 /**
@@ -76,10 +76,10 @@ const sendVectorToPlane = fabricJsFunctionMark(function (point) {
  * @param {Matrix} [to] destination plane matrix to contain object. Passing `undefined` means `object` should be sent to the canvas coordinate plane.
  * @returns {Matrix} the transform matrix that was applied to `object`
  */
-const sendObjectToPlane = fabricJsFunctionMark((object, from, to) => {
-  const t = calcPlaneChangeMatrix(from, to);
-  applyTransformToObject(object, multiplyTransformMatrices(t, object.calcOwnMatrix()));
-  return t;
+const sendObjectToPlane = codeMarkFunction((object, from, to) => {
+	const t = calcPlaneChangeMatrix(from, to);
+	applyTransformToObject(object, multiplyTransformMatrices(t, object.calcOwnMatrix()));
+	return t;
 }, 'sendObjectToPlane');
 
 export { calcPlaneChangeMatrix, sendObjectToPlane, sendPointToPlane, sendVectorToPlane };

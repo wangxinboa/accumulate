@@ -2,8 +2,8 @@ import { ValueAnimation } from './ValueAnimation.mjs';
 import { ArrayAnimation } from './ArrayAnimation.mjs';
 import { ColorAnimation } from './ColorAnimation.mjs';
 
-const isArrayAnimation = fabricJsFunctionMark(options => {
-  return Array.isArray(options.startValue) || Array.isArray(options.endValue);
+const isArrayAnimation = codeMarkFunction(options => {
+	return Array.isArray(options.startValue) || Array.isArray(options.endValue);
 }, 'isArrayAnimation');
 
 /**
@@ -33,15 +33,15 @@ const isArrayAnimation = fabricJsFunctionMark(options => {
  *
  */
 
-const animate = fabricJsFunctionMark(function animate(options) {
-  const animation = isArrayAnimation(options) ? new ArrayAnimation(options) : new ValueAnimation(options);
-  animation.start();
-  return animation;
+const animate = codeMarkFunction(function animate(options) {
+	const animation = isArrayAnimation(options) ? new ArrayAnimation(options) : new ValueAnimation(options);
+	animation.start();
+	return animation;
 })
-const animateColor = fabricJsFunctionMark(function animateColor(options) {
-  const animation = new ColorAnimation(options);
-  animation.start();
-  return animation;
+const animateColor = codeMarkFunction(function animateColor(options) {
+	const animation = new ColorAnimation(options);
+	animation.start();
+	return animation;
 })
 
 export { animate, animateColor };

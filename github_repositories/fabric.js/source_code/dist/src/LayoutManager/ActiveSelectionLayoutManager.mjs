@@ -12,38 +12,38 @@ import { LayoutManager } from './LayoutManager.mjs';
  * original group of the children ( the one referenced under the parent property )
  * This subclass of the LayoutManager has a single duty to fill the gap of this difference.`
  */
-const ActiveSelectionLayoutManager = fabricJsClassMark(class ActiveSelectionLayoutManager extends LayoutManager {
-  subscribeTargets(context) {
-    const activeSelection = context.target;
-    const parents = context.targets.reduce((parents, target) => {
-      target.parent && parents.add(target.parent);
-      return parents;
-    }, new Set());
-    parents.forEach(parent => {
-      parent.layoutManager.subscribeTargets({
-        target: parent,
-        targets: [activeSelection]
-      });
-    });
-  }
+const ActiveSelectionLayoutManager = codeMarkClass(class ActiveSelectionLayoutManager extends LayoutManager {
+	subscribeTargets(context) {
+		const activeSelection = context.target;
+		const parents = context.targets.reduce((parents, target) => {
+			target.parent && parents.add(target.parent);
+			return parents;
+		}, new Set());
+		parents.forEach(parent => {
+			parent.layoutManager.subscribeTargets({
+				target: parent,
+				targets: [activeSelection]
+			});
+		});
+	}
 
-  /**
-   * unsubscribe from parent only if all its children were deselected
-   */
-  unsubscribeTargets(context) {
-    const activeSelection = context.target;
-    const selectedObjects = activeSelection.getObjects();
-    const parents = context.targets.reduce((parents, target) => {
-      target.parent && parents.add(target.parent);
-      return parents;
-    }, new Set());
-    parents.forEach(parent => {
-      !selectedObjects.some(object => object.parent === parent) && parent.layoutManager.unsubscribeTargets({
-        target: parent,
-        targets: [activeSelection]
-      });
-    });
-  }
+	/**
+	 * unsubscribe from parent only if all its children were deselected
+	 */
+	unsubscribeTargets(context) {
+		const activeSelection = context.target;
+		const selectedObjects = activeSelection.getObjects();
+		const parents = context.targets.reduce((parents, target) => {
+			target.parent && parents.add(target.parent);
+			return parents;
+		}, new Set());
+		parents.forEach(parent => {
+			!selectedObjects.some(object => object.parent === parent) && parent.layoutManager.unsubscribeTargets({
+				target: parent,
+				targets: [activeSelection]
+			});
+		});
+	}
 })
 
 export { ActiveSelectionLayoutManager };

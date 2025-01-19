@@ -9,22 +9,22 @@ import { CENTER, SKEWING, SCALE_X, SKEW_X, SCALE_Y, SKEW_Y } from '../constants.
 
 const _excluded = ["target", "ex", "ey", "skewingSide"];
 const AXIS_KEYS = {
-  x: {
-    counterAxis: 'y',
-    scale: SCALE_X,
-    skew: SKEW_X,
-    lockSkewing: 'lockSkewingX',
-    origin: 'originX',
-    flip: 'flipX'
-  },
-  y: {
-    counterAxis: 'x',
-    scale: SCALE_Y,
-    skew: SKEW_Y,
-    lockSkewing: 'lockSkewingY',
-    origin: 'originY',
-    flip: 'flipY'
-  }
+	x: {
+		counterAxis: 'y',
+		scale: SCALE_X,
+		skew: SKEW_X,
+		lockSkewing: 'lockSkewingX',
+		origin: 'originX',
+		flip: 'flipX'
+	},
+	y: {
+		counterAxis: 'x',
+		scale: SCALE_Y,
+		skew: SKEW_Y,
+		lockSkewing: 'lockSkewingY',
+		origin: 'originY',
+		flip: 'flipY'
+	}
 };
 const skewMap = ['ns', 'nesw', 'ew', 'nwse'];
 
@@ -35,73 +35,73 @@ const skewMap = ['ns', 'nesw', 'ew', 'nwse'];
  * @param {FabricObject} fabricObject the fabric object that is interested in the action
  * @return {String} a valid css string for the cursor
  */
-const skewCursorStyleHandler = fabricJsFunctionMark((eventData, control, fabricObject) => {
-  if (control.x !== 0 && isLocked(fabricObject, 'lockSkewingY')) {
-    return NOT_ALLOWED_CURSOR;
-  }
-  if (control.y !== 0 && isLocked(fabricObject, 'lockSkewingX')) {
-    return NOT_ALLOWED_CURSOR;
-  }
-  const n = findCornerQuadrant(fabricObject, control) % 4;
-  return "".concat(skewMap[n], "-resize");
+const skewCursorStyleHandler = codeMarkFunction((eventData, control, fabricObject) => {
+	if (control.x !== 0 && isLocked(fabricObject, 'lockSkewingY')) {
+		return NOT_ALLOWED_CURSOR;
+	}
+	if (control.y !== 0 && isLocked(fabricObject, 'lockSkewingX')) {
+		return NOT_ALLOWED_CURSOR;
+	}
+	const n = findCornerQuadrant(fabricObject, control) % 4;
+	return "".concat(skewMap[n], "-resize");
 }, 'skewCursorStyleHandler');
 
 /**
  * Since skewing is applied before scaling, calculations are done in a scaleless plane
  * @see https://github.com/fabricjs/fabric.js/pull/8380
  */
-const skewObject = fabricJsFunctionMark(function skewObject(axis, _ref, pointer) {
-  let {
-      target,
-      ex,
-      ey,
-      skewingSide
-    } = _ref,
-    transform = _objectWithoutProperties(_ref, _excluded);
-  const {
-      skew: skewKey
-    } = AXIS_KEYS[axis],
-    offset = pointer.subtract(new Point(ex, ey)).divide(new Point(target.scaleX, target.scaleY))[axis],
-    skewingBefore = target[skewKey],
-    skewingStart = transform[skewKey],
-    shearingStart = Math.tan(degreesToRadians(skewingStart)),
-    // let a, b be the size of target
-    // let a' be the value of a after applying skewing
-    // then:
-    // a' = a + b * skewA => skewA = (a' - a) / b
-    // the value b is tricky since skewY is applied before skewX
-    b = axis === 'y' ? target._getTransformedDimensions({
-      scaleX: 1,
-      scaleY: 1,
-      // since skewY is applied before skewX, b (=width) is not affected by skewX
-      skewX: 0
-    }).x : target._getTransformedDimensions({
-      scaleX: 1,
-      scaleY: 1
-    }).y;
-  const shearing = 2 * offset * skewingSide /
-  // we max out fractions to safeguard from asymptotic behavior
-  Math.max(b, 1) +
-  // add starting state
-  shearingStart;
-  const skewing = radiansToDegrees(Math.atan(shearing));
-  target.set(skewKey, skewing);
-  const changed = skewingBefore !== target[skewKey];
-  if (changed && axis === 'y') {
-    // we don't want skewing to affect scaleX
-    // so we factor it by the inverse skewing diff to make it seem unchanged to the viewer
-    const {
-        skewX,
-        scaleX
-      } = target,
-      dimBefore = target._getTransformedDimensions({
-        skewY: skewingBefore
-      }),
-      dimAfter = target._getTransformedDimensions(),
-      compensationFactor = skewX !== 0 ? dimBefore.x / dimAfter.x : 1;
-    compensationFactor !== 1 && target.set(SCALE_X, compensationFactor * scaleX);
-  }
-  return changed;
+const skewObject = codeMarkFunction(function skewObject(axis, _ref, pointer) {
+	let {
+		target,
+		ex,
+		ey,
+		skewingSide
+	} = _ref,
+		transform = _objectWithoutProperties(_ref, _excluded);
+	const {
+		skew: skewKey
+	} = AXIS_KEYS[axis],
+		offset = pointer.subtract(new Point(ex, ey)).divide(new Point(target.scaleX, target.scaleY))[axis],
+		skewingBefore = target[skewKey],
+		skewingStart = transform[skewKey],
+		shearingStart = Math.tan(degreesToRadians(skewingStart)),
+		// let a, b be the size of target
+		// let a' be the value of a after applying skewing
+		// then:
+		// a' = a + b * skewA => skewA = (a' - a) / b
+		// the value b is tricky since skewY is applied before skewX
+		b = axis === 'y' ? target._getTransformedDimensions({
+			scaleX: 1,
+			scaleY: 1,
+			// since skewY is applied before skewX, b (=width) is not affected by skewX
+			skewX: 0
+		}).x : target._getTransformedDimensions({
+			scaleX: 1,
+			scaleY: 1
+		}).y;
+	const shearing = 2 * offset * skewingSide /
+		// we max out fractions to safeguard from asymptotic behavior
+		Math.max(b, 1) +
+		// add starting state
+		shearingStart;
+	const skewing = radiansToDegrees(Math.atan(shearing));
+	target.set(skewKey, skewing);
+	const changed = skewingBefore !== target[skewKey];
+	if (changed && axis === 'y') {
+		// we don't want skewing to affect scaleX
+		// so we factor it by the inverse skewing diff to make it seem unchanged to the viewer
+		const {
+			skewX,
+			scaleX
+		} = target,
+			dimBefore = target._getTransformedDimensions({
+				skewY: skewingBefore
+			}),
+			dimAfter = target._getTransformedDimensions(),
+			compensationFactor = skewX !== 0 ? dimBefore.x / dimAfter.x : 1;
+		compensationFactor !== 1 && target.set(SCALE_X, compensationFactor * scaleX);
+	}
+	return changed;
 })
 
 /**
@@ -113,43 +113,43 @@ const skewObject = fabricJsFunctionMark(function skewObject(axis, _ref, pointer)
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const skewHandler = fabricJsFunctionMark(function skewHandler(axis, eventData, transform, x, y) {
-  const {
-      target
-    } = transform,
-    {
-      counterAxis,
-      origin: originKey,
-      lockSkewing: lockSkewingKey,
-      skew: skewKey,
-      flip: flipKey
-    } = AXIS_KEYS[axis];
-  if (isLocked(target, lockSkewingKey)) {
-    return false;
-  }
-  const {
-      origin: counterOriginKey,
-      flip: counterFlipKey
-    } = AXIS_KEYS[counterAxis],
-    counterOriginFactor = resolveOrigin(transform[counterOriginKey]) * (target[counterFlipKey] ? -1 : 1),
-    // if the counter origin is top/left (= -0.5) then we are skewing x/y values on the bottom/right side of target respectively.
-    // if the counter origin is bottom/right (= 0.5) then we are skewing x/y values on the top/left side of target respectively.
-    // skewing direction on the top/left side of target is OPPOSITE to the direction of the movement of the pointer,
-    // so we factor skewing direction by this value.
-    skewingSide = -Math.sign(counterOriginFactor) * (target[flipKey] ? -1 : 1),
-    skewingDirection = (target[skewKey] === 0 &&
-    // in case skewing equals 0 we use the pointer offset from target center to determine the direction of skewing
-    getLocalPoint(transform, CENTER, CENTER, x, y)[axis] > 0 ||
-    // in case target has skewing we use that as the direction
-    target[skewKey] > 0 ? 1 : -1) * skewingSide,
-    // anchor to the opposite side of the skewing direction
-    // normalize value from [-1, 1] to origin value [0, 1]
-    origin = -skewingDirection * 0.5 + 0.5;
-  const finalHandler = wrapWithFireEvent(SKEWING, wrapWithFixedAnchor((eventData, transform, x, y) => skewObject(axis, transform, new Point(x, y))));
-  return finalHandler(eventData, _objectSpread2(_objectSpread2({}, transform), {}, {
-    [originKey]: origin,
-    skewingSide
-  }), x, y);
+const skewHandler = codeMarkFunction(function skewHandler(axis, eventData, transform, x, y) {
+	const {
+		target
+	} = transform,
+		{
+			counterAxis,
+			origin: originKey,
+			lockSkewing: lockSkewingKey,
+			skew: skewKey,
+			flip: flipKey
+		} = AXIS_KEYS[axis];
+	if (isLocked(target, lockSkewingKey)) {
+		return false;
+	}
+	const {
+		origin: counterOriginKey,
+		flip: counterFlipKey
+	} = AXIS_KEYS[counterAxis],
+		counterOriginFactor = resolveOrigin(transform[counterOriginKey]) * (target[counterFlipKey] ? -1 : 1),
+		// if the counter origin is top/left (= -0.5) then we are skewing x/y values on the bottom/right side of target respectively.
+		// if the counter origin is bottom/right (= 0.5) then we are skewing x/y values on the top/left side of target respectively.
+		// skewing direction on the top/left side of target is OPPOSITE to the direction of the movement of the pointer,
+		// so we factor skewing direction by this value.
+		skewingSide = -Math.sign(counterOriginFactor) * (target[flipKey] ? -1 : 1),
+		skewingDirection = (target[skewKey] === 0 &&
+			// in case skewing equals 0 we use the pointer offset from target center to determine the direction of skewing
+			getLocalPoint(transform, CENTER, CENTER, x, y)[axis] > 0 ||
+			// in case target has skewing we use that as the direction
+			target[skewKey] > 0 ? 1 : -1) * skewingSide,
+		// anchor to the opposite side of the skewing direction
+		// normalize value from [-1, 1] to origin value [0, 1]
+		origin = -skewingDirection * 0.5 + 0.5;
+	const finalHandler = wrapWithFireEvent(SKEWING, wrapWithFixedAnchor((eventData, transform, x, y) => skewObject(axis, transform, new Point(x, y))));
+	return finalHandler(eventData, _objectSpread2(_objectSpread2({}, transform), {}, {
+		[originKey]: origin,
+		skewingSide
+	}), x, y);
 })
 
 /**
@@ -161,8 +161,8 @@ const skewHandler = fabricJsFunctionMark(function skewHandler(axis, eventData, t
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const skewHandlerX = fabricJsFunctionMark((eventData, transform, x, y) => {
-  return skewHandler('x', eventData, transform, x, y);
+const skewHandlerX = codeMarkFunction((eventData, transform, x, y) => {
+	return skewHandler('x', eventData, transform, x, y);
 }, 'skewHandlerX');
 
 /**
@@ -174,8 +174,8 @@ const skewHandlerX = fabricJsFunctionMark((eventData, transform, x, y) => {
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if some change happened
  */
-const skewHandlerY = fabricJsFunctionMark((eventData, transform, x, y) => {
-  return skewHandler('y', eventData, transform, x, y);
+const skewHandlerY = codeMarkFunction((eventData, transform, x, y) => {
+	return skewHandler('y', eventData, transform, x, y);
 }, 'skewHandlerY');
 
 export { skewCursorStyleHandler, skewHandlerX, skewHandlerY };

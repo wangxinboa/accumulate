@@ -4,7 +4,7 @@ import { classRegistry } from '../ClassRegistry.mjs';
 import { fragmentSource } from './shaders/saturation.mjs';
 
 const saturationDefaultValues = {
-  saturation: 0
+	saturation: 0
 };
 
 /**
@@ -16,47 +16,47 @@ const saturationDefaultValues = {
  * object.filters.push(filter);
  * object.applyFilters();
  */
-const Saturation = fabricJsClassMark(class Saturation extends BaseFilter {
-  getFragmentSource() {
-    return fragmentSource;
-  }
+const Saturation = codeMarkClass(class Saturation extends BaseFilter {
+	getFragmentSource() {
+		return fragmentSource;
+	}
 
-  /**
-   * Apply the Saturation operation to a Uint8ClampedArray representing the pixels of an image.
-   *
-   * @param {Object} options
-   * @param {ImageData} options.imageData The Uint8ClampedArray to be filtered.
-   */
-  applyTo2d(_ref) {
-    let {
-      imageData: {
-        data
-      }
-    } = _ref;
-    const adjust = -this.saturation;
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-      const max = Math.max(r, g, b);
-      data[i] += max !== r ? (max - r) * adjust : 0;
-      data[i + 1] += max !== g ? (max - g) * adjust : 0;
-      data[i + 2] += max !== b ? (max - b) * adjust : 0;
-    }
-  }
+	/**
+	 * Apply the Saturation operation to a Uint8ClampedArray representing the pixels of an image.
+	 *
+	 * @param {Object} options
+	 * @param {ImageData} options.imageData The Uint8ClampedArray to be filtered.
+	 */
+	applyTo2d(_ref) {
+		let {
+			imageData: {
+				data
+			}
+		} = _ref;
+		const adjust = -this.saturation;
+		for (let i = 0; i < data.length; i += 4) {
+			const r = data[i];
+			const g = data[i + 1];
+			const b = data[i + 2];
+			const max = Math.max(r, g, b);
+			data[i] += max !== r ? (max - r) * adjust : 0;
+			data[i + 1] += max !== g ? (max - g) * adjust : 0;
+			data[i + 2] += max !== b ? (max - b) * adjust : 0;
+		}
+	}
 
-  /**
-   * Send data from this filter to its shader program's uniforms.
-   *
-   * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
-   * @param {Object} uniformLocations A map of string uniform names to WebGLUniformLocation objects
-   */
-  sendUniformData(gl, uniformLocations) {
-    gl.uniform1f(uniformLocations.uSaturation, -this.saturation);
-  }
-  isNeutralState() {
-    return this.saturation === 0;
-  }
+	/**
+	 * Send data from this filter to its shader program's uniforms.
+	 *
+	 * @param {WebGLRenderingContext} gl The GL canvas context used to compile this filter's shader.
+	 * @param {Object} uniformLocations A map of string uniform names to WebGLUniformLocation objects
+	 */
+	sendUniformData(gl, uniformLocations) {
+		gl.uniform1f(uniformLocations.uSaturation, -this.saturation);
+	}
+	isNeutralState() {
+		return this.saturation === 0;
+	}
 })
 /**
  * Saturation value, from -1 to 1.

@@ -7,19 +7,19 @@ import { halfPI } from '../../constants.mjs';
  * @param {TRadian} angle the angle
  * @return {Number} the cosin value for angle.
  */
-const cos = fabricJsFunctionMark(angle => {
-  if (angle === 0) {
-    return 1;
-  }
-  const angleSlice = Math.abs(angle) / halfPI;
-  switch (angleSlice) {
-    case 1:
-    case 3:
-      return 0;
-    case 2:
-      return -1;
-  }
-  return Math.cos(angle);
+const cos = codeMarkFunction(angle => {
+	if (angle === 0) {
+		return 1;
+	}
+	const angleSlice = Math.abs(angle) / halfPI;
+	switch (angleSlice) {
+		case 1:
+		case 3:
+			return 0;
+		case 2:
+			return -1;
+	}
+	return Math.cos(angle);
 }, 'cos');
 
 export { cos };

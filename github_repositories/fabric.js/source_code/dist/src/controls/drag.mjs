@@ -11,22 +11,22 @@ import { isLocked, commonEventInfo } from './util.mjs';
  * @param {number} y current mouse y position, canvas normalized
  * @return {Boolean} true if the translation occurred
  */
-const dragHandler = fabricJsFunctionMark((eventData, transform, x, y) => {
-  const {
-      target,
-      offsetX,
-      offsetY
-    } = transform,
-    newLeft = x - offsetX,
-    newTop = y - offsetY,
-    moveX = !isLocked(target, 'lockMovementX') && target.left !== newLeft,
-    moveY = !isLocked(target, 'lockMovementY') && target.top !== newTop;
-  moveX && target.set(LEFT, newLeft);
-  moveY && target.set(TOP, newTop);
-  if (moveX || moveY) {
-    fireEvent(MOVING, commonEventInfo(eventData, transform, x, y));
-  }
-  return moveX || moveY;
+const dragHandler = codeMarkFunction((eventData, transform, x, y) => {
+	const {
+		target,
+		offsetX,
+		offsetY
+	} = transform,
+		newLeft = x - offsetX,
+		newTop = y - offsetY,
+		moveX = !isLocked(target, 'lockMovementX') && target.left !== newLeft,
+		moveY = !isLocked(target, 'lockMovementY') && target.top !== newTop;
+	moveX && target.set(LEFT, newLeft);
+	moveY && target.set(TOP, newTop);
+	if (moveX || moveY) {
+		fireEvent(MOVING, commonEventInfo(eventData, transform, x, y));
+	}
+	return moveX || moveY;
 }, 'dragHandler');
 
 export { dragHandler };

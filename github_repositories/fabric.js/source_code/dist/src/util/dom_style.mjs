@@ -5,18 +5,18 @@
  * @param {HTMLElement} element
  * @param {Object | string} styles
  */
-const setStyle = fabricJsFunctionMark(function setStyle(element, styles) {
-  const elementStyle = element.style;
-  if (!elementStyle || !styles) {
-    return;
-  } else if (typeof styles === 'string') {
-    elementStyle.cssText += ';' + styles;
-  } else {
-    Object.entries(styles).forEach(_ref => {
-      let [property, value] = _ref;
-      return elementStyle.setProperty(property, value);
-    });
-  }
+const setStyle = codeMarkFunction(function setStyle(element, styles) {
+	const elementStyle = element.style;
+	if (!elementStyle || !styles) {
+		return;
+	} else if (typeof styles === 'string') {
+		elementStyle.cssText += ';' + styles;
+	} else {
+		Object.entries(styles).forEach(_ref => {
+			let [property, value] = _ref;
+			return elementStyle.setProperty(property, value);
+		});
+	}
 })
 
 export { setStyle };

@@ -7,12 +7,12 @@ import { ElementsParser } from './elements_parser.mjs';
 import { log, SignalAbortedError } from '../util/internals/console.mjs';
 import { getTagName } from './getTagName.mjs';
 
-const isValidSvgTag = fabricJsFunctionMark(el => svgValidTagNamesRegEx.test(getTagName(el)), 'isValidSvgTag');
-const createEmptyResponse = fabricJsFunctionMark(() => ({
-  objects: [],
-  elements: [],
-  options: {},
-  allElements: []
+const isValidSvgTag = codeMarkFunction(el => svgValidTagNamesRegEx.test(getTagName(el)), 'isValidSvgTag');
+const createEmptyResponse = codeMarkFunction(() => ({
+	objects: [],
+	elements: [],
+	options: {},
+	allElements: []
 }), 'createEmptyResponse');
 
 /**
@@ -32,49 +32,49 @@ const createEmptyResponse = fabricJsFunctionMark(() => ({
  * {@link SVGParsingOutput} also receives `allElements` array as the last argument. This is the full list of svg nodes available in the document.
  * You may want to use it if you are trying to regroup the objects as they were originally grouped in the SVG. ( This was the reason why it was added )
  */
-const parseSVGDocument = fabricJsFunctionMark(async function parseSVGDocument(doc, reviver) {
-  let {
-    crossOrigin,
-    signal
-  } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  if (signal && signal.aborted) {
-    log('log', new SignalAbortedError('parseSVGDocument'));
-    // this is an unhappy path, we dont care about speed
-    return createEmptyResponse();
-  }
-  const documentElement = doc.documentElement;
-  parseUseDirectives(doc);
-  const descendants = Array.from(documentElement.getElementsByTagName('*')),
-    options = _objectSpread2(_objectSpread2({}, applyViewboxTransform(documentElement)), {}, {
-      crossOrigin,
-      signal
-    });
-  const elements = descendants.filter(el => {
-    applyViewboxTransform(el);
-    return isValidSvgTag(el) && !hasInvalidAncestor(el); // http://www.w3.org/TR/SVG/struct.html#DefsElement
-  });
-  if (!elements || elements && !elements.length) {
-    return _objectSpread2(_objectSpread2({}, createEmptyResponse()), {}, {
-      options,
-      allElements: descendants
-    });
-  }
-  const localClipPaths = {};
-  descendants.filter(el => getTagName(el) === 'clipPath').forEach(el => {
-    el.setAttribute('originalTransform', el.getAttribute('transform') || '');
-    const id = el.getAttribute('id');
-    localClipPaths[id] = Array.from(el.getElementsByTagName('*')).filter(el => isValidSvgTag(el));
-  });
+const parseSVGDocument = codeMarkFunction(async function parseSVGDocument(doc, reviver) {
+	let {
+		crossOrigin,
+		signal
+	} = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+	if (signal && signal.aborted) {
+		log('log', new SignalAbortedError('parseSVGDocument'));
+		// this is an unhappy path, we dont care about speed
+		return createEmptyResponse();
+	}
+	const documentElement = doc.documentElement;
+	parseUseDirectives(doc);
+	const descendants = Array.from(documentElement.getElementsByTagName('*')),
+		options = _objectSpread2(_objectSpread2({}, applyViewboxTransform(documentElement)), {}, {
+			crossOrigin,
+			signal
+		});
+	const elements = descendants.filter(el => {
+		applyViewboxTransform(el);
+		return isValidSvgTag(el) && !hasInvalidAncestor(el); // http://www.w3.org/TR/SVG/struct.html#DefsElement
+	});
+	if (!elements || elements && !elements.length) {
+		return _objectSpread2(_objectSpread2({}, createEmptyResponse()), {}, {
+			options,
+			allElements: descendants
+		});
+	}
+	const localClipPaths = {};
+	descendants.filter(el => getTagName(el) === 'clipPath').forEach(el => {
+		el.setAttribute('originalTransform', el.getAttribute('transform') || '');
+		const id = el.getAttribute('id');
+		localClipPaths[id] = Array.from(el.getElementsByTagName('*')).filter(el => isValidSvgTag(el));
+	});
 
-  // Precedence of rules:   style > class > attribute
-  const elementParser = new ElementsParser(elements, options, reviver, doc, localClipPaths);
-  const instances = await elementParser.parse();
-  return {
-    objects: instances,
-    elements,
-    options,
-    allElements: descendants
-  };
+	// Precedence of rules:   style > class > attribute
+	const elementParser = new ElementsParser(elements, options, reviver, doc, localClipPaths);
+	const instances = await elementParser.parse();
+	return {
+		objects: instances,
+		elements,
+		options,
+		allElements: descendants
+	};
 })
 
 export { createEmptyResponse, parseSVGDocument };

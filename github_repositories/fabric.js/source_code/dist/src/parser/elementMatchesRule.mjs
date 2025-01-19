@@ -5,14 +5,14 @@ import { doesSomeParentMatch } from './doesSomeParentMatch.mjs';
  * @private
  */
 
-const elementMatchesRule = fabricJsFunctionMark(function elementMatchesRule(element, selectors) {
-  let parentMatching = true;
-  // start from rightmost selector.
-  const firstMatching = selectorMatches(element, selectors.pop());
-  if (firstMatching && selectors.length) {
-    parentMatching = doesSomeParentMatch(element, selectors);
-  }
-  return firstMatching && parentMatching && selectors.length === 0;
+const elementMatchesRule = codeMarkFunction(function elementMatchesRule(element, selectors) {
+	let parentMatching = true;
+	// start from rightmost selector.
+	const firstMatching = selectorMatches(element, selectors.pop());
+	if (firstMatching && selectors.length) {
+		parentMatching = doesSomeParentMatch(element, selectors);
+	}
+	return firstMatching && parentMatching && selectors.length === 0;
 })
 
 export { elementMatchesRule };
