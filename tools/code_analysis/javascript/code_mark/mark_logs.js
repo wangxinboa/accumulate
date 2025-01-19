@@ -31,7 +31,7 @@ let nowMarkNode = rootMarkNode;
 
 const MarkLogs = {
 	rootMarkNode,
-	mark(title, key = null, args, message) {
+	mark(title, key = null, args, resultWrapper, message) {
 		const prentMarkNode = nowMarkNode;
 		let prentNotEmptyMarkNode = prentMarkNode;
 		while (prentNotEmptyMarkNode.isEmpty() && prentNotEmptyMarkNode.parent) {
@@ -43,6 +43,7 @@ const MarkLogs = {
 			if (message) {
 				globalThis.console.groupCollapsed(`${title} 执行信息`);
 				globalThis.console.info('执行参数:', args)
+				globalThis.console.info('返回结果:', resultWrapper)
 				message.markConsole();
 				globalThis.console.trace();
 				globalThis.console.groupEnd();
