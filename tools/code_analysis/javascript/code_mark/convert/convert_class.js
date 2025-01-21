@@ -14,20 +14,22 @@ export default function convertClass(originalClass, className) {
 		}
 	}
 
-	const descriptors = Object.getOwnPropertyDescriptors(originalClass.prototype);
-	for (let key in descriptors) {
-		if (excludePrototypeKey.indexOf(key) === -1) {
-			const descriptor = descriptors[key];
+	if (originalClass.prototype) {
+		const descriptors = Object.getOwnPropertyDescriptors(originalClass.prototype);
+		for (let key in descriptors) {
+			if (excludePrototypeKey.indexOf(key) === -1) {
+				const descriptor = descriptors[key];
 
-			if (isFunction(descriptor.value)) {
-				descriptor.value = proxyFunction(descriptor.value, `${className} ${key}`);
-			}
-			if (isFunction(descriptor.set || descriptor.get)) {
-				if (isFunction(descriptor.set)) {
-					descriptor.set = proxyFunction(descriptor.set, `${className} set-${key}`);
+				if (isFunction(descriptor.value)) {
+					descriptor.value = proxyFunction(descriptor.value, `${className} ${key}`);
 				}
+				if (isFunction(descriptor.set || descriptor.get)) {
+					if (isFunction(descriptor.set)) {
+						descriptor.set = proxyFunction(descriptor.set, `${className} set-${key}`);
+					}
+				}
+				Object.defineProperty(originalClass.prototype, key, descriptor);
 			}
-			Object.defineProperty(originalClass.prototype, key, descriptor);
 		}
 	}
 

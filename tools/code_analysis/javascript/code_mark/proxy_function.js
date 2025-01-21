@@ -28,15 +28,21 @@ class ProxyFunctionMessage {
 	}
 	markConsole() {
 		globalThis.console.info(`第 ${this.used} 次执行`);
-		globalThis.console.info('markFunction:', this);
-		globalThis.console.info(this.originalFunction);
+		globalThis.console.info('标记信息:', this);
+		globalThis.console.info('原始函数:', this.originalFunction);
 	}
 }
 
 let proxyFunctionIndex = 0;
+const isProxy = Symbol("isProxy");
+
 export default function proxyFunction(originalFunction, key) {
 	if (AllProxyFunctionMap.has(originalFunction)) {
 		return AllProxyFunctionMap.get(originalFunction);
+	}
+
+	if (originalFunction[isProxy]) {
+		return originalFunction;
 	}
 
 	if (AllProxyFunctionMessage[key]) {
@@ -77,6 +83,7 @@ export default function proxyFunction(originalFunction, key) {
 	});
 	AllProxyFunctionMap.set(originalFunction, proxy);
 	AllProxyFunctionMessage[key] = markFunctionMessage;
+	proxy[isProxy] = true;
 
 	proxyFunctionIndex++;
 

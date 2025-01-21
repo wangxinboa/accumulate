@@ -45,15 +45,24 @@ globalThis.codeMarkFunction = function codeMarkFunction(originalFunction, aliasN
 
 
 globalThis.codeMarkObject = function codeMarkObject(originalObject, objectName) {
-	const markedObject = {};
-	for (let key in originalObject) {
-		const val = originalObject[key];
-		if (isFunction(val)) {
-			markedObject[key] = originalObject[key] = codeMarkClass(val, `${objectName}.${key}`);
-		} else if (isObject(val)) {
-			codeMarkObject(val, `${objectName}.${key}`);
+	const descriptors = Object.getOwnPropertyDescriptors(originalObject);
+
+	for (let key in descriptors) {
+		if (
+			originalObject === window
+		) {
+			continue;
+		} else {
+			const descriptor = descriptors[key];
+			if (descriptor.configurable && descriptor.writable) {
+				const val = descriptor.value;
+				if (isFunction(val)) {
+					originalObject[key] = codeMarkClass(val, `${objectName}.${key}`);
+				} else if (isObject(val)) {
+					originalObject[key] = codeMarkObject(val, `${objectName}.${key}`);
+				}
+			}
 		}
 	}
-	return markedObject;
+	return originalObject;
 }
-

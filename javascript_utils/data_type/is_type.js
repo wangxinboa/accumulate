@@ -49,5 +49,5 @@ export function isOriginalFunction(data) {
 }
 
 export function isObject(data) {
-	return typeof data === 'object'
+	return typeof data === 'object' && data !== null;
 }
