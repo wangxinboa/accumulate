@@ -24,3 +24,7 @@ textEncipher.onchange = (e) => {
 textDecrypt.onchange = (e) => {
 	originalText.value = decodeURIComponent(window.atob(window.atob(e.target.value)));
 }
+
+originalText.onchange = (e) => {
+	textDecrypt.value = window.btoa(window.btoa(encodeURIComponent(e.target.value)));
+}
