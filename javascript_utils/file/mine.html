@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+	<link rel="icon" href="../javascript_utils.png">
+	<title>mine</title>
+	<link href="../../css/default.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/common.css" rel="stylesheet" type="text/css" />
+</head>
+<!--
+	文件 mine type 类型信息获取
+	-->
+
+<body>
+	<input id="readFileMine" type="file" />
+
+	<script type="text/javascript">
+		const readFileMineDom = document.getElementById('readFileMine');
+
+		readFileMine.onchange = (e) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(e.target.files[0]);
+			reader.onload = function () {
+				const arr = reader.result.split(","),
+					mime = arr[0].match(/:(.*?);/)[1];
+				console.info('文件 mine 类型:', mime);
+			};
+			reader.onerror = function () {
+				console.log('读取失败');
+			};
+			readFileMine.value = '';
+		}
+	</script>
+</body>
+
+</html>
