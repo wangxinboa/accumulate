@@ -3,6 +3,7 @@ import CanvasEngine from '../src/canvas_engine.js';
 import Circle from '../src/objects/2d/circle.js';
 import Rect from '../src/objects/2d/rect.js';
 import Polyline from '../src/objects/2d/polyline.js';
+import Polygon from '../src/objects/2d/polygon.js';
 import Text from '../src/objects/2d/text.js';
 
 const canvasDom = document.getElementById('renderCanvas');
@@ -43,16 +44,30 @@ const polyline = new Polyline(canvasEngine.scene, {
 		{ x: 120, y: 80 },
 		{ x: 120, y: 20 },
 	],
-	//fill: '#000000',
-	fill: null,
+	fill: '#ff0000',
+	// fill: null,
+	strokeWidth: 2,
+	stroke: '#000000',
+});
+
+const polygon = new Polygon(canvasEngine.scene, {
+	points: [
+		{ x: 100 + 60, y: 20 },
+		{ x: 100 + 60, y: 80 },
+		{ x: 100 + 120, y: 80 },
+		{ x: 100 + 120, y: 20 },
+	],
+	fill: '#ff0000',
+	// fill: null,
 	strokeWidth: 2,
 	stroke: '#000000',
 });
 
 const text = new Text(canvasEngine.scene, {
 	x: 300,
-	y: 0,
+	y: 40,
 	text: 'font-size',
+	// text: 'Hello world!\nAAA\nBBB',
 	fill: '#000000',
 	//fill: null,
 	//strokeWidth: 2,
@@ -64,24 +79,19 @@ canvasEngine.render();
 const gui = new GUI();
 
 function initTransformGui(folder, target) {
-	folder.add(target.position, 'x', -600, 600, 1).name('position.x').onChange(() => {
-		target.updateMatrix();
+	folder.add(target, 'x', -600, 600, 1).onChange(() => {
 		canvasEngine.requestRender();
 	});
-	folder.add(target.position, 'y', -600, 600, 1).name('position.y').onChange(() => {
-		target.updateMatrix();
+	folder.add(target, 'y', -600, 600, 1).onChange(() => {
 		canvasEngine.requestRender();
 	});
-	folder.add(target.scale, 'x', 0, 10).name('scale.x').onChange(() => {
-		target.updateMatrix();
+	folder.add(target, 'scaleX', 0, 10).onChange(() => {
 		canvasEngine.requestRender();
 	});
-	folder.add(target.scale, 'y', 0, 10).name('scale.y').onChange(() => {
-		target.updateMatrix();
+	folder.add(target, 'scaleY', 0, 10).onChange(() => {
 		canvasEngine.requestRender();
 	});
 	folder.add(target, 'rotationAngle', -180, 180, 1).name('rotationAngle').onChange(() => {
-		target.updateMatrix();
 		canvasEngine.requestRender();
 	});
 }
@@ -102,7 +112,6 @@ function initObject2dGui(folder, target) {
 	const circleFolder = gui.addFolder('circle');
 
 	circleFolder.add(circle, 'radius', 0, 300).name('radius').onChange(() => {
-		circle.updateMatrix();
 		canvasEngine.requestRender();
 	});
 	circleFolder.add(circle, 'visible').onChange(() => {
@@ -117,11 +126,9 @@ function initObject2dGui(folder, target) {
 	rectFolder.close();
 
 	rectFolder.add(rect, 'width', -600, 600).onChange(() => {
-		rect.updateMatrix();
 		canvasEngine.requestRender();
 	});
 	rectFolder.add(rect, 'height', -600, 600).onChange(() => {
-		rect.updateMatrix();
 		canvasEngine.requestRender();
 	});
 	rectFolder.add(rect, 'visible').onChange(() => {
@@ -140,6 +147,12 @@ function initObject2dGui(folder, target) {
 	polylineFolder.close();
 
 	initObject2dGui(polylineFolder, polyline);
+}
+{
+	const polygonFolder = gui.addFolder('polygon');
+	polygonFolder.close();
+
+	initObject2dGui(polygonFolder, polygon);
 }
 {
 	const textFolder = gui.addFolder('text');

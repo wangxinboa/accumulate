@@ -13,9 +13,9 @@ export default class Camera2d extends Object2DTransform {
 	}
 
 	updateMatrix() {
-		_translation.makeTranslation(-this.position.x, -this.position.y);
+		_translation.makeTranslation(-this.x, -this.y);
 		_rotation.makeRotation(-this.rotation);
-		_scale.makeScale(this.scale.x === 0 ? 0 : 1 / this.scale.x, this.scale.y === 0 ? 0 : 1 / this.scale.y);
+		_scale.makeScale(this.scaleX === 0 ? 0 : 1 / this.scaleX, this.scaleY === 0 ? 0 : 1 / this.scaleY);
 
 		this.matrix
 			.identity()

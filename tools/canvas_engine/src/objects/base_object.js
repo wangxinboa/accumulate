@@ -23,6 +23,9 @@ export default function createObjectClass(ObjectClass) {
 				object.parent = this;
 				this.children.push(object);
 				this.scene.addObject(object);
+
+				// 根据全局矩阵
+				this.updateMatrixWorld();
 			}
 			return this;
 		}

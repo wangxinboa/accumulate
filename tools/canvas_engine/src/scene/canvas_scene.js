@@ -8,8 +8,6 @@ export default class CanvasScene {
 		if (!this.objects.includes(object)) {
 			object.scene = this;
 			this.objects.push(object);
-			// 新增的 object 都要更新矩阵
-			object.updateMatrix();
 		}
 		return this;
 	}

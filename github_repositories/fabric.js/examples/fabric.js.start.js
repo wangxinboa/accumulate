@@ -46,19 +46,24 @@ const canvas = new fabric.Canvas(canvasDom);
 // canvas.add(polygon);
 
 
-var text = new fabric.Text('Hello world! \n AAA', {
-	// backgroundColor: "red",
-	// strokeStyle: 'red',
-	// strokeWidth: 4,
-	left: 150,
-	top: 100,
-	angle: 0,
-	fontWeight: 'normal',
-	// lineHeight: 2,
-	// width: 50,
-	// height: 60,
-	textAlign: 'left'
-});
+var text = new fabric.Text(
+	'Hello world!\nAAA\nBBB',
+	// 'Hello world!',
+	{
+		textDecoration: 'overline line-through overline',
+		backgroundColor: "red",
+		textBackgroundColor: 'blue',
+		// strokeStyle: 'red',
+		strokeWidth: 0,
+		left: 160,
+		top: 300,
+		angle: 0,
+		fontWeight: 'normal',
+		// lineHeight: 3,
+		// width: 50,
+		// height: 60,
+		textAlign: 'left'
+	});
 canvas.add(text)
 
 

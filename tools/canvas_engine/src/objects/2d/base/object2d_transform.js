@@ -1,5 +1,4 @@
 import Matrix3 from "../../../math/matrix3.js";
-import Vector2 from "../../../math/vector2.js";
 import { PiBy180 } from "../../../math/constants.js";
 
 const _translation = new Matrix3();
@@ -11,10 +10,14 @@ export default class Object2DTransform {
 		this.matrix = new Matrix3();
 		this.matrixWorld = new Matrix3();
 
-		this.position = new Vector2(option.x || 0, option.y || 0);
-		this.rotation = option.rotation || 0;
-		this.rotationAngle = option.rotationAngle || 0;
-		this.scale = new Vector2(option.scaleX || 1, option.scaleY || 1);
+		this._x = option.x || 0;
+		this._y = option.y || 0;
+		this._rotation = option.rotation || 0;
+		this._rotationAngle = option.rotationAngle || 0;
+		this._scaleX = option.scaleX || 1;
+		this._scaleY = option.scaleY || 1;
+
+		this.updateMatrix();
 	}
 
 	transform(ctx) {
@@ -30,9 +33,9 @@ export default class Object2DTransform {
 	}
 
 	updateMatrix() {
-		_translation.makeTranslation(this.position.x, this.position.y);
+		_translation.makeTranslation(this.x, this.y);
 		_rotation.makeRotation(this.rotation);
-		_scale.makeScale(this.scale.x, this.scale.y);
+		_scale.makeScale(this.scaleX, this.scaleY);
 
 		this.matrix
 			.identity()
@@ -57,12 +60,29 @@ export default class Object2DTransform {
 		}
 	}
 
+	get x() {
+		return this._x;
+	}
+	set x(val) {
+		this._x = val;
+		this.updateMatrix();
+	}
+
+	get y() {
+		return this._y;
+	}
+	set y(val) {
+		this._y = val;
+		this.updateMatrix();
+	}
+
 	get rotationAngle() {
 		return this._rotationAngle;
 	}
 	set rotationAngle(val) {
 		this._rotationAngle = val;
 		this._rotation = val * PiBy180;
+		this.updateMatrix();
 	}
 
 	get rotation() {
@@ -71,6 +91,23 @@ export default class Object2DTransform {
 	set rotation(val) {
 		this._rotation = val;
 		this._rotationAngle = val / PiBy180;
+		this.updateMatrix();
+	}
+
+	get scaleX() {
+		return this._scaleX;
+	}
+	set scaleX(val) {
+		this._scaleX = val;
+		this.updateMatrix();
+	}
+
+	get scaleY() {
+		return this._scaleY;
+	}
+	set scaleY(val) {
+		this._scaleY = val;
+		this.updateMatrix();
 	}
 }
 
