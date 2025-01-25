@@ -16,6 +16,8 @@ export default class Object2DDraw extends Object2DTransform {
 		this.strokeWidth = option.strokeWidth || 0;
 
 		this.paintFirst === PaintFirst.stroke;
+
+		this.opacity = option.opacity || 1;
 	}
 
 	hasStroke() {
@@ -89,6 +91,7 @@ export default class Object2DDraw extends Object2DTransform {
 	render(ctx) {
 		ctx.save();
 
+		ctx.globalAlpha = this.opacity;
 		this.transform(ctx);
 
 		this._render(ctx);

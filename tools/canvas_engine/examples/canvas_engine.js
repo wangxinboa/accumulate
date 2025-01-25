@@ -64,8 +64,8 @@ const polygon = new Polygon(canvasEngine.scene, {
 });
 
 const text = new Text(canvasEngine.scene, {
-	x: 300,
-	y: 40,
+	x: 0,
+	y: 200,
 	text: 'font-size',
 	// text: 'Hello world!\nAAA\nBBB',
 	fill: '#000000',
@@ -78,28 +78,21 @@ canvasEngine.render();
 
 const gui = new GUI();
 
+function onChangeFun() {
+	canvasEngine.requestRender();
+}
+
 function initTransformGui(folder, target) {
-	folder.add(target, 'x', -600, 600, 1).onChange(() => {
-		canvasEngine.requestRender();
-	});
-	folder.add(target, 'y', -600, 600, 1).onChange(() => {
-		canvasEngine.requestRender();
-	});
-	folder.add(target, 'scaleX', 0, 10).onChange(() => {
-		canvasEngine.requestRender();
-	});
-	folder.add(target, 'scaleY', 0, 10).onChange(() => {
-		canvasEngine.requestRender();
-	});
-	folder.add(target, 'rotationAngle', -180, 180, 1).name('rotationAngle').onChange(() => {
-		canvasEngine.requestRender();
-	});
+	folder.add(target, 'x', -600, 600, 0.1).onChange(onChangeFun);
+	folder.add(target, 'y', -600, 600, 0.1).onChange(onChangeFun);
+	folder.add(target, 'scaleX', -10, 10).onChange(onChangeFun);
+	folder.add(target, 'scaleY', -10, 10).onChange(onChangeFun);
+	folder.add(target, 'rotationAngle', -180, 180, 1).name('rotationAngle').onChange(onChangeFun);
 }
 function initObject2dGui(folder, target) {
 
-	folder.add(target, 'strokeWidth', 0, 30, 1).onChange(() => {
-		canvasEngine.requestRender();
-	});
+	folder.add(target, 'strokeWidth', 0, 30, 1).onChange(onChangeFun);
+	folder.add(target, 'opacity', 0, 1, 0.01).onChange(onChangeFun);
 	initTransformGui(folder, target);
 }
 {
@@ -111,12 +104,8 @@ function initObject2dGui(folder, target) {
 {
 	const circleFolder = gui.addFolder('circle');
 
-	circleFolder.add(circle, 'radius', 0, 300).name('radius').onChange(() => {
-		canvasEngine.requestRender();
-	});
-	circleFolder.add(circle, 'visible').onChange(() => {
-		canvasEngine.requestRender();
-	});
+	circleFolder.add(circle, 'radius', 0, 300).name('radius').onChange(onChangeFun);
+	circleFolder.add(circle, 'visible').onChange(onChangeFun);
 	circleFolder.close();
 
 	initObject2dGui(circleFolder, circle);
@@ -125,15 +114,9 @@ function initObject2dGui(folder, target) {
 	const rectFolder = gui.addFolder('rect');
 	rectFolder.close();
 
-	rectFolder.add(rect, 'width', -600, 600).onChange(() => {
-		canvasEngine.requestRender();
-	});
-	rectFolder.add(rect, 'height', -600, 600).onChange(() => {
-		canvasEngine.requestRender();
-	});
-	rectFolder.add(rect, 'visible').onChange(() => {
-		canvasEngine.requestRender();
-	});
+	rectFolder.add(rect, 'width', -600, 600).onChange(onChangeFun);
+	rectFolder.add(rect, 'height', -600, 600).onChange(onChangeFun);
+	rectFolder.add(rect, 'visible').onChange(onChangeFun);
 
 	['rxlt', 'rxrt', 'ryrt', 'ryrb', 'rxrb', 'rxlb', 'rylb', 'rylt'].forEach((radius) => {
 		rectFolder.add(rect, radius, 0, 150).onChange(() => {

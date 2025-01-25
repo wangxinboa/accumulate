@@ -36,9 +36,15 @@ export default class Text extends Object2D {
 
 	_render(ctx) {
 		ctx.save();
-		ctx.fillStyle = '#ff0000';
+		ctx.fillStyle = '#ff00ff';
 		ctx.fillRect(0, 0, this.width, this.height);
 		ctx.restore();
+
+		// ctx.textBaseline = 'top';
+		// ctx.textBaseline = 'hanging';
+		// ctx.textBaseline = 'top';
+		// ctx.textBaseline = 'top';
+		// ctx.textBaseline = 'bottom';
 
 		ctx.beginPath();
 		this._setTextStyles(ctx);
