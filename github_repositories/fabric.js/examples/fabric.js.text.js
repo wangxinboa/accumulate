@@ -112,8 +112,8 @@ function initObjectGui(folder, object, canvas) {
 		"color": "color",
 		"luminosity": "luminosity",
 	}).onChange(onChangeFun);
-	folder.addColor(overlayFill, 'fill').onChange(onChangeFun);
-	folder.addColor(stroke, 'fill').onChange(onChangeFun);
+	folder.addColor(object, 'fill').onChange(onChangeFun);
+	folder.addColor(object, 'fill').onChange(onChangeFun);
 	folder.add(object, 'strokeWidth', 0, 30, 1).onChange(onChangeFun);
 	// strokeDashArray
 	// shadow
