@@ -23,7 +23,8 @@ globalThis.codeMarkClass = function CodeMarkClass(originalClass, aliasName) {
 	}
 	CodeMarkAllClass[className] = originalClass;
 
-	return convertClass(originalClass, className);
+	const convertedClass = convertClass(originalClass, className);
+	return convertedClass;
 }
 
 globalThis.CodeMarkAllFunction = {};

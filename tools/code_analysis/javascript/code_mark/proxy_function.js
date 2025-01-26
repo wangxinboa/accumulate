@@ -80,10 +80,16 @@ export default function proxyFunction(originalFunction, key) {
 			}
 			return true;
 		},
+		get(target, prop) {
+			if (prop === isProxy) {
+				return true;
+			}
+			// 默认行为是返回属性值
+			return target[prop];
+		}
 	});
 	AllProxyFunctionMap.set(originalFunction, proxy);
 	AllProxyFunctionMessage[key] = markFunctionMessage;
-	proxy[isProxy] = true;
 
 	proxyFunctionIndex++;
 
