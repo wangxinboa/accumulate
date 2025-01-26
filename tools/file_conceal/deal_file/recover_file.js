@@ -1,9 +1,9 @@
 // 根据实际情况设置长度
-const length = 30013;
+const length = 519981;
 
-export default function recoverFile(message) {
+export default function recoverFile(sham, filename) {
 	// 切片 ArrayBuffer 以获取从 offset 位置开始的数据
-	const slicedArrayBuffer = message.slice(length);
+	const slicedArrayBuffer = sham.slice(length);
 
 	// 创建一个 Blob 对象，类型为 application/zip
 	const blob = new Blob([slicedArrayBuffer], { type: 'application/zip' });
@@ -11,7 +11,7 @@ export default function recoverFile(message) {
 	// 创建一个链接元素用于下载
 	const link = document.createElement('a');
 	link.href = window.URL.createObjectURL(blob);
-	link.download = 'downloaded-file.zip'; // 指定下载的文件名
+	link.download = filename; // 指定下载的文件名
 
 	// 模拟点击链接以下载文件
 	document.body.appendChild(link);

@@ -1,4 +1,4 @@
-export default function convertFile(file0, file1) {
+export default function convertFile(file0, file1, suffix) {
 	const buffer1 = new Uint8Array(file0);
 	const buffer2 = new Uint8Array(file1);
 
@@ -7,7 +7,6 @@ export default function convertFile(file0, file1) {
 
 	// 将第一个数组的元素复制到新数组
 	combinedBuffer.set(buffer1);
-	console.info(buffer1.length);
 
 	// 将第二个数组的元素复制到新数组的后面
 	combinedBuffer.set(buffer2, buffer1.length);
@@ -18,7 +17,7 @@ export default function convertFile(file0, file1) {
 	// 创建一个链接元素用于下载
 	const link = document.createElement('a');
 	link.href = window.URL.createObjectURL(blob);
-	link.download = '测试图片.jpg'; // 指定下载的文件名
+	link.download = `测试图片.${suffix}`;
 
 	// 模拟点击链接以下载图片
 	document.body.appendChild(link);

@@ -18,18 +18,30 @@ function readFile(file) {
 }
 
 convertFileDom.onchange = (e) => {
+	let transportFile, zipFile;
+	const mineType = 'application/zip';
+
+	if (e.target.files[0].type === mineType) {
+		transportFile = e.target.files[1];
+		zipFile = e.target.files[0];
+	} else if (e.target.files[1] === mineType) {
+		transportFile = e.target.files[0];
+		zipFile = e.target.files[1];
+	} else {
+		throw new Error('没有 zip 文件');
+	}
+
 	Promise.all([
-		readFile(e.target.files[0]),
-		readFile(e.target.files[1])
+		readFile(transportFile),
+		readFile(zipFile)
 	]).then((res) => {
-		console.info(res);
-		convertFile(res[0], res[1]);
+		convertFile(res[0], res[1], transportFile.name.split('.').pop());
 	});
 	convertFileDom.value = '';
 }
 
 recoverFileDom.onchange = (e) => {
 	readFile(e.target.files[0]).then((res) => {
-		recoverFile(res);
+		recoverFile(res, 'accumulate.zip');
 	});
 }
