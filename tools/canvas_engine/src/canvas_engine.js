@@ -1,5 +1,6 @@
 import { RenderType } from './canvas_engine_option.js';
 import CanvasEvents from './events/canvas_events.js';
+import CanvasMove2d from './events/canvas_move_2d.js';
 import Camera2d from './camera/camera2d.js';
 import CanvasRenderer from './renderer/canvas_renderer.js';
 import CanvasEngineOption from './canvas_engine_option.js';
@@ -9,8 +10,6 @@ import CanvasScene from './scene/canvas_scene.js';
 export default class CanvasEngine {
 
 	constructor(el, canvasOption = CanvasEngineOption) {
-
-		this.evnets = new CanvasEvents(el);
 
 		if (canvasOption.renderType === RenderType.canvas) {
 			this.renderer = new CanvasRenderer(el, canvasOption);
@@ -22,6 +21,10 @@ export default class CanvasEngine {
 		this.scene = new CanvasScene();
 
 		this.nextRenderHandle = -1;
+
+		this.evnets = new CanvasEvents(el);
+
+		this.evnets.addEvents('CanvasMove', new CanvasMove2d(this.renderer, this.scene, this.camera));
 	}
 
 	render() {

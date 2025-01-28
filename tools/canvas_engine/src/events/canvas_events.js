@@ -9,6 +9,8 @@ export default class CanvasEvents {
 		this.el.addEventListener('mousedown', this.event);
 		this.el.addEventListener('mousemove', this.event);
 		this.el.addEventListener('mouseup', this.event);
+		this.el.addEventListener('mouseleave', this.event);
+		this.el.addEventListener('wheel', this.event, { passive: true });
 
 		this.events = new Map();
 	}
@@ -28,17 +30,24 @@ export default class CanvasEvents {
 			if (value[type]) {
 				value[type].call(value, e);
 			}
-		})
+		});
 	}
 
 	destroy() {
 		this.el.removeEventListener('mousedown', this.event);
 		this.el.removeEventListener('mousemove', this.event);
 		this.el.removeEventListener('mouseup', this.event);
+		this.el.removeEventListener('mouseleave', this.event);
+		this.el.removeEventListener('wheel', this.event);
 
 		this.el = null;
 		this.event = null;
 
+		this.events.forEach((value) => {
+			if (value[type]) {
+				value[type].destroy();
+			}
+		})
 		this.events.clear();
 		this.events = null;
 	}
