@@ -1,9 +1,6 @@
 import GUI from '../libs/lil-gui/lil-gui.esm.js'
-import '../../fabric.js_mark/fabric.js_mark.js';
 import initObjectGui from '../common/init_object_gui.js';
-// import fabric from '../fabric.js.modules.js';
 
-codeMarkObject(fabric, 'fabric');
 
 const canvasDom = document.getElementById('renderCanvas');
 canvasDom.width = canvasDom.clientWidth;
