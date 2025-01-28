@@ -3,6 +3,7 @@ import MarkLogs from './mark_logs.js';
 
 export const AllProxyFunctionMessage = {};
 export const AllProxyFunctionMap = new Map();
+export const AllOriginalFunctionMap = new Map();
 
 class ProxyFunctionMessage {
 	constructor(originalFunction, key) {
@@ -34,14 +35,13 @@ class ProxyFunctionMessage {
 }
 
 let proxyFunctionIndex = 0;
-const isProxy = Symbol("isProxy");
 
 export default function proxyFunction(originalFunction, key) {
-	if (AllProxyFunctionMap.has(originalFunction)) {
-		return AllProxyFunctionMap.get(originalFunction);
+	if (AllOriginalFunctionMap.has(originalFunction)) {
+		return AllOriginalFunctionMap.get(originalFunction);
 	}
 
-	if (originalFunction[isProxy]) {
+	if (AllProxyFunctionMap.has(originalFunction)) {
 		return originalFunction;
 	}
 
@@ -80,15 +80,9 @@ export default function proxyFunction(originalFunction, key) {
 			}
 			return true;
 		},
-		get(target, prop) {
-			if (prop === isProxy) {
-				return true;
-			}
-			// 默认行为是返回属性值
-			return target[prop];
-		}
 	});
-	AllProxyFunctionMap.set(originalFunction, proxy);
+	AllOriginalFunctionMap.set(originalFunction, proxy);
+	AllProxyFunctionMap.set(proxy, originalFunction);
 	AllProxyFunctionMessage[key] = markFunctionMessage;
 
 	proxyFunctionIndex++;
