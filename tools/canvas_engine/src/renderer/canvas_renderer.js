@@ -4,7 +4,6 @@ export default class CanvasRenderer extends CanvasScale {
 	constructor(el, canvasOption) {
 		super(el, canvasOption);
 
-		this.el = el;
 		this.ctx = el.getContext('2d');
 
 		this.ctx.scale(this.retinaScaling, this.retinaScaling);
@@ -29,6 +28,8 @@ export default class CanvasRenderer extends CanvasScale {
 	}
 
 	destroy() {
+		super.destroy();
 
+		this.ctx = null;
 	}
 }

@@ -9,6 +9,8 @@ export default class Object2DRange {
 		this.rectangle = new Rectangle();
 	}
 
+	updateRange() { }
+
 	updateRectangle() {
 		this.rectangle.setRectangle(
 			this.min.x, this.max.y,
@@ -21,5 +23,11 @@ export default class Object2DRange {
 
 	isOnScreen(rectangle) {
 		return this.rectangle.overlapRectangleSAT(rectangle);
+	}
+
+	destroy() {
+		this.rectangle = null;
+		this.max = null;
+		this.min = null;
 	}
 }

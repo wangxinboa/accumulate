@@ -21,6 +21,11 @@ export default class CanvasScene {
 	}
 
 	destroy() {
-		// 销毁函数, 待完善
+		for (let i = this.objects.length - 1; i >= 0; i--) {
+			this.removeObject(this.objects[i]);
+			this.objects[i].destroy();
+		}
+
+		this.objects = null;
 	}
 }

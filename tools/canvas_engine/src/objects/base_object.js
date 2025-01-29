@@ -67,5 +67,21 @@ export default function createObjectClass(ObjectClass) {
 			}
 			return this;
 		}
+
+		destroy() {
+			super.destroy();
+			for (let i = this.children.length - 1; i >= 0; i--) {
+				this.children[i].destroy();
+			}
+
+			this.isObject = null;
+
+			this.visible = null;
+
+			this.parent.remove(this);
+			this.scene = null;
+
+			this.children = null;
+		}
 	}
 }

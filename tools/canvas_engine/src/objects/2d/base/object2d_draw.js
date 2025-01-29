@@ -11,6 +11,8 @@ export default class Object2DDraw extends Object2DTransform {
 
 		this.isObject2D = true;
 
+		this.name = option.name || '';
+
 		this.fill = option.fill || '#ffffff';
 		this.stroke = option.stroke || '#ffffff';
 		this.strokeWidth = option.strokeWidth || 0;
@@ -98,5 +100,17 @@ export default class Object2DDraw extends Object2DTransform {
 		this._renderPaintInOrder(ctx);
 
 		ctx.restore();
+	}
+
+	destroy(){
+		super.destroy();
+
+		this.isObject2D = null;
+		this.name = null;
+		this.fill = null;
+		this.stroke = null;
+		this.strokeWidth = null;
+		this.paintFirst = null;
+		this.opacity = null;
 	}
 }

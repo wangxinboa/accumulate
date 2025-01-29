@@ -5,9 +5,9 @@ export default class CanvasScale {
 	constructor(el, canvasOption) {
 		this.retinaScaling = devicePixelRatio || window.devicePixelRatio;
 		this.fitType = canvasOption.fitType || FitType.fill;
-		this.camera = new Camera2d();
-
 		this.el = el;
+
+		this.camera = new Camera2d();
 
 		this.resize();
 	}
@@ -28,5 +28,13 @@ export default class CanvasScale {
 		} else {
 			throw new Error(`CanvasFit 未知类型的 fitType ${this.fitType}`);
 		}
+	}
+
+	destroy() {
+		this.retinaScaling = null;
+		this.fitType = null;
+		this.el = null;
+
+		this.camera.destroy();
 	}
 }

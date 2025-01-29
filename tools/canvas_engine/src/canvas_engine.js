@@ -1,6 +1,6 @@
 import { RenderType } from './canvas_engine_option.js';
 import CanvasEvents from './events/canvas_events.js';
-import CanvasMove2d from './events/canvas_move_2d.js';
+import CanvasMove2d from './events/2d/canvas_move_2d.js';
 import CanvasRenderer from './renderer/canvas_renderer.js';
 import CanvasEngineOption from './canvas_engine_option.js';
 import CanvasScene from './scene/canvas_scene.js';
@@ -45,6 +45,17 @@ export default class CanvasEngine {
 	}
 
 	destroy() {
-		// 销毁函数, 待完善
+		this.renderer.destroy();
+		this.renderer = null;
+
+		this.scene.destroy();
+		this.scene = null;
+
+		this.nextRenderHandle = null;
+
+		this.evnets.destroy();
+		this.evnets = null;
+
+		this.afterRender = null;
 	}
 }

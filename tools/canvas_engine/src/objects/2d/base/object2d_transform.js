@@ -107,5 +107,18 @@ export default class Object2DTransform extends Object2DRange {
 		this._scaleY = val;
 		this.updateMatrix();
 	}
+
+	destroy() {
+		super.destroy();
+
+		this.matrix = null;
+		this.matrixWorld = null;
+		this.x = null;
+		this.y = null;
+		this.rotationAngle = null;
+		this.rotation = null;
+		this.scaleX = null;
+		this.scaleY = null;
+	}
 }
 
