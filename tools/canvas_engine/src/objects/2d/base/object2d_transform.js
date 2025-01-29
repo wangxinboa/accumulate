@@ -1,12 +1,12 @@
 import Matrix3 from "../../../math/matrix3.js";
 import { PiBy180 } from "../../../math/math_utils.js";
-import Object2dRectangle from "./object2d_rectangle.js";
+import Object2dRange from "./object2d_range.js";
 
 const _translation = new Matrix3();
 const _rotation = new Matrix3();
 const _scale = new Matrix3();
 
-export default class Object2DTransform extends Object2dRectangle {
+export default class Object2DTransform extends Object2dRange {
 	constructor(option = {}) {
 		super();
 
