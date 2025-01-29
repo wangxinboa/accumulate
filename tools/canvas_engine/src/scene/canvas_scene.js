@@ -19,4 +19,8 @@ export default class CanvasScene {
 		}
 		return this;
 	}
+
+	destroy() {
+		// 销毁函数, 待完善
+	}
 }

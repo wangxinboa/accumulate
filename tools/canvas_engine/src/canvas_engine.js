@@ -8,12 +8,9 @@ import CanvasScene from './scene/canvas_scene.js';
 
 
 export default class CanvasEngine {
-
 	constructor(el, canvasOption = CanvasEngineOption) {
-
 		if (canvasOption.renderType === RenderType.canvas) {
 			this.renderer = new CanvasRenderer(el, canvasOption);
-			this.camera = new Camera2d();
 		} else {
 			throw new Error(`CanvasEngine 未知类型的 renderType ${canvasOption.renderType}`);
 		}
@@ -24,11 +21,14 @@ export default class CanvasEngine {
 
 		this.evnets = new CanvasEvents(el);
 
-		this.evnets.addEvents('CanvasMove', new CanvasMove2d(this.renderer, this.scene, this.camera));
+		this.evnets.addEvents('CanvasMove', new CanvasMove2d(this.scene, this.renderer.camera, () => {
+			this.requestRender();
+		}));
+
+		this.afterRender = canvasOption.afterRender;
 	}
 
 	render() {
-
 		this.renderer.render(this.scene, this.camera);
 	}
 
@@ -37,7 +37,15 @@ export default class CanvasEngine {
 			this.nextRenderHandle = requestAnimationFrame(() => {
 				this.nextRenderHandle = -1;
 				this.render();
+
+				if (this.afterRender) {
+					this.afterRender();
+				}
 			});
 		}
+	}
+
+	destroy() {
+		// 销毁函数, 待完善
 	}
 }

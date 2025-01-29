@@ -1,7 +1,6 @@
 import CanvasScale from './canvas_scale.js'
 
 export default class CanvasRenderer extends CanvasScale {
-
 	constructor(el, canvasOption) {
 		super(el, canvasOption);
 
@@ -15,11 +14,11 @@ export default class CanvasRenderer extends CanvasScale {
 		this.ctx.clearRect(0, 0, this.el.width, this.el.height);
 	}
 
-	render(scene, camera) {
+	render(scene) {
 		this.clear();
 
 		this.ctx.save();
-		camera.transform(this.ctx);
+		this.camera.transform(this.ctx);
 
 		scene.objects.forEach((object) => {
 			if (object.visible) {

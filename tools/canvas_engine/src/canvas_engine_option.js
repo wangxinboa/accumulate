@@ -13,6 +13,8 @@ export const FitType = {
 const CanvasEngineOption = {
 	renderType: RenderType.canvas,
 	fitType: FitType.fill,
+
+	afterRender: null,
 }
 
 export default CanvasEngineOption;

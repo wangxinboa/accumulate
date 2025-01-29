@@ -1,10 +1,11 @@
 
 export default class CanvasMove2d {
-	constructor(renderer, scene, camera) {
-		this.renderer = renderer;
+	constructor(scene, camera, onChange) {
 		this.scene = scene;
 		this.camera = camera;
 		this.allowMove = false;
+
+		this.onChange = onChange;
 	}
 	mousedown(e) {
 		this.allowMove = true;
@@ -19,7 +20,9 @@ export default class CanvasMove2d {
 			this.x = e.offsetX;
 			this.y = e.offsetY;
 
-			this.renderer.render(this.scene, this.camera);
+			if (this.onChange) {
+				this.onChange();
+			}
 		}
 	}
 	mouseup() {
@@ -32,7 +35,9 @@ export default class CanvasMove2d {
 		this.camera.x += e.deltaX;
 		this.camera.y += e.deltaY;
 
-		this.renderer.render(this.scene, this.camera);
+		if (this.onChange) {
+			this.onChange();
+		}
 	}
 	destroy() {
 		// 销毁函数, 待完善

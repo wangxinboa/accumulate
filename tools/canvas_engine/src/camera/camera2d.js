@@ -10,6 +10,9 @@ export default class Camera2d extends Object2DTransform {
 		super(option);
 
 		this.isCamera2d = true;
+
+		this.width = option.width || 0;
+		this.height = option.height || 0;
 	}
 
 	updateMatrix() {
@@ -23,5 +26,24 @@ export default class Camera2d extends Object2DTransform {
 			.multiply(_rotation)
 			.multiply(_scale);
 		this.matrixWorld.copy(this.matrix);
+
+		this.updateRectangle();
+	}
+
+	updateRange(width, height) {
+		this.width = width;
+		this.height = height;
+
+		this.updateRectangle();
+	}
+
+	updateRectangle() {
+		this.rectangle.setPoints(
+			0, 0,
+			0, this.width,
+			this.height, this.width,
+			this.height, 0,
+			this.matrixWorld,
+		);
 	}
 }

@@ -98,4 +98,8 @@ export default class Object2DDraw extends Object2DTransform {
 		this._renderPaintInOrder(ctx);
 		ctx.restore();
 	}
+
+	isOnScreen() {
+		return true;
+	}
 }

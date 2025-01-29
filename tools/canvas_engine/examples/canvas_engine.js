@@ -12,6 +12,8 @@ const canvasEngine = new CanvasEngine(canvasDom, {
 	renderType: '2d',
 });
 
+globalThis.canvasEngine = canvasEngine;
+
 const circle = new Circle(canvasEngine.scene, {
 	radius: 12,
 	startAngle: 0,
@@ -24,8 +26,8 @@ const circle = new Circle(canvasEngine.scene, {
 });
 
 const rect = new Rect(canvasEngine.scene, {
-	x: 200,
-	y: 0,
+	x: 400,
+	y: 300,
 
 	width: 300,
 	height: 300,
@@ -73,15 +75,14 @@ const text = new Text(canvasEngine.scene, {
 	//strokeWidth: 2,
 	//stroke: '#000000',
 });
-text.add(rect);
-
-canvasEngine.render();
+// text.add(rect);
 
 const gui = new GUI();
 
 function onChangeFun() {
 	canvasEngine.requestRender();
 }
+onChangeFun();
 
 function initTransformGui(folder, target) {
 	folder.add(target, 'x', -600, 600, 0.01).onChange(onChangeFun);
@@ -100,7 +101,7 @@ function initObject2dGui(folder, target) {
 	const camera2dFolder = gui.addFolder('camera2d');
 	camera2dFolder.close();
 
-	initTransformGui(camera2dFolder, canvasEngine.camera);
+	initTransformGui(camera2dFolder, canvasEngine.renderer.camera);
 }
 {
 	const circleFolder = gui.addFolder('circle');

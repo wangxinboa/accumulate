@@ -1,9 +1,11 @@
 import { FitType } from "../canvas_engine_option.js";
+import Camera2d from "../camera/camera2d.js";
 
 export default class CanvasScale {
 	constructor(el, canvasOption) {
 		this.retinaScaling = devicePixelRatio || window.devicePixelRatio;
 		this.fitType = canvasOption.fitType || FitType.fill;
+		this.camera = new Camera2d();
 
 		this.el = el;
 
@@ -16,6 +18,8 @@ export default class CanvasScale {
 		const parentHeight = parentDom.scrollHeight;
 
 		if (this.fitType === FitType.fill) {
+			this.camera.updateRange(parentHeight, parentHeight);
+
 			this.el.width = parentWidth * this.retinaScaling;
 			this.el.height = parentHeight * this.retinaScaling;
 
