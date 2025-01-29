@@ -11,6 +11,8 @@ export default class Camera2d extends Object2DTransform {
 
 		this.isCamera2d = true;
 
+		this.matrixWorldInvert = new Matrix3();
+
 		this.width = option.width || 0;
 		this.height = option.height || 0;
 	}
@@ -26,24 +28,32 @@ export default class Camera2d extends Object2DTransform {
 			.multiply(_rotation)
 			.multiply(_scale);
 		this.matrixWorld.copy(this.matrix);
-
-		this.updateRectangle();
-	}
-
-	updateRange(width, height) {
-		this.width = width;
-		this.height = height;
+		this.matrixWorldInvert.copy(this.matrixWorld).invert();
 
 		this.updateRectangle();
 	}
 
 	updateRectangle() {
-		this.rectangle.setPoints(
-			0, 0,
-			0, this.width,
-			this.height, this.width,
-			this.height, 0,
-			this.matrixWorld,
+		this.rectangle.setRectangle(
+			this.min.x, this.max.y,
+			this.max.x, this.max.y,
+			this.max.x, this.min.y,
+			this.min.x, this.min.y,
+			this.matrixWorldInvert,
 		);
+	}
+
+	setRange(width, height) {
+		this.width = width;
+		this.height = height;
+
+		this.updateRange();
+	}
+
+	updateRange() {
+		this.min.set(0, 0);
+		this.max.set(this.width, this.height);
+
+		this.updateRectangle();
 	}
 }

@@ -1,12 +1,15 @@
-import Object2D from "./base/object2d.js";
+import Polygon from "./polygon.js";
 
-export default class Polyline extends Object2D {
+export default class Polyline extends Polygon {
 	constructor(scene, option = {}) {
 		super(scene, option);
 
 		this.isPolyline = true;
 
 		this.points = option.points || [];
+
+		this.updateMatrix();
+		this.updateRange();
 	}
 
 	_render(ctx) {

@@ -6,8 +6,8 @@ export default class Rect extends Object2D {
 
 		this.isRect = true;
 
-		this.width = option.width || 0;
-		this.height = option.height || 0;
+		this._width = option.width || 0;
+		this._height = option.height || 0;
 		/**
 		 *     rxlt rxrt
 		 * rylt         ryrt
@@ -22,6 +22,9 @@ export default class Rect extends Object2D {
 		this.rxlb = option.rxlb || 0;
 		this.rylb = option.rylb || 0;
 		this.rylt = option.rylt || 0;
+
+		this.updateMatrix();
+		this.updateRange();
 	}
 
 	_render(ctx) {
@@ -42,5 +45,29 @@ export default class Rect extends Object2D {
 		ctx.lineTo(x, y + this.rylt);
 		ctx.bezierCurveTo(x, y, x + this.rxlt, y, x + this.rxlt, y);
 		ctx.closePath();
+	}
+
+	updateRange() {
+		const x = this.width / 2, y = this.height / 2;
+
+		this.min.set(-x, -y);
+		this.max.set(x, y);
+
+		this.updateRectangle();
+	}
+
+	get width() {
+		return this._width;
+	}
+	set width(val) {
+		this._width = val;
+		this.updateRange();
+	}
+	get height() {
+		return this._height;
+	}
+	set height(val) {
+		this._height = val;
+		this.updateRange();
 	}
 }

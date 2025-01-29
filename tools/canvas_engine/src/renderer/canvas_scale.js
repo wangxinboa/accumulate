@@ -18,7 +18,7 @@ export default class CanvasScale {
 		const parentHeight = parentDom.scrollHeight;
 
 		if (this.fitType === FitType.fill) {
-			this.camera.updateRange(parentHeight, parentHeight);
+			this.camera.setRange(parentWidth, parentHeight);
 
 			this.el.width = parentWidth * this.retinaScaling;
 			this.el.height = parentHeight * this.retinaScaling;

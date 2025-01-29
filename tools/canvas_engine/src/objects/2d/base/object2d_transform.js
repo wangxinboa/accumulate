@@ -1,12 +1,12 @@
 import Matrix3 from "../../../math/matrix3.js";
 import { PiBy180 } from "../../../math/math_utils.js";
-import Object2dRange from "./object2d_range.js";
+import Object2DRange from "./object2d_range.js";
 
 const _translation = new Matrix3();
 const _rotation = new Matrix3();
 const _scale = new Matrix3();
 
-export default class Object2DTransform extends Object2dRange {
+export default class Object2DTransform extends Object2DRange {
 	constructor(option = {}) {
 		super();
 
@@ -19,8 +19,6 @@ export default class Object2DTransform extends Object2dRange {
 		this._rotationAngle = option.rotationAngle || 0;
 		this._scaleX = option.scaleX || 1;
 		this._scaleY = option.scaleY || 1;
-
-		this.updateMatrix();
 	}
 
 	transform(ctx) {
@@ -47,6 +45,8 @@ export default class Object2DTransform extends Object2dRange {
 			.multiply(_scale);
 
 		this.updateMatrixWorld();
+
+		this.updateRectangle();
 	}
 
 	updateMatrixWorld() {
@@ -70,7 +70,6 @@ export default class Object2DTransform extends Object2dRange {
 		this._x = val;
 		this.updateMatrix();
 	}
-
 	get y() {
 		return this._y;
 	}
@@ -78,7 +77,6 @@ export default class Object2DTransform extends Object2dRange {
 		this._y = val;
 		this.updateMatrix();
 	}
-
 	get rotationAngle() {
 		return this._rotationAngle;
 	}
@@ -87,7 +85,6 @@ export default class Object2DTransform extends Object2dRange {
 		this._rotation = val * PiBy180;
 		this.updateMatrix();
 	}
-
 	get rotation() {
 		return this._rotation;
 	}
@@ -96,7 +93,6 @@ export default class Object2DTransform extends Object2dRange {
 		this._rotationAngle = val / PiBy180;
 		this.updateMatrix();
 	}
-
 	get scaleX() {
 		return this._scaleX;
 	}
@@ -104,7 +100,6 @@ export default class Object2DTransform extends Object2dRange {
 		this._scaleX = val;
 		this.updateMatrix();
 	}
-
 	get scaleY() {
 		return this._scaleY;
 	}

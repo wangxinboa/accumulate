@@ -21,7 +21,7 @@ export default class CanvasRenderer extends CanvasScale {
 		this.camera.transform(this.ctx);
 
 		scene.objects.forEach((object) => {
-			if (object.visible) {
+			if (object.visible && object.isOnScreen(this.camera.rectangle)) {
 				object.render(this.ctx);
 			}
 		});

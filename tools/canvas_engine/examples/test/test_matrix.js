@@ -1,7 +1,7 @@
 import GUI from '../libs/lil-gui/lil-gui.esm.js'
 import CanvasEngine from '../../src/canvas_engine.js';
 import Rect from '../../src/objects/2d/rect.js';
-import Rectangle from '../../src/math/Rectangle.js';
+import Rectangle from '../../src/math/rectangle.js';
 import Object2DTransform from '../../src/objects/2d/base/object2d_transform.js';
 
 
@@ -67,6 +67,7 @@ const object2DTransform = new Object2DTransform({
 	x: 400,
 	y: 300,
 });
+object2DTransform.updateMatrix();
 
 function renderMatrixRect() {
 	rectangle.applyMatrix3(object2DTransform.matrixWorld);

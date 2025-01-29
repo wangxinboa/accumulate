@@ -19,6 +19,9 @@ export default class Text extends Object2D {
 		this.fontFamily = option.fontFamily || 'sans-serif';
 
 		this._initDimensions();
+
+		this.updateMatrix();
+		this.updateRange();
 	}
 
 	_initDimensions() {
@@ -54,5 +57,12 @@ export default class Text extends Object2D {
 		if (this.hasStroke()) {
 			ctx.strokeText(this.text, 0, this.fontSize);
 		}
+	}
+
+	updateRange() {
+		this.min.set(0, 0);
+		this.max.set(this.width, this.height);
+
+		this.updateRectangle();
 	}
 }
