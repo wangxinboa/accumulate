@@ -12,7 +12,7 @@ export default class Text extends Object2D {
 
 		this.isText = true;
 
-		this.text = option.text || '';
+		this._text = option.text || '';
 		this.fontStyle = option.fontStyle || 'normal';
 		this.fontWeight = option.fontWeight || 'normal';
 		this.fontSize = option.fontSize || 20;
@@ -64,5 +64,13 @@ export default class Text extends Object2D {
 		this.max.set(this.width, this.height);
 
 		this.updateRectangle();
+	}
+
+	get text() {
+		return this._text;
+	}
+	set text(val) {
+		this._text = val;
+		this._initDimensions();
 	}
 }

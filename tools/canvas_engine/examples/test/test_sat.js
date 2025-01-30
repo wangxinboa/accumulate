@@ -1,16 +1,14 @@
 import GUI from '../libs/lil-gui/lil-gui.esm.js'
 import CanvasEngine from '../../src/canvas_engine.js';
 import Rect from '../../src/objects/2d/rect.js';
-import Rectangle from '../../src/math/rectangle.js';
-import Object2DTransform from '../../src/objects/2d/base/object2d_transform.js';
+import Circle from '../../src/objects/2d/circle.js';
+import Text from '../../src/objects/2d/text.js';
 
-// 测试canvas矩阵变化和直接计算顶点绘制是否一致
+// 测试 sat 效果
 const canvasDom = document.getElementById('renderCanvas');
 const canvasEngine = new CanvasEngine(canvasDom, {
 	fitType: 'fill',
 	renderType: '2d',
-
-	afterRender: renderMatrixRect,
 });
 
 const rect = new Rect(canvasEngine.scene, {
@@ -24,12 +22,35 @@ const rect = new Rect(canvasEngine.scene, {
 	stroke: '#0000ff',
 	strokeWidth: 0,
 });
+const circle = new Circle(canvasEngine.scene, {
+	radius: 100,
+	startAngle: 0,
+	endAngle: 360,
+
+	fill: '#ff0000',
+	//fill: null,
+	//strokeWidth: 1,
+	//stroke: '#0000ff',
+});
+const text = new Text(canvasEngine.scene, {
+	x: 0,
+	y: 0,
+	// text: 'false',
+	text: 'font-size',
+	fill: '#000000',
+	// fill: null,
+	// strokeWidth: 2,
+	// stroke: '#000000',
+});
 
 const gui = new GUI();
 
 function onChangeFun() {
+	text.text = rect.isOverlap(circle) + '';
+	// console.info('text.text:', text.text);
 	canvasEngine.requestRender();
 }
+onChangeFun();
 
 function initTransformGui(folder, target) {
 	folder.add(target, 'x', -600, 600, 0.01).onChange(onChangeFun);
@@ -57,38 +78,12 @@ function initObject2dGui(folder, target) {
 	});
 	initObject2dGui(rectFolder, rect);
 }
-
-
-const rectangle = new Rectangle(-150, 150, 150, 150, 150, -150, -150, -150);
-const ctx = canvasEngine.renderer.ctx;
-const object2DTransform = new Object2DTransform({
-	x: 400,
-	y: 300,
-});
-object2DTransform.updateMatrix();
-
-function renderMatrixRect() {
-	rectangle.applyMatrix3(object2DTransform.matrixWorld);
-
-	ctx.save();
-	ctx.globalAlpha = 1;
-	ctx.lineWidth = 0;
-	ctx.fillStyle = '#ff0000';
-	ctx.beginPath();
-	ctx.moveTo(rectangle.leftTop.x, rectangle.leftTop.y);
-	ctx.lineTo(rectangle.rightTop.x, rectangle.rightTop.y);
-	ctx.lineTo(rectangle.rightBottom.x, rectangle.rightBottom.y);
-	ctx.lineTo(rectangle.leftBottom.x, rectangle.leftBottom.y);
-	ctx.closePath();
-	ctx.stroke();
-	ctx.fill();
-	ctx.restore();
-}
 {
-	const object2DTransformFolder = gui.addFolder('object2DTransform');
-	object2DTransformFolder.close();
+	const circleFolder = gui.addFolder('circle');
 
-	initTransformGui(object2DTransformFolder, object2DTransform);
+	circleFolder.add(circle, 'radius', 0, 300).name('radius').onChange(onChangeFun);
+	circleFolder.add(circle, 'visible').onChange(onChangeFun);
+	circleFolder.close();
+
+	initObject2dGui(circleFolder, circle);
 }
-
-onChangeFun();

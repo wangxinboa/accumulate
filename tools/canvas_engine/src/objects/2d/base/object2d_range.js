@@ -21,8 +21,8 @@ export default class Object2DRange {
 		);
 	}
 
-	isOnScreen(rectangle) {
-		return this.rectangle.overlapRectangleSAT(rectangle);
+	isOverlap(object2d) {
+		return this.rectangle.overlapRectangleSAT(object2d.rectangle);
 	}
 
 	destroy() {

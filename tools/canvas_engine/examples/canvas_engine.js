@@ -71,9 +71,9 @@ const text = new Text(canvasEngine.scene, {
 	text: 'font-size',
 	// text: 'Hello world!\nAAA\nBBB',
 	fill: '#000000',
-	//fill: null,
-	//strokeWidth: 2,
-	//stroke: '#000000',
+	// fill: null,
+	// strokeWidth: 2,
+	// stroke: '#000000',
 });
 // text.add(rect);
 
