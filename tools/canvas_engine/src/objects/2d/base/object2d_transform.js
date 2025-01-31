@@ -23,14 +23,26 @@ export default class Object2DTransform extends Object2DRange {
 
 	transform(ctx) {
 		const elements = this.matrixWorld.elements;
-		//a c e
-		//b d f
-		//0 0 1
-		ctx.transform(
-			elements[0], elements[1],
-			elements[3], elements[4],
-			elements[6], elements[7]
-		);
+		if (
+			elements[0] !== 1 ||
+			elements[1] !== 0 ||
+			elements[2] !== 0 ||
+			elements[3] !== 0 ||
+			elements[4] !== 1 ||
+			elements[5] !== 0 ||
+			elements[6] !== 0 ||
+			elements[7] !== 0 ||
+			elements[8] !== 1
+		) {
+			// a c e
+			// b d f
+			// 0 0 1
+			ctx.transform(
+				elements[0], elements[1],
+				elements[3], elements[4],
+				elements[6], elements[7]
+			);
+		}
 	}
 
 	updateMatrix() {

@@ -25,30 +25,18 @@ export default class Text extends Object2D {
 	}
 
 	_initDimensions() {
-
 		this._render(_ctx);
 		this.width = _ctx.measureText(this.text).width;
 		this.height = this.fontSize * 1.3;
 	}
 
 	_setTextStyles(ctx) {
-		//ctx.textBaseline = 'alphabetic';
-		//ctx.textAlign = this.textAlign;
+		// ctx.textBaseline = 'alphabetic';
+		// ctx.textAlign = this.textAlign;
 		ctx.font = `${this.fontStyle} ${this.fontWeight} ${this.fontSize}px ${this.fontFamily}`;
 	}
 
 	_render(ctx) {
-		ctx.save();
-		ctx.fillStyle = '#ff00ff';
-		ctx.fillRect(0, 0, this.width, this.height);
-		ctx.restore();
-
-		// ctx.textBaseline = 'top';
-		// ctx.textBaseline = 'hanging';
-		// ctx.textBaseline = 'top';
-		// ctx.textBaseline = 'top';
-		// ctx.textBaseline = 'bottom';
-
 		ctx.beginPath();
 		this._setTextStyles(ctx);
 		if (this.hasFill()) {

@@ -13,21 +13,21 @@ export default class Object2DDraw extends Object2DTransform {
 
 		this.name = option.name || '';
 
-		this.fill = option.fill || '#ffffff';
-		this.stroke = option.stroke || '#ffffff';
+		this.fill = option.fill || 'transparent';
+		this.stroke = option.stroke || 'transparent';
 		this.strokeWidth = option.strokeWidth || 0;
 
-		this.paintFirst === PaintFirst.stroke;
+		this.paintFirst = option.paintFirst || PaintFirst.stroke;
 
 		this.opacity = option.opacity || 1;
 	}
 
 	hasStroke() {
-		return this.stroke && this.strokeWidth > 0;
+		return !!this.stroke && this.stroke !== 'transparent' && this.strokeWidth > 0;
 	}
 
 	hasFill() {
-		return !!this.fill
+		return !!this.fill && this.fill !== 'transparent'
 	}
 
 	_setFillStyles(ctx) {
@@ -102,7 +102,7 @@ export default class Object2DDraw extends Object2DTransform {
 		ctx.restore();
 	}
 
-	destroy(){
+	destroy() {
 		super.destroy();
 
 		this.isObject2D = null;
