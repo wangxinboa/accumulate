@@ -27,11 +27,7 @@ const text = new fabric.Text(
 	});
 canvas.add(text);
 
-globalThis.text = text;
-
 const gui = new GUI();
-
-
 initObjectGui(gui, text, canvas);
 initTextGui(gui, text, canvas);
 

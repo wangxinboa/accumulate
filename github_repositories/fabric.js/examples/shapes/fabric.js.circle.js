@@ -18,8 +18,6 @@ const circle = new fabric.Circle({
 });
 canvas.add(circle);
 
-globalThis.circle = circle;
-
 const gui = new GUI();
 
 initObjectGui(gui, circle, canvas);
