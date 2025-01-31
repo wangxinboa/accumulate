@@ -1,5 +1,5 @@
-import GUI from '../libs/lil-gui/lil-gui.esm.js'
-import initObjectGui from '../common/init_object_gui.js';
+import GUI from '../../../../libs/lil-gui/lil-gui.esm.js'
+import initObjectGui from './init_object_gui.js';
 
 
 const canvasDom = document.getElementById('renderCanvas');

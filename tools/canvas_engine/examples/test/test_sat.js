@@ -1,4 +1,4 @@
-import GUI from '../libs/lil-gui/lil-gui.esm.js'
+import GUI from '../../../../libs/lil-gui/lil-gui.esm.js';
 import CanvasEngine from '../../src/canvas_engine.js';
 import Rect from '../../src/objects/2d/rect.js';
 import Circle from '../../src/objects/2d/circle.js';
