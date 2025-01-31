@@ -1,10 +1,11 @@
 import { isFunction, isOriginalFunction, isObject } from '../../../../javascript_utils/data_type/is_type.js';
 import convertClass from './convert/convert_class.js';
 import convertFunction from './convert/convert_function.js';
-import { AllProxyFunctionMessage, AllProxyFunctionMap } from './proxy_function.js';
+import { AllProxyFunctionMessage, AllProxyFunctionMap, AllOriginalFunctionMap } from './proxy_function.js';
 import MarkLogs from './mark_logs.js';
 
 globalThis.AllProxyFunctionMap = AllProxyFunctionMap;
+globalThis.AllOriginalFunctionMap = AllOriginalFunctionMap;
 globalThis.AllProxyFunctionMessage = AllProxyFunctionMessage;
 globalThis.MarkLogs = MarkLogs;
 
