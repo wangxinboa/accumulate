@@ -24,6 +24,21 @@ export default class CanvasRenderer extends CanvasScale {
 				object.render(this.ctx);
 			}
 		});
+
+		// 测试代码，验证相机范围矩形边
+		// this.ctx.save();
+		// this.ctx.lineWidth = 6;
+		// this.ctx.strokeStyle = '#000000'
+		// const { leftTop, rightTop, rightBottom, leftBottom } = this.camera.rectangle;
+		// this.ctx.beginPath();
+		// this.ctx.moveTo(leftTop.x, leftTop.y);
+		// this.ctx.lineTo(rightTop.x, rightTop.y);
+		// this.ctx.lineTo(rightBottom.x, rightBottom.y);
+		// this.ctx.lineTo(leftBottom.x, leftBottom.y);
+		// this.ctx.closePath();
+		// this.ctx.stroke();
+		// this.ctx.restore();
+
 		this.ctx.restore();
 	}
 

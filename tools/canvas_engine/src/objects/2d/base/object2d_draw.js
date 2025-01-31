@@ -100,6 +100,20 @@ export default class Object2DDraw extends Object2DTransform {
 		this._renderPaintInOrder(ctx);
 
 		ctx.restore();
+
+		// 测试代码，每个元素添加范围矩形边
+		// ctx.save();
+		// ctx.lineWidth = 1;
+		// ctx.strokeStyle = '#ff0000'
+		// const { leftTop, rightTop, rightBottom, leftBottom } = this.rectangle;
+		// ctx.beginPath();
+		// ctx.moveTo(leftTop.x, leftTop.y);
+		// ctx.lineTo(rightTop.x, rightTop.y);
+		// ctx.lineTo(rightBottom.x, rightBottom.y);
+		// ctx.lineTo(leftBottom.x, leftBottom.y);
+		// ctx.closePath();
+		// ctx.stroke();
+		// ctx.restore();
 	}
 
 	destroy() {

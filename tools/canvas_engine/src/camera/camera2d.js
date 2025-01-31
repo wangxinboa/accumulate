@@ -30,17 +30,7 @@ export default class Camera2d extends Object2DTransform {
 		this.matrixWorld.copy(this.matrix);
 		this.matrixWorldInvert.copy(this.matrixWorld).invert();
 
-		this.updateRectangle();
-	}
-
-	updateRectangle() {
-		this.rectangle.setRectangle(
-			this.min.x, this.max.y,
-			this.max.x, this.max.y,
-			this.max.x, this.min.y,
-			this.min.x, this.min.y,
-			this.matrixWorldInvert,
-		);
+		this.updateRange();
 	}
 
 	setRange(width, height) {
@@ -51,9 +41,6 @@ export default class Camera2d extends Object2DTransform {
 	}
 
 	updateRange() {
-		this.min.set(0, 0);
-		this.max.set(this.width, this.height);
-
-		this.updateRectangle();
+		this.rectangle.setRectangle(0, 0, this.width, this.height, this.matrixWorldInvert);
 	}
 }

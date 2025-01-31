@@ -1,6 +1,7 @@
 import { RenderType } from './canvas_engine_option.js';
 import CanvasEvents from './events/canvas_events.js';
 import CanvasMove2d from './events/2d/canvas_move_2d.js';
+import CanvasOperateObject from './events/2d/canvas_operate_object.js';
 import CanvasRenderer from './renderer/canvas_renderer.js';
 import CanvasEngineOption from './canvas_engine_option.js';
 import CanvasScene from './scene/canvas_scene.js';
@@ -20,9 +21,11 @@ export default class CanvasEngine {
 
 		this.evnets = new CanvasEvents(el);
 
-		this.evnets.addEvents('CanvasMove', new CanvasMove2d(this.scene, this.renderer.camera, () => {
+		const renderFun = () => {
 			this.requestRender();
-		}));
+		};
+		this.evnets.addEvents('CanvasMove', new CanvasOperateObject(this.scene, renderFun));
+		this.evnets.addEvents('CanvasOperateObject', new CanvasMove2d(this.scene, this.renderer.camera, renderFun));
 
 		this.afterRender = canvasOption.afterRender;
 	}
@@ -43,6 +46,15 @@ export default class CanvasEngine {
 			});
 		}
 	}
+
+	// 测试函数，打印目前在相机内的元素信息
+	// testConsoleObjectsInCamera() {
+	// 	this.scene.objects.forEach((object) => {
+	// 		if (object.visible && object.isOverlap(this.renderer.camera)) {
+	// 			console.info('object:', object);
+	// 		}
+	// 	});
+	// }
 
 	destroy() {
 		this.renderer.destroy();

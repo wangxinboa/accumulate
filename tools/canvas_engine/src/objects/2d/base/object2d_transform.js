@@ -58,7 +58,7 @@ export default class Object2DTransform extends Object2DRange {
 
 		this.updateMatrixWorld();
 
-		this.updateRectangle();
+		this.rectangle.applyMatrix3(this.matrixWorld);
 	}
 
 	updateMatrixWorld() {

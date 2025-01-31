@@ -50,10 +50,7 @@ export default class Rect extends Object2D {
 	updateRange() {
 		const x = this.width / 2, y = this.height / 2;
 
-		this.min.set(-x, -y);
-		this.max.set(x, y);
-
-		this.updateRectangle();
+		this.rectangle.setRectangle(-x, -y, x, y, this.matrixWorld);
 	}
 
 	get width() {

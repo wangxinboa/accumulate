@@ -48,10 +48,7 @@ export default class Text extends Object2D {
 	}
 
 	updateRange() {
-		this.min.set(0, 0);
-		this.max.set(this.width, this.height);
-
-		this.updateRectangle();
+		this.rectangle.setRectangle(0, 0, this.width, this.height, this.matrixWorld);
 	}
 
 	get text() {

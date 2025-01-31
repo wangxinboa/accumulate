@@ -23,10 +23,7 @@ export default class Circle extends Object2D {
 	updateRange() {
 		const r = this.radius;
 
-		this.min.set(-r, -r);
-		this.max.set(r, r);
-
-		this.updateRectangle();
+		this.rectangle.setRectangle(-r, -r, r, r, this.matrixWorld);
 	}
 
 	get radius() {

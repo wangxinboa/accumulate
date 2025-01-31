@@ -1,9 +1,13 @@
+import Matrix3 from "./matrix3.js";
 import Vector2 from "./vector2.js";
 
 const _leftTop = new Vector2();
 const _rightTop = new Vector2();
 const _rightBottom = new Vector2();
 const _leftBottom = new Vector2();
+
+const _point = new Vector2();
+const _matrx = new Matrix3();
 
 function project(vertices, axis) {
 	let min = Infinity, max = -Infinity;
@@ -16,36 +20,63 @@ function project(vertices, axis) {
 }
 
 export default class Rectangle {
-	constructor(ltx = 0, lty = 0, rtx = 0, rty = 0, rbx = 0, rxy = 0, lbx = 0, lby = 0) {
-		this.originalLeftTop = new Vector2(ltx, lty);
-		this.originalRightTop = new Vector2(rtx, rty);
-		this.originalRightBottom = new Vector2(rbx, rxy);
-		this.originalLeftBottom = new Vector2(lbx, lby);
+	constructor(minX = 0, minY = 0, maxX = 0, maxY = 0) {
+		this.min = new Vector2(minX, minY);
+		this.max = new Vector2(maxX, maxY);
 
-		this.leftTop = new Vector2(ltx, lty);
-		this.rightTop = new Vector2(rtx, rty);
-		this.rightBottom = new Vector2(rbx, rxy);
-		this.leftBottom = new Vector2(lbx, lby);
+		this.leftTop = new Vector2(minX, maxY);
+		this.rightTop = new Vector2(maxX, maxY);
+		this.rightBottom = new Vector2(maxX, minY);
+		this.leftBottom = new Vector2(minX, minY);
 
-		this.topEdge = new Vector2(rtx - ltx, rty - lty);
-		this.rightEdge = new Vector2(rbx - rtx, rxy - rty);
-		this.bottomEdge = new Vector2(lbx - rbx, lby - rxy);
-		this.leftEdge = new Vector2(ltx - lbx, lty - lby);
+		this.topEdge = new Vector2(maxX - minX, 0);
+		this.rightEdge = new Vector2(0, minY - maxY);
+		this.bottomEdge = new Vector2(minX - maxX, 0);
+		this.leftEdge = new Vector2(0, maxY - minY);
 
-		this.topEdgeNormal = new Vector2(lty - rty, rtx - ltx).normalize();;
-		this.rightEdgeNormal = new Vector2(rty - rxy, rbx - rtx).normalize();;
-		this.bottomEdgeNormal = new Vector2(rxy - lby, lbx - rbx).normalize();;
-		this.leftEdgeNormal = new Vector2(lby - lty, ltx - lbx).normalize();;
+		this.topEdgeNormal = new Vector2(this.topEdge.y, -this.topEdge.x).normalize();
+		this.rightEdgeNormal = new Vector2(this.rightEdge.y, -this.rightEdge.x).normalize();
+		this.bottomEdgeNormal = new Vector2(this.bottomEdge.y, -this.bottomEdge.x).normalize();
+		this.leftEdgeNormal = new Vector2(this.leftEdge.y, -this.leftEdge.x).normalize();
 	}
 
-	setRectangle(ltx = 0, lty = 0, rtx = 0, rty = 0, rbx = 0, rxy = 0, lbx = 0, lby = 0, matrix) {
-		this.originalLeftTop.set(ltx, lty);
-		this.originalRightTop.set(rtx, rty);
-		this.originalRightBottom.set(rbx, rxy);
-		this.originalLeftBottom.set(lbx, lby);
+	setRectangle(minX = 0, minY = 0, maxX = 0, maxY = 0, matrix) {
+		this.min.set(minX, minY);
+		this.max.set(maxX, maxY);
 
 		this.applyMatrix3(matrix);
+	}
 
+	setRectangleByPoints(points, matrix) {
+		points.forEach((point) => {
+			const { x, y } = point;
+			if (x > this.max.x) {
+				this.max.x = x;
+			}
+			if (y > this.max.y) {
+				this.max.y = y;
+			}
+			if (x < this.min.x) {
+				this.min.x = x;
+			}
+			if (y < this.min.y) {
+				this.min.y = y;
+			}
+		});
+
+		this.applyMatrix3(matrix);
+	}
+
+	applyMatrix3(matrix) {
+		this.leftTop.copy(_leftTop.set(this.min.x, this.max.y).applyMatrix3(matrix));
+		this.rightTop.copy(_rightTop.set(this.max.x, this.max.y).applyMatrix3(matrix));
+		this.rightBottom.copy(_rightBottom.set(this.max.x, this.min.y).applyMatrix3(matrix));
+		this.leftBottom.copy(_leftBottom.set(this.min.x, this.min.y).applyMatrix3(matrix));
+
+		this.updateEdges();
+	}
+
+	updateEdges() {
 		this.topEdge.copy(this.rightTop).sub(this.leftTop);
 		this.rightEdge.copy(this.rightBottom).sub(this.rightTop);
 		this.bottomEdge.copy(this.leftBottom).sub(this.rightBottom);
@@ -57,12 +88,6 @@ export default class Rectangle {
 		this.leftEdgeNormal.set(this.leftEdge.y, -this.leftEdge.x).normalize();
 	}
 
-	applyMatrix3(matrix) {
-		this.leftTop.copy(_leftTop.copy(this.originalLeftTop).applyMatrix3(matrix));
-		this.rightTop.copy(_rightTop.copy(this.originalRightTop).applyMatrix3(matrix));
-		this.rightBottom.copy(_rightBottom.copy(this.originalRightBottom).applyMatrix3(matrix));
-		this.leftBottom.copy(_leftBottom.copy(this.originalLeftBottom).applyMatrix3(matrix));
-	}
 	// 分离轴定理(Separating Axis Theorem)判断是否和其他矩形存在重叠
 	overlapRectangleSAT(rectangle) {
 		const thisCorners = [this.leftTop, this.rightTop, this.rightBottom, this.leftBottom];
@@ -79,5 +104,15 @@ export default class Rectangle {
 			}
 		}
 		return true;
+	}
+
+	containsPoint(x, y, matrx) {
+		_point.set(x, y).applyMatrix3(_matrx.copy(matrx).invert());
+		return (
+			this.min.x < _point.x &&
+			this.max.x > _point.x &&
+			this.min.y < _point.y &&
+			this.max.y > _point.y
+		)
 	}
 }

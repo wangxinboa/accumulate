@@ -26,11 +26,13 @@ export default class CanvasEvents {
 
 	event(e) {
 		const { type = '' } = e;
-		this.events.forEach((value) => {
-			if (value[type]) {
-				value[type].call(value, e);
+		for (let [, event] of this.events) {
+			if (event[type]) {
+				if (!event[type].call(event, e)) {
+					break;
+				}
 			}
-		});
+		}
 	}
 
 	destroy() {

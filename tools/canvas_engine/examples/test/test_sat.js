@@ -9,6 +9,8 @@ const canvasDom = document.getElementById('renderCanvas');
 const canvasEngine = new CanvasEngine(canvasDom, {
 	fitType: 'fill',
 	renderType: '2d',
+
+	afterRender: onChangeFun,
 });
 
 const rect = new Rect(canvasEngine.scene, {
@@ -53,8 +55,8 @@ function onChangeFun() {
 onChangeFun();
 
 function initTransformGui(folder, target) {
-	folder.add(target, 'x', -600, 600, 0.01).onChange(onChangeFun);
-	folder.add(target, 'y', -600, 600, 0.01).onChange(onChangeFun);
+	folder.add(target, 'x', -600, 600, 0.1).onChange(onChangeFun);
+	folder.add(target, 'y', -600, 600, 0.1).onChange(onChangeFun);
 	folder.add(target, 'scaleX', -10, 10).onChange(onChangeFun);
 	folder.add(target, 'scaleY', -10, 10).onChange(onChangeFun);
 	folder.add(target, 'rotationAngle', -180, 180, 1).name('rotationAngle').onChange(onChangeFun);

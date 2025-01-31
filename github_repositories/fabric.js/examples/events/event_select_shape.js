@@ -69,9 +69,9 @@ function mouseupCircle() {
 setTimeout(() => {
 	mousedownCircle();
 }, 2000);
-setTimeout(() => {
-	mousemoveCircle();
-}, 3000);
-setTimeout(() => {
-	mouseupCircle();
-}, 4000);
+// setTimeout(() => {
+// 	mousemoveCircle();
+// }, 3000);
+// setTimeout(() => {
+// 	mouseupCircle();
+// }, 4000);
