@@ -11,8 +11,8 @@ export default class Object2DRange {
 		return this.rectangle.overlapRectangleSAT(object2d.rectangle);
 	}
 
-	containsPoint(x, y) {
-		return this.rectangle.containsPoint(x, y, this.matrixWorld);
+	containsPoint(camera, x, y) {
+		return this.rectangle.containsPoint(x, y, camera.matrixWorldInvert, this.matrixWorld);
 	}
 
 	destroy() {

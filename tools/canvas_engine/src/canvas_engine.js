@@ -24,7 +24,7 @@ export default class CanvasEngine {
 		const renderFun = () => {
 			this.requestRender();
 		};
-		this.evnets.addEvents('CanvasMove', new CanvasOperateObject(this.scene, renderFun));
+		this.evnets.addEvents('CanvasMove', new CanvasOperateObject(this.scene, this.renderer.camera, renderFun));
 		this.evnets.addEvents('CanvasOperateObject', new CanvasMove2d(this.scene, this.renderer.camera, renderFun));
 
 		this.afterRender = canvasOption.afterRender;

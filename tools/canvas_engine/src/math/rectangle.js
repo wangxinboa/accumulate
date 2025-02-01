@@ -106,8 +106,8 @@ export default class Rectangle {
 		return true;
 	}
 
-	containsPoint(x, y, matrx) {
-		_point.set(x, y).applyMatrix3(_matrx.copy(matrx).invert());
+	containsPoint(x, y, cameraMatrixWorldInvert, matrx) {
+		_point.set(x, y).applyMatrix3(cameraMatrixWorldInvert).applyMatrix3(_matrx.copy(matrx).invert());
 		return (
 			this.min.x < _point.x &&
 			this.max.x > _point.x &&

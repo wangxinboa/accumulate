@@ -1,10 +1,11 @@
 import CanvasBaseEvent from "./canvas_base_event.js";
 
 export default class CanvasOperateObject extends CanvasBaseEvent {
-	constructor(scene, renderFun = () => { }) {
+	constructor(scene, camera, renderFun = () => { }) {
 		super();
 
 		this.scene = scene;
+		this.camera = camera;
 		this.objects = [];
 		this.selectedObject = null;
 		this.x = null;
@@ -30,7 +31,7 @@ export default class CanvasOperateObject extends CanvasBaseEvent {
 
 		for (let i = this.scene.objects.length - 1; i >= 0; i--) {
 			const object = this.scene.objects[i];
-			if (object.containsPoint(x, y)) {
+			if (object.containsPoint(this.camera, x, y)) {
 				this.selectedObject = object;
 				this.x = x;
 				this.y = y;
@@ -71,6 +72,7 @@ export default class CanvasOperateObject extends CanvasBaseEvent {
 	}
 	destroy() {
 		this.scene = null;
+		this.camera = null;
 		this.objects = null;
 		this.selectedObject = null;
 		this.x = null;
