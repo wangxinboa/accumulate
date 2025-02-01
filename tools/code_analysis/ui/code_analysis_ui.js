@@ -1,5 +1,5 @@
 import CanvasEngine from '../../canvas_engine/src/canvas_engine.js';
-import d3Hierarchy from '../../../libs/d3-hierarchy/d3-hierarchy.js';
+import * as d3Hierarchy from '../../../libs/d3-hierarchy/src/index.js';
 import Circle from '../../canvas_engine/src/objects/2d/circle.js';
 import Polyline from '../../canvas_engine/src/objects/2d/polyline.js';
 import Text from '../../canvas_engine/src/objects/2d/text.js';
