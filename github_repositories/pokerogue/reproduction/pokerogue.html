@@ -5,15 +5,17 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>pokerogue</title>
+	<link rel="icon" href="../pokerogue.png">
+	<base href="/pokerogue/public/">
 	<style type="text/css">
 		@font-face {
 			font-family: 'emerald';
-			src: url('./public/fonts/pokemon-emerald-pro.ttf') format('truetype');
+			src: url('/pokerogue/public/fonts/pokemon-emerald-pro.ttf') format('truetype');
 		}
 
 		@font-face {
 			font-family: 'pkmnems';
-			src: url('./public/fonts/pkmnems.ttf') format('truetype');
+			src: url('/pokerogue/public/fonts/pkmnems.ttf') format('truetype');
 		}
 
 		body {
@@ -25,15 +27,16 @@
 
 <body>
 	<div id="app"></div>
-	<!-- <script type="importmap">
+	<script type="importmap">
 		{
 			"imports": {
-				"phaser": "./libs/phaser.min.js"
+				"phaser3-rex-plugins/": "/accumulate/libs/phaser3-rex-plugins@1.1.84/",
+				"phaser": "/Users/wangxinbo/Desktop/my_git/accumulate/libs/phaser@3.55.2/dist/phaser.min.js"
 			}
 		}
-	</script> -->
-	<script type="text/javascript" src="./libs/phaser.min.3.55.2.js"></script>
-	<script type="module" src="./src/main.js"></script>
+	</script>
+	<script type="text/javascript" src="/accumulate/libs/phaser@3.55.2/dist/phaser.min.js"></script>
+	<script type="module" src="/pokerogue/src/main.js"></script>
 </body>
 
 </html>
