@@ -1,4 +1,3 @@
-import GUI from '../../../../libs/lil-gui/lil-gui.esm.js';
 import CanvasEngine from '../../src/canvas_engine.js';
 import Rect from '../../src/objects/2d/rect.js';
 import Circle from '../../src/objects/2d/circle.js';
@@ -45,7 +44,7 @@ const text = new Text(canvasEngine.scene, {
 	// stroke: '#000000',
 });
 
-const gui = new GUI();
+const gui = new lil.GUI();
 
 function onChangeFun() {
 	text.text = rect.isOverlap(circle) + '';

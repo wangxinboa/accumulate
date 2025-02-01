@@ -1,4 +1,3 @@
-import GUI from '../../../../libs/lil-gui/lil-gui.esm.js'
 import initObjectGui from './init_object_gui.js';
 
 
@@ -18,7 +17,7 @@ const circle = new fabric.Circle({
 });
 canvas.add(circle);
 
-const gui = new GUI();
+const gui = new lil.GUI();
 
 initObjectGui(gui, circle, canvas);
 initCircleGui(gui, circle, canvas);

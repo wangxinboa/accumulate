@@ -1,4 +1,3 @@
-import GUI from '../../../../libs/lil-gui/lil-gui.esm.js'
 import initObjectGui from './init_object_gui.js';
 
 
@@ -23,7 +22,7 @@ canvas.add(polygon);
 
 globalThis.polygon = polygon;
 
-const gui = new GUI();
+const gui = new lil.GUI();
 
 initObjectGui(gui, polygon, canvas);
 initPolygonGui(gui, polygon, canvas);

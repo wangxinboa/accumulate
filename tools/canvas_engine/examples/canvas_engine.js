@@ -1,4 +1,3 @@
-import GUI from '../../../libs/lil-gui/lil-gui.esm.js';
 import CanvasEngine from '../src/canvas_engine.js';
 import Circle from '../src/objects/2d/circle.js';
 import Rect from '../src/objects/2d/rect.js';
@@ -77,7 +76,7 @@ const text = new Text(canvasEngine.scene, {
 });
 // text.add(rect);
 
-const gui = new GUI();
+const gui = new lil.GUI();
 
 function onChangeFun() {
 	canvasEngine.requestRender();

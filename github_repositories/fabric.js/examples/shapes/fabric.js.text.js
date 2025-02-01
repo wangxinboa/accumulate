@@ -1,4 +1,3 @@
-import GUI from '../../../../libs/lil-gui/lil-gui.esm.js'
 import initObjectGui from './init_object_gui.js';
 
 
@@ -27,7 +26,7 @@ const text = new fabric.Text(
 	});
 canvas.add(text);
 
-const gui = new GUI();
+const gui = new lil.GUI();
 initObjectGui(gui, text, canvas);
 initTextGui(gui, text, canvas);
 

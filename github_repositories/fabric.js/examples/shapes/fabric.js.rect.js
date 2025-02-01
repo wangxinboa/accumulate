@@ -1,4 +1,3 @@
-import GUI from '../../../../libs/lil-gui/lil-gui.esm.js'
 import initObjectGui from './init_object_gui.js';
 
 
@@ -20,7 +19,7 @@ canvas.add(rect);
 
 globalThis.rect = rect;
 
-const gui = new GUI();
+const gui = new lil.GUI();
 
 initObjectGui(gui, rect, canvas);
 initRectGui(gui, rect, canvas);
