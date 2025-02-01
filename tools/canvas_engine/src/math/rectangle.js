@@ -20,7 +20,7 @@ function project(vertices, axis) {
 }
 
 export default class Rectangle {
-	constructor(minX = 0, minY = 0, maxX = 0, maxY = 0) {
+	constructor(minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity) {
 		this.min = new Vector2(minX, minY);
 		this.max = new Vector2(maxX, maxY);
 
