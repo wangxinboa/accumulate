@@ -6,20 +6,10 @@
 ## 简介
 pokerogue 是一款基于浏览器的口袋妖怪游戏，深受肉鸽游戏题材的启发。在收集堆叠物品的同时进行无休止的战斗，探索许多不同的生物群落，战斗训练师，boss等等
 
-## ts 编译
-在 git clone 下的包内添加 tsconfig.json, 内容如下
-```
-{
-	"compilerOptions": {
-		"target": "ES6",
-		"module": "ES6"
-	}
-}
-```
-
+## 引用仓库源码
 在终端输入命令
 ```
-tsc --project tsconfig.json
+tsc ./src/main.ts --target ES6 --module ES6
 ```
 
 最后再在终端输入命令
