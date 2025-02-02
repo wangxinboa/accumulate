@@ -1,8 +1,5 @@
-import CanvasEngine from '../../canvas_engine/src/canvas_engine.js';
 import * as d3Hierarchy from '../../../libs/d3-hierarchy/src/index.js';
-import Circle from '../../canvas_engine/src/objects/2d/circle.js';
-import Polyline from '../../canvas_engine/src/objects/2d/polyline.js';
-import Text from '../../canvas_engine/src/objects/2d/text.js';
+import { GameEngine, Circle, Polyline, Text } from '../../game_engine/src/index.js';
 
 const data = await fetch('./test.json').then((res) => { return res.json() });
 const root = d3Hierarchy.hierarchy(data)
@@ -18,7 +15,7 @@ globalThis.nodes = nodes;
 globalThis.links = links;
 
 const canvasDom = document.getElementById('renderCanvas');
-const canvasEngine = new CanvasEngine(canvasDom, {
+const gameEngine = new GameEngine(canvasDom, {
 	fitType: 'fill',
 	renderType: '2d',
 });
@@ -26,7 +23,7 @@ const canvasEngine = new CanvasEngine(canvasDom, {
 const nodeSize = 20, startX = 4, startY = 4;
 
 links.forEach((link) => {
-	var polyline = new Polyline(canvasEngine.scene, {
+	var polyline = new Polyline(gameEngine.scene, {
 		points: [
 			{ x: startX + link.source.depth * nodeSize + 2, y: startY + link.source.index * nodeSize + 8 },
 			{ x: startX + link.source.depth * nodeSize + 2, y: startY + link.target.index * nodeSize + 8 },
@@ -40,7 +37,7 @@ links.forEach((link) => {
 });
 
 nodes.forEach((node) => {
-	const text = new Text(canvasEngine.scene, {
+	const text = new Text(gameEngine.scene, {
 		x: startX + node.depth * nodeSize + 8,
 		y: startY + node.index * nodeSize,
 		text: node.data.key,
@@ -48,7 +45,7 @@ nodes.forEach((node) => {
 		fill: '#000000',
 	});
 
-	const circle = new Circle(canvasEngine.scene, {
+	const circle = new Circle(gameEngine.scene, {
 		x: startX + node.depth * nodeSize + 2,
 		y: startY + node.index * nodeSize + 8,
 		radius: 2.5,
@@ -59,4 +56,4 @@ nodes.forEach((node) => {
 	});
 });
 
-canvasEngine.requestRender();
+gameEngine.requestRender();

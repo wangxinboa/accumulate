@@ -1,21 +1,20 @@
-import { RenderType } from './canvas_engine_option.js';
 import CanvasEvents from './events/canvas_events.js';
 import CanvasMove2d from './events/2d/canvas_move_2d.js';
 import CanvasOperateObject from './events/2d/canvas_operate_object.js';
 import CanvasRenderer from './renderer/canvas_renderer.js';
-import CanvasEngineOption from './canvas_engine_option.js';
-import CanvasScene from './scene/canvas_scene.js';
+import GameEngineOption, { RenderType } from './game_engine_option.js';
+import Scene from './scene/scene.js';
 
 
-export default class CanvasEngine {
-	constructor(el, canvasOption = CanvasEngineOption) {
-		if (canvasOption.renderType === RenderType.canvas) {
-			this.renderer = new CanvasRenderer(el, canvasOption);
+export default class GameEngine {
+	constructor(el, gameOption = GameEngineOption) {
+		if (gameOption.renderType === RenderType.canvas) {
+			this.renderer = new CanvasRenderer(el, gameOption);
 		} else {
-			throw new Error(`CanvasEngine 未知类型的 renderType ${canvasOption.renderType}`);
+			throw new Error(`GameEngine 未知类型的 renderType ${gameOption.renderType}`);
 		}
 
-		this.scene = new CanvasScene();
+		this.scene = new Scene();
 
 		this.nextRenderHandle = -1;
 
@@ -27,7 +26,7 @@ export default class CanvasEngine {
 		this.evnets.addEvents('CanvasMove', new CanvasOperateObject(this.scene, this.renderer.camera, renderFun));
 		this.evnets.addEvents('CanvasOperateObject', new CanvasMove2d(this.scene, this.renderer.camera, renderFun));
 
-		this.afterRender = canvasOption.afterRender;
+		this.afterRender = gameOption.afterRender;
 	}
 
 	render() {

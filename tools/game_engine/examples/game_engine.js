@@ -1,19 +1,14 @@
-import CanvasEngine from '../src/canvas_engine.js';
-import Circle from '../src/objects/2d/circle.js';
-import Rect from '../src/objects/2d/rect.js';
-import Polyline from '../src/objects/2d/polyline.js';
-import Polygon from '../src/objects/2d/polygon.js';
-import Text from '../src/objects/2d/text.js';
+import { GameEngine, Circle, Rect, Polyline, Polygon, Text } from '../src/index.js';
 
 const canvasDom = document.getElementById('renderCanvas');
-const canvasEngine = new CanvasEngine(canvasDom, {
+const gameEngine = new GameEngine(canvasDom, {
 	fitType: 'fill',
 	renderType: '2d',
 });
 
-globalThis.canvasEngine = canvasEngine;
+globalThis.gameEngine = gameEngine;
 
-const circle = new Circle(canvasEngine.scene, {
+const circle = new Circle(gameEngine.scene, {
 	radius: 12,
 	startAngle: 0,
 	endAngle: 360,
@@ -24,7 +19,7 @@ const circle = new Circle(canvasEngine.scene, {
 	//stroke: '#0000ff',
 });
 
-const rect = new Rect(canvasEngine.scene, {
+const rect = new Rect(gameEngine.scene, {
 	x: 400,
 	y: 300,
 
@@ -38,7 +33,7 @@ const rect = new Rect(canvasEngine.scene, {
 	strokeWidth: 0,
 });
 
-const polyline = new Polyline(canvasEngine.scene, {
+const polyline = new Polyline(gameEngine.scene, {
 	points: [
 		{ x: 60, y: 20 },
 		{ x: 60, y: 80 },
@@ -51,7 +46,7 @@ const polyline = new Polyline(canvasEngine.scene, {
 	stroke: '#000000',
 });
 
-const polygon = new Polygon(canvasEngine.scene, {
+const polygon = new Polygon(gameEngine.scene, {
 	points: [
 		{ x: 100 + 60, y: 20 },
 		{ x: 100 + 60, y: 80 },
@@ -64,7 +59,7 @@ const polygon = new Polygon(canvasEngine.scene, {
 	stroke: '#000000',
 });
 
-const text = new Text(canvasEngine.scene, {
+const text = new Text(gameEngine.scene, {
 	x: 0,
 	y: 200,
 	text: 'font-size',
@@ -79,7 +74,7 @@ const text = new Text(canvasEngine.scene, {
 const gui = new lil.GUI();
 
 function onChangeFun() {
-	canvasEngine.requestRender();
+	gameEngine.requestRender();
 }
 onChangeFun();
 
@@ -100,7 +95,7 @@ function initObject2dGui(folder, target) {
 	const camera2dFolder = gui.addFolder('camera2d');
 	camera2dFolder.close();
 
-	initTransformGui(camera2dFolder, canvasEngine.renderer.camera);
+	initTransformGui(camera2dFolder, gameEngine.renderer.camera);
 }
 {
 	const circleFolder = gui.addFolder('circle');
@@ -121,7 +116,7 @@ function initObject2dGui(folder, target) {
 
 	['rxlt', 'rxrt', 'ryrt', 'ryrb', 'rxrb', 'rxlb', 'rylb', 'rylt'].forEach((radius) => {
 		rectFolder.add(rect, radius, 0, 150).onChange(() => {
-			canvasEngine.requestRender();
+			gameEngine.requestRender();
 		});
 	});
 	initObject2dGui(rectFolder, rect);

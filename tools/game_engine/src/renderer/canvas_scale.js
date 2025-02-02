@@ -1,4 +1,4 @@
-import { FitType } from "../canvas_engine_option.js";
+import { FitType } from "../game_engine_option.js";
 import Camera2d from "../camera/camera2d.js";
 
 export default class CanvasScale {

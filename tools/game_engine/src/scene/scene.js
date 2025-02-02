@@ -1,5 +1,5 @@
 
-export default class CanvasScene {
+export default class Scene {
 	constructor() {
 		this.objects = [];
 	}
