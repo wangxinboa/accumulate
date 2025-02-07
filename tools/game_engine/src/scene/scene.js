@@ -1,6 +1,8 @@
 
 export default class Scene {
 	constructor() {
+
+		this.visibleObjectsMap = new Map();
 		this.objects = [];
 	}
 
@@ -21,6 +23,9 @@ export default class Scene {
 	}
 
 	destroy() {
+		this.visibleObjectsMap.clear();
+		this.visibleObjectsMap = null;
+
 		for (let i = this.objects.length - 1; i >= 0; i--) {
 			this.removeObject(this.objects[i]);
 			this.objects[i].destroy();

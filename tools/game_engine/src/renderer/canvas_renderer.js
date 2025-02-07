@@ -15,9 +15,12 @@ export default class CanvasRenderer extends CanvasScale {
 		this.ctx.save();
 		camera.transform(this.ctx);
 
+		scene.visibleObjectsMap.clear();
+
 		scene.objects.forEach((object) => {
 			if (object.visible && object.isOverlap(camera)) {
 				object.render(this.ctx);
+				scene.visibleObjectsMap.set(object, true);
 			}
 		});
 
