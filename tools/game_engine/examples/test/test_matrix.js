@@ -1,15 +1,10 @@
-import { GameEngine, Rect, Rectangle, Object2DTransform } from '../../src/index.js';
+import { Rect, Rectangle, Object2DTransform } from '../../src/index.js';
+import start, { renderer, scene } from '../common/start.js';
 
 // 测试canvas矩阵变化和直接计算顶点绘制是否一致
-const canvasDom = document.getElementById('renderCanvas');
-const gameEngine = new GameEngine(canvasDom, {
-	fitType: 'fill',
-	renderType: '2d',
+start(renderMatrixRect);
 
-	afterRender: renderMatrixRect,
-});
-
-const rect = new Rect(gameEngine.scene, {
+const rect = new Rect(scene, {
 	x: 400,
 	y: 300,
 
@@ -23,9 +18,7 @@ const rect = new Rect(gameEngine.scene, {
 
 const gui = new lil.GUI();
 
-function onChangeFun() {
-	gameEngine.requestRender();
-}
+function onChangeFun() { }
 
 function initTransformGui(folder, target) {
 	folder.add(target, 'x', -600, 600, 0.1).onChange(onChangeFun);
@@ -56,7 +49,7 @@ function initObject2dGui(folder, target) {
 
 
 const rectangle = new Rectangle(-150, -150, 150, 150);
-const ctx = gameEngine.renderer.ctx;
+const ctx = renderer.ctx;
 const object2DTransform = new Object2DTransform({
 	x: 400,
 	y: 300,

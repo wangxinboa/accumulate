@@ -1,15 +1,10 @@
-import { GameEngine, Rect, Circle, Text } from '../../src/index.js';
+import { Rect, Circle, Text } from '../../src/index.js';
+import start, { renderer, scene } from '../common/start.js';
 
 // 测试 sat 效果
-const canvasDom = document.getElementById('renderCanvas');
-const gameEngine = new GameEngine(canvasDom, {
-	fitType: 'fill',
-	renderType: '2d',
+start(onChangeFun);
 
-	afterRender: onChangeFun,
-});
-
-const rect = new Rect(gameEngine.scene, {
+const rect = new Rect(scene, {
 	x: 400,
 	y: 300,
 
@@ -20,7 +15,7 @@ const rect = new Rect(gameEngine.scene, {
 	stroke: '#0000ff',
 	strokeWidth: 0,
 });
-const circle = new Circle(gameEngine.scene, {
+const circle = new Circle(scene, {
 	radius: 100,
 	startAngle: 0,
 	endAngle: 360,
@@ -30,7 +25,7 @@ const circle = new Circle(gameEngine.scene, {
 	//strokeWidth: 1,
 	//stroke: '#0000ff',
 });
-const text = new Text(gameEngine.scene, {
+const text = new Text(scene, {
 	x: 0,
 	y: 0,
 	// text: 'false',
@@ -46,7 +41,6 @@ const gui = new lil.GUI();
 function onChangeFun() {
 	text.text = rect.isOverlap(circle) + '';
 	// console.info('text.text:', text.text);
-	gameEngine.requestRender();
 }
 onChangeFun();
 

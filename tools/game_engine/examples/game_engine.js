@@ -1,14 +1,9 @@
-import { GameEngine, Circle, Rect, Polyline, Polygon, Text } from '../src/index.js';
+import { Circle, Rect, Polyline, Polygon, Text } from '../src/index.js';
+import start, { camera, scene } from './common/start.js';
 
-const canvasDom = document.getElementById('renderCanvas');
-const gameEngine = new GameEngine(canvasDom, {
-	fitType: 'fill',
-	renderType: '2d',
-});
+start();
 
-globalThis.gameEngine = gameEngine;
-
-const circle = new Circle(gameEngine.scene, {
+const circle = new Circle(scene, {
 	radius: 12,
 	startAngle: 0,
 	endAngle: 360,
@@ -19,7 +14,7 @@ const circle = new Circle(gameEngine.scene, {
 	//stroke: '#0000ff',
 });
 
-const rect = new Rect(gameEngine.scene, {
+const rect = new Rect(scene, {
 	x: 400,
 	y: 300,
 
@@ -33,7 +28,7 @@ const rect = new Rect(gameEngine.scene, {
 	strokeWidth: 0,
 });
 
-const polyline = new Polyline(gameEngine.scene, {
+const polyline = new Polyline(scene, {
 	points: [
 		{ x: 60, y: 20 },
 		{ x: 60, y: 80 },
@@ -46,7 +41,7 @@ const polyline = new Polyline(gameEngine.scene, {
 	stroke: '#000000',
 });
 
-const polygon = new Polygon(gameEngine.scene, {
+const polygon = new Polygon(scene, {
 	points: [
 		{ x: 100 + 60, y: 20 },
 		{ x: 100 + 60, y: 80 },
@@ -59,7 +54,7 @@ const polygon = new Polygon(gameEngine.scene, {
 	stroke: '#000000',
 });
 
-const text = new Text(gameEngine.scene, {
+const text = new Text(scene, {
 	x: 0,
 	y: 200,
 	text: 'font-size',
@@ -74,7 +69,7 @@ const text = new Text(gameEngine.scene, {
 const gui = new lil.GUI();
 
 function onChangeFun() {
-	gameEngine.requestRender();
+	// requestRender();
 }
 onChangeFun();
 
@@ -95,7 +90,7 @@ function initObject2dGui(folder, target) {
 	const camera2dFolder = gui.addFolder('camera2d');
 	camera2dFolder.close();
 
-	initTransformGui(camera2dFolder, gameEngine.renderer.camera);
+	initTransformGui(camera2dFolder, camera);
 }
 {
 	const circleFolder = gui.addFolder('circle');
@@ -116,7 +111,7 @@ function initObject2dGui(folder, target) {
 
 	['rxlt', 'rxrt', 'ryrt', 'ryrb', 'rxrb', 'rxlb', 'rylb', 'rylt'].forEach((radius) => {
 		rectFolder.add(rect, radius, 0, 150).onChange(() => {
-			gameEngine.requestRender();
+			requestRender();
 		});
 	});
 	initObject2dGui(rectFolder, rect);

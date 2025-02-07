@@ -1,14 +1,16 @@
 import { FitType } from "../game_engine_option.js";
-import Camera2d from "../camera/camera2d.js";
+import { EmptyFunction } from "../utils/data.js";
 
 export default class CanvasScale {
 	constructor(el, canvasOption) {
 		this.retinaScaling = devicePixelRatio || window.devicePixelRatio;
 		this.fitType = canvasOption.fitType || FitType.fill;
 		this.el = el;
+		this.ctx = el.getContext('2d');
+		this.onResize = canvasOption.onResize || EmptyFunction;
 
-		this.camera = new Camera2d();
-
+		this.resize = this.resize.bind(this);
+		window.addEventListener('resize', this.resize);
 		this.resize();
 	}
 
@@ -18,8 +20,6 @@ export default class CanvasScale {
 		const parentHeight = parentDom.scrollHeight;
 
 		if (this.fitType === FitType.fill) {
-			this.camera.setRange(parentWidth, parentHeight);
-
 			this.el.width = parentWidth * this.retinaScaling;
 			this.el.height = parentHeight * this.retinaScaling;
 
@@ -28,6 +28,9 @@ export default class CanvasScale {
 		} else {
 			throw new Error(`CanvasFit 未知类型的 fitType ${this.fitType}`);
 		}
+
+		this.ctx.scale(this.retinaScaling, this.retinaScaling);
+		this.onResize(parentWidth, parentHeight);
 	}
 
 	destroy() {
@@ -35,6 +38,7 @@ export default class CanvasScale {
 		this.fitType = null;
 		this.el = null;
 
-		this.camera.destroy();
+		window.removeEventListener('resize', this.resize);
+		this.resize = null;
 	}
 }

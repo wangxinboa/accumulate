@@ -3,24 +3,20 @@ import CanvasScale from './canvas_scale.js'
 export default class CanvasRenderer extends CanvasScale {
 	constructor(el, canvasOption) {
 		super(el, canvasOption);
-
-		this.ctx = el.getContext('2d');
-
-		this.ctx.scale(this.retinaScaling, this.retinaScaling);
 	}
 
 	clear() {
 		this.ctx.clearRect(0, 0, this.el.width, this.el.height);
 	}
 
-	render(scene) {
+	render(scene, camera) {
 		this.clear();
 
 		this.ctx.save();
-		this.camera.transform(this.ctx);
+		camera.transform(this.ctx);
 
 		scene.objects.forEach((object) => {
-			if (object.visible && object.isOverlap(this.camera)) {
+			if (object.visible && object.isOverlap(camera)) {
 				object.render(this.ctx);
 			}
 		});
@@ -29,7 +25,7 @@ export default class CanvasRenderer extends CanvasScale {
 		// this.ctx.save();
 		// this.ctx.lineWidth = 6;
 		// this.ctx.strokeStyle = '#000000'
-		// const { leftTop, rightTop, rightBottom, leftBottom } = this.camera.rectangle;
+		// const { leftTop, rightTop, rightBottom, leftBottom } = camera.rectangle;
 		// this.ctx.beginPath();
 		// this.ctx.moveTo(leftTop.x, leftTop.y);
 		// this.ctx.lineTo(rightTop.x, rightTop.y);
