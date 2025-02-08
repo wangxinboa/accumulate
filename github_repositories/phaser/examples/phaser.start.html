@@ -75,12 +75,13 @@
 		const config = {
 			width: 800,
 			height: 600,
-			type: Phaser.AUTO,
+			type: Phaser.CANVAS,
 			parent: 'phaser-example',
 			scene: Example
 		};
 
 		function startGame() {
+			console.clear();
 			new Phaser.Game(config);
 		}
 
