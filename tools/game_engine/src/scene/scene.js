@@ -1,9 +1,11 @@
+import BaseEvent from "../events/base_events.js";
 
-export default class Scene {
+export default class Scene extends BaseEvent {
 	constructor() {
+		super();
 
-		this.visibleObjectsMap = new Map();
 		this.objects = [];
+		this.visibleObjectsMap = new Map();
 	}
 
 	addObject(object) {
@@ -15,7 +17,8 @@ export default class Scene {
 	}
 
 	removeObject(object) {
-		if (this.objects.includes(object)) {
+		const index = this.objects.indexOf(object);
+		if (index !== - 1) {
 			object.scene = null;
 			this.objects.splice(index, 1);
 		}

@@ -1,6 +1,8 @@
 import { Circle, Rect, Polyline, Polygon, Text } from '../src/index.js';
 import start, { camera, scene } from './common/start.js';
+import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
 
+allowObject2dCanMove(scene);
 start();
 
 const circle = new Circle(scene, {
@@ -27,6 +29,7 @@ const rect = new Rect(scene, {
 	stroke: '#0000ff',
 	strokeWidth: 0,
 });
+object2dCanMove(rect);
 
 const polyline = new Polyline(scene, {
 	points: [

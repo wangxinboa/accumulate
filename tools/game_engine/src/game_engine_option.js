@@ -9,12 +9,3 @@ export const FitType = {
 	cover: 'cover',
 	fill: 'fill',
 }
-
-const GameEngineOption = {
-	renderType: RenderType.canvas,
-	fitType: FitType.fill,
-
-	afterRender: null,
-}
-
-export default GameEngineOption;

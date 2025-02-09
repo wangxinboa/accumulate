@@ -8,7 +8,7 @@ const _scale = new Matrix3();
 
 export default class Object2DTransform extends Object2DRange {
 	constructor(option = {}) {
-		super();
+		super(option);
 
 		this.matrix = new Matrix3();
 		this.matrixWorld = new Matrix3();

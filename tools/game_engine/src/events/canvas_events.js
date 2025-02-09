@@ -12,26 +12,34 @@ export default class CanvasEvents {
 		this.el.addEventListener('mouseleave', this.event);
 		this.el.addEventListener('wheel', this.event, { passive: true });
 
-		this.events = new Map();
-	}
-
-	addEvents(evnetKey, events) {
-		if (this.events.has(evnetKey)) {
-			throw new Error(`CanvasEvents 已存在 ${evnetKey} 的事件集`);
-		} else {
-			this.events.set(evnetKey, events);
-		}
-		return this;
+		this.scenes = new Map();
 	}
 
 	event(e) {
-		const { type = '' } = e;
-		for (let [, event] of this.events) {
-			if (event[type]) {
-				if (!event[type].call(event, e)) {
+		this.scenes.forEach((camera, scene) => {
+			let hasEmit = false;
+			for (let [object] of scene.visibleObjectsMap) {
+				if (hasEmit) {
 					break;
+				} else {
+					hasEmit = object.emit(e.type, object, e, camera);
 				}
 			}
+			if (!hasEmit) {
+				scene.emit(e.type, scene, e, camera);
+			}
+		});
+	}
+
+	addScene(scene, camera) {
+		if (!this.scenes.has(scene)) {
+			this.scenes.set(scene, camera);
+		}
+	}
+
+	removeScene(scene) {
+		if (this.scenes.has(scene)) {
+			this.scenes.delete(scene, camera);
 		}
 	}
 
@@ -45,12 +53,7 @@ export default class CanvasEvents {
 		this.el = null;
 		this.event = null;
 
-		this.events.forEach((value) => {
-			if (value[type]) {
-				value[type].destroy();
-			}
-		})
-		this.events.clear();
-		this.events = null;
+		this.scenes.clear();
+		this.scenes = null;
 	}
 }

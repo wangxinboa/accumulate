@@ -16,8 +16,8 @@ export default class CanvasScale {
 
 	resize() {
 		const parentDom = this.el.parentNode;
-		const parentWidth = parentDom.scrollWidth;
-		const parentHeight = parentDom.scrollHeight;
+		const parentWidth = parentDom.clientWidth;
+		const parentHeight = parentDom.clientHeight;
 
 		if (this.fitType === FitType.fill) {
 			this.el.width = parentWidth * this.retinaScaling;
@@ -37,6 +37,8 @@ export default class CanvasScale {
 		this.retinaScaling = null;
 		this.fitType = null;
 		this.el = null;
+		this.ctx = null;
+		this.onResize = null;
 
 		window.removeEventListener('resize', this.resize);
 		this.resize = null;
