@@ -58,9 +58,10 @@ const polygon = new Polygon(scene, {
 });
 
 const text = new Text(scene, {
-	x: 0,
-	y: 200,
+	x: 300,
+	y: 0,
 	text: 'font-size',
+	backgroundColor: '#ff0000',
 	// text: 'Hello world!\nAAA\nBBB',
 	fill: '#000000',
 	// fill: null,
