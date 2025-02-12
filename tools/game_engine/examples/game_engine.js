@@ -5,7 +5,7 @@ import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js
 allowObject2dCanMove(scene);
 start();
 
-const circle = new Circle(scene, {
+const circle = new Circle({
 	radius: 12,
 	startAngle: 0,
 	endAngle: 360,
@@ -15,8 +15,9 @@ const circle = new Circle(scene, {
 	//strokeWidth: 1,
 	//stroke: '#0000ff',
 });
+scene.addObject(circle);
 
-const rect = new Rect(scene, {
+const rect = new Rect({
 	x: 400,
 	y: 300,
 
@@ -30,8 +31,9 @@ const rect = new Rect(scene, {
 	strokeWidth: 0,
 });
 object2dCanMove(rect);
+scene.addObject(rect);
 
-const polyline = new Polyline(scene, {
+const polyline = new Polyline({
 	points: [
 		{ x: 60, y: 20 },
 		{ x: 60, y: 80 },
@@ -43,8 +45,9 @@ const polyline = new Polyline(scene, {
 	strokeWidth: 2,
 	stroke: '#000000',
 });
+scene.addObject(polyline);
 
-const polygon = new Polygon(scene, {
+const polygon = new Polygon({
 	points: [
 		{ x: 100 + 60, y: 20 },
 		{ x: 100 + 60, y: 80 },
@@ -56,8 +59,9 @@ const polygon = new Polygon(scene, {
 	strokeWidth: 2,
 	stroke: '#000000',
 });
+scene.addObject(polygon);
 
-const text = new Text(scene, {
+const text = new Text({
 	x: 300,
 	y: 0,
 	text: 'font-size',
@@ -69,6 +73,7 @@ const text = new Text(scene, {
 	// stroke: '#000000',
 });
 // text.add(rect);
+scene.addObject(text);
 
 const gui = new lil.GUI();
 
@@ -114,9 +119,7 @@ function initObject2dGui(folder, target) {
 	rectFolder.add(rect, 'visible').onChange(onChangeFun);
 
 	['rxlt', 'rxrt', 'ryrt', 'ryrb', 'rxrb', 'rxlb', 'rylb', 'rylt'].forEach((radius) => {
-		rectFolder.add(rect, radius, 0, 150).onChange(() => {
-			requestRender();
-		});
+		rectFolder.add(rect, radius, 0, 150).onChange(onChangeFun);
 	});
 	initObject2dGui(rectFolder, rect);
 }

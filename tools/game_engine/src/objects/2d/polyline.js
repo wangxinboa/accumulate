@@ -1,8 +1,8 @@
 import Polygon from "./polygon.js";
 
 export default class Polyline extends Polygon {
-	constructor(scene, option = {}) {
-		super(scene, option);
+	constructor(option = {}) {
+		super(option);
 
 		this.isPolyline = true;
 

@@ -4,7 +4,7 @@ import start, { renderer, scene } from '../common/start.js';
 // 测试canvas矩阵变化和直接计算顶点绘制是否一致
 start(renderMatrixRect);
 
-const rect = new Rect(scene, {
+const rect = new Rect({
 	x: 400,
 	y: 300,
 
@@ -15,6 +15,8 @@ const rect = new Rect(scene, {
 	stroke: '#0000ff',
 	strokeWidth: 0,
 });
+
+scene.addObject(rect);
 
 const gui = new lil.GUI();
 

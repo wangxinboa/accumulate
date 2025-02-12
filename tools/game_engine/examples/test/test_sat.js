@@ -1,10 +1,13 @@
 import { Rect, Circle, Text } from '../../src/index.js';
-import start, { renderer, scene } from '../common/start.js';
+import start, { scene } from '../common/start.js';
+import { allowObject2dCanMove, object2dCanMove } from '../common/object2d_move.js';
+
+allowObject2dCanMove(scene);
 
 // 测试 sat 效果
 start(onChangeFun);
 
-const rect = new Rect(scene, {
+const rect = new Rect({
 	x: 400,
 	y: 300,
 
@@ -15,7 +18,7 @@ const rect = new Rect(scene, {
 	stroke: '#0000ff',
 	strokeWidth: 0,
 });
-const circle = new Circle(scene, {
+const circle = new Circle({
 	radius: 100,
 	startAngle: 0,
 	endAngle: 360,
@@ -25,7 +28,7 @@ const circle = new Circle(scene, {
 	//strokeWidth: 1,
 	//stroke: '#0000ff',
 });
-const text = new Text(scene, {
+const text = new Text({
 	x: 0,
 	y: 0,
 	// text: 'false',
@@ -35,6 +38,14 @@ const text = new Text(scene, {
 	// strokeWidth: 2,
 	// stroke: '#000000',
 });
+
+scene.addObject(rect);
+scene.addObject(circle);
+scene.addObject(text);
+
+object2dCanMove(rect);
+object2dCanMove(circle);
+
 
 const gui = new lil.GUI();
 

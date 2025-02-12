@@ -10,7 +10,6 @@ export default class Scene extends BaseEvent {
 
 	addObject(object) {
 		if (!this.objects.includes(object)) {
-			object.scene = this;
 			this.objects.push(object);
 		}
 		return this;
@@ -19,7 +18,6 @@ export default class Scene extends BaseEvent {
 	removeObject(object) {
 		const index = this.objects.indexOf(object);
 		if (index !== - 1) {
-			object.scene = null;
 			this.objects.splice(index, 1);
 		}
 		return this;

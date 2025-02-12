@@ -1,87 +1,82 @@
+import BaseEvent from "../events/base_events.js";
 
-export default function createObjectClass(ObjectClass) {
-	return class BaseObject extends ObjectClass {
-		constructor(scene, option) {
-			super(option);
-			this.isObject = true;
+export default class BaseObject extends BaseEvent {
+	constructor() {
+		super();
 
-			this.visible = true;
+		this.isObject = true;
 
-			this.scene = scene;
-			this.scene.addObject(this);
+		this.visible = true;
 
-			this.parent = null;
-			this.children = [];
-		}
+		this.parent = null;
+		this.children = [];
+	}
 
-		add(object) {
-			const index = this.children.indexOf(object);
-			if (index === - 1) {
-				if (object.parent !== null) {
-					object.parent.remove(object);
-				}
-				object.parent = this;
-				this.children.push(object);
-				this.scene.addObject(object);
-
-				// 根据全局矩阵
-				this.updateMatrixWorld();
+	add(object) {
+		const index = this.children.indexOf(object);
+		if (index === - 1) {
+			if (object.parent !== null) {
+				object.parent.remove(object);
 			}
-			return this;
-		}
-		remove(object) {
-			const index = this.children.indexOf(object);
-			if (index !== - 1) {
+			object.parent = this;
+			this.children.push(object);
 
-				object.parent = null;
-				this.children.splice(index, 1);
-				this.scene.removeObject(object);
-			}
-			return this;
+			// 根据全局矩阵
+			this.updateMatrixWorld();
 		}
+		return this;
+	}
+	remove(object) {
+		const index = this.children.indexOf(object);
+		if (index !== - 1) {
 
-		eachAfter(callback, that) {
-			var node = this, nodes = [node], next = [], children, i, n, index = -1;
-			while (node = nodes.pop()) {
-				next.push(node);
-				if (children = node.children) {
-					for (i = 0, n = children.length; i < n; ++i) {
-						nodes.push(children[i]);
-					}
+			object.parent = null;
+			this.children.splice(index, 1);
+		}
+		return this;
+	}
+
+	eachAfter(callback, that) {
+		var node = this, nodes = [node], next = [], children, i, n, index = -1;
+		while (node = nodes.pop()) {
+			next.push(node);
+			if (children = node.children) {
+				for (i = 0, n = children.length; i < n; ++i) {
+					nodes.push(children[i]);
 				}
 			}
-			while (node = next.pop()) {
-				callback.call(that, node, ++index, this);
-			}
-			return this;
 		}
-		eachBefore(callback, that) {
-			var node = this, nodes = [node], children, i, index = -1;
-			while (node = nodes.pop()) {
-				callback.call(that, node, ++index, this);
-				if (children = node.children) {
-					for (i = children.length - 1; i >= 0; --i) {
-						nodes.push(children[i]);
-					}
+		while (node = next.pop()) {
+			callback.call(that, node, ++index, this);
+		}
+		return this;
+	}
+	eachBefore(callback, that) {
+		var node = this, nodes = [node], children, i, index = -1;
+		while (node = nodes.pop()) {
+			callback.call(that, node, ++index, this);
+			if (children = node.children) {
+				for (i = children.length - 1; i >= 0; --i) {
+					nodes.push(children[i]);
 				}
 			}
-			return this;
+		}
+		return this;
+	}
+
+	destroy() {
+		super.destroy();
+		for (let i = this.children.length - 1; i >= 0; i--) {
+			this.children[i].destroy();
 		}
 
-		destroy() {
-			super.destroy();
-			for (let i = this.children.length - 1; i >= 0; i--) {
-				this.children[i].destroy();
-			}
+		this.isObject = null;
 
-			this.isObject = null;
+		this.visible = null;
 
-			this.visible = null;
+		this.parent.remove(this);
+		this.parent = null;
 
-			this.parent.remove(this);
-			this.scene = null;
-
-			this.children = null;
-		}
+		this.children = null;
 	}
 }

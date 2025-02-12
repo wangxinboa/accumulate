@@ -6,8 +6,8 @@ _canvas.height = 0;
 const _ctx = _canvas.getContext('2d');
 
 export default class Text extends Object2D {
-	constructor(scene, option = {}) {
-		super(scene, option);
+	constructor(option = {}) {
+		super(option);
 
 		this.isText = true;
 

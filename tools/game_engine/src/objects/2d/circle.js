@@ -1,8 +1,8 @@
 import Object2D from "./base/object2d.js";
 
 export default class Circle extends Object2D {
-	constructor(scene, option = {}) {
-		super(scene, option);
+	constructor(option = {}) {
+		super(option);
 
 		this.isCircle = true;
 

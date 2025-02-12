@@ -33,6 +33,9 @@ export default class BaseEvent {
 				if (index !== -1) {
 					funArray.splice(index, 1);
 				}
+				if (funArray.length === 0){
+					this.events.delete(eventType);
+				}
 			} else {
 				while (funArray.length > 0) {
 					funArray.pop();

@@ -1,7 +1,7 @@
 import Rectangle from "../../../math/rectangle.js";
-import BaseEvent from "../../../events/base_events.js";
+import BaseObject from "../../base_object.js";
 
-export default class Object2DRange extends BaseEvent {
+export default class Object2DRange extends BaseObject {
 	constructor(option = {}) {
 		super();
 
