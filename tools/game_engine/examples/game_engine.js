@@ -75,7 +75,7 @@ const text = new Text({
 	// strokeWidth: 2,
 	// stroke: '#000000',
 });
-text.add(rect);
+// text.add(rect);
 object2dCanMove(text);
 scene.addObject(text);
 
@@ -87,8 +87,8 @@ function onChangeFun() {
 onChangeFun();
 
 function initTransformGui(folder, target) {
-	folder.add(target, 'x', -600, 600, 0.01).onChange(onChangeFun);
-	folder.add(target, 'y', -600, 600, 0.01).onChange(onChangeFun);
+	folder.add(target, 'x', -6000, 6000, 0.01).onChange(onChangeFun);
+	folder.add(target, 'y', -6000, 6000, 0.01).onChange(onChangeFun);
 	folder.add(target, 'scaleX', -10, 10).onChange(onChangeFun);
 	folder.add(target, 'scaleY', -10, 10).onChange(onChangeFun);
 	folder.add(target, 'rotationAngle', -180, 180, 1).name('rotationAngle').onChange(onChangeFun);
