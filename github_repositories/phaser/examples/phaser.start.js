@@ -1,5 +1,3 @@
-import '../phaser_mark/phaser_mark.js';
-import Phaser from './phaser.modules.js';
 
 const Example = phaserClassMark(class Example extends Phaser.Scene {
 	angle = 0;

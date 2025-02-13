@@ -1,6 +1,5 @@
 import initObjectGui from './init_object_gui.js';
 
-
 const canvasDom = document.getElementById('renderCanvas');
 canvasDom.width = canvasDom.clientWidth;
 canvasDom.height = canvasDom.clientHeight;
