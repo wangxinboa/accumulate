@@ -10,6 +10,8 @@ export default class BaseObject extends BaseEvent {
 
 		this.parent = null;
 		this.children = [];
+
+		this.renderOrder = 0;
 	}
 
 	add(object) {

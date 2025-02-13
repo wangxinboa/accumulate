@@ -24,6 +24,12 @@ export default class Scene extends BaseEvent {
 		return this;
 	}
 
+	sortObjectsByOrder() {
+		this.objects.sort((a, b) => {
+			return a.renderOrder - b.renderOrder;
+		});
+	}
+
 	addVisibleObject(object) {
 		this.visibleObjects[this.visibleObjectCount] = object;
 		this.visibleObjectCount++;

@@ -6,12 +6,10 @@ export default class CanvasScale {
 		this.retinaScaling = devicePixelRatio || window.devicePixelRatio;
 		this.fitType = canvasOption.fitType || FitType.fill;
 		this.el = el;
-		this.ctx = el.getContext('2d');
 		this.onResize = canvasOption.onResize || EmptyFunction;
 
 		this.resize = this.resize.bind(this);
 		window.addEventListener('resize', this.resize);
-		this.resize();
 	}
 
 	resize() {
@@ -29,7 +27,6 @@ export default class CanvasScale {
 			throw new Error(`CanvasFit 未知类型的 fitType ${this.fitType}`);
 		}
 
-		this.ctx.scale(this.retinaScaling, this.retinaScaling);
 		this.onResize(parentWidth, parentHeight);
 	}
 
@@ -37,7 +34,6 @@ export default class CanvasScale {
 		this.retinaScaling = null;
 		this.fitType = null;
 		this.el = null;
-		this.ctx = null;
 		this.onResize = null;
 
 		window.removeEventListener('resize', this.resize);

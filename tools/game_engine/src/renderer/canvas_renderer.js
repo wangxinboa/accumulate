@@ -3,10 +3,20 @@ import CanvasScale from './canvas_scale.js'
 export default class CanvasRenderer extends CanvasScale {
 	constructor(el, canvasOption) {
 		super(el, canvasOption);
+
+		this.ctx = el.getContext('2d');
+
+		this.resize();
 	}
 
 	clear() {
 		this.ctx.clearRect(0, 0, this.el.width, this.el.height);
+	}
+
+	resize() {
+		super.resize();
+
+		this.ctx.scale(this.retinaScaling, this.retinaScaling);
 	}
 
 	render(scene, camera) {
