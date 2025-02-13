@@ -5,7 +5,8 @@ export default class Scene extends BaseEvent {
 		super();
 
 		this.objects = [];
-		this.visibleObjectsMap = new Map();
+		this.visibleObjects = [];
+		this.visibleObjectCount = 0;
 	}
 
 	addObject(object) {
@@ -23,15 +24,26 @@ export default class Scene extends BaseEvent {
 		return this;
 	}
 
+	addVisibleObject(object) {
+		this.visibleObjects[this.visibleObjectCount] = object;
+		this.visibleObjectCount++;
+	}
+
+	clearVisibleObjects() {
+		this.visibleObjectCount = 0;
+	}
+
 	destroy() {
-		this.visibleObjectsMap.clear();
-		this.visibleObjectsMap = null;
+		for (let i = this.visibleObjects.length - 1; i >= 0; i--) {
+			this.visibleObjects.pop();
+		}
+		this.visibleObjects = null;
+		this.visibleObjectCount = null;
 
 		for (let i = this.objects.length - 1; i >= 0; i--) {
 			this.removeObject(this.objects[i]);
 			this.objects[i].destroy();
 		}
-
 		this.objects = null;
 	}
 }

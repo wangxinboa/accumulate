@@ -18,10 +18,11 @@ export default class CanvasEvents {
 	event(e) {
 		this.scenes.forEach((camera, scene) => {
 			let hasEmit = false;
-			for (let [object] of scene.visibleObjectsMap) {
+			for (let i = scene.visibleObjectCount - 1; i >= 0; i--) {
 				if (hasEmit) {
 					break;
 				} else {
+					const object = scene.visibleObjects[i];
 					hasEmit = object.emit(e.type, object, e, camera);
 				}
 			}

@@ -15,6 +15,7 @@ const circle = new Circle({
 	//strokeWidth: 1,
 	//stroke: '#0000ff',
 });
+object2dCanMove(circle);
 scene.addObject(circle);
 
 const rect = new Rect({
@@ -45,6 +46,7 @@ const polyline = new Polyline({
 	strokeWidth: 2,
 	stroke: '#000000',
 });
+object2dCanMove(polyline);
 scene.addObject(polyline);
 
 const polygon = new Polygon({
@@ -59,6 +61,7 @@ const polygon = new Polygon({
 	strokeWidth: 2,
 	stroke: '#000000',
 });
+object2dCanMove(polygon);
 scene.addObject(polygon);
 
 const text = new Text({
@@ -72,7 +75,8 @@ const text = new Text({
 	// strokeWidth: 2,
 	// stroke: '#000000',
 });
-// text.add(rect);
+text.add(rect);
+object2dCanMove(text);
 scene.addObject(text);
 
 const gui = new lil.GUI();
