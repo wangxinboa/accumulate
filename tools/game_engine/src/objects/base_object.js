@@ -1,7 +1,7 @@
 import BaseEvent from "../events/base_events.js";
 
 export default class BaseObject extends BaseEvent {
-	constructor() {
+	constructor(option = {}) {
 		super();
 
 		this.isObject = true;
@@ -11,7 +11,7 @@ export default class BaseObject extends BaseEvent {
 		this.parent = null;
 		this.children = [];
 
-		this.renderOrder = 0;
+		this.renderOrder = option.renderOrder || 0;
 	}
 
 	add(object) {
@@ -23,7 +23,7 @@ export default class BaseObject extends BaseEvent {
 			object.parent = this;
 			this.children.push(object);
 
-			// 根据全局矩阵
+			// 更新全局矩阵
 			this.updateMatrixWorld();
 		}
 		return this;
@@ -34,34 +34,6 @@ export default class BaseObject extends BaseEvent {
 
 			object.parent = null;
 			this.children.splice(index, 1);
-		}
-		return this;
-	}
-
-	eachAfter(callback, that) {
-		var node = this, nodes = [node], next = [], children, i, n, index = -1;
-		while (node = nodes.pop()) {
-			next.push(node);
-			if (children = node.children) {
-				for (i = 0, n = children.length; i < n; ++i) {
-					nodes.push(children[i]);
-				}
-			}
-		}
-		while (node = next.pop()) {
-			callback.call(that, node, ++index, this);
-		}
-		return this;
-	}
-	eachBefore(callback, that) {
-		var node = this, nodes = [node], children, i, index = -1;
-		while (node = nodes.pop()) {
-			callback.call(that, node, ++index, this);
-			if (children = node.children) {
-				for (i = children.length - 1; i >= 0; --i) {
-					nodes.push(children[i]);
-				}
-			}
 		}
 		return this;
 	}

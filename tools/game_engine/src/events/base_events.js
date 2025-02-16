@@ -11,6 +11,8 @@ export default class BaseEvent {
 		} else {
 			this.events.set(eventType, [fun]);
 		}
+
+		return this;
 	}
 
 	emit(eventType, context, e, camera) {
@@ -33,7 +35,7 @@ export default class BaseEvent {
 				if (index !== -1) {
 					funArray.splice(index, 1);
 				}
-				if (funArray.length === 0){
+				if (funArray.length === 0) {
 					this.events.delete(eventType);
 				}
 			} else {
@@ -43,6 +45,8 @@ export default class BaseEvent {
 				this.events.delete(eventType);
 			}
 		}
+
+		return this;
 	}
 
 	destroy() {

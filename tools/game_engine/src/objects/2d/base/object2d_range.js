@@ -3,7 +3,7 @@ import BaseObject from "../../base_object.js";
 
 export default class Object2DRange extends BaseObject {
 	constructor(option = {}) {
-		super();
+		super(option);
 
 		this.rectangle = new Rectangle();
 

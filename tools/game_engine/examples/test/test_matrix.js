@@ -1,5 +1,5 @@
 import { Rect, Rectangle, Object2DTransform } from '../../src/index.js';
-import start, { renderer, scene } from '../common/start.js';
+import start, { renderer, scene } from '../common/start2d.js';
 
 // 测试canvas矩阵变化和直接计算顶点绘制是否一致
 start(renderMatrixRect);

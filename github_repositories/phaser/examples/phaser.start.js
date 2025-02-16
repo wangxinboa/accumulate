@@ -60,7 +60,7 @@ const config = {
 };
 
 function startGame() {
-	console.clear();
+	// console.clear();
 	new Phaser.Game(config);
 }
 

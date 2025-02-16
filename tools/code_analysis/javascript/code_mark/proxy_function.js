@@ -5,7 +5,7 @@ export const AllProxyFunctionMessage = {};
 export const AllProxyFunctionMap = new Map();
 export const AllOriginalFunctionMap = new Map();
 
-class ProxyFunctionMessage {
+class MarkFunctionMessage {
 	constructor(originalFunction, key) {
 		this.originalFunction = originalFunction;
 		this.key = key;
@@ -15,22 +15,30 @@ class ProxyFunctionMessage {
 		this.usedParentMap = {};
 	}
 
-	mark(title, args, resultWrapper) {
+	mark(title) {
 		this.used++;
-		const { prentNotEmptyMarkNode } = MarkLogs.mark(title, this.key, args, resultWrapper, this);
-		const { key: parentKey } = prentNotEmptyMarkNode;
-		this.usedLogs.push(prentNotEmptyMarkNode);
-		if (!this.usedParentMap[parentKey]) {
-			this.usedParentMap[parentKey] = parentKey;
+		const markNode = MarkLogs.mark(title, this.key, this);
+		const { key: parentKey } = markNode.prentNotEmpty;
+		this.usedLogs.push(markNode.prentNotEmpty);
+		if (this.usedParentMap[parentKey]) {
+			this.usedParentMap[parentKey]++;
+		} else {
+			this.usedParentMap[parentKey] = 1;
 		}
+
+		return markNode;
 	}
 	markEnd() {
 		MarkLogs.markEnd();
 	}
-	markConsole() {
-		globalThis.console.info(`第 ${this.used} 次执行`);
-		globalThis.console.info('标记信息:', this);
-		globalThis.console.info('原始函数:', this.originalFunction);
+
+	createMarkNodeData(args, result) {
+		return {
+			args, result,
+			used: this.used,
+			originalFunction: this.originalFunction,
+			markFunctionMessage: this,
+		}
 	}
 }
 
@@ -49,27 +57,26 @@ export default function proxyFunction(originalFunction, key) {
 		throw new Error(`AllProxyFunctionMessage 已经存在 ${key}`);
 	}
 
-	const markFunctionMessage = new ProxyFunctionMessage(originalFunction, key);
+	const markFunctionMessage = new MarkFunctionMessage(originalFunction, key);
 	const proxy = new Proxy(originalFunction, {
 		construct(target, args, newTarget) {
-			const resultWrapper = {};
-			markFunctionMessage.mark(`${key} 初始化`, args, resultWrapper);
+			const markNode = markFunctionMessage.mark(`${key} 初始化`);
 			let result = null;
 			if (target === newTarget) {
 				result = new target(...args);
 			} else {
 				result = Reflect.construct(target, args, newTarget);
 			}
+			markFunctionMessage.createMarkNodeData(args, result);
+			markNode.mountData(markFunctionMessage.createMarkNodeData(args, result));
 			markFunctionMessage.markEnd();
-			resultWrapper.result = result;
 			return result;
 		},
 		apply(target, thisArg, argumentsList) {
-			const resultWrapper = {};
-			markFunctionMessage.mark(key, argumentsList, resultWrapper);
+			const markNode = markFunctionMessage.mark(key);
 			const result = target.call(thisArg, ...argumentsList);
+			markNode.mountData(markFunctionMessage.createMarkNodeData(argumentsList, result));
 			markFunctionMessage.markEnd();
-			resultWrapper.result = result;
 			return result;
 		},
 		set(target, prop, value) {

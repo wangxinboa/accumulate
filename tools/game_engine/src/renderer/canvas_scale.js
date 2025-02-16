@@ -8,26 +8,34 @@ export default class CanvasScale {
 		this.el = el;
 		this.onResize = canvasOption.onResize || EmptyFunction;
 
+		this.maxWidth = canvasOption.maxWidth || -1;
+		this.maxHeight = canvasOption.maxHeight || -1;
+
 		this.resize = this.resize.bind(this);
 		window.addEventListener('resize', this.resize);
 	}
 
 	resize() {
+		let finalWidth = 0, finalHeight = 0;
+
 		const parentDom = this.el.parentNode;
 		const parentWidth = parentDom.clientWidth;
 		const parentHeight = parentDom.clientHeight;
 
 		if (this.fitType === FitType.fill) {
-			this.el.width = parentWidth * this.retinaScaling;
-			this.el.height = parentHeight * this.retinaScaling;
-
-			this.el.style.width = `${parentWidth}px`;
-			this.el.style.height = `${parentHeight}px`;
+			finalWidth = this.maxWidth > 0 && parentWidth > this.maxWidth ? this.maxWidth : parentWidth;
+			finalHeight = this.maxHeight > 0 && parentHeight > this.maxHeight ? this.maxHeight : parentHeight;
 		} else {
 			throw new Error(`CanvasFit 未知类型的 fitType ${this.fitType}`);
 		}
 
-		this.onResize(parentWidth, parentHeight);
+		this.el.width = finalWidth * this.retinaScaling;
+		this.el.height = finalHeight * this.retinaScaling;
+
+		this.el.style.width = `${finalWidth}px`;
+		this.el.style.height = `${finalHeight}px`;
+
+		this.onResize(finalWidth, finalHeight);
 	}
 
 	destroy() {

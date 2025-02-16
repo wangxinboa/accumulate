@@ -1,5 +1,5 @@
 import { Circle, Rect, Polyline, Polygon, Text } from '../src/index.js';
-import start, { camera, scene } from './common/start.js';
+import start, { camera, scene } from './common/start2d.js';
 import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
 
 allowObject2dCanMove(scene);
@@ -10,7 +10,7 @@ const circle = new Circle({
 	startAngle: 0,
 	endAngle: 360,
 
-	fill: '#ff0000',
+	fill: '#0000ff',
 	//fill: null,
 	//strokeWidth: 1,
 	//stroke: '#0000ff',
@@ -68,12 +68,12 @@ const text = new Text({
 	x: 300,
 	y: 0,
 	text: 'font-size',
-	backgroundColor: '#ff0000',
+	backgroundColor: '#ff00ff',
 	// text: 'Hello world!\nAAA\nBBB',
-	fill: '#000000',
+	fill: '#0000ff',
 	// fill: null,
 	// strokeWidth: 2,
-	// stroke: '#000000',
+	stroke: '#0000ff',
 });
 // text.add(rect);
 object2dCanMove(text);

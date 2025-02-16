@@ -6,6 +6,8 @@ export default class CanvasRenderer extends CanvasScale {
 
 		this.ctx = el.getContext('2d');
 
+		this.backgroundColor = canvasOption.backgroundColor || '';
+
 		this.resize();
 	}
 
@@ -21,6 +23,11 @@ export default class CanvasRenderer extends CanvasScale {
 
 	render(scene, camera) {
 		this.clear();
+
+		if (this.backgroundColor) {
+			this.ctx.fillStyle = this.backgroundColor;
+			this.ctx.fillRect(0, 0, this.el.width, this.el.height);
+		}
 
 		this.ctx.save();
 		camera.transform(this.ctx);

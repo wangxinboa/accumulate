@@ -44,6 +44,26 @@ export default class Text extends Object2D {
 		ctx.font = `${this.fontStyle} ${this.fontWeight} ${this.fontSize}px ${this.fontFamily}`;
 	}
 
+	_renderStroke(ctx) {
+		if (this.hasStroke()) {
+			ctx.save();
+			this._setLineDash(ctx, this.strokeDashArray);
+			this._setStrokeStyles(ctx);
+
+			ctx.strokeText(this.text, this.left, this.ascent);
+			ctx.restore();
+		}
+	}
+
+	_renderFill(ctx) {
+		if (this.hasFill()) {
+			ctx.save();
+			this._setFillStyles(ctx);
+			ctx.fillText(this.text, this.left, this.ascent);
+			ctx.restore();
+		}
+	}
+
 	_render(ctx) {
 		ctx.beginPath();
 
@@ -55,12 +75,6 @@ export default class Text extends Object2D {
 		}
 
 		this._setTextStyles(ctx);
-		if (this.hasFill()) {
-			ctx.fillText(this.text, this.left, this.ascent);
-		}
-		if (this.hasStroke()) {
-			ctx.strokeText(this.text, this.left, this.ascent);
-		}
 	}
 
 	updateRange() {

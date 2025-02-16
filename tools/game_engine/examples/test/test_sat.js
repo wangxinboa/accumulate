@@ -1,5 +1,5 @@
 import { Rect, Circle, Text } from '../../src/index.js';
-import start, { scene } from '../common/start.js';
+import start, { scene } from '../common/start2d.js';
 import { allowObject2dCanMove, object2dCanMove } from '../common/object2d_move.js';
 
 allowObject2dCanMove(scene);

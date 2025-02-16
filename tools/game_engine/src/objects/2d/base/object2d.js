@@ -62,6 +62,7 @@ export default class Object2DDraw extends Object2DTransform {
 			ctx.save();
 			this._setLineDash(ctx, this.strokeDashArray);
 			this._setStrokeStyles(ctx);
+
 			ctx.stroke();
 			ctx.restore();
 		}
@@ -70,7 +71,8 @@ export default class Object2DDraw extends Object2DTransform {
 	_renderFill(ctx) {
 		if (this.hasFill()) {
 			ctx.save();
-			this._setFillStyles(ctx, this);
+			this._setFillStyles(ctx);
+
 			if (this.fillRule === 'evenodd') {
 				ctx.fill('evenodd');
 			} else {
