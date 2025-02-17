@@ -7,6 +7,10 @@ export function initCodeAnalysisUi() {
 	createCanvas();
 }
 
+export function updateCodeAnalysisUi() {
+	drawMarkNode();
+}
+
 function preventDefault(e) {
 	e.preventDefault();
 }

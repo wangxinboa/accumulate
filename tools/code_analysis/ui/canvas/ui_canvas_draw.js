@@ -14,6 +14,8 @@ let canvasEvents = null;
 
 let x = 0, y = 0, allowMove = false;
 scene.on('mousedown', function (e) {
+	e.preventDefault();
+	e.stopPropagation();
 	x = e.offsetX;
 	y = e.offsetY;
 	allowMove = true;
@@ -33,6 +35,8 @@ scene.on('wheel', function (e, camera) {
 	camera.x += e.deltaX;
 	camera.y += e.deltaY;
 });
+
+// globalThis.scene = scene;
 
 let afterRender = null;
 function animationFrame() {
@@ -59,18 +63,55 @@ export function startCodeAnalysisUiCanvasDraw(canvasDom) {
 }
 
 const AllMarkNodeObject2d = new Map();
+const AllTextMarkNode = new Map();
+const AllCircleMarkNode = new Map();
 
-function eachBefore(root, callback) {
+function eachBefore(root, callback, needVisible = true) {
 	let node = root, nodes = [root], children, i, index = -1;
 	while (node = nodes.pop()) {
 		callback(node, ++index);
-		if (children = node.children) {
+		if ((!needVisible || node.visible) && (children = node.children)) {
 			for (i = children.length - 1; i >= 0; --i) {
 				nodes.push(children[i]);
 			}
 		}
 	}
 	return this;
+}
+
+function handleMousedownText() {
+	const markNode = AllTextMarkNode.get(this);
+	const data = markNode.data;
+	if (data) {
+		const markFunctionMessage = data.markFunctionMessage;
+		console.info(`%c函数 key: ${markFunctionMessage.key}`, 'font-size: 18px; color: #ffffff; background-color: #000000;');
+		console.info('原始函数:', markFunctionMessage.originalFunction);
+		console.info('传入参数:', data.args);
+		console.info('返回结果:', data.result);
+		console.info('执行次数:', markFunctionMessage.used);
+		console.info('当前执行次数:', data.used);
+		console.info('调用父级节点:', markFunctionMessage.usedLogs);
+		console.info('父级节点信息:', markFunctionMessage.usedParentMap);
+	} else {
+		console.info(markNode.title, '为空函数');
+	}
+}
+
+function handleMousedownCircle() {
+	// const markNode = AllCircleMarkNode.get(this);
+
+	// markNode.visible = !markNode.visible;
+
+	// eachBefore(markNode, visibleObject2d, false);
+	// drawMarkNode();
+}
+
+function visibleObject2d(markNode) {
+	// const markNodeObject2d = AllMarkNodeObject2d.get(markNode);
+
+	// markNodeObject2d.text.visible =
+	// markNodeObject2d.circle.visible =
+	// markNodeObject2d.polyline =
 }
 
 function initMarkNodeObject2d(markNode, index) {
@@ -88,15 +129,15 @@ function initMarkNodeObject2d(markNode, index) {
 			text: new Text({
 				x: 0,
 				y: 0,
-				text: markNode.title,
+				text: `${markNode.title}` + (markNode.data ? ` ${markNode.data.used}/${markNode.data.markFunctionMessage.used}` : ''),
 				fontSize: 14,
 				fill: '#000000',
-			}),
+			}).on('mousedown', handleMousedownText),
 			circle: new Circle({
 				x: 0, y: 0, radius: 2.5,
 				fill: Array.isArray(markNode.children) && markNode.children.length > 0 ? '#000000' : '#999999',
 				renderOrder: 1,
-			}),
+			}).on('mousedown', handleMousedownCircle),
 			polyline: markNode.parent ? new Polyline({
 				points: [
 					{ x: 0, y: 0 },
@@ -116,6 +157,8 @@ function initMarkNodeObject2d(markNode, index) {
 		}
 
 		AllMarkNodeObject2d.set(markNode, markNodeObject2d);
+		AllTextMarkNode.set(markNodeObject2d.text, markNode);
+		AllCircleMarkNode.set(markNodeObject2d.circle, markNode);
 	}
 	markNodeObject2d.index = index++;
 }

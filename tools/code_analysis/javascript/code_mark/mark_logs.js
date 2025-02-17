@@ -7,6 +7,8 @@ class MarkNode {
 		this.title = title;
 		this.data = data;
 
+		this.visible = true;
+
 		this.parent = parent;
 		this.prentNotEmpty = parent;
 		while (this.prentNotEmpty && this.prentNotEmpty.isEmpty() && this.prentNotEmpty.parent) {

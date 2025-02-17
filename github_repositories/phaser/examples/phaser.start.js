@@ -56,12 +56,19 @@ const config = {
 	height: 600,
 	type: Phaser.CANVAS,
 	parent: 'phaser-example',
-	scene: Example
+	scene: Example,
+	input: {
+		windowEvents: false,
+	}
 };
 
 function startGame() {
 	// console.clear();
 	new Phaser.Game(config);
+
+	setTimeout(() => {
+		updateCodeAnalysisUi();
+	}, 10)
 }
 
 setTimeout(startGame, 2000);
