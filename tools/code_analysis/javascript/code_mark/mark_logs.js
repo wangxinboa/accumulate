@@ -7,7 +7,7 @@ class MarkNode {
 		this.title = title;
 		this.data = data;
 
-		this.visible = true;
+		this.visible = this.childrenVisible = true;
 
 		this.parent = parent;
 		this.prentNotEmpty = parent;
@@ -40,7 +40,7 @@ class MarkNode {
 	}
 }
 
-const rootMarkNode = new MarkNode('root', 'root 根结点', null, null);
+const rootMarkNode = new MarkNode('root', 'root 根节点', null, null);
 let nowMarkNode = rootMarkNode;
 
 const MarkLogs = {

@@ -66,13 +66,15 @@ const AllMarkNodeObject2d = new Map();
 const AllTextMarkNode = new Map();
 const AllCircleMarkNode = new Map();
 
-function eachBefore(root, callback, needVisible = true) {
+function eachBefore(root, callback, ignoreVisible = false) {
 	let node = root, nodes = [root], children, i, index = -1;
 	while (node = nodes.pop()) {
-		callback(node, ++index);
-		if ((!needVisible || node.visible) && (children = node.children)) {
-			for (i = children.length - 1; i >= 0; --i) {
-				nodes.push(children[i]);
+		if ((ignoreVisible || node.visible)) {
+			callback(node, ++index);
+			if ((children = node.children)) {
+				for (i = children.length - 1; i >= 0; --i) {
+					nodes.push(children[i]);
+				}
 			}
 		}
 	}
@@ -98,30 +100,57 @@ function handleMousedownText() {
 }
 
 function handleMousedownCircle() {
-	// const markNode = AllCircleMarkNode.get(this);
+	const markNode = AllCircleMarkNode.get(this);
+	if (markNode.children.length > 0) {
+		eachBefore(MarkLogs.rootMarkNode, initMarkNodeObject2d, true);
+		scene.sortObjectsByOrder();
 
-	// markNode.visible = !markNode.visible;
+		eachBefore(MarkLogs.rootMarkNode, hideObejct2d, true);
+		markNode.childrenVisible = !markNode.childrenVisible;
 
-	// eachBefore(markNode, visibleObject2d, false);
-	// drawMarkNode();
+		for (let i = 0, len = markNode.children.length; i < len; i++) {
+			markNode.children[i].visible = markNode.childrenVisible;
+		}
+		eachBefore(MarkLogs.rootMarkNode, initMarkNodeObject2d);
+		eachBefore(MarkLogs.rootMarkNode, showObject2d);
+
+		scene.sortObjectsByOrder();
+		eachBefore(MarkLogs.rootMarkNode, dealMarkNodeObject2d);
+	}
 }
 
-function visibleObject2d(markNode) {
-	// const markNodeObject2d = AllMarkNodeObject2d.get(markNode);
+function hideObejct2d(markNode) {
+	const markNodeObject2d = AllMarkNodeObject2d.get(markNode);
 
-	// markNodeObject2d.text.visible =
-	// markNodeObject2d.circle.visible =
-	// markNodeObject2d.polyline =
+	markNodeObject2d.text.visible =
+		markNodeObject2d.circle.visible = false;
+	if (markNodeObject2d.polyline) {
+		markNodeObject2d.polyline.visible = false;
+	}
+}
+
+function showObject2d(markNode) {
+	const markNodeObject2d = AllMarkNodeObject2d.get(markNode);
+
+	markNodeObject2d.text.visible =
+		markNodeObject2d.circle.visible = true;
+	if (markNodeObject2d.polyline) {
+		markNodeObject2d.polyline.visible = true;
+	}
 }
 
 function initMarkNodeObject2d(markNode, index) {
 	let markNodeObject2d = null, parentMarkNodeObject2d = null;
+
 	if (markNode.parent) {
 		parentMarkNodeObject2d = AllMarkNodeObject2d.get(markNode.parent);
 	}
 
 	if (AllMarkNodeObject2d.has(markNode)) {
 		markNodeObject2d = AllMarkNodeObject2d.get(markNode);
+		markNodeObject2d.index = index;
+		markNodeObject2d.depth = parentMarkNodeObject2d ? parentMarkNodeObject2d.depth + 1 : markNodeObject2d.depth;
+		markNodeObject2d.circle.radius = markNode.childrenVisible ? 8.5 : 5.5;
 	} else {
 		markNodeObject2d = {
 			depth: parentMarkNodeObject2d ? parentMarkNodeObject2d.depth + 1 : 0,
@@ -132,9 +161,10 @@ function initMarkNodeObject2d(markNode, index) {
 				text: `${markNode.title}` + (markNode.data ? ` ${markNode.data.used}/${markNode.data.markFunctionMessage.used}` : ''),
 				fontSize: 14,
 				fill: '#000000',
+				fontFamily: 'system-ui',
 			}).on('mousedown', handleMousedownText),
 			circle: new Circle({
-				x: 0, y: 0, radius: 2.5,
+				x: 0, y: 0, radius: 8.5,
 				fill: Array.isArray(markNode.children) && markNode.children.length > 0 ? '#000000' : '#999999',
 				renderOrder: 1,
 			}).on('mousedown', handleMousedownCircle),
@@ -168,8 +198,8 @@ const nodeSize = 20, startX = 4, startY = 4;
 function dealMarkNodeObject2d(markNode) {
 	let markNodeObject2d = AllMarkNodeObject2d.get(markNode);
 
-	markNodeObject2d.text.x = startX + markNodeObject2d.depth * nodeSize + 8;
-	markNodeObject2d.text.y = startY + markNodeObject2d.index * nodeSize + 2;
+	markNodeObject2d.text.x = startX + markNodeObject2d.depth * nodeSize + 18;
+	markNodeObject2d.text.y = startY + markNodeObject2d.index * nodeSize - 2 - 5 + markNodeObject2d.text.height / 2;
 
 	markNodeObject2d.circle.x = startX + markNodeObject2d.depth * nodeSize + 2;
 	markNodeObject2d.circle.y = startY + markNodeObject2d.index * nodeSize + 8;
