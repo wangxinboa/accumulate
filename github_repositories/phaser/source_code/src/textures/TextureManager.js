@@ -1,6 +1,6 @@
 /**
  * @author       Richard Davey <rich@phaser.io>
- * @copyright    2013-2024 Phaser Studio Inc.
+ * @copyright    2013-2025 Phaser Studio Inc.
  * @license      {@link https://opensource.org/licenses/MIT|MIT License}
  */
 
@@ -357,21 +357,26 @@ var TextureManager = new Class({
 
             var image = new Image();
 
-            image.onerror = phaserFunctionMark(function ()
+            image.onerror = function ()
             {
                 _this.emit(Events.ERROR, key);
-            }, `TextureManager addBase64 ${key} image.onerror`);
+            };
 
-            image.onload = phaserFunctionMark(function ()
+            image.onload = function ()
             {
                 var texture = _this.create(key, image);
 
+                if (!texture)
+                {
+                    return;
+                }
+                
                 Parser.Image(texture, 0);
 
                 _this.emit(Events.ADD, key, texture);
                 _this.emit(Events.ADD_KEY + key, texture);
                 _this.emit(Events.LOAD, key, texture);
-            }, `TextureManager addBase64 ${key} image.onload`);
+            };
 
             image.src = data;
         }

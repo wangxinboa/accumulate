@@ -21,6 +21,7 @@ scene.on('mousedown', function (e) {
 	allowMove = true;
 });
 scene.on('mousemove', function (e, camera) {
+	e.preventDefault();
 	if (allowMove) {
 		camera.x += x - e.offsetX;
 		camera.y += y - e.offsetY;

@@ -1,4 +1,4 @@
-const isConsole = true;
+const isConsole = false;
 
 class MarkNode {
 	constructor(key = null, title = '', data = null, parent = null) {
