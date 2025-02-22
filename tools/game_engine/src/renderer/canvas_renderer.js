@@ -21,7 +21,7 @@ export default class CanvasRenderer extends CanvasScale {
 		this.ctx.scale(this.retinaScaling, this.retinaScaling);
 	}
 
-	render(scene, camera) {
+	render(scene) {
 		this.clear();
 
 		if (this.backgroundColor) {
@@ -30,16 +30,7 @@ export default class CanvasRenderer extends CanvasScale {
 		}
 
 		this.ctx.save();
-		camera.transform(this.ctx);
-
-		scene.clearVisibleObjects();
-
-		scene.objects.forEach((object) => {
-			if (object.visible && object.isOverlap(camera)) {
-				object.render(this.ctx);
-				scene.addVisibleObject(object);
-			}
-		});
+		scene.render(this.ctx);
 
 		// 测试代码，验证相机范围矩形边
 		// this.ctx.save();

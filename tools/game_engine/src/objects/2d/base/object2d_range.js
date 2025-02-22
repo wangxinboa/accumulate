@@ -20,9 +20,9 @@ export default class Object2DRange extends BaseObject {
 		return this.rectangle.containsPoint(x, y, camera.matrixWorldInvert, this.matrixWorld);
 	}
 
-	emit(eventType, context, e, camera) {
+	emit(eventType, e, camera) {
 		if (this.containsPoint(camera, e.offsetX, e.offsetY)) {
-			return super.emit(eventType, context, e, camera) || this.defaultEimt;
+			return super.emit(eventType, e, camera) || this.defaultEimt;
 		}
 		return false;
 	}

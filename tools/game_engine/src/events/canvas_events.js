@@ -12,36 +12,26 @@ export default class CanvasEvents {
 		this.el.addEventListener('mouseleave', this.event);
 		this.el.addEventListener('wheel', this.event, { passive: true });
 
-		this.scenes = new Map();
+		this.scene = null;
 	}
 
 	event(e) {
-		this.scenes.forEach((camera, scene) => {
-			let hasEmit = false;
-			for (let i = scene.visibleObjectCount - 1; i >= 0; i--) {
-				if (hasEmit) {
-					break;
-				} else {
-					const object = scene.visibleObjects[i];
-					hasEmit = object.emit(e.type, object, e, camera);
-				}
+		let hasEmit = false;
+		for (let i = this.scene.visibleObjectCount - 1; i >= 0; i--) {
+			if (hasEmit) {
+				break;
+			} else {
+				hasEmit = this.scene.visibleObjects[i].emit(e.type, e, this.scene.camera);
 			}
-			if (!hasEmit) {
-				scene.emit(e.type, scene, e, camera);
-			}
-		});
+		}
+		if (!hasEmit) {
+			this.scene.emit(e.type, e, this.scene.camera);
+		}
+		hasEmit = null;
 	}
 
-	addScene(scene, camera) {
-		if (!this.scenes.has(scene)) {
-			this.scenes.set(scene, camera);
-		}
-	}
-
-	removeScene(scene) {
-		if (this.scenes.has(scene)) {
-			this.scenes.delete(scene, camera);
-		}
+	bindScene(scene) {
+		this.scene = scene;
 	}
 
 	destroy() {
@@ -54,7 +44,6 @@ export default class CanvasEvents {
 		this.el = null;
 		this.event = null;
 
-		this.scenes.clear();
-		this.scenes = null;
+		this.scene = null;
 	}
 }

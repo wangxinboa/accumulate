@@ -1,20 +1,25 @@
 import {
 	Camera2d,
 	CanvasRender,
-	Scene,
+	Scene2d,
 	CanvasEvents,
 } from '../../src/index.js';
 
 export const canvasDom = document.getElementById('renderCanvas');
 export const camera = new Camera2d();
-export const scene = new Scene();
+
+export const scene = new Scene2d();
+scene.bindCamera(camera);
+globalThis.scene = scene;
+
 export const renderer = new CanvasRender(canvasDom, {
 	onResize(width, height) {
 		camera.setRange(width, height);
 	}
 });
+
 export const canvasEvents = new CanvasEvents(canvasDom);
-canvasEvents.addScene(scene, camera);
+canvasEvents.bindScene(scene);
 
 let x = 0, y = 0, allowMove = false;
 scene.on('mousedown', function (e) {
@@ -22,10 +27,12 @@ scene.on('mousedown', function (e) {
 	y = e.offsetY;
 	allowMove = true;
 });
-scene.on('mousemove', function (e, camera) {
+scene.on('mousemove', function (e) {
+	// console.info('e:', e);
+	console.info('this.camera:', this.camera);
 	if (allowMove) {
-		camera.x += x - e.offsetX;
-		camera.y += y - e.offsetY;
+		this.camera.x += x - e.offsetX;
+		this.camera.y += y - e.offsetY;
 		x = e.offsetX;
 		y = e.offsetY;
 	}
@@ -37,7 +44,7 @@ scene.on('mouseup', function () {
 let afterRender = null;
 function animationFrame() {
 	requestAnimationFrame(animationFrame);
-	renderer.render(scene, camera);
+	renderer.render(scene);
 	if (afterRender) {
 		afterRender();
 	}

@@ -7,6 +7,8 @@ export default class Scene extends BaseEvent {
 		this.objects = [];
 		this.visibleObjects = [];
 		this.visibleObjectCount = 0;
+
+		this.camera = null;
 	}
 
 	addObject(object) {
@@ -39,6 +41,10 @@ export default class Scene extends BaseEvent {
 		this.visibleObjectCount = 0;
 	}
 
+	bindCamera(camera) {
+		this.camera = camera;
+	}
+
 	destroy() {
 		for (let i = this.visibleObjects.length - 1; i >= 0; i--) {
 			this.visibleObjects.pop();
@@ -51,5 +57,7 @@ export default class Scene extends BaseEvent {
 			this.objects[i].destroy();
 		}
 		this.objects = null;
+
+		this.camera = null;
 	}
 }
