@@ -1,4 +1,4 @@
-import Polygon from "./polygon.js";
+import Polygon from './polygon.js';
 
 export default class Polyline extends Polygon {
 	constructor(option = {}) {

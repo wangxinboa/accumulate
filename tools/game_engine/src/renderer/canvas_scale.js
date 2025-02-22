@@ -1,5 +1,5 @@
-import { FitType } from "../game_engine_option.js";
-import { EmptyFunction } from "../utils/data.js";
+import { FitType } from '../game_engine_option.js';
+import { EmptyFunction } from '../utils/data.js';
 
 export default class CanvasScale {
 	constructor(el, canvasOption) {

@@ -1,4 +1,4 @@
-import BaseEvent from "../events/base_events.js";
+import BaseEvent from '../events/base_events.js';
 
 export default class Scene extends BaseEvent {
 	constructor() {

@@ -1,15 +1,15 @@
-import Matrix3 from "../math/matrix3.js";
-import Object2DTransform from "../objects/2d/base/object2d_transform.js";
+import Matrix3 from '../math/matrix3.js';
+import Object2DRange from '../objects/2d/base/object2d_range.js';
 
 const _translation = new Matrix3();
 const _rotation = new Matrix3();
 const _scale = new Matrix3();
 
-export default class Camera2d extends Object2DTransform {
+export default class Camera2D extends Object2DRange {
 	constructor(option = {}) {
 		super(option);
 
-		this.isCamera2d = true;
+		this.isCamera2D = true;
 
 		this.matrixWorldInvert = new Matrix3();
 

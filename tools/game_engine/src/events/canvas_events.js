@@ -9,6 +9,7 @@ export default class CanvasEvents {
 		this.el.addEventListener('mousedown', this.event);
 		this.el.addEventListener('mousemove', this.event);
 		this.el.addEventListener('mouseup', this.event);
+		this.el.addEventListener('mouseenter', this.event);
 		this.el.addEventListener('mouseleave', this.event);
 		this.el.addEventListener('wheel', this.event, { passive: true });
 
@@ -38,6 +39,7 @@ export default class CanvasEvents {
 		this.el.removeEventListener('mousedown', this.event);
 		this.el.removeEventListener('mousemove', this.event);
 		this.el.removeEventListener('mouseup', this.event);
+		this.el.removeEventListener('mouseenter', this.event);
 		this.el.removeEventListener('mouseleave', this.event);
 		this.el.removeEventListener('wheel', this.event);
 

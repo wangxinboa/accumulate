@@ -1,12 +1,12 @@
-import Matrix3 from "../../../math/matrix3.js";
-import { PiBy180 } from "../../../math/math_utils.js";
-import Object2DRange from "./object2d_range.js";
+import Matrix3 from '../../../math/matrix3.js';
+import { PiBy180 } from '../../../math/math_utils.js';
+import BaseObject from '../../base_object.js';
 
 const _translation = new Matrix3();
 const _rotation = new Matrix3();
 const _scale = new Matrix3();
 
-export default class Object2DTransform extends Object2DRange {
+export default class Object2DTransform extends BaseObject {
 	constructor(option = {}) {
 		super(option);
 
@@ -22,7 +22,7 @@ export default class Object2DTransform extends Object2DRange {
 	}
 
 	transform(ctx) {
-		const elements = this.matrixWorld.elements;
+		let elements = this.matrixWorld.elements;
 		if (
 			elements[0] !== 1 ||
 			elements[1] !== 0 ||
@@ -43,6 +43,7 @@ export default class Object2DTransform extends Object2DRange {
 				elements[6], elements[7]
 			);
 		}
+		elements = null;
 	}
 
 	updateMatrix() {
@@ -57,8 +58,6 @@ export default class Object2DTransform extends Object2DRange {
 			.multiply(_scale);
 
 		this.updateMatrixWorld();
-
-		this.rectangle.applyMatrix3(this.matrixWorld);
 	}
 
 	updateMatrixWorld() {

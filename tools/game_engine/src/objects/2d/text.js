@@ -1,4 +1,4 @@
-import Object2D from "./base/object2d.js";
+import Object2D from './base/object2d.js';
 
 const _canvas = document.createElement('canvas');
 _canvas.width = 0;

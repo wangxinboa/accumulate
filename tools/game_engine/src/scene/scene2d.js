@@ -1,7 +1,7 @@
-import Scene from "./scene.js";
+import Scene from './scene.js';
 
 
-export default class Scene2d extends Scene {
+export default class Scene2D extends Scene {
 	// constructor() {
 	// 	super();
 

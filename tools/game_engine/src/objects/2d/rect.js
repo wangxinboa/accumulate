@@ -1,4 +1,4 @@
-import Object2D from "./base/object2d.js";
+import Object2D from './base/object2d.js';
 
 export default class Rect extends Object2D {
 	constructor(option = {}) {

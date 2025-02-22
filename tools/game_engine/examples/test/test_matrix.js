@@ -76,7 +76,7 @@ function renderMatrixRect() {
 	ctx.restore();
 }
 {
-	const object2DTransformFolder = gui.addFolder('object2DTransform');
+	const object2DTransformFolder = gui.addFolder('object2dTransform');
 	object2DTransformFolder.close();
 
 	initTransformGui(object2DTransformFolder, object2DTransform);

@@ -1,4 +1,4 @@
-import { scene } from "./start2d.js";
+import { scene } from './start2d.js';
 
 let x = 0, y = 0, selectedObject = false;
 

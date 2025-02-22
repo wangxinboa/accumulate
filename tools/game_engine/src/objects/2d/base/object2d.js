@@ -1,11 +1,11 @@
-import Object2DTransform from './object2d_transform.js';
+import Object2DRange from './object2d_range.js';
 
 const PaintFirst = {
 	fill: 'fill',
 	stroke: 'stroke',
 }
 
-export default class Object2DDraw extends Object2DTransform {
+export default class Object2D extends Object2DRange {
 	constructor(option) {
 		super(option);
 

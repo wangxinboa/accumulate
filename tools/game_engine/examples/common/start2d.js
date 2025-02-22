@@ -1,14 +1,14 @@
 import {
-	Camera2d,
+	Camera2D,
 	CanvasRender,
-	Scene2d,
+	Scene2D,
 	CanvasEvents,
 } from '../../src/index.js';
 
 export const canvasDom = document.getElementById('renderCanvas');
-export const camera = new Camera2d();
+export const camera = new Camera2D();
 
-export const scene = new Scene2d();
+export const scene = new Scene2D();
 scene.bindCamera(camera);
 globalThis.scene = scene;
 
@@ -29,7 +29,7 @@ scene.on('mousedown', function (e) {
 });
 scene.on('mousemove', function (e) {
 	// console.info('e:', e);
-	console.info('this.camera:', this.camera);
+	// console.info('this.camera:', this.camera);
 	if (allowMove) {
 		this.camera.x += x - e.offsetX;
 		this.camera.y += y - e.offsetY;

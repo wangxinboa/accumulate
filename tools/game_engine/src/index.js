@@ -1,5 +1,5 @@
 
-export { default as Camera2d } from './camera/camera2d.js';
+export { default as Camera2D } from './camera/camera2d.js';
 
 export { default as CanvasEvents } from './events/canvas_events.js';
 
@@ -18,6 +18,6 @@ export { default as Text } from './objects/2d/text.js';
 export { default as CanvasRender } from './renderer/canvas_renderer.js';
 
 // export { default as Scene } from './scene/scene.js';
-export { default as Scene2d } from './scene/scene2d.js'
+export { default as Scene2D } from './scene/scene2d.js'
 
-// export { default as GameEngine } from "./game_engine.js";
+// export { default as GameEngine } from './game_engine.js';

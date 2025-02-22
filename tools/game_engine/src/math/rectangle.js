@@ -1,13 +1,10 @@
-import Matrix3 from "./matrix3.js";
-import Vector2 from "./vector2.js";
+
+import Vector2 from './vector2.js';
 
 const _leftTop = new Vector2();
 const _rightTop = new Vector2();
 const _rightBottom = new Vector2();
 const _leftBottom = new Vector2();
-
-const _point = new Vector2();
-const _matrx = new Matrix3();
 
 function project(vertices, axis) {
 	let min = Infinity, max = -Infinity;
@@ -106,13 +103,32 @@ export default class Rectangle {
 		return true;
 	}
 
-	containsPoint(x, y, cameraMatrixWorldInvert, matrx) {
-		_point.set(x, y).applyMatrix3(cameraMatrixWorldInvert).applyMatrix3(_matrx.copy(matrx).invert());
+	containsPoint(x, y) {
 		return (
-			this.min.x < _point.x &&
-			this.max.x > _point.x &&
-			this.min.y < _point.y &&
-			this.max.y > _point.y
+			this.min.x < x &&
+			this.max.x > x &&
+			this.min.y < y &&
+			this.max.y > y
 		)
+	}
+
+	destroy() {
+		this.min = null;
+		this.max = null;
+
+		this.leftTop = null;
+		this.rightTop = null;
+		this.rightBottom = null;
+		this.leftBottom = null;
+
+		this.topEdge = null;
+		this.rightEdge = null;
+		this.bottomEdge = null;
+		this.leftEdge = null;
+
+		this.topEdgeNormal = null;
+		this.rightEdgeNormal = null;
+		this.bottomEdgeNormal = null;
+		this.leftEdgeNormal = null;
 	}
 }
