@@ -2,11 +2,10 @@ import Scene from './scene.js';
 
 
 export default class Scene2D extends Scene {
-	// constructor() {
-	// 	super();
+	constructor() {
+		super();
 
-	// }
-
+	}
 
 	render(ctx) {
 		this.clearVisibleObjects();

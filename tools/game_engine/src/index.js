@@ -1,7 +1,7 @@
 
 export { default as Camera2D } from './camera/camera2d.js';
 
-export { default as CanvasEvents } from './events/canvas_events.js';
+export { default as CanvasEvent } from './event/canvas_event.js';
 
 export { default as Matrix3 } from './math/matrix3.js';
 export { default as Rectangle } from './math/rectangle.js';

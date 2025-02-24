@@ -1,13 +1,13 @@
 import {
-	Camera2d,
+	Camera2D,
 	CanvasRender,
-	Scene2d,
-	CanvasEvents,
+	Scene2D,
+	CanvasEvent,
 	Polyline, Text, Circle,
 } from '../../../game_engine/src/index.js';
 
-const camera = new Camera2d();
-const scene = new Scene2d();
+const camera = new Camera2D();
+const scene = new Scene2D();
 
 scene.bindCamera(camera);
 
@@ -59,7 +59,7 @@ export function startCodeAnalysisUiCanvasDraw(canvasDom) {
 		}
 	});
 
-	canvasEvents = new CanvasEvents(canvasDom);
+	canvasEvents = new CanvasEvent(canvasDom);
 	canvasEvents.bindScene(scene);
 
 	animationFrame();

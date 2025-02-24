@@ -2,7 +2,7 @@ import {
 	Camera2D,
 	CanvasRender,
 	Scene2D,
-	CanvasEvents,
+	CanvasEvent,
 } from '../../src/index.js';
 
 export const canvasDom = document.getElementById('renderCanvas');
@@ -18,7 +18,7 @@ export const renderer = new CanvasRender(canvasDom, {
 	}
 });
 
-export const canvasEvents = new CanvasEvents(canvasDom);
+export const canvasEvents = new CanvasEvent(canvasDom);
 canvasEvents.bindScene(scene);
 
 let x = 0, y = 0, allowMove = false;

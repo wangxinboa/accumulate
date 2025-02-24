@@ -1,6 +1,6 @@
 
 
-export default class CanvasEvents {
+export default class CanvasEvent {
 	constructor(el) {
 		this.el = el;
 
