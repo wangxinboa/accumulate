@@ -1,10 +1,7 @@
 
 import Vector2 from './vector2.js';
 
-const _leftTop = new Vector2();
-const _rightTop = new Vector2();
-const _rightBottom = new Vector2();
-const _leftBottom = new Vector2();
+const _vector2 = new Vector2();
 
 function project(vertices, axis) {
 	let min = Infinity, max = -Infinity;
@@ -65,10 +62,10 @@ export default class Rectangle {
 	}
 
 	applyMatrix3(matrix) {
-		this.leftTop.copy(_leftTop.set(this.min.x, this.max.y).applyMatrix3(matrix));
-		this.rightTop.copy(_rightTop.set(this.max.x, this.max.y).applyMatrix3(matrix));
-		this.rightBottom.copy(_rightBottom.set(this.max.x, this.min.y).applyMatrix3(matrix));
-		this.leftBottom.copy(_leftBottom.set(this.min.x, this.min.y).applyMatrix3(matrix));
+		this.leftTop.copy(_vector2.set(this.min.x, this.max.y).applyMatrix3(matrix));
+		this.rightTop.copy(_vector2.set(this.max.x, this.max.y).applyMatrix3(matrix));
+		this.rightBottom.copy(_vector2.set(this.max.x, this.min.y).applyMatrix3(matrix));
+		this.leftBottom.copy(_vector2.set(this.min.x, this.min.y).applyMatrix3(matrix));
 
 		this.updateEdges();
 	}

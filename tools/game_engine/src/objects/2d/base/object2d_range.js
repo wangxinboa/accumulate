@@ -24,17 +24,18 @@ export default class Object2DRange extends Object2DTransform {
 
 	updateRange() { }
 
+	// 判断两个 Object2DRange 是否重叠
 	isOverlap(object2d) {
 		return this.rectangle.overlapRectangleSAT(object2d.rectangle);
 	}
 
-	containsPoint(x, y) {
+	hitTest(x, y) {
 		return this.rectangle.containsPoint(x, y);
 	}
 
 	emit(eventType, e, camera) {
 		_point.set(e.offsetX, e.offsetY).applyMatrix3(camera.matrixWorldInvert).applyMatrix3(_matrx.copy(this.matrixWorld).invert());
-		if (this.containsPoint(_point.x, _point.y)) {
+		if (this.hitTest(_point.x, _point.y)) {
 			return super.emit(eventType, e, camera) || this.defaultEimt;
 		}
 		return false;

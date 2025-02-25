@@ -40,6 +40,10 @@ scene.on('mousemove', function (e) {
 scene.on('mouseup', function () {
 	allowMove = false;
 });
+scene.on('wheel', function (e, camera) {
+	camera.x += e.deltaX;
+	camera.y += e.deltaY;
+});
 
 let afterRender = null;
 function animationFrame() {
