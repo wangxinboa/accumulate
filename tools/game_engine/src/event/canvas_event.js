@@ -1,19 +1,13 @@
-
+import MouseManager from './mouse/mouse_manager.js';
 
 export default class CanvasEvent {
 	constructor(el) {
 		this.el = el;
 
 		this.event = this.event.bind(this);
-
-		this.el.addEventListener('mousedown', this.event);
-		this.el.addEventListener('mousemove', this.event);
-		this.el.addEventListener('mouseup', this.event);
-		this.el.addEventListener('mouseenter', this.event);
-		this.el.addEventListener('mouseleave', this.event);
-		this.el.addEventListener('wheel', this.event, { passive: true });
-
 		this.scene = null;
+
+		this.mouseManager = new MouseManager(this);
 	}
 
 	event(e) {
@@ -36,12 +30,8 @@ export default class CanvasEvent {
 	}
 
 	destroy() {
-		this.el.removeEventListener('mousedown', this.event);
-		this.el.removeEventListener('mousemove', this.event);
-		this.el.removeEventListener('mouseup', this.event);
-		this.el.removeEventListener('mouseenter', this.event);
-		this.el.removeEventListener('mouseleave', this.event);
-		this.el.removeEventListener('wheel', this.event);
+		this.mouseManager.destroy();
+		this.mouseManager = null;
 
 		this.el = null;
 		this.event = null;
