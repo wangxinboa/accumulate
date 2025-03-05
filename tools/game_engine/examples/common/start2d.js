@@ -31,8 +31,8 @@ scene.on('mousemove', function (e) {
 	// console.info('e:', e);
 	// console.info('this.camera:', this.camera);
 	if (allowMove) {
-		this.camera.x += x - e.offsetX;
-		this.camera.y += y - e.offsetY;
+		camera.x += x - e.offsetX;
+		camera.y += y - e.offsetY;
 		x = e.offsetX;
 		y = e.offsetY;
 	}
@@ -40,7 +40,7 @@ scene.on('mousemove', function (e) {
 scene.on('mouseup', function () {
 	allowMove = false;
 });
-scene.on('wheel', function (e, camera) {
+scene.on('wheel', function (e) {
 	camera.x += e.deltaX;
 	camera.y += e.deltaY;
 });

@@ -22,7 +22,7 @@ scene.on('mousedown', function (e) {
 	y = e.offsetY;
 	allowMove = true;
 });
-scene.on('mousemove', function (e, camera) {
+scene.on('mousemove', function (e) {
 	e.preventDefault();
 	if (allowMove) {
 		camera.x += x - e.offsetX;
@@ -34,7 +34,7 @@ scene.on('mousemove', function (e, camera) {
 scene.on('mouseup', function () {
 	allowMove = false;
 });
-scene.on('wheel', function (e, camera) {
+scene.on('wheel', function (e) {
 	camera.x += e.deltaX;
 	camera.y += e.deltaY;
 });

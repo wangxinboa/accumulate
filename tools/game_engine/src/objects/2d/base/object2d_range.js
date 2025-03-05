@@ -30,16 +30,17 @@ export default class Object2DRange extends Object2DTransform {
 	}
 
 	hitTest(x, y) {
-		return this.rectangle.containsPoint(x, y);
+		_point.set(x, y).applyMatrix3(_matrx.copy(this.matrixWorld).invert());
+		return this.rectangle.containsPoint(_point.x, _point.y);
 	}
 
-	emit(eventType, e, camera) {
-		_point.set(e.offsetX, e.offsetY).applyMatrix3(camera.matrixWorldInvert).applyMatrix3(_matrx.copy(this.matrixWorld).invert());
-		if (this.hitTest(_point.x, _point.y)) {
-			return super.emit(eventType, e, camera) || this.defaultEimt;
-		}
-		return false;
-	}
+	// emit(eventType, x, y) {
+	// 	_point.set(x, y).applyMatrix3(_matrx.copy(this.matrixWorld).invert());
+	// 	if (this.hitTest(_point.x, _point.y)) {
+	// 		return super.emit(eventType, e, camera) || this.defaultEimt;
+	// 	}
+	// 	return false;
+	// }
 
 	destroy() {
 		super.destroy();

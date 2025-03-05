@@ -21,7 +21,7 @@ export function allowObject2dCanMove(scene) {
 	});
 }
 
-export function object2dMoveFun(e) {
+export function object2dMoveFun(e, _x, _y) {
 	x = e.offsetX;
 	y = e.offsetY;
 	selectedObject = this;

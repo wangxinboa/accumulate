@@ -114,6 +114,10 @@ class EventEmitter {
 
 		return names;
 	}
+
+	hasListener(event) {
+		return !!(this._events[prefix ? prefix + event : event]);
+	}
 	/**
 	 * Return the listeners registered for a given event.
 	 *
