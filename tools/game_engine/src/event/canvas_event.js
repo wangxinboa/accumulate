@@ -52,7 +52,11 @@ export default class CanvasEvent extends CanvasEventProcess {
 		}
 
 		if (!hasEmit) {
-			this.scene.emit(e.type, e, _vector2.x, _vector2.y);
+			if (e.type === CanvasEventType.wheel) {
+				this.scene.emit(e.type, e, _vector2.x, _vector2.y);
+			} else {
+				this.scene.emit(e.type, e, _vector2.x, _vector2.y);
+			}
 		}
 
 		visibleObject = null;

@@ -2,40 +2,13 @@
 var has = Object.prototype.hasOwnProperty
 	, prefix = '~';
 
-/**
- * Constructor to create a storage for our `EE` objects.
- * An `Events` instance is a plain object whose properties are event names.
- *
- * @constructor
- * @private
- */
 function Events() { }
 
-//
-// We try to not inherit from `Object.prototype`. In some engines creating an
-// instance in this way is faster than calling `Object.create(null)` directly.
-// If `Object.create(null)` is not supported we prefix the event names with a
-// character to make sure that the built-in object properties are not
-// overridden or used as an attack vector.
-//
 if (Object.create) {
 	Events.prototype = Object.create(null);
-
-	//
-	// This hack is needed because the `__proto__` property is still inherited in
-	// some old browsers like Android 4, iPhone 5.1, Opera 11 and Safari 5.
-	//
 	if (!new Events().__proto__) prefix = false;
 }
 
-/**
- * Representation of a single event listener.
- *
- * @param {Function} fn The listener function.
- * @param {Boolean} [once=false] Specify if the listener is a one-time listener.
- * @constructor
- * @private
- */
 class EE {
 	constructor(fn, once) {
 		this.fn = fn;
@@ -43,16 +16,6 @@ class EE {
 	}
 }
 
-/**
- * Add a listener for a given event.
- *
- * @param {EventEmitter} emitter Reference to the `EventEmitter` instance.
- * @param {(String|Symbol)} event The event name.
- * @param {Function} fn The listener function.
- * @param {Boolean} once Specify if the listener is a one-time listener.
- * @returns {EventEmitter}
- * @private
- */
 function addListener(emitter, event, fn, once) {
 	if (typeof fn !== 'function') {
 		throw new TypeError('The listener must be a function');
@@ -68,37 +31,17 @@ function addListener(emitter, event, fn, once) {
 	return emitter;
 }
 
-/**
- * Clear event by name.
- *
- * @param {EventEmitter} emitter Reference to the `EventEmitter` instance.
- * @param {(String|Symbol)} evt The Event name.
- * @private
- */
 function clearEvent(emitter, evt) {
 	if (--emitter._eventsCount === 0) emitter._events = new Events();
 	else delete emitter._events[evt];
 }
 
-/**
- * Minimal `EventEmitter` interface that is molded against the Node.js
- * `EventEmitter` interface.
- *
- * @constructor
- * @public
- */
 class EventEmitter {
 	constructor() {
 		this._events = new Events();
 		this._eventsCount = 0;
 	}
-	/**
-	 * Return an array listing the events for which the emitter has registered
-	 * listeners.
-	 *
-	 * @returns {Array}
-	 * @public
-	 */
+
 	eventNames() {
 		var names = [], events, name;
 
@@ -118,13 +61,7 @@ class EventEmitter {
 	hasListener(event) {
 		return !!(this._events[prefix ? prefix + event : event]);
 	}
-	/**
-	 * Return the listeners registered for a given event.
-	 *
-	 * @param {(String|Symbol)} event The event name.
-	 * @returns {Array} The registered listeners.
-	 * @public
-	 */
+
 	listeners(event) {
 		var evt = prefix ? prefix + event : event, handlers = this._events[evt];
 
@@ -137,13 +74,7 @@ class EventEmitter {
 
 		return ee;
 	}
-	/**
-	 * Return the number of listeners listening to a given event.
-	 *
-	 * @param {(String|Symbol)} event The event name.
-	 * @returns {Number} The number of listeners.
-	 * @public
-	 */
+
 	listenerCount(event) {
 		var evt = prefix ? prefix + event : event, listeners = this._events[evt];
 
@@ -151,13 +82,7 @@ class EventEmitter {
 		if (listeners.fn) return 1;
 		return listeners.length;
 	}
-	/**
-	 * Calls each of the listeners registered for a given event.
-	 *
-	 * @param {(String|Symbol)} event The event name.
-	 * @returns {Boolean} `true` if the event had listeners, else `false`.
-	 * @public
-	 */
+
 	emit(event, a1, a2, a3, a4, a5) {
 		var evt = prefix ? prefix + event : event;
 
@@ -205,37 +130,15 @@ class EventEmitter {
 
 		return true;
 	}
-	/**
-	 * Add a listener for a given event.
-	 *
-	 * @param {(String|Symbol)} event The event name.
-	 * @param {Function} fn The listener function.
-	 * @returns {EventEmitter} `this`.
-	 * @public
-	 */
+
 	on(event, fn) {
 		return addListener(this, event, fn, false);
 	}
-	/**
-	 * Add a one-time listener for a given event.
-	 *
-	 * @param {(String|Symbol)} event The event name.
-	 * @param {Function} fn The listener function.
-	 * @returns {EventEmitter} `this`.
-	 * @public
-	 */
+
 	once(event, fn) {
 		return addListener(this, event, fn, true);
 	}
-	/**
-	 * Remove the listeners of a given event.
-	 *
-	 * @param {(String|Symbol)} event The event name.
-	 * @param {Function} fn Only remove the listeners that match this function.
-	 * @param {Boolean} once Only remove one-time listeners.
-	 * @returns {EventEmitter} `this`.
-	 * @public
-	 */
+
 	removeListener(event, fn, once) {
 		var evt = prefix ? prefix + event : event;
 
@@ -269,13 +172,7 @@ class EventEmitter {
 
 		return this;
 	}
-	/**
-	 * Remove all listeners, or those of the specified event.
-	 *
-	 * @param {(String|Symbol)} [event] The event name.
-	 * @returns {EventEmitter} `this`.
-	 * @public
-	 */
+
 	removeAllListeners(event) {
 		var evt;
 
@@ -294,20 +191,13 @@ class EventEmitter {
 		this.removeAllListeners();
 	}
 }
-//
-// Alias methods names because people roll like that.
-//
+
 EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
 EventEmitter.prototype.addListener = EventEmitter.prototype.on;
 
-//
-// Expose the prefix.
-//
+
 EventEmitter.prefixed = prefix;
 
-//
-// Allow `EventEmitter` to be imported as module namespace.
-//
 EventEmitter.EventEmitter = EventEmitter;
 
 export default EventEmitter;

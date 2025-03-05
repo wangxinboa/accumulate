@@ -6,6 +6,7 @@ const CanvasEventType = {
 	mouseenter: 'mouseenter',
 	mouseleave: 'mouseleave',
 
+	wheel: 'wheel',
 }
 
 export default CanvasEventType;

@@ -26,6 +26,18 @@ export default class CanvasEventProcess {
 
 	}
 
+	processDragDownEvent() {
+
+	}
+
+	processDragDownEvent() {
+
+	}
+
+	processDragMoveEvent() {
+
+	}
+
 	processWheelEvent() {
 
 	}
