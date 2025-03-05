@@ -34,14 +34,6 @@ export default class Object2DRange extends Object2DTransform {
 		return this.rectangle.containsPoint(_point.x, _point.y);
 	}
 
-	// emit(eventType, x, y) {
-	// 	_point.set(x, y).applyMatrix3(_matrx.copy(this.matrixWorld).invert());
-	// 	if (this.hitTest(_point.x, _point.y)) {
-	// 		return super.emit(eventType, e, camera) || this.defaultEimt;
-	// 	}
-	// 	return false;
-	// }
-
 	destroy() {
 		super.destroy();
 

@@ -1,9 +1,9 @@
 import { Circle, Rect, Polyline, Polygon, Text } from '../src/index.js';
-import start, { camera, scene } from './common/start2d.js';
+import start2d from './common/start2d.js';
 import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
 
+const { camera, scene } = start2d(document.getElementById('renderCanvas'));
 allowObject2dCanMove(scene);
-start();
 
 const circle = new Circle({
 	radius: 12,

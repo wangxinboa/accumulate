@@ -1,68 +1,15 @@
 import {
-	Camera2D,
-	CanvasRender,
-	Scene2D,
-	CanvasEvent,
 	Polyline, Text, Circle,
 } from '../../../game_engine/src/index.js';
+import start2d from '../../../game_engine/examples/common/start2d.js';
 
-const camera = new Camera2D();
-const scene = new Scene2D();
-
-scene.bindCamera(camera);
-
-let renderer = null;
-let canvasEvents = null;
-
-let x = 0, y = 0, allowMove = false;
-scene.on('mousedown', function (e) {
-	e.preventDefault();
-	e.stopPropagation();
-	x = e.offsetX;
-	y = e.offsetY;
-	allowMove = true;
-});
-scene.on('mousemove', function (e) {
-	e.preventDefault();
-	if (allowMove) {
-		camera.x += x - e.offsetX;
-		camera.y += y - e.offsetY;
-		x = e.offsetX;
-		y = e.offsetY;
-	}
-});
-scene.on('mouseup', function () {
-	allowMove = false;
-});
-scene.on('wheel', function (e) {
-	camera.x += e.deltaX;
-	camera.y += e.deltaY;
-});
-
-// globalThis.scene = scene;
-
-let afterRender = null;
-function animationFrame() {
-	requestAnimationFrame(animationFrame);
-	renderer.render(scene, camera);
-	if (afterRender) {
-		afterRender();
-	}
-}
+let scene = null;
 
 export function startCodeAnalysisUiCanvasDraw(canvasDom) {
-	renderer = new CanvasRender(canvasDom, {
+	scene = start2d(canvasDom, null, {
 		backgroundColor: '#ffffff',
-		maxWidth: 900,
-		onResize(width, height) {
-			camera.setRange(width, height);
-		}
-	});
-
-	canvasEvents = new CanvasEvent(canvasDom);
-	canvasEvents.bindScene(scene);
-
-	animationFrame();
+		maxWidth: 900
+	}).scene;
 }
 
 const AllMarkNodeObject2d = new Map();

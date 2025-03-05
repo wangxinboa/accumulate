@@ -1,13 +1,13 @@
 import { Rect, Circle, Text } from '../../src/index.js';
-import start, { scene } from '../common/start2d.js';
+import start2d from '../common/start2d.js';
 import { allowObject2dCanMove, object2dCanMove } from '../common/object2d_move.js';
 
+let rect = null, circle = null, text = null;
+// 测试 sat 效果
+const { scene } = start2d(document.getElementById('renderCanvas'), onChangeFun);
 allowObject2dCanMove(scene);
 
-// 测试 sat 效果
-start(onChangeFun);
-
-const rect = new Rect({
+rect = new Rect({
 	x: 400,
 	y: 300,
 
@@ -18,7 +18,7 @@ const rect = new Rect({
 	stroke: '#0000ff',
 	strokeWidth: 0,
 });
-const circle = new Circle({
+circle = new Circle({
 	radius: 100,
 	startAngle: 0,
 	endAngle: 360,
@@ -28,7 +28,7 @@ const circle = new Circle({
 	//strokeWidth: 1,
 	//stroke: '#0000ff',
 });
-const text = new Text({
+text = new Text({
 	x: 0,
 	y: 0,
 	// text: 'false',
@@ -50,8 +50,10 @@ object2dCanMove(circle);
 const gui = new lil.GUI();
 
 function onChangeFun() {
-	text.text = rect.isOverlap(circle) + '';
-	// console.info('text.text:', text.text);
+	if (text) {
+		text.text = rect.isOverlap(circle) + '';
+		// console.info('text.text:', text.text);
+	}
 }
 onChangeFun();
 

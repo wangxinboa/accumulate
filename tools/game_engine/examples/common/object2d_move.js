@@ -1,8 +1,7 @@
-import { scene } from './start2d.js';
-
-let x = 0, y = 0, selectedObject = false;
+let x = 0, y = 0, selectedObject = false, _scene = null;
 
 export function allowObject2dCanMove(scene) {
+	_scene = scene;
 	scene.on('mousemove', function (e) {
 		if (selectedObject) {
 			selectedObject.x += e.offsetX - x;
@@ -21,13 +20,13 @@ export function allowObject2dCanMove(scene) {
 	});
 }
 
-export function object2dMoveFun(e, _x, _y) {
+function object2dMoveFun(e, _x, _y) {
 	x = e.offsetX;
 	y = e.offsetY;
 	selectedObject = this;
 
 	selectedObject.renderOrder = 1;
-	scene.sortObjectsByOrder();
+	_scene.sortObjectsByOrder();
 }
 
 export function object2dCanMove(object2d) {
