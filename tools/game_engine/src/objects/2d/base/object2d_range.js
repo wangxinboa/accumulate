@@ -39,7 +39,5 @@ export default class Object2DRange extends Object2DTransform {
 
 		this.rectangle.destroy();
 		this.rectangle = null;
-		this.max = null;
-		this.min = null;
 	}
 }

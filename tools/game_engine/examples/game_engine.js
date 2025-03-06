@@ -24,14 +24,21 @@ const rect = new Rect({
 
 	width: 300,
 	height: 300,
-	rxlt: 150,
-	rylt: 150,
+	// rxlt: 150,
+	// rylt: 150,
 
 	fill: '#ffff00',
 	stroke: '#0000ff',
 	strokeWidth: 0,
 });
 object2dCanMove(rect);
+rect.on('mouseenter', () => {
+	rect.fill = '#ff0000';
+})
+rect.on('mouseleave', () => {
+	rect.fill = '#ffff00';
+})
+
 scene.addObject(rect);
 
 const polyline = new Polyline({
