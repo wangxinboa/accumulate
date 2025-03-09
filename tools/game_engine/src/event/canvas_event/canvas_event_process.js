@@ -11,16 +11,18 @@ export default class CanvasEventProcess {
 	}
 
 	processDownEvents(x, y) {
-		let visibleObject = null, hasDownEmit = false;
+		let visibleObject = null,
+			hasDownEmit = false;
+
 		for (let i = this.scene.visibleObjectCount - 1; i >= 0; i--) {
 			visibleObject = this.scene.visibleObjects[i];
 
 			if (visibleObject.hitTest(x, y)) {
 				if (
 					(!this.topEventOnly || !hasDownEmit) &&
-					visibleObject.hasListener(CanvasEventType.mousedown)
+					visibleObject.hasEvent(CanvasEventType.pointerdown)
 				) {
-					visibleObject.emit(CanvasEventType.mousedown, x, y);
+					visibleObject.emit(CanvasEventType.pointerdown, x, y);
 					hasDownEmit = true;
 				}
 			}
@@ -31,11 +33,12 @@ export default class CanvasEventProcess {
 		}
 
 		if (!hasDownEmit) {
-			this.scene.emit(CanvasEventType.mousedown, x, y);
+			this.scene.emit(CanvasEventType.pointerdown, x, y);
 		}
+		this.scene.directEvent.emit(CanvasEventType.pointerdown, x, y);
 
-		visibleObject = null;
-		hasDownEmit = null;
+		visibleObject =
+			hasDownEmit = null;
 	}
 
 
@@ -51,28 +54,28 @@ export default class CanvasEventProcess {
 			if (visibleObject.hitTest(x, y)) {
 				if (
 					(!this.topEventOnly || !hasMoveEmit) &&
-					visibleObject.hasListener(CanvasEventType.mousemove)
+					visibleObject.hasEvent(CanvasEventType.pointermove)
 				) {
-					visibleObject.emit(CanvasEventType.mousemove, x, y);
+					visibleObject.emit(CanvasEventType.pointermove, x, y);
 					hasMoveEmit = true;
 				}
 
 				this._nowMoveEnter.push(visibleObject);
 				if (
 					(!this.topEventOnly || !hasMoveEnterEmit) &&
-					visibleObject.hasListener(CanvasEventType.mouseenter) &&
+					visibleObject.hasEvent(CanvasEventType.pointerenter) &&
 					!this._preMoveEnter.includes(visibleObject)
 				) {
-					visibleObject.emit(CanvasEventType.mouseenter, x, y);
+					visibleObject.emit(CanvasEventType.pointerenter, x, y);
 					hasMoveEnterEmit = true;
 				}
 			} else {
 				if (
 					(!this.topEventOnly || !hasMoveLeaveEmit) &&
-					visibleObject.hasListener(CanvasEventType.mouseleave) &&
+					visibleObject.hasEvent(CanvasEventType.pointerleave) &&
 					this._preMoveEnter.includes(visibleObject)
 				) {
-					visibleObject.emit(CanvasEventType.mouseleave, x, y);
+					visibleObject.emit(CanvasEventType.pointerleave, x, y);
 					hasMoveLeaveEmit = true;
 				}
 			}
@@ -87,16 +90,16 @@ export default class CanvasEventProcess {
 		this._nowMoveEnter = this._temp;
 
 		if (!hasMoveEmit) {
-			this.scene.emit(CanvasEventType.mousemove, x, y);
+			this.scene.emit(CanvasEventType.pointermove, x, y);
 		}
+		this.scene.directEvent.emit(CanvasEventType.pointermove, x, y);
 
-		this._temp = null;
 		this._nowMoveEnter.length = 0;
-
-		visibleObject = null;
-		hasMoveEmit = null;
-		hasMoveEnterEmit = null;
-		hasMoveLeaveEmit = null;
+		this._temp =
+			visibleObject =
+			hasMoveEmit =
+			hasMoveEnterEmit =
+			hasMoveLeaveEmit = null;
 	}
 	processUpEvents(x, y) {
 		let visibleObject = null, hasUpEmit = false;
@@ -106,9 +109,9 @@ export default class CanvasEventProcess {
 			if (visibleObject.hitTest(x, y)) {
 				if (
 					(!this.topEventOnly || !hasUpEmit) &&
-					visibleObject.hasListener(CanvasEventType.mouseup)
+					visibleObject.hasEvent(CanvasEventType.pointerup)
 				) {
-					visibleObject.emit(CanvasEventType.mouseup, x, y);
+					visibleObject.emit(CanvasEventType.pointerup, x, y);
 					hasUpEmit = true;
 
 				}
@@ -120,15 +123,16 @@ export default class CanvasEventProcess {
 		}
 
 		if (!hasUpEmit) {
-			this.scene.emit(CanvasEventType.mouseup, x, y);
+			this.scene.emit(CanvasEventType.pointerup, x, y);
 		}
+		this.scene.directEvent.emit(CanvasEventType.pointerup, x, y);
 
-		visibleObject = null;
-		hasUpEmit = null;
+		visibleObject =
+			hasUpEmit = null;
 	}
 
 	destroy() {
-		this._over = null;
-		this._drag = null;
+		this._over =
+			this._drag = null;
 	}
 }

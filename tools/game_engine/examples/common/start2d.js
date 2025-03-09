@@ -1,13 +1,13 @@
 import {
 	Camera2D,
 	CanvasRender,
-	Scene2D,
+	Scene,
 	CanvasEvent,
 } from '../../src/index.js';
 
 export default function start2d(canvasDom, afterRender, rendererOptions) {
 	const camera = new Camera2D();
-	const scene = new Scene2D();
+	const scene = new Scene();
 	scene.bindCamera(camera);
 
 	scene.on('wheel', function (dx, dy) {

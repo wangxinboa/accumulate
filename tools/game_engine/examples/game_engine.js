@@ -17,7 +17,11 @@ const circle = new Circle({
 	renderOrder: 1,
 });
 // object2dCanMove(circle);
-scene.on('mousemove', (x, y) => {
+// scene.on('pointermove', (x, y) => {
+// 	circle.x = x;
+// 	circle.y = y;
+// });
+scene.directEvent.on('pointermove', (x, y) => {
 	circle.x = x;
 	circle.y = y;
 });
@@ -37,12 +41,20 @@ const rect = new Rect({
 	strokeWidth: 0,
 });
 object2dCanMove(rect);
-rect.on('mouseenter', () => {
+rect.on('pointerenter', () => {
+	console.info('pointerenter');
 	rect.fill = '#ff0000';
 })
-rect.on('mouseleave', () => {
+rect.on('pointerleave', () => {
+	console.info('pointerleave');
 	rect.fill = '#ffff00';
 })
+// rect.on('pointermove', () => {
+// 	console.info('pointermove');
+// 	setTimeout(() => {
+// 		rect.fill = '#000000';
+// 	}, 1000);
+// })
 
 scene.addObject(rect);
 

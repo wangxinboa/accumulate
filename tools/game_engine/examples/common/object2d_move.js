@@ -2,7 +2,7 @@ let x = 0, y = 0, selectedObject = false, _scene = null;
 
 export function allowObject2dCanMove(scene) {
 	_scene = scene;
-	scene.on('mousemove', function (_x, _y) {
+	scene.directEvent.on('pointermove', function (_x, _y) {
 		if (selectedObject) {
 			selectedObject.x += _x - x;
 			selectedObject.y += _y - y;
@@ -11,7 +11,7 @@ export function allowObject2dCanMove(scene) {
 
 		}
 	});
-	scene.on('mouseup', function () {
+	scene.directEvent.on('pointerup', function () {
 		if (selectedObject) {
 			selectedObject.renderOrder = 0;
 			scene.sortObjectsByOrder();
@@ -30,5 +30,5 @@ function object2dMoveFun(_x, _y) {
 }
 
 export function object2dCanMove(object2d) {
-	object2d.on('mousedown', object2dMoveFun);
+	object2d.on('pointerdown', object2dMoveFun);
 }

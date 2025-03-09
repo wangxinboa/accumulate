@@ -112,12 +112,12 @@ function initMarkNodeObject2d(markNode, index) {
 				fontSize: 14,
 				fill: '#000000',
 				fontFamily: 'system-ui',
-			}).on('mousedown', handleMousedownText),
+			}).on('pointerdown', handleMousedownText),
 			circle: new Circle({
 				x: 0, y: 0, radius: 8.5,
 				fill: Array.isArray(markNode.children) && markNode.children.length > 0 ? '#000000' : '#999999',
 				renderOrder: 1,
-			}).on('mousedown', handleMousedownCircle),
+			}).on('pointerdown', handleMousedownCircle),
 			polyline: markNode.parent ? new Polyline({
 				points: [
 					{ x: 0, y: 0 },

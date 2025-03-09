@@ -1,6 +1,6 @@
 import CanvasEventProcess from './canvas_event_process.js';
-import MouseManager from './mouse/mouse_manager.js';
-import Vector2 from '../math/vector2.js';
+import MouseManager from '../mouse/mouse_manager.js';
+import Vector2 from '../../math/vector2.js';
 
 const _vector2 = new Vector2();
 

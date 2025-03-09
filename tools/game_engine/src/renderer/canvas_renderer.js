@@ -30,7 +30,20 @@ export default class CanvasRenderer extends CanvasScale {
 		}
 
 		this.ctx.save();
-		scene.render(this.ctx);
+
+		scene.clearVisibleObjects();
+
+		scene.camera.transform(this.ctx);
+
+		let object = null;
+		for (let i = 0, len = scene.objects.length; i < len; i++) {
+			object = scene.objects[i];
+			if (object.visible && object.isOverlap(scene.camera)) {
+				object.render(this.ctx);
+				scene.addVisibleObject(object);
+			}
+		}
+		object = null;
 
 		// 测试代码，验证相机范围矩形边
 		// this.ctx.save();

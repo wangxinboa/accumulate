@@ -1,6 +1,6 @@
-import BaseEvent from '../event/base_event.js';
+import EventEmitter from '../event/event_emitter.js';
 
-export default class Scene extends BaseEvent {
+export default class Scene extends EventEmitter {
 	constructor() {
 		super();
 
@@ -9,6 +9,8 @@ export default class Scene extends BaseEvent {
 		this.visibleObjectCount = 0;
 
 		this.camera = null;
+
+		this.directEvent = new EventEmitter();
 	}
 
 	addObject(object) {
@@ -46,6 +48,8 @@ export default class Scene extends BaseEvent {
 	}
 
 	destroy() {
+		super.destroy();
+
 		for (let i = this.visibleObjects.length - 1; i >= 0; i--) {
 			this.visibleObjects.pop();
 		}
@@ -59,5 +63,8 @@ export default class Scene extends BaseEvent {
 		this.objects = null;
 
 		this.camera = null;
+
+		this.directEvent.destroy();
+		this.directEvent = null;
 	}
 }

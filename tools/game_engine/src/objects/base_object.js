@@ -1,6 +1,6 @@
-import BaseEvent from '../event/base_event.js';
+import EventEmitter from '../event/event_emitter.js';
 
-export default class BaseObject extends BaseEvent {
+export default class BaseObject extends EventEmitter {
 	constructor(option = {}) {
 		super();
 
