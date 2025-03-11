@@ -40,8 +40,6 @@ export default class CanvasEventProcess {
 		visibleObject =
 			hasDownEmit = null;
 	}
-
-
 	processMoveEvents(x, y) {
 		let visibleObject = null,
 			hasMoveEmit = false,

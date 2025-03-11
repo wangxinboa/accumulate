@@ -4,12 +4,6 @@ const CanvasEventType = {
 	touchend: 'touchend',
 	touchcancel: 'touchcancel',
 
-	mousedown: 'mousedown',
-	mousemove: 'mousemove',
-	mouseup: 'mouseup',
-
-	mouseenter: 'mouseenter',
-	mouseleave: 'mouseleave',
 	wheel: 'wheel',
 
 	pointerdown: 'pointerdown',
