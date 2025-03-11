@@ -9,7 +9,7 @@ export { default as Vector2 } from './math/vector2.js';
 
 export { default as Object2DTransform } from './objects/2d/base/object2d_transform.js';
 export { default as Circle } from './objects/2d/circle.js';
-// export { default as Image } from './objects/2d/image.js';
+export { default as Image } from './objects/2d/image.js';
 export { default as Polygon } from './objects/2d/polygon.js';
 export { default as Polyline } from './objects/2d/polyline.js';
 export { default as Rect } from './objects/2d/rect.js';

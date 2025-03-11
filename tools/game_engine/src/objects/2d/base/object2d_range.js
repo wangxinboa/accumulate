@@ -12,8 +12,6 @@ export default class Object2DRange extends Object2DTransform {
 		super(option);
 
 		this.rectangle = new Rectangle();
-
-		this.defaultEimt = option.defaultEimt || false;
 	}
 
 	updateMatrix() {

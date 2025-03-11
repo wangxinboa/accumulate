@@ -1,4 +1,4 @@
-import ImageTask from './task/image_task';
+import ImageTask from './task/image_task.js';
 
 
 export class LoaderManager {
@@ -28,7 +28,7 @@ export class LoaderManager {
 		this.loadingNextTask();
 	}
 	onError(task) {
-		if (task.errorTime < failedReloadTime) {
+		if (task.errorTime < this.failedReloadTime) {
 			task.loading();
 		} else {
 			this.totalError++;
@@ -45,7 +45,10 @@ export class LoaderManager {
 		return task;
 	}
 	loadingNextTask() {
-		if (this.nowLoadingCount < this.maxLoadingCount) {
+		if (
+			this.nowLoadingCount < this.maxLoadingCount &&
+			this.nextLoadingIndex < this.queue.length
+		) {
 			this.queue[this.nextLoadingIndex++].loading();
 			this.nowLoadingCount++;
 		}
@@ -55,8 +58,9 @@ export class LoaderManager {
 		if (this.imageCache.hasOwnProperty(src)) {
 			return this.imageCache[src];
 		} else {
-			const task = new ImageTask(this, onLoaded, onError, this.totalTask, src, crossOrigin);
+			const task = new ImageTask(onLoaded, onError, this.totalTask, src, crossOrigin);
 			this.imageCache[src] = task;
+			this.addTask(task);
 			return task;
 		}
 	}
@@ -83,4 +87,5 @@ export class LoaderManager {
 
 const loaderManager = new LoaderManager();
 
+window.loaderManager = loaderManager;
 export default loaderManager;

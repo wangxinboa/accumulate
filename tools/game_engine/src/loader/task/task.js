@@ -1,4 +1,4 @@
-
+import loaderManager from '../loader_manager.js';
 
 const TaskState = {
 	wait: 'wait',
@@ -9,8 +9,7 @@ const TaskState = {
 
 
 export default class Task {
-	constructor(loaderManager, onloaded = null, onerror = null, index, key) {
-		this.loaderManager = loaderManager;
+	constructor(onloaded = null, onerror = null, index, key) {
 		this.index = index;
 		this.key = key;
 
@@ -29,7 +28,7 @@ export default class Task {
 	}
 	loaded() {
 		this.state = TaskState.loaded;
-		this.loaderManager.onLoaded(this);
+		loaderManager.onLoaded(this);
 		if (this.onloaded !== null) {
 			this.onloaded(this);
 		}
@@ -37,15 +36,21 @@ export default class Task {
 	error() {
 		this.state = TaskState.error;
 		this.errorTime++;
-		this.loaderManager.onError(this);
+		loaderManager.onError(this);
 		if (this.onerror !== null) {
 			this.onerror(this);
 		}
 	}
 
+	isLoaded() {
+		return this.state === TaskState.loaded;
+	}
+	isError() {
+		return this.state === TaskState.error;
+	}
+
 	destroy() {
-		this.loaderManager =
-			this.index =
+		this.index =
 			this.key =
 
 			this.state =
