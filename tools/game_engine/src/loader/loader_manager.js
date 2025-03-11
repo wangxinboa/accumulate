@@ -21,7 +21,7 @@ export class LoaderManager {
 		this.imageCache = {};
 	}
 
-	onLoaded() {
+	onLoaded(task) {
 		this.totalLoaded++;
 		this.nowLoadingCount--;
 
@@ -33,6 +33,7 @@ export class LoaderManager {
 		} else {
 			this.totalError++;
 			this.nowLoadingCount--;
+			this.loadingNextTask();
 		}
 	}
 
