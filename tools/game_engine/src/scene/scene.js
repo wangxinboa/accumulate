@@ -1,5 +1,9 @@
 import EventEmitter from '../event/event_emitter.js';
 
+function sortObjectsByOrder(a, b) {
+	return a.renderOrder - b.renderOrder;
+}
+
 export default class Scene extends EventEmitter {
 	constructor() {
 		super();
@@ -29,9 +33,7 @@ export default class Scene extends EventEmitter {
 	}
 
 	sortObjectsByOrder() {
-		this.objects.sort((a, b) => {
-			return a.renderOrder - b.renderOrder;
-		});
+		this.objects.sort(sortObjectsByOrder);
 	}
 
 	addVisibleObject(object) {

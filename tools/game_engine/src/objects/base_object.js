@@ -6,11 +6,10 @@ export default class BaseObject extends EventEmitter {
 
 		this.isObject = true;
 
-		this.visible = true;
-
 		this.parent = null;
 		this.children = [];
 
+		this.visible = true;
 		this.renderOrder = option.renderOrder || 0;
 	}
 
@@ -43,14 +42,14 @@ export default class BaseObject extends EventEmitter {
 		for (let i = this.children.length - 1; i >= 0; i--) {
 			this.children[i].destroy();
 		}
-
-		this.isObject = null;
-
-		this.visible = null;
-
 		this.parent.remove(this);
-		this.parent = null;
 
-		this.children = null;
+		this.isObject =
+
+			this.parent =
+			this.children =
+
+			this.visible =
+			this.renderOrder = null;
 	}
 }

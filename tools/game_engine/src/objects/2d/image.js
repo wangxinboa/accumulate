@@ -1,7 +1,7 @@
 import Object2D from './base/object2d.js';
 import loaderManager from '../../loader/loader_manager.js';
 
-export default class ImageObject extends Object2D {
+export default class Image extends Object2D {
 	constructor(option = {}) {
 		super(option);
 
@@ -24,7 +24,7 @@ export default class ImageObject extends Object2D {
 
 	updateRange() {
 		if (this.imageTask.isLoaded()) {
-			this.rectangle.setRectangle(0, 0, this.imageTask.width, this.imageTask.height, this.matrixWorld);
+			this.rectangle.setRectangle(0, 0, this.width, this.height, this.matrixWorld);
 		} else {
 			this.rectangle.setRectangle(0, 0, 0, 0, this.matrixWorld);
 		}
