@@ -8,7 +8,6 @@ let scene = null;
 export function startCodeAnalysisUiCanvasDraw(canvasDom) {
 	scene = start2d(canvasDom, null, {
 		backgroundColor: '#ffffff',
-		maxWidth: 900
 	}).scene;
 }
 

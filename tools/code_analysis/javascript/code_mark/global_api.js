@@ -3,11 +3,11 @@ import convertClass from './convert/convert_class.js';
 import convertFunction from './convert/convert_function.js';
 import { AllProxyFunctionMessage, AllProxyFunctionMap, AllOriginalFunctionMap } from './proxy_function.js';
 import MarkLogs from './mark_logs.js';
-import { initCodeAnalysisUi, updateCodeAnalysisUi } from '../../ui/ui_button.js';
+import CodeAnalysisUi, { updateCodeAnalysisUi } from '../../ui/code_analysis_ui.js';
 
-initCodeAnalysisUi();
-
+globalThis.codeAnalysisUi = new CodeAnalysisUi();
 globalThis.updateCodeAnalysisUi = updateCodeAnalysisUi;
+
 globalThis.AllProxyFunctionMap = AllProxyFunctionMap;
 globalThis.AllOriginalFunctionMap = AllOriginalFunctionMap;
 globalThis.AllProxyFunctionMessage = AllProxyFunctionMessage;

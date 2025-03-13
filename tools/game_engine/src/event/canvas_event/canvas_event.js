@@ -1,4 +1,5 @@
 import CanvasEventProcess from './canvas_event_process.js';
+import KeyboardManager from '../keyboard/keyboard_manager.js';
 import MouseManager from '../mouse/mouse_manager.js';
 import Vector2 from '../../math/vector2.js';
 
@@ -21,6 +22,7 @@ export default class CanvasEvent extends CanvasEventProcess {
 
 		this.scene = null;
 
+		this.keyboardManager = new KeyboardManager(this);
 		this.mouseManager = new MouseManager(this);
 
 		if ('ontouchstart' in document.documentElement || (navigator.maxTouchPoints && navigator.maxTouchPoints >= 1)) {
@@ -57,6 +59,11 @@ export default class CanvasEvent extends CanvasEventProcess {
 
 	destroy() {
 		super.destroy();
+
+		if (this.keyboardManager !== null) {
+			this.keyboardManager.destroy();
+			this.keyboardManager = null;
+		}
 
 		if (this.mouseManager !== null) {
 			this.mouseManager.destroy();
