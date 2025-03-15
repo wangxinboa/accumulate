@@ -1,7 +1,7 @@
 import { isFunction } from '../../../../javascript_utils/data_type/is_type.js';
 import MarkLogs from './mark_logs.js';
 
-export const AllProxyFunctionMessage = {};
+export const AllMarkFunctionMessage = {};
 export const AllProxyFunctionMap = new Map();
 export const AllOriginalFunctionMap = new Map();
 
@@ -53,8 +53,8 @@ export default function proxyFunction(originalFunction, key) {
 		return originalFunction;
 	}
 
-	if (AllProxyFunctionMessage[key]) {
-		throw new Error(`AllProxyFunctionMessage 已经存在 ${key}`);
+	if (AllMarkFunctionMessage[key]) {
+		throw new Error(`AllMarkFunctionMessage 已经存在 ${key}`);
 	}
 
 	const markFunctionMessage = new MarkFunctionMessage(originalFunction, key);
@@ -90,7 +90,7 @@ export default function proxyFunction(originalFunction, key) {
 	});
 	AllOriginalFunctionMap.set(originalFunction, proxy);
 	AllProxyFunctionMap.set(proxy, originalFunction);
-	AllProxyFunctionMessage[key] = markFunctionMessage;
+	AllMarkFunctionMessage[key] = markFunctionMessage;
 
 	proxyFunctionIndex++;
 
