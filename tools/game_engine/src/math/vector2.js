@@ -1,3 +1,5 @@
+// copy from three.js/src/math/Vector2.js
+
 import { clamp } from './math_utils.js';
 
 export default class Vector2 {

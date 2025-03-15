@@ -26,6 +26,18 @@ scene.directEvent.on('pointermove', (x, y) => {
 	circle.y = y;
 });
 scene.addObject(circle);
+scene.on('keydown-RIGHT', () => {
+	camera.x += 10;
+})
+scene.on('keydown-LEFT', () => {
+	camera.x -= 10;
+})
+scene.on('keydown-UP', () => {
+	camera.y += 10;
+})
+scene.on('keydown-DOWN', () => {
+	camera.y -= 10;
+})
 
 const rect = new Rect({
 	x: 400,

@@ -1,38 +1,43 @@
-
+import { KeyDownMap, KeyUpMap } from './key_map.js';
 
 export default class KeyboardManager {
 	constructor(canvasEvent) {
 
 		this.canvasEvent = canvasEvent;
 
-		this.startListeners();
-
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.onKeyUp = this.onKeyUp.bind(this);
+
+		this.startListeners();
 	}
 
 	startListeners() {
-
-		this.canvasEvent.el.addEventListener('keydown', this.onKeyDown, false);
-		this.canvasEvent.el.addEventListener('keyup', this.onKeyUp, false);
+		window.addEventListener('keydown', this.onKeyDown, false);
+		window.addEventListener('keyup', this.onKeyUp, false);
 	}
 
 	stopListeners() {
-
-		this.canvasEvent.el.removeEventListener('keydown', this.onKeyDown, false);
-		this.canvasEvent.el.removeEventListener('keyup', this.onKeyUp, false);
+		window.removeEventListener('keydown', this.onKeyDown, false);
+		window.removeEventListener('keyup', this.onKeyUp, false);
 	}
 
 	onKeyDown(e) {
-
+		this.canvasEvent.scene.emit(KeyDownMap[e.keyCode], e);
 	}
 	onKeyUp(e) {
-
+		this.canvasEvent.scene.emit(KeyUpMap[e.keyCode], e);
 	}
 
 	destroy() {
+		this.canvasEvent = null;
+
 		this.stopListeners();
 
-		this.canvasEvent = null;
+		this.onKeyDown =
+			this.onKeyUp = null;
+
+		delete this.canvasEvent;
+		delete this.onKeyDown;
+		delete this.onKeyUp;
 	}
 }

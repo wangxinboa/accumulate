@@ -12,7 +12,7 @@ export default function start2d(canvasDom, afterRender, rendererOptions) {
 
 	scene.on('wheel', function (dx, dy) {
 		camera.x += dx;
-		camera.y += dy;
+		camera.y -= dy;
 	});
 
 	const canvasEvent = new CanvasEvent(canvasDom);

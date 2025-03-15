@@ -1,4 +1,4 @@
-
+// copy from three.js/src/math/Matrix3.js
 
 export default class Matrix3 {
 

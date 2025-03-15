@@ -18,7 +18,7 @@ export default class Camera2D extends Object2DRange {
 	}
 
 	updateMatrix() {
-		_translation.makeTranslation(-this.x, -this.y);
+		_translation.makeTranslation(-this.x, this.y);
 		_rotation.makeRotation(-this.rotation);
 		_scale.makeScale(this.scaleX === 0 ? 0 : 1 / this.scaleX, this.scaleY === 0 ? 0 : 1 / this.scaleY);
 
