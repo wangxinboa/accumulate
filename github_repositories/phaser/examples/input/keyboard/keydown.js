@@ -32,7 +32,7 @@ const Example = phaserClassMark(class Example extends Phaser.Scene {
 
 			console.log('Keyboard Events Stopped');
 
-			this.input.keyboard.stopListeners();
+			this.game.input.keyboard.stopListeners();
 
 		}, this);
 
@@ -55,7 +55,8 @@ const config = {
 	type: Phaser.CANVAS,
 	parent: 'phaser-example',
 	input: {
-		queue: true
+		queue: true,
+		windowEvents: false,
 	},
 	scene: Example
 };

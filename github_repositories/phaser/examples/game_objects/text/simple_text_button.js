@@ -22,8 +22,12 @@ const Example = phaserClassMark(class Example extends Phaser.Scene {
 })
 
 const config = {
-	type: Phaser.AUTO,
+	// type: Phaser.AUTO,
+	type: Phaser.CANVAS,
 	parent: 'phaser-example',
+	input: {
+		windowEvents: false,
+	},
 	width: 800,
 	height: 600,
 	scene: Example

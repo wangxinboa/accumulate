@@ -12,6 +12,9 @@ const config = {
 	height: 600,
 	// type: Phaser.AUTO,
 	type: Phaser.CANVAS,
+	input: {
+		windowEvents: false,
+	},
 	parent: 'phaser-example',
 	scene: Example
 };
