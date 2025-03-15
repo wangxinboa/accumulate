@@ -1,10 +1,6 @@
 import UiPanel from './panel/ui_panel.js';
 import { drawMarkNode } from './canvas/ui_canvas_draw.js';
 
-export function updateCodeAnalysisUi() {
-	drawMarkNode();
-}
-
 export default class CodeAnalysisUi {
 
 	constructor() {
@@ -24,6 +20,7 @@ export default class CodeAnalysisUi {
 			this.panel.hide();
 		} else {
 			this.panel.show();
+			drawMarkNode();
 		}
 	}
 

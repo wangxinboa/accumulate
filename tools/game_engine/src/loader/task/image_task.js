@@ -30,12 +30,12 @@ export default class ImageTask extends Task {
 	}
 
 	loaded() {
-		super.loaded();
-
 		this.naturalWidth = this.image.naturalWidth;
 		this.naturalHeight = this.image.naturalHeight;
 		this.width = this.image.width;
 		this.height = this.image.height;
+
+		super.loaded();
 	}
 
 	destroy() {

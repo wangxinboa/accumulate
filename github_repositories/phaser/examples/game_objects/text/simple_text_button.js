@@ -74,7 +74,6 @@ function startGame() {
 	setTimeout(() => {
 		pointerover();
 		pointerout();
-		updateCodeAnalysisUi();
 	}, 100)
 }
 

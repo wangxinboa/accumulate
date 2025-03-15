@@ -1,4 +1,4 @@
-import { Circle, Rect, Polyline, Polygon, Text } from '../src/index.js';
+import { Circle, Rect, Polyline, Polygon, Text, Image } from '../src/index.js';
 import start2d from './common/start2d.js';
 import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
 
@@ -114,6 +114,14 @@ const text = new Text({
 // text.add(rect);
 object2dCanMove(text);
 scene.addObject(text);
+
+// https://cdn.phaserfiles.com/v385/assets/tests/columns/gems.png
+const image = new Image({
+	url: '../../../github_repositories/phaser/examples/assets/gems.png',
+	x: 0,
+	y: 0,
+});
+scene.addObject(image);
 
 scene.sortObjectsByOrder();
 
