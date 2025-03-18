@@ -87,6 +87,4 @@ export class LoaderManager {
 }
 
 const loaderManager = new LoaderManager();
-
-window.loaderManager = loaderManager;
 export default loaderManager;

@@ -1,9 +1,12 @@
 import EventEmitter from '../event/event_emitter.js';
 
+let id = 0;
+
 export default class BaseObject extends EventEmitter {
 	constructor(option = {}) {
 		super();
 
+		this.id = id++;
 		this.isObject = true;
 
 		this.parent = null;
