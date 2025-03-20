@@ -1,3 +1,5 @@
+let frameIndex = 0;
+
 const Example = phaserClassMark(class Example extends Phaser.Scene {
 	constructor() {
 		super();
@@ -19,7 +21,7 @@ const Example = phaserClassMark(class Example extends Phaser.Scene {
 
 		this.anims.create(config);
 
-		for (let i = 0; i < 256; i++) {
+		// for (let i = 0; i < 256; i++) {
 			let x = Phaser.Math.Between(0, 800);
 			let y = Phaser.Math.Between(0, 600);
 
@@ -28,14 +30,26 @@ const Example = phaserClassMark(class Example extends Phaser.Scene {
 			//  Each one can have a random start delay
 			boom.play({
 				key: 'explode',
-				delay: Math.random() * 3000
+				delay: Math.random() * 0
 			});
+		// }
+	}
+
+	update() {
+		frameIndex++;
+		if (frameIndex > 10) {
+			// this.game.pause();
+			this.game.loop.stop();
 		}
 	}
 });
 
 const config = {
-	type: Phaser.AUTO,
+	// type: Phaser.AUTO,
+	type: Phaser.CANVAS,
+	input: {
+		windowEvents: false,
+	},
 	parent: 'phaser-example',
 	width: 800,
 	height: 600,

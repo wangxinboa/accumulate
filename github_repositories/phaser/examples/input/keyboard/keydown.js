@@ -1,3 +1,5 @@
+let frameIndex = 0;
+
 const Example = phaserClassMark(class Example extends Phaser.Scene {
 	BKey;
 

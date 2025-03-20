@@ -1,3 +1,5 @@
+let frameIndex = 0;
+
 const Example = phaserClassMark(class Example extends Phaser.Scene {
 	constructor() {
 		super();
@@ -49,6 +51,14 @@ const Example = phaserClassMark(class Example extends Phaser.Scene {
 		this.add.sprite(400, this.y, 'gems')
 			.play(key);
 		this.y += 100;
+	}
+
+	update() {
+		frameIndex++;
+		if (frameIndex > 0) {
+			// this.game.pause();
+			this.game.loop.stop();
+		}
 	}
 });
 

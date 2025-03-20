@@ -1,3 +1,5 @@
+let frameIndex = 0;
+
 const Example = phaserClassMark(class Example extends Phaser.Scene {
 	image;
 
@@ -12,6 +14,11 @@ const Example = phaserClassMark(class Example extends Phaser.Scene {
 
 	update() {
 		this.image.rotation += 0.01;
+		frameIndex++;
+		if (frameIndex > 0) {
+			// this.game.pause();
+			this.game.loop.stop();
+		}
 	}
 })
 

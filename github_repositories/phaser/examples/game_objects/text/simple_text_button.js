@@ -1,3 +1,5 @@
+let frameIndex = 0;
+
 const Example = phaserClassMark(class Example extends Phaser.Scene {
 	create() {
 		const button = this.add.text(400, 300, 'Play Game', {
@@ -18,6 +20,14 @@ const Example = phaserClassMark(class Example extends Phaser.Scene {
 		button.on('pointerout', phaserFunctionMark(() => {
 			button.setBackgroundColor('#2d2d2d');
 		}, 'Example create pointerout'));
+	}
+
+	update() {
+		frameIndex++;
+		if (frameIndex > 0) {
+			// this.game.pause();
+			this.game.loop.stop();
+		}
 	}
 })
 
