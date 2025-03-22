@@ -117,7 +117,7 @@ scene.addObject(text);
 
 // https://cdn.phaserfiles.com/v385/assets/tests/columns/gems.png
 const image = new Image({
-	url: '../../../github_repositories/phaser/examples/assets/gems.png',
+	url: '../../../github_repositories/learning/phaser/examples/assets/gems.png',
 	x: 0,
 	y: 0,
 });

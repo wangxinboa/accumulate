@@ -1,0 +1,1 @@
+import '../../../../tools/code_analysis/javascript/code_mark/global_api.js';

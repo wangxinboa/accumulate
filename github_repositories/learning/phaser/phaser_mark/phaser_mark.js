@@ -1,4 +1,4 @@
-import '../../../tools/code_analysis/javascript/code_mark/global_api.js';
+import '../../../../tools/code_analysis/javascript/code_mark/global_api.js';
 
 import { phaserClassCache, phaserClassAlias } from './phaser_cache.js';
 
