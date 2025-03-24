@@ -1,8 +1,6 @@
-import '../../../../libs/lil-gui/dist/lil-gui.umd.js';
+import '../../../../tools/code_analysis/javascript/code_mark/global_api.js';
 
-import '../fabric.js_mark/fabric.js_mark.js';
+import '../../../../libs/lil-gui/dist/lil-gui.umd.js';
 
 import * as fabric from '../source_code/dist/fabric.mjs';
 globalThis.fabric = fabric;
-
-// codeMarkObject(fabric, 'fabric');
