@@ -1,4 +1,4 @@
-import loaderManager from '../loader_manager.js';
+import loaderManager from './loader_manager.js';
 
 const TaskState = {
 	wait: 'wait',
@@ -8,7 +8,7 @@ const TaskState = {
 }
 
 
-export default class Task {
+export default class LoaderTask {
 	constructor(onloaded = null, onerror = null, index, key) {
 		this.index = index;
 		this.key = key;

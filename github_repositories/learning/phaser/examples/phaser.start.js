@@ -1,4 +1,4 @@
-// import './animation/add_animation_event.js';
+import './animation/add_animation_event.js';
 // import './animation/random_delay.js';
 
 // import './game_objects/images/single_image.js';
@@ -8,4 +8,4 @@
 
 // import './input/keyboard/keydown.js';
 
-import './tweens/tween_text_size.js';
+// import './tweens/tween_text_size.js';

@@ -1,7 +1,7 @@
-import Task from './task.js';
+import LoaderTask from '../loader_task.js';
 
 
-export default class ImageTask extends Task {
+export default class ImageTask extends LoaderTask {
 	constructor(onloaded, onerror, index, src, crossOrigin) {
 		super(onloaded, onerror, index, src);
 
