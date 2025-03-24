@@ -7,6 +7,7 @@ class MarkNode {
 		this.title = title;
 		this.data = data;
 
+		// 问了方便配合 ui 加上的，迟早改掉
 		this.visible = this.childrenVisible = true;
 
 		this.parent = parent;
@@ -23,7 +24,7 @@ class MarkNode {
 		this.children.push(newMarkNode);
 		return newMarkNode;
 	}
-	mountData(data) {
+	bindData(data) {
 		this.data = data;
 	}
 	isEmpty() {

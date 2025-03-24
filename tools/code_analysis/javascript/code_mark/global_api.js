@@ -38,7 +38,13 @@ globalThis.codeMarkFunction = function codeMarkFunction(originalFunction, aliasN
 	}
 
 	if (CodeMarkAllFunction[functionName]) {
+		// console.info('originalFunction:', originalFunction);
 		throw new Error(`codeMarkFunction CodeMarkAllFunction 已存在 ${functionName} function`);
+	}
+
+	if (functionName === '') {
+		// console.info('originalFunction:', originalFunction);
+		throw new Error(`codeMarkFunction functionName 不能为空字符串`);
 	}
 
 	CodeMarkAllFunction[functionName] = originalFunction;

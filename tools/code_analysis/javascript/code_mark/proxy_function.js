@@ -11,19 +11,22 @@ class MarkFunctionMessage {
 		this.key = key;
 
 		this.used = 0;
-		this.usedLogs = [];
-		this.usedParentMap = {};
+		this.usedLog = [];
+		this.parentsLog = [];
+		this.parentsMap = {};
 	}
 
 	mark(title) {
 		this.used++;
 		const markNode = MarkLog.mark(title, this.key, this);
+		this.usedLog.push(markNode);
+
 		const { key: parentKey } = markNode.prentNotEmpty;
-		this.usedLogs.push(markNode.prentNotEmpty);
-		if (this.usedParentMap[parentKey]) {
-			this.usedParentMap[parentKey]++;
+		this.parentsLog.push(markNode.prentNotEmpty);
+		if (this.parentsMap[parentKey]) {
+			this.parentsMap[parentKey]++;
 		} else {
-			this.usedParentMap[parentKey] = 1;
+			this.parentsMap[parentKey] = 1;
 		}
 
 		return markNode;
@@ -54,6 +57,7 @@ export default function proxyFunction(originalFunction, key) {
 	}
 
 	if (AllMarkFunctionMessage[key]) {
+		// console.info(`AllMarkFunctionMessage[${key}]:`, AllMarkFunctionMessage[key]);
 		throw new Error(`AllMarkFunctionMessage 已经存在 ${key}`);
 	}
 
@@ -68,14 +72,14 @@ export default function proxyFunction(originalFunction, key) {
 				result = Reflect.construct(target, args, newTarget);
 			}
 			markFunctionMessage.createMarkNodeData(args, result);
-			markNode.mountData(markFunctionMessage.createMarkNodeData(args, result));
+			markNode.bindData(markFunctionMessage.createMarkNodeData(args, result));
 			markFunctionMessage.markEnd();
 			return result;
 		},
 		apply(target, thisArg, argumentsList) {
 			const markNode = markFunctionMessage.mark(key);
 			const result = target.call(thisArg, ...argumentsList);
-			markNode.mountData(markFunctionMessage.createMarkNodeData(argumentsList, result));
+			markNode.bindData(markFunctionMessage.createMarkNodeData(argumentsList, result));
 			markFunctionMessage.markEnd();
 			return result;
 		},
