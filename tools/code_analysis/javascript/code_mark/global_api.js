@@ -2,7 +2,7 @@ import { isFunction, isOriginalFunction, isObject } from '../../../../javascript
 import convertClass from './convert/convert_class.js';
 import convertFunction from './convert/convert_function.js';
 import { AllMarkFunctionMessage, AllProxyFunctionMap, AllOriginalFunctionMap } from './proxy_function.js';
-import MarkLogs from './mark_logs.js';
+import MarkLog from './mark_log.js';
 import CodeAnalysisUi from '../../ui/code_analysis_ui.js';
 
 globalThis.codeAnalysisUi = new CodeAnalysisUi();
@@ -10,7 +10,7 @@ globalThis.codeAnalysisUi = new CodeAnalysisUi();
 globalThis.AllProxyFunctionMap = AllProxyFunctionMap;
 globalThis.AllOriginalFunctionMap = AllOriginalFunctionMap;
 globalThis.AllMarkFunctionMessage = AllMarkFunctionMessage;
-globalThis.MarkLogs = MarkLogs;
+globalThis.MarkLog = MarkLog;
 
 globalThis.CodeMarkAllClass = {};
 globalThis.codeMarkClass = function CodeMarkClass(originalClass, aliasName) {

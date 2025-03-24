@@ -43,7 +43,7 @@ class MarkNode {
 const rootMarkNode = new MarkNode('root', 'root 根节点', null, null);
 let nowMarkNode = rootMarkNode;
 
-const MarkLogs = {
+const MarkLog = {
 	rootMarkNode,
 	mark(title, key = null) {
 		const finalTitle = `${title}${key === null ? '-[空节点]' : ''}-[父节点:${nowMarkNode.isEmpty() ? nowMarkNode.prentNotEmpty.key : nowMarkNode.key}]`;
@@ -65,4 +65,4 @@ const MarkLogs = {
 	}
 }
 
-export default MarkLogs;
+export default MarkLog;

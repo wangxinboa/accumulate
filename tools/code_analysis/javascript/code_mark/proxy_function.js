@@ -1,5 +1,5 @@
 import { isFunction } from '../../../../javascript_utils/data_type/is_type.js';
-import MarkLogs from './mark_logs.js';
+import MarkLog from './mark_log.js';
 
 export const AllMarkFunctionMessage = {};
 export const AllProxyFunctionMap = new Map();
@@ -17,7 +17,7 @@ class MarkFunctionMessage {
 
 	mark(title) {
 		this.used++;
-		const markNode = MarkLogs.mark(title, this.key, this);
+		const markNode = MarkLog.mark(title, this.key, this);
 		const { key: parentKey } = markNode.prentNotEmpty;
 		this.usedLogs.push(markNode.prentNotEmpty);
 		if (this.usedParentMap[parentKey]) {
@@ -29,7 +29,7 @@ class MarkFunctionMessage {
 		return markNode;
 	}
 	markEnd() {
-		MarkLogs.markEnd();
+		MarkLog.markEnd();
 	}
 
 	createMarkNodeData(args, result) {

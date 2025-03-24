@@ -51,20 +51,20 @@ function handleMousedownText() {
 function handleMousedownCircle() {
 	const markNode = AllCircleMarkNode.get(this);
 	if (markNode.children.length > 0) {
-		eachBefore(MarkLogs.rootMarkNode, initMarkNodeObject2d, true);
+		eachBefore(MarkLog.rootMarkNode, initMarkNodeObject2d, true);
 		scene.sortObjectsByOrder();
 
-		eachBefore(MarkLogs.rootMarkNode, hideObejct2d, true);
+		eachBefore(MarkLog.rootMarkNode, hideObejct2d, true);
 		markNode.childrenVisible = !markNode.childrenVisible;
 
 		for (let i = 0, len = markNode.children.length; i < len; i++) {
 			markNode.children[i].visible = markNode.childrenVisible;
 		}
-		eachBefore(MarkLogs.rootMarkNode, initMarkNodeObject2d);
-		eachBefore(MarkLogs.rootMarkNode, showObject2d);
+		eachBefore(MarkLog.rootMarkNode, initMarkNodeObject2d);
+		eachBefore(MarkLog.rootMarkNode, showObject2d);
 
 		scene.sortObjectsByOrder();
-		eachBefore(MarkLogs.rootMarkNode, dealMarkNodeObject2d);
+		eachBefore(MarkLog.rootMarkNode, dealMarkNodeObject2d);
 	}
 }
 
@@ -171,7 +171,7 @@ function dealMarkNodeObject2d(markNode) {
 
 
 export function drawMarkNode() {
-	eachBefore(MarkLogs.rootMarkNode, initMarkNodeObject2d);
+	eachBefore(MarkLog.rootMarkNode, initMarkNodeObject2d);
 	scene.sortObjectsByOrder();
-	eachBefore(MarkLogs.rootMarkNode, dealMarkNodeObject2d);
+	eachBefore(MarkLog.rootMarkNode, dealMarkNodeObject2d);
 }
