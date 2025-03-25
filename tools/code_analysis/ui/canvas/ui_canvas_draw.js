@@ -30,7 +30,19 @@ function eachBefore(root, callback, ignoreVisible = false) {
 	return this;
 }
 
+let selectedText = null;
 function handleMousedownText() {
+	if (selectedText) {
+		selectedText.backgroundColor = null;
+	}
+	if (selectedText === this) {
+		selectedText = null;
+	} else {
+		selectedText = this;
+		selectedText.backgroundColor = '#b0b0b0';
+
+	}
+
 	const markNode = AllTextMarkNode.get(this);
 	const data = markNode.data;
 	if (data) {
