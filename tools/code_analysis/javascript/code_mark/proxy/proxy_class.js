@@ -1,9 +1,9 @@
 import { isFunction } from "../../../../../javascript_utils/data_type/is_type.js";
-import proxyFunction from "../proxy_function.js";
+import proxyFunction from "./proxy_function.js";
 
 const excludePrototypeKey = ['constructor', '__proto__'];
 
-export default function convertClass(originalClass, className) {
+export default function proxytClass(originalClass, className) {
 
 	const proxy = proxyFunction(originalClass, `${className}`);
 

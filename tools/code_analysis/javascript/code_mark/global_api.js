@@ -1,7 +1,6 @@
-import { isFunction, isOriginalFunction, isObject } from '../../../../javascript_utils/data_type/is_type.js';
-import convertClass from './convert/convert_class.js';
-import convertFunction from './convert/convert_function.js';
-import { AllMarkFunctionMessage, AllProxyFunctionMap, AllOriginalFunctionMap } from './proxy_function.js';
+import { isFunction, isOriginalFunction, isObject } from '../../../../javascript_utils/data_type/is_type.js'
+import proxytClass from './proxy/proxy_class.js';
+import proxyFunction, { AllMarkFunctionMessage, AllProxyFunctionMap, AllOriginalFunctionMap } from './proxy/proxy_function.js';
 import MarkLog from './mark_log.js';
 import CodeAnalysisUi from '../../ui/code_analysis_ui.js';
 
@@ -25,7 +24,7 @@ globalThis.codeMarkClass = function CodeMarkClass(originalClass, aliasName) {
 	}
 	CodeMarkAllClass[className] = originalClass;
 
-	const convertedClass = convertClass(originalClass, className);
+	const convertedClass = proxytClass(originalClass, className);
 	return convertedClass;
 }
 
@@ -39,17 +38,17 @@ globalThis.codeMarkFunction = function codeMarkFunction(originalFunction, aliasN
 
 	if (CodeMarkAllFunction[functionName]) {
 		// console.info('originalFunction:', originalFunction);
-		throw new Error(`codeMarkFunction CodeMarkAllFunction 已存在 ${functionName} function`);
+		// throw new Error(`codeMarkFunction CodeMarkAllFunction 已存在 ${functionName} function`);
 	}
 
 	if (functionName === '') {
 		// console.info('originalFunction:', originalFunction);
-		throw new Error(`codeMarkFunction functionName 不能为空字符串`);
+		// throw new Error(`codeMarkFunction functionName 不能为空字符串`);
 	}
 
 	CodeMarkAllFunction[functionName] = originalFunction;
 
-	return convertFunction(originalFunction, functionName);
+	return proxyFunction(originalFunction, functionName);
 }
 
 
