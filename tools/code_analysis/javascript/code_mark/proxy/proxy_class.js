@@ -1,5 +1,5 @@
-import { isFunction } from "../../../../../javascript_utils/data_type/is_type.js";
-import proxyFunction from "./proxy_function.js";
+import { isFunction } from '../../../../../javascript_libs/javascript_utils/data_type/is_type.js';
+import proxyFunction from './proxy_function.js';
 
 const excludePrototypeKey = ['constructor', '__proto__'];
 

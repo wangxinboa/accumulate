@@ -1,4 +1,4 @@
-import { isFunction, isOriginalFunction, isObject } from '../../../../javascript_utils/data_type/is_type.js'
+import { isFunction, isOriginalFunction, isObject } from '../../../../javascript_libs/javascript_utils/data_type/is_type.js'
 import proxytClass from './proxy/proxy_class.js';
 import proxyFunction, { AllMarkFunctionMessage, AllProxyFunctionMap, AllOriginalFunctionMap } from './proxy/proxy_function.js';
 import MarkLog from './mark_log.js';

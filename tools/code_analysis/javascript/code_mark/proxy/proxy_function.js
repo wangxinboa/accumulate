@@ -1,4 +1,4 @@
-import { isFunction } from '../../../../../javascript_utils/data_type/is_type.js';
+import { isFunction } from '../../../../../javascript_libs/javascript_utils/data_type/is_type.js';
 import MarkLog from '../mark_log.js';
 
 export const AllMarkFunctionMessage = {};
