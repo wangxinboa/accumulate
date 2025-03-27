@@ -15,7 +15,10 @@ export default class CodeAnalysisUi {
 		this.switch.addEventListener('mousedown', this.switchDown);
 	}
 
-	switchDown() {
+	switchDown(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
 		if (this.panel.isShow) {
 			this.panel.hide();
 		} else {
