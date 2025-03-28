@@ -16,7 +16,7 @@ export function isFunction(data) {
 
 const OriginalFunctionAttrs = ['arguments', 'caller', 'length', 'name', 'prototype'];
 
-export function isOriginalFunction(data) {
+export function isPrimitiveFunction(data) {
 	if (isFunction(data)) {
 
 		const descriptors = Object.getOwnPropertyDescriptors(data);
@@ -48,6 +48,20 @@ export function isOriginalFunction(data) {
 	return false;
 }
 
+export function isPlainObject(obj) {
+	if (typeof obj !== 'object' || obj === null) {
+		return false;
+	}
+	const proto = Object.getPrototypeOf(obj);
+	return proto === Object.prototype || proto === null;
+}
+
+
 export function isObject(data) {
 	return typeof data === 'object' && data !== null;
+}
+
+// 检查是否是一个对象并且不是数组
+export function isNonArrayObject(data) {
+	return obj !== null && typeof obj === 'object' && !Array.isArray(obj);
 }
