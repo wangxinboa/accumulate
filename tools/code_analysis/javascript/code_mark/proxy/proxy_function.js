@@ -57,9 +57,9 @@ export default function proxyFunction(originalFunction, key) {
 	}
 
 	if (AllMarkFunctionMessage[key]) {
-		console.info('originalFunction:', originalFunction);
+		// console.info('originalFunction:', originalFunction);
 		// console.info(`AllMarkFunctionMessage[${key}]:`, AllMarkFunctionMessage[key]);
-		// throw new Error(`AllMarkFunctionMessage 已经存在 ${key}`);
+		throw new Error(`AllMarkFunctionMessage 已经存在 ${key}`);
 	}
 
 	const markFunctionMessage = new MarkFunctionMessage(originalFunction, key);
