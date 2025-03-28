@@ -1,1 +1,0 @@
-[pokerogue.html](/github_repositories/stop/pokerogue/reproduction/pokerogue.html)
