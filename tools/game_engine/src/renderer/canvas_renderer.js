@@ -27,6 +27,8 @@ export default class CanvasRenderer extends CanvasScale {
 		if (this.backgroundColor) {
 			this.ctx.fillStyle = this.backgroundColor;
 			this.ctx.fillRect(0, 0, this.el.width, this.el.height);
+			// 默认白色
+			this.ctx.fillStyle = "#000000";
 		}
 
 		this.ctx.save();
