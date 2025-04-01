@@ -21,7 +21,7 @@ export default class CanvasRenderer extends CanvasScale {
 		this.ctx.scale(this.retinaScaling, this.retinaScaling);
 	}
 
-	render(scene) {
+	render(scene, time) {
 		this.clear();
 
 		if (this.backgroundColor) {
@@ -40,6 +40,7 @@ export default class CanvasRenderer extends CanvasScale {
 		let object = null;
 		for (let i = 0, len = scene.objects.length; i < len; i++) {
 			object = scene.objects[i];
+			object.update(time);
 			if (object.visible && object.isOverlap(scene.camera)) {
 				object.render(this.ctx);
 				scene.addVisibleObject(object);

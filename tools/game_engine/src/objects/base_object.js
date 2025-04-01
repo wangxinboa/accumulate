@@ -1,8 +1,8 @@
-import EventEmitter from '../event/event_emitter.js';
+import AnimationManager from '../animation/animation_manager.js';
 
 let id = 0;
 
-export default class BaseObject extends EventEmitter {
+export default class BaseObject extends AnimationManager {
 	constructor(option = {}) {
 		super();
 

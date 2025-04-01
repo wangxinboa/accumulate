@@ -25,9 +25,9 @@ export default function start2d(canvasDom, afterRender, rendererOptions) {
 		}
 	})
 
-	function animationFrame() {
+	function animationFrame(time = 0) {
 		requestAnimationFrame(animationFrame);
-		renderer.render(scene);
+		renderer.render(scene, time);
 		if (afterRender) {
 			afterRender();
 		}

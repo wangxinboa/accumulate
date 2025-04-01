@@ -1,4 +1,7 @@
 
+export { default as AnimationIndex } from './animation/frames_manager/animation_index.js';
+export { default as AnimationTween } from './animation/frames_manager/animation_tween.js';
+
 export { default as Camera2D } from './camera/camera2d.js';
 
 export { default as CanvasEvent } from './event/canvas_event/canvas_event.js';
