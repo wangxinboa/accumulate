@@ -7,7 +7,7 @@ let scene = null;
 
 export function startCodeAnalysisUiCanvasDraw(canvasDom) {
 	scene = start2d(canvasDom, null, {
-		backgroundColor: '#333333',
+		backgroundColor: '#ffffff',
 	}).scene;
 }
 
