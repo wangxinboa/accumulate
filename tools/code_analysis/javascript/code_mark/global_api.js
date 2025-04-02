@@ -1,4 +1,4 @@
-import { isFunction, isPrimitiveFunction, isObject } from '../../../../javascript_libs/javascript_utils/data_type/is_type.js'
+import { isFunction, isObject } from '../../../../javascript_libs/javascript_utils/data_type/is_type.js'
 import proxytClass from './proxy/proxy_class.js';
 import proxyFunction, { AllMarkFunctionMessage, AllProxyFunctionMap, AllOriginalFunctionMap } from './proxy/proxy_function.js';
 import MarkLog from './mark_log.js';
@@ -31,10 +31,6 @@ globalThis.codeMarkClass = function CodeMarkClass(originalClass, aliasName) {
 globalThis.CodeMarkAllFunction = {};
 globalThis.codeMarkFunction = function codeMarkFunction(originalFunction, aliasName) {
 	const functionName = aliasName || originalFunction.name;
-
-	if (!isPrimitiveFunction(originalFunction)) {
-		throw new Error(`codeMarkFunction originalFunction 不是原始函数`);
-	}
 
 	if (CodeMarkAllFunction[functionName]) {
 		// console.info('originalFunction:', originalFunction);

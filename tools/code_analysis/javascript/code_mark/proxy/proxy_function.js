@@ -1,5 +1,6 @@
 import { isFunction } from '../../../../../javascript_libs/javascript_utils/data_type/is_type.js';
 import MarkLog from '../mark_log.js';
+import { deepClone } from '../../../../../javascript_libs/javascript_utils/data_type/object.js';
 
 export const AllMarkFunctionMessage = {};
 export const AllProxyFunctionMap = new Map();
@@ -9,6 +10,9 @@ class MarkFunctionMessage {
 	constructor(originalFunction, key) {
 		this.originalFunction = originalFunction;
 		this.key = key;
+
+		this.allArgs = [];
+		this.allResult = [];
 
 		this.used = 0;
 		this.usedLog = [];
@@ -36,6 +40,9 @@ class MarkFunctionMessage {
 	}
 
 	createMarkNodeData(args, result) {
+		this.allArgs.push(args);
+		this.allResult.push(result);
+
 		return {
 			args, result,
 			used: this.used,
@@ -93,6 +100,7 @@ export default function proxyFunction(originalFunction, key) {
 			return true;
 		},
 	});
+
 	AllOriginalFunctionMap.set(originalFunction, proxy);
 	AllProxyFunctionMap.set(proxy, originalFunction);
 	AllMarkFunctionMessage[key] = markFunctionMessage;

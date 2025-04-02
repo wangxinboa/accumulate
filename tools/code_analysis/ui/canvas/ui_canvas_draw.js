@@ -55,6 +55,8 @@ function handleMousedownText() {
 		console.info('当前执行次数:', data.used);
 		console.info('父级节点调用记录:', markFunctionMessage.parentsLog);
 		console.info('父级节点调用次数:', markFunctionMessage.parentsMap);
+		console.info('全部传入参数:', markFunctionMessage.allArgs);
+		console.info('全部返回结果:', markFunctionMessage.allResult);
 	} else {
 		console.info(markNode.title, '为空函数');
 	}
