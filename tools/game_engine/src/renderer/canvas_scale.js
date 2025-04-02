@@ -15,6 +15,7 @@ export default class CanvasScale {
 		window.addEventListener('resize', this.resize);
 	}
 
+	// windows 环境下父元素需要设置 overflow: hidden 防止滚动条的出现出现影响宽高
 	resize() {
 		let finalWidth = 0, finalHeight = 0;
 
