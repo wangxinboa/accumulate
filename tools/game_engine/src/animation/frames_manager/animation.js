@@ -1,3 +1,6 @@
+import AnimationFrame from '../frame/animation_frame.js';
+
+
 function now() {
 	return performance.now();
 }
@@ -5,7 +8,8 @@ function now() {
 export default class Animation {
 	constructor(object, frames = []) {
 		this.object = object;
-		this.frames = frames;
+		this.frames = [];
+		this.addFrames(frames);
 
 		this._initTarget = {};
 
@@ -30,10 +34,10 @@ export default class Animation {
 	addFrames(frames) {
 		if (Array.isArray(frames)) {
 			for (let i = 0, len = frames.length; i < len; i++) {
-				this.frames.push(frames[i]);
+				this.frames.push(new AnimationFrame(frames[i]));
 			}
 		} else {
-			this.frames.push(frames);
+			this.frames.push(new AnimationFrame(frames));
 		}
 		return this;
 	}
@@ -73,6 +77,10 @@ export default class Animation {
 		this.paused = false;
 	}
 
+	stop() {
+
+	}
+
 	pause() {
 		this.paused = true;
 		this.pausedTime = now();
@@ -88,6 +96,11 @@ export default class Animation {
 	}
 
 	destroy() {
+		for (let i = this.frames.length; i >= 0; i--) {
+			this.frames[i].destroy();
+			this.frames.pop();
+		}
+
 		this.object =
 			this.frames =
 

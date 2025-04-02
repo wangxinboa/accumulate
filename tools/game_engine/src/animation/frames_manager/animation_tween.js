@@ -11,12 +11,7 @@ export default class AnimationTween extends Animation {
 			return;
 		}
 
-		const
-			{
-				target: endTarget,
-				duration, delayTime = 0,
-				yoyo = false, repeat = 0
-			} = this.endFrame;
+		const { target: endTarget, duration, delayTime, yoyo, repeat } = this.endFrame;
 
 		let progress = (time < this.startTime + delayTime) ? 0 : (time - this.startTime - delayTime) / duration;
 		progress = progress > 1 ? 1 : progress;
