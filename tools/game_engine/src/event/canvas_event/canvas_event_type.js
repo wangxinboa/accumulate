@@ -1,8 +1,8 @@
 const CanvasEventType = {
-	touchstart: 'touchstart',
-	touchmove: 'touchmove',
-	touchend: 'touchend',
-	touchcancel: 'touchcancel',
+	// touchstart: 'touchstart',
+	// touchmove: 'touchmove',
+	// touchend: 'touchend',
+	// touchcancel: 'touchcancel',
 
 	wheel: 'wheel',
 

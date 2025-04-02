@@ -41,6 +41,14 @@ rect.addAnimationTween('move', [
 	},
 ]);
 
+scene.on('pointerdown', () => {
+	if (rect.isPlaying) {
+		rect.pauseAnimation();
+	} else {
+		rect.resumeAnimation();
+	}
+})
+
 scene.addObject(rect);
 
 setTimeout(() => {

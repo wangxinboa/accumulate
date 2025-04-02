@@ -11,11 +11,6 @@ export default class AnimationTween extends Animation {
 			return;
 		}
 
-		// 刚开始动画
-		if (this._startTime === -1) {
-			this.setStartTime(time);
-		}
-
 		const
 			{
 				target: endTarget,
@@ -23,7 +18,7 @@ export default class AnimationTween extends Animation {
 				yoyo = false, repeat = 0
 			} = this.endFrame;
 
-		let progress = (time < this._startTime + delayTime) ? 0 : (time - this._startTime - delayTime) / duration;
+		let progress = (time < this.startTime + delayTime) ? 0 : (time - this.startTime - delayTime) / duration;
 		progress = progress > 1 ? 1 : progress;
 
 		const value = (yoyo && this.completeCount < repeat && this.completeCount % 2 === 1) ?
@@ -43,10 +38,11 @@ export default class AnimationTween extends Animation {
 
 		if (progress === 1) {
 			if (++this.completeCount < repeat) {
-				this.setStartTime(time);
+				this.startTime = time;
 			} else {
 				if (this.toNextFrame()) {
-					this.setStartTime(time);
+					this.completeCount = 0;
+					this.startTime = time;
 				} else {
 					this.object.stopAnimation();
 				}

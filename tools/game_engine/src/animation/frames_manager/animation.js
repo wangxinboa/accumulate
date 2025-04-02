@@ -1,4 +1,6 @@
-
+function now() {
+	return performance.now();
+}
 
 export default class Animation {
 	constructor(object, frames = []) {
@@ -6,7 +8,6 @@ export default class Animation {
 		this.frames = frames;
 
 		this._initTarget = {};
-		this.setInitTarget();
 
 		this.startTarget = null;
 		this._endFrameIndex = -1;
@@ -14,7 +15,7 @@ export default class Animation {
 
 		this.completeCount = 0;
 
-		this._startTime = -1;
+		this.startTime = -1;
 		this.paused = true;
 		this.pausedTime = -1;
 
@@ -22,28 +23,8 @@ export default class Animation {
 		// this._loopCount = 0;
 	}
 
-	setInitTarget() {
-		for (let key in this.frames[0].target) {
-			this._initTarget[key] = this.object[key];
-		}
-	}
-
-	setStartTime(time) {
-		this._startTime = time;
-	}
-
 	loop(loop) {
 		this._loop = loop;
-	}
-
-	mountObject(object) {
-		this.object = object;
-		return this;
-	}
-
-	unmountObject() {
-		this.object = null;
-		return this;
 	}
 
 	addFrames(frames) {
@@ -59,6 +40,7 @@ export default class Animation {
 
 	toNextFrame() {
 		if (this.frames.length === this._endFrameIndex + 1) {
+			// console.info('')
 			// if (this._loop) {
 			// 	this.start(0);
 			// 	return true;
@@ -66,49 +48,43 @@ export default class Animation {
 			return false;
 			// }
 		} else {
-			this.start(this._endFrameIndex + 1);
+			this.startTarget = this.frames[this._endFrameIndex].target;
+			this._endFrameIndex++;
+			this.endFrame = this.frames[this._endFrameIndex];
 			return true;
 		}
 	}
 
-	start(frameIndex = 0) {
-		if (this.frames.length <= frameIndex) {
+	start() {
+		if (this.frames.length <= 1) {
 			throw new Error('frames 内元素数量小于 frameIndex, 无法开始动画');
 		}
 
-		if (frameIndex === 0) {
-			this.startTarget = this._initTarget;
-		} else {
-			this.startTarget = this.frames[frameIndex - 1].target;
+		for (let key in this.frames[0].target) {
+			this._initTarget[key] = this.object[key];
 		}
-		this._endFrameIndex = frameIndex;
-		this.endFrame = this.frames[frameIndex];
+		this.startTarget = this._initTarget;
+		this._endFrameIndex = 0;
+		this.endFrame = this.frames[0];
 
 		this.completeCount = 0;
 
+		this.startTime = now();
 		this.paused = false;
-		this.pausedTime = -1;
-	}
-
-	reset() {
-		this.startTarget = null;
-		this._endFrameIndex = -1;
-		this.endFrame = null;
-
-		this.completeCount = 0;
-
-		this._startTime = -1;
-		this.paused = true;
-		this.pausedTime = -1;
 	}
 
 	pause() {
 		this.paused = true;
+		this.pausedTime = now();
 	}
 
 	resume() {
 		this.paused = false;
-		this.pausedTime = -1;
+		this.startTime += (now() - this.pausedTime);
+	}
+
+	finish() {
+		this._finished = true;
 	}
 
 	destroy() {
@@ -122,7 +98,7 @@ export default class Animation {
 
 			this.completeCount =
 
-			this._startTime =
+			this.startTime =
 			this.paused =
 			this.pausedTime =
 
@@ -138,7 +114,7 @@ export default class Animation {
 
 		delete this.completeCount;
 
-		delete this._startTime;
+		delete this.startTime;
 		delete this.paused;
 		delete this.pausedTime;
 

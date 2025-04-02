@@ -8,6 +8,8 @@ export default class AnimationManager extends EventEmitter {
 
 		this._animations = {};
 		this._nowAnimation = null;
+
+		this.isPlaying = false;
 	}
 
 	addAnimationTween(name, frames) {
@@ -29,12 +31,13 @@ export default class AnimationManager extends EventEmitter {
 		return animationIndex;
 	}
 
-	startAnimation(name, needReset = true) {
-		if (this._nowAnimation && needReset) {
-			this._nowAnimation.reset();
-		}
+	startAnimation(name) {
 		this._nowAnimation = this._animations[name];
-		this._nowAnimation.start();
+		if (this._nowAnimation) {
+			this._nowAnimation.start();
+
+			this.isPlaying = true;
+		}
 	}
 
 	update(time) {
@@ -45,20 +48,25 @@ export default class AnimationManager extends EventEmitter {
 
 	stopAnimation() {
 		if (this._nowAnimation !== null) {
-			this._nowAnimation.reset();
 			this._nowAnimation = null;
+
+			this.isPlaying = false;
 		}
 	}
 
 	pauseAnimation() {
 		if (this._nowAnimation !== null) {
 			this._nowAnimation.pause();
+
+			this.isPlaying = false;
 		}
 	}
 
 	resumeAnimation() {
 		if (this._nowAnimation !== null) {
 			this._nowAnimation.resume();
+
+			this.isPlaying = true;
 		}
 	}
 
