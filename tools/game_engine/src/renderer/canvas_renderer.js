@@ -33,6 +33,7 @@ export default class CanvasRenderer extends CanvasScale {
 
 		this.ctx.save();
 
+		scene.camera.updateMatrix();
 		scene.camera.transform(this.ctx);
 
 		scene.clearVisibleObjects();
@@ -62,6 +63,7 @@ export default class CanvasRenderer extends CanvasScale {
 			child.update(time);
 			if (child.visible && child.isOverlap(scene.camera)) {
 				child.updateMatrix();
+
 				child.render(this.ctx);
 				scene.addVisibleObject(child);
 

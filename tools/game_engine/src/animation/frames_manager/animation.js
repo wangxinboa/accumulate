@@ -77,6 +77,38 @@ export default class Animation {
 		this.paused = false;
 	}
 
+	update(time) {
+		if (this.paused) {
+			return;
+		}
+
+		const { target: endTarget, duration, delayTime, yoyo, repeat } = this.endFrame;
+
+		let progress = (time < this.startTime + delayTime) ? 0 : (time - this.startTime - delayTime) / duration;
+		progress = progress > 1 ? 1 : progress;
+
+		const value = (yoyo && this.completeCount < repeat && this.completeCount % 2 === 1) ?
+			1 - progress : progress;
+
+		if (progress === 0) {
+		} else if (progress <= 1) {
+			this._updateProperties(this.object, this.startTarget, endTarget, value);
+		}
+
+		if (progress === 1) {
+			if (++this.completeCount < repeat) {
+				this.startTime = time;
+			} else {
+				if (this.toNextFrame()) {
+					this.completeCount = 0;
+					this.startTime = time;
+				} else {
+					this.object.stopAnimation();
+				}
+			}
+		}
+	}
+
 	stop() {
 
 	}

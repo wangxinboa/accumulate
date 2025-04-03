@@ -10,7 +10,7 @@ export { default as Matrix3 } from './math/matrix3.js';
 export { default as Rectangle } from './math/rectangle.js';
 export { default as Vector2 } from './math/vector2.js';
 
-export { default as Object2DTransform } from './objects/2d/base/object2d_transform.js';
+export { default as Sprite } from './objects/2d/sprite/sprite.js';
 export { default as Circle } from './objects/2d/circle.js';
 export { default as Image } from './objects/2d/image.js';
 export { default as Polygon } from './objects/2d/polygon.js';

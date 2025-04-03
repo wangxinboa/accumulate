@@ -23,4 +23,15 @@ export default class Polygon extends Object2D {
 	updateRange() {
 		this.rectangle.setRectangleByPoints(this.points, this.matrixWorld);
 	}
+
+	destroy() {
+		super.destroy();
+
+		this.isPolygon = 
+		this.updateRange =
+			this.imageTask = null;
+
+		delete this.updateRange;
+		delete this.imageTask;
+	}
 }

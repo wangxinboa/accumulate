@@ -49,7 +49,6 @@ export default class Rect extends Object2D {
 
 	updateRange() {
 		const x = this.width / 2, y = this.height / 2;
-
 		this.rectangle.setRectangle(-x, -y, x, y, this.matrixWorld);
 	}
 

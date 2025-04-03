@@ -42,5 +42,8 @@ export default class Image extends Object2D {
 
 		this.updateRange =
 			this.imageTask = null;
+
+		delete this.updateRange;
+		delete this.imageTask;
 	}
 }

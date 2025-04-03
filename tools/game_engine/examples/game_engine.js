@@ -1,4 +1,4 @@
-import { Circle, Rect, Polyline, Polygon, Text, Image } from '../src/index.js';
+import { Circle, Rect, Polyline, Polygon, Text, Image, Sprite } from '../src/index.js';
 import start2d from './common/start2d.js';
 import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
 
@@ -116,14 +116,289 @@ object2dCanMove(text);
 scene.add(text);
 
 // https://cdn.phaserfiles.com/v385/assets/tests/columns/gems.png
-const image = new Image({
-	url: '../../../github_repositories/learning/phaser/examples/assets/gems.png',
-	x: 0,
-	y: 0,
-});
-scene.add(image);
+// const image = new Image({
+// 	url: '../../../github_repositories/learning/phaser/examples/assets/gems.png',
+// 	x: 0,
+// 	y: 0,
+// });
+// scene.add(image);
 
-scene.sortObjectsByOrder();
+const sprite = new Sprite({
+	url: '../../../github_repositories/learning/phaser/examples/assets/gems.png',
+	blocks: [
+		{
+			x: 2,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 2,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 2,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 68,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 68,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 68,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 134,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 134,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 134,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 200,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 200,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 200,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 266,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 266,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 266,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 332,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 332,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 332,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 398,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 398,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 398,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 464,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 464,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 464,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 530,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 530,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 530,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 596,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 596,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 596,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 662,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 662,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 662,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 728,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 728,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 728,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 794,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 860,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 926,
+			y: 2,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 794,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 794,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 860,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 926,
+			y: 68,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 860,
+			y: 134,
+			width: 64,
+			height: 64
+		},
+		{
+			x: 926,
+			y: 134,
+			width: 64,
+			height: 64
+		}
+	]
+});
+scene.add(sprite);
 
 const gui = new lil.GUI();
 
