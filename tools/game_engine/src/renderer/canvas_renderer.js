@@ -42,6 +42,7 @@ export default class CanvasRenderer extends CanvasScale {
 			object = scene.objects[i];
 			object.update(time);
 			if (object.visible && object.isOverlap(scene.camera)) {
+				object.updateMatrix();
 				object.render(this.ctx);
 				scene.addVisibleObject(object);
 			}

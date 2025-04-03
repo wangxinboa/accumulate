@@ -15,6 +15,7 @@ export default class Object2DTransform extends BaseObject {
 	constructor(option = {}) {
 		super(option);
 
+		this.matrixNeedsUpdate = true;
 		this.matrix = new Matrix3();
 		this.matrixWorld = new Matrix3();
 
@@ -69,19 +70,23 @@ export default class Object2DTransform extends BaseObject {
 	}
 
 	updateMatrix() {
-		_translation.makeTranslation(this.x, this.y);
-		_rotation.makeRotation(this.rotation);
-		_scale.makeScale(this.scaleX, this.scaleY);
+		if (this.matrixNeedsUpdate) {
+			_translation.makeTranslation(this.x, this.y);
+			_rotation.makeRotation(this.rotation);
+			_scale.makeScale(this.scaleX, this.scaleY);
 
-		this.matrix
-			.identity()
-			.multiply(_translation)
-			.multiply(_rotation)
-			.multiply(_scale);
+			this.matrix
+				.identity()
+				.multiply(_translation)
+				.multiply(_rotation)
+				.multiply(_scale);
 
-		this.updateMatrixWorld();
+			this.updateMatrixWorld();
 
-		this.rectangle.applyMatrix3(this.matrixWorld);
+			this.rectangle.applyMatrix3(this.matrixWorld);
+
+			this.matrixNeedsUpdate = false;
+		}
 	}
 
 	updateMatrixWorld() {
@@ -91,11 +96,11 @@ export default class Object2DTransform extends BaseObject {
 			this.matrixWorld.copy(this.matrix);
 		}
 
-		if (Array.isArray(this.children) && this.children.length > 0) {
-			this.children.forEach(child => {
-				child.updateMatrixWorld();
-			});
-		}
+		// if (Array.isArray(this.children) && this.children.length > 0) {
+		// 	this.children.forEach(child => {
+		// 		child.updateMatrixWorld();
+		// 	});
+		// }
 	}
 
 	get x() {
@@ -103,14 +108,14 @@ export default class Object2DTransform extends BaseObject {
 	}
 	set x(val) {
 		this._x = val;
-		this.updateMatrix();
+		this.matrixNeedsUpdate = true;
 	}
 	get y() {
 		return this._y;
 	}
 	set y(val) {
 		this._y = val;
-		this.updateMatrix();
+		this.matrixNeedsUpdate = true;
 	}
 	get rotationAngle() {
 		return this._rotationAngle;
@@ -118,7 +123,8 @@ export default class Object2DTransform extends BaseObject {
 	set rotationAngle(val) {
 		this._rotationAngle = val;
 		this._rotation = val * PiBy180;
-		this.updateMatrix();
+
+		this.matrixNeedsUpdate = true;
 	}
 	get rotation() {
 		return this._rotation;
@@ -126,21 +132,22 @@ export default class Object2DTransform extends BaseObject {
 	set rotation(val) {
 		this._rotation = val;
 		this._rotationAngle = val / PiBy180;
-		this.updateMatrix();
+
+		this.matrixNeedsUpdate = true;
 	}
 	get scaleX() {
 		return this._scaleX;
 	}
 	set scaleX(val) {
 		this._scaleX = val;
-		this.updateMatrix();
+		this.matrixNeedsUpdate = true;
 	}
 	get scaleY() {
 		return this._scaleY;
 	}
 	set scaleY(val) {
 		this._scaleY = val;
-		this.updateMatrix();
+		this.matrixNeedsUpdate = true;
 	}
 
 	destroy() {
@@ -148,7 +155,8 @@ export default class Object2DTransform extends BaseObject {
 
 		this.rectangle.destroy();
 
-		this.matrix =
+		this.matrixNeedsUpdate =
+			this.matrix =
 			this.matrixWorld =
 
 			this.x =
@@ -160,6 +168,7 @@ export default class Object2DTransform extends BaseObject {
 
 			this.rectangle = null;
 
+		delete this.matrixNeedsUpdate;
 		delete this.matrix;
 		delete this.matrixWorld;
 
