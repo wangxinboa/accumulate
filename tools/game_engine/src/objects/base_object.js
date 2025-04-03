@@ -25,11 +25,13 @@ export default class BaseObject extends AnimationManager {
 			object.parent = this;
 			this.children.push(object);
 
-			// 更新全局矩阵
-			this.updateMatrixWorld();
+			this.afterAddChild();
 		}
 		return this;
 	}
+
+	afterAddChild() { }
+
 	remove(object) {
 		const index = this.children.indexOf(object);
 		if (index !== - 1) {
@@ -47,12 +49,22 @@ export default class BaseObject extends AnimationManager {
 		}
 		this.parent.remove(this);
 
-		this.isObject =
+		this.id =
+			this.isObject =
 
 			this.parent =
 			this.children =
 
 			this.visible =
 			this.renderOrder = null;
+
+		delete this.id;
+		delete this.isObject;
+
+		delete this.parent;
+		delete this.children;
+
+		delete this.visible;
+		delete this.renderOrder;
 	}
 }

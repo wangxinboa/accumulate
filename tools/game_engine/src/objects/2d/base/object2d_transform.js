@@ -1,10 +1,15 @@
 import Matrix3 from '../../../math/matrix3.js';
+import Vector2 from '../../../math/vector2.js';
+import Rectangle from '../../../math/rectangle.js';
 import { PiBy180 } from '../../../math/math_utils.js';
 import BaseObject from '../../base_object.js';
 
 const _translation = new Matrix3();
 const _rotation = new Matrix3();
 const _scale = new Matrix3();
+
+const _point = new Vector2();
+const _matrx = new Matrix3();
 
 export default class Object2DTransform extends BaseObject {
 	constructor(option = {}) {
@@ -19,6 +24,18 @@ export default class Object2DTransform extends BaseObject {
 		this._rotationAngle = option.rotationAngle || 0;
 		this._scaleX = option.scaleX || 1;
 		this._scaleY = option.scaleY || 1;
+
+		this.rectangle = new Rectangle();
+	}
+
+	// 判断两个 Object2DRange 是否重叠
+	isOverlap(object2d) {
+		return this.rectangle.overlapRectangleSAT(object2d.rectangle);
+	}
+
+	hitTest(x, y) {
+		_point.set(x, y).applyMatrix3(_matrx.copy(this.matrixWorld).invert());
+		return this.rectangle.containsPoint(_point.x, _point.y);
 	}
 
 	transform(ctx) {
@@ -46,6 +63,11 @@ export default class Object2DTransform extends BaseObject {
 		elements = null;
 	}
 
+	afterAddChild() {
+		// 更新全局矩阵
+		this.updateMatrixWorld();
+	}
+
 	updateMatrix() {
 		_translation.makeTranslation(this.x, this.y);
 		_rotation.makeRotation(this.rotation);
@@ -58,6 +80,8 @@ export default class Object2DTransform extends BaseObject {
 			.multiply(_scale);
 
 		this.updateMatrixWorld();
+
+		this.rectangle.applyMatrix3(this.matrixWorld);
 	}
 
 	updateMatrixWorld() {
@@ -122,14 +146,31 @@ export default class Object2DTransform extends BaseObject {
 	destroy() {
 		super.destroy();
 
-		this.matrix = null;
-		this.matrixWorld = null;
-		this.x = null;
-		this.y = null;
-		this.rotationAngle = null;
-		this.rotation = null;
-		this.scaleX = null;
-		this.scaleY = null;
+		this.rectangle.destroy();
+
+		this.matrix =
+			this.matrixWorld =
+
+			this.x =
+			this.y =
+			this.rotationAngle =
+			this.rotation =
+			this.scaleX =
+			this.scaleY =
+
+			this.rectangle = null;
+
+		delete this.matrix;
+		delete this.matrixWorld;
+
+		delete this.x;
+		delete this.y;
+		delete this.rotationAngle;
+		delete this.rotation;
+		delete this.scaleX;
+		delete this.scaleY;
+
+		delete this.rectangle;
 	}
 }
 

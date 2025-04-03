@@ -1,11 +1,11 @@
 import Matrix3 from '../math/matrix3.js';
-import Object2DRange from '../objects/2d/base/object2d_range.js';
+import Object2DTransform from '../objects/2d/base/object2d_transform.js';
 
 const _translation = new Matrix3();
 const _rotation = new Matrix3();
 const _scale = new Matrix3();
 
-export default class Camera2D extends Object2DRange {
+export default class Camera2D extends Object2DTransform {
 	constructor(option = {}) {
 		super(option);
 
@@ -42,5 +42,19 @@ export default class Camera2D extends Object2DRange {
 
 	updateRange() {
 		this.rectangle.setRectangle(0, 0, this.width, this.height, this.matrixWorldInvert);
+	}
+
+	destroy() {
+		super.destroy();
+
+		this.isCamera2D =
+			this.matrixWorldInvert =
+			this.width =
+			this.height = null;
+
+		delete this.isCamera2D;
+		delete this.matrixWorldInvert;
+		delete this.width;
+		delete this.height;
 	}
 }
