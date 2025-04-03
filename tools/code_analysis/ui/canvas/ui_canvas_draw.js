@@ -143,10 +143,10 @@ function initMarkNodeObject2d(markNode, index) {
 			}) : null,
 		};
 
-		scene.addObject(markNodeObject2d.text);
-		scene.addObject(markNodeObject2d.circle);
+		scene.add(markNodeObject2d.text);
+		scene.add(markNodeObject2d.circle);
 		if (markNodeObject2d.polyline) {
-			scene.addObject(markNodeObject2d.polyline);
+			scene.add(markNodeObject2d.polyline);
 		}
 
 		AllMarkNodeObject2d.set(markNode, markNodeObject2d);

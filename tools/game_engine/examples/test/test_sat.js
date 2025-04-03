@@ -39,9 +39,9 @@ text = new Text({
 	// stroke: '#000000',
 });
 
-scene.addObject(rect);
-scene.addObject(circle);
-scene.addObject(text);
+scene.add(rect);
+scene.add(circle);
+scene.add(text);
 
 object2dCanMove(rect);
 object2dCanMove(circle);

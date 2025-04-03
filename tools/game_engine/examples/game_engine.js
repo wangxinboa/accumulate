@@ -25,7 +25,7 @@ scene.directEvent.on('pointermove', (x, y) => {
 	circle.x = x;
 	circle.y = y;
 });
-scene.addObject(circle);
+scene.add(circle);
 scene.on('keydown-RIGHT', () => {
 	camera.x += 10;
 })
@@ -68,7 +68,7 @@ rect.on('pointerleave', () => {
 // 	}, 1000);
 // })
 
-scene.addObject(rect);
+scene.add(rect);
 
 const polyline = new Polyline({
 	points: [
@@ -83,7 +83,7 @@ const polyline = new Polyline({
 	stroke: '#000000',
 });
 object2dCanMove(polyline);
-scene.addObject(polyline);
+scene.add(polyline);
 
 const polygon = new Polygon({
 	points: [
@@ -98,7 +98,7 @@ const polygon = new Polygon({
 	stroke: '#000000',
 });
 object2dCanMove(polygon);
-scene.addObject(polygon);
+scene.add(polygon);
 
 const text = new Text({
 	x: 300,
@@ -113,7 +113,7 @@ const text = new Text({
 });
 // text.add(rect);
 object2dCanMove(text);
-scene.addObject(text);
+scene.add(text);
 
 // https://cdn.phaserfiles.com/v385/assets/tests/columns/gems.png
 const image = new Image({
@@ -121,7 +121,7 @@ const image = new Image({
 	x: 0,
 	y: 0,
 });
-scene.addObject(image);
+scene.add(image);
 
 scene.sortObjectsByOrder();
 

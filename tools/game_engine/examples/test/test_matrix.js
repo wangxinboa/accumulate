@@ -19,7 +19,7 @@ const rect = new Rect({
 	strokeWidth: 0,
 });
 
-scene.addObject(rect);
+scene.add(rect);
 
 const gui = new lil.GUI();
 

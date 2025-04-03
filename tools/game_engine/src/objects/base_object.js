@@ -2,6 +2,10 @@ import AnimationManager from '../animation/animation_manager.js';
 
 let id = 0;
 
+function _sortObjectsByOrder(a, b) {
+	return a._renderOrder - b._renderOrder;
+}
+
 export default class BaseObject extends AnimationManager {
 	constructor(option = {}) {
 		super();
@@ -13,12 +17,11 @@ export default class BaseObject extends AnimationManager {
 		this.children = [];
 
 		this.visible = true;
-		this.renderOrder = option.renderOrder || 0;
+		this._renderOrder = option._renderOrder || 0;
 	}
 
 	add(object) {
-		const index = this.children.indexOf(object);
-		if (index === - 1) {
+		if (!this.children.includes(object)) {
 			if (object.parent !== null) {
 				object.parent.remove(object);
 			}
@@ -42,6 +45,20 @@ export default class BaseObject extends AnimationManager {
 		return this;
 	}
 
+	get renderOrder() {
+		return this._renderOrder;
+	}
+	set renderOrder(renderOrder) {
+		this._renderOrder = renderOrder;
+		if (this.parent) {
+			this.parent.sortObjectsByOrder();
+		}
+	}
+
+	sortObjectsByOrder() {
+		this.children.sort(_sortObjectsByOrder);
+	}
+
 	destroy() {
 		super.destroy();
 		for (let i = this.children.length - 1; i >= 0; i--) {
@@ -56,7 +73,7 @@ export default class BaseObject extends AnimationManager {
 			this.children =
 
 			this.visible =
-			this.renderOrder = null;
+			this._renderOrder = null;
 
 		delete this.id;
 		delete this.isObject;
@@ -65,6 +82,6 @@ export default class BaseObject extends AnimationManager {
 		delete this.children;
 
 		delete this.visible;
-		delete this.renderOrder;
+		delete this._renderOrder;
 	}
 }

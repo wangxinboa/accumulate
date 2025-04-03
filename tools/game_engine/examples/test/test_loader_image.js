@@ -17,5 +17,5 @@ for (let i = 0; i < imageCount; i++) {
 		scaleX: 2,
 		scaleY: 2,
 	});
-	scene.addObject(image);
+	scene.add(image);
 }

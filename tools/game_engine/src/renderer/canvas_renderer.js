@@ -38,8 +38,8 @@ export default class CanvasRenderer extends CanvasScale {
 		scene.camera.transform(this.ctx);
 
 		let object = null;
-		for (let i = 0, len = scene.objects.length; i < len; i++) {
-			object = scene.objects[i];
+		for (let i = 0, len = scene.children.length; i < len; i++) {
+			object = scene.children[i];
 			object.update(time);
 			if (object.visible && object.isOverlap(scene.camera)) {
 				object.updateMatrix();

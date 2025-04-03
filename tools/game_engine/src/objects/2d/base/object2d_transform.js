@@ -159,12 +159,12 @@ export default class Object2DTransform extends BaseObject {
 			this.matrix =
 			this.matrixWorld =
 
-			this.x =
-			this.y =
-			this.rotationAngle =
-			this.rotation =
-			this.scaleX =
-			this.scaleY =
+			this._x =
+			this._y =
+			this._rotationAngle =
+			this._rotation =
+			this._scaleX =
+			this._scaleY =
 
 			this.rectangle = null;
 
@@ -172,12 +172,12 @@ export default class Object2DTransform extends BaseObject {
 		delete this.matrix;
 		delete this.matrixWorld;
 
-		delete this.x;
-		delete this.y;
-		delete this.rotationAngle;
-		delete this.rotation;
-		delete this.scaleX;
-		delete this.scaleY;
+		delete this._x;
+		delete this._y;
+		delete this._rotationAngle;
+		delete this._rotation;
+		delete this._scaleX;
+		delete this._scaleY;
 
 		delete this.rectangle;
 	}

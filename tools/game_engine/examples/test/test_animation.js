@@ -49,7 +49,7 @@ scene.on('pointerdown', () => {
 	}
 })
 
-scene.addObject(rect);
+scene.add(rect);
 
 setTimeout(() => {
 	rect.startAnimation('move');
