@@ -2,19 +2,9 @@ import Animation from './animation.js';
 
 
 export default class AnimationIndex extends Animation {
-	constructor(target) {
-		super(target);
-	}
-
-	update(time) {
-		if (this.paused) {
-			return;
+	_updateProperties(object, startTarget, endTarget, value) {
+		for (let key in endTarget) {
+			object[key] = value < 1 ? startTarget[key] : endTarget[key];
 		}
-
-		this.nowTime = time;
-	}
-
-	destroy() {
-		super.destroy();
 	}
 }

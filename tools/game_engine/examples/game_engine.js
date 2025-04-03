@@ -396,9 +396,112 @@ const sprite = new Sprite({
 			width: 64,
 			height: 64
 		}
-	]
+	],
 });
+sprite.addAnimationIndex('sprite', [
+	{
+		target: {
+			blockIndex: 1,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 2,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 3,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 4,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 5,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 6,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 7,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 8,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 9,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 10,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 11,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 12,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 13,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 14,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 15,
+		},
+		duration: 100,
+	},
+	{
+		target: {
+			blockIndex: 0,
+		},
+		duration: 100,
+	},
+]);
+object2dCanMove(sprite);
 scene.add(sprite);
+
+setTimeout(() => {
+	sprite.startAnimation('sprite');
+}, 2000);
 
 const gui = new lil.GUI();
 

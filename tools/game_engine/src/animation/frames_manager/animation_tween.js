@@ -2,10 +2,6 @@ import Animation from './animation.js';
 
 
 export default class AnimationTween extends Animation {
-	constructor(object, frames) {
-		super(object, frames);
-	}
-
 	_updateProperties(object, startTarget, endTarget, value) {
 		let startVal, endVal;
 
@@ -17,9 +13,5 @@ export default class AnimationTween extends Animation {
 		}
 
 		startVal = endVal = null;
-	}
-
-	destroy() {
-		super.destroy();
 	}
 }

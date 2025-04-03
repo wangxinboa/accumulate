@@ -16,6 +16,7 @@ export default class Scene extends BaseObject {
 	add(object) {
 		if (!this.children.includes(object)) {
 			this.children.push(object);
+			this.sortObjectsByOrder();
 		}
 		return this;
 	}

@@ -27,6 +27,7 @@ export default class BaseObject extends AnimationManager {
 			}
 			object.parent = this;
 			this.children.push(object);
+			this.sortObjectsByOrder();
 
 			this.afterAddChild();
 		}

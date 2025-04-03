@@ -23,7 +23,7 @@ export default class Animation {
 		this.paused = true;
 		this.pausedTime = -1;
 
-		// this._loop = true;
+		this._loop = false;
 		// this._loopCount = 0;
 	}
 
@@ -44,13 +44,14 @@ export default class Animation {
 
 	toNextFrame() {
 		if (this.frames.length === this._endFrameIndex + 1) {
-			// console.info('')
-			// if (this._loop) {
-			// 	this.start(0);
-			// 	return true;
-			// } else {
-			return false;
-			// }
+			if (this._loop) {
+				this.startTarget = this.frames[this._endFrameIndex].target;
+				this._endFrameIndex = 0;
+				this.endFrame = this.frames[0];
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			this.startTarget = this.frames[this._endFrameIndex].target;
 			this._endFrameIndex++;
