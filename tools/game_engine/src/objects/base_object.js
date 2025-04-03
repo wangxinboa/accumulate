@@ -17,7 +17,7 @@ export default class BaseObject extends AnimationManager {
 		this.children = [];
 
 		this.visible = true;
-		this._renderOrder = option._renderOrder || 0;
+		this._renderOrder = option.renderOrder || 0;
 	}
 
 	add(object) {

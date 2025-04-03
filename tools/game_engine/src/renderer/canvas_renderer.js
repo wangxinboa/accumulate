@@ -33,27 +33,16 @@ export default class CanvasRenderer extends CanvasScale {
 
 		this.ctx.save();
 
-		scene.clearVisibleObjects();
-
 		scene.camera.transform(this.ctx);
 
-		let object = null;
-		for (let i = 0, len = scene.children.length; i < len; i++) {
-			object = scene.children[i];
-			object.update(time);
-			if (object.visible && object.isOverlap(scene.camera)) {
-				object.updateMatrix();
-				object.render(this.ctx);
-				scene.addVisibleObject(object);
-			}
-		}
-		object = null;
+		scene.clearVisibleObjects();
+		this.renderObject(scene, scene, time);
 
 		// 测试代码，验证相机范围矩形边
 		// this.ctx.save();
 		// this.ctx.lineWidth = 6;
 		// this.ctx.strokeStyle = '#000000'
-		// const { leftTop, rightTop, rightBottom, leftBottom } = camera.rectangle;
+		// const { leftTop, rightTop, rightBottom, leftBottom } = scene.camera.rectangle;
 		// this.ctx.beginPath();
 		// this.ctx.moveTo(leftTop.x, leftTop.y);
 		// this.ctx.lineTo(rightTop.x, rightTop.y);
@@ -64,6 +53,22 @@ export default class CanvasRenderer extends CanvasScale {
 		// this.ctx.restore();
 
 		this.ctx.restore();
+	}
+
+	renderObject(scene, obejct, time) {
+		let child = null;
+		for (let i = 0, len = obejct.children.length; i < len; i++) {
+			child = obejct.children[i];
+			child.update(time);
+			if (child.visible && child.isOverlap(scene.camera)) {
+				child.updateMatrix();
+				child.render(this.ctx);
+				scene.addVisibleObject(child);
+
+				this.renderObject(scene, child);
+			}
+		}
+		child = null;
 	}
 
 	destroy() {
