@@ -1,14 +1,11 @@
-import CanvasScale from './canvas_scale.js'
+export default class CanvasRenderer {
+	constructor(el, option) {
 
-export default class CanvasRenderer extends CanvasScale {
-	constructor(el, canvasOption) {
-		super(el, canvasOption);
-
+		this.el = el;
 		this.ctx = el.getContext('2d');
 
-		this.backgroundColor = canvasOption.backgroundColor || '';
-
-		this.resize();
+		this.retinaScaling = option.devicePixelRatio || window.devicePixelRatio;
+		this.backgroundColor = option.backgroundColor || '';
 	}
 
 	clear() {
@@ -16,8 +13,6 @@ export default class CanvasRenderer extends CanvasScale {
 	}
 
 	resize() {
-		super.resize();
-
 		this.ctx.scale(this.retinaScaling, this.retinaScaling);
 	}
 
@@ -61,13 +56,28 @@ export default class CanvasRenderer extends CanvasScale {
 		for (let i = 0, len = obejct.children.length; i < len; i++) {
 			child = obejct.children[i];
 			child.update(time);
-			if (child.visible && child.isOverlap(scene.camera)) {
+			if (child.visible) {
 				child.updateMatrix();
+				if (child.applyCameraTransform) {
+					if (scene.camera.viewInCamera(child)) {
 
-				child.render(this.ctx);
-				scene.addVisibleObject(child);
+						child.render(this.ctx);
+						scene.addVisibleObject(child);
 
-				this.renderObject(scene, child);
+						this.renderObject(scene, child, time);
+					}
+				} else {
+					if (scene.camera.viewInScreen(child)) {
+						this.ctx.save();
+						scene.camera.invertTransform(this.ctx);
+
+						child.render(this.ctx);
+						scene.addVisibleObject(child);
+
+						this.renderObject(scene, child, time);
+						this.ctx.restore();
+					}
+				}
 			}
 		}
 		child = null;

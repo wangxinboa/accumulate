@@ -1,4 +1,4 @@
-export const RenderType = {
+export const RendererType = {
 	canvas: '2d',
 	webgl: 'webgl',
 	webgpu: 'webgpu',

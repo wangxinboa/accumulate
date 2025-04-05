@@ -18,6 +18,8 @@ export default class BaseObject extends AnimationManager {
 
 		this.visible = true;
 		this._renderOrder = option.renderOrder || 0;
+
+		this.data = option.data || null;
 	}
 
 	add(object) {
@@ -74,7 +76,9 @@ export default class BaseObject extends AnimationManager {
 			this.children =
 
 			this.visible =
-			this._renderOrder = null;
+			this._renderOrder =
+
+			this.data = null;
 
 		delete this.id;
 		delete this.isObject;
@@ -84,5 +88,7 @@ export default class BaseObject extends AnimationManager {
 
 		delete this.visible;
 		delete this._renderOrder;
+
+		delete this.data;
 	}
 }

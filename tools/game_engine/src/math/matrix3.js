@@ -384,3 +384,5 @@ export default class Matrix3 {
 	}
 
 }
+
+export const IdentityMatrix3 = new Matrix3();

@@ -1,9 +1,24 @@
-import { Circle, Rect, Polyline, Polygon, Text, Image, Sprite } from '../src/index.js';
-import start2d from './common/start2d.js';
-import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
+// import { Circle, Rect, Polyline, Polygon, Text, Image, Sprite } from '../src/index.js';
 
-const { camera, scene } = start2d(document.getElementById('renderCanvas'));
-allowObject2dCanMove(scene);
+// import start2d from './common/start2d.js';
+import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
+import {
+	GameEngine,
+	Circle, Rect, Text, Sprite, Polyline, Polygon,
+	Scene,
+	Camera2D
+} from '../src/index.js';
+
+const camera = new Camera2D();
+const scene = new Scene({
+	wheelMoveCamera: true,
+});
+scene.bindCamera(camera);
+
+const gameEngine = new GameEngine({
+	el: document.getElementById('renderCanvas'),
+	scene,
+});
 
 const circle = new Circle({
 	radius: 12,
@@ -52,7 +67,7 @@ const rect = new Rect({
 	stroke: '#0000ff',
 	strokeWidth: 0,
 });
-object2dCanMove(rect);
+// object2dCanMove(rect);
 rect.on('pointerenter', () => {
 	console.info('pointerenter');
 	rect.fill = '#ff0000';
@@ -82,7 +97,7 @@ const polyline = new Polyline({
 	strokeWidth: 2,
 	stroke: '#000000',
 });
-object2dCanMove(polyline);
+// object2dCanMove(polyline);
 scene.add(polyline);
 
 const polygon = new Polygon({
@@ -97,7 +112,7 @@ const polygon = new Polygon({
 	strokeWidth: 2,
 	stroke: '#000000',
 });
-object2dCanMove(polygon);
+// object2dCanMove(polygon);
 scene.add(polygon);
 
 const text = new Text({
@@ -112,7 +127,7 @@ const text = new Text({
 	stroke: '#0000ff',
 });
 // text.add(rect);
-object2dCanMove(text);
+// object2dCanMove(text);
 scene.add(text);
 
 // https://cdn.phaserfiles.com/v385/assets/tests/columns/gems.png
@@ -403,100 +418,100 @@ sprite.addAnimationIndex('sprite', [
 		target: {
 			blockIndex: 1,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 2,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 3,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 4,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 5,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 6,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 7,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 8,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 9,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 10,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 11,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 12,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 13,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 14,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 15,
 		},
-		duration: 100,
+		duration: 50,
 	},
 	{
 		target: {
 			blockIndex: 0,
 		},
-		duration: 100,
+		duration: 50,
 	},
-]);
-object2dCanMove(sprite);
+]).loop(Infinity);
+// object2dCanMove(sprite);
 scene.add(sprite);
 
 setTimeout(() => {

@@ -23,8 +23,10 @@ export default class Animation {
 		this.paused = true;
 		this.pausedTime = -1;
 
-		this._loop = false;
-		// this._loopCount = 0;
+		this._loop = 0;
+		this._completeLoopCount = 0;
+
+		this.finished = false;
 	}
 
 	loop(loop) {
@@ -44,7 +46,7 @@ export default class Animation {
 
 	toNextFrame() {
 		if (this.frames.length === this._endFrameIndex + 1) {
-			if (this._loop) {
+			if (++this._completeLoopCount < this._loop) {
 				this.startTarget = this.frames[this._endFrameIndex].target;
 				this._endFrameIndex = 0;
 				this.endFrame = this.frames[0];
@@ -76,6 +78,8 @@ export default class Animation {
 
 		this.startTime = now();
 		this.paused = false;
+
+		this.finished = false;
 	}
 
 	update(time) {
@@ -99,19 +103,13 @@ export default class Animation {
 		if (progress === 1) {
 			if (++this.completeCount < repeat) {
 				this.startTime = time;
+			} else if (this.toNextFrame()) {
+				this.completeCount = 0;
+				this.startTime = time;
 			} else {
-				if (this.toNextFrame()) {
-					this.completeCount = 0;
-					this.startTime = time;
-				} else {
-					this.object.stopAnimation();
-				}
+				this.finished = true;
 			}
 		}
-	}
-
-	stop() {
-
 	}
 
 	pause() {
@@ -148,7 +146,10 @@ export default class Animation {
 			this.paused =
 			this.pausedTime =
 
-			this._loop = null;
+			this._loop =
+			this._completeLoopCount =
+
+			this.finished = null;
 
 		delete this.object;
 		delete this.frames;
@@ -165,5 +166,8 @@ export default class Animation {
 		delete this.pausedTime;
 
 		delete this._loop;
+		delete this._completeLoopCount;
+
+		delete this.finished;
 	}
 }

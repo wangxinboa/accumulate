@@ -1,3 +1,4 @@
+// 改自 eventemitter3
 
 function clearEvent(emitter, event) {
 	if (--emitter._eventsCount === 0) emitter._events = {}

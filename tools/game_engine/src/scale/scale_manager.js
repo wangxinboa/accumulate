@@ -1,18 +1,24 @@
 import { FitType } from '../game_engine_option.js';
-import { EmptyFunction } from '../utils/data.js';
 
-export default class CanvasScale {
-	constructor(el, canvasOption) {
-		this.retinaScaling = devicePixelRatio || window.devicePixelRatio;
-		this.fitType = canvasOption.fitType || FitType.fill;
+export default class ScaleManager {
+	constructor(el, option) {
 		this.el = el;
-		this.onResize = canvasOption.onResize || EmptyFunction;
+		this.retinaScaling = option.devicePixelRatio || window.devicePixelRatio;
+		this.fitType = option.fitType || FitType.fill;
+		this._onResize = () => { };
 
-		this.maxWidth = canvasOption.maxWidth || -1;
-		this.maxHeight = canvasOption.maxHeight || -1;
+		this.maxWidth = option.maxWidth || -1;
+		this.maxHeight = option.maxHeight || -1;
+
+		this.width = -1;
+		this.height = -1;
 
 		this.resize = this.resize.bind(this);
 		window.addEventListener('resize', this.resize);
+	}
+
+	onResize(onResize) {
+		this._onResize = onResize;
 	}
 
 	// windows 环境下父元素需要设置 overflow: hidden 防止滚动条的出现出现影响宽高
@@ -23,6 +29,7 @@ export default class CanvasScale {
 		const parentWidth = parentDom.clientWidth;
 		const parentHeight = parentDom.clientHeight;
 
+		// 填满父节点
 		if (this.fitType === FitType.fill) {
 			finalWidth = this.maxWidth > 0 && parentWidth > this.maxWidth ? this.maxWidth : parentWidth;
 			finalHeight = this.maxHeight > 0 && parentHeight > this.maxHeight ? this.maxHeight : parentHeight;
@@ -30,22 +37,31 @@ export default class CanvasScale {
 			throw new Error(`CanvasFit 未知类型的 fitType ${this.fitType}`);
 		}
 
-		this.el.width = finalWidth * this.retinaScaling;
-		this.el.height = finalHeight * this.retinaScaling;
+		this.width = this.el.width = finalWidth * this.retinaScaling;
+		this.height = this.el.height = finalHeight * this.retinaScaling;
 
 		this.el.style.width = `${finalWidth}px`;
 		this.el.style.height = `${finalHeight}px`;
 
-		this.onResize(finalWidth, finalHeight);
+		this._onResize(finalWidth, finalHeight);
+
+		finalWidth = finalHeight = null;
 	}
 
 	destroy() {
-		this.retinaScaling = null;
-		this.fitType = null;
-		this.el = null;
-		this.onResize = null;
-
 		window.removeEventListener('resize', this.resize);
-		this.resize = null;
+
+		this.el =
+			this.retinaScaling =
+			this.fitType =
+			this._onResize =
+
+			this.maxWidth =
+			this.maxHeight =
+
+			this.width =
+			this.height =
+
+			this.resize = null;
 	}
 }

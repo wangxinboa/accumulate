@@ -20,6 +20,8 @@ export default class Object2D extends Object2DTransform {
 		this.paintFirst = option.paintFirst || PaintFirst.stroke;
 
 		this.opacity = option.opacity || 1;
+
+		this.applyCameraTransform = option.applyCameraTransform !== void 0 ? option.applyCameraTransform : true;
 	}
 
 	hasStroke() {
@@ -121,12 +123,18 @@ export default class Object2D extends Object2DTransform {
 	destroy() {
 		super.destroy();
 
-		this.isObject2D = null;
-		this.name = null;
-		this.fill = null;
-		this.stroke = null;
-		this.strokeWidth = null;
-		this.paintFirst = null;
-		this.opacity = null;
+		this.isObject2D =
+
+			this.name =
+
+			this.fill =
+			this.stroke =
+			this.strokeWidth =
+
+			this.paintFirst =
+
+			this.opacity =
+
+			this.applyCameraTransform = null;
 	}
 }

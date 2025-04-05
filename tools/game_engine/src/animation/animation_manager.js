@@ -43,6 +43,10 @@ export default class AnimationManager extends EventEmitter {
 	update(time) {
 		if (this._nowAnimation !== null) {
 			this._nowAnimation.update(time);
+
+			if (this._nowAnimation.finished) {
+				this.stopAnimation();
+			}
 		}
 	}
 
@@ -57,16 +61,22 @@ export default class AnimationManager extends EventEmitter {
 	pauseAnimation() {
 		if (this._nowAnimation !== null) {
 			this._nowAnimation.pause();
-
-			this.isPlaying = false;
 		}
 	}
 
 	resumeAnimation() {
 		if (this._nowAnimation !== null) {
 			this._nowAnimation.resume();
+		}
+	}
 
-			this.isPlaying = true;
+	pauseResumeAnimation() {
+		if (this._nowAnimation !== null) {
+			if (this._nowAnimation.paused) {
+				this._nowAnimation.resume();
+			} else {
+				this._nowAnimation.pause();
+			}
 		}
 	}
 
@@ -79,9 +89,11 @@ export default class AnimationManager extends EventEmitter {
 		}
 
 		this._animations =
-			this._nowAnimation = null;
+			this._nowAnimation =
+			this.isPlaying = null;
 
 		delete this._animations;
 		delete this._nowAnimation;
+		delete this.isPlaying;
 	}
 }

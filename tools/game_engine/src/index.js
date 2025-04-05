@@ -21,3 +21,5 @@ export { default as Text } from './objects/2d/text.js';
 export { default as CanvasRender } from './renderer/canvas_renderer.js';
 
 export { default as Scene } from './scene/scene.js';
+
+export { default as GameEngine } from './game_engine.js';
