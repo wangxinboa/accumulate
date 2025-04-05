@@ -1,6 +1,6 @@
 import { isFunction } from '../../../../../javascript_libs/javascript_utils/data_type/is_type.js';
 import MarkLog from '../mark_log.js';
-import { deepClone } from '../../../../../javascript_libs/javascript_utils/data_type/object.js';
+
 
 export const AllMarkFunctionMessage = {};
 export const AllProxyFunctionMap = new Map();

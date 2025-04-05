@@ -1,3 +1,4 @@
+import '../../../javascript_libs/lil-gui/dist/lil-gui.umd.min.js';
 import {
 	GameEngine,
 	Circle, Rect, Text, Sprite, Polyline, Polygon,
