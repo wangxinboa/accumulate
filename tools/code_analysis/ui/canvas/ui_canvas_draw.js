@@ -1,14 +1,23 @@
 import {
+	GameEngine,
+	Scene, Camera2D,
 	Polyline, Text, Circle,
 } from '../../../game_engine/src/index.js';
-import start2d from '../../../game_engine/examples/common/start2d.js';
+// import start2d from '../../../game_engine/examples/common/start2d.js';
 
-let scene = null;
+const camera = new Camera2D();
+const scene = new Scene({
+	wheelMoveCamera: true,
+});
+scene.bindCamera(camera);
+let gameEngine = null;
 
 export function startCodeAnalysisUiCanvasDraw(canvasDom) {
-	scene = start2d(canvasDom, null, {
+	gameEngine = new GameEngine({
+		el: canvasDom,
+		scene,
 		backgroundColor: '#ffffff',
-	}).scene;
+	});
 }
 
 const AllMarkNodeObject2d = new Map();
