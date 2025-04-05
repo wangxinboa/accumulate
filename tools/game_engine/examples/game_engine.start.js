@@ -6,6 +6,7 @@ import {
 } from '../src/index.js';
 
 import testAnimation from './test/animation/test_animation.js';
+import testKeyPress from './test/event/test_key_press.js';
 import testLoaderImage from './test/loader/test_loader_image.js';
 
 const camera = new Camera2D();
@@ -56,4 +57,5 @@ function addExample(name, scene) {
 
 
 addExample('testAnimation', testAnimation);
+addExample('testKeyPress', testKeyPress);
 addExample('testLoaderImage', testLoaderImage);

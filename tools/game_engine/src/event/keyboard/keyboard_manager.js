@@ -1,4 +1,4 @@
-import { KeyDownMap, KeyUpMap } from './key_map.js';
+import { KeyDownMap, KeyUpMap, KeyPressMap } from './key_map.js';
 
 export default class KeyboardManager {
 	constructor(canvasEvent) {
@@ -7,6 +7,8 @@ export default class KeyboardManager {
 
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.onKeyUp = this.onKeyUp.bind(this);
+
+		this.activeKeyPress = [];
 
 		this.startListeners();
 	}
@@ -22,10 +24,26 @@ export default class KeyboardManager {
 	}
 
 	onKeyDown(e) {
+		const keypressCode = KeyPressMap[e.keyCode];
+		if (
+			this.canvasEvent.scene.hasEvent(KeyPressMap[e.keyCode]) &&
+			!this.activeKeyPress.includes(keypressCode)
+		) {
+			this.activeKeyPress.push(KeyPressMap[e.keyCode]);
+		}
 		this.canvasEvent.scene.emit(KeyDownMap[e.keyCode], e);
 	}
 	onKeyUp(e) {
+		const index = this.activeKeyPress.indexOf(KeyPressMap[e.keyCode]);
+		if (index > -1) {
+			this.activeKeyPress.splice(index, 1);
+		}
 		this.canvasEvent.scene.emit(KeyUpMap[e.keyCode], e);
+	}
+	update() {
+		for (let i = 0, len = this.activeKeyPress.length; i < len; i++) {
+			this.canvasEvent.scene.emit(this.activeKeyPress[i]);
+		}
 	}
 
 	destroy() {

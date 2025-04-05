@@ -33,6 +33,10 @@ export default class CanvasEvent {
 		this.scene = scene;
 	}
 
+	update() {
+		this.keyboardManager.update();
+	}
+
 	processDownEvents(e) {
 		_originalPoint.set(e.offsetX, e.offsetY);
 		_point.set(e.offsetX, e.offsetY).applyMatrix3(this.scene.camera.matrixWorldInvert);

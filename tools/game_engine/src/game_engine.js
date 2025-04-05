@@ -45,7 +45,9 @@ export default class GameEngine {
 	}
 
 	step(time = 0) {
+		this.canvasEvent.update();
 		this.renderer.render(this.scene, time);
+
 		requestAnimationFrame(this.step);
 	}
 
