@@ -18,6 +18,7 @@ export function startCodeAnalysisUiCanvasDraw(canvasDom) {
 		scene,
 		backgroundColor: '#ffffff',
 	});
+	window.gameEngine = gameEngine;
 }
 
 const AllMarkNodeObject2d = new Map();

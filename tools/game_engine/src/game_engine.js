@@ -6,7 +6,7 @@ import Scene from './scene/scene.js';
 
 export default class GameEngine {
 	constructor(option) {
-		this.canvasEvent = new CanvasEvent(option.el);
+		this.canvasEvent = new CanvasEvent(option.el, option);
 		this.scene = option.scene || null;
 		this.canvasEvent.bindScene(this.scene);
 

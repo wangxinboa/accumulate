@@ -55,8 +55,8 @@ export default class CanvasRenderer {
 		let child = null;
 		for (let i = 0, len = obejct.children.length; i < len; i++) {
 			child = obejct.children[i];
-			child.update(time);
 			if (child.visible) {
+				child.update(time);
 				child.updateMatrix();
 				if (child.applyCameraTransform) {
 					if (scene.camera.viewInCamera(child)) {
@@ -86,6 +86,14 @@ export default class CanvasRenderer {
 	destroy() {
 		super.destroy();
 
-		this.ctx = null;
+		this.el =
+			this.ctx =
+			this.retinaScaling =
+			this.backgroundColor = null;
+
+		delete this.el;
+		delete this.ctx;
+		delete this.retinaScaling;
+		delete this.backgroundColor;
 	}
 }

@@ -29,14 +29,15 @@ export default class KeyboardManager {
 	}
 
 	destroy() {
-		this.canvasEvent = null;
-
 		this.stopListeners();
 
-		this.onKeyDown =
+		this.canvasEvent =
+
+			this.onKeyDown =
 			this.onKeyUp = null;
 
 		delete this.canvasEvent;
+
 		delete this.onKeyDown;
 		delete this.onKeyUp;
 	}

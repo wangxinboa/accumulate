@@ -14,10 +14,12 @@ const Example = phaserClassMark(class Example extends Phaser.Scene {
 		button.setInteractive({ useHandCursor: true });
 
 		button.on('pointerover', phaserFunctionMark(() => {
+			console.error('Example create pointerover');
 			button.setBackgroundColor('#8d8d8d');
 		}, 'Example create pointerover'));
 
 		button.on('pointerout', phaserFunctionMark(() => {
+			console.error('Example create pointerout');
 			button.setBackgroundColor('#2d2d2d');
 		}, 'Example create pointerout'));
 	}

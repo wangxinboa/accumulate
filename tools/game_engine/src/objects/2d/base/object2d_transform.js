@@ -30,7 +30,7 @@ export default class Object2DTransform extends BaseObject {
 		this.rectangle = new Rectangle();
 	}
 
-	// 判断两个 Object2DRange 是否重叠
+	// 判断两个 Object2D 是否重叠
 	isOverlap(object2d) {
 		return this.rectangle.overlapRectangleSAT(object2d.rectangle);
 	}
