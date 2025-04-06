@@ -5,7 +5,7 @@ const scene = new Scene({
 	wheelMoveCamera: true,
 });
 scene.bindCamera(camera);
-scene.on('pointerdown', () => {
+scene.directEvent.on('pointerdown', () => {
 	if (rect.isPlaying) {
 		rect.pauseResumeAnimation();
 	} else {

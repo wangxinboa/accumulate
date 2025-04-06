@@ -11,8 +11,8 @@ const rect = new Rect({
 	x: 400,
 	y: 300,
 
-	width: 300,
-	height: 300,
+	width: 150,
+	height: 150,
 	// rxlt: 150,
 	// rylt: 150,
 

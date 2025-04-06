@@ -27,6 +27,15 @@ export default class Object2DTransform extends BaseObject {
 		this._scaleX = option.scaleX || 1;
 		this._scaleY = option.scaleY || 1;
 
+		// drag event 相关
+		this._dragStartObjectX_ = 0;
+		this._dragStartObjectY_ = 0;
+		this._dragStartEventX_ = 0;
+		this._dragStartEventY_ = 0;
+
+		// this.hitTestPassThrough = option.hitTestPassThrough !== void 0 ? option.hitTestPassThrough : false;
+		this.hitTestCountable = option.hitTestCountable !== void 0 ? option.hitTestCountable : true;
+
 		this.rectangle = new Rectangle();
 	}
 

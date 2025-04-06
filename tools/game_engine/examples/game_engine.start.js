@@ -7,6 +7,7 @@ import {
 } from '../src/index.js';
 
 import testAnimation from './test/animation/test_animation.js';
+import testDrag from './test/event/test_drag.js';
 import testKeyPress from './test/event/test_key_press.js';
 import testLoaderImage from './test/loader/test_loader_image.js';
 
@@ -20,6 +21,20 @@ const gameEngine = new GameEngine({
 	scene: startScene,
 });
 window.gameEngine = gameEngine;
+
+// const circle = new Circle({
+// 	radius: 12,
+// 	startAngle: 0,
+// 	endAngle: 360,
+
+// 	fill: '#0000ff',
+// 	renderOrder: 1,
+// });
+// startScene.directEvent.on('pointermove', (x, y) => {
+// 	circle.x = x;
+// 	circle.y = y;
+// });
+// startScene.add(circle);
 
 const backButton = new Text({
 	x: 0,
@@ -58,5 +73,6 @@ function addExample(name, scene) {
 
 
 addExample('testAnimation', testAnimation);
+addExample('testDrag', testDrag);
 addExample('testKeyPress', testKeyPress);
 addExample('testLoaderImage', testLoaderImage);

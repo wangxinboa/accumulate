@@ -72,8 +72,8 @@ class Example extends Phaser.Scene {
 }
 
 const config = {
-	// type: Phaser.AUTO,
-	type: Phaser.CANVAS,
+	type: Phaser.AUTO,
+	// type: Phaser.CANVAS,
 	parent: 'phaser-example',
 	backgroundColor: '#0072bc',
 	width: 800,

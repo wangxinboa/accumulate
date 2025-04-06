@@ -15,8 +15,8 @@ const CanvasEventType = {
 	dragstart: 'dragstart',
 	drag: 'drag',
 	dragend: 'dragend',
-	dragenter: 'dragenter',
-	dragleave: 'dragleave',
+	// dragenter: 'dragenter',
+	// dragleave: 'dragleave',
 }
 
 export default CanvasEventType;
