@@ -6,9 +6,9 @@ export default class Sprite extends Object2D {
 	constructor(option = {}) {
 		super(option);
 
-		this.blocks = option.blocks;
-		this._blockIndex = 0;
-		this.block = this.blocks[this._blockIndex];
+		this.imageBlocks = option.imageBlocks;
+		this._imageBlockIndex = 0;
+		this.imageBlock = this.imageBlocks[this._imageBlockIndex];
 
 		this.updateRange = this.updateRange.bind(this);
 		this.imageTask = loaderManager.addImage(option.url, true, this.updateRange);
@@ -21,23 +21,23 @@ export default class Sprite extends Object2D {
 		if (this.imageTask.isLoaded()) {
 			ctx.beginPath();
 			ctx.drawImage(this.imageTask.image,
-				this.block.x, this.block.y, this.block.width, this.block.height,
-				0, 0, this.block.width, this.block.height
+				this.imageBlock.x, this.imageBlock.y, this.imageBlock.width, this.imageBlock.height,
+				0, 0, this.imageBlock.width, this.imageBlock.height
 			);
 		}
 	}
 
-	get blockIndex() {
-		return this._blockIndex;
+	get imageBlockIndex() {
+		return this._imageBlockIndex;
 	}
-	set blockIndex(blockIndex) {
-		this._blockIndex = blockIndex;
-		this.block = this.blocks[blockIndex];
+	set imageBlockIndex(imageBlockIndex) {
+		this._imageBlockIndex = imageBlockIndex;
+		this.imageBlock = this.imageBlocks[imageBlockIndex];
 	}
 
 	updateRange() {
 		if (this.imageTask.isLoaded()) {
-			this.rectangle.setRectangle(0, 0, this.block.width, this.block.height, this.matrixWorld);
+			this.rectangle.setRectangle(0, 0, this.imageBlock.width, this.imageBlock.height, this.matrixWorld);
 		} else {
 			this.rectangle.setRectangle(0, 0, 0, 0, this.matrixWorld);
 		}
@@ -46,16 +46,16 @@ export default class Sprite extends Object2D {
 	destroy() {
 		super.destroy();
 
-		this.blocks =
-			this._blockIndex =
-			this.block =
+		this.imageBlocks =
+			this._imageBlockIndex =
+			this.imageBlock =
 
 			this.updateRange =
 			this.imageTask = null;
 
-		delete this.blocks;
-		delete this._blockIndex;
-		delete this.block;
+		delete this.imageBlocks;
+		delete this._imageBlockIndex;
+		delete this.imageBlock;
 
 		delete this.updateRange;
 		delete this.imageTask;

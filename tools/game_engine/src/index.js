@@ -10,6 +10,7 @@ export { default as Matrix3 } from './math/matrix3.js';
 export { default as Rectangle } from './math/rectangle.js';
 export { default as Vector2 } from './math/vector2.js';
 
+export { default as MultiSprite } from './objects/2d/sprite/multi_sprite.js';
 export { default as Sprite } from './objects/2d/sprite/sprite.js';
 export { default as Circle } from './objects/2d/circle.js';
 export { default as Image } from './objects/2d/image.js';
