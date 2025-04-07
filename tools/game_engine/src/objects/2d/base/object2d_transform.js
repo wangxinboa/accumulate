@@ -35,6 +35,7 @@ export default class Object2DTransform extends BaseObject {
 
 		// this.hitTestPassThrough = option.hitTestPassThrough !== void 0 ? option.hitTestPassThrough : false;
 		this.hitTestCountable = option.hitTestCountable !== void 0 ? option.hitTestCountable : true;
+		this.hitTestDisabled = option.hitTestDisabled !== void 0 ? option.hitTestDisabled : false;
 
 		this.rectangle = new Rectangle();
 	}

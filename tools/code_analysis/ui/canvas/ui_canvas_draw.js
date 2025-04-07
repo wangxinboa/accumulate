@@ -150,6 +150,7 @@ function initMarkNodeObject2d(markNode, index) {
 				strokeWidth: 1,
 				stroke: Array.isArray(markNode.children) && markNode.children.length > 0 ? '#000000' : '#999999',
 				fill: null,
+				hitTestDisabled: true,
 			}) : null,
 		};
 

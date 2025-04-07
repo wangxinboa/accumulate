@@ -54,6 +54,9 @@ export default class CanvasEvent {
 
 		for (let i = _scene_.visibleObjectCount - 1; i >= 0; i--) {
 			_visibleObject_ = _scene_.visibleObjects[i];
+			if (_visibleObject_.hitTestDisabled) {
+				continue;
+			}
 
 			if (_visibleObject_.hitTest(_point_.x, _point_.y)) {
 				if (_visibleObject_.hitTestCountable) {
@@ -110,6 +113,9 @@ export default class CanvasEvent {
 		if (this._drag.length === 0 || !this.dragLock) {
 			for (let i = _scene_.visibleObjectCount - 1; i >= 0; i--) {
 				_visibleObject_ = _scene_.visibleObjects[i];
+				if (_visibleObject_.hitTestDisabled) {
+					continue;
+				}
 
 				if (_visibleObject_.hitTest(_point_.x, _point_.y)) {
 					if (_visibleObject_.hitTestCountable) {
@@ -183,6 +189,9 @@ export default class CanvasEvent {
 		if (this._drag.length === 0 || !this.dragLock) {
 			for (let i = _scene_.visibleObjectCount - 1; i >= 0; i--) {
 				_visibleObject_ = _scene_.visibleObjects[i];
+				if (_visibleObject_.hitTestDisabled) {
+					continue;
+				}
 
 				if (_visibleObject_.hitTest(_point_.x, _point_.y)) {
 					if (_visibleObject_.hitTestCountable) {
