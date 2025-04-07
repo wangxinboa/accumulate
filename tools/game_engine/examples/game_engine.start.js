@@ -7,8 +7,10 @@ import {
 } from '../src/index.js';
 
 import testAnimation from './test/animation/test_animation.js';
+import testKeyDown from './test/event/keyboard/test_key_down.js';
+import testKeyPress from './test/event/keyboard/test_key_press.js';
+import testKeyUp from './test/event/keyboard/test_key_up.js';
 import testDrag from './test/event/test_drag.js';
-import testKeyPress from './test/event/test_key_press.js';
 import testLoaderImage from './test/loader/test_loader_image.js';
 import testMultiSprite from './test/objects/sprite/test_multi_sprite.js';
 import testSprite from './test/objects/sprite/test_sprite.js';
@@ -75,8 +77,10 @@ function addExample(name, scene) {
 
 
 addExample('testAnimation', testAnimation);
-addExample('testDrag', testDrag);
+addExample('testKeyDown', testKeyDown);
 addExample('testKeyPress', testKeyPress);
+addExample('testKeyUp', testKeyUp);
+addExample('testDrag', testDrag);
 addExample('testLoaderImage', testLoaderImage);
 addExample('testMultiSprite', testMultiSprite);
 addExample('testSprite', testSprite);

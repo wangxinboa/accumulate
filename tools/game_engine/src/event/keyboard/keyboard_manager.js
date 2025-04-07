@@ -1,4 +1,6 @@
-import { KeyDownMap, KeyUpMap, KeyPressMap } from './key_map.js';
+import { KeyDownFlags, KeyUpFlags, KeyPressFlags } from './key_flags.js';
+
+let _pressedKeyIndex_ = 0;
 
 export default class KeyboardManager {
 	constructor(canvasEvent) {
@@ -8,7 +10,8 @@ export default class KeyboardManager {
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.onKeyUp = this.onKeyUp.bind(this);
 
-		this.activeKeyPress = [];
+		this.pressedKeys = [];
+		this.pressedKeyFlags = {};
 
 		this.startListeners();
 	}
@@ -23,26 +26,37 @@ export default class KeyboardManager {
 		window.removeEventListener('keyup', this.onKeyUp, false);
 	}
 
-	onKeyDown(e) {
-		const keypressCode = KeyPressMap[e.keyCode];
-		if (
-			this.canvasEvent.scene.hasEvent(KeyPressMap[e.keyCode]) &&
-			!this.activeKeyPress.includes(keypressCode)
-		) {
-			this.activeKeyPress.push(KeyPressMap[e.keyCode]);
+	// 判断键是否被按下
+	isKeyPressed(key) {
+		return this.pressedKeyFlags[key] === true;
+	}
+	// 标记键为按下状态
+	setKeyPressed(key) {
+		if (!this.pressedKeyFlags[key]) {
+			this.pressedKeys.push(key);
+			this.pressedKeyFlags[key] = true;
 		}
-		this.canvasEvent.scene.emit(KeyDownMap[e.keyCode], e);
+	}
+	// 移除键的按下标记
+	releaseKey(key) {
+		_pressedKeyIndex_ = this.pressedKeys.indexOf(key);
+		if (_pressedKeyIndex_ > -1) {
+			this.pressedKeys.splice(_pressedKeyIndex_, 1);
+		}
+		this.pressedKeyFlags[key] = false;
+	}
+
+	onKeyDown(e) {
+		this.setKeyPressed(KeyPressFlags[e.keyCode]);
+		this.canvasEvent.scene.emit(KeyDownFlags[e.keyCode], e);
 	}
 	onKeyUp(e) {
-		const index = this.activeKeyPress.indexOf(KeyPressMap[e.keyCode]);
-		if (index > -1) {
-			this.activeKeyPress.splice(index, 1);
-		}
-		this.canvasEvent.scene.emit(KeyUpMap[e.keyCode], e);
+		this.releaseKey(KeyPressFlags[e.keyCode]);
+		this.canvasEvent.scene.emit(KeyUpFlags[e.keyCode], e);
 	}
 	update() {
-		for (let i = 0, len = this.activeKeyPress.length; i < len; i++) {
-			this.canvasEvent.scene.emit(this.activeKeyPress[i]);
+		for (let i = 0, len = this.pressedKeys.length; i < len; i++) {
+			this.canvasEvent.scene.emit(this.pressedKeys[i]);
 		}
 	}
 
@@ -52,11 +66,17 @@ export default class KeyboardManager {
 		this.canvasEvent =
 
 			this.onKeyDown =
-			this.onKeyUp = null;
+			this.onKeyUp =
+
+			this.pressedKeys =
+			this.pressedKeyFlags = null;
 
 		delete this.canvasEvent;
 
 		delete this.onKeyDown;
 		delete this.onKeyUp;
+
+		delete this.pressedKeys;
+		delete this.pressedKeyFlags;
 	}
 }

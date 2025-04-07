@@ -1,5 +1,5 @@
 
-import { Rect, Scene, Camera2D } from '../../../src/index.js';
+import { Rect, Scene, Camera2D } from '../../../../src/index.js';
 
 const camera = new Camera2D();
 const scene = new Scene({
