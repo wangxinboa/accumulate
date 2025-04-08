@@ -1,18 +1,10 @@
 import { Image, Scene, Camera2D } from '../../../src/index.js';
 
-// 测试 sat 效果
 const camera = new Camera2D();
 const scene = new Scene({
 	wheelMoveCamera: true,
 });
 scene.bindCamera(camera);
-scene.on('pointerdown', () => {
-	if (rect.isPlaying) {
-		rect.pauseResumeAnimation();
-	} else {
-		rect.startAnimation('move');
-	}
-});
 
 let hasLoaded = false;
 scene.on('toExampleScene', () => {
