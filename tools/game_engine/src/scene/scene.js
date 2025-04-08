@@ -1,6 +1,6 @@
 import EventEmitter from '../event/event_emitter.js';
 import BaseObject from '../objects/base_object.js';
-import WheelMoveCamera from './option_events/wheel_move_camera.js';
+import WheelMoveCamera2D from './option_events/wheel_move_camera2d.js';
 
 export default class Scene extends BaseObject {
 	constructor(option) {
@@ -14,7 +14,7 @@ export default class Scene extends BaseObject {
 		this.directEvent = new EventEmitter();
 
 		if (option.wheelMoveCamera) {
-			this.on('wheel', WheelMoveCamera);
+			this.on('wheel', WheelMoveCamera2D);
 		}
 	}
 
