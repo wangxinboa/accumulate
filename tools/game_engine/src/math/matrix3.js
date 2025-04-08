@@ -2,9 +2,9 @@
 
 export default class Matrix3 {
 
-	constructor(n11, n12, n13, n21, n22, n23, n31, n32, n33) {
+	isMatrix3 = true;
 
-		this.isMatrix3 = true;
+	constructor(n11, n12, n13, n21, n22, n23, n31, n32, n33) {
 
 		this.elements = [
 
