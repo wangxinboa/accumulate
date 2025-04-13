@@ -13,7 +13,7 @@ export default class Image extends Object2D {
 	}
 
 	_render(ctx) {
-		if (this.imageTask.isLoaded()) {
+		if (this.imageTask.isLoaded) {
 			ctx.beginPath();
 			ctx.drawImage(this.imageTask.image,
 				0, 0, this.width, this.height,
@@ -23,7 +23,7 @@ export default class Image extends Object2D {
 	}
 
 	updateRange() {
-		if (this.imageTask.isLoaded()) {
+		if (this.imageTask.isLoaded) {
 			this.rectangle.setRectangle(0, 0, this.width, this.height, this.matrixWorld);
 		} else {
 			this.rectangle.setRectangle(0, 0, 0, 0, this.matrixWorld);

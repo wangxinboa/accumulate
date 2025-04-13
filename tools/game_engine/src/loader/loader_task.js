@@ -1,11 +1,11 @@
 import loaderManager from './loader_manager.js';
 
-const TaskState = {
-	wait: 'wait',
-	loading: 'loading',
-	loaded: 'loaded',
-	error: 'error',
-}
+// const TaskState = {
+// 	wait: 'wait',
+// 	loading: 'loading',
+// 	loaded: 'loaded',
+// 	error: 'error',
+// }
 
 
 export default class LoaderTask {
@@ -13,7 +13,11 @@ export default class LoaderTask {
 		this.index = index;
 		this.key = key;
 
-		this.state = TaskState.wait;
+		// this.state = TaskState.wait;
+		this.isWait = true;
+		this.isLoading = true;
+		this.isLoaded = false;
+		this.isError = false;
 
 		this.onloaded = onloaded;
 		this.onerror = onerror;
@@ -24,17 +28,25 @@ export default class LoaderTask {
 	}
 
 	loading() {
-		this.state = TaskState.loading;
+		// this.state = TaskState.loading;
+		this.isWait = false;
+		this.isLoading = true;
 	}
 	loaded() {
-		this.state = TaskState.loaded;
+		// this.state = TaskState.loaded;
+		this.isLoading = false;
+		this.isLoaded = true;
+
 		loaderManager.onLoaded(this);
 		if (this.onloaded !== null) {
 			this.onloaded(this);
 		}
 	}
 	error() {
-		this.state = TaskState.error;
+		// this.state = TaskState.error;
+		this.isLoading = false;
+		this.isError = true;
+
 		this.errorTime++;
 		loaderManager.onError(this);
 		if (this.onerror !== null) {
@@ -42,18 +54,15 @@ export default class LoaderTask {
 		}
 	}
 
-	isLoaded() {
-		return this.state === TaskState.loaded;
-	}
-	isError() {
-		return this.state === TaskState.error;
-	}
-
 	destroy() {
 		this.index =
 			this.key =
 
-			this.state =
+			// this.state =
+			this.isWait =
+			this.isLoading =
+			this.isLoaded =
+			this.isError =
 
 			this.onloaded =
 			this.onerror =
@@ -61,5 +70,21 @@ export default class LoaderTask {
 
 			this.loaded =
 			this.error = null;
+
+		delete this.index;
+		delete this.key;
+
+		// delete this.state;
+		delete this.isWait;
+		delete this.isLoading;
+		delete this.isLoaded;
+		delete this.isError;
+
+		delete this.onloaded;
+		delete this.onerror;
+		delete this.errorTime;
+
+		delete this.loaded;
+		delete this.error;
 	}
 }

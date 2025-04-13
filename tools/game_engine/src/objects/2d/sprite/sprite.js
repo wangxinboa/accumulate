@@ -18,7 +18,7 @@ export default class Sprite extends Object2D {
 	}
 
 	_render(ctx) {
-		if (this.imageTask.isLoaded()) {
+		if (this.imageTask.isLoaded) {
 			ctx.beginPath();
 			ctx.drawImage(this.imageTask.image,
 				this.imageBlock.x, this.imageBlock.y, this.imageBlock.width, this.imageBlock.height,
@@ -36,7 +36,7 @@ export default class Sprite extends Object2D {
 	}
 
 	updateRange() {
-		if (this.imageTask.isLoaded()) {
+		if (this.imageTask.isLoaded) {
 			this.rectangle.setRectangle(0, 0, this.imageBlock.width, this.imageBlock.height, this.matrixWorld);
 		} else {
 			this.rectangle.setRectangle(0, 0, 0, 0, this.matrixWorld);

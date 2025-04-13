@@ -16,7 +16,7 @@ export default class MultiSprite extends Object2D {
 	}
 
 	_render(ctx) {
-		if (this.imageTask.isLoaded()) {
+		if (this.imageTask.isLoaded) {
 			ctx.beginPath();
 			for (let i = 0, len = this.drawBlocks.length; i < len; i++) {
 				_drawBlock_ = this.drawBlocks[i];
