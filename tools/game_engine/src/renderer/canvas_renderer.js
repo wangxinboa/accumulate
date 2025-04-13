@@ -32,7 +32,7 @@ export default class CanvasRenderer {
 		scene.camera.transform(this.ctx);
 
 		scene.clearVisibleObjects();
-		this.renderObject(scene, scene, time);
+		this.renderObject(scene, scene.root, time);
 
 		// 测试代码，验证相机范围矩形边
 		// this.ctx.save();

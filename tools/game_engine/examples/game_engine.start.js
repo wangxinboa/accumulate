@@ -52,12 +52,14 @@ const backButton = new Text({
 	// strokeWidth: 2,
 	stroke: '#0000ff',
 	applyCameraTransform: false,
+	renderOrder: 2,
 });
 
 backButton.on('pointerdown', toStartScene);
 
 let exampleCount = 0, allexampleUrlHeight = 0;
 function toExampleScene() {
+	this.data.add(backButton);
 	gameEngine.changeScene(this.data);
 	this.data.emit('toExampleScene');
 }
@@ -79,8 +81,6 @@ function addExample(name, scene) {
 	exampleCount++;
 
 	exampleUrl.on('pointerdown', toExampleScene);
-
-	scene.add(backButton);
 }
 
 

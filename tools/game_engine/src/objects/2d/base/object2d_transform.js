@@ -101,7 +101,7 @@ export default class Object2DTransform extends BaseObject {
 	}
 
 	updateMatrixWorld() {
-		if (this.parent) {
+		if (this.parent && this.parent.matrixWorld) {
 			this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
 		} else {
 			this.matrixWorld.copy(this.matrix);

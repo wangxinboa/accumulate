@@ -2,9 +2,11 @@ import EventEmitter from '../event/event_emitter.js';
 import BaseObject from '../objects/base_object.js';
 import WheelMoveCamera2D from './option_events/wheel_move_camera2d.js';
 
-export default class Scene extends BaseObject {
+export default class Scene extends EventEmitter {
 	constructor(option) {
 		super();
+
+		this.root = new BaseObject();
 
 		this.visibleObjects = [];
 		this.visibleObjectCount = 0;
@@ -19,10 +21,14 @@ export default class Scene extends BaseObject {
 	}
 
 	add(object) {
-		if (!this.children.includes(object)) {
-			this.children.push(object);
-			this.sortObjectsByOrder();
-		}
+		this.root.add(object);
+
+		return this;
+	}
+
+	remove(object) {
+		this.root.remove(object);
+
 		return this;
 	}
 
@@ -44,16 +50,22 @@ export default class Scene extends BaseObject {
 	destroy() {
 		super.destroy();
 
+		this.root.destroy();
+
 		for (let i = this.visibleObjects.length - 1; i >= 0; i--) {
 			this.visibleObjects.pop();
 		}
 		this.directEvent.destroy();
 
-		this.visibleObjects =
+		this.root =
+
+			this.visibleObjects =
 			this.visibleObjectCount =
 
 			this.camera =
 			this.directEvent = null;
+
+		delete this.root;
 
 		delete this.visibleObjects;
 		delete this.visibleObjectCount;
