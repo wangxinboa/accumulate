@@ -76,7 +76,6 @@ function handleMousedownCircle() {
 	const markNode = AllCircleMarkNode.get(this);
 	if (markNode.children.length > 0) {
 		eachBefore(MarkLog.rootMarkNode, initMarkNodeObject2d, true);
-		scene.sortObjectsByOrder();
 
 		eachBefore(MarkLog.rootMarkNode, hideObejct2d, true);
 		markNode.childrenVisible = !markNode.childrenVisible;
@@ -87,7 +86,6 @@ function handleMousedownCircle() {
 		eachBefore(MarkLog.rootMarkNode, initMarkNodeObject2d);
 		eachBefore(MarkLog.rootMarkNode, showObject2d);
 
-		scene.sortObjectsByOrder();
 		eachBefore(MarkLog.rootMarkNode, dealMarkNodeObject2d);
 	}
 }
@@ -197,6 +195,5 @@ function dealMarkNodeObject2d(markNode) {
 
 export function drawMarkNode() {
 	eachBefore(MarkLog.rootMarkNode, initMarkNodeObject2d);
-	scene.sortObjectsByOrder();
 	eachBefore(MarkLog.rootMarkNode, dealMarkNodeObject2d);
 }
