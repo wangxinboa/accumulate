@@ -12,14 +12,6 @@ export default class Polygon extends Object2D {
 		this.updateRange();
 	}
 
-	_render(ctx) {
-		ctx.beginPath();
-		this.points.forEach((point) => {
-			ctx.lineTo(point.x, point.y);
-		});
-		ctx.closePath();
-	}
-
 	updateRange() {
 		this.rectangle.setRectangleByPoints(this.points, this.matrixWorld);
 	}
@@ -27,11 +19,10 @@ export default class Polygon extends Object2D {
 	destroy() {
 		super.destroy();
 
-		this.isPolygon = 
-		this.updateRange =
-			this.imageTask = null;
+		this.isPolygon =
+			this.points = null;
 
-		delete this.updateRange;
-		delete this.imageTask;
+		delete this.isPolygon;
+		delete this.points;
 	}
 }

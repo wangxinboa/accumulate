@@ -17,16 +17,6 @@ export default class Sprite extends Object2D {
 		this.updateRange();
 	}
 
-	_render(ctx) {
-		if (this.imageTask.isLoaded) {
-			ctx.beginPath();
-			ctx.drawImage(this.imageTask.image,
-				this.imageBlock.x, this.imageBlock.y, this.imageBlock.width, this.imageBlock.height,
-				0, 0, this.imageBlock.width, this.imageBlock.height
-			);
-		}
-	}
-
 	get imageBlockIndex() {
 		return this._imageBlockIndex;
 	}

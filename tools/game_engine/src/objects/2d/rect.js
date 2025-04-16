@@ -27,26 +27,6 @@ export default class Rect extends Object2D {
 		this.updateRange();
 	}
 
-	_render(ctx) {
-		const
-			x = -this.width / 2,
-			y = -this.height / 2,
-			w = this.width,
-			h = this.height;
-
-		ctx.beginPath();
-		ctx.moveTo(x + this.rxlt, y);
-		ctx.lineTo(x + w - this.rxrt, y);
-		ctx.bezierCurveTo(x + w, y, x + w, y + this.ryrt, x + w, y + this.ryrt);
-		ctx.lineTo(x + w, y + h - this.ryrb);
-		ctx.bezierCurveTo(x + w, y + h, x + w - this.rxrb, y + h, x + w - this.rxrb, y + h);
-		ctx.lineTo(x + this.rxlb, y + h);
-		ctx.bezierCurveTo(x, y + h, x, y + h - this.rylb, x, y + h - this.rylb);
-		ctx.lineTo(x, y + this.rylt);
-		ctx.bezierCurveTo(x, y, x + this.rxlt, y, x + this.rxlt, y);
-		ctx.closePath();
-	}
-
 	updateRange() {
 		const x = this.width / 2, y = this.height / 2;
 		this.rectangle.setRectangle(-x, -y, x, y, this.matrixWorld);

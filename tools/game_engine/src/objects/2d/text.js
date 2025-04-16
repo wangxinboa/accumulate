@@ -1,4 +1,5 @@
 import Object2D from './base/object2d.js';
+import { _setTextStyles } from '../../renderer/canvas_renderer/render_text.js';
 
 const _canvas = document.createElement('canvas');
 _canvas.width = 0;
@@ -27,7 +28,7 @@ export default class Text extends Object2D {
 
 	// https://juejin.cn/post/7308697586533974056
 	_initDimensions() {
-		this._setTextStyles(_ctx);
+		_setTextStyles(_ctx, this);
 		const textMetrics = _ctx.measureText(this.text);
 
 		this.left = textMetrics.actualBoundingBoxLeft;
@@ -36,45 +37,6 @@ export default class Text extends Object2D {
 
 		this.width = textMetrics.actualBoundingBoxLeft + textMetrics.actualBoundingBoxRight;
 		this.height = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
-	}
-
-
-	_setTextStyles(ctx) {
-		ctx.textBaseline = 'alphabetic';
-		ctx.font = `${this.fontStyle} ${this.fontWeight} ${this.fontSize}px ${this.fontFamily}`;
-	}
-
-	_renderStroke(ctx) {
-		if (this.hasStroke()) {
-			ctx.save();
-			this._setLineDash(ctx, this.strokeDashArray);
-			this._setStrokeStyles(ctx);
-
-			ctx.strokeText(this.text, this.left, this.ascent);
-			ctx.restore();
-		}
-	}
-
-	_renderFill(ctx) {
-		if (this.hasFill()) {
-			ctx.save();
-			this._setFillStyles(ctx);
-			ctx.fillText(this.text, this.left, this.ascent);
-			ctx.restore();
-		}
-	}
-
-	_render(ctx) {
-		ctx.beginPath();
-
-		if (this.backgroundColor && this.backgroundColor !== 'transparent') {
-			ctx.save();
-			ctx.fillStyle = this.backgroundColor;
-			ctx.fillRect(0, 0, this.width, this.height);
-			ctx.restore();
-		}
-
-		this._setTextStyles(ctx);
 	}
 
 	updateRange() {

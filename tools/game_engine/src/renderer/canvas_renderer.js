@@ -1,3 +1,15 @@
+// import MultiSprite from '../objects/2d/sprite/multi_sprite.js';
+// import Sprite from '../objects/2d/sprite/sprite.js';
+// import Circle from '../objects/2d/circle.js'
+// import Image from '../objects/2d/image.js';
+// import Polygon from '../objects/2d/polygon.js';
+// import Polyline from '../objects/2d/polyline.js';
+// import Rect from '../objects/2d/rect.js';
+import Text from '../objects/2d/text.js';
+
+import renderShape from './canvas_renderer/render_shape.js';
+import renderText from './canvas_renderer/render_text.js';
+
 export default class CanvasRenderer {
 	constructor(el, option) {
 
@@ -32,7 +44,7 @@ export default class CanvasRenderer {
 		scene.camera.transform(this.ctx);
 
 		scene.clearVisibleObjects();
-		this.renderObject(scene, scene.root, time);
+		this._renderObject(scene, scene.root, time);
 
 		// 测试代码，验证相机范围矩形边
 		// this.ctx.save();
@@ -51,7 +63,7 @@ export default class CanvasRenderer {
 		this.ctx.restore();
 	}
 
-	renderObject(scene, obejct, time) {
+	_renderObject(scene, obejct, time) {
 		let child = null;
 		for (let i = 0, len = obejct.children.length; i < len; i++) {
 			child = obejct.children[i];
@@ -61,26 +73,36 @@ export default class CanvasRenderer {
 				if (child.applyCameraTransform) {
 					if (scene.camera.viewInCamera(child)) {
 
-						child.render(this.ctx);
+						// child.render(this.ctx);
+						this._drawPrimitive(child)
 						scene.addVisibleObject(child);
 
-						this.renderObject(scene, child, time);
+						this._renderObject(scene, child, time);
 					}
 				} else {
 					if (scene.camera.viewInScreen(child)) {
 						this.ctx.save();
 						scene.camera.invertTransform(this.ctx);
 
-						child.render(this.ctx);
+						// child.render(this.ctx);
+						this._drawPrimitive(child)
 						scene.addVisibleObject(child);
 
-						this.renderObject(scene, child, time);
+						this._renderObject(scene, child, time);
 						this.ctx.restore();
 					}
 				}
 			}
 		}
 		child = null;
+	}
+
+	_drawPrimitive(object) {
+		if (object instanceof Text) {
+			renderText(this.ctx, object);
+		} else {
+			renderShape(this.ctx, object);
+		}
 	}
 
 	destroy() {

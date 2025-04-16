@@ -1,13 +1,9 @@
-// import { Circle, Rect, Polyline, Polygon, Text, Image, Sprite } from '../src/index.js';
-
-// import start2d from './common/start2d.js';
-import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
+// import { allowObject2dCanMove, object2dCanMove } from './common/object2d_move.js';
 import {
-	GameEngine,
 	Circle, Rect, Text, Sprite, Polyline, Polygon,
 	Scene,
 	Camera2D
-} from '../src/index.js';
+} from '../../../src/index.js';
 
 const camera = new Camera2D();
 const scene = new Scene({
@@ -15,10 +11,8 @@ const scene = new Scene({
 });
 scene.bindCamera(camera);
 
-const gameEngine = new GameEngine({
-	el: document.getElementById('renderCanvas'),
-	scene,
-});
+export default scene;
+
 
 const circle = new Circle({
 	radius: 12,
@@ -30,6 +24,7 @@ const circle = new Circle({
 	//strokeWidth: 1,
 	//stroke: '#0000ff',
 	renderOrder: 1,
+	hitTestCountable: false,
 });
 // object2dCanMove(circle);
 // scene.on('pointermove', (x, y) => {
@@ -140,7 +135,7 @@ scene.add(text);
 
 const sprite = new Sprite({
 	url: '../../../github_repositories/learning/phaser/examples/assets/gems.png',
-	blocks: [
+	imageBlocks: [
 		{
 			x: 2,
 			y: 2,

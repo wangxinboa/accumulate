@@ -1,7 +1,7 @@
 import '../../../javascript_libs/lil-gui/dist/lil-gui.umd.min.js';
 import {
 	GameEngine,
-	Circle, Rect, Text, Sprite, Polyline, Polygon,
+	Text,
 	Scene,
 	Camera2D
 } from '../src/index.js';
@@ -14,6 +14,7 @@ import testDrag from './test/event/test_drag.js';
 import testLoaderImage from './test/loader/test_loader_image.js';
 import testMultiSprite from './test/objects/sprite/test_multi_sprite.js';
 import testSprite from './test/objects/sprite/test_sprite.js';
+import testObjects from './test/objects/test_objects.js';
 
 const camera = new Camera2D();
 const startScene = new Scene({
@@ -92,3 +93,4 @@ addExample('testDrag', testDrag);
 addExample('testLoaderImage', testLoaderImage);
 addExample('testMultiSprite', testMultiSprite);
 addExample('testSprite', testSprite);
+addExample('testObjects', testObjects);

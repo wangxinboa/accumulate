@@ -12,16 +12,6 @@ export default class Image extends Object2D {
 		this.updateRange();
 	}
 
-	_render(ctx) {
-		if (this.imageTask.isLoaded) {
-			ctx.beginPath();
-			ctx.drawImage(this.imageTask.image,
-				0, 0, this.width, this.height,
-				0, 0, this.width, this.height
-			);
-		}
-	}
-
 	updateRange() {
 		if (this.imageTask.isLoaded) {
 			this.rectangle.setRectangle(0, 0, this.width, this.height, this.matrixWorld);
