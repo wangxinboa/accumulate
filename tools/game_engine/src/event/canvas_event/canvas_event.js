@@ -12,6 +12,7 @@ let
 	_visibleObject_ = null,
 	_drapObject_ = null,
 
+	_hitPoint_ = null,
 	_hitTestCounter_ = 0,
 
 	_dragNowX_ = 0,
@@ -55,38 +56,37 @@ export default class CanvasEvent {
 		_hitPointInScene_.set(e.offsetX, e.offsetY);
 	}
 
-	_hitTest() {
-		return _visibleObject_.applyCameraTransform ?
-			_visibleObject_.hitTest(_hitPointInCamera_.x, _hitPointInCamera_.y) :
-			_visibleObject_.hitTest(_hitPointInScene_.x, _hitPointInScene_.y);
+	_setVisibleObject(object) {
+		_visibleObject_ = object;
+		_hitPoint_ = _visibleObject_.applyCameraTransform ? _hitPointInCamera_ : _hitPointInScene_;
 	}
 
 	processDownEvents(e) {
 		this._beforeProcess(e);
 
 		for (let i = _scene_.visibleObjectCount - 1; i >= 0; i--) {
-			_visibleObject_ = _scene_.visibleObjects[i];
+			this._setVisibleObject(_scene_.visibleObjects[i]);
 			if (_visibleObject_.hitTestDisabled) {
 				continue;
 			}
 
-			if (this._hitTest()) {
+			if (_visibleObject_.hitTest(_hitPoint_.x, _hitPoint_.y)) {
 				if (_visibleObject_.hitTestCountable) {
 					_hitTestCounter_++;
 				}
 
 				if (_visibleObject_.hasEvent(CanvasEventType.pointerdown)) {
-					_visibleObject_.emit(CanvasEventType.pointerdown, _hitPointInCamera_.x, _hitPointInCamera_.y);
+					_visibleObject_.emit(CanvasEventType.pointerdown, _hitPoint_.x, _hitPoint_.y);
 				}
 				if (_visibleObject_.hasEvent(CanvasEventType.dragstart)) {
-					_visibleObject_.emit(CanvasEventType.dragstart, _hitPointInCamera_.x, _hitPointInCamera_.y);
+					_visibleObject_.emit(CanvasEventType.dragstart, _hitPoint_.x, _hitPoint_.y);
 				}
-				if (_visibleObject_.hasEvent(CanvasEventType.drag)) {
+				if (_visibleObject_.hasEvent(CanvasEventType.drag) || _visibleObject_.dragUpdatesPosition) {
 					_visibleObject_._dragStartObjectX_ = _visibleObject_.x;
 					_visibleObject_._dragStartObjectY_ = _visibleObject_.y;
 
-					_visibleObject_._dragStartEventX_ = _hitPointInCamera_.x;
-					_visibleObject_._dragStartEventY_ = _hitPointInCamera_.y;
+					_visibleObject_._dragStartEventX_ = _hitPoint_.x;
+					_visibleObject_._dragStartEventY_ = _hitPoint_.y;
 
 					this._drag.push(_visibleObject_);
 				}
@@ -112,10 +112,14 @@ export default class CanvasEvent {
 		if (this._drag.length > 0) {
 			for (let i = 0, len = this._drag.length; i < len; i++) {
 				_drapObject_ = this._drag[i];
-				_dragNowX_ = _drapObject_._dragStartObjectX_ + _hitPointInCamera_.x - _drapObject_._dragStartEventX_;
-				_dragNowY_ = _drapObject_._dragStartObjectY_ + _hitPointInCamera_.y - _drapObject_._dragStartEventY_;
+				_dragNowX_ = _drapObject_._dragStartObjectX_ + _hitPoint_.x - _drapObject_._dragStartEventX_;
+				_dragNowY_ = _drapObject_._dragStartObjectY_ + _hitPoint_.y - _drapObject_._dragStartEventY_;
 
-				_drapObject_.emit(CanvasEventType.drag, _dragNowX_, _dragNowY_, _hitPointInCamera_.x, _hitPointInCamera_.y);
+				if (_drapObject_.dragUpdatesPosition) {
+					_drapObject_.x = _dragNowX_;
+					_drapObject_.y = _dragNowY_;
+				}
+				_drapObject_.emit(CanvasEventType.drag, _dragNowX_, _dragNowY_, _hitPoint_.x, _hitPoint_.y);
 			}
 
 			_drapObject_ = null;
@@ -123,12 +127,12 @@ export default class CanvasEvent {
 
 		if (this._drag.length === 0 || !this.dragLock) {
 			for (let i = _scene_.visibleObjectCount - 1; i >= 0; i--) {
-				_visibleObject_ = _scene_.visibleObjects[i];
+				this._setVisibleObject(_scene_.visibleObjects[i]);
 				if (_visibleObject_.hitTestDisabled) {
 					continue;
 				}
 
-				if (this._hitTest()) {
+				if (_visibleObject_.hitTest(_hitPoint_.x, _hitPoint_.y)) {
 					if (_visibleObject_.hitTestCountable) {
 						_hitTestCounter_++;
 					}
@@ -136,13 +140,13 @@ export default class CanvasEvent {
 					this._nowMoveEnter.push(_visibleObject_);
 
 					if (_visibleObject_.hasEvent(CanvasEventType.pointermove)) {
-						_visibleObject_.emit(CanvasEventType.pointermove, _hitPointInCamera_.x, _hitPointInCamera_.y);
+						_visibleObject_.emit(CanvasEventType.pointermove, _hitPoint_.x, _hitPoint_.y);
 					}
 					if (
 						_visibleObject_.hasEvent(CanvasEventType.pointerenter) &&
 						!this._preMoveEnter.includes(_visibleObject_)
 					) {
-						_visibleObject_.emit(CanvasEventType.pointerenter, _hitPointInCamera_.x, _hitPointInCamera_.y);
+						_visibleObject_.emit(CanvasEventType.pointerenter, _hitPoint_.x, _hitPoint_.y);
 					}
 				}
 
@@ -152,12 +156,12 @@ export default class CanvasEvent {
 			}
 
 			for (let i = this._preMoveEnter.length - 1; i >= 0; i--) {
-				_visibleObject_ = this._preMoveEnter[i];
+				this._setVisibleObject(this._preMoveEnter[i]);
 				if (
 					_visibleObject_.hasEvent(CanvasEventType.pointerleave) &&
 					!this._nowMoveEnter.includes(_visibleObject_)
 				) {
-					_visibleObject_.emit(CanvasEventType.pointerleave, _hitPointInCamera_.x, _hitPointInCamera_.y);
+					_visibleObject_.emit(CanvasEventType.pointerleave, _hitPoint_.x, _hitPoint_.y);
 				}
 			}
 
@@ -188,7 +192,7 @@ export default class CanvasEvent {
 			for (let i = 0, len = this._drag.length; i < len; i++) {
 				_drapObject_ = this._drag[i];
 				if (_drapObject_.hasEvent(CanvasEventType.dragend)) {
-					_drapObject_.emit(CanvasEventType.dragend, _hitPointInCamera_.x, _hitPointInCamera_.y);
+					_drapObject_.emit(CanvasEventType.dragend, _hitPoint_.x, _hitPoint_.y);
 				}
 			}
 
@@ -198,18 +202,18 @@ export default class CanvasEvent {
 
 		if (this._drag.length === 0 || !this.dragLock) {
 			for (let i = _scene_.visibleObjectCount - 1; i >= 0; i--) {
-				_visibleObject_ = _scene_.visibleObjects[i];
+				this._setVisibleObject(_scene_.visibleObjects[i]);
 				if (_visibleObject_.hitTestDisabled) {
 					continue;
 				}
 
-				if (this._hitTest()) {
+				if (_visibleObject_.hitTest(_hitPoint_.x, _hitPoint_.y)) {
 					if (_visibleObject_.hitTestCountable) {
 						_hitTestCounter_++;
 					}
 
 					if (_visibleObject_.hasEvent(CanvasEventType.pointerup)) {
-						_visibleObject_.emit(CanvasEventType.pointerup, _hitPointInCamera_.x, _hitPointInCamera_.y);
+						_visibleObject_.emit(CanvasEventType.pointerup, _hitPoint_.x, _hitPoint_.y);
 					}
 				}
 

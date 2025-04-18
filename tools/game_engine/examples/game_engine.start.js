@@ -52,11 +52,12 @@ const backButton = new Text({
 	// fill: null,
 	// strokeWidth: 2,
 	stroke: '#0000ff',
-	applyCameraTransform: false,
 	renderOrder: 2,
+	applyCameraTransform: false,
+	dragUpdatesPosition: true,
 });
 
-backButton.on('pointerdown', toStartScene);
+backButton.on('pointerup', toStartScene);
 
 let exampleCount = 0, allexampleUrlHeight = 0;
 function toExampleScene() {

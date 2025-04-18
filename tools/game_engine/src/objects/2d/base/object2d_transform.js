@@ -39,6 +39,7 @@ export default class Object2DTransform extends BaseObject {
 		this.rectangle = new Rectangle();
 
 		this.applyCameraTransform = option.applyCameraTransform !== void 0 ? option.applyCameraTransform : true;
+		this.dragUpdatesPosition = option.dragUpdatesPosition !== void 0 ? option.dragUpdatesPosition : false;
 	}
 
 	// 判断两个 Object2D 是否重叠
