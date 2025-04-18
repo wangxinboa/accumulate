@@ -15,7 +15,6 @@ export default class Object2DTransform extends BaseObject {
 	constructor(option = {}) {
 		super(option);
 
-		this.rangeNeedsUpdate = true;
 		this.matrixNeedsUpdate = true;
 		this.matrix = new Matrix3();
 		this.matrixWorld = new Matrix3();
@@ -38,6 +37,8 @@ export default class Object2DTransform extends BaseObject {
 		this.hitTestDisabled = option.hitTestDisabled !== void 0 ? option.hitTestDisabled : false;
 
 		this.rectangle = new Rectangle();
+
+		this.applyCameraTransform = option.applyCameraTransform !== void 0 ? option.applyCameraTransform : true;
 	}
 
 	// 判断两个 Object2D 是否重叠
@@ -166,8 +167,7 @@ export default class Object2DTransform extends BaseObject {
 
 		this.rectangle.destroy();
 
-		this.rangeNeedsUpdate =
-			this.matrixNeedsUpdate =
+		this.matrixNeedsUpdate =
 			this.matrix =
 			this.matrixWorld =
 
@@ -180,7 +180,6 @@ export default class Object2DTransform extends BaseObject {
 
 			this.rectangle = null;
 
-		delete this.rangeNeedsUpdate;
 		delete this.matrixNeedsUpdate;
 		delete this.matrix;
 		delete this.matrixWorld;
