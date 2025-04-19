@@ -16,5 +16,6 @@
 	"editor.fontWeight": "normal",
 	"editor.tabSize": 4,
 	"editor.insertSpaces": false,
-	"editor.detectIndentation": false
+	"editor.detectIndentation": false,
+	"javascript.format.semicolons": "insert",
 }
