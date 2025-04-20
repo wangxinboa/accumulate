@@ -23,6 +23,7 @@ const startScene = new Scene({
 startScene.bindCamera(camera);
 const gameEngine = new GameEngine({
 	el: document.getElementById('renderCanvas'),
+	renderType: 'canvas',
 	scene: startScene,
 });
 window.gameEngine = gameEngine;

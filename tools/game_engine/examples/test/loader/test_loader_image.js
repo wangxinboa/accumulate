@@ -1,4 +1,4 @@
-import { Image, Scene, Camera2D } from '../../../src/index.js';
+import { ImageObject, Scene, Camera2D } from '../../../src/index.js';
 
 const camera = new Camera2D();
 const scene = new Scene({
@@ -12,7 +12,7 @@ scene.on('toExampleScene', () => {
 		const imageCount = 50;
 		// const imageCount = 10;
 		for (let i = 0; i < imageCount; i++) {
-			const image = new Image({
+			const image = new ImageObject({
 				url: `../examples/assets/number_images/${i}.png`,
 				// url: `./number_images/${i}.jpg`,
 				x: Math.floor(i / 5) * 60,

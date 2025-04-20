@@ -26,6 +26,9 @@ export default class Object2DTransform extends BaseObject {
 		this._scaleX = option.scaleX || 1;
 		this._scaleY = option.scaleY || 1;
 
+		this.anchorX = option.anchorX || 0;;
+		this.anchorY = option.anchorY || 0;;
+
 		// drag event 相关
 		this._dragStartObjectX_ = 0;
 		this._dragStartObjectY_ = 0;
@@ -50,31 +53,6 @@ export default class Object2DTransform extends BaseObject {
 	hitTest(x, y) {
 		_point.set(x, y).applyMatrix3(_matrx.copy(this.matrixWorld).invert());
 		return this.rectangle.containsPoint(_point.x, _point.y);
-	}
-
-	transform(ctx) {
-		let elements = this.matrixWorld.elements;
-		if (
-			elements[0] !== 1 ||
-			elements[1] !== 0 ||
-			elements[2] !== 0 ||
-			elements[3] !== 0 ||
-			elements[4] !== 1 ||
-			elements[5] !== 0 ||
-			elements[6] !== 0 ||
-			elements[7] !== 0 ||
-			elements[8] !== 1
-		) {
-			// a c e
-			// b d f
-			// 0 0 1
-			ctx.transform(
-				elements[0], elements[1],
-				elements[3], elements[4],
-				elements[6], elements[7]
-			);
-		}
-		elements = null;
 	}
 
 	afterAddChild() {
@@ -179,7 +157,13 @@ export default class Object2DTransform extends BaseObject {
 			this._scaleX =
 			this._scaleY =
 
-			this.rectangle = null;
+			this.anchorX =
+			this.anchorY =
+
+			this.rectangle =
+
+			this.applyCameraTransform =
+			this.dragUpdatesPosition = null;
 
 		delete this.matrixNeedsUpdate;
 		delete this.matrix;
@@ -192,7 +176,13 @@ export default class Object2DTransform extends BaseObject {
 		delete this._scaleX;
 		delete this._scaleY;
 
+		delete this.anchorX;
+		delete this.anchorY;
+
 		delete this.rectangle;
+
+		delete this.applyCameraTransform;
+		delete this.dragUpdatesPosition;
 	}
 }
 

@@ -1,4 +1,7 @@
-// copy from three.js/src/math/Matrix4.js
+import Vector3 from './vector3.js';
+
+export const WebGLCoordinateSystem = 2000;
+export const WebGPUCoordinateSystem = 2001;
 
 export default class Matrix4 {
 
@@ -124,8 +127,6 @@ export default class Matrix4 {
 	}
 
 	extractRotation(m) {
-
-		// this method does not support reflection matrices
 
 		const te = this.elements;
 		const me = m.elements;
@@ -408,7 +409,6 @@ export default class Matrix4 {
 		const n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
 
 		//TODO: make this more efficient
-		//( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
 
 		return (
 			n41 * (
@@ -910,5 +910,3 @@ const _one = /*@__PURE__*/ new Vector3(1, 1, 1);
 const _x = /*@__PURE__*/ new Vector3();
 const _y = /*@__PURE__*/ new Vector3();
 const _z = /*@__PURE__*/ new Vector3();
-
-export const IdentityMatrix4 = new Matrix4();

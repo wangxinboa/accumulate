@@ -1,12 +1,12 @@
 import EventEmitter from '../event/event_emitter.js';
-import BaseObject from '../objects/base_object.js';
+import RootObject from '../objects/root_object.js';
 import WheelMoveCamera2D from './option_events/wheel_move_camera2d.js';
 
 export default class Scene extends EventEmitter {
 	constructor(option) {
 		super();
 
-		this.root = new BaseObject();
+		this.root = new RootObject();
 
 		this.visibleObjects = [];
 		this.visibleObjectCount = 0;

@@ -1,4 +1,3 @@
-// copy from three.js/src/math/Matrix3.js
 
 export default class Matrix3 {
 
@@ -239,8 +238,6 @@ export default class Matrix3 {
 
 	}
 
-	//
-
 	scale(sx, sy) {
 
 		this.premultiply(_m3.makeScale(sx, sy));
@@ -328,8 +325,6 @@ export default class Matrix3 {
 
 	}
 
-	//
-
 	equals(matrix) {
 
 		const te = this.elements;
@@ -384,5 +379,7 @@ export default class Matrix3 {
 	}
 
 }
+
+const _m3 = /*@__PURE__*/ new Matrix3();
 
 export const IdentityMatrix3 = new Matrix3();

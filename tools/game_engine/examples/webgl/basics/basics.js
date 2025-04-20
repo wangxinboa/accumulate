@@ -1,0 +1,56 @@
+import { GameEngine, ImageObject, Scene, Camera2D } from '../../../src/index.js';
+
+const camera = new Camera2D();
+const basicsScene = new Scene({
+	wheelMoveCamera: true,
+});
+basicsScene.bindCamera(camera);
+
+const bunny = new ImageObject({
+	url: `./basics/bunny.png`,
+	x: 381,
+	y: 338,
+	scaleX: 1,
+	scaleY: 1,
+	anchorX: 0.5,
+	anchorY: 0.5,
+});
+basicsScene.add(bunny);
+
+const bunny1 = new ImageObject({
+	url: `./basics/bunny.png`,
+	x: 0,
+	y: 0,
+	scaleX: 1,
+	scaleY: 1,
+});
+basicsScene.add(bunny1);
+
+const bunny2 = new ImageObject({
+	url: `./basics/bunny.png`,
+	x: 762,
+	y: 676,
+	scaleX: 1,
+	scaleY: 1,
+	anchorX: 1,
+	anchorY: 1,
+});
+basicsScene.add(bunny2);
+
+basicsScene.directEvent.on('pointermove', (x, y) => {
+	// console.info('x:', x);
+	// console.info('y:', y);
+	bunny.x = x;
+	bunny.y = y;
+});
+
+const gameEngine = new GameEngine({
+	renderType: 'webgl',
+	el: document.getElementById('renderCanvas'),
+	backgroundColor: 0x66FF99,
+	scene: basicsScene,
+	beforeUpdate() {
+		bunny.rotation += 0.1;
+	},
+});
+window.gameEngine = gameEngine;

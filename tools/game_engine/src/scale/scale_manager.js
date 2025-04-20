@@ -43,7 +43,7 @@ export default class ScaleManager {
 		this.el.style.width = `${finalWidth}px`;
 		this.el.style.height = `${finalHeight}px`;
 
-		this._onResize(finalWidth, finalHeight);
+		this._onResize(finalWidth, finalHeight, this.retinaScaling);
 
 		finalWidth = finalHeight = null;
 	}

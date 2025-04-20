@@ -1,5 +1,6 @@
 import { RendererType } from './game_engine_option.js';
 import CanvasRenderer from './renderer/canvas_renderer.js';
+import WebGLRenderer from './renderer/webgl_renderer/webgl_renderer.js';
 import CanvasEvent from './event/canvas_event/canvas_event.js';
 import ScaleManager from './scale/scale_manager.js';
 import Scene from './scene/scene.js';
@@ -10,11 +11,12 @@ export default class GameEngine {
 		this.scene = option.scene || null;
 		this.canvasEvent.bindScene(this.scene);
 
-		this.renderer = (
-			option.renderType === RendererType.canvas ?
-				new CanvasRenderer(option.el, option) :
-				new CanvasRenderer(option.el, option)
-		);
+		this.renderer =
+			option.renderType === RendererType.webgl ?
+				new WebGLRenderer(option.el, option) :
+				option.renderType === RendererType.canvas ?
+					new CanvasRenderer(option.el, option) :
+					new WebGLRenderer(option.el, option);
 
 		this.scaleManager = new ScaleManager(option.el, option);
 
@@ -22,15 +24,16 @@ export default class GameEngine {
 		this.scaleManager.onResize(this._onResize);
 		this.scaleManager.resize();
 
+		this.beforeUpdate = option.beforeUpdate || null;
 		this.step = this.step.bind(this);
 		requestAnimationFrame(this.step);
 	}
 
-	_onResize(width, height) {
+	_onResize(width, height, retinaScaling) {
 		if (this.scene !== null) {
 			this.scene.camera.setRange(width, height);
 		}
-		this.renderer.resize();
+		this.renderer.resize(width, height, retinaScaling);
 	}
 
 	changeScene(scene) {
@@ -45,6 +48,10 @@ export default class GameEngine {
 	}
 
 	step(time = 0) {
+		if (this.beforeUpdate) {
+			this.beforeUpdate(time);
+		}
+
 		this.canvasEvent.update();
 		this.renderer.render(this.scene, time);
 

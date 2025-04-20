@@ -1,10 +1,3 @@
-// import MultiSprite from '../objects/2d/sprite/multi_sprite.js';
-// import Sprite from '../objects/2d/sprite/sprite.js';
-// import Circle from '../objects/2d/circle.js'
-// import Image from '../objects/2d/image.js';
-// import Polygon from '../objects/2d/polygon.js';
-// import Polyline from '../objects/2d/polyline.js';
-// import Rect from '../objects/2d/rect.js';
 import Text from '../objects/2d/text.js';
 
 import renderShape from './canvas_renderer/render_shape.js';
@@ -16,7 +9,6 @@ export default class CanvasRenderer {
 		this.el = el;
 		this.ctx = el.getContext('2d');
 
-		this.retinaScaling = option.devicePixelRatio || window.devicePixelRatio;
 		this.backgroundColor = option.backgroundColor || '';
 	}
 
@@ -24,8 +16,8 @@ export default class CanvasRenderer {
 		this.ctx.clearRect(0, 0, this.el.width, this.el.height);
 	}
 
-	resize() {
-		this.ctx.scale(this.retinaScaling, this.retinaScaling);
+	resize(width, height, retinaScaling) {
+		this.ctx.scale(retinaScaling, retinaScaling);
 	}
 
 	render(scene, time) {
@@ -41,7 +33,7 @@ export default class CanvasRenderer {
 		this.ctx.save();
 
 		scene.camera.updateMatrix();
-		scene.camera.transform(this.ctx);
+		this.transform(scene.camera.matrixWorld);
 
 		scene.clearVisibleObjects();
 		this._renderObject(scene, scene.root, time);
@@ -73,8 +65,7 @@ export default class CanvasRenderer {
 				if (child.applyCameraTransform) {
 					if (scene.camera.viewInCamera(child)) {
 
-						// child.render(this.ctx);
-						this._drawPrimitive(child)
+						this._drawPrimitive(child);
 						scene.addVisibleObject(child);
 
 						this._renderObject(scene, child, time);
@@ -84,8 +75,7 @@ export default class CanvasRenderer {
 						this.ctx.save();
 						scene.camera.invertTransform(this.ctx);
 
-						// child.render(this.ctx);
-						this._drawPrimitive(child)
+						this._drawPrimitive(child);
 						scene.addVisibleObject(child);
 
 						this._renderObject(scene, child, time);
@@ -105,17 +95,40 @@ export default class CanvasRenderer {
 		}
 	}
 
+	transform(matrix) {
+		let elements = matrix.elements;
+		if (
+			elements[0] !== 1 ||
+			elements[1] !== 0 ||
+			elements[2] !== 0 ||
+			elements[3] !== 0 ||
+			elements[4] !== 1 ||
+			elements[5] !== 0 ||
+			elements[6] !== 0 ||
+			elements[7] !== 0 ||
+			elements[8] !== 1
+		) {
+			// a c e
+			// b d f
+			// 0 0 1
+			this.ctx.transform(
+				elements[0], elements[1],
+				elements[3], elements[4],
+				elements[6], elements[7]
+			);
+		}
+		elements = null;
+	}
+
 	destroy() {
 		super.destroy();
 
 		this.el =
 			this.ctx =
-			this.retinaScaling =
 			this.backgroundColor = null;
 
 		delete this.el;
 		delete this.ctx;
-		delete this.retinaScaling;
 		delete this.backgroundColor;
 	}
 }

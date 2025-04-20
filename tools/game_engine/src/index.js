@@ -7,13 +7,14 @@ export { default as Camera2D } from './camera/camera2d.js';
 export { default as CanvasEvent } from './event/canvas_event/canvas_event.js';
 
 export { default as Matrix3 } from './math/matrix3.js';
+export { default as Matrix4 } from './math/matrix4.js';
 export { default as Rectangle } from './math/rectangle.js';
 export { default as Vector2 } from './math/vector2.js';
 
 export { default as MultiSprite } from './objects/2d/sprite/multi_sprite.js';
 export { default as Sprite } from './objects/2d/sprite/sprite.js';
 export { default as Circle } from './objects/2d/circle.js';
-export { default as Image } from './objects/2d/image.js';
+export { default as ImageObject } from './objects/2d/image.js';
 export { default as Polygon } from './objects/2d/polygon.js';
 export { default as Polyline } from './objects/2d/polyline.js';
 export { default as Rect } from './objects/2d/rect.js';

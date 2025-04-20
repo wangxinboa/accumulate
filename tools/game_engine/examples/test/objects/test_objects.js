@@ -31,23 +31,27 @@ const circle = new Circle({
 // 	circle.x = x;
 // 	circle.y = y;
 // });
+const testDom = document.getElementById('testDom');
 scene.directEvent.on('pointermove', (x, y) => {
 	circle.x = x;
 	circle.y = y;
+
+	testDom.style.left = `${x}px`;
+	testDom.style.top = `${y}px`;
 });
 scene.add(circle);
 scene.on('keydown-RIGHT', () => {
 	camera.x += 10;
-})
+});
 scene.on('keydown-LEFT', () => {
 	camera.x -= 10;
-})
+});
 scene.on('keydown-UP', () => {
 	camera.y += 10;
-})
+});
 scene.on('keydown-DOWN', () => {
 	camera.y -= 10;
-})
+});
 
 const rect = new Rect({
 	x: 400,
@@ -66,11 +70,11 @@ const rect = new Rect({
 rect.on('pointerenter', () => {
 	console.info('pointerenter');
 	rect.fill = '#ff0000';
-})
+});
 rect.on('pointerleave', () => {
 	console.info('pointerleave');
 	rect.fill = '#ffff00';
-})
+});
 // rect.on('pointermove', () => {
 // 	console.info('pointermove');
 // 	setTimeout(() => {
@@ -126,7 +130,7 @@ const text = new Text({
 scene.add(text);
 
 // https://cdn.phaserfiles.com/v385/assets/tests/columns/gems.png
-// const image = new Image({
+// const image = new ImageObject({
 // 	url: '../../../github_repositories/learning/phaser/examples/assets/gems.png',
 // 	x: 0,
 // 	y: 0,

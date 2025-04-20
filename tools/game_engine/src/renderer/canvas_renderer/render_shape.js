@@ -1,7 +1,7 @@
 import MultiSprite from '../../objects/2d/sprite/multi_sprite.js';
 import Sprite from '../../objects/2d/sprite/sprite.js';
-import Circle from '../../objects/2d/circle.js'
-import Image from '../../objects/2d/image.js';
+import Circle from '../../objects/2d/circle.js';
+import ImageObject from '../../objects/2d/image.js';
 import Polygon from '../../objects/2d/polygon.js';
 import Polyline from '../../objects/2d/polyline.js';
 import Rect from '../../objects/2d/rect.js';
@@ -12,7 +12,7 @@ function hasStroke(object) {
 }
 
 function hasFill(object) {
-	return !!object.fill && object.fill !== 'transparent'
+	return !!object.fill && object.fill !== 'transparent';
 }
 
 function _setFillStyles(ctx, object) {
@@ -86,7 +86,29 @@ export default function renderShape(ctx, object) {
 
 	ctx.save();
 
-	object.transform(ctx);
+	let elements = object.matrixWorld.elements;
+	if (
+		elements[0] !== 1 ||
+		elements[1] !== 0 ||
+		elements[2] !== 0 ||
+		elements[3] !== 0 ||
+		elements[4] !== 1 ||
+		elements[5] !== 0 ||
+		elements[6] !== 0 ||
+		elements[7] !== 0 ||
+		elements[8] !== 1
+	) {
+		// a c e
+		// b d f
+		// 0 0 1
+		ctx.transform(
+			elements[0], elements[1],
+			elements[3], elements[4],
+			elements[6], elements[7]
+		);
+	}
+	elements = null;
+
 	ctx.globalAlpha = object.opacity;
 
 	if (object instanceof MultiSprite) {
@@ -94,7 +116,7 @@ export default function renderShape(ctx, object) {
 			ctx.beginPath();
 			for (let i = 0, len = object.drawBlocks.length; i < len; i++) {
 				_drawBlock_ = object.drawBlocks[i];
-				_imageBlock_ = object.imageBlocks[_drawBlock_.imageBlockIndex]
+				_imageBlock_ = object.imageBlocks[_drawBlock_.imageBlockIndex];
 				ctx.drawImage(object.imageTask.image,
 					_imageBlock_.x, _imageBlock_.y, _imageBlock_.width, _imageBlock_.height,
 					_drawBlock_.x, _drawBlock_.y, _drawBlock_.width, _drawBlock_.height
@@ -113,7 +135,7 @@ export default function renderShape(ctx, object) {
 	} else if (object instanceof Circle) {
 		ctx.beginPath();
 		ctx.arc(0, 0, object.radius, object.startAngle * Math.PI / 180, object.endAngle * Math.PI / 180, object.counterClockwise);
-	} else if (object instanceof Image) {
+	} else if (object instanceof ImageObject) {
 		if (object.imageTask.isLoaded) {
 			ctx.beginPath();
 			ctx.drawImage(object.imageTask.image,

@@ -4,7 +4,7 @@ function hasStroke(object) {
 }
 
 function hasFill(object) {
-	return !!object.fill && object.fill !== 'transparent'
+	return !!object.fill && object.fill !== 'transparent';
 }
 
 
@@ -64,8 +64,30 @@ export function _setTextStyles(ctx, text) {
 export default function renderText(ctx, text) {
 	ctx.save();
 
+	let elements = text.matrixWorld.elements;
+	if (
+		elements[0] !== 1 ||
+		elements[1] !== 0 ||
+		elements[2] !== 0 ||
+		elements[3] !== 0 ||
+		elements[4] !== 1 ||
+		elements[5] !== 0 ||
+		elements[6] !== 0 ||
+		elements[7] !== 0 ||
+		elements[8] !== 1
+	) {
+		// a c e
+		// b d f
+		// 0 0 1
+		ctx.transform(
+			elements[0], elements[1],
+			elements[3], elements[4],
+			elements[6], elements[7]
+		);
+	}
+	elements = null;
+
 	ctx.globalAlpha = text.opacity;
-	text.transform(ctx);
 
 	ctx.beginPath();
 

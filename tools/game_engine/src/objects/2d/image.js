@@ -1,12 +1,13 @@
 import Object2D from './base/object2d.js';
 import loaderManager from '../../loader/loader_manager.js';
 
-export default class Image extends Object2D {
+export default class ImageObject extends Object2D {
 	constructor(option = {}) {
 		super(option);
 
 		this.updateRange = this.updateRange.bind(this);
 		this.imageTask = loaderManager.addImage(option.url, true, this.updateRange);
+		this.imageChange = false;
 
 		this.updateMatrix();
 		this.updateRange();
@@ -20,6 +21,12 @@ export default class Image extends Object2D {
 		}
 	}
 
+	setImageTask(url) {
+		this.imageTask = loaderManager.addImage(url, true, this.updateRange);
+
+		this.imageChange = true;
+	}
+
 	get width() {
 		return this.imageTask.width;
 	}
@@ -31,9 +38,11 @@ export default class Image extends Object2D {
 		super.destroy();
 
 		this.updateRange =
-			this.imageTask = null;
+			this.imageTask =
+			this.imageChange = null;
 
 		delete this.updateRange;
 		delete this.imageTask;
+		delete this.imageChange;
 	}
 }

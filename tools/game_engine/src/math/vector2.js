@@ -1,14 +1,12 @@
-// copy from three.js/src/math/Vector2.js
-
-import { clamp } from './math_utils.js';
 
 export default class Vector2 {
 
+	isVector2 = true;
+
 	constructor(x = 0, y = 0) {
 
-		this.isVector2 = true;
-
 		this.x = x;
+
 		this.y = y;
 
 	}
@@ -36,14 +34,11 @@ export default class Vector2 {
 		this.y = value;
 
 	}
-
 	set(x, y) {
-
 		this.x = x;
 		this.y = y;
 
 		return this;
-
 	}
 
 	setScalar(scalar) {
@@ -348,8 +343,6 @@ export default class Vector2 {
 	}
 
 	angle() {
-
-		// computes the angle in radians with respect to the positive x-axis
 
 		const angle = Math.atan2(- this.y, - this.x) + Math.PI;
 
