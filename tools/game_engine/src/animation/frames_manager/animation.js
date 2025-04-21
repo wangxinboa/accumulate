@@ -17,20 +17,29 @@ export default class Animation {
 		this._endFrameIndex = -1;
 		this.endFrame = null;
 
-		this.completeCount = 0;
+		this._frameRepeatCount = 0;
 
+		this._startDelayTime = 0;
 		this.startTime = -1;
 		this.paused = true;
 		this.pausedTime = -1;
 
 		this._loop = 0;
-		this._completeLoopCount = 0;
+		this._animationLoopCount = 0;
 
 		this.finished = false;
 	}
 
+	startDelayTime(time) {
+		this._startDelayTime = time;
+
+		return this;
+	}
+
 	loop(loop) {
 		this._loop = loop;
+
+		return this;
 	}
 
 	addFrames(frames) {
@@ -46,7 +55,7 @@ export default class Animation {
 
 	toNextFrame() {
 		if (this.frames.length === this._endFrameIndex + 1) {
-			if (++this._completeLoopCount < this._loop) {
+			if (++this._animationLoopCount < this._loop) {
 				this.startTarget = this.frames[this._endFrameIndex].target;
 				this._endFrameIndex = 0;
 				this.endFrame = this.frames[0];
@@ -74,7 +83,7 @@ export default class Animation {
 		this._endFrameIndex = 0;
 		this.endFrame = this.frames[0];
 
-		this.completeCount = 0;
+		this._frameRepeatCount = 0;
 
 		this.startTime = now();
 		this.paused = false;
@@ -87,12 +96,16 @@ export default class Animation {
 			return;
 		}
 
+		const _startDelayTime = this._frameRepeatCount === 0 &&
+			this._endFrameIndex === 0 &&
+			this._animationLoopCount === 0 ? this._startDelayTime : 0;
+
 		const { target: endTarget, duration, delayTime, yoyo, repeat } = this.endFrame;
 
-		let progress = (time < this.startTime + delayTime) ? 0 : (time - this.startTime - delayTime) / duration;
+		let progress = (time < this.startTime + delayTime + _startDelayTime) ? 0 : (time - this.startTime - delayTime - _startDelayTime) / duration;
 		progress = progress > 1 ? 1 : progress;
 
-		const value = (yoyo && this.completeCount < repeat && this.completeCount % 2 === 1) ?
+		const value = (yoyo && this._frameRepeatCount < repeat && this._frameRepeatCount % 2 === 1) ?
 			1 - progress : progress;
 
 		if (progress === 0) {
@@ -101,10 +114,10 @@ export default class Animation {
 		}
 
 		if (progress === 1) {
-			if (++this.completeCount < repeat) {
+			if (++this._frameRepeatCount < repeat) {
 				this.startTime = time;
 			} else if (this.toNextFrame()) {
-				this.completeCount = 0;
+				this._frameRepeatCount = 0;
 				this.startTime = time;
 			} else {
 				this.finished = true;
@@ -140,14 +153,15 @@ export default class Animation {
 			this._endFrameIndex =
 			this.endFrame =
 
-			this.completeCount =
+			this._frameRepeatCount =
 
+			this._startDelayTime =
 			this.startTime =
 			this.paused =
 			this.pausedTime =
 
 			this._loop =
-			this._completeLoopCount =
+			this._animationLoopCount =
 
 			this.finished = null;
 
@@ -159,14 +173,15 @@ export default class Animation {
 		delete this._endFrameIndex;
 		delete this.endFrame;
 
-		delete this.completeCount;
+		delete this._frameRepeatCount;
 
+		delete this._startDelayTime;
 		delete this.startTime;
 		delete this.paused;
 		delete this.pausedTime;
 
 		delete this._loop;
-		delete this._completeLoopCount;
+		delete this._animationLoopCount;
 
 		delete this.finished;
 	}

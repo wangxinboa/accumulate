@@ -1,5 +1,5 @@
 import EventEmitter from '../event/event_emitter.js';
-import AnimationTween from './frames_manager/animation_tween.js'
+import AnimationTween from './frames_manager/animation_tween.js';
 import AnimationIndex from './frames_manager/animation_index.js';
 
 export default class AnimationManager extends EventEmitter {
@@ -18,7 +18,7 @@ export default class AnimationManager extends EventEmitter {
 		}
 
 		const animationTween = new AnimationTween(this, frames);
-		this._animations[name] = animationTween
+		this._animations[name] = animationTween;
 		return animationTween;
 	}
 
@@ -38,6 +38,8 @@ export default class AnimationManager extends EventEmitter {
 
 			this.isPlaying = true;
 		}
+
+		return this._nowAnimation;
 	}
 
 	update(time) {

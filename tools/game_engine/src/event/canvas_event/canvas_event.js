@@ -23,6 +23,8 @@ export default class CanvasEvent {
 	constructor(el, option = {}) {
 		this.el = el;
 
+		this.eventsEnabled = option.eventsEnabled !== void 0 ? option.eventsEnabled : true;
+
 		this.hitTestLimit = option.hitTestLimit !== void 0 ? option.hitTestLimit : 1;
 
 		this.dragLock = option.dragLock !== void 0 ? option.dragLock : true;

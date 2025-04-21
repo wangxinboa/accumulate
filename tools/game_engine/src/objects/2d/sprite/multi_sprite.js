@@ -11,7 +11,7 @@ export default class MultiSprite extends Object2D {
 
 		this.drawBlocks = option.drawBlocks || [];
 
-		this.imageTask = loaderManager.addImage(option.url, true, this.updateRange);
+		this.imageTask = loaderManager.addImageByUrl(option.url, true, this.updateRange);
 	}
 
 	hitTest() {

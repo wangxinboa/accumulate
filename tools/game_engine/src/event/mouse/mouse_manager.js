@@ -15,13 +15,19 @@ export default class MouseManager {
 	}
 
 	onMouseDown(e) {
-		this.canvasEvent.processDownEvents(e);
+		if (this.canvasEvent.eventsEnabled) {
+			this.canvasEvent.processDownEvents(e);
+		}
 	}
 	onMouseMove(e) {
-		this.canvasEvent.processMoveEvents(e);
+		if (this.canvasEvent.eventsEnabled) {
+			this.canvasEvent.processMoveEvents(e);
+		}
 	}
 	onMouseUp(e) {
-		this.canvasEvent.processUpEvents(e);
+		if (this.canvasEvent.eventsEnabled) {
+			this.canvasEvent.processUpEvents(e);
+		}
 	}
 	onMouseEnter(e) {
 
@@ -30,7 +36,9 @@ export default class MouseManager {
 
 	}
 	onMouseWheel(e) {
-		this.canvasEvent.processWheelEvents(e);
+		if (this.canvasEvent.eventsEnabled) {
+			this.canvasEvent.processWheelEvents(e);
+		}
 	}
 
 	startListeners() {

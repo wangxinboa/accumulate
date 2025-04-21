@@ -47,12 +47,16 @@ export default class KeyboardManager {
 	}
 
 	onKeyDown(e) {
-		this.setKeyPressed(KeyPressFlags[e.keyCode]);
-		this.canvasEvent.scene.emit(KeyDownFlags[e.keyCode], e);
+		if (this.canvasEvent.eventsEnabled) {
+			this.setKeyPressed(KeyPressFlags[e.keyCode]);
+			this.canvasEvent.scene.emit(KeyDownFlags[e.keyCode], e);
+		}
 	}
 	onKeyUp(e) {
-		this.releaseKey(KeyPressFlags[e.keyCode]);
-		this.canvasEvent.scene.emit(KeyUpFlags[e.keyCode], e);
+		if (this.canvasEvent.eventsEnabled) {
+			this.releaseKey(KeyPressFlags[e.keyCode]);
+			this.canvasEvent.scene.emit(KeyUpFlags[e.keyCode], e);
+		}
 	}
 	update() {
 		for (let i = 0, len = this.pressedKeys.length; i < len; i++) {

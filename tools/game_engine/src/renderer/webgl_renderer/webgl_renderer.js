@@ -1,6 +1,7 @@
 import Color from '../../math/color.js';
 import Sprite from '../../objects/2d/sprite/sprite.js';
-import ImageObject from '../../objects/2d/image.js';
+import ImageSwitcher from '../../objects/2d/image/image_switcher.js';
+import ImageObject from '../../objects/2d/image/image.js';
 import WebGLBatch from './webgl_batch.js';
 import { compileVertexShader, compileFragmentShader } from './webgl_shaders.js';
 
@@ -91,7 +92,10 @@ export default class WebGLRenderer {
 	}
 
 	_drawPrimitive(object) {
-		if (object instanceof ImageObject) {
+		if (
+			object instanceof ImageObject ||
+			object instanceof ImageSwitcher
+		) {
 			this.updateTexture(object.imageTask);
 			if (!object._batch) {
 				object._batch = new WebGLBatch(this.gl);

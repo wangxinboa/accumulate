@@ -6,7 +6,7 @@ const PaintFirst = {
 };
 
 export default class Object2D extends Object2DTransform {
-	constructor(option) {
+	constructor(option = {}) {
 		super(option);
 
 		this.isObject2D = true;

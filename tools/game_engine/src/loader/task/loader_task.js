@@ -1,5 +1,4 @@
-import loaderManager from './loader_manager.js';
-
+import loaderManager from '../loader_manager.js';
 // const TaskState = {
 // 	wait: 'wait',
 // 	loading: 'loading',
@@ -9,13 +8,12 @@ import loaderManager from './loader_manager.js';
 
 
 export default class LoaderTask {
-	constructor(onloaded = null, onerror = null, index, key) {
-		this.index = index;
+	constructor(onloaded, onerror, key) {
+		this.taskIndex = loaderManager.totalTaskCount;
 		this.key = key;
 
-		// this.state = TaskState.wait;
 		this.isWait = true;
-		this.isLoading = true;
+		this.isLoading = false;
 		this.isLoaded = false;
 		this.isError = false;
 
@@ -27,38 +25,40 @@ export default class LoaderTask {
 		this.error = this.error.bind(this);
 	}
 
-	loading() {
-		// this.state = TaskState.loading;
+	load() {
 		this.isWait = false;
 		this.isLoading = true;
+		this.isLoaded = false;
+		this.isError = false;
 	}
 	loaded() {
-		// this.state = TaskState.loaded;
+		this.isWait = false;
 		this.isLoading = false;
 		this.isLoaded = true;
+		this.isError = false;
 
-		loaderManager.onLoaded(this);
-		if (this.onloaded !== null) {
+		loaderManager._onTaskLoaded(this);
+		if (this.onloaded) {
 			this.onloaded(this);
 		}
 	}
 	error() {
-		// this.state = TaskState.error;
+		this.isWait = false;
 		this.isLoading = false;
+		this.isLoaded = false;
 		this.isError = true;
 
 		this.errorTime++;
-		loaderManager.onError(this);
-		if (this.onerror !== null) {
+		loaderManager._onTaskError(this);
+		if (this.onerror) {
 			this.onerror(this);
 		}
 	}
 
 	destroy() {
-		this.index =
+		this.taskIndex =
 			this.key =
 
-			// this.state =
 			this.isWait =
 			this.isLoading =
 			this.isLoaded =
@@ -71,10 +71,9 @@ export default class LoaderTask {
 			this.loaded =
 			this.error = null;
 
-		delete this.index;
+		delete this.taskIndex;
 		delete this.key;
 
-		// delete this.state;
 		delete this.isWait;
 		delete this.isLoading;
 		delete this.isLoaded;

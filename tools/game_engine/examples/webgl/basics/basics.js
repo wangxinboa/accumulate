@@ -1,10 +1,10 @@
 import { GameEngine, ImageObject, Scene, Camera2D } from '../../../src/index.js';
 
 const camera = new Camera2D();
-const basicsScene = new Scene({
+const scene = new Scene({
 	wheelMoveCamera: true,
 });
-basicsScene.bindCamera(camera);
+scene.bindCamera(camera);
 
 const bunny = new ImageObject({
 	url: `./basics/bunny.png`,
@@ -15,7 +15,7 @@ const bunny = new ImageObject({
 	anchorX: 0.5,
 	anchorY: 0.5,
 });
-basicsScene.add(bunny);
+scene.add(bunny);
 
 const bunny1 = new ImageObject({
 	url: `./basics/bunny.png`,
@@ -24,7 +24,7 @@ const bunny1 = new ImageObject({
 	scaleX: 1,
 	scaleY: 1,
 });
-basicsScene.add(bunny1);
+scene.add(bunny1);
 
 const bunny2 = new ImageObject({
 	url: `./basics/bunny.png`,
@@ -35,11 +35,9 @@ const bunny2 = new ImageObject({
 	anchorX: 1,
 	anchorY: 1,
 });
-basicsScene.add(bunny2);
+scene.add(bunny2);
 
-basicsScene.directEvent.on('pointermove', (x, y) => {
-	// console.info('x:', x);
-	// console.info('y:', y);
+scene.directEvent.on('pointermove', (x, y) => {
 	bunny.x = x;
 	bunny.y = y;
 });
@@ -48,7 +46,7 @@ const gameEngine = new GameEngine({
 	renderType: 'webgl',
 	el: document.getElementById('renderCanvas'),
 	backgroundColor: 0x66FF99,
-	scene: basicsScene,
+	scene: scene,
 	beforeUpdate() {
 		bunny.rotation += 0.1;
 	},

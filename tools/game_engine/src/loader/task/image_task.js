@@ -1,9 +1,9 @@
-import LoaderTask from '../loader_task.js';
+import LoaderTask from './loader_task.js';
 
 
 export default class ImageTask extends LoaderTask {
-	constructor(onloaded, onerror, index, src, crossOrigin) {
-		super(onloaded, onerror, index, src);
+	constructor(onloaded, onerror, src, crossOrigin = true) {
+		super(onloaded, onerror, src);
 
 		this.image = null;
 		this.src = src;
@@ -15,7 +15,7 @@ export default class ImageTask extends LoaderTask {
 		this.height = 0;
 	}
 
-	loading() {
+	load() {
 		this.image = new Image();
 
 		this.image.src = this.src;
@@ -24,7 +24,7 @@ export default class ImageTask extends LoaderTask {
 		this.image.onload = this.loaded;
 		this.image.onerror = this.error;
 
-		super.loading();
+		super.load();
 
 		return this;
 	}
@@ -49,5 +49,13 @@ export default class ImageTask extends LoaderTask {
 			this.naturalHeight =
 			this.width =
 			this.height = null;
+
+		delete this.image;
+		delete this.src;
+		delete this.crossOrigin;
+		delete this.naturalWidth;
+		delete this.naturalHeight;
+		delete this.width;
+		delete this.height;
 	}
 }

@@ -1,10 +1,12 @@
 import ImageTask from './task/image_task.js';
 
 
-export class LoaderManager {
+let _imageTask_ = null, _multiTask_ = null;
+
+class LoaderManager {
 	constructor() {
-		this.onLoaded = this.onLoaded.bind(this);
-		this.onError = this.onError.bind(this);
+		this._onTaskLoaded = this._onTaskLoaded.bind(this);
+		this._onTaskError = this._onTaskError.bind(this);
 
 		this.queue = [];
 
@@ -12,63 +14,74 @@ export class LoaderManager {
 		this.nowLoadingCount = 0;
 		this.maxLoadingCount = 5;
 
-		this.totalTask = 0;
+		this.totalTaskCount = 0;
 		this.totalLoaded = 0;
 		this.totalError = 0;
 
 		this.failedReloadTime = 3;
 
+		this.multiCacke = {};
 		this.imageCache = {};
+		this.spriteSheetCache = {};
 	}
 
-	onLoaded(task) {
+	_onTaskLoaded(task) {
 		this.totalLoaded++;
 		this.nowLoadingCount--;
 
-		this.loadingNextTask();
+		this._loadingNextTask();
 	}
-	onError(task) {
+	_onTaskError(task) {
 		if (task.errorTime < this.failedReloadTime) {
-			task.loading();
+			task.load();
 		} else {
 			this.totalError++;
 			this.nowLoadingCount--;
-			this.loadingNextTask();
+			this._loadingNextTask();
 		}
 	}
 
-	addTask(task) {
+	_addTask(task) {
 		this.queue.push(task);
-		this.totalTask++;
+		this.totalTaskCount++;
 
-		this.loadingNextTask();
+		this._loadingNextTask();
 
 		return task;
 	}
-	loadingNextTask() {
+	_loadingNextTask() {
 		if (
 			this.nowLoadingCount < this.maxLoadingCount &&
 			this.nextLoadingIndex < this.queue.length
 		) {
-			this.queue[this.nextLoadingIndex++].loading();
+			this.queue[this.nextLoadingIndex++].load();
 			this.nowLoadingCount++;
 		}
 	}
 
-	addImage(src, crossOrigin, onLoaded, onError) {
-		if (this.imageCache.hasOwnProperty(src)) {
-			return this.imageCache[src];
-		} else {
-			const task = new ImageTask(onLoaded, onError, this.totalTask, src, crossOrigin);
-			this.imageCache[src] = task;
-			this.addTask(task);
-			return task;
+	_cacheTaskCallback(task, onLoaded, onError) {
+		if (task.isLoaded && onLoaded) {
+			onLoaded(task);
+		} else if (task.isError && onError) {
+			onError(task);
 		}
 	}
 
+	addImageByUrl(url, crossOrigin, onLoaded, onError) {
+		if (this.imageCache.hasOwnProperty(url)) {
+			_imageTask_ = this.imageCache[url];
+			this._cacheTaskCallback(_imageTask_, onLoaded, onError);
+		} else {
+			_imageTask_ = new ImageTask(onLoaded, onError, url, crossOrigin);
+			this.imageCache[url] = _imageTask_;
+			this._addTask(_imageTask_);
+		}
+		return _imageTask_;
+	}
+
 	destroy() {
-		this.onLoaded =
-			this.onError =
+		this._onTaskLoaded =
+			this._onTaskError =
 
 			this.queue =
 
@@ -76,13 +89,34 @@ export class LoaderManager {
 			this.nowLoadingCount =
 			this.maxLoadingCount =
 
-			this.totalToLoad =
-			this.totalComplete =
+			this.totalTaskCount =
+			this.totalLoaded =
 			this.totalError =
 
 			this.failedReloadTime =
 
-			this.imageCache = null;
+			this.multiCacke =
+			this.imageCache =
+			this.SpriteSheetCache = null;
+
+		delete this._onTaskLoaded;
+		delete this._onTaskError;
+
+		delete this.queue;
+
+		delete this.nextLoadingIndex;
+		delete this.nowLoadingCount;
+		delete this.maxLoadingCount;
+
+		delete this.totalTaskCount;
+		delete this.totalLoaded;
+		delete this.totalError;
+
+		delete this.failedReloadTime;
+
+		delete this.multiCacke;
+		delete this.imageCache;
+		delete this.SpriteSheetCache;
 	}
 }
 

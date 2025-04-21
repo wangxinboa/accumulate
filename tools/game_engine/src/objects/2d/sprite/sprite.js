@@ -11,7 +11,7 @@ export default class Sprite extends Object2D {
 		this.imageBlock = this.imageBlocks[this._imageBlockIndex];
 
 		this.updateRange = this.updateRange.bind(this);
-		this.imageTask = loaderManager.addImage(option.url, true, this.updateRange);
+		this.imageTask = loaderManager.addImageByUrl(option.url, true, this.updateRange);
 
 		this.updateMatrix();
 		this.updateRange();

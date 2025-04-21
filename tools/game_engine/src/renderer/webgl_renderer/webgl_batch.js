@@ -120,11 +120,11 @@ export default class WebGLBatch {
 
 		// this.dirtyUVS = true;
 
-		var texture = displayObject;
+		var texture = displayObject.imageTask;
 
 		var frame = texture;
-		var tw = texture.imageTask.width;
-		var th = texture.imageTask.height;
+		var tw = texture.width;
+		var th = texture.height;
 
 		this.uvs[index + 0] = frame.x / tw;
 		this.uvs[index + 1] = frame.y / th;
@@ -154,7 +154,10 @@ export default class WebGLBatch {
 
 		// if (displayObject.cacheAlpha != displayObject.worldAlpha) {
 		var colorIndex = indexRun * 4;
-		this.colors[colorIndex] = this.colors[colorIndex + 1] = this.colors[colorIndex + 2] = this.colors[colorIndex + 3] = 1;
+		this.colors[colorIndex] =
+			this.colors[colorIndex + 1] =
+			this.colors[colorIndex + 2] =
+			this.colors[colorIndex + 3] = displayObject.opacity;;
 		this.dirtyColors = true;
 		// }
 	}
