@@ -5,6 +5,8 @@ import CanvasEvent from './event/canvas_event/canvas_event.js';
 import ScaleManager from './scale/scale_manager.js';
 import Scene from './scene/scene.js';
 
+import StatsTool from './third_party_tools/stats.js';
+
 export default class GameEngine {
 	constructor(option) {
 		this.canvasEvent = new CanvasEvent(option.el, option);
@@ -27,6 +29,8 @@ export default class GameEngine {
 		this.beforeUpdate = option.beforeUpdate || null;
 		this.step = this.step.bind(this);
 		requestAnimationFrame(this.step);
+
+		StatsTool.init();
 	}
 
 	_onResize(width, height, retinaScaling) {
@@ -51,6 +55,8 @@ export default class GameEngine {
 		if (this.beforeUpdate) {
 			this.beforeUpdate(time);
 		}
+
+		StatsTool.update();
 
 		this.canvasEvent.update();
 		this.renderer.render(this.scene, time);
