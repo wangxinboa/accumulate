@@ -1,6 +1,6 @@
 import Matrix3 from '../../../math/matrix3.js';
 import Vector2 from '../../../math/vector2.js';
-import Rectangle from '../../../math/rectangle.js';
+import Rectangle from '../../../math/geometry_2d_def/rectangle.js';
 import { PiBy180 } from '../../../math/math_utils.js';
 import BaseObject from '../../base_object.js';
 

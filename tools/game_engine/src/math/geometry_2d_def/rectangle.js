@@ -1,5 +1,5 @@
 
-import Vector2 from './vector2.js';
+import Vector2 from '../vector2.js';
 
 const _vector2 = new Vector2();
 
@@ -106,7 +106,7 @@ export default class Rectangle {
 			this.max.x > x &&
 			this.min.y < y &&
 			this.max.y > y
-		)
+		);
 	}
 
 	destroy() {

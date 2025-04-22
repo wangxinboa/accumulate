@@ -1,5 +1,5 @@
 import Matrix3 from '../math/matrix3.js';
-import Rectangle from '../math/rectangle.js';
+import Rectangle from '../math/geometry_2d_def/rectangle.js';
 import Object2DTransform from '../objects/2d/base/object2d_transform.js';
 import { IdentityMatrix3 } from '../math/matrix3.js';
 

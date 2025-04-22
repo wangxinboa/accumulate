@@ -9,10 +9,11 @@ export { default as CanvasEvent } from './event/canvas_event/canvas_event.js';
 export { default as loaderManager } from './loader/loader_manager.js';
 export { default as TaskManager } from './loader/task_manager.js';
 
+export { default as Rectangle } from './math/geometry_2d_def/rectangle.js';
 export { default as Matrix3 } from './math/matrix3.js';
 export { default as Matrix4 } from './math/matrix4.js';
-export { default as Rectangle } from './math/rectangle.js';
 export { default as Vector2 } from './math/vector2.js';
+export { default as Vector3 } from './math/vector3.js';
 
 export { default as Object2D } from './objects/2d/base/object2d.js';
 export { default as ImageSwitcher } from './objects/2d/image/image_switcher.js';
