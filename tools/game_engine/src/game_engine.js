@@ -1,5 +1,5 @@
 import { RendererType } from './game_engine_option.js';
-import CanvasRenderer from './renderer/canvas_renderer.js';
+import CanvasRenderer from './renderer/canvas_renderer/canvas_renderer.js';
 import WebGLRenderer from './renderer/webgl_renderer/webgl_renderer.js';
 import CanvasEvent from './event/canvas_event/canvas_event.js';
 import ScaleManager from './scale/scale_manager.js';

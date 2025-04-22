@@ -1,6 +1,7 @@
 import MultiSprite from '../../objects/2d/sprite/multi_sprite.js';
 import Sprite from '../../objects/2d/sprite/sprite.js';
 import Circle from '../../objects/2d/circle.js';
+import ImageSwitcher from '../../objects/2d/image/image_switcher.js';
 import ImageObject from '../../objects/2d/image/image.js';
 import Polygon from '../../objects/2d/polygon.js';
 import Polyline from '../../objects/2d/polyline.js';
@@ -128,19 +129,22 @@ export default function renderShape(ctx, object) {
 		if (object.imageTask.isLoaded) {
 			ctx.beginPath();
 			ctx.drawImage(object.imageTask.image,
-				object.imageBlock.x, object.imageBlock.y, object.imageBlock.width, object.imageBlock.height,
-				0, 0, object.imageBlock.width, object.imageBlock.height
+				object.imageBlock.x, object.imageBlock.y,
+				object.imageBlock.width, object.imageBlock.height,
+				-object.anchorX * object.imageBlock.width, -object.anchorY * object.imageBlock.height,
+				object.imageBlock.width, object.imageBlock.height
 			);
 		}
 	} else if (object instanceof Circle) {
 		ctx.beginPath();
 		ctx.arc(0, 0, object.radius, object.startAngle * Math.PI / 180, object.endAngle * Math.PI / 180, object.counterClockwise);
-	} else if (object instanceof ImageObject) {
+	} else if (object instanceof ImageObject || object instanceof ImageSwitcher) {
 		if (object.imageTask.isLoaded) {
 			ctx.beginPath();
 			ctx.drawImage(object.imageTask.image,
 				0, 0, object.width, object.height,
-				0, 0, object.width, object.height
+				-object.anchorX * object.width, -object.anchorY * object.height,
+				object.width, object.height
 			);
 		}
 	} else if (object instanceof Polygon) {

@@ -1,7 +1,8 @@
-import Text from '../objects/2d/text.js';
+import Color from '../../math/color.js';
+import Text from '../../objects/2d/text.js';
 
-import renderShape from './canvas_renderer/render_shape.js';
-import renderText from './canvas_renderer/render_text.js';
+import renderShape from './render_shape.js';
+import renderText from './render_text.js';
 
 export default class CanvasRenderer {
 	constructor(el, option) {
@@ -9,7 +10,7 @@ export default class CanvasRenderer {
 		this.el = el;
 		this.ctx = el.getContext('2d');
 
-		this.backgroundColor = option.backgroundColor || '';
+		this.backgroundColor = new Color(option.backgroundColor);
 	}
 
 	clear() {
@@ -24,7 +25,7 @@ export default class CanvasRenderer {
 		this.clear();
 
 		if (this.backgroundColor) {
-			this.ctx.fillStyle = this.backgroundColor;
+			this.ctx.fillStyle = this.backgroundColor.hex;
 			this.ctx.fillRect(0, 0, this.el.width, this.el.height);
 			// 默认白色
 			this.ctx.fillStyle = "#000000";
