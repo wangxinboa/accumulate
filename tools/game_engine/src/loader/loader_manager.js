@@ -1,7 +1,8 @@
 import ImageTask from './task/image_task.js';
+import LoaderTask from './task/loader_task.js';
 
 
-let _imageTask_ = null, _multiTask_ = null;
+let _imageTask_ = null;
 
 class LoaderManager {
 	constructor() {
@@ -31,16 +32,26 @@ class LoaderManager {
 
 		this._loadingNextTask();
 	}
+	/**
+	 * task 任务加载失败时
+	 * @param {LoaderTask} task
+	 */
 	_onTaskError(task) {
 		if (task.errorTime < this.failedReloadTime) {
 			task.load();
 		} else {
+			task.confirmError();
+
 			this.totalError++;
 			this.nowLoadingCount--;
 			this._loadingNextTask();
 		}
 	}
-
+	/**
+	 * 添加新的任务进入队列
+	 * @param {LoaderTask} task
+	 * @returns {LoaderTask} task.
+	 */
 	_addTask(task) {
 		this.queue.push(task);
 		this.totalTaskCount++;
@@ -64,6 +75,8 @@ class LoaderManager {
 			onLoaded(task);
 		} else if (task.isError && onError) {
 			onError(task);
+		} else if (task.isWait || task.isLoading) {
+			task.wait(onLoaded, onError);
 		}
 	}
 

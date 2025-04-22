@@ -20,6 +20,7 @@ export default class ImageSwitcher extends Object2D {
 
 	setImageTaskIndex(index) {
 		this.imageTaskIndex = index;
+		this.updateRange();
 	}
 
 	get imageTask() {

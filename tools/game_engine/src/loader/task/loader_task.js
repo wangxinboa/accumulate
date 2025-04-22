@@ -1,4 +1,6 @@
+import EventEmitter from '../../event/event_emitter.js';
 import loaderManager from '../loader_manager.js';
+
 // const TaskState = {
 // 	wait: 'wait',
 // 	loading: 'loading',
@@ -6,9 +8,14 @@ import loaderManager from '../loader_manager.js';
 // 	error: 'error',
 // }
 
+const onLoadedEventName = 'onloaded';
+const onErrorEventName = 'onerror';
 
-export default class LoaderTask {
+
+export default class LoaderTask extends EventEmitter {
 	constructor(onloaded, onerror, key) {
+		super();
+
 		this.taskIndex = loaderManager.totalTaskCount;
 		this.key = key;
 
@@ -17,12 +24,21 @@ export default class LoaderTask {
 		this.isLoaded = false;
 		this.isError = false;
 
-		this.onloaded = onloaded;
-		this.onerror = onerror;
 		this.errorTime = 0;
 
 		this.loaded = this.loaded.bind(this);
 		this.error = this.error.bind(this);
+
+		this.wait(onloaded, onerror);
+	}
+
+	wait(onloaded, onerror) {
+		if (onloaded) {
+			this.once(onLoadedEventName, onloaded);
+		}
+		if (onerror) {
+			this.once(onErrorEventName, onerror);
+		}
 	}
 
 	load() {
@@ -38,24 +54,28 @@ export default class LoaderTask {
 		this.isError = false;
 
 		loaderManager._onTaskLoaded(this);
-		if (this.onloaded) {
-			this.onloaded(this);
-		}
+
+		this.emit(onLoadedEventName, this);
+		this.removeAllListeners();
 	}
 	error() {
+		this.errorTime++;
+		loaderManager._onTaskError(this);
+	}
+
+	confirmError() {
 		this.isWait = false;
 		this.isLoading = false;
 		this.isLoaded = false;
 		this.isError = true;
 
-		this.errorTime++;
-		loaderManager._onTaskError(this);
-		if (this.onerror) {
-			this.onerror(this);
-		}
+		this.emit(onErrorEventName, this);
+		this.removeAllListeners();
 	}
 
 	destroy() {
+		super.destroy();
+
 		this.taskIndex =
 			this.key =
 
@@ -64,8 +84,6 @@ export default class LoaderTask {
 			this.isLoaded =
 			this.isError =
 
-			this.onloaded =
-			this.onerror =
 			this.errorTime =
 
 			this.loaded =
@@ -79,8 +97,6 @@ export default class LoaderTask {
 		delete this.isLoaded;
 		delete this.isError;
 
-		delete this.onloaded;
-		delete this.onerror;
 		delete this.errorTime;
 
 		delete this.loaded;

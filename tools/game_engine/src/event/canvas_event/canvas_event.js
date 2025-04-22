@@ -83,7 +83,11 @@ export default class CanvasEvent {
 				if (_visibleObject_.hasEvent(CanvasEventType.dragstart)) {
 					_visibleObject_.emit(CanvasEventType.dragstart, _hitPoint_.x, _hitPoint_.y);
 				}
-				if (_visibleObject_.hasEvent(CanvasEventType.drag) || _visibleObject_.dragUpdatesPosition) {
+				if (
+					_visibleObject_.hasEvent(CanvasEventType.drag) ||
+					_visibleObject_.hasEvent(CanvasEventType.dragend) ||
+					_visibleObject_.dragUpdatesPosition
+				) {
 					_visibleObject_._dragStartObjectX_ = _visibleObject_.x;
 					_visibleObject_._dragStartObjectY_ = _visibleObject_.y;
 

@@ -2,4 +2,5 @@
 // import './demos/Basics/Basics.js';
 // import './demos/Morph/Morph.js';
 // import './demos/MovieClip/MovieClip.js';
-import './demos/SpriteSheet/SpriteSheet.js';
+// import './demos/SpriteSheet/SpriteSheet.js';
+import './demos/Interactivity/Interactivity.js';

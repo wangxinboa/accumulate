@@ -23,6 +23,7 @@ const startScene = new Scene({
 startScene.bindCamera(camera);
 const gameEngine = new GameEngine({
 	el: document.getElementById('renderCanvas'),
+	backgroundColor: 0xffffff,
 	renderType: 'canvas',
 	scene: startScene,
 });
