@@ -74,6 +74,7 @@ export default class WebGLRenderer {
 		this.gl.blendFunc(this.gl.ONE, this.gl.ONE_MINUS_SRC_ALPHA);
 		this.gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.projectionMatrix);
 
+		scene.clearVisibleObjects();
 		this._renderObject(scene, scene.root, time);
 	}
 
