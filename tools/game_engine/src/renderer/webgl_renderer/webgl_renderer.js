@@ -1,5 +1,4 @@
 import Color from '../../math/color.js';
-import Sprite from '../../objects/2d/sprite/sprite.js';
 import ImageSwitcher from '../../objects/2d/image/image_switcher.js';
 import ImageObject from '../../objects/2d/image/image.js';
 import WebGLBatch from './webgl_batch.js';
@@ -9,21 +8,24 @@ import { compileVertexShader, compileFragmentShader } from './webgl_shaders.js';
 export default class WebGLRenderer {
 	constructor(el, option) {
 		this.el = el;
+		this.transparent = option.transparent !== void 0 ? option.transparent : true;
 		try {
 			this.gl = this.el.getContext("experimental-webgl", {
-				alpha: false
+				alpha: this.transparent,
+				antialias: true,
+				premultipliedAlpha: true
 			});
 		} catch (e) {
-			throw new Error(" This browser does not support webGL. Try using the canvas renderer" + this);
+			throw new Error(" This browser does not support webGL. Try using the canvas renderer");
 		}
 
 		this.retinaScaling = option.devicePixelRatio || window.devicePixelRatio;
-		this.backgroundColor = new Color(option.backgroundColor);
+		this.backgroundColor = new Color(option.backgroundColor, option.backgroundAlpha !== void 0 ? option.backgroundAlpha : 1);
 
 		this.initShaders();
 		this.gl.disable(this.gl.DEPTH_TEST);
 		this.gl.enable(this.gl.BLEND);
-		this.gl.colorMask(true, true, true, false);
+		this.gl.colorMask(true, true, true, this.transparent);
 
 		this.projectionMatrix = mat4.create();
 
@@ -122,5 +124,9 @@ export default class WebGLRenderer {
 
 			this.refreshBatchs = true;
 		}
+	}
+
+	destroy() {
+
 	}
 }

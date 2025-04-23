@@ -15,12 +15,14 @@ export default class Color {
 	hex = '#000000';
 	hexNumber = 0x000000;
 
-	constructor(value = 0x000000) {
+	constructor(value = 0x000000, a = 1) {
 		if (typeof value === 'string') {
 			this.setHex(value);
 		} else if (typeof value === 'number') {
 			this.setHexNumber(value);
 		}
+
+		this.a = a;
 	}
 
 	setR(r) {
