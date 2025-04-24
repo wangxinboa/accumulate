@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', start, false);
 //	Globals, globals everywhere and not a drop to drink
 var w = 1024;
 var h = 768;
-var starCount = 25;
+var starCount = 2500;
 var sx = 1.0 + (Math.random() / 20);
 var sy = 1.0 + (Math.random() / 20);
 var slideX = w / 2;
@@ -18,7 +18,7 @@ var stage = null;
 
 function start() {
 
-	var ballTexture = new PIXI.Texture.fromImage("./demos/Balls/assets/bubble_32x32.png");
+	var ballTexture = new PIXI.Texture.fromImage("./demos/4.Balls/assets/bubble_32x32.png");
 
 	renderer = PIXI.autoDetectRenderer(w, h);
 
@@ -46,11 +46,14 @@ function start() {
 }
 
 window.newWave = newWave;
-
 function newWave(x, y) {
 
-	sx = x;
-	sy = y;
+
+	sx = 1.0 + (Math.random() / 20);
+	sy = 1.0 + (Math.random() / 20);
+
+	// sx = x;
+	// sy = y;
 
 }
 

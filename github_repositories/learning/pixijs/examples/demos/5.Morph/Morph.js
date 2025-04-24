@@ -26,7 +26,7 @@ var stage = null;
 
 function start() {
 
-	var ballTexture = new PIXI.Texture.fromImage("./demos/Morph/assets/pixel.png");
+	var ballTexture = new PIXI.Texture.fromImage("./demos/5.Morph/assets/pixel.png");
 
 	renderer = PIXI.autoDetectRenderer(w, h);
 

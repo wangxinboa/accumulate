@@ -1,11 +1,11 @@
 // create an array of assets to load
-var assetsToLoader = ["./demos/SpriteSheet/SpriteSheet.json"];
+var assetsToLoader = ["./demos/2.SpriteSheet/SpriteSheet.json"];
 
 // create a new loader
 var loader = new PIXI.AssetLoader(assetsToLoader);
 
 // use callback
-loader.onComplete = onAssetsLoaded
+loader.onComplete = onAssetsLoaded;
 
 //begin load
 loader.load();
@@ -75,10 +75,10 @@ function animate() {
 	}
 
 	count += 0.01;
-	alienContainer.scale.x = Math.sin(count)
-	alienContainer.scale.y = Math.sin(count)
+	alienContainer.scale.x = Math.sin(count);
+	alienContainer.scale.y = Math.sin(count);
 
-	alienContainer.rotation += 0.01
+	alienContainer.rotation += 0.01;
 	// render the stage   
 	renderer.render(stage);
 }

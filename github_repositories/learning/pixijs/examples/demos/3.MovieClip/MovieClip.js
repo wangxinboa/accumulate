@@ -1,11 +1,11 @@
 // create an array of assets to load
-var assetsToLoader = ["./demos/MovieClip/SpriteSheet.json"];
+var assetsToLoader = ["./demos/3.MovieClip/SpriteSheet.json"];
 
 // create a new loader
 var loader = new PIXI.AssetLoader(assetsToLoader);
 
 // use callback
-loader.onComplete = onAssetsLoaded
+loader.onComplete = onAssetsLoaded;
 
 //begin load
 loader.load();
@@ -47,7 +47,7 @@ function onAssetsLoaded() {
 		explosion.anchor.y = 0.5;
 
 		explosion.rotation = Math.random() * Math.PI;
-		explosion.scale.x = explosion.scale.y = 0.75 + Math.random() * 0.5
+		explosion.scale.x = explosion.scale.y = 0.75 + Math.random() * 0.5;
 
 		explosion.gotoAndPlay(Math.random() * 27);
 

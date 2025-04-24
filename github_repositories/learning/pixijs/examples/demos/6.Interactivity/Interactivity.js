@@ -12,15 +12,15 @@ document.body.appendChild(renderer.view);
 requestAnimFrame(animate);
 
 // create a background..
-var background = PIXI.Sprite.fromImage("./demos/Interactivity/button_test_BG.jpg");
+var background = PIXI.Sprite.fromImage("./demos/6.Interactivity/button_test_BG.jpg");
 
 // add background to stage..
 stage.addChild(background);
 
 // create some textures from an image path
-var textureButton = PIXI.Texture.fromImage("./demos/Interactivity/button.png");
-var textureButtonDown = PIXI.Texture.fromImage("./demos/Interactivity/buttonDown.png");
-var textureButtonOver = PIXI.Texture.fromImage("./demos/Interactivity/buttonOver.png");
+var textureButton = PIXI.Texture.fromImage("./demos/6.Interactivity/button.png");
+var textureButtonDown = PIXI.Texture.fromImage("./demos/6.Interactivity/buttonDown.png");
+var textureButtonOver = PIXI.Texture.fromImage("./demos/6.Interactivity/buttonOver.png");
 
 var buttons = [];
 
