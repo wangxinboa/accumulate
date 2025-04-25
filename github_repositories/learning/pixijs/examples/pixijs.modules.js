@@ -4,4 +4,8 @@
 // import './demos/4.Balls/Balls.js';
 // import './demos/5.Morph/Morph.js';
 // import './demos/6.Interactivity/Interactivity.js';
-import './demos/7.TransparentBackground/TransparentBackground.js';
+// import './demos/7.TransparentBackground/TransparentBackground.js';
+// import './demos/8.Dragging/Dragging.js';
+// import './demos/9.TilingTexture/TilingTexture.js';
+// import './demos/10.Text/Text.js';
+import './demos/11.RenderTexture/RenderTexture.js';

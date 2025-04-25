@@ -26,8 +26,8 @@ export default class Object2DTransform extends BaseObject {
 		this._scaleX = option.scaleX || 1;
 		this._scaleY = option.scaleY || 1;
 
-		this.anchorX = option.anchorX || 0;;
-		this.anchorY = option.anchorY || 0;;
+		this.anchorX = option.anchorX || 0;
+		this.anchorY = option.anchorY || 0;
 
 		// drag event 相关
 		this._dragStartObjectX_ = 0;
