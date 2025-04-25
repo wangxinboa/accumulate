@@ -7,7 +7,7 @@ const scene = new Scene({
 scene.bindCamera(camera);
 
 const bunny = new ImageObject({
-	url: `./basics/bunny.png`,
+	url: `./1.basics/bunny.png`,
 	x: 381,
 	y: 338,
 	scaleX: 1,
@@ -18,7 +18,7 @@ const bunny = new ImageObject({
 scene.add(bunny);
 
 const bunny1 = new ImageObject({
-	url: `./basics/bunny.png`,
+	url: `./1.basics/bunny.png`,
 	x: 0,
 	y: 0,
 	scaleX: 1,
@@ -27,7 +27,7 @@ const bunny1 = new ImageObject({
 scene.add(bunny1);
 
 const bunny2 = new ImageObject({
-	url: `./basics/bunny.png`,
+	url: `./1.basics/bunny.png`,
 	x: 762,
 	y: 676,
 	scaleX: 1,

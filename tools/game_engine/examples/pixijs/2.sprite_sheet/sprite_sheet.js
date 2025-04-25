@@ -1,6 +1,11 @@
 import { GameEngine, Camera2D, Object2D, Scene, ImageObject } from '../../../src/index.js';
 
-const urls = ["./sprite_sheet/tp/eggHead.png", "./sprite_sheet/tp/flowerTop.png", "./sprite_sheet/tp/helmlok.png", "./sprite_sheet/tp/skully.png"];
+const urls = [
+	"./2.sprite_sheet/tp/eggHead.png",
+	"./2.sprite_sheet/tp/flowerTop.png",
+	"./2.sprite_sheet/tp/helmlok.png",
+	"./2.sprite_sheet/tp/skully.png"
+];
 const camera = new Camera2D();
 const scene = new Scene({
 	wheelMoveCamera: true,

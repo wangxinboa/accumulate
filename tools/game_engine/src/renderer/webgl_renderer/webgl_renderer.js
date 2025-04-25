@@ -1,9 +1,12 @@
 import Color from '../../math/color.js';
+import Matrix4 from '../../math/matrix4.js';
 import ImageSwitcher from '../../objects/2d/image/image_switcher.js';
 import ImageObject from '../../objects/2d/image/image.js';
 import WebGLBatch from './webgl_batch.js';
 import { compileVertexShader, compileFragmentShader } from './webgl_shaders.js';
 
+
+const _matrix4_ = new Matrix4();
 
 export default class WebGLRenderer {
 	constructor(el, option) {
@@ -27,7 +30,7 @@ export default class WebGLRenderer {
 		this.gl.enable(this.gl.BLEND);
 		this.gl.colorMask(true, true, true, this.transparent);
 
-		this.projectionMatrix = mat4.create();
+		this.projectionMatrix = new Matrix4();
 
 		this.contextLost = false;
 	}
@@ -62,9 +65,10 @@ export default class WebGLRenderer {
 	resize(width, height, retinaScaling) {
 		this.gl.viewport(0, 0, width * retinaScaling, height * retinaScaling);
 
-		mat4.identity(this.projectionMatrix);
-		mat4.scale(this.projectionMatrix, [retinaScaling / width, -retinaScaling / height, 1]);
-		mat4.translate(this.projectionMatrix, [-width / retinaScaling, -height / retinaScaling, 0]);
+		this.projectionMatrix
+			.identity()
+			.multiply(_matrix4_.makeScale(retinaScaling / width, -retinaScaling / height, 1))
+			.multiply(_matrix4_.makeTranslation(-width / retinaScaling, -height / retinaScaling, 0));
 	}
 
 	render(scene, time) {
@@ -72,7 +76,7 @@ export default class WebGLRenderer {
 		this.gl.clearColor(this.backgroundColor.r, this.backgroundColor.g, this.backgroundColor.b, this.backgroundColor.a);
 
 		this.gl.blendFunc(this.gl.ONE, this.gl.ONE_MINUS_SRC_ALPHA);
-		this.gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.projectionMatrix);
+		this.gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.projectionMatrix.elements);
 
 		scene.clearVisibleObjects();
 		this._renderObject(scene, scene.root, time);

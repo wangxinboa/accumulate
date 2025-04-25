@@ -3,9 +3,7 @@ import Rectangle from '../math/geometry_2d_def/rectangle.js';
 import Object2DTransform from '../objects/2d/base/object2d_transform.js';
 import { IdentityMatrix3 } from '../math/matrix3.js';
 
-const _translation = new Matrix3();
-const _rotation = new Matrix3();
-const _scale = new Matrix3();
+const _matrix3_ = new Matrix3();
 
 export default class Camera2D extends Object2DTransform {
 	constructor(option = {}) {
@@ -47,15 +45,11 @@ export default class Camera2D extends Object2DTransform {
 	}
 
 	updateMatrix() {
-		_translation.makeTranslation(-this.x, this.y);
-		_rotation.makeRotation(-this.rotation);
-		_scale.makeScale(this.scaleX === 0 ? 0 : 1 / this.scaleX, this.scaleY === 0 ? 0 : 1 / this.scaleY);
-
 		this.matrix
 			.identity()
-			.multiply(_translation)
-			.multiply(_rotation)
-			.multiply(_scale);
+			.multiply(_matrix3_.makeTranslation(-this.x, this.y))
+			.multiply(_matrix3_.makeRotation(-this.rotation))
+			.multiply(_matrix3_.makeScale(this.scaleX === 0 ? 0 : 1 / this.scaleX, this.scaleY === 0 ? 0 : 1 / this.scaleY));
 		this.matrixWorld.copy(this.matrix);
 		this.matrixWorldInvert.copy(this.matrixWorld).invert();
 

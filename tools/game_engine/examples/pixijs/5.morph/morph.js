@@ -6,7 +6,6 @@ const scene = new Scene({
 });
 scene.bindCamera(camera);
 
-
 var w = window.innerWidth;
 var h = window.innerHeight;
 
@@ -33,7 +32,7 @@ for (var i = 0; i < n; i++) {
 	tpoint3[i] = points3[i];
 
 	var tempBall = new ImageObject({
-		url: `./morph/assets/pixel.png`,
+		url: `./5.morph/assets/pixel.png`,
 		opacity: 1,
 		anchorX: 0.5,
 		anchorY: 0.5,
@@ -209,7 +208,6 @@ function makeObject(t) {
 
 }
 
-
 function update() {
 	var x3d, y3d, z3d, tx, ty, tz, ox;
 
@@ -245,7 +243,6 @@ function update() {
 		balls[i].y = (h / 2) - (512 * ty) / (d - tz);
 	}
 }
-
 
 const gameEngine = new GameEngine({
 	renderType: 'webgl',

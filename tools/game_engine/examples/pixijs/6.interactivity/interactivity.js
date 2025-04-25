@@ -7,7 +7,7 @@ const scene = new Scene({
 scene.bindCamera(camera);
 
 const background = new ImageObject({
-	url: './Interactivity/button_test_BG.jpg',
+	url: './6.Interactivity/button_test_BG.jpg',
 });
 scene.add(background);
 
@@ -34,7 +34,12 @@ const buttonPositions = [175, 75,
 	175, 400 - 75,
 	600 - 115, 400 - 95];
 
-const urls = ['./interactivity/button.png', './interactivity/buttonDown.png', './interactivity/buttonOver.png'];
+const urls = [
+	'./6.interactivity/button.png',
+	'./6.interactivity/buttonDown.png',
+	'./6.interactivity/buttonOver.png'
+];
+
 let nowDragButton = null;
 function onDragstart() {
 	console.info('onDragstart');

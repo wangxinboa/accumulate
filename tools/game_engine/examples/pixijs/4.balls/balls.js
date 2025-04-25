@@ -18,7 +18,7 @@ var stars = [];
 
 for (var i = 0; i < starCount; i++) {
 	let ball = new ImageObject({
-		url: `./balls/assets/bubble_32x32.png`,
+		url: `./4.balls/assets/bubble_32x32.png`,
 		x: (Math.random() * w) - slideX,
 		y: (Math.random() * h) - slideY,
 		anchorX: 0.5,
