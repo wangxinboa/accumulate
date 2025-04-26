@@ -8,4 +8,7 @@
 // import './demos/8.Dragging/Dragging.js';
 // import './demos/9.TilingTexture/TilingTexture.js';
 // import './demos/10.Text/Text.js';
-import './demos/11.RenderTexture/RenderTexture.js';
+// import './demos/11.RenderTexture/RenderTexture.js';
+// import './demos/12.Spine/Dragon.js';
+// import './demos/12.Spine/Pixie.js';
+import './demos/12.Spine/Spine.js';

@@ -1,0 +1,52 @@
+// create an array of assets to load
+
+var assetsToLoader = ["./demos/12.Spine/data/dragonBones.json", "./demos/12.Spine/data/dragonBonesData.json"];
+
+// create a new loader
+var loader = new PIXI.AssetLoader(assetsToLoader);
+
+// use callback
+loader.onComplete = onAssetsLoaded;
+
+//begin load
+loader.load();
+
+
+// create an new instance of a pixi stage
+var stage = new PIXI.Stage(0xFFFFFF, true);
+
+// create a renderer instance
+var renderer = new PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
+
+// set the canvas width and height to fill the screen
+renderer.view.style.display = "block";
+
+// add render view to DOM
+document.body.appendChild(renderer.view);
+
+function onAssetsLoaded() {
+	var dragon = new PIXI.Spine("./demos/12.Spine/data/dragonBonesData.json");
+
+	var scale = 1;//window.innerHeight / 700;
+
+	dragon.position.x = window.innerWidth / 2;
+	dragon.position.y = window.innerHeight / 2 + (450 * scale);
+
+	dragon.scale.x = dragon.scale.y = scale;
+
+
+	dragon.state.setAnimationByName("flying", true);
+
+	stage.addChild(dragon);
+}
+
+
+
+requestAnimFrame(animate);
+
+
+function animate() {
+
+	requestAnimFrame(animate);
+	renderer.render(stage);
+}
