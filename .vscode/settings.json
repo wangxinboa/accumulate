@@ -6,7 +6,7 @@
 	"[javascript]": {
 		"editor.defaultFormatter": "vscode.typescript-language-features"
 	},
-	"diffEditor.ignoreTrimWhitespace": false,
+	"diffEditor.ignoreTrimWhitespace": true,
 	"typescript.preferences.quoteStyle": "single",
 	"javascript.preferences.quoteStyle": "single",
 	"typescript.preferences.importModuleSpecifierEnding": "js",
@@ -17,5 +17,5 @@
 	"editor.tabSize": 4,
 	"editor.insertSpaces": false,
 	"editor.detectIndentation": false,
-	"javascript.format.semicolons": "insert",
+	"javascript.format.semicolons": "insert"
 }
