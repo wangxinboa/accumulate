@@ -59,6 +59,7 @@ for (var i = 0; i < 20; i++) {
 	item.anchor.y = 0.5;
 
 	stuffContainer.addChild(item);
+	console.log("_");
 	items.push(item);
 };
 
@@ -95,7 +96,7 @@ function animate() {
 
 	// render the stage to the texture
 	// the true clears the texture before content is rendered
-	renderTexture2.render(stage, true);
+	renderTexture2.render(stage, new PIXI.Point(0, 0), true);
 
 	// and finally render the stage
 	renderer.render(stage);

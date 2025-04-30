@@ -10,33 +10,37 @@
 	<link href="../../../../css/default.css" rel="stylesheet" type="text/css" />
 	<link href="../../../../css/common.css" rel="stylesheet" type="text/css" />
 
-	<!-- <script src="/pixijs/bin/pixi.js"></script> -->
-
 	<script defer type="text/javascript" src="/pixijs/src/pixi/Pixi.js"></script>
 
 	<script defer type="text/javascript" src="/pixijs/src/pixi/utils/Detector.js"></script>
 	<script defer type="text/javascript" src="/pixijs/src/pixi/utils/EventTarget.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/utils/Matrix.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/utils/Polyk.js"></script>
 	<script defer type="text/javascript" src="/pixijs/src/pixi/utils/Utils.js"></script>
 
-	<script defer type="text/javascript" src="/pixijs/src/pixi/Rectangle.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/DisplayObject.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/DisplayObjectContainer.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/core/Circle.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/core/Ellipse.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/core/Matrix.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/core/Point.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/core/Polygon.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/core/Rectangle.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/display/DisplayObject.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/display/DisplayObjectContainer.js"></script>
 
-	<!-- <script defer type="text/javascript" src="/pixijs/src/pixi/Intro.js"></script> -->
-	<script defer type="text/javascript" src="/pixijs/src/pixi/Sprite.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/MovieClip.js"></script>
-	<!-- <script defer type="text/javascript" src="/pixijs/src/pixi/Outro.js"></script> -->
-	<script defer type="text/javascript" src="/pixijs/src/pixi/Point.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/Stage.js"></script>
 	<script defer type="text/javascript" src="/pixijs/src/pixi/InteractionManager.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/Polygon.js"></script>
+	<!-- <script defer type="text/javascript" src="/pixijs/src/pixi/Intro.js"></script> -->
+	<!-- <script defer type="text/javascript" src="/pixijs/src/pixi/Outro.js"></script> -->
 
-	<script defer type="text/javascript" src="/pixijs/src//pixi/extras/Spine.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/display/Sprite.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/display/MovieClip.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/display/Stage.js"></script>
+
 	<script defer type="text/javascript" src="/pixijs/src/pixi/extras/CustomRenderable.js"></script>
+	<!-- <script defer type="text/javascript" src="/pixijs/src/pixi/extras/Rope.js"></script> -->
+	<script defer type="text/javascript" src="/pixijs/src/pixi/extras/Spine.js"></script>
 	<script defer type="text/javascript" src="/pixijs/src/pixi/extras/Strip.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/extras/Rope.js"></script>
 	<script defer type="text/javascript" src="/pixijs/src/pixi/extras/TilingSprite.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/filters/FilterBlock.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/filters/MaskFilter.js"></script>
 
 	<script defer type="text/javascript" src="/pixijs/src/pixi/loaders/AssetLoader.js"></script>
 	<script defer type="text/javascript" src="/pixijs/src/pixi/loaders/BitmapFontLoader.js"></script>
@@ -45,16 +49,14 @@
 	<script defer type="text/javascript" src="/pixijs/src/pixi/loaders/SpineLoader.js"></script>
 	<script defer type="text/javascript" src="/pixijs/src/pixi/loaders/SpriteSheetLoader.js"></script>
 
-	<!-- <script defer type="text/javascript" src="/pixijs/src/pixi/primitives/Graphics.js"></script> -->
-	<!-- <script defer type="text/javascript" src="/pixijs/src/pixi/primitives/Line.js"></script> -->
-
-	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/CanvasGraphics.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/CanvasRenderer.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/WebGLGraphics.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/WebGLRenderer.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/WebGLBatch.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/WebGLShaders.js"></script>
-	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/WebGLRenderGroup.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/primitives/Graphics.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/canvas/CanvasGraphics.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/canvas/CanvasRenderer.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/webgl/WebGLBatch.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/webgl/WebGLGraphics.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/webgl/WebGLRenderGroup.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/webgl/WebGLRenderer.js"></script>
+	<script defer type="text/javascript" src="/pixijs/src/pixi/renderers/webgl/WebGLShaders.js"></script>
 
 	<script defer type="text/javascript" src="/pixijs/src/pixi/text/BitmapText.js"></script>
 	<script defer type="text/javascript" src="/pixijs/src/pixi/text/Text.js"></script>

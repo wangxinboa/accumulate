@@ -11,4 +11,8 @@
 // import './demos/11.RenderTexture/RenderTexture.js';
 // import './demos/12.Spine/Dragon.js';
 // import './demos/12.Spine/Pixie.js';
-import './demos/12.Spine/Spine.js';
+// import './demos/12.Spine/Spine.js';
+// import './demos/13.Graphics/Graphics.js';
+import './demos/14.Masking/CopyOfIndex.js';
+// import './demos/14.Masking/IndexDoubleMask.js';
+// import './demos/14.Masking/Masking.js';

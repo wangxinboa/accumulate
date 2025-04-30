@@ -4,7 +4,9 @@
 
 
 /**
- * A DisplayObjectContainer represents a collection of display objects. It is the base class of all display objects that act as a container for other objects.
+ * A DisplayObjectContainer represents a collection of display objects.
+ * It is the base class of all display objects that act as a container for other objects.
+ *
  * @class DisplayObjectContainer 
  * @extends DisplayObject
  * @constructor
@@ -15,16 +17,17 @@ PIXI.DisplayObjectContainer = function()
 	
 	/**
 	 * [read-only] The of children of this container.
-	 * @property children {Array}
+	 *
+	 * @property children
+	 * @type Array<DisplayObject>
+	 * @readOnly
 	 */	
 	this.children = [];
-	//s
-	this.renderable = false;
 }
 
 // constructor
-PIXI.DisplayObjectContainer.constructor = PIXI.DisplayObjectContainer;
 PIXI.DisplayObjectContainer.prototype = Object.create( PIXI.DisplayObject.prototype );
+PIXI.DisplayObjectContainer.prototype.constructor = PIXI.DisplayObjectContainer;
 
 //TODO make visible a getter setter
 /*
@@ -40,26 +43,81 @@ Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'visible', {
 
 /**
  * Adds a child to the container.
+ *
  * @method addChild
- * @param  DisplayObject {DisplayObject}
+ * @param child {DisplayObject} The DisplayObject to add to the container
  */
 PIXI.DisplayObjectContainer.prototype.addChild = function(child)
 {
 	if(child.parent != undefined)
 	{
+		
+		//// COULD BE THIS???
 		child.parent.removeChild(child);
+	//	return;
 	}
-	
+
 	child.parent = this;
-	child.childIndex = this.children.length;
 	
 	this.children.push(child);	
 	
+	// update the stage refference..
+	
 	if(this.stage)
 	{
-		this.stage.__addChild(child);
+		var tmpChild = child;
+		do
+		{
+			if(tmpChild.interactive)this.stage.dirty = true;
+			tmpChild.stage = this.stage;
+			tmpChild = tmpChild._iNext;
+		}	
+		while(tmpChild)
 	}
 	
+	// LINKED LIST //
+	
+	// modify the list..
+	var childFirst = child.first
+	var childLast = child.last;
+	var nextObject;
+	var previousObject;
+	
+	// this could be wrong if there is a filter??
+	if(this.filter)
+	{
+		previousObject =  this.last._iPrev;
+	}
+	else
+	{
+		previousObject = this.last;
+	}
+
+	nextObject = previousObject._iNext;
+	
+	// always true in this case
+	// need to make sure the parents last is updated too
+	var updateLast = this;
+	var prevLast = previousObject;
+	
+	while(updateLast)
+	{
+		if(updateLast.last == prevLast)
+		{
+			updateLast.last = child.last;
+		}
+		updateLast = updateLast.parent;
+	}
+	
+	if(nextObject)
+	{
+		nextObject._iPrev = childLast;
+		childLast._iNext = nextObject;
+	}
+	
+	childFirst._iPrev = previousObject;
+	previousObject._iNext = childFirst;		
+
 	// need to remove any render groups..
 	if(this.__renderGroup)
 	{
@@ -68,13 +126,15 @@ PIXI.DisplayObjectContainer.prototype.addChild = function(child)
 		// add them to the new render group..
 		this.__renderGroup.addDisplayObjectAndChildren(child);
 	}
+	
 }
 
 /**
  * Adds a child to the container at a specified index. If the index is out of bounds an error will be thrown
+ *
  * @method addChildAt
- * @param DisplayObject {DisplayObject}
- * @param index {Number}
+ * @param child {DisplayObject} The child to add
+ * @param index {Number} The index to place the child in
  */
 PIXI.DisplayObjectContainer.prototype.addChildAt = function(child, index)
 {
@@ -84,30 +144,62 @@ PIXI.DisplayObjectContainer.prototype.addChildAt = function(child, index)
 		{
 			child.parent.removeChild(child);
 		}
-	
-		if (index == this.children.length)
-		{
-		  	this.children.push(child);
-		}	
-		else 
-		{
-			this.children.splice(index, 0, child);
-		}
-
 		child.parent = this;
-		child.childIndex = index;
-		
-		var length = this.children.length;
-		for (var i=index; i < length; i++) 
-		{
-		  this.children[i].childIndex = i;
-		}
 		
 		if(this.stage)
 		{
-			this.stage.__addChild(child);
+			var tmpChild = child;
+			do
+			{
+				if(tmpChild.interactive)this.stage.dirty = true;
+				tmpChild.stage = this.stage;
+				tmpChild = tmpChild._iNext;
+			}
+			while(tmpChild)
 		}
 		
+		// modify the list..
+		var childFirst = child.first;
+		var childLast = child.last;
+		var nextObject;
+		var previousObject;
+		
+		if(index == this.children.length)
+		{
+			previousObject =  this.last;
+			var updateLast = this;
+			var prevLast = this.last;
+			while(updateLast)
+			{
+				if(updateLast.last == prevLast)
+				{
+					updateLast.last = child.last;
+				}
+				updateLast = updateLast.parent;
+			}
+		}
+		else if(index == 0)
+		{
+			previousObject = this;
+		}
+		else
+		{
+			previousObject = this.children[index-1].last;
+		}
+		
+		nextObject = previousObject._iNext;
+		
+		// always true in this case
+		if(nextObject)
+		{
+			nextObject._iPrev = childLast;
+			childLast._iNext = nextObject;
+		}
+		
+		childFirst._iPrev = previousObject;
+		previousObject._iNext = childFirst;		
+
+		this.children.splice(index, 0, child);
 		// need to remove any render groups..
 		if(this.__renderGroup)
 		{
@@ -116,23 +208,32 @@ PIXI.DisplayObjectContainer.prototype.addChildAt = function(child, index)
 			// add them to the new render group..
 			this.__renderGroup.addDisplayObjectAndChildren(child);
 		}
+		
 	}
 	else
 	{
-		// error!
-		
 		throw new Error(child + " The index "+ index +" supplied is out of bounds " + this.children.length);
 	}
 }
 
 /**
- * Swaps the depth of 2 displayObjects
+ * [NYI] Swaps the depth of 2 displayObjects
+ *
  * @method swapChildren
- * @param  DisplayObject {DisplayObject}
- * @param  DisplayObject2 {DisplayObject}
+ * @param child {DisplayObject}
+ * @param child2 {DisplayObject}
+ * @private
  */
 PIXI.DisplayObjectContainer.prototype.swapChildren = function(child, child2)
 {
+	/*
+	 * this funtion needs to be recoded.. 
+	 * can be done a lot faster..
+	 */
+	return;
+	
+	// need to fix this function :/
+	/*
 	// TODO I already know this??
 	var index = this.children.indexOf( child );
 	var index2 = this.children.indexOf( child2 );
@@ -140,6 +241,8 @@ PIXI.DisplayObjectContainer.prototype.swapChildren = function(child, child2)
 	if ( index !== -1 && index2 !== -1 ) 
 	{
 		// cool
+		
+		/*
 		if(this.stage)
 		{
 			// this is to satisfy the webGL batching..
@@ -151,9 +254,6 @@ PIXI.DisplayObjectContainer.prototype.swapChildren = function(child, child2)
 			this.stage.__addChild(child2);
 		}
 		
-		// swap the indexes..
-		child.childIndex = index2;
-		child2.childIndex = index;
 		// swap the positions..
 		this.children[index] = child2;
 		this.children[index2] = child;
@@ -162,13 +262,14 @@ PIXI.DisplayObjectContainer.prototype.swapChildren = function(child, child2)
 	else
 	{
 		throw new Error(child + " Both the supplied DisplayObjects must be a child of the caller " + this);
-	}
+	}*/
 }
 
 /**
  * Returns the Child at the specified index
+ *
  * @method getChildAt
- * @param  index {Number}
+ * @param index {Number} The index to get the child from
  */
 PIXI.DisplayObjectContainer.prototype.getChildAt = function(index)
 {
@@ -179,42 +280,68 @@ PIXI.DisplayObjectContainer.prototype.getChildAt = function(index)
 	else
 	{
 		throw new Error(child + " Both the supplied DisplayObjects must be a child of the caller " + this);
-	
 	}
 }
 
 /**
  * Removes a child from the container.
+ *
  * @method removeChild
- * @param  DisplayObject {DisplayObject}
+ * @param child {DisplayObject} The DisplayObject to remove
  */
 PIXI.DisplayObjectContainer.prototype.removeChild = function(child)
 {
 	var index = this.children.indexOf( child );
-	
 	if ( index !== -1 ) 
 	{
-		if(this.stage)
+		// unlink //
+		// modify the list..
+		var childFirst = child.first;
+		var childLast = child.last;
+		
+		var nextObject = childLast._iNext;
+		var previousObject = childFirst._iPrev;
+			
+		if(nextObject)nextObject._iPrev = previousObject;
+		previousObject._iNext = nextObject;		
+		
+		if(this.last == childLast)
 		{
-			this.stage.__removeChild(child);
+			var tempLast =  childFirst._iPrev;	
+			// need to make sure the parents last is updated too
+			var updateLast = this;
+			while(updateLast.last == childLast.last)
+			{
+				updateLast.last = tempLast;
+				updateLast = updateLast.parent;
+				if(!updateLast)break;
+			}
 		}
 		
+		childLast._iNext = null;
+		childFirst._iPrev = null;
+		 
+		// update the stage reference..
+		if(this.stage)
+		{
+			var tmpChild = child;
+			do
+			{
+				if(tmpChild.interactive)this.stage.dirty = true;
+				tmpChild.stage = null;
+				tmpChild = tmpChild._iNext;
+			}	
+			while(tmpChild)
+		}
+	
 		// webGL trim
 		if(child.__renderGroup)
 		{
 			child.__renderGroup.removeDisplayObjectAndChildren(child);
 		}
 		
-	//	console.log(">" + child.__renderGroup)
 		child.parent = undefined;
-
 		this.children.splice( index, 1 );
-	
-		// update in dexs!
-		for(var i=index,j=this.children.length; i<j; i++)
-		{
-			this.children[i].childIndex -= 1;
-		}
 	}
 	else
 	{
@@ -222,8 +349,10 @@ PIXI.DisplayObjectContainer.prototype.removeChild = function(child)
 	}
 }
 
-
-/**
+/*
+ * Updates the container's children's transform for rendering
+ *
+ * @method updateTransform
  * @private
  */
 PIXI.DisplayObjectContainer.prototype.updateTransform = function()

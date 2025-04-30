@@ -1,3 +1,24 @@
+
+
+function runList(item) {
+	console.log(">>>>>>>>>");
+	console.log("_");
+	var safe = 0;
+	var tmp = item;
+	while (tmp._iNext) {
+		safe++;
+		//		console.log(tmp.childIndex + tmp);
+		tmp = tmp._iNext;
+		console.log(tmp);//.childIndex);
+		//	console.log(tmp);
+
+		if (safe > 100) {
+			console.log("BREAK");
+			break;
+		}
+	}
+}
+
 var assetsToLoader = ["./demos/10.Text/desyrel.fnt"];
 
 // create a new loader
@@ -7,17 +28,23 @@ var loader = new PIXI.AssetLoader(assetsToLoader);
 loader.onComplete = onAssetsLoaded;
 
 //begin load
+
+// create an new instance of a pixi stage
+var stage = new PIXI.Stage(0x66FF99);
+
 loader.load();
 function onAssetsLoaded() {
 	var bitmapFontText = new PIXI.BitmapText("bitmap fonts are\n now supported!", { font: "35px Desyrel", align: "right" });
 	bitmapFontText.position.x = 620 - bitmapFontText.width - 20;
 	bitmapFontText.position.y = 20;
 
+	runList(bitmapFontText);
 	stage.addChild(bitmapFontText);
+
+
 }
 
-// create an new instance of a pixi stage
-var stage = new PIXI.Stage(0x66FF99);
+
 
 // add a shiney background..
 var background = PIXI.Sprite.fromImage("./demos/10.Text/textDemoBG.jpg");
@@ -51,6 +78,7 @@ countingText.anchor.x = 0.5;
 stage.addChild(textSample);
 stage.addChild(spinningText);
 stage.addChild(countingText);
+
 var count = 0;
 var score = 0;
 

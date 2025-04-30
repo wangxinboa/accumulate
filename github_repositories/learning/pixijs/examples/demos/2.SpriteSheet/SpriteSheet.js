@@ -18,7 +18,7 @@ var alienFrames = ["eggHead.png", "flowerTop.png", "helmlok.png", "skully.png"];
 var count = 0;
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF);;
+var stage = new PIXI.Stage(0xFFFFFF);
 
 // create a renderer instance.
 var renderer = PIXI.autoDetectRenderer(800, 600);

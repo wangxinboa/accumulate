@@ -24,8 +24,8 @@ function createBunny(x, y) {
 	// create our little bunny friend..
 	var bunny = new PIXI.Sprite(texture);
 	//	bunny.width = 300;
-	// enable the bunny to be interactive.. this will allow it to respond to mouse and touch events
-	bunny.setInteractive(true);
+	// enable the bunny to be interactive.. this will allow it to respond to mouse and touch events		
+	bunny.interactive = true;
 	// this button mode will mean the hand cursor appears when you rollover the bunny with your mouse
 	bunny.buttonMode = true;
 
@@ -38,6 +38,9 @@ function createBunny(x, y) {
 
 	// use the mousedown and touchstart
 	bunny.mousedown = bunny.touchstart = function (data) {
+		// stop the default event...
+		data.originalEvent.preventDefault();
+
 		// store a refference to the data
 		// The reason for this is because of multitouch
 		// we want to track the movement of this particular touch
@@ -78,6 +81,6 @@ function animate() {
 
 	// just for fun, lets rotate mr rabbit a little
 	//stage.interactionManager.update();
-	// render the stage
+	// render the stage   
 	renderer.render(stage);
 }

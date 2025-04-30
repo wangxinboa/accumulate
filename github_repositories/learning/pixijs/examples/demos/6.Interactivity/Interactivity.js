@@ -124,3 +124,18 @@ function animate() {
 
 	renderer.render(stage);
 }
+
+// add a logo!
+var pixiLogo = PIXI.Sprite.fromImage("./demos/6.Interactivity/pixi.png");
+stage.addChild(pixiLogo);
+
+pixiLogo.position.x = 620 - 56;
+pixiLogo.position.y = 400 - 32;
+
+pixiLogo.setInteractive(true);
+
+pixiLogo.click = pixiLogo.tap = function () {
+
+	var win = window.open("https://github.com/GoodBoyDigital/pixi.js", '_blank');
+
+};

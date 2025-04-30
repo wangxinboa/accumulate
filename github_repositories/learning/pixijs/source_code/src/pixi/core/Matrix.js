@@ -31,6 +31,23 @@ PIXI.mat3.create = function()
 	return matrix;
 }
 
+
+PIXI.mat3.identity = function(matrix)
+{
+	matrix[0] = 1;
+	matrix[1] = 0;
+	matrix[2] = 0;
+	matrix[3] = 0;
+	matrix[4] = 1;
+	matrix[5] = 0;
+	matrix[6] = 0;
+	matrix[7] = 0;
+	matrix[8] = 1;
+	
+	return matrix;
+}
+
+
 PIXI.mat4 = {};
 
 PIXI.mat4.create = function()
@@ -85,6 +102,50 @@ PIXI.mat3.multiply = function (mat, mat2, dest)
 	return dest;
 }
 
+PIXI.mat3.clone = function(mat)
+{
+	var matrix = new PIXI.Matrix(9);
+
+	matrix[0] = mat[0];
+	matrix[1] = mat[1];
+	matrix[2] = mat[2];
+	matrix[3] = mat[3];
+	matrix[4] = mat[4];
+	matrix[5] = mat[5];
+	matrix[6] = mat[6];
+	matrix[7] = mat[7];
+	matrix[8] = mat[8];
+	
+	return matrix;
+}
+
+PIXI.mat3.transpose = function (mat, dest) 
+{
+ 	// If we are transposing ourselves we can skip a few steps but have to cache some values
+    if (!dest || mat === dest) {
+        var a01 = mat[1], a02 = mat[2],
+            a12 = mat[5];
+
+        mat[1] = mat[3];
+        mat[2] = mat[6];
+        mat[3] = a01;
+        mat[5] = mat[7];
+        mat[6] = a02;
+        mat[7] = a12;
+        return mat;
+    }
+
+    dest[0] = mat[0];
+    dest[1] = mat[3];
+    dest[2] = mat[6];
+    dest[3] = mat[1];
+    dest[4] = mat[4];
+    dest[5] = mat[7];
+    dest[6] = mat[2];
+    dest[7] = mat[5];
+    dest[8] = mat[8];
+    return dest;
+}
 
 PIXI.mat3.toMat4 = function (mat, dest) 
 {
