@@ -58,13 +58,12 @@ for (var i = 0; i < 20; i++) {
 	item.anchor.y = 0.5;
 
 	stuffContainer.addChild(item);
-	console.log("_");
+
 	items.push(item);
 };
 
 // used for spinning!
 var count = 0;
-
 
 requestAnimFrame(animate);
 
@@ -85,7 +84,6 @@ function animate() {
 	renderTexture = renderTexture2;
 	renderTexture2 = temp;
 
-
 	// set the new texture
 	outputSprite.setTexture(renderTexture);
 
@@ -95,7 +93,7 @@ function animate() {
 
 	// render the stage to the texture
 	// the true clears the texture before content is rendered
-	renderTexture2.render(stage, new PIXI.Point(0, 0), true);
+	renderTexture2.render(stage, null, true);
 
 	// and finally render the stage
 	renderer.render(stage);

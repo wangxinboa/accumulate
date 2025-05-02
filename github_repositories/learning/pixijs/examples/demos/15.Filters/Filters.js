@@ -17,7 +17,6 @@ var colorMatrix = [1, 0, 0, 0,
 	0, 0, 1, 0,
 	0, 0, 0, 1];
 
-
 var filter = new PIXI.ColorMatrixFilter();
 
 var container = new PIXI.DisplayObjectContainer();
@@ -44,13 +43,11 @@ var panda = PIXI.Sprite.fromImage("./demos/15.Filters/panda.png");
 panda.anchor.x = 0.5;
 panda.anchor.y = 0.5;
 
-
 container.addChild(panda);
 
 stage.addChild(container);
 
 // create a renderer instance
-
 renderer.view.style.position = "absolute";
 renderer.view.style.width = window.innerWidth + "px";
 renderer.view.style.height = window.innerHeight + "px";
@@ -58,7 +55,6 @@ renderer.view.style.display = "block";
 
 // add render view to DOM
 document.body.appendChild(renderer.view);
-
 
 stage.filters = [filter];
 
@@ -74,14 +70,10 @@ stage.click = stage.tap = function () {
 	else {
 		stage.filters = null;
 	}
-
 };
 
-/*
- * Add a pixi Logo!
- */
+// Add a pixi Logo!
 var logo = PIXI.Sprite.fromImage("./logo_small.png");
-//	stage.addChild(logo);
 
 logo.anchor.x = 1;
 logo.position.x = 620;
@@ -99,14 +91,7 @@ help.position.y = 350;
 help.position.x = 10;
 stage.addChild(help);
 
-//stage.filters = [filter];
-
-
-
-requestAnimFrame(animate);
-
 function animate() {
-
 	bg.rotation += 0.01;
 	bgFront.rotation -= 0.01;
 
@@ -126,8 +111,8 @@ function animate() {
 	colorMatrix[6] = Math.sin(count / 4);
 	filter.matrix = colorMatrix;
 
-
-
 	renderer.render(stage);
 	requestAnimFrame(animate);
 }
+
+requestAnimFrame(animate);

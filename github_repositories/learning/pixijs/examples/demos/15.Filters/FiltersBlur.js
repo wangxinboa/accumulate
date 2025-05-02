@@ -42,7 +42,7 @@ stage.click = stage.tap = function () {
 		//stage.filters = [filter];
 	}
 	else {
-		//	stage.filters = null;
+		//    stage.filters = null;
 	}
 
 };

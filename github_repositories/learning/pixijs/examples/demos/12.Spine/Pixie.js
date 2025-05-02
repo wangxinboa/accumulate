@@ -1,6 +1,6 @@
 // create an array of assets to load
 
-var assetsToLoader = ["./demos/12.Spine/data/PixieSpineData.json", "./demos/12.Spine/data/Pixie.json", "./demos/12.Spine/data/iP4_BGtile.jpg", "./demos/12.Spine/data/iP4_ground.png"];
+var assetsToLoader = ["./logo_small.png", "./demos/12.Spine/data/Pixie.json", "./demos/12.Spine/data/iP4_BGtile.jpg", "./demos/12.Spine/data/iP4_ground.png"];
 
 // create a new loader
 var loader = new PIXI.AssetLoader(assetsToLoader);
@@ -44,7 +44,7 @@ function onAssetsLoaded() {
 	stage.addChild(foreground2);
 	foreground.position.y = foreground2.position.y = 640 - foreground2.height;
 
-	var pixie = new PIXI.Spine("./demos/12.Spine/data/PixieSpineData.json");
+	var pixie = new PIXI.Spine("./demos/12.Spine/data/Pixie.json");
 
 	var scale = 0.3;//window.innerHeight / 700;
 
@@ -61,13 +61,13 @@ function onAssetsLoaded() {
 	pixie.stateData.setMixByName("running", "jump", 0.2);
 	pixie.stateData.setMixByName("jump", "running", 0.4);
 
-	pixie.state.setAnimationByName("running", true);
+	pixie.state.setAnimationByName(0, "running", true);
 
 
 
 	stage.mousedown = stage.touchstart = function () {
-		pixie.state.setAnimationByName("jump", false);
-		pixie.state.addAnimationByName("running", true);
+		pixie.state.setAnimationByName(0, "jump", false);
+		pixie.state.addAnimationByName(0, "running", true, 0);
 	};
 
 	var logo = PIXI.Sprite.fromImage("./logo_small.png");
@@ -78,7 +78,7 @@ function onAssetsLoaded() {
 	logo.position.x = 1024;
 	logo.scale.x = logo.scale.y = 0.5;
 	logo.position.y = 640 - 70;
-	logo.setInteractive(true);
+	logo.interactive = true;
 	logo.buttonMode = true;
 	logo.click = logo.tap = function () {
 		window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");

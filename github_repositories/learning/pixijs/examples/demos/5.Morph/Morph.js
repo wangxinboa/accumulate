@@ -20,16 +20,12 @@ var tpoint1 = [];
 var tpoint2 = [];
 var tpoint3 = [];
 var balls = [];
-
-var renderer = null;
-var stage = null;
+var renderer;
+var stage;
 
 function start() {
-
 	var ballTexture = new PIXI.Texture.fromImage("./demos/5.Morph/assets/pixel.png");
-
 	renderer = PIXI.autoDetectRenderer(w, h);
-
 	stage = new PIXI.Stage;
 
 	document.body.appendChild(renderer.view);
@@ -55,39 +51,30 @@ function start() {
 	setTimeout(nextObject, 5000);
 
 	requestAnimFrame(update);
-
 }
 
 function nextObject() {
-
 	current++;
-
 	if (current > objs) {
 		current = 0;
 	}
 
 	makeObject(current);
-
 	setTimeout(nextObject, 8000);
-
 }
 
 function makeObject(t) {
-
 	var xd;
 
 	switch (t) {
 		case 0:
-
 			for (var i = 0; i < n; i++) {
 				points1[i] = -50 + Math.round(Math.random() * 100);
 				points2[i] = 0;
 				points3[i] = 0;
 			}
 			break;
-
 		case 1:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(xd) * 10) * (Math.cos(t * 360 / n) * 10);
@@ -95,9 +82,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(xd) * 100;
 			}
 			break;
-
 		case 2:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(xd) * 10) * (Math.cos(t * 360 / n) * 10);
@@ -105,7 +90,6 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 3:
 
 			for (var i = 0; i < n; i++) {
@@ -115,7 +99,6 @@ function makeObject(t) {
 				points3[i] = Math.sin(xd) * 100;
 			}
 			break;
-
 		case 4:
 
 			for (var i = 0; i < n; i++) {
@@ -125,7 +108,6 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 5:
 
 			for (var i = 0; i < n; i++) {
@@ -135,7 +117,6 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 6:
 
 			for (var i = 0; i < n; i++) {
@@ -145,7 +126,6 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 7:
 
 			for (var i = 0; i < n; i++) {
@@ -155,7 +135,6 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 8:
 
 			for (var i = 0; i < n; i++) {
@@ -165,7 +144,6 @@ function makeObject(t) {
 				points3[i] = Math.sin(xd) * 100;
 			}
 			break;
-
 		case 9:
 
 			for (var i = 0; i < n; i++) {
@@ -175,9 +153,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(xd) * 100;
 			}
 			break;
-
 		case 10:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(i * 360 / n) * 10) * (Math.cos(i * 360 / n) * 10);
@@ -185,9 +161,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 11:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(xd) * 10) * (Math.cos(i * 360 / n) * 10);
@@ -195,9 +169,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(xd) * 100;
 			}
 			break;
-
 		case 12:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(xd) * 10) * (Math.cos(xd) * 10);
@@ -205,9 +177,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 13:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(xd) * 10) * (Math.cos(i * 360 / n) * 10);
@@ -215,9 +185,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 14:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.sin(xd) * 10) * (Math.cos(xd) * 10);
@@ -225,9 +193,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 15:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(i * 360 / n) * 10) * (Math.cos(i * 360 / n) * 10);
@@ -235,9 +201,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(i * 360 / n) * 100;
 			}
 			break;
-
 		case 16:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(xd) * 10) * (Math.cos(i * 360 / n) * 10);
@@ -245,9 +209,7 @@ function makeObject(t) {
 				points3[i] = Math.sin(xd) * 100;
 			}
 			break;
-
 		case 17:
-
 			for (var i = 0; i < n; i++) {
 				xd = -90 + Math.round(Math.random() * 180);
 				points1[i] = (Math.cos(xd) * 10) * (Math.cos(xd) * 10);
@@ -256,12 +218,9 @@ function makeObject(t) {
 			}
 			break;
 	}
-
 }
 
 function resize() {
-	console.info('resize:', resize);
-
 	w = window.innerWidth - 16;
 	h = window.innerHeight - 16;
 
@@ -301,7 +260,6 @@ function update() {
 
 		balls[i].position.x = (512 * tx) / (d - tz) + w / 2;
 		balls[i].position.y = (h / 2) - (512 * ty) / (d - tz);
-
 	}
 
 	renderer.render(stage);

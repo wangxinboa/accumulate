@@ -1,14 +1,12 @@
+
 function runList(item) {
-	console.log(">>>>>>>>>");
 	console.log("_");
 	var safe = 0;
 	var tmp = item;
 	while (tmp._iNext) {
 		safe++;
-		//		console.log(tmp.childIndex + tmp);
 		tmp = tmp._iNext;
-		console.log(tmp);//.childIndex);
-		//	console.log(tmp);
+		console.log(tmp);
 
 		if (safe > 100) {
 			console.log("BREAK");
@@ -26,26 +24,23 @@ function init() {
 	// use callback
 	loader.onComplete = onAssetsLoaded;
 
-	//begin load
-
 	// create an new instance of a pixi stage
 	var stage = new PIXI.Stage(0x66FF99);
 
+	// begin load
 	loader.load();
+
 	function onAssetsLoaded() {
 		var bitmapFontText = new PIXI.BitmapText("bitmap fonts are\n now supported!", { font: "35px Desyrel", align: "right" });
-		bitmapFontText.position.x = 620 - bitmapFontText.width - 20;
+		bitmapFontText.position.x = 620 - bitmapFontText.textWidth - 20;
 		bitmapFontText.position.y = 20;
 
 		runList(bitmapFontText);
+
 		stage.addChild(bitmapFontText);
-
-
 	}
 
-
-
-	// add a shiney background..
+	// add a shiny background...
 	var background = PIXI.Sprite.fromImage("./demos/10.Text/textDemoBG.jpg");
 	stage.addChild(background);
 
@@ -54,15 +49,14 @@ function init() {
 	// add the renderer view element to the DOM
 	document.body.appendChild(renderer.view);
 
-	requestAnimFrame(animate);
-
 	// create some white text using the Snippet webfont
 	var textSample = new PIXI.Text("Pixi.js can has\nmultiline text!", { font: "35px Snippet", fill: "white", align: "left" });
 	textSample.position.x = 20;
 	textSample.position.y = 20;
 
 	// create a text object with a nice stroke
-	var spinningText = new PIXI.Text("I'm fun!", { font: "bold 60px Podkova", fill: "#cc00ff", align: "center", stroke: "#FFFFFF", strokeThickness: 6 });
+	var spinningText = new PIXI.Text("I'm fun!", { font: "bold 60px Arial", fill: "#cc00ff", align: "center", stroke: "#FFFFFF", strokeThickness: 20 });
+
 	// setting the anchor point to 0.5 will center align the text... great for spinning!
 	spinningText.anchor.x = spinningText.anchor.y = 0.5;
 	spinningText.position.x = 620 / 2;
@@ -80,22 +74,16 @@ function init() {
 
 	var count = 0;
 	var score = 0;
+	var remaining = 10;
+
 
 	function animate() {
-
 		requestAnimFrame(animate);
-		count++;
-		if (count == 50) {
-			count = 0;
-			score++;
-			// update the text...
-			countingText.setText("COUNT 4EVAR: " + score);
-
-		}
-		// just for fun, lets rotate the text
-		spinningText.rotation += 0.03;
-
-		// render the stage
 		renderer.render(stage);
+
+		count += 0.1;
+		countingText.setText("COUNT 4EVAR: " + (count | 0));
 	}
+
+	requestAnimFrame(animate);
 }

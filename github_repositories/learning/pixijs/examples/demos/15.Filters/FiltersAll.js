@@ -9,11 +9,7 @@ var filtersSwitchs = [true, false, false, false, false, false, false, false, fal
 // add render view to DOM
 document.body.appendChild(renderer.view);
 
-var gui = new lil.GUI({
-	//height : 5 * 32 - 1,
-
-	//width : 350
-});
+var gui = new lil.GUI({});
 
 //// 
 
@@ -104,7 +100,7 @@ var crossHatchFolder = gui.addFolder('CrossHatch');
 crossHatchFolder.add(filtersSwitchs, '9').name("apply");
 
 
-//	var filterCollection = [blurFilter, pixelateFilter, invertFilter, grayFilter, sepiaFilter, twistFilter, dotScreenFilter, //colorStepFilter, crossHatchFilter];
+//    var filterCollection = [blurFilter, pixelateFilter, invertFilter, grayFilter, sepiaFilter, twistFilter, dotScreenFilter, //colorStepFilter, crossHatchFilter];
 
 var rgbSplitterFilter = new PIXI.RGBSplitFilter();
 
@@ -230,7 +226,6 @@ function animate() {
 		fish.rotation = -fish.direction - Math.PI / 2;
 
 		// wrap..
-
 		if (fish.position.x < bounds.x) fish.position.x += bounds.width;
 		if (fish.position.x > bounds.x + bounds.width) fish.position.x -= bounds.width;
 
@@ -239,10 +234,10 @@ function animate() {
 	}
 
 
-	displacementFilter.offset.x = count * 10;//blurAmount * 40;
+	displacementFilter.offset.x = count * 10;
 	displacementFilter.offset.y = count * 10;
 
-	overlay.tilePosition.x = count * -10;//blurAmount * 40;
+	overlay.tilePosition.x = count * -10;
 	overlay.tilePosition.y = count * -10;
 
 	renderer.render(stage);

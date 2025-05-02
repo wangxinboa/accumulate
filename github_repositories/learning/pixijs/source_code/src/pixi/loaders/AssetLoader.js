@@ -12,7 +12,7 @@
  * @class AssetLoader
  * @constructor
  * @uses EventTarget
- * @param {Array<String>} assetURLs an array of image/sprite sheet urls that you would like loaded
+ * @param assetURLs {Array(String)} An array of image/sprite sheet urls that you would like loaded
  *      supported. Supported image formats include 'jpeg', 'jpg', 'png', 'gif'. Supported
  *      sprite sheet data formats only include 'JSON' at this time. Supported bitmap font
  *      data formats include 'xml' and 'fnt'.
@@ -20,13 +20,11 @@
  */
 PIXI.AssetLoader = function(assetURLs, crossorigin)
 {
-    PIXI.EventTarget.call(this);
-
     /**
      * The array of asset URLs that are going to be loaded
      *
      * @property assetURLs
-     * @type Array<String>
+     * @type Array(String)
      */
     this.assetURLs = assetURLs;
 
@@ -49,6 +47,7 @@ PIXI.AssetLoader = function(assetURLs, crossorigin)
         'jpeg': PIXI.ImageLoader,
         'png':  PIXI.ImageLoader,
         'gif':  PIXI.ImageLoader,
+        'webp': PIXI.ImageLoader,
         'json': PIXI.JsonLoader,
         'atlas': PIXI.AtlasLoader,
         'anim': PIXI.SpineLoader,
@@ -56,6 +55,8 @@ PIXI.AssetLoader = function(assetURLs, crossorigin)
         'fnt':  PIXI.BitmapFontLoader
     };
 };
+
+PIXI.EventTarget.mixin(PIXI.AssetLoader.prototype);
 
 /**
  * Fired when an item has loaded
@@ -70,7 +71,12 @@ PIXI.AssetLoader = function(assetURLs, crossorigin)
 // constructor
 PIXI.AssetLoader.prototype.constructor = PIXI.AssetLoader;
 
-
+/**
+ * Given a filename, returns its extension.
+ *
+ * @method _getDataType
+ * @param str {String} the name of the asset
+ */
 PIXI.AssetLoader.prototype._getDataType = function(str)
 {
     var test = 'data:';
@@ -107,8 +113,8 @@ PIXI.AssetLoader.prototype.load = function()
 {
     var scope = this;
 
-    function onLoad() {
-        scope.onAssetLoaded();
+    function onLoad(evt) {
+        scope.onAssetLoaded(evt.data.content);
     }
 
     this.loadCount = this.assetURLs.length;
@@ -129,7 +135,7 @@ PIXI.AssetLoader.prototype.load = function()
 
         var loader = new Constructor(fileName, this.crossorigin);
 
-        loader.addEventListener('loaded', onLoad);
+        loader.on('loaded', onLoad);
         loader.load();
     }
 };
@@ -140,15 +146,15 @@ PIXI.AssetLoader.prototype.load = function()
  * @method onAssetLoaded
  * @private
  */
-PIXI.AssetLoader.prototype.onAssetLoaded = function()
+PIXI.AssetLoader.prototype.onAssetLoaded = function(loader)
 {
     this.loadCount--;
-    this.dispatchEvent({type: 'onProgress', content: this});
-    if (this.onProgress) this.onProgress();
+    this.emit('onProgress', { content: this, loader: loader });
+    if (this.onProgress) this.onProgress(loader);
 
     if (!this.loadCount)
     {
-        this.dispatchEvent({type: 'onComplete', content: this});
+        this.emit('onComplete', { content: this });
         if(this.onComplete) this.onComplete();
     }
 };

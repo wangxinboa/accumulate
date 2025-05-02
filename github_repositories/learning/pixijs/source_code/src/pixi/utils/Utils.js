@@ -1,3 +1,7 @@
+/**
+ * @author Mat Groves http://matgroves.com/ @Doormat23
+ */
+ 
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
 
@@ -7,40 +11,45 @@
 
 /**
  * A polyfill for requestAnimationFrame
+ * You can actually use both requestAnimationFrame and requestAnimFrame, 
+ * you will still benefit from the polyfill
  *
  * @method requestAnimationFrame
  */
+
 /**
  * A polyfill for cancelAnimationFrame
  *
  * @method cancelAnimationFrame
  */
-var lastTime = 0;
-var vendors = ['ms', 'moz', 'webkit', 'o'];
-for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-    window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
-        window[vendors[x] + 'CancelRequestAnimationFrame'];
-}
+(function(window) {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
+            window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
 
-if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = function(callback) {
-        var currTime = new Date().getTime();
-        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-        var id = window.setTimeout(function() { callback(currTime + timeToCall); },
-          timeToCall);
-        lastTime = currTime + timeToCall;
-        return id;
-    };
-}
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function(callback) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
 
-if (!window.cancelAnimationFrame) {
-    window.cancelAnimationFrame = function(id) {
-        clearTimeout(id);
-    };
-}
+    if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+    }
 
-window.requestAnimFrame = window.requestAnimationFrame;
+    window.requestAnimFrame = window.requestAnimationFrame;
+})(this);
 
 /**
  * Converts a hex color number to an [R, G, B] array
@@ -52,7 +61,12 @@ PIXI.hex2rgb = function(hex) {
     return [(hex >> 16 & 0xFF) / 255, ( hex >> 8 & 0xFF) / 255, (hex & 0xFF)/ 255];
 };
 
-
+/**
+ * Converts a color as an [R, G, B] array to a hex number
+ *
+ * @method rgb2hex
+ * @param rgb {Array}
+ */
 PIXI.rgb2hex = function(rgb) {
     return ((rgb[0]*255 << 16) + (rgb[1]*255 << 8) + rgb[2]*255);
 };
@@ -64,15 +78,21 @@ PIXI.rgb2hex = function(rgb) {
  */
 if (typeof Function.prototype.bind !== 'function') {
     Function.prototype.bind = (function () {
-        var slice = Array.prototype.slice;
         return function (thisArg) {
-            var target = this, boundArgs = slice.call(arguments, 1);
+            var target = this, i = arguments.length - 1, boundArgs = [];
+            if (i > 0)
+            {
+                boundArgs.length = i;
+                while (i--) boundArgs[i] = arguments[i + 1];
+            }
 
             if (typeof target !== 'function') throw new TypeError();
 
             function bound() {
-                var args = boundArgs.concat(slice.call(arguments));
-                target.apply(this instanceof bound ? this : thisArg, args);
+                var i = arguments.length, args = new Array(i);
+                while (i--) args[i] = arguments[i];
+                args = boundArgs.concat(args);
+                return target.apply(this instanceof bound ? this : thisArg, args);
             }
 
             bound.prototype = (function F(proto) {
@@ -91,7 +111,7 @@ if (typeof Function.prototype.bind !== 'function') {
  * @class AjaxRequest
  * @constructor
  */
-PIXI.AjaxRequest = function AjaxRequest()
+PIXI.AjaxRequest = function()
 {
     var activexmodes = ['Msxml2.XMLHTTP.6.0', 'Msxml2.XMLHTTP.3.0', 'Microsoft.XMLHTTP']; //activeX versions to check for in IE
 
@@ -145,8 +165,15 @@ PIXI.unpackColorRGB = function(r, g, b)//r, g, b, a)
 };
 */
 
+/**
+ * Checks whether the Canvas BlendModes are supported by the current browser
+ *
+ * @method canUseNewCanvasBlendModes
+ * @return {Boolean} whether they are supported
+ */
 PIXI.canUseNewCanvasBlendModes = function()
 {
+    if (typeof document === 'undefined') return false;
     var canvas = document.createElement('canvas');
     canvas.width = 1;
     canvas.height = 1;
@@ -159,7 +186,14 @@ PIXI.canUseNewCanvasBlendModes = function()
     return context.getImageData(0,0,1,1).data[0] === 0;
 };
 
-// this function is taken from Starling Framework as its pretty neat ;)
+/**
+ * Given a number, this function returns the closest number that is a power of two
+ * this function is taken from Starling Framework as its pretty neat ;)
+ *
+ * @method getNextPowerOfTwo
+ * @param number {Number}
+ * @return {Number} the closest number that is a power of two
+ */
 PIXI.getNextPowerOfTwo = function(number)
 {
     if (number > 0 && (number & (number - 1)) === 0) // see: http://goo.gl/D9kPj
@@ -172,4 +206,8 @@ PIXI.getNextPowerOfTwo = function(number)
     }
 };
 
+PIXI.isPowerOfTwo = function(width, height)
+{
+    return (width > 0 && (width & (width - 1)) === 0 && height > 0 && (height & (height - 1)) === 0);
 
+};

@@ -1,6 +1,6 @@
 // create an array of assets to load
 
-var assetsToLoader = ["./demos/12.Spine/data/goblins.json", "./demos/12.Spine/data/goblinsSpineData.json"];
+var assetsToLoader = ["./demos/12.Spine/data/goblins.json"];
 
 // create a new loader
 var loader = new PIXI.AssetLoader(assetsToLoader);
@@ -25,7 +25,7 @@ renderer.view.style.display = "block";
 document.body.appendChild(renderer.view);
 
 function onAssetsLoaded() {
-	var goblin = new PIXI.Spine("./demos/12.Spine/data/goblinsSpineData.json");
+	var goblin = new PIXI.Spine("./demos/12.Spine/data/goblins.json");
 
 	// set current skin
 	goblin.skeleton.setSkinByName('goblin');
@@ -38,7 +38,7 @@ function onAssetsLoaded() {
 	goblin.scale.x = goblin.scale.y = window.innerHeight / 400;
 
 	// play animation
-	goblin.state.setAnimationByName("walk", true);
+	goblin.state.setAnimationByName(0, "walk", true);
 
 
 	stage.addChild(goblin);
@@ -46,7 +46,7 @@ function onAssetsLoaded() {
 	stage.click = function () {
 		// change current skin
 		var currentSkinName = goblin.skeleton.skin.name;
-		var newSkinName = (currentSkinName == 'goblin' ? 'goblingirl' : 'goblin');
+		var newSkinName = (currentSkinName === 'goblin' ? 'goblingirl' : 'goblin');
 		goblin.skeleton.setSkinByName(newSkinName);
 		goblin.skeleton.setSlotsToSetupPose();
 	};
@@ -59,7 +59,7 @@ function onAssetsLoaded() {
 	logo.position.x = window.innerWidth;
 	logo.scale.x = logo.scale.y = 0.5;
 	logo.position.y = window.innerHeight - 70;
-	logo.setInteractive(true);
+	logo.interactive = true;
 	logo.buttonMode = true;
 	logo.click = logo.tap = function () {
 		window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");

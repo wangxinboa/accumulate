@@ -60,6 +60,7 @@ thing.position.x = 620 / 2;
 thing.position.y = 380 / 2;
 thing.lineStyle(0);
 
+
 container.mask = thing;
 
 var count = 0;
@@ -67,7 +68,6 @@ var count = 0;
 stage.click = stage.tap = function () {
 	if (!container.mask) {
 		container.mask = thing;
-		PIXI.runList(stage);
 	}
 	else {
 		container.mask = null;
@@ -99,7 +99,6 @@ stage.addChild(help);
 requestAnimFrame(animate);
 
 function animate() {
-
 	bg.rotation += 0.01;
 	bgFront.rotation -= 0.01;
 
@@ -115,13 +114,13 @@ function animate() {
 
 	thing.beginFill(0x8bc5ff, 0.4);
 	thing.moveTo(-120 + Math.sin(count) * 20, -100 + Math.cos(count) * 20);
+	thing.lineTo(-320 + Math.cos(count) * 20, 100 + Math.sin(count) * 20);
 	thing.lineTo(120 + Math.cos(count) * 20, -100 + Math.sin(count) * 20);
 	thing.lineTo(120 + Math.sin(count) * 20, 100 + Math.cos(count) * 20);
 	thing.lineTo(-120 + Math.cos(count) * 20, 100 + Math.sin(count) * 20);
-	thing.lineTo(-120 + Math.sin(count) * 20, -100 + Math.cos(count) * 20);
+	thing.lineTo(-120 + Math.sin(count) * 20, -300 + Math.cos(count) * 20);
+	thing.lineTo(-320 + Math.sin(count) * 20, -100 + Math.cos(count) * 20);
 	thing.rotation = count * 0.1;
-
-	//var mask1 = new PIXI.Graphics();
 
 
 	renderer.render(stage);

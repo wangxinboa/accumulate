@@ -1,5 +1,5 @@
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0x97c56e, true);
+var stage = new PIXI.Stage(0x97C56E, true);
 
 // create a renderer instance
 var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
@@ -22,7 +22,7 @@ for (var i = 0; i < 10; i++) {
 function createBunny(x, y) {
 	// create our little bunny friend..
 	var bunny = new PIXI.Sprite(texture);
-	//	bunny.width = 300;
+
 	// enable the bunny to be interactive.. this will allow it to respond to mouse and touch events
 	bunny.interactive = true;
 	// this button mode will mean the hand cursor appears when you rollover the bunny with your mouse
@@ -40,7 +40,7 @@ function createBunny(x, y) {
 		// stop the default event...
 		data.originalEvent.preventDefault();
 
-		// store a refference to the data
+		// store a reference to the data
 		// The reason for this is because of multitouch
 		// we want to track the movement of this particular touch
 		this.data = data;
@@ -59,7 +59,6 @@ function createBunny(x, y) {
 	// set the callbacks for when the mouse or a touch moves
 	bunny.mousemove = bunny.touchmove = function (data) {
 		if (this.dragging) {
-			// need to get parent coords..
 			var newPosition = this.data.getLocalPosition(this.parent);
 			this.position.x = newPosition.x;
 			this.position.y = newPosition.y;
@@ -78,8 +77,6 @@ function animate() {
 
 	requestAnimFrame(animate);
 
-	// just for fun, lets rotate mr rabbit a little
-	//stage.interactionManager.update();
 	// render the stage
 	renderer.render(stage);
 }

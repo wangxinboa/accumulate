@@ -2,7 +2,7 @@
 var stage = new PIXI.Stage(0x000000);
 
 // create a renderer instance
-//	var renderer = new PIXI.autoDetectRenderer(800, 600);
+//    var renderer = new PIXI.autoDetectRenderer(800, 600);
 
 var renderer = new PIXI.CanvasRenderer(800, 600);
 

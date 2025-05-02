@@ -1,13 +1,12 @@
 // create an new instance of a pixi stage
 var stage = new PIXI.Stage(0xFFFFFF, true);
 
-stage.setInteractive(true);
+stage.interactive = true;
 
 var sprite = PIXI.Sprite.fromImage("./demos/13.Graphics/spinObj_02.png");
 //stage.addChild(sprite);
 // create a renderer instance
-// the 5the parameter is the anti aliasing
-var renderer = PIXI.autoDetectRenderer(620, 380, null, false, true);
+var renderer = PIXI.autoDetectRenderer(620, 380, null, false /* transparent */, true /* antialias */);
 
 // set the canvas width and height to fill the screen
 //renderer.view.style.width = window.innerWidth + "px";
@@ -69,8 +68,8 @@ g.drawRect(0, 0, 100, 100);
 g.pivot.x = 50;
 g.pivot.y = 50;
 
-//	g.lineTo(00, 200);
-//	g.lineTo(300, 300);
+//    g.lineTo(00, 200);
+//    g.lineTo(300, 300);
 
 g.position.x = 100;
 g.position.y = 100;
@@ -86,9 +85,9 @@ thing.position.y = 380 / 2;
 var count = 0;
 
 stage.click = stage.tap = function () {
-	//	graphics.lineStyle(Math.random() * 30, Math.random() * 0xFFFFFF, 1);
+	//    graphics.lineStyle(Math.random() * 30, Math.random() * 0xFFFFFF, 1);
 	//    graphics.moveTo(Math.random() * 620,Math.random() * 380);
-	//		graphics.lineTo(Math.random() * 620,Math.random() * 380);
+	//        graphics.lineTo(Math.random() * 620,Math.random() * 380);
 };
 
 requestAnimFrame(animate);

@@ -1,4 +1,3 @@
-
 // create an new instance of a pixi stage
 var stage = new PIXI.Stage(0x66FF99);
 
@@ -12,6 +11,7 @@ requestAnimFrame(animate);
 
 // create a texture from an image path
 var texture = PIXI.Texture.fromImage("./demos/1.Basics/bunny.png");
+
 // create a new Sprite using the texture
 var bunny = new PIXI.Sprite(texture);
 
@@ -19,20 +19,18 @@ var bunny = new PIXI.Sprite(texture);
 bunny.anchor.x = 0.5;
 bunny.anchor.y = 0.5;
 
-// move the sprite t the center of the screen
+// move the sprite to the center of the screen
 bunny.position.x = 200;
 bunny.position.y = 150;
 
 stage.addChild(bunny);
 
 function animate() {
-
 	requestAnimFrame(animate);
 
-	// just for fun, lets rotate mr rabbit a little
+	// just for fun, let's rotate mr rabbit a little
 	bunny.rotation += 0.1;
 
-	//	    console.log(stage.getBounds().width);
 	// render the stage
 	renderer.render(stage);
 }

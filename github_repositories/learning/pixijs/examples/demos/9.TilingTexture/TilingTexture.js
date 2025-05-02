@@ -1,42 +1,38 @@
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0x97c56e, true);
+var stage = new PIXI.Stage(0x97C56E, true);
 
 // create a renderer instance
-var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
+var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
 
 // add the renderer view element to the DOM
-document.body.appendChild(renderer.view);
 renderer.view.style.position = "absolute";
 renderer.view.style.top = "0px";
 renderer.view.style.left = "0px";
-requestAnimFrame(animate);
+document.body.appendChild(renderer.view);
 
 // create a texture from an image path
 var texture = PIXI.Texture.fromImage("./demos/9.TilingTexture/p2.jpeg");
 
-// create a tiling sprite..
+// create a tiling sprite ...
 // requires a texture, width and height
 // to work in webGL the texture size must be a power of two
 var tilingSprite = new PIXI.TilingSprite(texture, window.innerWidth, window.innerHeight);
-
-var count = 0;
-
 stage.addChild(tilingSprite);
 
+var count = 0;
 function animate() {
-
-	requestAnimFrame(animate);
-
-
 	count += 0.005;
+
 	tilingSprite.tileScale.x = 2 + Math.sin(count);
 	tilingSprite.tileScale.y = 2 + Math.cos(count);
 
 	tilingSprite.tilePosition.x += 1;
 	tilingSprite.tilePosition.y += 1;
 
-	// just for fun, lets rotate mr rabbit a little
-	//stage.interactionManager.update();
 	// render the stage
 	renderer.render(stage);
+
+	requestAnimFrame(animate);
 }
+
+requestAnimFrame(animate);

@@ -1,63 +1,69 @@
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
- 
-PIXI.WebGLMaskManager = function(gl)
-{
-    this.maskStack = [];
-    this.maskPosition = 0;
 
-    this.setContext(gl);
+/**
+* @class WebGLMaskManager
+* @constructor
+* @private
+*/
+PIXI.WebGLMaskManager = function()
+{
 };
 
+PIXI.WebGLMaskManager.prototype.constructor = PIXI.WebGLMaskManager;
+
+/**
+* Sets the drawing context to the one given in parameter.
+* 
+* @method setContext 
+* @param gl {WebGLContext} the current WebGL drawing context
+*/
 PIXI.WebGLMaskManager.prototype.setContext = function(gl)
 {
     this.gl = gl;
 };
 
+/**
+* Applies the Mask and adds it to the current filter stack.
+* 
+* @method pushMask
+* @param maskData {Array}
+* @param renderSession {Object}
+*/
 PIXI.WebGLMaskManager.prototype.pushMask = function(maskData, renderSession)
 {
-    var gl = this.gl;
+    var gl = renderSession.gl;
 
-    if(this.maskStack.length === 0)
+    if(maskData.dirty)
     {
-        gl.enable(gl.STENCIL_TEST);
-        gl.stencilFunc(gl.ALWAYS,1,1);
+        PIXI.WebGLGraphics.updateGraphics(maskData, gl);
     }
-    
-  //  maskData.visible = false;
 
-    this.maskStack.push(maskData);
-    
-    gl.colorMask(false, false, false, false);
-    gl.stencilOp(gl.KEEP,gl.KEEP,gl.INCR);
+    if(!maskData._webGL[gl.id].data.length)return;
 
-    PIXI.WebGLGraphics.renderGraphics(maskData, renderSession);
-
-    gl.colorMask(true, true, true, true);
-    gl.stencilFunc(gl.NOTEQUAL,0, this.maskStack.length);
-    gl.stencilOp(gl.KEEP,gl.KEEP,gl.KEEP);
+    renderSession.stencilManager.pushStencil(maskData, maskData._webGL[gl.id].data[0], renderSession);
 };
 
-PIXI.WebGLMaskManager.prototype.popMask = function(renderSession)
+/**
+* Removes the last filter from the filter stack and doesn't return it.
+* 
+* @method popMask
+* @param maskData {Array}
+* @param renderSession {Object} an object containing all the useful parameters
+*/
+PIXI.WebGLMaskManager.prototype.popMask = function(maskData, renderSession)
 {
     var gl = this.gl;
+    renderSession.stencilManager.popStencil(maskData, maskData._webGL[gl.id].data[0], renderSession);
+};
 
-    var maskData = this.maskStack.pop();
-
-    if(maskData)
-    {
-        gl.colorMask(false, false, false, false);
-
-        //gl.stencilFunc(gl.ALWAYS,1,1);
-        gl.stencilOp(gl.KEEP,gl.KEEP,gl.DECR);
-
-        PIXI.WebGLGraphics.renderGraphics(maskData, renderSession);
-
-        gl.colorMask(true, true, true, true);
-        gl.stencilFunc(gl.NOTEQUAL,0,this.maskStack.length);
-        gl.stencilOp(gl.KEEP,gl.KEEP,gl.KEEP);
-    }
-   
-    if(this.maskStack.length === 0)gl.disable(gl.STENCIL_TEST);
+/**
+* Destroys the mask stack.
+* 
+* @method destroy
+*/
+PIXI.WebGLMaskManager.prototype.destroy = function()
+{
+    this.gl = null;
 };

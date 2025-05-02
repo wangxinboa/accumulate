@@ -10,7 +10,6 @@ loader.onComplete = onAssetsLoaded;
 //begin load
 loader.load();
 
-
 // holder to store aliens
 var explosions = [];
 
@@ -34,12 +33,9 @@ function onAssetsLoaded() {
 		explosionTextures.push(texture);
 	};
 
-	// create a texture from an image path
-	// add a bunch of aliens
 	for (var i = 0; i < 50; i++) {
 		// create an explosion MovieClip
 		var explosion = new PIXI.MovieClip(explosionTextures);
-
 
 		explosion.position.x = Math.random() * 800;
 		explosion.position.y = Math.random() * 600;
@@ -56,13 +52,10 @@ function onAssetsLoaded() {
 
 	// start animating
 	requestAnimFrame(animate);
-
-
 }
 
 function animate() {
+	renderer.render(stage);
 
 	requestAnimFrame(animate);
-
-	renderer.render(stage);
 }

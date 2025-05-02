@@ -2,126 +2,276 @@
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
 
-PIXI._defaultFrame = new PIXI.Rectangle(0,0,1,1);
-
-// an instance of the gl context..
-// only one at the moment :/
-PIXI.gl = null;
-
-
+PIXI.glContexts = []; // this is where we store the webGL contexts for easy access.
+PIXI.instances = [];
 
 /**
- * the WebGLRenderer is draws the stage and all its content onto a webGL enabled canvas. This renderer
- * should be used for browsers support webGL. This Render works by automatically managing webGLBatchs.
- * So no need for Sprite Batch's or Sprite Cloud's
- * Dont forget to add the view to your DOM or you will not see anything :)
+ * The WebGLRenderer draws the stage and all its content onto a webGL enabled canvas. This renderer
+ * should be used for browsers that support webGL. This Render works by automatically managing webGLBatchs.
+ * So no need for Sprite Batches or Sprite Clouds.
+ * Don't forget to add the view to your DOM or you will not see anything :)
  *
  * @class WebGLRenderer
  * @constructor
- * @param width=0 {Number} the width of the canvas view
- * @param height=0 {Number} the height of the canvas view
- * @param view {Canvas} the canvas to use as a view, optional
- * @param transparent=false {Boolean} the transparency of the render view, default false
- * @param antialias=false {Boolean} sets antialias (only applicable in chrome at the moment)
- *
+ * @param [width=0] {Number} the width of the canvas view
+ * @param [height=0] {Number} the height of the canvas view
+ * @param [options] {Object} The optional renderer parameters
+ * @param [options.view] {HTMLCanvasElement} the canvas to use as a view, optional
+ * @param [options.transparent=false] {Boolean} If the render view is transparent, default false
+ * @param [options.autoResize=false] {Boolean} If the render view is automatically resized, default false
+ * @param [options.antialias=false] {Boolean} sets antialias (only applicable in chrome at the moment)
+ * @param [options.preserveDrawingBuffer=false] {Boolean} enables drawing buffer preservation, enable this if you need to call toDataUrl on the webgl context
+ * @param [options.resolution=1] {Number} the resolution of the renderer retina would be 2
  */
-PIXI.WebGLRenderer = function(width, height, view, transparent, antialias)
+PIXI.WebGLRenderer = function(width, height, options)
 {
-    if(!PIXI.defaultRenderer)PIXI.defaultRenderer = this;
-
-    this.type = PIXI.WEBGL_RENDERER;
-
-    // do a catch.. only 1 webGL renderer..
-    this.transparent = !!transparent;
-
-    this.width = width || 800;
-    this.height = height || 600;
-
-    this.view = view || document.createElement( 'canvas' );
-    this.view.width = this.width;
-    this.view.height = this.height;
-
-    // deal with losing context..
-    var scope = this;
-    this.view.addEventListener('webglcontextlost', function(event) { scope.handleContextLost(event); }, false);
-    this.view.addEventListener('webglcontextrestored', function(event) { scope.handleContextRestored(event); }, false);
-
-    this.batchs = [];
-
-    this.options = {
-        alpha: this.transparent,
-        antialias:!!antialias, // SPEED UP??
-        premultipliedAlpha:false,
-        stencil:true
-    };
-
-    //try 'experimental-webgl'
-    try {
-        this.gl = this.view.getContext('experimental-webgl',  this.options);
-    } catch (e) {
-        //try 'webgl'
-        try {
-            this.gl = this.view.getContext('webgl',  this.options);
-        } catch (e2) {
-            // fail, not able to get a context
-            throw new Error(' This browser does not support webGL. Try using the canvas renderer' + this);
+    if(options)
+    {
+        for (var i in PIXI.defaultRenderOptions)
+        {
+            if (typeof options[i] === 'undefined') options[i] = PIXI.defaultRenderOptions[i];
         }
     }
-
-    var gl = this.gl;
-    this.glContextId = gl.id = PIXI.WebGLRenderer.glContextId ++;
-
-    if(!PIXI.blendModesWebGL)
+    else
     {
-        PIXI.blendModesWebGL = [];
-
-        PIXI.blendModesWebGL[PIXI.blendModes.NORMAL]   = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
-        PIXI.blendModesWebGL[PIXI.blendModes.ADD]      = [gl.SRC_ALPHA, gl.DST_ALPHA];
-        PIXI.blendModesWebGL[PIXI.blendModes.MULTIPLY] = [gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA];
-        PIXI.blendModesWebGL[PIXI.blendModes.SCREEN]   = [gl.SRC_ALPHA, gl.ONE];
+        options = PIXI.defaultRenderOptions;
     }
 
+    if(!PIXI.defaultRenderer)
+    {
+        PIXI.sayHello('webGL');
+        PIXI.defaultRenderer = this;
+    }
 
+    /**
+     * @property type
+     * @type Number
+     */
+    this.type = PIXI.WEBGL_RENDERER;
 
+    /**
+     * The resolution of the renderer
+     *
+     * @property resolution
+     * @type Number
+     * @default 1
+     */
+    this.resolution = options.resolution;
 
+    // do a catch.. only 1 webGL renderer..
+
+    /**
+     * Whether the render view is transparent
+     *
+     * @property transparent
+     * @type Boolean
+     */
+    this.transparent = options.transparent;
+
+    /**
+     * Whether the render view should be resized automatically
+     *
+     * @property autoResize
+     * @type Boolean
+     */
+    this.autoResize = options.autoResize || false;
+
+    /**
+     * The value of the preserveDrawingBuffer flag affects whether or not the contents of the stencil buffer is retained after rendering.
+     *
+     * @property preserveDrawingBuffer
+     * @type Boolean
+     */
+    this.preserveDrawingBuffer = options.preserveDrawingBuffer;
+
+    /**
+     * This sets if the WebGLRenderer will clear the context texture or not before the new render pass. If true:
+     * If the Stage is NOT transparent, Pixi will clear to alpha (0, 0, 0, 0).
+     * If the Stage is transparent, Pixi will clear to the target Stage's background color.
+     * Disable this by setting this to false. For example: if your game has a canvas filling background image, you often don't need this set.
+     *
+     * @property clearBeforeRender
+     * @type Boolean
+     * @default
+     */
+    this.clearBeforeRender = options.clearBeforeRender;
+
+    /**
+     * The width of the canvas view
+     *
+     * @property width
+     * @type Number
+     * @default 800
+     */
+    this.width = width || 800;
+
+    /**
+     * The height of the canvas view
+     *
+     * @property height
+     * @type Number
+     * @default 600
+     */
+    this.height = height || 600;
+
+    /**
+     * The canvas element that everything is drawn to
+     *
+     * @property view
+     * @type HTMLCanvasElement
+     */
+    this.view = options.view || document.createElement( 'canvas' );
+
+    // deal with losing context..
+
+    /**
+     * @property contextLostBound
+     * @type Function
+     */
+    this.contextLostBound = this.handleContextLost.bind(this);
+
+    /**
+     * @property contextRestoredBound
+     * @type Function
+     */
+    this.contextRestoredBound = this.handleContextRestored.bind(this);
+
+    this.view.addEventListener('webglcontextlost', this.contextLostBound, false);
+    this.view.addEventListener('webglcontextrestored', this.contextRestoredBound, false);
+
+    /**
+     * @property _contextOptions
+     * @type Object
+     * @private
+     */
+    this._contextOptions = {
+        alpha: this.transparent,
+        antialias: options.antialias, // SPEED UP??
+        premultipliedAlpha:this.transparent && this.transparent !== 'notMultiplied',
+        stencil:true,
+        preserveDrawingBuffer: options.preserveDrawingBuffer
+    };
+
+    /**
+     * @property projection
+     * @type Point
+     */
     this.projection = new PIXI.Point();
-    this.projection.x =  this.width/2;
-    this.projection.y =  -this.height/2;
 
+    /**
+     * @property offset
+     * @type Point
+     */
     this.offset = new PIXI.Point(0, 0);
 
-    this.resize(this.width, this.height);
-    this.contextLost = false;
+    // time to create the render managers! each one focuses on managing a state in webGL
 
-    // time to create the render managers! each one focuses on managine a state in webGL
-    this.shaderManager = new PIXI.WebGLShaderManager(gl);                   // deals with managing the shader programs and their attribs
-    this.spriteBatch = new PIXI.WebGLSpriteBatch(gl);                       // manages the rendering of sprites
-    this.maskManager = new PIXI.WebGLMaskManager(gl);                       // manages the masks using the stencil buffer
-    this.filterManager = new PIXI.WebGLFilterManager(gl, this.transparent); // manages the filters
+    /**
+     * Deals with managing the shader programs and their attribs
+     * @property shaderManager
+     * @type WebGLShaderManager
+     */
+    this.shaderManager = new PIXI.WebGLShaderManager();
 
-    //
+    /**
+     * Manages the rendering of sprites
+     * @property spriteBatch
+     * @type WebGLSpriteBatch
+     */
+    this.spriteBatch = new PIXI.WebGLSpriteBatch();
+
+    /**
+     * Manages the masks using the stencil buffer
+     * @property maskManager
+     * @type WebGLMaskManager
+     */
+    this.maskManager = new PIXI.WebGLMaskManager();
+
+    /**
+     * Manages the filters
+     * @property filterManager
+     * @type WebGLFilterManager
+     */
+    this.filterManager = new PIXI.WebGLFilterManager();
+
+    /**
+     * Manages the stencil buffer
+     * @property stencilManager
+     * @type WebGLStencilManager
+     */
+    this.stencilManager = new PIXI.WebGLStencilManager();
+
+    /**
+     * Manages the blendModes
+     * @property blendModeManager
+     * @type WebGLBlendModeManager
+     */
+    this.blendModeManager = new PIXI.WebGLBlendModeManager();
+
+    /**
+     * TODO remove
+     * @property renderSession
+     * @type Object
+     */
     this.renderSession = {};
     this.renderSession.gl = this.gl;
     this.renderSession.drawCount = 0;
     this.renderSession.shaderManager = this.shaderManager;
     this.renderSession.maskManager = this.maskManager;
     this.renderSession.filterManager = this.filterManager;
+    this.renderSession.blendModeManager = this.blendModeManager;
     this.renderSession.spriteBatch = this.spriteBatch;
+    this.renderSession.stencilManager = this.stencilManager;
+    this.renderSession.renderer = this;
+    this.renderSession.resolution = this.resolution;
 
+    // time init the context..
+    this.initContext();
 
-    gl.useProgram(this.shaderManager.defaultShader.program);
-
-    PIXI.WebGLRenderer.gl = gl;
-
-    gl.disable(gl.DEPTH_TEST);
-    gl.disable(gl.CULL_FACE);
-
-    gl.enable(gl.BLEND);
-    gl.colorMask(true, true, true, this.transparent);
+    // map some webGL blend modes..
+    this.mapBlendModes();
 };
 
 // constructor
 PIXI.WebGLRenderer.prototype.constructor = PIXI.WebGLRenderer;
+
+/**
+* @method initContext
+*/
+PIXI.WebGLRenderer.prototype.initContext = function()
+{
+    var gl = this.view.getContext('webgl', this._contextOptions) || this.view.getContext('experimental-webgl', this._contextOptions);
+    this.gl = gl;
+
+    if (!gl) {
+        // fail, not able to get a context
+        throw new Error('This browser does not support webGL. Try using the canvas renderer');
+    }
+
+    this.glContextId = gl.id = PIXI.WebGLRenderer.glContextId ++;
+
+    PIXI.glContexts[this.glContextId] = gl;
+
+    PIXI.instances[this.glContextId] = this;
+
+    // set up the default pixi settings..
+    gl.disable(gl.DEPTH_TEST);
+    gl.disable(gl.CULL_FACE);
+    gl.enable(gl.BLEND);
+
+    // need to set the context for all the managers...
+    this.shaderManager.setContext(gl);
+    this.spriteBatch.setContext(gl);
+    this.maskManager.setContext(gl);
+    this.filterManager.setContext(gl);
+    this.blendModeManager.setContext(gl);
+    this.stencilManager.setContext(gl);
+
+    this.renderSession.gl = this.gl;
+
+    // now resize and we are good to go!
+    this.resize(this.width, this.height);
+};
 
 /**
  * Renders the stage to its webGL view
@@ -131,42 +281,26 @@ PIXI.WebGLRenderer.prototype.constructor = PIXI.WebGLRenderer;
  */
 PIXI.WebGLRenderer.prototype.render = function(stage)
 {
+    // no point rendering if our context has been blown up!
     if(this.contextLost)return;
 
-
-    // if rendering a new stage clear the batchs..
+    // if rendering a new stage clear the batches..
     if(this.__stage !== stage)
     {
+        if(stage.interactive)stage.interactionManager.removeEvents();
+
         // TODO make this work
         // dont think this is needed any more?
         this.__stage = stage;
     }
-
-    // update any textures this includes uvs and uploading them to the gpu
-    PIXI.WebGLRenderer.updateTextures();
 
     // update the scene graph
     stage.updateTransform();
 
     var gl = this.gl;
 
-    // -- Does this need to be set every frame? -- //
-    gl.colorMask(true, true, true, this.transparent);
-    gl.viewport(0, 0, this.width, this.height);
-
-    // make sure we are bound to the main frame buffer
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-
-    gl.clearColor(stage.backgroundColorSplit[0],stage.backgroundColorSplit[1],stage.backgroundColorSplit[2], !this.transparent);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-  //  this.projection.x =  this.width/2;
-    //this.projection.y =  -this.height/2;
-
-    this.renderDisplayObject( stage, this.projection );
-
     // interaction
-    if(stage.interactive)
+    if(stage._interactive)
     {
         //need to add some events!
         if(!stage._interactiveEventsAdded)
@@ -175,43 +309,64 @@ PIXI.WebGLRenderer.prototype.render = function(stage)
             stage.interactionManager.setTarget(this);
         }
     }
+    else
+    {
+        if(stage._interactiveEventsAdded)
+        {
+            stage._interactiveEventsAdded = false;
+            stage.interactionManager.setTarget(this);
+        }
+    }
 
-    /*
-    //can simulate context loss in Chrome like so:
-     this.view.onmousedown = function(ev) {
-     console.dir(this.gl.getSupportedExtensions());
-        var ext = (
-            gl.getExtension("WEBGL_scompressed_texture_s3tc")
-       // gl.getExtension("WEBGL_compressed_texture_s3tc") ||
-       // gl.getExtension("MOZ_WEBGL_compressed_texture_s3tc") ||
-       // gl.getExtension("WEBKIT_WEBGL_compressed_texture_s3tc")
-     );
-     console.dir(ext);
-     var loseCtx = this.gl.getExtension("WEBGL_lose_context");
-      console.log("killing context");
-      loseCtx.loseContext();
-     setTimeout(function() {
-          console.log("restoring context...");
-          loseCtx.restoreContext();
-      }.bind(this), 1000);
-     }.bind(this);
-     */
+    // -- Does this need to be set every frame? -- //
+    gl.viewport(0, 0, this.width, this.height);
+
+    // make sure we are bound to the main frame buffer
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+    if (this.clearBeforeRender)
+        {
+        if(this.transparent)
+        {
+            gl.clearColor(0, 0, 0, 0);
+        }
+        else
+        {
+            gl.clearColor(stage.backgroundColorSplit[0],stage.backgroundColorSplit[1],stage.backgroundColorSplit[2], 1);
+        }
+
+        gl.clear (gl.COLOR_BUFFER_BIT);
+    }
+
+    this.renderDisplayObject( stage, this.projection );
 };
 
-PIXI.WebGLRenderer.prototype.renderDisplayObject = function(displayObject, projection)
+/**
+ * Renders a Display Object.
+ *
+ * @method renderDisplayObject
+ * @param displayObject {DisplayObject} The DisplayObject to render
+ * @param projection {Point} The projection
+ * @param buffer {Array} a standard WebGL buffer
+ */
+PIXI.WebGLRenderer.prototype.renderDisplayObject = function(displayObject, projection, buffer)
 {
+    this.renderSession.blendModeManager.setBlendMode(PIXI.blendModes.NORMAL);
+
     // reset the render session data..
     this.renderSession.drawCount = 0;
-    this.renderSession.currentBlendMode = 9999;
 
+    // set the default projection
     this.renderSession.projection = projection;
+
+    //set the default offset
     this.renderSession.offset = this.offset;
 
     // start the sprite batch
     this.spriteBatch.begin(this.renderSession);
 
     // start the filter manager
-    this.filterManager.begin(this.renderSession, null);
+    this.filterManager.begin(this.renderSession, buffer);
 
     // render the scene!
     displayObject._renderWebGL(this.renderSession);
@@ -221,109 +376,7 @@ PIXI.WebGLRenderer.prototype.renderDisplayObject = function(displayObject, proje
 };
 
 /**
- * Updates the textures loaded into this webgl renderer
- *
- * @static
- * @method updateTextures
- * @private
- */
-PIXI.WebGLRenderer.updateTextures = function()
-{
-    var i = 0;
-
-    //TODO break this out into a texture manager...
-    //for (i = 0; i < PIXI.texturesToUpdate.length; i++)
-    //    PIXI.WebGLRenderer.updateTexture(PIXI.texturesToUpdate[i]);
-
-
-    for (i=0; i < PIXI.Texture.frameUpdates.length; i++)
-        PIXI.WebGLRenderer.updateTextureFrame(PIXI.Texture.frameUpdates[i]);
-
-    for (i = 0; i < PIXI.texturesToDestroy.length; i++)
-        PIXI.WebGLRenderer.destroyTexture(PIXI.texturesToDestroy[i]);
-
-    PIXI.texturesToUpdate = [];
-    PIXI.texturesToDestroy = [];
-    PIXI.Texture.frameUpdates = [];
-};
-
-/**
- * Updates a loaded webgl texture
- *
- * @static
- * @method updateTexture
- * @param texture {Texture} The texture to update
- * @private
- */
-
- /*
-PIXI.WebGLRenderer.updateTexture = function(texture)
-{
-    //TODO break this out into a texture manager...
-    var gl = this.gl;
-
-    if(!texture._glTexture)
-    {
-        texture._glTexture = gl.createTexture();
-    }
-
-    if(texture.hasLoaded)
-    {
-        gl.bindTexture(gl.TEXTURE_2D, texture._glTexture);
-        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.source);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, texture.scaleMode === PIXI.BaseTexture.SCALE_MODE.LINEAR ? gl.LINEAR : gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, texture.scaleMode === PIXI.BaseTexture.SCALE_MODE.LINEAR ? gl.LINEAR : gl.NEAREST);
-
-        // reguler...
-
-        if(!texture._powerOf2)
-        {
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        }
-        else
-        {
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-        }
-
-        gl.bindTexture(gl.TEXTURE_2D, null);
-    }
-};
-*/
-
-/**
- * Destroys a loaded webgl texture
- *
- * @method destroyTexture
- * @param texture {Texture} The texture to update
- * @private
- */
-PIXI.WebGLRenderer.destroyTexture = function(texture)
-{
-    //TODO break this out into a texture manager...
-    var gl = PIXI.gl;
-
-    if(texture._glTexture)
-    {
-        texture._glTexture = gl.createTexture();
-        gl.deleteTexture(gl.TEXTURE_2D, texture._glTexture);
-    }
-};
-
-PIXI.WebGLRenderer.updateTextureFrame = function(texture)
-{
-    texture.updateFrame = false;
-
-    // now set the uvs. Figured that the uv data sits with a texture rather than a sprite.
-    // so uv data is stored on the texture itself
-    texture._updateWebGLuvs();
-};
-
-/**
- * resizes the webGL view to the specified width and height
+ * Resizes the webGL view to the specified width and height.
  *
  * @method resize
  * @param width {Number} the new width of the webGL view
@@ -331,48 +384,70 @@ PIXI.WebGLRenderer.updateTextureFrame = function(texture)
  */
 PIXI.WebGLRenderer.prototype.resize = function(width, height)
 {
-    this.width = width;
-    this.height = height;
+    this.width = width * this.resolution;
+    this.height = height * this.resolution;
 
-    this.view.width = width;
-    this.view.height = height;
+    this.view.width = this.width;
+    this.view.height = this.height;
+
+    if (this.autoResize) {
+        this.view.style.width = this.width / this.resolution + 'px';
+        this.view.style.height = this.height / this.resolution + 'px';
+    }
 
     this.gl.viewport(0, 0, this.width, this.height);
 
-    this.projection.x =  this.width/2;
-    this.projection.y =  -this.height/2;
+    this.projection.x =  this.width / 2 / this.resolution;
+    this.projection.y =  -this.height / 2 / this.resolution;
 };
 
-PIXI.createWebGLTexture = function(texture, gl)
+/**
+ * Updates and Creates a WebGL texture for the renderers context.
+ *
+ * @method updateTexture
+ * @param texture {Texture} the texture to update
+ */
+PIXI.WebGLRenderer.prototype.updateTexture = function(texture)
 {
+    if(!texture.hasLoaded )return;
 
+    var gl = this.gl;
 
-    if(texture.hasLoaded)
+    if(!texture._glTextures[gl.id])texture._glTextures[gl.id] = gl.createTexture();
+
+    gl.bindTexture(gl.TEXTURE_2D, texture._glTextures[gl.id]);
+
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultipliedAlpha);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.source);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, texture.scaleMode === PIXI.scaleModes.LINEAR ? gl.LINEAR : gl.NEAREST);
+    
+
+    if(texture.mipmap && PIXI.isPowerOfTwo(texture.width, texture.height))
     {
-        texture._glTextures[gl.id] = gl.createTexture();
-
-        gl.bindTexture(gl.TEXTURE_2D, texture._glTextures[gl.id]);
-        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.source);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, texture.scaleMode === PIXI.BaseTexture.SCALE_MODE.LINEAR ? gl.LINEAR : gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, texture.scaleMode === PIXI.BaseTexture.SCALE_MODE.LINEAR ? gl.LINEAR : gl.NEAREST);
-
-        // reguler...
-
-        if(!texture._powerOf2)
-        {
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        }
-        else
-        {
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-        }
-
-        gl.bindTexture(gl.TEXTURE_2D, null);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, texture.scaleMode === PIXI.scaleModes.LINEAR ? gl.LINEAR_MIPMAP_LINEAR : gl.NEAREST_MIPMAP_NEAREST);
+        gl.generateMipmap(gl.TEXTURE_2D);
     }
+    else
+    {
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, texture.scaleMode === PIXI.scaleModes.LINEAR ? gl.LINEAR : gl.NEAREST);
+    }
+
+    // reguler...
+    if(!texture._powerOf2)
+    {
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    }
+    else
+    {
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    }
+
+    texture._dirty[gl.id] = false;
+
+    return  texture._glTextures[gl.id];
 };
 
 /**
@@ -397,42 +472,9 @@ PIXI.WebGLRenderer.prototype.handleContextLost = function(event)
  */
 PIXI.WebGLRenderer.prototype.handleContextRestored = function()
 {
+    this.initContext();
 
-    //try 'experimental-webgl'
-    try {
-        this.gl = this.view.getContext('experimental-webgl',  this.options);
-    } catch (e) {
-        //try 'webgl'
-        try {
-            this.gl = this.view.getContext('webgl',  this.options);
-        } catch (e2) {
-            // fail, not able to get a context
-            throw new Error(' This browser does not support webGL. Try using the canvas renderer' + this);
-        }
-    }
-
-    var gl = this.gl;
-    gl.id = PIXI.WebGLRenderer.glContextId ++;
-
-
-
-    // need to set the context...
-    this.shaderManager.setContext(gl);
-    this.spriteBatch.setContext(gl);
-    this.maskManager.setContext(gl);
-    this.filterManager.setContext(gl);
-
-
-    this.renderSession.gl = this.gl;
-
-    gl.disable(gl.DEPTH_TEST);
-    gl.disable(gl.CULL_FACE);
-
-    gl.enable(gl.BLEND);
-    gl.colorMask(true, true, true, this.transparent);
-
-    this.gl.viewport(0, 0, this.width, this.height);
-
+    // empty all the ol gl textures as they are useless now
     for(var key in PIXI.TextureCache)
     {
         var texture = PIXI.TextureCache[key].baseTexture;
@@ -440,7 +482,70 @@ PIXI.WebGLRenderer.prototype.handleContextRestored = function()
     }
 
     this.contextLost = false;
+};
 
+/**
+ * Removes everything from the renderer (event listeners, spritebatch, etc...)
+ *
+ * @method destroy
+ */
+PIXI.WebGLRenderer.prototype.destroy = function()
+{
+    // remove listeners
+    this.view.removeEventListener('webglcontextlost', this.contextLostBound);
+    this.view.removeEventListener('webglcontextrestored', this.contextRestoredBound);
+
+    PIXI.glContexts[this.glContextId] = null;
+
+    this.projection = null;
+    this.offset = null;
+
+    // time to create the render managers! each one focuses on managine a state in webGL
+    this.shaderManager.destroy();
+    this.spriteBatch.destroy();
+    this.maskManager.destroy();
+    this.filterManager.destroy();
+
+    this.shaderManager = null;
+    this.spriteBatch = null;
+    this.maskManager = null;
+    this.filterManager = null;
+
+    this.gl = null;
+    this.renderSession = null;
+};
+
+/**
+ * Maps Pixi blend modes to WebGL blend modes.
+ *
+ * @method mapBlendModes
+ */
+PIXI.WebGLRenderer.prototype.mapBlendModes = function()
+{
+    var gl = this.gl;
+
+    if(!PIXI.blendModesWebGL)
+    {
+        PIXI.blendModesWebGL = [];
+
+        PIXI.blendModesWebGL[PIXI.blendModes.NORMAL]        = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.ADD]           = [gl.SRC_ALPHA, gl.DST_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.MULTIPLY]      = [gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.SCREEN]        = [gl.SRC_ALPHA, gl.ONE];
+        PIXI.blendModesWebGL[PIXI.blendModes.OVERLAY]       = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.DARKEN]        = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.LIGHTEN]       = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.COLOR_DODGE]   = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.COLOR_BURN]    = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.HARD_LIGHT]    = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.SOFT_LIGHT]    = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.DIFFERENCE]    = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.EXCLUSION]     = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.HUE]           = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.SATURATION]    = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.COLOR]         = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+        PIXI.blendModesWebGL[PIXI.blendModes.LUMINOSITY]    = [gl.ONE,       gl.ONE_MINUS_SRC_ALPHA];
+    }
 };
 
 PIXI.WebGLRenderer.glContextId = 0;

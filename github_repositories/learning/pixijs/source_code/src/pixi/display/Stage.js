@@ -8,8 +8,15 @@
  * @class Stage
  * @extends DisplayObjectContainer
  * @constructor
- * @param backgroundColor {Number} the background color of the stage, easiest way to pass this in is in hex format
+ * @param backgroundColor {Number} the background color of the stage, you have to pass this in is in hex format
  *      like: 0xFFFFFF for white
+ * 
+ * Creating a stage is a mandatory process when you use Pixi, which is as simple as this : 
+ * var stage = new PIXI.Stage(0xFFFFFF);
+ * where the parameter given is the background colour of the stage, in hex
+ * you will use this stage instance to add your sprites to it and therefore to the renderer
+ * Here is how to add a sprite to the stage : 
+ * stage.addChild(sprite);
  */
 PIXI.Stage = function(backgroundColor)
 {
@@ -19,11 +26,11 @@ PIXI.Stage = function(backgroundColor)
      * [read-only] Current transform of the object based on world (parent) factors
      *
      * @property worldTransform
-     * @type Mat3
+     * @type Matrix
      * @readOnly
      * @private
      */
-    this.worldTransform = PIXI.mat3.create();
+    this.worldTransform = new PIXI.Matrix();
 
     /**
      * Whether or not the stage is interactive
@@ -36,7 +43,7 @@ PIXI.Stage = function(backgroundColor)
     /**
      * The interaction manage for this stage, manages all interactive activity on the stage
      *
-     * @property interactive
+     * @property interactionManager
      * @type InteractionManager
      */
     this.interactionManager = new PIXI.InteractionManager(this);
@@ -50,17 +57,13 @@ PIXI.Stage = function(backgroundColor)
      */
     this.dirty = true;
 
-    this.__childrenAdded = [];
-    this.__childrenRemoved = [];
-
-    //the stage is it's own stage
+    //the stage is its own stage
     this.stage = this;
 
     //optimize hit detection a bit
-    this.stage.hitArea = new PIXI.Rectangle(0,0,100000, 100000);
+    this.stage.hitArea = new PIXI.Rectangle(0, 0, 100000, 100000);
 
     this.setBackgroundColor(backgroundColor);
-    this.worldVisible = true;
 };
 
 // constructor
@@ -69,7 +72,7 @@ PIXI.Stage.prototype.constructor = PIXI.Stage;
 
 /**
  * Sets another DOM element which can receive mouse/touch interactions instead of the default Canvas element.
- * This is useful for when you have other DOM elements ontop of the Canvas element.
+ * This is useful for when you have other DOM elements on top of the Canvas element.
  *
  * @method setInteractionDelegate
  * @param domElement {DOMElement} This new domElement which will receive mouse/touch events
@@ -88,7 +91,6 @@ PIXI.Stage.prototype.setInteractionDelegate = function(domElement)
 PIXI.Stage.prototype.updateTransform = function()
 {
     this.worldAlpha = 1;
-    this.vcount = PIXI.visibleCount;
 
     for(var i=0,j=this.children.length; i<j; i++)
     {
@@ -122,10 +124,10 @@ PIXI.Stage.prototype.setBackgroundColor = function(backgroundColor)
 };
 
 /**
- * This will return the point containing global coords of the mouse.
+ * This will return the point containing global coordinates of the mouse.
  *
  * @method getMousePosition
- * @return {Point} The point containing the coords of the global InteractionData position.
+ * @return {Point} A point containing the coordinates of the global InteractionData position.
  */
 PIXI.Stage.prototype.getMousePosition = function()
 {

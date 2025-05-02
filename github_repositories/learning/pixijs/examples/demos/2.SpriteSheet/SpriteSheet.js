@@ -21,7 +21,6 @@ var stage = new PIXI.Stage(0xFFFFFF);
 
 // create a renderer instance.
 var renderer = PIXI.autoDetectRenderer(800, 600);
-//renderer = new PIXI.CanvasRenderer(800, 600);
 
 // add the renderer view element to the DOM
 document.body.appendChild(renderer.view);
@@ -34,14 +33,13 @@ alienContainer.position.y = 300;
 stage.addChild(alienContainer);
 
 function onAssetsLoaded() {
-	// create a texture from an image path
-	// add a bunch of aliens
+	// add a bunch of aliens with textures from image paths
 	for (var i = 0; i < 100; i++) {
 		var frameName = alienFrames[i % 4];
 
 		// create an alien using the frame name..
 		var alien = PIXI.Sprite.fromFrame(frameName);
-		alien.tint = 0xFF0000;
+		alien.tint = Math.random() * 0xFFFFFF;
 
 		/*
 		 * fun fact for the day :)
@@ -49,7 +47,6 @@ function onAssetsLoaded() {
 		 * var texture = PIXI.Texture.fromFrame(frameName);
 		 * var alien = new PIXI.Sprite(texture);
 		 */
-
 		alien.position.x = Math.random() * 800 - 400;
 		alien.position.y = Math.random() * 600 - 300;
 		alien.anchor.x = 0.5;
@@ -60,14 +57,9 @@ function onAssetsLoaded() {
 
 	// start animating
 	requestAnimFrame(animate);
-
-
 }
 
 function animate() {
-
-	requestAnimFrame(animate);
-
 	// just for fun, lets rotate mr rabbit a little
 	for (var i = 0; i < 100; i++) {
 		var alien = aliens[i];
@@ -79,6 +71,9 @@ function animate() {
 	alienContainer.scale.y = Math.sin(count);
 
 	alienContainer.rotation += 0.01;
+
 	// render the stage
 	renderer.render(stage);
+
+	requestAnimFrame(animate);
 }

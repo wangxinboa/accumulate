@@ -28,17 +28,21 @@
 
     This is an amazing lib!
 
-    slightly modified by mat groves (matgroves.com);
+    Slightly modified by Mat Groves (matgroves.com);
 */
 
+/**
+ * Based on the Polyk library http://polyk.ivank.net released under MIT licence.
+ * This is an amazing lib!
+ * Slightly modified by Mat Groves (matgroves.com);
+ * @class PolyK
+ */
 PIXI.PolyK = {};
 
 /**
- * Triangulates shapes for webGL graphic fills
+ * Triangulates shapes for webGL graphic fills.
  *
  * @method Triangulate
- * @namespace PolyK
- * @constructor
  */
 PIXI.PolyK.Triangulate = function(p)
 {
@@ -103,8 +107,8 @@ PIXI.PolyK.Triangulate = function(p)
             }
             else
             {
-                window.console.log("PIXI Warning: shape too complex to fill");
-                return [];
+             //   window.console.log("PIXI Warning: shape too complex to fill");
+                return null;
             }
         }
     }
@@ -114,11 +118,19 @@ PIXI.PolyK.Triangulate = function(p)
 };
 
 /**
- * Checks if a point is within a triangle
+ * Checks whether a point is within a triangle
  *
- * @class _PointInTriangle
- * @namespace PolyK
+ * @method _PointInTriangle
+ * @param px {Number} x coordinate of the point to test
+ * @param py {Number} y coordinate of the point to test
+ * @param ax {Number} x coordinate of the a point of the triangle
+ * @param ay {Number} y coordinate of the a point of the triangle
+ * @param bx {Number} x coordinate of the b point of the triangle
+ * @param by {Number} y coordinate of the b point of the triangle
+ * @param cx {Number} x coordinate of the c point of the triangle
+ * @param cy {Number} y coordinate of the c point of the triangle
  * @private
+ * @return {Boolean}
  */
 PIXI.PolyK._PointInTriangle = function(px, py, ax, ay, bx, by, cx, cy)
 {
@@ -144,11 +156,11 @@ PIXI.PolyK._PointInTriangle = function(px, py, ax, ay, bx, by, cx, cy)
 };
 
 /**
- * Checks if a shape is convex
+ * Checks whether a shape is convex
  *
- * @class _convex
- * @namespace PolyK
+ * @method _convex
  * @private
+ * @return {Boolean}
  */
 PIXI.PolyK._convex = function(ax, ay, bx, by, cx, cy, sign)
 {

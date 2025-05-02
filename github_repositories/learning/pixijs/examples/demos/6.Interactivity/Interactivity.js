@@ -14,7 +14,7 @@ requestAnimFrame(animate);
 // create a background..
 var background = PIXI.Sprite.fromImage("./demos/6.Interactivity/button_test_BG.jpg");
 
-// add background to stage..
+// add background to stage...
 stage.addChild(background);
 
 // create some textures from an image path
@@ -46,7 +46,6 @@ for (var i = 0; i < 5; i++) {
 
 	// set the mousedown and touchstart callback..
 	button.mousedown = button.touchstart = function (data) {
-
 		this.isdown = true;
 		this.setTexture(textureButtonDown);
 		this.alpha = 1;
@@ -66,32 +65,30 @@ for (var i = 0; i < 5; i++) {
 
 	// set the mouseover callback..
 	button.mouseover = function (data) {
-
 		this.isOver = true;
 
-		if (this.isdown) return;
+		if (this.isdown)
+			return;
 
 		this.setTexture(textureButtonOver);
 	};
 
 	// set the mouseout callback..
 	button.mouseout = function (data) {
-
 		this.isOver = false;
-		if (this.isdown) return;
+
+		if (this.isdown)
+			return;
+
 		this.setTexture(textureButton);
 	};
 
 	button.click = function (data) {
-		// click!
 		console.log("CLICK!");
-		//	alert("CLICK!")
 	};
 
 	button.tap = function (data) {
-		// click!
 		console.log("TAP!!");
-		//this.alpha = 0.5;
 	};
 
 	// add it to the stage
@@ -101,42 +98,32 @@ for (var i = 0; i < 5; i++) {
 	buttons.push(button);
 };
 
-// set some silly values..
-
+// set some silly values...
 buttons[0].scale.x = 1.2;
-
 buttons[1].scale.y = 1.2;
-
 buttons[2].rotation = Math.PI / 10;
-
 buttons[3].scale.x = 0.8;
 buttons[3].scale.y = 0.8;
-
 buttons[4].scale.x = 0.8;
 buttons[4].scale.y = 1.2;
 buttons[4].rotation = Math.PI;
-// var button1 =
+
 function animate() {
+	// render the stage
+	renderer.render(stage);
 
 	requestAnimFrame(animate);
-	// render the stage
-
-	// do a test..
-
-	renderer.render(stage);
 }
 
 // add a logo!
-var pixiLogo = PIXI.Sprite.fromImage("./demos/6.Interactivity/pixi.png");
+var pixiLogo = PIXI.Sprite.fromImage("pixi.png");
 stage.addChild(pixiLogo);
+
+pixiLogo.buttonMode = true;
 
 pixiLogo.position.x = 620 - 56;
 pixiLogo.position.y = 400 - 32;
 
-pixiLogo.setInteractive(true);
-
 pixiLogo.click = pixiLogo.tap = function () {
-
-	var win = window.open("https://github.com/GoodBoyDigital/pixi.js", '_blank');
-
+	window.open("http://www.pixijs.com", '_blank');
 };

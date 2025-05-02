@@ -13,9 +13,6 @@ bg.position.y = 380 / 2;
 //stage.addChild(bg);
 
 
-var bgFront = PIXI.Sprite.fromImage("./demos/14.Masking/SceneRotate.jpg");
-bgFront.anchor.x = 0.5;
-bgFront.anchor.y = 0.5;
 
 //stage.addChild(bgFront);
 
@@ -34,29 +31,42 @@ document.body.appendChild(renderer.view);
 
 // lets create moving shape
 
-var mask1 = new PIXI.Graphics();
-mask1.beginFill(0);
-mask1.drawRect(0, 0, 150, 100);
 
-bgFront.mask = mask1;
 
 var mask2 = new PIXI.Graphics();
 mask2.beginFill(0);
-mask2.drawRect(20, 50, 300, 100);
+mask2.drawCircle(620 / 2, 380 / 2, 300);
 
 var container = new PIXI.DisplayObjectContainer();
 stage.addChild(container);
 container.addChild(bg);
-container.addChild(bgFront);
+
 
 
 container.mask = mask2;
+
+
+
+for (var i = 0; i < 4; i++) {
+	var bear = PIXI.Sprite.fromImage("./demos/14.Masking/panda.png");
+
+	var mask1 = new PIXI.Graphics();
+	mask1.beginFill(0);
+	mask1.drawRect(20, 40, 100, 100);
+	bear.mask = mask1;
+	bear.addChild(mask1);
+	container.addChild(bear);
+
+	bear.position.x = i * 50;
+};
+
+
+
 var count = 0;
 
 stage.click = stage.tap = function () {
 	if (!container.filter) {
 		container.mask = thing;
-		PIXI.runList(stage);
 	}
 	else {
 		container.mask = null;
@@ -90,7 +100,6 @@ requestAnimFrame(animate);
 function animate() {
 
 	bg.rotation += 0.01;
-	bgFront.rotation -= 0.01;
 
 	count += 0.1;
 

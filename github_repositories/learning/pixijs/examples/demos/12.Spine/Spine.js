@@ -1,6 +1,6 @@
 // create an array of assets to load
 
-var assetsToLoader = ["./demos/12.Spine/data/spineboy.json", "./demos/12.Spine/data/spineboySpineData.json"];
+var assetsToLoader = ["./demos/12.Spine/data/spineboy.json"];
 
 // create a new loader
 var loader = new PIXI.AssetLoader(assetsToLoader);
@@ -26,7 +26,7 @@ document.body.appendChild(renderer.view);
 
 function onAssetsLoaded() {
 	// create a spine boy
-	var spineBoy = new PIXI.Spine("./demos/12.Spine/data/spineboySpineData.json");
+	var spineBoy = new PIXI.Spine("./demos/12.Spine/data/spineboy.json");
 
 	// set the position
 	spineBoy.position.x = window.innerWidth / 2;
@@ -39,14 +39,14 @@ function onAssetsLoaded() {
 	spineBoy.stateData.setMixByName("jump", "walk", 0.4);
 
 	// play animation
-	spineBoy.state.setAnimationByName("walk", true);
+	spineBoy.state.setAnimationByName(0, "walk", true);
 
 
 	stage.addChild(spineBoy);
 
 	stage.click = function () {
-		spineBoy.state.setAnimationByName("jump", false);
-		spineBoy.state.addAnimationByName("walk", true);
+		spineBoy.state.setAnimationByName(0, "jump", false);
+		spineBoy.state.addAnimationByName(0, "walk", true, 0);
 
 	};
 
@@ -58,7 +58,7 @@ function onAssetsLoaded() {
 	logo.position.x = window.innerWidth;
 	logo.scale.x = logo.scale.y = 0.5;
 	logo.position.y = window.innerHeight - 70;
-	logo.setInteractive(true);
+	logo.interactive = true;
 	logo.buttonMode = true;
 	logo.click = logo.tap = function () {
 		window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");
