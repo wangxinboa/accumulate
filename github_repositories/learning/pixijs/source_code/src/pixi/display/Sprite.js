@@ -242,45 +242,49 @@ PIXI.Sprite.prototype.getBounds = function()
 
 PIXI.Sprite.prototype._renderWebGL = function(renderSession)
 {
-
+    // if the sprite is not visible or the alpha is 0 then no need to render this element
     if(this.visible === false || this.alpha === 0)return;
-
+    
     var i,j;
 
-    if(this.mask || this.filters)
+    // do a quick check to see if this element has a mask or a filter.
+    if(this._mask || this._filters)
     {
-        if(this.mask)
+        var spriteBatch =  renderSession.spriteBatch;
+
+        if(this._mask)
         {
-            renderSession.spriteBatch.stop();
-            renderSession.maskManager.pushMask(this.mask, renderSession.projection);
-            renderSession.spriteBatch.start();
+            spriteBatch.stop();
+            renderSession.maskManager.pushMask(this.mask, renderSession);
+            spriteBatch.start();
         }
 
-        if(this.filters)
+        if(this._filters)
         {
-            renderSession.spriteBatch.flush();
+            spriteBatch.flush();
             renderSession.filterManager.pushFilter(this._filterBlock);
         }
 
+        // add this sprite to the batch
+        spriteBatch.render(this);
 
-        renderSession.spriteBatch.renderTilingSprite(this);
-
-        // simple render children!
+        // now loop through the children and make sure they get rendered
         for(i=0,j=this.children.length; i<j; i++)
         {
             this.children[i]._renderWebGL(renderSession);
         }
 
-        renderSession.spriteBatch.stop();
+        // time to stop the sprite batch as either a mask element or a filter draw will happen next
+        spriteBatch.stop();
 
-        if(this.filters)renderSession.filterManager.popFilter();
-        if(this.mask)renderSession.maskManager.popMask(renderSession.projection);
-
-        renderSession.spriteBatch.start();
+        if(this._filters)renderSession.filterManager.popFilter();
+        if(this._mask)renderSession.maskManager.popMask(renderSession);
+        
+        spriteBatch.start();
     }
     else
     {
-        renderSession.spriteBatch.renderTilingSprite(this);
+        renderSession.spriteBatch.render(this);
 
         // simple render children!
         for(i=0,j=this.children.length; i<j; i++)
@@ -288,6 +292,9 @@ PIXI.Sprite.prototype._renderWebGL = function(renderSession)
             this.children[i]._renderWebGL(renderSession);
         }
     }
+
+   
+    //TODO check culling  
 };
 
 PIXI.Sprite.prototype._renderCanvas = function(renderSession)
