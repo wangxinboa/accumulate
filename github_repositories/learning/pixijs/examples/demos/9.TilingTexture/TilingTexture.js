@@ -1,4 +1,3 @@
-
 // create an new instance of a pixi stage
 var stage = new PIXI.Stage(0x97c56e, true);
 
@@ -38,6 +37,6 @@ function animate() {
 
 	// just for fun, lets rotate mr rabbit a little
 	//stage.interactionManager.update();
-	// render the stage   
+	// render the stage
 	renderer.render(stage);
 }

@@ -1,4 +1,3 @@
-
 // create an new instance of a pixi stage
 var stage = new PIXI.Stage(0xFFFFFF, true);
 
@@ -79,6 +78,23 @@ stage.click = stage.tap = function () {
 	else {
 		container.removeFilter(thing);
 	}
+};
+
+/*
+ * Add a pixi Logo!
+ */
+var logo = PIXI.Sprite.fromImage("./logo_small.png");
+stage.addChild(logo);
+
+logo.anchor.x = 1;
+logo.position.x = 620;
+logo.scale.x = logo.scale.y = 0.5;
+logo.position.y = 320;
+logo.interactive = true;
+logo.buttonMode = true;
+
+logo.click = logo.tap = function () {
+	window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");
 };
 
 var help = new PIXI.Text("Click to turn masking on / off.", { font: "bold 12pt Arial", fill: "white" });

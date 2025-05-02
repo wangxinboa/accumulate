@@ -49,6 +49,20 @@ function onAssetsLoaded() {
 		spineBoy.state.addAnimationByName("walk", true);
 
 	};
+
+	var logo = PIXI.Sprite.fromImage("./logo_small.png");
+	stage.addChild(logo);
+
+
+	logo.anchor.x = 1;
+	logo.position.x = window.innerWidth;
+	logo.scale.x = logo.scale.y = 0.5;
+	logo.position.y = window.innerHeight - 70;
+	logo.setInteractive(true);
+	logo.buttonMode = true;
+	logo.click = logo.tap = function () {
+		window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");
+	};
 }
 
 

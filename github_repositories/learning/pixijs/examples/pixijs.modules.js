@@ -1,4 +1,7 @@
+import '../../../../javascript_libs/lil-gui/dist/lil-gui.umd.min.js';
+
 // import './demos/1.Basics/Basics.js';
+// import './demos/2.SpriteSheet/indexTrim.js';
 // import './demos/2.SpriteSheet/SpriteSheet.js';
 // import './demos/3.MovieClip/MovieClip.js';
 // import './demos/4.Balls/Balls.js';
@@ -8,11 +11,20 @@
 // import './demos/8.Dragging/Dragging.js';
 // import './demos/9.TilingTexture/TilingTexture.js';
 // import './demos/10.Text/Text.js';
+// import './demos/11.RenderTexture/RenderTextureNew.js';
 // import './demos/11.RenderTexture/RenderTexture.js';
 // import './demos/12.Spine/Dragon.js';
+// import './demos/12.Spine/Goblins.js';
 // import './demos/12.Spine/Pixie.js';
 // import './demos/12.Spine/Spine.js';
 // import './demos/13.Graphics/Graphics.js';
-import './demos/14.Masking/CopyOfIndex.js';
+// import './demos/13.Graphics/GraphicsLineTest.js';
+// import './demos/14.Masking/CopyOfIndex.js';
 // import './demos/14.Masking/IndexDoubleMask.js';
+// import './demos/14.Masking/IndexNestedMasks.js';
 // import './demos/14.Masking/Masking.js';
+// import './demos/15.Filters/Filters.js';
+// import './demos/15.Filters/FiltersAll.js';
+// import './demos/15.Filters/FiltersBlur.js';
+import './demos/15.Filters/FiltersDisplacement_2.js';
+// import './demos/15.Filters/FiltersDisplacement.js';

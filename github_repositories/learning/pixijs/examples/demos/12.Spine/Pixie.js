@@ -70,8 +70,26 @@ function onAssetsLoaded() {
 		pixie.state.addAnimationByName("running", true);
 	};
 
+	var logo = PIXI.Sprite.fromImage("./logo_small.png");
+	stage.addChild(logo);
+
+
+	logo.anchor.x = 1;
+	logo.position.x = 1024;
+	logo.scale.x = logo.scale.y = 0.5;
+	logo.position.y = 640 - 70;
+	logo.setInteractive(true);
+	logo.buttonMode = true;
+	logo.click = logo.tap = function () {
+		window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");
+	};
+
 	requestAnimFrame(animate);
 }
+
+
+
+
 
 
 function animate() {

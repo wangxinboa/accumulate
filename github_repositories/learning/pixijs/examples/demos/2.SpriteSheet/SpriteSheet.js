@@ -10,7 +10,6 @@ loader.onComplete = onAssetsLoaded;
 //begin load
 loader.load();
 
-
 // holder to store aliens
 var aliens = [];
 var alienFrames = ["eggHead.png", "flowerTop.png", "helmlok.png", "skully.png"];
@@ -22,6 +21,7 @@ var stage = new PIXI.Stage(0xFFFFFF);
 
 // create a renderer instance.
 var renderer = PIXI.autoDetectRenderer(800, 600);
+//renderer = new PIXI.CanvasRenderer(800, 600);
 
 // add the renderer view element to the DOM
 document.body.appendChild(renderer.view);
@@ -34,7 +34,6 @@ alienContainer.position.y = 300;
 stage.addChild(alienContainer);
 
 function onAssetsLoaded() {
-
 	// create a texture from an image path
 	// add a bunch of aliens
 	for (var i = 0; i < 100; i++) {
@@ -42,6 +41,7 @@ function onAssetsLoaded() {
 
 		// create an alien using the frame name..
 		var alien = PIXI.Sprite.fromFrame(frameName);
+		alien.tint = 0xFF0000;
 
 		/*
 		 * fun fact for the day :)
@@ -79,6 +79,6 @@ function animate() {
 	alienContainer.scale.y = Math.sin(count);
 
 	alienContainer.rotation += 0.01;
-	// render the stage   
+	// render the stage
 	renderer.render(stage);
 }

@@ -1,6 +1,6 @@
-
+// create an new instance of a pixi stage
+// the second parameter is interactivity...
 var interactive = true;
-
 var stage = new PIXI.Stage(0x000000, interactive);
 
 // create a renderer instance.
@@ -33,6 +33,7 @@ var buttonPositions = [175, 75,
 
 for (var i = 0; i < 5; i++) {
 	var button = new PIXI.Sprite(textureButton);
+	button.buttonMode = true;
 
 	button.anchor.x = 0.5;
 	button.anchor.y = 0.5;
@@ -40,8 +41,8 @@ for (var i = 0; i < 5; i++) {
 	button.position.x = buttonPositions[i * 2];
 	button.position.y = buttonPositions[i * 2 + 1];
 
-	// make the button interactive..		
-	button.setInteractive(true);
+	// make the button interactive..
+	button.interactive = true;
 
 	// set the mousedown and touchstart callback..
 	button.mousedown = button.touchstart = function (data) {
@@ -52,7 +53,7 @@ for (var i = 0; i < 5; i++) {
 	};
 
 	// set the mouseup and touchend callback..
-	button.mouseup = button.touchend = function (data) {
+	button.mouseup = button.touchend = button.mouseupoutside = button.touchendoutside = function (data) {
 		this.isdown = false;
 
 		if (this.isOver) {
@@ -114,11 +115,11 @@ buttons[3].scale.y = 0.8;
 buttons[4].scale.x = 0.8;
 buttons[4].scale.y = 1.2;
 buttons[4].rotation = Math.PI;
-// var button1 = 
+// var button1 =
 function animate() {
 
 	requestAnimFrame(animate);
-	// render the stage   
+	// render the stage
 
 	// do a test..
 

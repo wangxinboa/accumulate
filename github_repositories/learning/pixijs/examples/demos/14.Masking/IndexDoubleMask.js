@@ -1,4 +1,3 @@
-
 // create an new instance of a pixi stage
 var stage = new PIXI.Stage(0xFFFFFF, true);
 
@@ -11,14 +10,14 @@ bg.anchor.y = 0.5;
 bg.position.x = 620 / 2;
 bg.position.y = 380 / 2;
 
-stage.addChild(bg);
+//stage.addChild(bg);
 
 
 var bgFront = PIXI.Sprite.fromImage("./demos/14.Masking/SceneRotate.jpg");
 bgFront.anchor.x = 0.5;
 bgFront.anchor.y = 0.5;
 
-stage.addChild(bgFront);
+//stage.addChild(bgFront);
 
 // create a renderer instance
 var renderer = PIXI.autoDetectRenderer(620, 380);
@@ -37,15 +36,21 @@ document.body.appendChild(renderer.view);
 
 var mask1 = new PIXI.Graphics();
 mask1.beginFill(0);
-mask1.drawRect(0, 0, 100, 100);
+mask1.drawRect(0, 0, 150, 100);
 
 bgFront.mask = mask1;
 
 var mask2 = new PIXI.Graphics();
 mask2.beginFill(0);
-mask2.drawRect(500, 100, 100, 100);
+mask2.drawRect(20, 50, 300, 100);
 
-bg.mask = mask2;
+var container = new PIXI.DisplayObjectContainer();
+stage.addChild(container);
+container.addChild(bg);
+container.addChild(bgFront);
+
+
+container.mask = mask2;
 var count = 0;
 
 stage.click = stage.tap = function () {
@@ -56,6 +61,23 @@ stage.click = stage.tap = function () {
 	else {
 		container.mask = null;
 	}
+};
+
+/*
+ * Add a pixi Logo!
+ */
+var logo = PIXI.Sprite.fromImage("./logo_small.png");
+stage.addChild(logo);
+
+logo.anchor.x = 1;
+logo.position.x = 620;
+logo.scale.x = logo.scale.y = 0.5;
+logo.position.y = 320;
+logo.interactive = true;
+logo.buttonMode = true;
+
+logo.click = logo.tap = function () {
+	window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");
 };
 
 var help = new PIXI.Text("Click to turn masking on / off.", { font: "bold 12pt Arial", fill: "white" });

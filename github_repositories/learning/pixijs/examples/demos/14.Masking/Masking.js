@@ -65,13 +65,30 @@ container.mask = thing;
 var count = 0;
 
 stage.click = stage.tap = function () {
-	if (!container.filter) {
+	if (!container.mask) {
 		container.mask = thing;
 		PIXI.runList(stage);
 	}
 	else {
 		container.mask = null;
 	}
+};
+
+/*
+ * Add a pixi Logo!
+ */
+var logo = PIXI.Sprite.fromImage("./logo_small.png");
+stage.addChild(logo);
+
+logo.anchor.x = 1;
+logo.position.x = 620;
+logo.scale.x = logo.scale.y = 0.5;
+logo.position.y = 320;
+logo.interactive = true;
+logo.buttonMode = true;
+
+logo.click = logo.tap = function () {
+	window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");
 };
 
 var help = new PIXI.Text("Click to turn masking on / off.", { font: "bold 12pt Arial", fill: "white" });
@@ -95,7 +112,7 @@ function animate() {
 	count += 0.1;
 
 	thing.clear();
-	thing.lineStyle(5, 0x16f1ff, 1);
+
 	thing.beginFill(0x8bc5ff, 0.4);
 	thing.moveTo(-120 + Math.sin(count) * 20, -100 + Math.cos(count) * 20);
 	thing.lineTo(120 + Math.cos(count) * 20, -100 + Math.sin(count) * 20);
@@ -103,6 +120,9 @@ function animate() {
 	thing.lineTo(-120 + Math.cos(count) * 20, 100 + Math.sin(count) * 20);
 	thing.lineTo(-120 + Math.sin(count) * 20, -100 + Math.cos(count) * 20);
 	thing.rotation = count * 0.1;
+
+	//var mask1 = new PIXI.Graphics();
+
 
 	renderer.render(stage);
 	requestAnimFrame(animate);

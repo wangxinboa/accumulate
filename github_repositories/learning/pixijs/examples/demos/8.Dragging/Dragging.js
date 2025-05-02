@@ -1,4 +1,3 @@
-
 // create an new instance of a pixi stage
 var stage = new PIXI.Stage(0x97c56e, true);
 
@@ -24,7 +23,7 @@ function createBunny(x, y) {
 	// create our little bunny friend..
 	var bunny = new PIXI.Sprite(texture);
 	//	bunny.width = 300;
-	// enable the bunny to be interactive.. this will allow it to respond to mouse and touch events		
+	// enable the bunny to be interactive.. this will allow it to respond to mouse and touch events
 	bunny.interactive = true;
 	// this button mode will mean the hand cursor appears when you rollover the bunny with your mouse
 	bunny.buttonMode = true;
@@ -81,6 +80,6 @@ function animate() {
 
 	// just for fun, lets rotate mr rabbit a little
 	//stage.interactionManager.update();
-	// render the stage   
+	// render the stage
 	renderer.render(stage);
 }

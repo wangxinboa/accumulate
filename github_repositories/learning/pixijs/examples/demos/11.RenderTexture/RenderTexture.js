@@ -1,4 +1,3 @@
-
 // create an new instance of a pixi stage
 var stage = new PIXI.Stage(0x000000);
 
@@ -38,7 +37,7 @@ stuffContainer.position.y = 600 / 2;
 
 stage.addChild(stuffContainer);
 
-// create an array of image ids.. 
+// create an array of image ids..
 var fruits = [
 	"./demos/11.RenderTexture/spinObj_01.png", "./demos/11.RenderTexture/spinObj_02.png",
 	"./demos/11.RenderTexture/spinObj_03.png", "./demos/11.RenderTexture/spinObj_04.png",
