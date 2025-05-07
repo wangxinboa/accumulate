@@ -147,17 +147,17 @@ export default function renderShape(ctx, object) {
 				object.width, object.height
 			);
 		}
+	} else if (object instanceof Polyline) {
+		ctx.beginPath();
+		for (let i = 0, len = object.points.length; i < len; i++) {
+			ctx.lineTo(object.points[i].x, object.points[i].y);
+		}
 	} else if (object instanceof Polygon) {
 		ctx.beginPath();
 		for (let i = 0, len = object.points.length; i < len; i++) {
 			ctx.lineTo(object.points[i].x, object.points[i].y);
 		}
 		ctx.closePath();
-	} else if (object instanceof Polyline) {
-		ctx.beginPath();
-		for (let i = 0, len = object.points.length; i < len; i++) {
-			ctx.lineTo(object.points[i].x, object.points[i].y);
-		}
 	} else if (object instanceof Rect) {
 		const
 			x = -object.width / 2,

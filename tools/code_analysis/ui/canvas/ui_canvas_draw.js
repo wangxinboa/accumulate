@@ -17,6 +17,7 @@ export function startCodeAnalysisUiCanvasDraw(canvasDom) {
 		el: canvasDom,
 		scene,
 		backgroundColor: '#ffffff',
+		renderType: 'canvas',
 	});
 	window.gameEngine = gameEngine;
 }
@@ -179,8 +180,8 @@ function dealMarkNodeObject2d(markNode) {
 	if (markNodeObject2d.polyline) {
 		let parentMarkNodeObject2d = AllMarkNodeObject2d.get(markNode.parent);
 
-		markNodeObject2d.polyline.points[0].x = startX + parentMarkNodeObject2d.depth * nodeSize + 2
-		markNodeObject2d.polyline.points[0].y = startY + parentMarkNodeObject2d.index * nodeSize + 8
+		markNodeObject2d.polyline.points[0].x = startX + parentMarkNodeObject2d.depth * nodeSize + 2;
+		markNodeObject2d.polyline.points[0].y = startY + parentMarkNodeObject2d.index * nodeSize + 8;
 
 		markNodeObject2d.polyline.points[1].x = startX + parentMarkNodeObject2d.depth * nodeSize + 2;
 		markNodeObject2d.polyline.points[1].y = startY + markNodeObject2d.index * nodeSize + 8;
