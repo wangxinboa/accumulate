@@ -32,7 +32,7 @@ function animate() {
 	// render the stage
 	renderer.render(stage);
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);

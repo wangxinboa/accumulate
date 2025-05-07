@@ -67,7 +67,7 @@ logo.click = logo.tap = function () {
 };
 
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 function animate() {
 
@@ -80,5 +80,5 @@ function animate() {
 	blurFilter1.blur = 20 * (blurAmount);
 	blurFilter2.blur = 20 * (blurAmount2);
 	renderer.render(stage);
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

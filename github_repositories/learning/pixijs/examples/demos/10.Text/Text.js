@@ -78,12 +78,12 @@ function init() {
 
 
 	function animate() {
-		requestAnimFrame(animate);
+		requestAnimationFrame(animate);
 		renderer.render(stage);
 
 		count += 0.1;
 		countingText.setText("COUNT 4EVAR: " + (count | 0));
 	}
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

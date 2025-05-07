@@ -1,6 +1,7 @@
 import '../../../../javascript_libs/lil-gui/dist/lil-gui.umd.min.js';
 
-// import './demos/1.Basics/Basics.js';
+import './demos/1.Basics/Basics.js';
+
 // import './demos/1.Basics/BasicTest2.js';
 // import './demos/2.SpriteSheet/SpriteSheet.js';
 // import './demos/2.SpriteSheet/SpriteSheetTrim.js';
@@ -38,4 +39,4 @@ import '../../../../javascript_libs/lil-gui/dist/lil-gui.umd.min.js';
 // import './demos/22.ComplexMasking/ComplexMasking.js';
 // import './demos/23.TextureSwap/TextureSwap.js';
 // import './demos/24.Box2DIntegration/Box2DIntegration.js';
-import './demos/25.Video/Video.js';
+// import './demos/25.Video/Video.js';

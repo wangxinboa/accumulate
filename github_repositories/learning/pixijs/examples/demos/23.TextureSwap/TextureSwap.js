@@ -7,7 +7,7 @@ var renderer = PIXI.autoDetectRenderer(400, 300);
 // add the renderer view element to the DOM
 document.body.appendChild(renderer.view);
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 // create a texture from an image path
 var texture = PIXI.Texture.fromImage("./demos/23.TextureSwap/flowerTop.png");
@@ -36,7 +36,7 @@ bunny.click = function () {
 };
 
 function animate() {
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 	// just for fun, let's rotate mr rabbit a little
 	bunny.rotation += 0.1;

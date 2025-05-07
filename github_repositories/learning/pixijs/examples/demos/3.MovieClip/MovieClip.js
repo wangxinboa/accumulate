@@ -51,11 +51,11 @@ function onAssetsLoaded() {
 	}
 
 	// start animating
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }
 
 function animate() {
 	renderer.render(stage);
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

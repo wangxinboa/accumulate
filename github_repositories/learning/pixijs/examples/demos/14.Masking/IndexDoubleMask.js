@@ -95,7 +95,7 @@ help.position.y = 350;
 help.position.x = 10;
 stage.addChild(help);
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 function animate() {
 
@@ -106,5 +106,5 @@ function animate() {
 
 
 	renderer.render(stage);
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

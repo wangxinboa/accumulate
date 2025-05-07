@@ -27,7 +27,7 @@ bunny.position.y = 150;
 stage.addChild(bunny);
 
 function animate() {
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 	// just for fun, lets rotate mr rabbit a little
 	bunny.rotation += 0.1;
@@ -36,4 +36,4 @@ function animate() {
 	renderer.render(stage);
 }
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);

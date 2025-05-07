@@ -68,10 +68,10 @@ function onAssetsLoaded() {
 
 
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 function animate() {
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 	renderer.render(stage);
 }

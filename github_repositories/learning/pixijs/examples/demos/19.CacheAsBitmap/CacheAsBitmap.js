@@ -58,7 +58,7 @@ function onAssetsLoaded() {
 	}
 
 	// start animating
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }
 
 stage.mousedown = stage.touchstart = function () {
@@ -87,5 +87,5 @@ function animate() {
 	// render the stage
 	renderer.render(stage);
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

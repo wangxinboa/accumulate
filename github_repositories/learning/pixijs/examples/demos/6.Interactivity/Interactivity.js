@@ -9,7 +9,7 @@ var renderer = PIXI.autoDetectRenderer(620, 400);
 // add the renderer view element to the DOM
 document.body.appendChild(renderer.view);
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 // create a background..
 var background = PIXI.Sprite.fromImage("./demos/6.Interactivity/button_test_BG.jpg");
@@ -112,7 +112,7 @@ function animate() {
 	// render the stage
 	renderer.render(stage);
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }
 
 // add a logo!

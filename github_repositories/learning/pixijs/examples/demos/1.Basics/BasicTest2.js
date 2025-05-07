@@ -12,9 +12,9 @@ sprite.pivot.set(sprite.width / 2, sprite.height / 2);
 stage.addChild(sprite);
 
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 function animate() {
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 	sprite.rotation += 0.1;
 

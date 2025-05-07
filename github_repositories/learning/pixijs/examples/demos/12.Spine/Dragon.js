@@ -69,14 +69,14 @@ function onAssetsLoaded() {
 		window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");
 	};
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 }
 
 
 function animate() {
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 	/* update the spine animation, only needed if autoupdate is set to false */
 	dragon.update(0.01666666666667); // HARDCODED FRAMERATE!
 	renderer.render(stage);

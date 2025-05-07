@@ -95,7 +95,7 @@ logo.click = logo.tap = function () {
 };
 
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 function animate() {
 
@@ -132,5 +132,5 @@ function animate() {
 	overlay.tilePosition.y = count * -10;
 
 	renderer.render(stage);
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

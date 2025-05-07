@@ -31,7 +31,7 @@ document.body.appendChild(renderer.view);
 	height : 300
 });*/
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 // create sprites
 
@@ -82,7 +82,7 @@ addBody(rightWall, 395, 150, 10, 300);
 addBody(bunny, 200, 150, 25, 37, 0.5);
 
 function animate() {
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 	// box2d world step calculation
 	world.Step(timeStep, iteration);

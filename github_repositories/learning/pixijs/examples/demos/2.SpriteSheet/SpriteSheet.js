@@ -56,7 +56,7 @@ function onAssetsLoaded() {
 	}
 
 	// start animating
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }
 
 function animate() {
@@ -75,5 +75,5 @@ function animate() {
 	// render the stage
 	renderer.render(stage);
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

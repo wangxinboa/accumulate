@@ -37,7 +37,7 @@ function start() {
 
 	resize();
 
-	requestAnimFrame(update);
+	requestAnimationFrame(update);
 }
 
 window.newWave = newWave;
@@ -80,5 +80,5 @@ function update() {
 
 	renderer.render(stage);
 
-	requestAnimFrame(update);
+	requestAnimationFrame(update);
 }

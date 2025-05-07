@@ -84,7 +84,7 @@ function onAssetsLoaded() {
 		window.open("https://github.com/GoodBoyDigital/pixi.js", "_blank");
 	};
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }
 
 
@@ -116,7 +116,7 @@ function animate() {
 	if (foreground2.position.x < 0) foreground2.position.x += 1286 * 2;
 	foreground2.position.x -= 1286;
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 
 	renderer.render(stage);

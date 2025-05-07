@@ -9,7 +9,7 @@ document.body.appendChild(renderer.view);
 renderer.view.style.position = "absolute";
 renderer.view.style.top = "0px";
 renderer.view.style.left = "0px";
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 // create a texture from an image path
 var texture = PIXI.Texture.fromImage("./demos/1.Basics/bunny.png");
@@ -75,7 +75,7 @@ function createBunny(x, y) {
 
 function animate() {
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 	// render the stage
 	renderer.render(stage);

@@ -29,7 +29,7 @@ stage.addChild(alienContainer);
 count = 0;
 
 // start animating
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 var graphics = new PIXI.Graphics().beginFill(0xFF0000);//.moveTo(-200, -300).lineTo(200, -300).lineTo(220,100).lineTo(200,300).lineTo(-200,300).endFill();
 
@@ -121,7 +121,7 @@ function animate() {
 	//    graphics.x = 300;
 	//   graphics.y = 399
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }
 
 var logo = PIXI.Sprite.fromImage("./logo_small.png");

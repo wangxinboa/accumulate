@@ -9,7 +9,7 @@ var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
 // add the renderer view element to the DOM
 document.body.appendChild(renderer.view);
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 // create a texture from an image path
 var texture = PIXI.VideoTexture.fromUrl("./demos/25.Video/testVideo.mp4");
@@ -51,7 +51,7 @@ text.x = window.innerWidth / 2;
 text.y = window.innerHeight / 2;
 
 function animate() {
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 	count += 0.1;
 

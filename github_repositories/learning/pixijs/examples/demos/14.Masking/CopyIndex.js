@@ -102,7 +102,7 @@ help.position.y = 350;
 help.position.x = 10;
 stage.addChild(help);
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 function animate() {
 
@@ -130,5 +130,5 @@ function animate() {
 	thing.rotation = count * 0.1;
 
 	renderer.render(stage);
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

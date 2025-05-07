@@ -1,0 +1,19 @@
+/**
+ * @file        Main export of the PIXI accessibility library
+ * @author      Mat Groves <mat@goodboydigital.com>
+ * @copyright   2013-2015 GoodBoyDigital
+ * @license     {@link https://github.com/pixijs/pixi.js/blob/master/LICENSE|MIT License}
+ */
+
+/**
+ * @namespace PIXI.interaction
+ */
+import accessibleTarget from './accessibleTarget.js';
+import AccessibilityManager from './AccessibilityManager.js';
+
+const accessibility = {
+	accessibleTarget,
+	AccessibilityManager,
+};
+
+export default accessibility;

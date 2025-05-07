@@ -65,11 +65,11 @@ for (var i = 0; i < 20; i++) {
 // used for spinning!
 var count = 0;
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 function animate() {
 
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 
 	for (var i = 0; i < items.length; i++) {
 		// rotate each item

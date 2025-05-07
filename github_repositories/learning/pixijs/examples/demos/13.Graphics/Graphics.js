@@ -75,7 +75,7 @@ stage.click = stage.tap = function () {
 		Math.random() * 620, Math.random() * 380);
 };
 // run the render loop
-requestAnimFrame(animate);
+requestAnimationFrame(animate);
 
 function animate() {
 
@@ -95,5 +95,5 @@ function animate() {
 
 	thing.rotation = count * 0.1;
 	renderer.render(stage);
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }

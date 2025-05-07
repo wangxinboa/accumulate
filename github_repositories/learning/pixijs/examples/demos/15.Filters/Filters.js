@@ -112,7 +112,7 @@ function animate() {
 	filter.matrix = colorMatrix;
 
 	renderer.render(stage);
-	requestAnimFrame(animate);
+	requestAnimationFrame(animate);
 }
 
-requestAnimFrame(animate);
+requestAnimationFrame(animate);

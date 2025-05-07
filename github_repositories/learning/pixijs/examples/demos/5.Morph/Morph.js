@@ -50,7 +50,7 @@ function start() {
 
 	setTimeout(nextObject, 5000);
 
-	requestAnimFrame(update);
+	requestAnimationFrame(update);
 }
 
 function nextObject() {
@@ -264,5 +264,5 @@ function update() {
 
 	renderer.render(stage);
 
-	requestAnimFrame(update);
+	requestAnimationFrame(update);
 }
