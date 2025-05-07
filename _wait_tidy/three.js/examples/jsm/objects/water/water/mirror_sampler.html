@@ -1,72 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
-		<link rel="icon" href="../../../../icon.png">
-		<title>mirror_sampler</title>
-		<link href="../../../../../../_utils/default_css.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<!--
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+	<link rel="icon" href="../../../../icon.png">
+	<title>mirror_sampler</title>
+	<link href="../../../../default_css.css" rel="stylesheet" type="text/css" />
+</head>
+<!--
 
 	-->
-	<body>
-		<canvas id="renderCanvas"></canvas>
-		<script type="importmap">
+
+<body>
+	<canvas id="renderCanvas"></canvas>
+	<script type="importmap">
 			{
 				"imports": {
 						"three": "../../../../../source/src/THREE.js"
 				}
 			}
 		</script>
-		<script type="module">
-			import '../../../../module.js';
-			import * as THREE from 'three';
-			import { OrbitControls, Water } from '../../../jsm.js';
-			import { createWaterScene } from '../create_scene.water.js';
-			import { WaterTool, getDemoScene } from './water_tool.js';
+	<script type="module">
+		import '../../../../module.js';
+		import * as THREE from 'three';
+		import { OrbitControls, Water } from '../../../jsm.js';
+		import { createWaterScene } from '../create_scene.water.js';
+		import { WaterTool, getDemoScene } from './water_tool.js';
 
-			const canvas = document.getElementById('renderCanvas');
+		const canvas = document.getElementById('renderCanvas');
 
-			const renderer = new THREE.WebGLRenderer({
-				canvas,
-				antialias: true
-			});
-			renderer.setPixelRatio( window.devicePixelRatio );
-			renderer.setSize( canvas.clientWidth, canvas.clientHeight );
+		const renderer = new THREE.WebGLRenderer({
+			canvas,
+			antialias: true
+		});
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
-			const camera = new THREE.PerspectiveCamera(
-				75, canvas.clientWidth / canvas.clientHeight,
-				1, 10000
-			);
+		const camera = new THREE.PerspectiveCamera(
+			75, canvas.clientWidth / canvas.clientHeight,
+			1, 10000
+		);
 
-			camera.position.z = 6;
+		camera.position.z = 6;
 
-			const orbitControls = new OrbitControls(camera, renderer.domElement);
+		const orbitControls = new OrbitControls(camera, renderer.domElement);
 
-			const scene = new THREE.Scene();
+		const scene = new THREE.Scene();
 
-			const waterScene = createWaterScene();
+		const waterScene = createWaterScene();
 
-			scene.add( waterScene );
+		scene.add(waterScene);
 
-			const waterTool = new WaterTool();
+		const waterTool = new WaterTool();
 
-			const mirrorSampler = new THREE.WebGLRenderTarget(512, 512);
+		const mirrorSampler = new THREE.WebGLRenderTarget(512, 512);
 
-			const water = new THREE.Mesh(
-				new THREE.PlaneGeometry( 10, 10 ),
-				new THREE.RawShaderMaterial({
-					uniforms: {
-						mirrorSampler: {
-							value: mirrorSampler.texture,
-						},
-						textureMatrix: {
-							value: waterTool.textureMatrix,
-						}
+		const water = new THREE.Mesh(
+			new THREE.PlaneGeometry(10, 10),
+			new THREE.RawShaderMaterial({
+				uniforms: {
+					mirrorSampler: {
+						value: mirrorSampler.texture,
 					},
-					vertexShader: `
+					textureMatrix: {
+						value: waterTool.textureMatrix,
+					}
+				},
+				vertexShader: `
 						precision mediump float;
 
 						attribute vec3 position;
@@ -89,7 +91,7 @@
 							gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );
 						}
 					`,
-					fragmentShader: `
+				fragmentShader: `
 						precision mediump float;
 
 						uniform sampler2D mirrorSampler;
@@ -103,66 +105,67 @@
 							gl_FragColor = vec4(reflectionSample, 1.0);
 						}
 					`,
-				})
-			);
+			})
+		);
 
-			water.position.y = 1;
-			water.rotation.x = Math.PI * - 0.5;
+		water.position.y = 1;
+		water.rotation.x = Math.PI * - 0.5;
 
-			scene.add( water );
+		scene.add(water);
 
-			waterTool.matrixWorld = water.matrixWorld;
-
-
-			const [ demoScene, demoWater ] = getDemoScene( camera );
+		waterTool.matrixWorld = water.matrixWorld;
 
 
-			const stats = new Stats();
-			stats.domElement.style.position = 'absolute';
-			stats.domElement.style.top = '0px';
-			document.body.appendChild( stats.domElement );
+		const [demoScene, demoWater] = getDemoScene(camera);
 
 
-			initGui();
-			function initGui(){
+		const stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		document.body.appendChild(stats.domElement);
 
-				const gui = new lil.GUI();
 
-			}
+		initGui();
+		function initGui() {
 
-			renderer.setScissorTest( true );
+			const gui = new lil.GUI();
 
-			const widthStep = canvas.clientWidth / 2;
-			const heightStep = canvas.clientHeight;
+		}
 
-			loop( 0 );
-			function loop( time ) {
+		renderer.setScissorTest(true);
 
-				orbitControls.update();
-				waterTool.update( camera );
+		const widthStep = canvas.clientWidth / 2;
+		const heightStep = canvas.clientHeight;
 
-				renderer.setScissor( 0, 0, widthStep, heightStep );
-				renderer.setViewport( 0, 0, widthStep, heightStep );
+		loop(0);
+		function loop(time) {
 
-				renderer.setRenderTarget( mirrorSampler );
-				renderer.render( waterScene, waterTool.mirrorCamera );
-				renderer.setRenderTarget( null);
+			orbitControls.update();
+			waterTool.update(camera);
 
-				renderer.render( scene, camera );
+			renderer.setScissor(0, 0, widthStep, heightStep);
+			renderer.setViewport(0, 0, widthStep, heightStep);
 
-				renderer.setScissor( widthStep, 0, widthStep, heightStep );
-				renderer.setViewport( widthStep, 0, widthStep, heightStep );
+			renderer.setRenderTarget(mirrorSampler);
+			renderer.render(waterScene, waterTool.mirrorCamera);
+			renderer.setRenderTarget(null);
 
-				time /= 1000;
+			renderer.render(scene, camera);
 
-				demoWater.material.uniforms[ 'time' ].value += 1.0 / 60.0;
+			renderer.setScissor(widthStep, 0, widthStep, heightStep);
+			renderer.setViewport(widthStep, 0, widthStep, heightStep);
 
-				renderer.render( demoScene, camera );
+			time /= 1000;
 
-				stats.update();
+			demoWater.material.uniforms['time'].value += 1.0 / 60.0;
 
-				requestAnimationFrame(loop)
-			}
-		</script>
-	</body>
+			renderer.render(demoScene, camera);
+
+			stats.update();
+
+			requestAnimationFrame(loop);
+		}
+	</script>
+</body>
+
 </html>

@@ -1,107 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
-		<link rel="icon" href="../../../icon.png">
-		<title>data_texture_premultiply_alpha</title>
-		<link href="../../../../../_utils/default_css.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<!--
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+	<link rel="icon" href="../../../icon.png">
+	<title>data_texture_premultiply_alpha</title>
+	<link href="../../../default_css.css" rel="stylesheet" type="text/css" />
+</head>
+<!--
 
 	-->
-	<body>
-		<canvas id="renderCanvas"></canvas>
-		<script type="importmap">
+
+<body>
+	<canvas id="renderCanvas"></canvas>
+	<script type="importmap">
 			{
 				"imports": {
 						"three": "../../../../source/src/THREE.js"
 				}
 			}
 		</script>
-		<script type="module">
-			import '../../../module.js';
-			import * as THREE from 'three';
-			import { OrbitControls } from '../../../jsm/jsm.js';
+	<script type="module">
+		import '../../../module.js';
+		import * as THREE from 'three';
+		import { OrbitControls } from '../../../jsm/jsm.js';
 
-			const canvas = document.getElementById('renderCanvas');
+		const canvas = document.getElementById('renderCanvas');
 
-			const renderer = new THREE.WebGLRenderer({
-				canvas,
-				antialias: true
-			});
+		const renderer = new THREE.WebGLRenderer({
+			canvas,
+			antialias: true
+		});
 
-			renderer.setSize( canvas.clientWidth, canvas.clientHeight );
+		renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
-			const camera = new THREE.PerspectiveCamera( 75, canvas.clientWidth / canvas.clientHeight, 1, 100 );
+		const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 1, 100);
 
-			camera.position.z = 6;
-			// camera.rotation.x = -Math.PI / 2;
+		camera.position.z = 6;
+		// camera.rotation.x = -Math.PI / 2;
 
-			const orbitControls = new OrbitControls(camera, renderer.domElement);
-
-
-			const scene = new THREE.Scene();
+		const orbitControls = new OrbitControls(camera, renderer.domElement);
 
 
-			const width = 3;
-			const height = 1;
-			const texture = new THREE.DataTexture( new Uint8Array([
-					255,	0,		0,		10,
-					0,		255,	0,		10,
-					0,		0,		255,	10
-				]),	width,	height );
-
-			texture.needsUpdate = true;
-
-			const plane = new THREE.PlaneGeometry(8, 8, 1, 1);
-
-			const mesh = new THREE.Mesh( plane,
-				new THREE.MeshBasicMaterial({
-					color: 0xffffff,
-					map: texture
-				})
-			);
-			scene.add(mesh);
+		const scene = new THREE.Scene();
 
 
-			const stats = new Stats();
-			stats.domElement.style.position = 'absolute';
-			stats.domElement.style.top = '0px';
-			document.body.appendChild( stats.domElement );
+		const width = 3;
+		const height = 1;
+		const texture = new THREE.DataTexture(new Uint8Array([
+			255, 0, 0, 10,
+			0, 255, 0, 10,
+			0, 0, 255, 10
+		]), width, height);
+
+		texture.needsUpdate = true;
+
+		const plane = new THREE.PlaneGeometry(8, 8, 1, 1);
+
+		const mesh = new THREE.Mesh(plane,
+			new THREE.MeshBasicMaterial({
+				color: 0xffffff,
+				map: texture
+			})
+		);
+		scene.add(mesh);
 
 
-			initGui();
-			function initGui(){
+		const stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		document.body.appendChild(stats.domElement);
 
-				const gui = new lil.GUI();
 
-				initTextureGui(gui, texture, 'texture');
+		initGui();
+		function initGui() {
+
+			const gui = new lil.GUI();
+
+			initTextureGui(gui, texture, 'texture');
+		}
+
+		function initTextureGui(gui, texture, name) {
+
+			const textureFolder = gui.addFolder(name);
+
+			function change() {
+				texture.needsUpdate = true;
 			}
 
-			function initTextureGui(gui, texture, name){
+			textureFolder.add(texture, 'premultiplyAlpha').onChange(change);
+		}
 
-				const textureFolder = gui.addFolder(name);
+		loop();
+		function loop() {
 
-				function change(){
-					texture.needsUpdate = true;
-				}
+			orbitControls.update();
 
-				textureFolder.add( texture, 'premultiplyAlpha' ).onChange(change);
-			}
+			renderer.render(scene, camera);
 
-			loop();
-			function loop() {
+			stats.update();
 
-				orbitControls.update();
+			requestAnimationFrame(loop);
+		}
+	</script>
+</body>
 
-				renderer.render( scene, camera );
-
-				stats.update();
-
-				requestAnimationFrame(loop)
-			}
-		</script>
-	</body>
 </html>

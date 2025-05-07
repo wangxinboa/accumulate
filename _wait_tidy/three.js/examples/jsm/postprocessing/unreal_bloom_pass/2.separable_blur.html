@@ -1,104 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
-		<link rel="icon" href="../../../icon.png">
-		<title>separable_blur</title>
-		<link href="../../../../../_utils/default_css.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<!--
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+	<link rel="icon" href="../../../icon.png">
+	<title>separable_blur</title>
+	<link href="../../../default_css.css" rel="stylesheet" type="text/css" />
+</head>
+<!--
 
 	-->
-	<body>
-		<canvas id="renderCanvas"></canvas>
-		<script type="importmap">
+
+<body>
+	<canvas id="renderCanvas"></canvas>
+	<script type="importmap">
 			{
 				"imports": {
 						"three": "../../../../source/src/THREE.js"
 				}
 			}
 		</script>
-		<script type="module">
-			import '../../../module.js';
-			import * as THREE from 'three';
-			import { OrbitControls } from '../../jsm.js';
+	<script type="module">
+		import '../../../module.js';
+		import * as THREE from 'three';
+		import { OrbitControls } from '../../jsm.js';
 
-			const canvas = document.getElementById('renderCanvas');
+		const canvas = document.getElementById('renderCanvas');
 
-			const renderer = new THREE.WebGLRenderer({
-				canvas,
-				antialias: true
-			});
-			renderer.setPixelRatio( window.devicePixelRatio );
-			renderer.setSize( canvas.clientWidth, canvas.clientHeight );
+		const renderer = new THREE.WebGLRenderer({
+			canvas,
+			antialias: true
+		});
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
-			const pixelRatio = renderer.getPixelRatio();
+		const pixelRatio = renderer.getPixelRatio();
 
-			const camera = new THREE.PerspectiveCamera(
-				75, canvas.clientWidth / canvas.clientHeight,
-				1, 100
-			);
+		const camera = new THREE.PerspectiveCamera(
+			75, canvas.clientWidth / canvas.clientHeight,
+			1, 100
+		);
 
-			camera.position.z = 2;
+		camera.position.z = 2;
 
-			const orbitControls = new OrbitControls(camera, renderer.domElement);
+		const orbitControls = new OrbitControls(camera, renderer.domElement);
 
-			const scene = new THREE.Scene();
+		const scene = new THREE.Scene();
 
-			const cubeMesh = new THREE.Mesh(
-				new THREE.BoxGeometry(1, 1, 1),
-				new THREE.MeshBasicMaterial({
-					color: 0xffffff,
-					map: new THREE.TextureLoader().load('../../../assets/images/logo1.jpg'),
-				})
-			);
+		const cubeMesh = new THREE.Mesh(
+			new THREE.BoxGeometry(1, 1, 1),
+			new THREE.MeshBasicMaterial({
+				color: 0xffffff,
+				map: new THREE.TextureLoader().load('../../../assets/images/logo1.jpg'),
+			})
+		);
 
-			scene.add(cubeMesh);
+		scene.add(cubeMesh);
 
-			const rtTexture = new THREE.WebGLRenderTarget(
-				canvas.clientWidth * pixelRatio, canvas.clientHeight * pixelRatio
-			);
+		const rtTexture = new THREE.WebGLRenderTarget(
+			canvas.clientWidth * pixelRatio, canvas.clientHeight * pixelRatio
+		);
 
-			const fullscreenTriangleGeometry = new THREE.BufferGeometry();
+		const fullscreenTriangleGeometry = new THREE.BufferGeometry();
 
-			fullscreenTriangleGeometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array( [
-				- 1, 3, 0,
-				- 1, - 1, 0,
-				3, - 1, 0
-			] ), 3 ) );
-			fullscreenTriangleGeometry.setAttribute( 'uv', new THREE.BufferAttribute( new Float32Array( [
-				0, 2,
-				0, 0,
-				2, 0
-			] ), 2 ) );
+		fullscreenTriangleGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array([
+			- 1, 3, 0,
+			- 1, - 1, 0,
+			3, - 1, 0
+		]), 3));
+		fullscreenTriangleGeometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array([
+			0, 2,
+			0, 0,
+			2, 0
+		]), 2));
 
-			const kernelRadius = 11;
+		const kernelRadius = 11;
 
-			const BlurDirectionX = new THREE.Vector2( 1.0, 0.0 );
-			const BlurDirectionY = new THREE.Vector2( 0.0, 1.0 );
+		const BlurDirectionX = new THREE.Vector2(1.0, 0.0);
+		const BlurDirectionY = new THREE.Vector2(0.0, 1.0);
 
-			const fullScreenQuad = new THREE.Mesh( fullscreenTriangleGeometry, new THREE.RawShaderMaterial( {
-					defines: {
-						KERNEL_RADIUS: kernelRadius
-					},
-					uniforms: {
-						colorTexture: {
-							value: rtTexture.texture
-						},
-						invSize: {
-							value: new THREE.Vector2( 1 / canvas.clientWidth, 1 / canvas.clientHeight )
-						}, // inverse texture size
-						direction: {
-							value: new THREE.Vector2( 1.0, 0.0 )
-						},
-						gaussianCoefficients: {
-							value: getCoefficients(kernelRadius)
-						} // precomputed Gaussian coefficients
-					},
+		const fullScreenQuad = new THREE.Mesh(fullscreenTriangleGeometry, new THREE.RawShaderMaterial({
+			defines: {
+				KERNEL_RADIUS: kernelRadius
+			},
+			uniforms: {
+				colorTexture: {
+					value: rtTexture.texture
+				},
+				invSize: {
+					value: new THREE.Vector2(1 / canvas.clientWidth, 1 / canvas.clientHeight)
+				}, // inverse texture size
+				direction: {
+					value: new THREE.Vector2(1.0, 0.0)
+				},
+				gaussianCoefficients: {
+					value: getCoefficients(kernelRadius)
+				} // precomputed Gaussian coefficients
+			},
 
-					vertexShader: `
+			vertexShader: `
 						precision mediump float;
 
 						attribute vec3 position;
@@ -112,7 +114,7 @@
 							gl_Position = vec4( position, 1.0 );
 						}
 					`,
-					fragmentShader: `
+			fragmentShader: `
 						precision mediump float;
 
 						varying vec2 vUv;
@@ -144,63 +146,64 @@
 							}
 							gl_FragColor = vec4(diffuseSum/weightSum, 1.0);
 						}`
-				} ) );
+		}));
 
-			function getCoefficients( kernelRadius ){
+		function getCoefficients(kernelRadius) {
 
-				const coefficients = [];
+			const coefficients = [];
 
-				for ( let i = 0; i < kernelRadius; i ++ ) {
+			for (let i = 0; i < kernelRadius; i++) {
 
-					coefficients.push( 0.39894 * Math.exp( - 0.5 * i * i / ( kernelRadius * kernelRadius ) ) / kernelRadius );
-				}
-
-				return coefficients;
+				coefficients.push(0.39894 * Math.exp(- 0.5 * i * i / (kernelRadius * kernelRadius)) / kernelRadius);
 			}
 
-
-			const stats = new Stats();
-			stats.domElement.style.position = 'absolute';
-			stats.domElement.style.top = '0px';
-			document.body.appendChild( stats.domElement );
+			return coefficients;
+		}
 
 
-			initGui();
-			function initGui(){
-
-				const
-					gui = new lil.GUI(),
-					material = fullScreenQuad.material,
-					uniforms = material.uniforms;
-
-				gui.add( material.defines, 'KERNEL_RADIUS', 3, 11, 1 ).onChange(( number )=>{
-
-					material.uniforms.gaussianCoefficients.value = getCoefficients( number );
-
-					material.needsUpdate = true;
-				});
-
-				gui.add( uniforms.invSize.value, 'x', 0, 1, 0.0001 ).name('invSize.x');
-				gui.add( uniforms.invSize.value, 'y', 0, 1, 0.0001 ).name('invSize.y');
-
-				gui.add( uniforms.direction.value, 'x', 0, 1 ).name('direction.x');
-				gui.add( uniforms.direction.value, 'y', 0, 1 ).name('direction.y');
-			}
+		const stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		document.body.appendChild(stats.domElement);
 
 
-			loop();
-			function loop() {
+		initGui();
+		function initGui() {
 
-				renderer.setRenderTarget(rtTexture);
-				renderer.render( scene, camera );
-				renderer.setRenderTarget(null);
+			const
+				gui = new lil.GUI(),
+				material = fullScreenQuad.material,
+				uniforms = material.uniforms;
 
-				renderer.render( fullScreenQuad, camera );
+			gui.add(material.defines, 'KERNEL_RADIUS', 3, 11, 1).onChange((number) => {
 
-				stats.update();
+				material.uniforms.gaussianCoefficients.value = getCoefficients(number);
 
-				requestAnimationFrame(loop)
-			}
-		</script>
-	</body>
+				material.needsUpdate = true;
+			});
+
+			gui.add(uniforms.invSize.value, 'x', 0, 1, 0.0001).name('invSize.x');
+			gui.add(uniforms.invSize.value, 'y', 0, 1, 0.0001).name('invSize.y');
+
+			gui.add(uniforms.direction.value, 'x', 0, 1).name('direction.x');
+			gui.add(uniforms.direction.value, 'y', 0, 1).name('direction.y');
+		}
+
+
+		loop();
+		function loop() {
+
+			renderer.setRenderTarget(rtTexture);
+			renderer.render(scene, camera);
+			renderer.setRenderTarget(null);
+
+			renderer.render(fullScreenQuad, camera);
+
+			stats.update();
+
+			requestAnimationFrame(loop);
+		}
+	</script>
+</body>
+
 </html>

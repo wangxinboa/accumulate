@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
-		<link rel="icon" href="../../../icon.png">
-		<title>skin</title>
-		<link href="../../../../../_utils/default_css.css" rel="stylesheet" type="text/css"/>
-	</head>
-	<!--
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+	<link rel="icon" href="../../../icon.png">
+	<title>skin</title>
+	<link href="../../../default_css.css" rel="stylesheet" type="text/css" />
+</head>
+<!--
 
 	-->
-	<body>
+
+<body>
+
 	<body>
 		<canvas id="renderCanvas"></canvas>
 		<script type="importmap">
@@ -35,11 +38,11 @@
 				antialias: true
 			});
 
-			renderer.setSize( canvas.clientWidth, canvas.clientHeight );
+			renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
 			renderer.domElement.id = 'renderCanvas';
 
-			document.body.appendChild( renderer.domElement );
+			document.body.appendChild(renderer.domElement);
 
 
 			const camera = new THREE.PerspectiveCamera(
@@ -53,38 +56,38 @@
 
 			const plane = new THREE.BufferGeometry();
 
-			plane.setAttribute( "position", new THREE.BufferAttribute(new Float32Array([
+			plane.setAttribute("position", new THREE.BufferAttribute(new Float32Array([
 				-3, 3, 0,
-				 3, 3, 0,
-				-3,-3, 0,
-				 3,-3, 0
-			]), 3) );
+				3, 3, 0,
+				-3, -3, 0,
+				3, -3, 0
+			]), 3));
 
-			plane.setAttribute( "uv", new THREE.BufferAttribute( new Float32Array([
+			plane.setAttribute("uv", new THREE.BufferAttribute(new Float32Array([
 				0, 1,
 				1, 1,
 				0, 0,
 				1, 0
-			]), 2) );
+			]), 2));
 
-			plane.setAttribute( "skinIndex", new THREE.BufferAttribute( new Float32Array([
+			plane.setAttribute("skinIndex", new THREE.BufferAttribute(new Float32Array([
 				0, 0, 0, 0,
 				1, 0, 0, 0,
 				2, 0, 0, 0,
 				3, 0, 0, 0
-			]), 4) );
+			]), 4));
 
-			plane.setAttribute( "skinWeight", new THREE.BufferAttribute( new Float32Array([
+			plane.setAttribute("skinWeight", new THREE.BufferAttribute(new Float32Array([
 				1, 0, 0, 0,
 				1, 0, 0, 0,
 				1, 0, 0, 0,
 				1, 0, 0, 0
-			]), 4) );
+			]), 4));
 
-			plane.setIndex( new THREE.BufferAttribute(new Uint16Array([
+			plane.setIndex(new THREE.BufferAttribute(new Uint16Array([
 				0, 2, 3,
 				3, 1, 0
-			]), 1) );
+			]), 1));
 
 			const
 				bone1 = new THREE.Bone(),
@@ -103,7 +106,7 @@
 			// bone3.updateMatrixWorld();
 
 
-			const mesh = new THREE.SkinnedMesh( plane,
+			const mesh = new THREE.SkinnedMesh(plane,
 				new THREE.MeshBasicMaterial({
 					color: 0xffffff,
 					map: new THREE.TextureLoader().load('../../../assets/images/logo1.jpg')
@@ -117,20 +120,20 @@
 			const stats = new Stats();
 			stats.domElement.style.position = 'absolute';
 			stats.domElement.style.top = '0px';
-			document.body.appendChild( stats.domElement );
+			document.body.appendChild(stats.domElement);
 
 
 			initGui();
-			function initGui(){
+			function initGui() {
 
 				const gui = new lil.GUI();
 
-				gui.add( mesh, 'isSkinnedMesh' );
+				gui.add(mesh, 'isSkinnedMesh');
 
-				gui.add( mesh, 'bindMode', {
+				gui.add(mesh, 'bindMode', {
 					AttachedBindMode: 'attached',
 					DetachedBindMode: 'detached',
-				} )
+				});
 
 				initBone(gui, mesh, 'mesh');
 				initBone(gui, bone1, 'bone1');
@@ -140,7 +143,7 @@
 			}
 
 
-			function initBone(gui, bone, boneName){
+			function initBone(gui, bone, boneName) {
 
 				const
 					boneFolder = gui.addFolder(boneName),
@@ -150,39 +153,39 @@
 						z: bone.rotation.z / Math.PI * 180,
 					};
 
-				boneFolder.add(bone.position, 'x', -5, 5).name('position.x').onChange(()=>{
+				boneFolder.add(bone.position, 'x', -5, 5).name('position.x').onChange(() => {
 					bone.updateMatrixWorld();
 				});
-				boneFolder.add(bone.position, 'y', -5, 5).name('position.y').onChange(()=>{
+				boneFolder.add(bone.position, 'y', -5, 5).name('position.y').onChange(() => {
 					bone.updateMatrixWorld();
 				});
-				boneFolder.add(bone.position, 'z', -5, 5).name('position.z').onChange(()=>{
+				boneFolder.add(bone.position, 'z', -5, 5).name('position.z').onChange(() => {
 					bone.updateMatrixWorld();
 				});
 
-				boneFolder.add(angleParam, 'x', -180, 180).name('rotation.x').onChange(( angle )=>{
+				boneFolder.add(angleParam, 'x', -180, 180).name('rotation.x').onChange((angle) => {
 
 					bone.rotation.x = angle / 180 * Math.PI;
 					bone.updateMatrixWorld();
 				});
-				boneFolder.add(angleParam, 'y',  -180, 180).name('rotation.y').onChange(( angle )=>{
+				boneFolder.add(angleParam, 'y', -180, 180).name('rotation.y').onChange((angle) => {
 
 					bone.rotation.y = angle / 180 * Math.PI;
 					bone.updateMatrixWorld();
 				});
-				boneFolder.add(angleParam, 'z',  -180, 180).name('rotation.z').onChange(( angle )=>{
+				boneFolder.add(angleParam, 'z', -180, 180).name('rotation.z').onChange((angle) => {
 
 					bone.rotation.z = angle / 180 * Math.PI;
 					bone.updateMatrixWorld();
 				});
 
-				boneFolder.add(bone.scale, 'x', -3, 3).name('scale.x').onChange(()=>{
+				boneFolder.add(bone.scale, 'x', -3, 3).name('scale.x').onChange(() => {
 					bone.updateMatrixWorld();
 				});
-				boneFolder.add(bone.scale, 'y', -3, 3).name('scale.y').onChange(()=>{
+				boneFolder.add(bone.scale, 'y', -3, 3).name('scale.y').onChange(() => {
 					bone.updateMatrixWorld();
 				});
-				boneFolder.add(bone.scale, 'z', -3, 3).name('scale.z').onChange(()=>{
+				boneFolder.add(bone.scale, 'z', -3, 3).name('scale.z').onChange(() => {
 					bone.updateMatrixWorld();
 				});
 
@@ -192,12 +195,13 @@
 			loop();
 			function loop() {
 
-				renderer.render( scene, camera );
+				renderer.render(scene, camera);
 
 				stats.update();
 
-				requestAnimationFrame(loop)
+				requestAnimationFrame(loop);
 			}
 		</script>
 	</body>
+
 </html>
