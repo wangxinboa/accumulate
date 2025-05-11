@@ -1,11 +1,9 @@
-// create an array of assets to load
-var assetsToLoader = ["./demos/3.MovieClip/SpriteSheet.json"];
-
 // create a new loader
-var loader = new PIXI.AssetLoader(assetsToLoader);
+var loader = new PIXI.loaders.Loader();
+loader.add('SpriteSheet.json', "./demos/3.MovieClip/SpriteSheet.json");
 
 // use callback
-loader.onComplete = onAssetsLoaded;
+loader.once('complete', onAssetsLoaded);
 
 //begin load
 loader.load();
@@ -16,7 +14,7 @@ var explosions = [];
 var count = 0;
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF);
+var stage = new PIXI.Container(0xFFFFFF);
 
 // create a renderer instance.
 var renderer = PIXI.autoDetectRenderer(800, 600);
@@ -35,7 +33,7 @@ function onAssetsLoaded() {
 
 	for (var i = 0; i < 50; i++) {
 		// create an explosion MovieClip
-		var explosion = new PIXI.MovieClip(explosionTextures);
+		var explosion = new PIXI.extras.MovieClip(explosionTextures);
 
 		explosion.position.x = Math.random() * 800;
 		explosion.position.y = Math.random() * 600;

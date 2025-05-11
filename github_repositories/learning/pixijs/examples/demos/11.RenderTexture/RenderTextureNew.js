@@ -16,8 +16,8 @@ document.body.appendChild(renderer.view);
 
 // OOH! SHINY!
 // create two render textures.. these dynamic textures will be used to draw the scene into itself
-var renderTexture = new PIXI.RenderTexture(800, 600);
-var renderTexture2 = new PIXI.RenderTexture(800, 600);
+var renderTexture = new PIXI.RenderTexture(renderer, 800, 600);
+var renderTexture2 = new PIXI.RenderTexture(renderer, 800, 600);
 var currentTexture = renderTexture;
 
 // create a new sprite that uses the render texture we created above
@@ -89,7 +89,7 @@ function animate() {
 
 
 	// set the new texture
-	outputSprite.setTexture(renderTexture);
+	outputSprite.texture = renderTexture;
 
 	// twist this up!
 	stuffContainer.rotation -= 0.01;

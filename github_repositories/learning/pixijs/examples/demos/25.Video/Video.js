@@ -12,7 +12,7 @@ document.body.appendChild(renderer.view);
 requestAnimationFrame(animate);
 
 // create a texture from an image path
-var texture = PIXI.VideoTexture.fromUrl("./demos/25.Video/testVideo.mp4");
+var texture = PIXI.Texture.fromVideo("./demos/25.Video/testVideo.mp4");
 
 // create a new Sprite using the texture
 var moveSprite = new PIXI.Sprite(texture);
@@ -32,9 +32,9 @@ var colorMatrix = [1, 0, 0, 0,
 	0, 0, 1, 0,
 	0, 0, 0, 1];
 
-var filter = new PIXI.ColorMatrixFilter();
+var filter = new PIXI.filters.ColorMatrixFilter();
 
-moveSprite.shader = filter;
+moveSprite.filters = [filter];
 
 moveSprite.width = window.innerWidth;
 moveSprite.height = window.innerHeight;
@@ -62,7 +62,7 @@ function animate() {
 	colorMatrix[5] = Math.sin(count / 2);
 	colorMatrix[6] = Math.sin(count / 4);
 	filter.matrix = colorMatrix;
-	filter.syncUniforms();
+	// filter.syncUniforms();
 
 	// just for fun, let's rotate mr rabbit a little
 	// render the stage

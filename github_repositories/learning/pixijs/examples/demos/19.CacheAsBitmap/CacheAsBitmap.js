@@ -1,11 +1,9 @@
-// create an array of assets to load
-var assetsToLoader = ["./demos/19.CacheAsBitmap/SpriteSheet.json"];
-
 // create a new loader
-var loader = new PIXI.AssetLoader(assetsToLoader);
+var loader = new PIXI.loaders.Loader();
+loader.add('SpriteSheet.json', "./demos/19.CacheAsBitmap/SpriteSheet.json");
 
 // use callback
-loader.onComplete = onAssetsLoaded;
+loader.once('complete', onAssetsLoaded);
 
 //begin load
 loader.load();
@@ -26,7 +24,7 @@ var renderer = PIXI.autoDetectRenderer(800, 600);
 document.body.appendChild(renderer.view);
 
 // create an empty container
-var alienContainer = new PIXI.DisplayObjectContainer();
+var alienContainer = new PIXI.Container();
 alienContainer.position.x = 400;
 alienContainer.position.y = 300;
 
@@ -61,7 +59,7 @@ function onAssetsLoaded() {
 	requestAnimationFrame(animate);
 }
 
-stage.mousedown = stage.touchstart = function () {
+window.cacheAsBitmap = stage.mousedown = stage.touchstart = function () {
 	alienContainer.cacheAsBitmap = !alienContainer.cacheAsBitmap;
 	console.log(alienContainer.getLocalBounds());
 

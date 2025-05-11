@@ -16,13 +16,12 @@ function runList(item) {
 }
 init();
 function init() {
-	var assetsToLoader = ["./demos/10.Text/desyrel.fnt"];
-
 	// create a new loader
-	var loader = new PIXI.AssetLoader(assetsToLoader);
+	var loader = new PIXI.loaders.Loader();
+	loader.add('desyrel', "./demos/10.Text/desyrel.fnt");
 
 	// use callback
-	loader.onComplete = onAssetsLoaded;
+	loader.once('complete', onAssetsLoaded);
 
 	// create an new instance of a pixi stage
 	var stage = new PIXI.Stage(0x66FF99);
@@ -31,7 +30,7 @@ function init() {
 	loader.load();
 
 	function onAssetsLoaded() {
-		var bitmapFontText = new PIXI.BitmapText("bitmap fonts are\n now supported!", { font: "35px Desyrel", align: "right" });
+		var bitmapFontText = new PIXI.extras.BitmapText("bitmap fonts are\n now supported!", { font: "35px Desyrel", align: "right" });
 		bitmapFontText.position.x = 620 - bitmapFontText.textWidth - 20;
 		bitmapFontText.position.y = 20;
 
@@ -82,7 +81,7 @@ function init() {
 		renderer.render(stage);
 
 		count += 0.1;
-		countingText.setText("COUNT 4EVAR: " + (count | 0));
+		countingText.text = "COUNT 4EVAR: " + (count | 0);
 	}
 
 	requestAnimationFrame(animate);

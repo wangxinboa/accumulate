@@ -9,9 +9,9 @@ renderer.view.className = "rendererView";
 document.body.appendChild(renderer.view);
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF);
+var stage = new PIXI.Container(0xFFFFFF);
 
-var sprites = new PIXI.SpriteBatch();
+var sprites = new PIXI.ParticleContainer();
 stage.addChild(sprites);
 
 var tints = [0xFFFFFF, 0xFFFBEE, 0xFFEEEE, 0xFADEED, 0xE8D4CD];

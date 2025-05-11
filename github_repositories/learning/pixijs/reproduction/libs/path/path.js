@@ -1,3 +1,9 @@
+var splitPathRe =
+	/^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var splitPath = function (filename) {
+	return splitPathRe.exec(filename).slice(1);
+};
+
 const path = {
 	dirname(path) {
 		var result = splitPath(path),

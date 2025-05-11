@@ -84,8 +84,8 @@ stage.mousedown = function (data) {
 stage.mousemove = function (data) {
 	if (!isDown) return;
 
-	path.push(data.global.x);
-	path.push(data.global.y);
+	path.push(data.data.global.x);
+	path.push(data.data.global.y);
 
 	liveGraphics.clear();
 	liveGraphics.beginFill(color);

@@ -9,11 +9,13 @@ var alienFrames = ["eggHead.png", "flowerTop.png", "helmlok.png", "skully.png"];
 var count = 0;
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0x3da8bb);
+var stage = new PIXI.Container();
 
 
 // create a renderer instance.
-var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
+var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
+	backgroundColor: 0x3da8bb
+});
 
 // add the renderer view element to the DOM
 document.body.appendChild(renderer.view);
@@ -51,7 +53,7 @@ label.x = 10;
 label.y = 10;
 
 
-stage.mousedown = function (data) {
+stage.mousedown = stage.touchstart = function (data) {
 	isDown = true;
 	path = [];
 	color = colors[colorCount++ % colors.length];
@@ -62,8 +64,8 @@ stage.mousedown = function (data) {
 stage.mousemove = function (data) {
 	if (!isDown) return;
 
-	path.push(data.global.x);
-	path.push(data.global.y);
+	path.push(data.data.global.x);
+	path.push(data.data.global.y);
 
 
 	//console.log(">>>>")

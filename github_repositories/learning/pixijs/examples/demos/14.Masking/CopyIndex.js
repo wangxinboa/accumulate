@@ -65,18 +65,18 @@ thing.position.x = 620 / 2;
 thing.position.y = 380 / 2;
 thing.lineStyle(0);
 
-container.addFilter(thing);
+container.mask = thing;
 
 var count = 0;
 
 stage.click = stage.tap = function () {
-	if (!container.filter) {
-		container.addFilter(thing);
+	if (!container.mask) {
+		container.mask = thing;
 
 		PIXI.runList(stage);
 	}
 	else {
-		container.removeFilter(thing);
+		container.mask = null;
 	}
 };
 
