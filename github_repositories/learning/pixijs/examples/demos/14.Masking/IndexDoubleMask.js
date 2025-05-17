@@ -1,5 +1,5 @@
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF, true);
+var stage = new PIXI.Container(0xFFFFFF, true);
 
 stage.interactive = true;
 
@@ -37,7 +37,7 @@ var mask2 = new PIXI.Graphics();
 mask2.beginFill(0);
 mask2.drawCircle(620 / 2, 380 / 2, 300);
 
-var container = new PIXI.DisplayObjectContainer();
+var container = new PIXI.Container();
 stage.addChild(container);
 container.addChild(bg);
 
@@ -65,8 +65,8 @@ for (var i = 0; i < 4; i++) {
 var count = 0;
 
 stage.click = stage.tap = function () {
-	if (!container.filter) {
-		container.mask = thing;
+	if (!container.mask) {
+		container.mask = mask2;
 	}
 	else {
 		container.mask = null;

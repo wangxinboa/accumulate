@@ -1,51 +1,44 @@
-import WebGLManager from '../managers/WebGLManager.js';
+import WebGLSystem from '../systems/WebGLSystem.js';
 
 /**
  * Base for a common object renderer that can be used as a system renderer plugin.
  *
  * @class
- * @extends PIXI.WebGLManager
+ * @extends PIXI.WebGLSystem
  * @memberof PIXI
- * @param renderer {PIXI.WebGLRenderer} The renderer this object renderer works for.
  */
-export default function ObjectRenderer(renderer) {
-	WebGLManager.call(this, renderer);
+export default class ObjectRenderer extends WebGLSystem {
+	/**
+	 * Starts the renderer and sets the shader
+	 *
+	 */
+	start() {
+		// set the shader..
+	}
+
+	/**
+	 * Stops the renderer
+	 *
+	 */
+	stop() {
+		this.flush();
+	}
+
+	/**
+	 * Stub method for rendering content and emptying the current batch.
+	 *
+	 */
+	flush() {
+		// flush!
+	}
+
+	/**
+	 * Renders an object
+	 *
+	 * @param {PIXI.DisplayObject} object - The object to render.
+	 */
+	render(object) // eslint-disable-line no-unused-vars
+	{
+		// render the object
+	}
 }
-
-
-ObjectRenderer.prototype = Object.create(WebGLManager.prototype);
-ObjectRenderer.prototype.constructor = ObjectRenderer;
-
-/**
- * Starts the renderer and sets the shader
- *
- */
-ObjectRenderer.prototype.start = function () {
-	// set the shader..
-};
-
-/**
- * Stops the renderer
- *
- */
-ObjectRenderer.prototype.stop = function () {
-	this.flush();
-};
-
-/**
- * flushes
- *
- */
-ObjectRenderer.prototype.flush = function () {
-	// flush!
-};
-
-/**
- * Renders an object
- *
- * @param object {PIXI.DisplayObject} The object to render.
- */
-ObjectRenderer.prototype.render = function (object) // jshint unused:false
-{
-	// render the object
-};

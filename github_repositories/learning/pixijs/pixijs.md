@@ -15,11 +15,11 @@ HTML5 创作引擎: 使用最快、最灵活的 2D WebGL 渲染器，创作出�
 		075e2fc2e7897fe45cf17cc020b75d0f9edda1c5: 2013/8/19 v1.3.0
 		31e05f6f5335f529339f9912a975687a4a42f61a: 2014/1/6  v1.4.0
 		a40a1e2312ebd19ac98727afedc6dcbe3c53d676: 2014/12/2 version update to 2.2
-		// 正在看
 		962f5bdff1ed2d96cfeaef22897ed83b7cce79bd: 2015/12/23 v3.0.9
-		// 准备看
 		ac95866581c66d924924d1438dec775181e50884: 2016/9/21 v4.0.2
+		// 正在看
 		479e68a8c8a96d080129b00c15430a867c69dc0f: 2017/6/2 v5.0.0-alpha
+		// 准备看
 		// 从 src 变成 package 了
 		101f51a756db856f004b1522b07006026465d194: 2018/7/3 v5.0.0-alpha.3
 		9026a1bbca9a9d86b7a3b6d5eb4fa2c3145c2b85: 2019/2/1 v5.0.0-rc

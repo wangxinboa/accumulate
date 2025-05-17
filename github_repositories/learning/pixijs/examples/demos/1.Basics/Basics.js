@@ -1,17 +1,16 @@
+const app = new PIXI.Application({
+	width: 400,
+	height: 300,
+});
 // create an new instance of a pixi stage
-var stage = new PIXI.Container(0x66FF99);
-
-// create a renderer instance
-var renderer = PIXI.autoDetectRenderer(400, 300);
+var stage = app.stage;
 
 // add the renderer view element to the DOM
-document.body.appendChild(renderer.view);
-
-requestAnimationFrame(animate);
+document.body.appendChild(app.renderer.view);
 
 // create a texture from an image path
-var texture = PIXI.Texture.fromImage("./demos/1.Basics/bunny.png");
-
+var texture = PIXI.Texture.from("./demos/1.Basics/bunny.png");
+window.texture = texture;
 // create a new Sprite using the texture
 var bunny = new PIXI.Sprite(texture);
 
@@ -25,12 +24,6 @@ bunny.position.y = 150;
 
 stage.addChild(bunny);
 
-function animate() {
-	requestAnimationFrame(animate);
-
-	// just for fun, let's rotate mr rabbit a little
+app.ticker.add(() => {
 	bunny.rotation += 0.1;
-
-	// render the stage
-	renderer.render(stage);
-}
+});

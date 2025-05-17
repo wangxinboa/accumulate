@@ -1,6 +1,3 @@
-// create an array of assets to load
-var assetsToLoader = ["./demos/2.SpriteSheet/fighter.json"];
-
 // create a new loader
 var loader = new PIXI.loaders.Loader();
 loader.add('fighter.json', "./demos/2.SpriteSheet/fighter.json");

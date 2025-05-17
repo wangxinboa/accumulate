@@ -13,7 +13,7 @@ loader.load();
 
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF, true);
+var stage = new PIXI.Container(0xFFFFFF, true);
 
 // create a renderer instance
 var renderer = new PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
@@ -34,7 +34,7 @@ function onAssetsLoaded() {
 	dragon.autoUpdate = false;
 
 	/* create a container for the spine animation and add the animation to it */
-	var dragonCage = new PIXI.DisplayObjectContainer();
+	var dragonCage = new PIXI.Container();
 	dragonCage.addChild(dragon);
 
 	/* measure the spine animation and position it inside its container to align it to the origin */

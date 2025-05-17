@@ -10,10 +10,48 @@
 	<link href="../../../../css/default.css" rel="stylesheet" type="text/css" />
 	<link href="../../../../css/common.css" rel="stylesheet" type="text/css" />
 
+	<!-- <script type="text/javascript" src="/pixijs/dist/pixi.js"></script> -->
 	<script type="text/javascript"
-		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/resource-loader/dist/resource-loader.min.js"></script>
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/bit-twiddle/twiddle.js"></script>
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/earcut/src/earcut.js"></script>
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/eventemitter3/dist/eventemitter3.umd.js"></script>
+
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/ismobilejs/isMobile.js"></script>
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/mini-runner/mini-runner.js"></script>
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/path/path.js"></script>
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/pixi-gl-core/bin/pixi-gl-core.js"></script>
+
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/resource-loader/dist/resource-loader.js"></script>
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/resource-loader/dist/blob.js"></script>
+
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/punycode/punycode.js"></script>
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/qs/qs.js"></script>
+	<script type="text/javascript"
+		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/url/url.js"></script>
+
 	<script defer type="module">
+		globalThis.bitTwiddle = bitTwiddle;
+		globalThis.earcut = earcut;
+		globalThis.EventEmitter = EventEmitter3;
+		globalThis.isMobile = isMobile;
+		globalThis.Runner = MiniRunner;
+		globalThis.path = path;
+		globalThis.glCore = glCore;
+
 		globalThis.ResourceLoader = Loader;
+		globalThis.blobMiddlewareFactory = blobMiddlewareFactory;
+
+		globalThis.url = libUrl;
 	</script>
 	<script defer type="module"
 		src="/accumulate/github_repositories/learning/pixijs/reproduction/src/index.js"></script>

@@ -1,24 +1,25 @@
 /**
  * Mixins functionality to make an object have "plugins".
  *
- * @mixin
- * @memberof PIXI.utils
- * @param obj {object} The object to mix into.
  * @example
  *      function MyObject() {}
  *
  *      pluginTarget.mixin(MyObject);
+ *
+ * @mixin
+ * @memberof PIXI.utils
+ * @param {object} obj - The object to mix into.
  */
-function pluginTargetFun(obj) {
+function pluginTarget(obj) {
 	obj.__plugins = {};
 
 	/**
 	 * Adds a plugin to an object
 	 *
-	 * @param pluginName {string} The events that should be listed.
-	 * @param ctor {Function} The constructor function for the plugin.
+	 * @param {string} pluginName - The events that should be listed.
+	 * @param {Function} ctor - The constructor function for the plugin.
 	 */
-	obj.registerPlugin = function (pluginName, ctor) {
+	obj.registerPlugin = function registerPlugin(pluginName, ctor) {
 		obj.__plugins[pluginName] = ctor;
 	};
 
@@ -26,10 +27,10 @@ function pluginTargetFun(obj) {
 	 * Instantiates all the plugins of this object
 	 *
 	 */
-	obj.prototype.initPlugins = function () {
+	obj.prototype.initPlugins = function initPlugins() {
 		this.plugins = this.plugins || {};
 
-		for (var o in obj.__plugins) {
+		for (const o in obj.__plugins) {
 			this.plugins[o] = new (obj.__plugins[o])(this);
 		}
 	};
@@ -38,8 +39,8 @@ function pluginTargetFun(obj) {
 	 * Removes all the plugins of this object
 	 *
 	 */
-	obj.prototype.destroyPlugins = function () {
-		for (var o in this.plugins) {
+	obj.prototype.destroyPlugins = function destroyPlugins() {
+		for (const o in this.plugins) {
 			this.plugins[o].destroy();
 			this.plugins[o] = null;
 		}
@@ -48,16 +49,13 @@ function pluginTargetFun(obj) {
 	};
 }
 
-
-var pluginTarget = {
+export default {
 	/**
 	 * Mixes in the properties of the pluginTarget into another object
 	 *
-	 * @param object {object} The obj to mix into
+	 * @param {object} obj - The obj to mix into
 	 */
 	mixin: function mixin(obj) {
-		pluginTargetFun(obj);
-	}
+		pluginTarget(obj);
+	},
 };
-
-export default pluginTarget;

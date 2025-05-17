@@ -1,7 +1,7 @@
 // create an new instance of a pixi stage
 // the second parameter is interactivity...
 var interactive = true;
-var stage = new PIXI.Stage(0x000000, interactive);
+var stage = new PIXI.Container(0x000000, interactive);
 
 // create a renderer instance.
 var renderer = PIXI.autoDetectRenderer(620, 400);
@@ -47,7 +47,7 @@ for (var i = 0; i < 5; i++) {
 	// set the mousedown and touchstart callback..
 	button.mousedown = button.touchstart = function (data) {
 		this.isdown = true;
-		this.setTexture(textureButtonDown);
+		this.texture = textureButtonDown;
 		this.alpha = 1;
 	};
 
@@ -56,10 +56,10 @@ for (var i = 0; i < 5; i++) {
 		this.isdown = false;
 
 		if (this.isOver) {
-			this.setTexture(textureButtonOver);
+			this.texture = textureButtonOver;
 		}
 		else {
-			this.setTexture(textureButton);
+			this.texture = textureButton;
 		}
 	};
 
@@ -70,7 +70,7 @@ for (var i = 0; i < 5; i++) {
 		if (this.isdown)
 			return;
 
-		this.setTexture(textureButtonOver);
+		this.texture = textureButtonOver;
 	};
 
 	// set the mouseout callback..
@@ -80,7 +80,7 @@ for (var i = 0; i < 5; i++) {
 		if (this.isdown)
 			return;
 
-		this.setTexture(textureButton);
+		this.texture = textureButton;
 	};
 
 	button.click = function (data) {
@@ -116,7 +116,7 @@ function animate() {
 }
 
 // add a logo!
-var pixiLogo = PIXI.Sprite.fromImage("pixi.png");
+var pixiLogo = PIXI.Sprite.fromImage("./demos/6.Interactivity/pixi.png");
 stage.addChild(pixiLogo);
 
 pixiLogo.buttonMode = true;

@@ -3,9 +3,10 @@
  *
  * @lends PIXI
  */
-
 export { default as Point } from './Point.js';
+export { default as ObservablePoint } from './ObservablePoint.js';
 export { default as Matrix } from './Matrix.js';
+export { default as GroupD8 } from './GroupD8.js';
 
 export { default as Circle } from './shapes/Circle.js';
 export { default as Ellipse } from './shapes/Ellipse.js';

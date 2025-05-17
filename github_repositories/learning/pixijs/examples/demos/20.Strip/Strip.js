@@ -2,7 +2,7 @@
 var count = 0;
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xace455);
+var stage = new PIXI.Container(0xace455);
 
 // create a renderer instance.
 var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
@@ -24,10 +24,10 @@ for (var i = 0; i < 20; i++) {
 	points.push(new PIXI.Point(i * length, 0));
 };
 
-var strip = new PIXI.Rope(PIXI.Texture.fromImage("./demos/20.Strip/snake.png"), points);
+var strip = new PIXI.mesh.Rope(PIXI.Texture.fromImage("./demos/20.Strip/snake.png"), points);
 strip.x = -918 / 2;
 
-var snakeContainer = new PIXI.DisplayObjectContainer();
+var snakeContainer = new PIXI.Container();
 snakeContainer.position.x = window.innerWidth / 2;
 snakeContainer.position.y = window.innerHeight / 2;
 

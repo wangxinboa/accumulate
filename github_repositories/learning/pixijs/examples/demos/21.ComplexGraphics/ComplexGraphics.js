@@ -21,7 +21,7 @@ var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, {
 document.body.appendChild(renderer.view);
 
 // create an empty container
-var alienContainer = new PIXI.DisplayObjectContainer();
+var alienContainer = new PIXI.Container();
 alienContainer.position.x = 400;
 alienContainer.position.y = 300;
 

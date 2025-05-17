@@ -1,4 +1,4 @@
-import core from '../core/index.js';
+import * as core from '../core/index.js';
 
 /**
  * Holds all information related to an Interaction event
@@ -6,39 +6,49 @@ import core from '../core/index.js';
  * @class
  * @memberof PIXI.interaction
  */
-export default function InteractionData() {
+export default class InteractionData {
 	/**
-	 * This point stores the global coords of where the touch/mouse event happened
 	 *
-	 * @member {PIXI.Point}
 	 */
-	this.global = new core.Point();
+	constructor() {
+		/**
+		 * This point stores the global coords of where the touch/mouse event happened
+		 *
+		 * @member {PIXI.Point}
+		 */
+		this.global = new core.Point();
+
+		/**
+		 * The target Sprite that was interacted with
+		 *
+		 * @member {PIXI.Sprite}
+		 */
+		this.target = null;
+
+		/**
+		 * When passed to an event handler, this will be the original DOM Event that was captured
+		 *
+		 * @see https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
+		 * @see https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent
+		 * @see https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent
+		 * @member {MouseEvent|TouchEvent|PointerEvent}
+		 */
+		this.originalEvent = null;
+	}
 
 	/**
-	 * The target Sprite that was interacted with
+	 * This will return the local coordinates of the specified displayObject for this InteractionData
 	 *
-	 * @member {PIXI.Sprite}
+	 * @param {PIXI.DisplayObject} displayObject - The DisplayObject that you would like the local
+	 *  coords off
+	 * @param {PIXI.Point} [point] - A Point object in which to store the value, optional (otherwise
+	 *  will create a new point)
+	 * @param {PIXI.Point} [globalPos] - A Point object containing your custom global coords, optional
+	 *  (otherwise will use the current global coords)
+	 * @return {PIXI.Point} A point containing the coordinates of the InteractionData position relative
+	 *  to the DisplayObject
 	 */
-	this.target = null;
-
-	/**
-	 * When passed to an event handler, this will be the original DOM Event that was captured
-	 *
-	 * @member {Event}
-	 */
-	this.originalEvent = null;
+	getLocalPosition(displayObject, point, globalPos) {
+		return displayObject.worldTransform.applyInverse(globalPos || this.global, point);
+	}
 }
-
-InteractionData.prototype.constructor = InteractionData;
-
-/**
- * This will return the local coordinates of the specified displayObject for this InteractionData
- *
- * @param displayObject {PIXI.DisplayObject} The DisplayObject that you would like the local coords off
- * @param [point] {PIXI.Point} A Point object in which to store the value, optional (otherwise will create a new point)
- * @param [globalPos] {PIXI.Point} A Point object containing your custom global coords, optional (otherwise will use the current global coords)
- * @return {PIXI.Point} A point containing the coordinates of the InteractionData position relative to the DisplayObject
- */
-InteractionData.prototype.getLocalPosition = function (displayObject, point, globalPos) {
-	return displayObject.worldTransform.applyInverse(globalPos || this.global, point);
-};

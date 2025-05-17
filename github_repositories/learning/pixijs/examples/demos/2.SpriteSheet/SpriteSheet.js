@@ -14,14 +14,14 @@ var alienFrames = ["eggHead.png", "flowerTop.png", "helmlok.png", "skully.png"];
 
 var count = 0;
 
+const app = new PIXI.Application({
+	width: 800,
+	height: 600,
+});
 // create an new instance of a pixi stage
-var stage = new PIXI.Container(0xFFFFFF);
+var stage = app.stage;
 
-// create a renderer instance.
-var renderer = PIXI.autoDetectRenderer(800, 600);
-
-// add the renderer view element to the DOM
-document.body.appendChild(renderer.view);
+document.body.appendChild(app.renderer.view);
 
 // create an empty container
 var alienContainer = new PIXI.Container();
@@ -52,14 +52,11 @@ function onAssetsLoaded() {
 		aliens.push(alien);
 		alienContainer.addChild(alien);
 	}
-
-	// start animating
-	requestAnimationFrame(animate);
 }
 
-function animate() {
+app.ticker.add(() => {
 	// just for fun, lets rotate mr rabbit a little
-	for (var i = 0; i < 100; i++) {
+	for (var i = 0; i < aliens.length; i++) {
 		var alien = aliens[i];
 		alien.rotation += 0.1;
 	}
@@ -69,9 +66,4 @@ function animate() {
 	alienContainer.scale.y = Math.sin(count);
 
 	alienContainer.rotation += 0.01;
-
-	// render the stage
-	renderer.render(stage);
-
-	requestAnimationFrame(animate);
-}
+});

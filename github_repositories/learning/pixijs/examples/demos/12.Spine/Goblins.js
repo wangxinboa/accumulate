@@ -13,7 +13,7 @@ loader.load();
 
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF, true);
+var stage = new PIXI.Container(0xFFFFFF, true);
 
 // create a renderer instance
 var renderer = new PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);

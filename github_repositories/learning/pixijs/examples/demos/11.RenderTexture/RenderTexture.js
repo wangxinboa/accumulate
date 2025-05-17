@@ -1,5 +1,5 @@
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0x000000);
+var stage = new PIXI.Container(0x000000);
 
 // create a renderer instance
 var renderer = new PIXI.autoDetectRenderer(800, 600);
@@ -14,8 +14,8 @@ document.body.appendChild(renderer.view);
 
 // OOH! SHINY!
 // create two render textures.. these dynamic textures will be used to draw the scene into itself
-var renderTexture = new PIXI.RenderTexture(renderer, 800, 600);
-var renderTexture2 = new PIXI.RenderTexture(renderer, 800, 600);
+var renderTexture = PIXI.RenderTexture.create(800, 600);
+var renderTexture2 = PIXI.RenderTexture.create(800, 600);
 var currentTexture = renderTexture;
 
 // create a new sprite that uses the render texture we created above
@@ -30,7 +30,7 @@ outputSprite.anchor.y = 0.5;
 // add to stage
 stage.addChild(outputSprite);
 
-var stuffContainer = new PIXI.DisplayObjectContainer();
+var stuffContainer = new PIXI.Container();
 
 stuffContainer.position.x = 800 / 2;
 stuffContainer.position.y = 600 / 2;
@@ -93,7 +93,8 @@ function animate() {
 
 	// render the stage to the texture
 	// the true clears the texture before content is rendered
-	renderTexture2.render(stage, null, true);
+	// renderTexture2.render(stage, null, true);
+	renderer.render(stage, renderTexture2);
 
 	// and finally render the stage
 	renderer.render(stage);

@@ -9,7 +9,7 @@ renderer.view.className = "rendererView";
 document.body.appendChild(renderer.view);
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF);
+var stage = new PIXI.Container(0xFFFFFF);
 
 // create a background texture
 var pondFloorTexture = PIXI.Texture.fromImage("./demos/16.BlendModes/BGrotate.jpg");
@@ -39,7 +39,7 @@ for (var i = 0; i < totaldude; i++) {
 	// time to add the dude to the pond container!
 	stage.addChild(dude);
 
-	dude.blendMode = PIXI.blendModes.ADD;
+	dude.blendMode = PIXI.BLEND_MODES.ADD;
 
 	// create some extra properties that will control movement
 	// create a random direction in radians. This is a number between 0 and PI*2 which is the equivalent of 0 - 360 degrees

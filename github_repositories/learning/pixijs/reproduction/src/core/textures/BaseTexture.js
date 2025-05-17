@@ -1,402 +1,417 @@
-import utils from '../utils/index.js';
-import CONST from '../const.js';
-import EventEmitter from '../../../libs/eventemitter3/dist/eventemitter3.esm.js';
+import {
+	uid, BaseTextureCache, TextureCache,
+} from '../utils/index.js';
 
-/**
- * A texture stores the information that represents an image. All textures have a base texture.
- *
- * @class
- * @memberof PIXI
- * @param source {Image|Canvas} the source object of the texture.
- * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
- * @param resolution {number} the resolution of the texture for devices with different pixel ratios
- */
-export default function BaseTexture(source, scaleMode, resolution) {
-	EventEmitter.call(this);
+import { FORMATS, TARGETS, TYPES, SCALE_MODES } from '../const.js';
+import BufferResource from './resources/BufferResource.js';
+import createResource from './resources/createResource.js';
 
-	this.uid = utils.uid();
+import settings from '../settings.js';
 
-	/**
-	 * The Resolution of the texture.
-	 *
-	 * @member {number}
-	 */
-	this.resolution = resolution || 1;
+export default class BaseTexture extends EventEmitter {
 
-	/**
-	 * The width of the base texture set when the image has loaded
-	 *
-	 * @member {number}
-	 * @readOnly
-	 */
-	this.width = 100;
+	constructor(resource,
+		scaleMode = settings.SCALE_MODE,
+		resolution,
+		width,
+		height,
+		format,
+		type,
+		mipmap = settings.MIPMAP_TEXTURES) {
+		super();
 
-	/**
-	 * The height of the base texture set when the image has loaded
-	 *
-	 * @member {number}
-	 * @readOnly
-	 */
-	this.height = 100;
+		this.uid = uid();
 
-	// TODO docs
-	// used to store the actual dimensions of the source
-	/**
-	 * Used to store the actual width of the source of this texture
-	 *
-	 * @member {number}
-	 * @readOnly
-	 */
-	this.realWidth = 100;
-	/**
-	 * Used to store the actual height of the source of this texture
-	 *
-	 * @member {number}
-	 * @readOnly
-	 */
-	this.realHeight = 100;
+		this.touched = 0;
 
-	/**
-	 * The scale mode to apply when scaling this texture
-	 *
-	 * @member {number}
-	 * @default PIXI.SCALE_MODES.LINEAR
-	 * @see PIXI.SCALE_MODES
-	 */
-	this.scaleMode = scaleMode || CONST.SCALE_MODES.DEFAULT;
+		/**
+		 * The width of texture
+		 *
+		 * @member {Number}
+		 */
+		this.width = width || -1;
+		/**
+		 * The height of texture
+		 *
+		 * @member {Number}
+		 */
+		this.height = height || -1;
 
-	/**
-	 * Set to true once the base texture has successfully loaded.
-	 *
-	 * This is never true if the underlying source fails to load or has no texture data.
-	 *
-	 * @member {boolean}
-	 * @readOnly
-	 */
-	this.hasLoaded = false;
+		/**
+		 * The resolution / device pixel ratio of the texture
+		 *
+		 * @member {number}
+		 * @default 1
+		 */
+		this.resolution = resolution || settings.RESOLUTION;
 
-	/**
-	 * Set to true if the source is currently loading.
-	 *
-	 * If an Image source is loading the 'loaded' or 'error' event will be
-	 * dispatched when the operation ends. An underyling source that is
-	 * immediately-available bypasses loading entirely.
-	 *
-	 * @member {boolean}
-	 * @readonly
-	 */
-	this.isLoading = false;
+		/**
+		 * Whether or not the texture is a power of two, try to use power of two textures as much
+		 * as you can
+		 *
+		 * @private
+		 * @member {boolean}
+		 */
+		this.isPowerOfTwo = false;
 
-	/**
-	 * The image source that is used to create the texture.
-	 *
-	 * TODO: Make this a setter that calls loadSource();
-	 *
-	 * @member {Image|Canvas}
-	 * @readonly
-	 */
-	this.source = null; // set in loadSource, if at all
+		/**
+		 * If mipmapping was used for this texture, enable and disable with enableMipmap()
+		 *
+		 * @member {Boolean}
+		 */
+		//  TODO fix mipmapping..
+		mipmap = false;
+		this.mipmap = mipmap;
 
-	/**
-	 * Controls if RGB channels should be pre-multiplied by Alpha  (WebGL only)
-	 *
-	 * @member {boolean}
-	 * @default true
-	 */
-	this.premultipliedAlpha = true;
+		/**
+		 * Set to true to enable pre-multiplied alpha
+		 *
+		 * @member {Boolean}
+		 */
+		this.premultiplyAlpha = true;
 
-	/**
-	 * @member {string}
-	 */
-	this.imageUrl = null;
+		/**
+		 * [wrapMode description]
+		 * @type {number}
+		 */
+		this.wrapMode = settings.WRAP_MODE;
 
-	/**
-	 * Wether or not the texture is a power of two, try to use power of two textures as much as you can
-	 * @member {boolean}
-	 * @private
-	 */
-	this.isPowerOfTwo = false;
+		/**
+		 * The scale mode to apply when scaling this texture
+		 *
+		 * @member {number}
+		 * @default PIXI.settings.SCALE_MODE
+		 * @see PIXI.SCALE_MODES
+		 */
+		this.scaleMode = scaleMode;// || settings.SCALE_MODE;
 
-	// used for webGL
+		/**
+		 * The pixel format of the texture. defaults to gl.RGBA
+		 *
+		 * @member {Number}
+		 */
+		this.format = format || FORMATS.RGBA;
+		this.type = type || TYPES.UNSIGNED_BYTE; // UNSIGNED_BYTE
 
-	/**
-	 *
-	 * Set this to true if a mipmap of this texture needs to be generated. This value needs to be set before the texture is used
-	 * Also the texture must be a power of two size to work
-	 *
-	 * @member {boolean}
-	 */
-	this.mipmap = false;
+		this.target = TARGETS.TEXTURE_2D; // gl.TEXTURE_2D
 
-	/**
-	 * A map of renderer IDs to webgl textures
-	 *
-	 * @member {object<number, WebGLTexture>}
-	 * @private
-	 */
-	this._glTextures = {};
+		this._glTextures = {};
 
-	// if no source passed don't try to load
-	if (source) {
-		this.loadSource(source);
+		this._new = true;
+
+		this.dirtyId = 0;
+
+		this.valid = false;
+
+		this.resource = null;
+
+		if (resource) {
+			// lets convert this to a resource..
+			resource = createResource(resource);
+			this.setResource(resource);
+		}
+
+		this.cacheId = null;
+
+		this.validate();
+
+		this.textureCacheIds = [];
+
+		/**
+		 * Fired when a not-immediately-available source finishes loading.
+		 *
+		 * @protected
+		 * @event PIXI.BaseTexture#loaded
+		 * @param {PIXI.BaseTexture} baseTexture - Resource loaded.
+		 */
+
+		/**
+		 * Fired when a not-immediately-available source fails to load.
+		 *
+		 * @protected
+		 * @event PIXI.BaseTexture#error
+		 * @param {PIXI.BaseTexture} baseTexture - Resource errored.
+		 */
+
+		/**
+		 * Fired when BaseTexture is updated.
+		 *
+		 * @protected
+		 * @event PIXI.BaseTexture#loaded
+		 * @param {PIXI.BaseTexture} baseTexture - Resource loaded.
+		 */
+
+		/**
+		 * Fired when BaseTexture is destroyed.
+		 *
+		 * @protected
+		 * @event PIXI.BaseTexture#error
+		 * @param {PIXI.BaseTexture} baseTexture - Resource errored.
+		 */
+
+		/**
+		 * Fired when BaseTexture is updated.
+		 *
+		 * @protected
+		 * @event PIXI.BaseTexture#update
+		 * @param {PIXI.BaseTexture} baseTexture - Instance of texture being updated.
+		 */
+
+		/**
+		 * Fired when BaseTexture is destroyed.
+		 *
+		 * @protected
+		 * @event PIXI.BaseTexture#dispose
+		 * @param {PIXI.BaseTexture} baseTexture - Instance of texture being destroyed.
+		 */
+	}
+
+	updateResolution() {
+		const resource = this.resource;
+
+		if (resource && resource.width !== -1 && resource.hight !== -1) {
+			this.width = resource.width / this.resolution;
+			this.height = resource.height / this.resolution;
+		}
+	}
+
+	setResource(resource) {
+		// TODO currently a resource can only be set once..
+
+		if (this.resource) {
+			this.resource.resourceUpdated.remove(this);
+		}
+
+		this.resource = resource;
+
+		resource.resourceUpdated.add(this); // calls resourceUpaded
+
+		if (resource.loaded) {
+			this.resourceLoaded(resource);
+		}
+
+		resource.load
+			.then(this.resourceLoaded.bind(this))
+			.catch((reason) => {
+				// failed to load - maybe resource was destroyed before it loaded.
+				console.warn(reason);
+			});
+	}
+
+	resourceLoaded(resource) {
+		if (this.resource === resource) {
+			this.updateResolution();
+
+			this.validate();
+
+			if (this.valid) {
+				this.isPowerOfTwo = bitTwiddle.isPow2(this.realWidth) && bitTwiddle.isPow2(this.realHeight);
+
+				// we have not swapped half way!
+				this.dirtyId++;
+
+				this.emit('loaded', this);
+			}
+		}
+	}
+
+	resourceUpdated() {
+		// the resource was updated..
+		this.dirtyId++;
+	}
+
+	update() {
+		this.dirtyId++;
+	}
+
+	resize(width, height) {
+		this.width = width;
+		this.height = height;
+
+		this.dirtyId++;
+	}
+
+	validate() {
+		let valid = true;
+
+		if (this.width === -1 || this.height === -1) {
+			valid = false;
+		}
+
+		this.valid = valid;
+	}
+
+	get realWidth() {
+		return this.width * this.resolution;
+	}
+
+	get realHeight() {
+		return this.height * this.resolution;
 	}
 
 	/**
-	 * Fired when a not-immediately-available source finishes loading.
+	 * Destroys this base texture
 	 *
-	 * @event loaded
-	 * @memberof PIXI.BaseTexture#
-	 * @protected
 	 */
+	destroy() {
+		if (this.cacheId) {
+			delete BaseTextureCache[this.cacheId];
+			delete TextureCache[this.cacheId];
+
+			this.cacheId = null;
+		}
+
+		// remove and destroy the resource
+
+		if (this.resource) {
+			this.resource.destroy();
+			this.resource = null;
+		}
+
+		// finally let the webGL renderer know..
+		this.dispose();
+
+		BaseTexture.removeFromCache(this);
+		this.textureCacheIds = null;
+	}
 
 	/**
-	 * Fired when a not-immediately-available source fails to load.
+	 * Frees the texture from WebGL memory without destroying this texture object.
+	 * This means you can still use the texture later which will upload it to GPU
+	 * memory again.
 	 *
-	 * @event error
-	 * @memberof PIXI.BaseTexture#
-	 * @protected
+	 * @fires PIXI.BaseTexture#dispose
 	 */
+	dispose() {
+		this.emit('dispose', this);
+	}
+
+	/**
+	 * Helper function that creates a base texture based on the source you provide.
+	 * The source can be - image url, image element, canvas element.
+	 *
+	 * @static
+	 * @param {string|HTMLImageElement|HTMLCanvasElement} source - The source to create base texture from.
+	 * @param {number} [scaleMode=PIXI.settings.SCALE_MODE] - See {@link PIXI.SCALE_MODES} for possible values
+	 * @param {number} [sourceScale=(auto)] - Scale for the original image, used with Svg images.
+	 * @return {PIXI.BaseTexture} The new base texture.
+	 */
+	static from(source, scaleMode) {
+		let cacheId = null;
+
+		if (typeof source === 'string') {
+			cacheId = source;
+		}
+		else {
+			if (!source._pixiId) {
+				source._pixiId = `pixiid_${uid()}`;
+			}
+
+			cacheId = source._pixiId;
+		}
+
+		let baseTexture = BaseTextureCache[cacheId];
+
+		if (!baseTexture) {
+			baseTexture = new BaseTexture(source, scaleMode);
+			baseTexture.cacheId = cacheId;
+			BaseTexture.addToCache(baseTexture, cacheId);
+		}
+
+		return baseTexture;
+	}
+
+	static fromFloat32Array(width, height, float32Array) {
+		float32Array = float32Array || new Float32Array(width * height * 4);
+
+		const texture = new BaseTexture(new BufferResource(float32Array),
+			SCALE_MODES.NEAREST,
+			1,
+			width,
+			height,
+			FORMATS.RGBA,
+			TYPES.FLOAT);
+
+		return texture;
+	}
+
+	static fromUint8Array(width, height, uint8Array) {
+		uint8Array = uint8Array || new Uint8Array(width * height * 4);
+
+		const texture = new BaseTexture(new BufferResource(uint8Array),
+			SCALE_MODES.NEAREST,
+			1,
+			width,
+			height,
+			FORMATS.RGBA,
+			TYPES.UNSIGNED_BYTE);
+
+		return texture;
+	}
+
+	/**
+	 * Adds a BaseTexture to the global BaseTextureCache. This cache is shared across the whole PIXI object.
+	 *
+	 * @static
+	 * @param {PIXI.BaseTexture} baseTexture - The BaseTexture to add to the cache.
+	 * @param {string} id - The id that the BaseTexture will be stored against.
+	 */
+	static addToCache(baseTexture, id) {
+		if (id) {
+			if (baseTexture.textureCacheIds.indexOf(id) === -1) {
+				baseTexture.textureCacheIds.push(id);
+			}
+
+			// @if DEBUG
+			/* eslint-disable no-console */
+			if (BaseTextureCache[id]) {
+				console.warn(`BaseTexture added to the cache with an id [${id}] that already had an entry`);
+			}
+			/* eslint-enable no-console */
+			// @endif
+
+			BaseTextureCache[id] = baseTexture;
+		}
+	}
+
+	/**
+	 * Remove a BaseTexture from the global BaseTextureCache.
+	 *
+	 * @static
+	 * @param {string|PIXI.BaseTexture} baseTexture - id of a BaseTexture to be removed, or a BaseTexture instance itself.
+	 * @return {PIXI.BaseTexture|null} The BaseTexture that was removed.
+	 */
+	static removeFromCache(baseTexture) {
+		if (typeof baseTexture === 'string') {
+			const baseTextureFromCache = BaseTextureCache[baseTexture];
+
+			if (baseTextureFromCache) {
+				const index = baseTextureFromCache.textureCacheIds.indexOf(baseTexture);
+
+				if (index > -1) {
+					baseTextureFromCache.textureCacheIds.splice(index, 1);
+				}
+
+				delete BaseTextureCache[baseTexture];
+
+				return baseTextureFromCache;
+			}
+		}
+		else {
+			for (let i = 0; i < baseTexture.textureCacheIds.length; ++i) {
+				delete BaseTextureCache[baseTexture.textureCacheIds[i]];
+			}
+
+			baseTexture.textureCacheIds.length = 0;
+
+			return baseTexture;
+		}
+
+		return null;
+	}
 }
 
-BaseTexture.prototype = Object.create(EventEmitter.prototype);
-BaseTexture.prototype.constructor = BaseTexture;
-
-/**
- * Updates the texture on all the webgl renderers, this also assumes the src has changed.
- *
- * @fires update
- */
-BaseTexture.prototype.update = function () {
-	this.realWidth = this.source.naturalWidth || this.source.width;
-	this.realHeight = this.source.naturalHeight || this.source.height;
-
-	this.width = this.realWidth / this.resolution;
-	this.height = this.realHeight / this.resolution;
-
-	this.isPowerOfTwo = utils.isPowerOfTwo(this.realWidth, this.realHeight);
-
-	this.emit('update', this);
-};
-
-/**
- * Load a source.
- *
- * If the source is not-immediately-available, such as an image that needs to be
- * downloaded, then the 'loaded' or 'error' event will be dispatched in the future
- * and `hasLoaded` will remain false after this call.
- *
- * The logic state after calling `loadSource` directly or indirectly (eg. `fromImage`, `new BaseTexture`) is:
- *
- *     if (texture.hasLoaded)
- {
- *        // texture ready for use
- *     } else if (texture.isLoading)
- {
- *        // listen to 'loaded' and/or 'error' events on texture
- *     } else {
- *        // not loading, not going to load UNLESS the source is reloaded
- *        // (it may still make sense to listen to the events)
- *     }
- *
- * @protected
- * @param source {Image|Canvas} the source object of the texture.
- */
-BaseTexture.prototype.loadSource = function (source) {
-	var wasLoading = this.isLoading;
-	this.hasLoaded = false;
-	this.isLoading = false;
-
-	if (wasLoading && this.source) {
-		this.source.onload = null;
-		this.source.onerror = null;
-	}
-
-	this.source = source;
-
-	// Apply source if loaded. Otherwise setup appropriate loading monitors.
-	if ((this.source.complete || this.source.getContext) && this.source.width && this.source.height) {
-		this._sourceLoaded();
-	}
-	else if (!source.getContext) {
-
-		// Image fail / not ready
-		this.isLoading = true;
-
-		var scope = this;
-
-		source.onload = function () {
-			source.onload = null;
-			source.onerror = null;
-
-			if (!scope.isLoading) {
-				return;
-			}
-
-			scope.isLoading = false;
-			scope._sourceLoaded();
-
-			scope.emit('loaded', scope);
-		};
-
-		source.onerror = function () {
-			source.onload = null;
-			source.onerror = null;
-
-			if (!scope.isLoading) {
-				return;
-			}
-
-			scope.isLoading = false;
-			scope.emit('error', scope);
-		};
-
-		// Per http://www.w3.org/TR/html5/embedded-content-0.html#the-img-element
-		//   "The value of `complete` can thus change while a script is executing."
-		// So complete needs to be re-checked after the callbacks have been added..
-		// NOTE: complete will be true if the image has no src so best to check if the src is set.
-		if (source.complete && source.src) {
-			this.isLoading = false;
-
-			// ..and if we're complete now, no need for callbacks
-			source.onload = null;
-			source.onerror = null;
-
-			if (source.width && source.height) {
-				this._sourceLoaded();
-
-				// If any previous subscribers possible
-				if (wasLoading) {
-					this.emit('loaded', this);
-				}
-			}
-			else {
-				// If any previous subscribers possible
-				if (wasLoading) {
-					this.emit('error', this);
-				}
-			}
-		}
-	}
-};
-
-/**
- * Used internally to update the width, height, and some other tracking vars once
- * a source has successfully loaded.
- *
- * @private
- */
-BaseTexture.prototype._sourceLoaded = function () {
-	this.hasLoaded = true;
-	this.update();
-};
-
-/**
- * Destroys this base texture
- *
- */
-BaseTexture.prototype.destroy = function () {
-	if (this.imageUrl) {
-		delete utils.BaseTextureCache[this.imageUrl];
-		delete utils.TextureCache[this.imageUrl];
-
-		this.imageUrl = null;
-
-		if (!navigator.isCocoonJS) {
-			this.source.src = '';
-		}
-	}
-	else if (this.source && this.source._pixiId) {
-		delete utils.BaseTextureCache[this.source._pixiId];
-	}
-
-	this.source = null;
-
-	this.dispose();
-};
-
-/**
- * Frees the texture from WebGL memory without destroying this texture object.
- * This means you can still use the texture later which will upload it to GPU
- * memory again.
- *
- */
-BaseTexture.prototype.dispose = function () {
-	this.emit('dispose', this);
-
-	// this should no longer be needed, the renderers should cleanup all the gl textures.
-	// this._glTextures = {};
-};
-
-/**
- * Changes the source image of the texture.
- * The original source must be an Image element.
- *
- * @param newSrc {string} the path of the image
- */
-BaseTexture.prototype.updateSourceImage = function (newSrc) {
-	this.source.src = newSrc;
-
-	this.loadSource(this.source);
-};
-
-/**
- * Helper function that creates a base texture from the given image url.
- * If the image is not in the base texture cache it will be created and loaded.
- *
- * @static
- * @param imageUrl {string} The image url of the texture
- * @param [crossorigin=(auto)] {boolean} Should use anonymous CORS? Defaults to true if the URL is not a data-URI.
- * @param [scaleMode=PIXI.SCALE_MODES.DEFAULT] {number} See {@link PIXI.SCALE_MODES} for possible values
- * @return PIXI.BaseTexture
- */
-BaseTexture.fromImage = function (imageUrl, crossorigin, scaleMode) {
-	var baseTexture = utils.BaseTextureCache[imageUrl];
-
-	if (crossorigin === undefined && imageUrl.indexOf('data:') !== 0) {
-		crossorigin = true;
-	}
-
-	if (!baseTexture) {
-		// new Image() breaks tex loading in some versions of Chrome.
-		// See https://code.google.com/p/chromium/issues/detail?id=238071
-		var image = new Image();//document.createElement('img');
-		if (crossorigin) {
-			image.crossOrigin = '';
-		}
-
-		baseTexture = new BaseTexture(image, scaleMode);
-		baseTexture.imageUrl = imageUrl;
-
-		image.src = imageUrl;
-
-		utils.BaseTextureCache[imageUrl] = baseTexture;
-
-		// if there is an @2x at the end of the url we are going to assume its a highres image
-		baseTexture.resolution = utils.getResolutionOfUrl(imageUrl);
-	}
-
-	return baseTexture;
-};
-
-/**
- * Helper function that creates a base texture from the given canvas element.
- *
- * @static
- * @param canvas {Canvas} The canvas element source of the texture
- * @param scaleMode {number} See {@link PIXI.SCALE_MODES} for possible values
- * @return PIXI.BaseTexture
- */
-BaseTexture.fromCanvas = function (canvas, scaleMode) {
-	if (!canvas._pixiId) {
-		canvas._pixiId = 'canvas_' + utils.uid();
-	}
-
-	var baseTexture = utils.BaseTextureCache[canvas._pixiId];
-
-	if (!baseTexture) {
-		baseTexture = new BaseTexture(canvas, scaleMode);
-		utils.BaseTextureCache[canvas._pixiId] = baseTexture;
-	}
-
-	return baseTexture;
-};
+BaseTexture.fromFrame = BaseTexture.fromFrame;
+BaseTexture.fromImage = BaseTexture.from;
+BaseTexture.fromSVG = BaseTexture.from;
+BaseTexture.fromCanvas = BaseTexture.from;

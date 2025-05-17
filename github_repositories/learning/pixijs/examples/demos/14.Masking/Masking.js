@@ -1,5 +1,5 @@
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF, true);
+var stage = new PIXI.Container(0xFFFFFF, true);
 
 stage.interactive = true;
 
@@ -12,7 +12,7 @@ bg.position.y = 380 / 2;
 
 stage.addChild(bg);
 
-var container = new PIXI.DisplayObjectContainer();
+var container = new PIXI.Container();
 container.position.x = 620 / 2;
 container.position.y = 380 / 2;
 

@@ -9,7 +9,7 @@ renderer.view.className = "rendererView";
 document.body.appendChild(renderer.view);
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF);
+var stage = new PIXI.Container(0xFFFFFF);
 
 // create a background texture
 var pondFloorTexture = PIXI.Texture.fromImage("./demos/17.Tinting/BGrotate.jpg");

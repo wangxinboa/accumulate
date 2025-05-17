@@ -8,9 +8,9 @@ renderer.view.style.display = "block";
 document.body.appendChild(renderer.view);
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0xFFFFFF, true);
+var stage = new PIXI.Container(0xFFFFFF, true);
 
-var pondContainer = new PIXI.DisplayObjectContainer();
+var pondContainer = new PIXI.Container();
 stage.addChild(pondContainer);
 
 stage.interactive = true;

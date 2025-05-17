@@ -9,7 +9,7 @@ var alienFrames = ["./demos/22.ComplexMasking/eggHead.png", "./demos/22.ComplexM
 var count = 0;
 
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0x3da8bb);
+var stage = new PIXI.Container(0x3da8bb);
 
 
 // create a renderer instance.
@@ -19,7 +19,7 @@ var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.view);
 
 // create an empty container
-var alienContainer = new PIXI.DisplayObjectContainer();
+var alienContainer = new PIXI.Container();
 alienContainer.position.x = 400;
 alienContainer.position.y = 300;
 

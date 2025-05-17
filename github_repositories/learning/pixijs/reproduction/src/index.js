@@ -1,28 +1,43 @@
-import core from './core/index.js';
-import extras from './extras/index.js';
-import filters from './filters/index.js';
-import interaction from './interaction/index.js';
-import loaders from './loaders/index.js';
-import mesh from './mesh/index.js';
-import accessibility from './accessibility/index.js';
+// import polyfills. Done as an export to make sure polyfills are imported first
+// export * from './polyfill';
 
-import './deprecation.js';
+// export core
+// import './deprecation.js';
+import * as core from './core/index.js';
 
-core.extras = extras;
-core.filters = filters;
-core.interaction = interaction;;
-core.loaders = loaders;
-core.mesh = mesh;
-core.accessibility = accessibility;
+// export libs
+import * as accessibility from './accessibility/index.js';
+import * as extract from './extract/index.js';
+import * as extras from './extras/index.js';
+import * as filters from './filters/index.js';
+import * as interaction from './interaction/index.js';
+import * as loaders from './loaders/index.js';
+import * as mesh from './mesh/index.js';
+// import * as particles from './particles/index.js';
+import * as prepare from './prepare/index.js';
+
+// handle mixins now, after all code has been added, including deprecation
+import { utils } from './core/index.js';
+utils.mixins.performMixins();
 
 /**
- * A premade instance of the loader that can be used to loader resources.
- *
+ * Alias for {@link PIXI.loaders.shared}.
  * @name loader
  * @memberof PIXI
- * @property {PIXI.loaders.Loader}
+ * @type {PIXI.loader.Loader}
  */
-core.loader = new core.loaders.Loader();
+const loader = loaders.shared || null;
 
-// Always export pixi globally.
-globalThis.PIXI = core;
+globalThis.PIXI = {
+	...core,
+	accessibility,
+	extract,
+	extras,
+	filters,
+	interaction,
+	loaders,
+	mesh,
+	// particles,
+	prepare,
+	loader,
+};

@@ -1,5 +1,5 @@
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0x97C56E, true);
+var stage = new PIXI.Container(0x97C56E, true);
 
 // create a renderer instance
 var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
@@ -16,7 +16,7 @@ var texture = PIXI.Texture.fromImage("./demos/9.TilingTexture/p2.jpeg");
 // create a tiling sprite ...
 // requires a texture, width and height
 // to work in webGL the texture size must be a power of two
-var tilingSprite = new PIXI.TilingSprite(texture, window.innerWidth, window.innerHeight);
+var tilingSprite = new PIXI.extras.TilingSprite(texture, window.innerWidth, window.innerHeight);
 stage.addChild(tilingSprite);
 
 var count = 0;

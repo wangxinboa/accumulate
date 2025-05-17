@@ -1,5 +1,5 @@
 // create an new instance of a pixi stage
-var stage = new PIXI.Stage(0x66FF99);
+var stage = new PIXI.Container(0x66FF99);
 
 // create a renderer instance
 var renderer = PIXI.autoDetectRenderer(400, 300);

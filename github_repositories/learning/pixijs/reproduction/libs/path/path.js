@@ -23,5 +23,3 @@ const path = {
 		return root + dir;
 	}
 };
-
-export default path;

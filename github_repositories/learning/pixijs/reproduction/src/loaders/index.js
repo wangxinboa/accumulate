@@ -1,25 +1,76 @@
-/**
- * @file        Main export of the PIXI loaders library
- * @author      Mat Groves <mat@goodboydigital.com>
- * @copyright   2013-2015 GoodBoyDigital
- * @license     {@link https://github.com/pixijs/pixi.js/blob/master/LICENSE|MIT License}
- */
+import Application from '../core/Application.js';
+import Loader from './loader.js';
 
 /**
+ * This namespace contains APIs which extends the {@link https://github.com/englercj/resource-loader resource-loader} module
+ * for loading assets, data, and other resources dynamically.
+ * @example
+ * const loader = new PIXI.loaders.Loader();
+ * loader.add('bunny', 'data/bunny.png')
+ *       .add('spaceship', 'assets/spritesheet.json');
+ * loader.load((loader, resources) => {
+ *    // resources.bunny
+ *    // resources.spaceship
+ * });
  * @namespace PIXI.loaders
  */
-import Loader from './loader.js';
-import bitmapFontParser from './bitmapFontParser.js';
-import spritesheetParser from './spritesheetParser.js';
-import textureParser from './textureParser.js';
+export { Loader };
+export { default as bitmapFontParser, parse as parseBitmapFontData } from './bitmapFontParser.js';
+export { default as spritesheetParser, getResourcePath } from './spritesheetParser.js';
+export { default as textureParser } from './textureParser.js';
 
+/**
+ * Reference to **resource-loader**'s Resource class.
+ * See https://github.com/englercj/resource-loader
+ * @class Resource
+ * @memberof PIXI.loaders
+ */
+const Resource = ResourceLoader.Resource;
+export { Resource };
 
-const loaders = {
-	Loader,
-	bitmapFontParser,
-	spritesheetParser,
-	textureParser,
-	Resource: ResourceLoader.Resource,
+/**
+ * A premade instance of the loader that can be used to load resources.
+ * @name shared
+ * @memberof PIXI.loaders
+ * @type {PIXI.loaders.Loader}
+ */
+const shared = new Loader();
+
+shared.destroy = () => {
+	// protect destroying shared loader
 };
 
-export default loaders;
+export { shared };
+
+// Mixin the loader construction
+const AppPrototype = Application.prototype;
+
+AppPrototype._loader = null;
+
+/**
+ * Loader instance to help with asset loading.
+ * @name PIXI.Application#loader
+ * @type {PIXI.loaders.Loader}
+ */
+Object.defineProperty(AppPrototype, 'loader', {
+	get() {
+		if (!this._loader) {
+			const sharedLoader = this._options.sharedLoader;
+
+			this._loader = sharedLoader ? shared : new Loader();
+		}
+
+		return this._loader;
+	},
+});
+
+// Override the destroy function
+// making sure to destroy the current Loader
+AppPrototype._parentDestroy = AppPrototype.destroy;
+AppPrototype.destroy = function destroy() {
+	if (this._loader) {
+		this._loader.destroy();
+		this._loader = null;
+	}
+	this._parentDestroy();
+};
