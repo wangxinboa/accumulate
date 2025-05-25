@@ -1,6 +1,6 @@
 import '../../../../javascript_libs/lil-gui/dist/lil-gui.umd.min.js';
 
-import './demos/1.Basics/Basics.js';
+// import './demos/1.Basics/Basics.js';
 // import './demos/2.SpriteSheet/SpriteSheet.js';
 // 未兼容
 // import './demos/2.SpriteSheet/SpriteSheetTrim.js';
@@ -47,3 +47,19 @@ import './demos/1.Basics/Basics.js';
 // 未兼容
 // import './demos/23.TextureSwap/TextureSwap.js';
 // import './demos/24.Video/Video.js';
+
+// 对照源码
+// import '../examples/src/core/graphics/graphics_line_test.js';
+// import '../examples/src/core/graphics/graphics.js';
+// import '../examples/src/core/renderer/webgl/filters/filter.js';// 框架相关功能未完善
+// import '../examples/src/core/sprites/sprite.js';
+// import '../examples/src/core/text/text.js';
+import '../examples/src/core/textures/render_texture.js';
+// import '../examples/src/core/textures/video_base_texture.js';// 框架有 bug
+// import '../examples/src/extract/extract.js';// 框架相关功能未完善
+// import '../examples/src/extras/animated_sprite.js';// 待完善
+// import '../examples/src/extras/bitmap.js';
+// import '../examples/src/extras/tiling_sprite.js';// 框架有 bug
+// import '../examples/src/interaction/interaction.js'
+// import '../examples/src/mesh/rope.js';// 框架相关功能未完善
+// import '../examples/src/particles/particles.js';// 框架相关功能未完善

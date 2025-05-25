@@ -27,6 +27,7 @@ HTML5 创作引擎: 使用最快、最灵活的 2D WebGL 渲染器，创作出�
 		15513755f4d9f2112df5cc261b44f2dc1f05e00c: 2020/12/30 v6.0.0-rc
 		793f21c0d0f2d2a423bd4339f40a569e1ea68711: 2021/11/2 v6.2.0
 		4079e92895ecb692afe9f0b15d3e48ee40852ada: 2023/1/11 v7.1.0
+		// 从 package 变成 src 了
 		3f979f3cef260b6b13dc0c5a12c65edd27e81e00: 2023/12/5 v8.0.0-beta.12
 		6f453df5e78fec090294eb57649a8aa9cbdc3825: 2024/12/18 v8.6.6
 		9d177e2d2d3c33df2b0ae7afef180c5028e4d3af: 2025/3/27 v8.9.1
@@ -44,3 +45,32 @@ HTML5 创作引擎: 使用最快、最灵活的 2D WebGL 渲染器，创作出�
 ```
 
 3. 直接在服务器访问相关案例，或者调用 PIXI 实现案例效果
+
+
+## 代码阅读辅助工具函数
+
+1. 方便查看 WebGLRenderer 中 runners 属性的各个函数信息
+```
+// 先在 WebGLRenderer 中添加 globalThis.webGLRenderer = this;
+const runnersMessage = {};
+const runners = globalThis.webGLRenderer.runners;
+for (let key in runners) {
+	const runner = runners[key];
+	const runnerMessage = {};
+	runner.items.forEach((runnerItem) => {
+		runnerMessage[runnerItem.constructor.name] = {
+			isExtends: !runnerItem.constructor.prototype.hasOwnProperty(key),
+			fun: runnerItem[key],
+			item: runnerItem,
+		}
+	});
+	runnersMessage[key] = runnerMessage;
+};
+runnersMessage;
+```
+
+2. 方便查看 WebGLRenderer 注册了多少个 \_\_plugins
+```
+// 先在 WebGLRenderer 中 globalThis.WebGLRenderer = WebGLRenderer;
+WebGLRenderer.__plugins
+```

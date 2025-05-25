@@ -1,21 +1,11 @@
+const app = new PIXI.Application({
+	width: 620,
+	height: 400,
+});
 // create an new instance of a pixi stage
-// the second parameter is interactivity...
-var interactive = true;
-var stage = new PIXI.Container(0x000000, interactive);
-
-// create a renderer instance.
-var renderer = PIXI.autoDetectRenderer(620, 400);
-
+var stage = app.stage;
 // add the renderer view element to the DOM
-document.body.appendChild(renderer.view);
-
-requestAnimationFrame(animate);
-
-// create a background..
-var background = PIXI.Sprite.fromImage("./demos/6.Interactivity/button_test_BG.jpg");
-
-// add background to stage...
-stage.addChild(background);
+document.body.appendChild(app.renderer.view);
 
 // create some textures from an image path
 var textureButton = PIXI.Texture.fromImage("./demos/6.Interactivity/button.png");
@@ -23,7 +13,6 @@ var textureButtonDown = PIXI.Texture.fromImage("./demos/6.Interactivity/buttonDo
 var textureButtonOver = PIXI.Texture.fromImage("./demos/6.Interactivity/buttonOver.png");
 
 var buttons = [];
-
 var buttonPositions = [
 	175, 75,
 	600 - 145, 75,
@@ -31,7 +20,6 @@ var buttonPositions = [
 	175, 400 - 75,
 	600 - 115, 400 - 95
 ];
-
 
 for (var i = 0; i < 5; i++) {
 	var button = new PIXI.Sprite(textureButton);
@@ -109,23 +97,3 @@ buttons[3].scale.y = 0.8;
 buttons[4].scale.x = 0.8;
 buttons[4].scale.y = 1.2;
 buttons[4].rotation = Math.PI;
-
-function animate() {
-	// render the stage
-	renderer.render(stage);
-
-	requestAnimationFrame(animate);
-}
-
-// add a logo!
-var pixiLogo = PIXI.Sprite.fromImage("./demos/6.Interactivity/pixi.png");
-stage.addChild(pixiLogo);
-
-pixiLogo.buttonMode = true;
-
-pixiLogo.position.x = 620 - 56;
-pixiLogo.position.y = 400 - 32;
-
-pixiLogo.click = pixiLogo.tap = function () {
-	window.open("http://www.pixijs.com", '_blank');
-};

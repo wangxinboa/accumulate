@@ -9,7 +9,7 @@ var stage = app.stage;
 document.body.appendChild(app.renderer.view);
 
 // create a texture from an image path
-var texture = PIXI.Texture.from("./demos/1.Basics/bunny.png");
+var texture = PIXI.Texture.from("./assets/bunny.png");
 window.texture = texture;
 // create a new Sprite using the texture
 var bunny = new PIXI.Sprite(texture);
@@ -25,11 +25,11 @@ bunny.position.y = 150;
 stage.addChild(bunny);
 
 
-// let count = 0;
+let count = 0;
 app.ticker.add(() => {
-	// count ++;
-	// if(count === 4){
-	// 	app.ticker.stop();
-	// }
+	count++;
+	if (count === 4) {
+		app.ticker.stop();
+	}
 	bunny.rotation += 0.1;
 });
