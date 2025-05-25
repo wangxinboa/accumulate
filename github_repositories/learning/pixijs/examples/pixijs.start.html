@@ -11,7 +11,7 @@
 	<link href="../../../../css/common.css" rel="stylesheet" type="text/css" />
 
 	<!-- <script type="text/javascript" src="/pixijs/dist/pixi.js"></script> -->
-	<script type="text/javascript"
+	<!-- <script type="text/javascript"
 		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/bit-twiddle/twiddle.js"></script>
 	<script type="text/javascript"
 		src="/accumulate/github_repositories/learning/pixijs/reproduction/libs/earcut/src/earcut.js"></script>
@@ -52,17 +52,27 @@
 		globalThis.blobMiddlewareFactory = blobMiddlewareFactory;
 
 		globalThis.url = libUrl;
-	</script>
-	<script defer type="module"
-		src="/accumulate/github_repositories/learning/pixijs/reproduction/src/index.js"></script>
+	</script> -->
 </head>
 <!--
 
 	-->
 
 <body>
+	<script type="importmap">
+		{
+			"imports": {
+				"eventemitter3": "../reproduction/libs/eventemitter3/dist/eventemitter3.esm.js",
+				"earcut": "../reproduction/libs/earcut/src/earcut.js",
+				"@pixi/colord": "../reproduction/libs/@pixi/colord/index.mjs",
+				"@pixi/colord/plugins/names": "../reproduction/libs/@pixi/colord/plugins/names.mjs",
+				"ismobilejs": "../reproduction/libs/ismobilejs/esm/isMobile.js",
+				"parse-svg-path": "../reproduction/libs/parse-svg-path/index.js",
+				"@xmldom/xmldom": "../reproduction/libs/@xmldom/xmldom/lib/index.js"
+			}
+		}
+	</script>
 	<div style="position: absolute; left: 0; top: 0; z-index: -1;">用来测试透明度</div>
-	<!-- <canvas id="renderCanvas" class="fill"></canvas> -->
 	<script defer type="module" src="./pixijs.modules.js"></script>
 </body>
 

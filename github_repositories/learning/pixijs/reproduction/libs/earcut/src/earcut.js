@@ -1,6 +1,6 @@
 'use strict';
 
-function earcut(data, holeIndices, dim) {
+export default function earcut(data, holeIndices, dim) {
 
 	dim = dim || 2;
 

@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		"baseUrl": "../reproduction/libs/",
+		"paths": {
+			"eventemitter3": [
+				"eventemitter3/dist/eventemitter3.esm.js"
+			],
+			"earcut": [
+				"earcut/src/earcut.js"
+			],
+			"@pixi/colord": [
+				"@pixi/colord/index.mjs"
+			],
+			"@pixi/colord/plugins/names": [
+				"@pixi/colord/plugins/names.mjs"
+			],
+			"ismobilejs": [
+				"ismobilejs/esm/isMobile.js"
+			],
+			"parse-svg-path": [
+				"../reproduction/libs/parse-svg-path/index.js"
+			],
+			"@xmldom/xmldom": [
+				"../reproduction/libs/@xmldom/xmldom/lib/index.js"
+			]
+		}
+	}
+}

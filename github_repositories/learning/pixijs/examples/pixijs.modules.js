@@ -1,5 +1,13 @@
 import '../../../../javascript_libs/lil-gui/dist/lil-gui.umd.min.js';
 
+import * as PIXI from '../reproduction/src/index.mjs';
+globalThis.PIXI = PIXI;
+
+// 对照源码
+import('../examples/src/scene/sprite/sprite.js');
+
+// old example
+
 // import './demos/1.Basics/Basics.js';
 // import './demos/2.SpriteSheet/SpriteSheet.js';
 // 未兼容
@@ -54,7 +62,7 @@ import '../../../../javascript_libs/lil-gui/dist/lil-gui.umd.min.js';
 // import '../examples/src/core/renderer/webgl/filters/filter.js';// 框架相关功能未完善
 // import '../examples/src/core/sprites/sprite.js';
 // import '../examples/src/core/text/text.js';
-import '../examples/src/core/textures/render_texture.js';
+// import '../examples/src/core/textures/render_texture.js';
 // import '../examples/src/core/textures/video_base_texture.js';// 框架有 bug
 // import '../examples/src/extract/extract.js';// 框架相关功能未完善
 // import '../examples/src/extras/animated_sprite.js';// 待完善
