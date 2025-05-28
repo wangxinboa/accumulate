@@ -1,10 +1,13 @@
 {
 	"git.confirmSync": false,
-	"[typescriptreact]": {
+	"[typescript]": {
 		"editor.defaultFormatter": "vscode.typescript-language-features"
 	},
 	"[javascript]": {
 		"editor.defaultFormatter": "vscode.typescript-language-features"
+	},
+	"[html]": {
+		"editor.defaultFormatter": "vscode.html-language-features"
 	},
 	"diffEditor.ignoreTrimWhitespace": true,
 	"typescript.preferences.quoteStyle": "single",
