@@ -1,10 +1,10 @@
 import { isPrimitive, isFunction, isObject } from './is_type.js';
 
+const _map_ = new Map();
+
 export function deepClone(source) {
-	let map = new Map();
-	const target = _deepClone(source, map);
-	map.clear();
-	map = null;
+	const target = _deepClone(source, _map_);
+	_map_.clear();
 	return target;
 }
 
