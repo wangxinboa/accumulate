@@ -11,7 +11,15 @@ HTML5 创作引擎: 使用最快、最灵活的 2D WebGL 渲染器，创作出�
 ## 引用仓库源码
 
 1. 使用 npm install pixi.js@8.9.2, 获取相关代码
-2. 在案例源码中添加以下引用需要 js 代码引用, 并从 npm install 下的包中拿到对应的源码放到需要的位置
+2. 进入 lib 文件夹, 打开终端, 调用以下命令行删除不需要的文件(mac)
+
+```
+	find . -name "*.d.ts" | xargs rm -rf
+	find . -name "*.map" | xargs rm -rf
+	find . -name "*.js" | xargs rm -rf
+```
+
+3. 在案例源码中添加以下引用需要 js 代码引用, 并从 npm install 下的包中拿到对应的源码放到需要的位置
 
 ```
 	<script type="importmap">
