@@ -1,30 +1,6 @@
 import { browserExt } from "../src/environment-browser/browserExt.mjs";
 import { webworkerExt } from "../src/environment-webworker/webworkerExt.mjs";
 import { extensions } from "../src/extensions/Extensions.mjs";
-export { ExtensionType, normalizeExtensionPriority } from "../src/extensions/Extensions.mjs";
-import "../src/rendering/init.mjs";
-import "../src/spritesheet/init.mjs";
-import "../src/accessibility/index.mjs";
-import "../src/advanced-blend-modes/index.mjs";
-import "../src/app/index.mjs";
-import "../src/assets/index.mjs";
-import "../src/color/index.mjs";
-import "../src/compressed-textures/index.mjs";
-import "../src/culling/index.mjs";
-import "../src/dom/index.mjs";
-import "../src/environment/index.mjs";
-import "../src/environment-browser/index.mjs";
-import "../src/environment-webworker/index.mjs";
-import "../src/events/index.mjs";
-import "../src/extensions/index.mjs";
-import "../src/filters/index.mjs";
-import "../src/maths/index.mjs";
-import "../src/prepare/index.mjs";
-import "../src/rendering/index.mjs";
-import "../src/scene/index.mjs";
-import "../src/spritesheet/index.mjs";
-import "../src/ticker/index.mjs";
-import "../src/utils/index.mjs";
 
 extensions.add(browserExt, webworkerExt);
 
