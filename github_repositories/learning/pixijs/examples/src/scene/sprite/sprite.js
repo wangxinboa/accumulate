@@ -1,18 +1,29 @@
 import { Application } from "../../../../src/app/index.mjs";
-import { Assets } from "../../../../src/assets/index.mjs";
+import { loadImageBitmap } from "../../../../src/assets/loader/parsers/textures/loadTextures.mjs";
+import { ImageSource } from "../../../../src/rendering/renderers/shared/texture/sources/ImageSource.mjs";
 import { Sprite } from "../../../../src/scene/sprite/Sprite.mjs";
+import { Texture } from "../../../../src/rendering/renderers/shared/texture/Texture.mjs";
 
 // Create a new application
 const app = new Application();
 
 // Initialize the application
 await app.init({ background: "#1099bb", resizeTo: window });
+window.app = app;
 
 // Append the application canvas to the document body
 document.body.appendChild(app.canvas);
 
 // Load the bunny texture
-const texture = await Assets.load("https://pixijs.com/assets/bunny.png");
+const imageBitmap = await loadImageBitmap("https://pixijs.com/assets/bunny.png");
+const imageSource = new ImageSource({
+	resource: imageBitmap,
+	alphaMode: "premultiply-alpha-on-upload",
+	resolution: 1,
+});
+const texture = new Texture({
+	source: imageSource,
+});
 
 // Create a bunny Sprite
 const bunny = new Sprite(texture);

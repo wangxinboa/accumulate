@@ -1,11 +1,14 @@
-import { browserExt } from "../src/environment-browser/browserExt.mjs";
-import { webworkerExt } from "../src/environment-webworker/webworkerExt.mjs";
-import { extensions } from "../src/extensions/Extensions.mjs";
+// reproduction
+import "../examples/src/scene/sprite/sprite_reproduction.js";
 
-extensions.add(browserExt, webworkerExt);
+// import { browserExt } from "../src/environment-browser/browserExt.mjs";
+// import { webworkerExt } from "../src/environment-webworker/webworkerExt.mjs";
+// import { extensions } from "../src/extensions/Extensions.mjs";
 
-// 对照源码
-import("../examples/src/scene/sprite/sprite.js");
+// extensions.add(browserExt, webworkerExt);
+
+// // 对照源码
+// import("../examples/src/scene/sprite/sprite.js");
 
 // old example
 
