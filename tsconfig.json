@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist",
+		"allowJs": true,
+		"checkJs": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"lib": ["DOM", "es2016"]
+	},
+	"include": ["**/*"]
+}
