@@ -8,7 +8,9 @@ import { deprecation, v8_0_0 } from "../utils/logging/deprecation.mjs";
 const _Application = class _Application {
 	/** @type {PixijsType.Renderer} */
 	renderer;
-	/** @ignore */
+	/**
+	 * @param {PixijsType.ApplicationOption} args
+	 */
 	constructor(...args) {
 		/** The root display container that's rendered. */
 		this.stage = new Container();
@@ -17,7 +19,7 @@ const _Application = class _Application {
 		}
 	}
 	/**
-	 * @param options - The optional application and renderer parameters.
+	 * @param {PixijsType.ApplicationInitOption} options - The optional application and renderer parameters.
 	 */
 	async init(options) {
 		options = { ...options };

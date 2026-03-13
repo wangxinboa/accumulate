@@ -1,19 +1,22 @@
-import { getTestContext } from '../../../renderers/gl/shader/program/getTestContext.mjs';
-import { checkMaxIfStatementsInShader } from './checkMaxIfStatementsInShader.mjs';
+import { getTestContext } from "../../../renderers/gl/shader/program/getTestContext.mjs";
+import { checkMaxIfStatementsInShader } from "./checkMaxIfStatementsInShader.mjs";
 
-"use strict";
+("use strict");
+/**
+ * @type {null | number}
+ */
 let maxTexturesPerBatchCache = null;
+/**
+ *
+ * @returns {number}
+ */
 function getMaxTexturesPerBatch() {
-  if (maxTexturesPerBatchCache)
-    return maxTexturesPerBatchCache;
-  const gl = getTestContext();
-  maxTexturesPerBatchCache = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
-  maxTexturesPerBatchCache = checkMaxIfStatementsInShader(
-    maxTexturesPerBatchCache,
-    gl
-  );
-  gl.getExtension("WEBGL_lose_context")?.loseContext();
-  return maxTexturesPerBatchCache;
+	if (maxTexturesPerBatchCache) return maxTexturesPerBatchCache;
+	const gl = getTestContext();
+	maxTexturesPerBatchCache = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
+	maxTexturesPerBatchCache = checkMaxIfStatementsInShader(maxTexturesPerBatchCache, gl);
+	gl.getExtension("WEBGL_lose_context")?.loseContext();
+	return maxTexturesPerBatchCache;
 }
 
 export { getMaxTexturesPerBatch };

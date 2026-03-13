@@ -5,7 +5,8 @@
 		"checkJs": true,
 		"noImplicitAny": true,
 		"strictNullChecks": true,
-		"lib": ["DOM", "es2016"]
+		"lib": ["DOM", "es2016"],
+		"baseUrl": "."
 	},
 	"include": ["**/*"]
 }
