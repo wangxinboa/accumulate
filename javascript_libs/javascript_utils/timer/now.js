@@ -1,4 +1,5 @@
 // 抄自 https://github.com/tweenjs/tween.js/blob/master/src/Now.ts
+/** @type {() => number} 获取当前的时间戳 */
 let now;
 
 if (typeof self === "undefined" && typeof process !== "undefined" && process.hrtime) {

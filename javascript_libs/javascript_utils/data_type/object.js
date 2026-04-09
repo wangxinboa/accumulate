@@ -1,4 +1,4 @@
-import { isPrimitive, isFunction, isObject } from './is_type.js';
+import { isPrimitive, isFunction, isObject } from "./is_type.js";
 
 const _map_ = new Map();
 
@@ -10,11 +10,7 @@ export function deepClone(source) {
 
 function _deepClone(source, map) {
 	let target = null;
-	if (
-		source instanceof HTMLElement ||
-		isFunction(source) ||
-		isPrimitive(source)
-	) {
+	if (source instanceof HTMLElement || isFunction(source) || isPrimitive(source)) {
 		target = source;
 	} else {
 		if (map.has(source)) {

@@ -6,7 +6,10 @@
 		"noImplicitAny": true,
 		"strictNullChecks": true,
 		"lib": ["DOM", "es2016"],
-		"baseUrl": "."
+		// 检查未使用的局部变量
+		"noUnusedLocals": true,
+		// 检查未使用的函数参数
+		"noUnusedParameters": true
 	},
 	"include": ["**/*"]
 }
