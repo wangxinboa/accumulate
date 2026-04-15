@@ -1,4 +1,5 @@
 import { BaseCleanUp, CustomMap } from "../../../../../../javascript_utils/javascript_utils.js";
+import { GlTextureImageUnitsEnum } from "../../webgl_texture/gl_texture_type.js";
 import { GlDataTypeEnum } from "./gl_data_type.js";
 import { AttribLocation } from "./gl_location/attrib_location.js";
 import { UniformLocation } from "./gl_location/uniform_location.js";
@@ -29,6 +30,11 @@ export class GlProgram extends BaseCleanUp {
 		this.attribLocationsMap = new CustomMap().disableOverwrite();
 
 		this.program = this._initProgram(gl);
+
+		this.uniformTexturesCount = 0;
+
+		this._addUniformLocations(gl, glProgramFormat.uniformLocationsFormat);
+		this._addAttribLocations(gl, glProgramFormat.attribLocationsFormat);
 	}
 	/**
 	 * @private
@@ -63,31 +69,24 @@ export class GlProgram extends BaseCleanUp {
 		}
 	}
 	/**
-	 * @param {CanvasEngineType.WebGLContext} gl
-	 * @param {CanvasEngineType.GlUniformLocationsFormat} uniformLocationsFormat
-	 * @param {CanvasEngineType.GlAttribLocationsFormat} attribLocationsFormat
-	 * @returns {GlProgram}
-	 */
-	initLocations(gl, uniformLocationsFormat, attribLocationsFormat) {
-		return this.initUniformLocations(gl, uniformLocationsFormat).initAttribLocations(gl, attribLocationsFormat);
-	}
-	/**
+	 * @private
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.GlUniformLocationsFormat} uniformLocationsFormat
 	 * @returns {GlProgram}
 	 */
-	initUniformLocations(gl, uniformLocationsFormat) {
+	_addUniformLocations(gl, uniformLocationsFormat) {
 		for (let i = 0, len = uniformLocationsFormat.length; i < len; i++) {
-			this.initUniformLocation(gl, uniformLocationsFormat[i]);
+			this._addUniformLocation(gl, uniformLocationsFormat[i]);
 		}
 		return this;
 	}
 	/**
+	 * @private
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.GlUniformLocationFormat} uniformLocationFormat
 	 * @returns {GlProgram}
 	 */
-	initUniformLocation(gl, uniformLocationFormat) {
+	_addUniformLocation(gl, uniformLocationFormat) {
 		this.uniformLocationsMap.set(
 			uniformLocationFormat.name,
 			new UniformLocation(uniformLocationFormat).initGlLocation(gl, this.program),
@@ -95,28 +94,30 @@ export class GlProgram extends BaseCleanUp {
 		return this;
 	}
 	/**
-	 * @param {string} UniformLocationName
+	 * @param {string} uniformLocationName
 	 */
-	getUniformLocation(UniformLocationName) {
-		return this.uniformLocationsMap.get(UniformLocationName).uniformLocation;
+	getUniformLocation(uniformLocationName) {
+		return this.uniformLocationsMap.get(uniformLocationName).uniformLocation;
 	}
 	/**
+	 * @private
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.GlAttribLocationsFormat} attribLocationsFormat
 	 * @returns {GlProgram}
 	 */
-	initAttribLocations(gl, attribLocationsFormat) {
+	_addAttribLocations(gl, attribLocationsFormat) {
 		for (let i = 0, len = attribLocationsFormat.length; i < len; i++) {
-			this.initAttribLocation(gl, attribLocationsFormat[i]);
+			this._addAttribLocation(gl, attribLocationsFormat[i]);
 		}
 		return this;
 	}
 	/**
+	 * @private
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.GlAttribLocationFormat} attribLocationFormat
 	 * @returns {GlProgram}
 	 */
-	initAttribLocation(gl, attribLocationFormat) {
+	_addAttribLocation(gl, attribLocationFormat) {
 		this.attribLocationsMap.set(
 			attribLocationFormat.name,
 			new AttribLocation(attribLocationFormat).initGlLocation(gl, this.program),
@@ -150,14 +151,34 @@ export class GlProgram extends BaseCleanUp {
 
 			switch (glLocation.type) {
 				case GlDataTypeEnum.sampler2D:
+					gl.activeTexture(gl[GlTextureImageUnitsEnum[this.uniformTexturesCount]]);
+					gl.bindTexture(gl.TEXTURE_2D, /** @type {CanvasEngineType.GlTexture} */ (locationValue).texture);
+					gl.uniform1i(glLocation.uniformLocation, this.uniformTexturesCount);
+
+					this.uniformTexturesCount++;
+
 					break;
 				case GlDataTypeEnum.mat4:
+					gl.uniformMatrix4fv(
+						glLocation.uniformLocation,
+						false,
+						/** @type {CanvasEngineType.Matrix4} */ (locationValue).elements,
+					);
 					break;
 				default:
 					throw new Error(`GlDataTypeEnum 中不存在对应的 gl 数据类型 ${glLocation.type}`);
 			}
-			// gl.uniform1ui
-			this.uniformLocationsMap.get(locationName).uniformLocation;
 		}
+	}
+
+	/**
+	 * @param {CanvasEngineType.WebGLContext} gl
+	 * @param {number} mode
+	 * @param {number} first
+	 * @param {number} count
+	 */
+	drawArrays(gl, mode, first, count) {
+		gl.drawArrays(mode, first, count);
+		this.uniformTexturesCount = 0;
 	}
 }

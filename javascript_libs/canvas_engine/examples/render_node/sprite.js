@@ -6,7 +6,7 @@ const engine = new Canvas2DEngine({
 	rendererType: "webgl",
 	autoStart: true,
 	waitLoadingCompleteStart: true,
-	backgroundColor: 0xffffff,
+	backgroundColor: 0xff0000,
 });
 
 globalThis.engine = engine;
@@ -25,8 +25,6 @@ globalThis.engine = engine;
 // 	`../assets/number_images/6.png`,
 // 	`../assets/number_images/7.png`,
 // ]);
-
-// const texture = new
 
 const imageUrls = [
 	// "https://fastly.picsum.photos/id/33/20/20.jpg?hmac=2qevnyLh9jL-kOMjRHF1xg1TyBmOATzt_B__g1C_E7Y",
@@ -56,6 +54,9 @@ for (let i = 0; i < imageUrls.length; i++) {
 	const sprite2d = Sprite2D.createFromUrl(imageUrls[i]);
 	// sprite2d.x = i * 20;
 	// sprite2d.y = i * 20;
+	sprite2d.pivotX = 0.5;
+	sprite2d.pivotY = 0.5;
+
 	sprite2ds.push(sprite2d);
 
 	engine.scene.add(sprite2d);
@@ -63,13 +64,13 @@ for (let i = 0; i < imageUrls.length; i++) {
 
 let count = 0;
 engine.timeTicker.addRunCallback(function () {
-	console.info("count:", count);
+	// console.info("count:", count);
 	sprite2ds[0].x += 1;
 	sprite2ds[0].y += 1;
 
 	// sprite2ds[0].rotationAngle += 1;
 
-	if (count > 100) {
+	if (count > 99) {
 		engine.timeTicker.parse();
 	}
 	count++;

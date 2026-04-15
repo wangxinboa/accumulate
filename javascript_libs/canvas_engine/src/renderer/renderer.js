@@ -27,6 +27,7 @@ export class Renderer extends BaseCleanUp {
 			child = renderNode.children[i];
 			if (child.visible) {
 				this._renderNode(child, camera, timestamp);
+				this._traverseRender(child, camera, timestamp);
 			}
 		}
 		child = null;

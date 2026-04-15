@@ -24,13 +24,16 @@ export class ImageTask extends BaseTask {
 		this.height = 0;
 	}
 	startLoad() {
-		this.data = new Image();
+		const that = this;
 
-		this.data.src = this.src;
-		this.data.crossOrigin = this.crossOrigin ? "anonymous" : "";
+		setTimeout(() => {
+			this.data = new Image();
+			that.data.src = this.src;
+			that.data.crossOrigin = this.crossOrigin ? "anonymous" : "";
 
-		this.data.onload = this.onload.bind(this);
-		this.data.onerror = this.onerror.bind(this);
+			that.data.onload = this.onload.bind(this);
+			that.data.onerror = this.onerror.bind(this);
+		}, 1000);
 
 		return this;
 	}

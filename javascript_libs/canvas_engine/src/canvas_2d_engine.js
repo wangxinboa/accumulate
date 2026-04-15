@@ -7,6 +7,10 @@ import { WebGL2DRenderer } from "./renderer/webgl_renderer/webgl_2d_renderer.js"
 export class Canvas2DEngine extends CanvasEngine {
 	/** @type {Render2DScene} */
 	scene;
+	/** @type {Camera2D} */
+	camera;
+	/** @type {WebGL2DRenderer | CanvasRenderer} */
+	renderer;
 	/**
 	 * @param {CanvasEngineType.Canvas2DEngineOption} canvasEngineOption
 	 */

@@ -1,8 +1,8 @@
-import { BaseCleanUp } from "../../../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp, CustomMap } from "../../../../../javascript_utils/javascript_utils.js";
 import { GlTexture } from "./gl_texture.js";
 
 export class WebGLTextureSystem extends BaseCleanUp {
-	/** @type {Record<string, GlTexture>} */
+	/** @type {CustomMap<GlTexture>} */
 	_cacheTextures;
 	/** @type {CanvasEngineType.WebGLRenderer} */
 	renderer;
@@ -14,22 +14,21 @@ export class WebGLTextureSystem extends BaseCleanUp {
 
 		this.renderer = renderer;
 
-		this._cacheTextures = {};
+		this._cacheTextures = new CustomMap();
+	}
+
+	/**
+	 * @param {string} textureKey
+	 */
+	getGlTexture(textureKey) {
+		return this._cacheTextures.get(textureKey);
 	}
 
 	/**
 	 * @param {CanvasEngineType.WebGLPipe} webglPipe
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 */
-	bindTexturesByRenderNode(webglPipe, renderNode) {
-		const textures = webglPipe.getTextures(renderNode);
-
-		for (let i = 0, len = textures.length; i < len; i++) {
-			const texture = textures[i];
-
-			if (texture.isReady) {
-				texture.initTexture(this.renderer.gl);
-			}
-		}
+	initTexturesByRenderNode(webglPipe, renderNode) {
+		webglPipe.initTextures(this.renderer.gl, this._cacheTextures, renderNode);
 	}
 }

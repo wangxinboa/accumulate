@@ -6,10 +6,6 @@ const _matrix4_ = new Matrix4();
 export class Camera2D extends Render2DNode {
 	/** @type {Matrix4} */
 	projectionMatrix;
-	/** @type {number} */
-	width;
-	/** @type {number} */
-	height;
 	constructor() {
 		super();
 

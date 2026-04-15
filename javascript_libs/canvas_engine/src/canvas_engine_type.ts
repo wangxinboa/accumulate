@@ -9,7 +9,7 @@ import { CanvasRenderer as CanvasRendererClass } from "./renderer/canvas_rendere
 import { WebGL2DRenderer as WebGL2DRendererClass } from "./renderer/webgl_renderer/webgl_2d_renderer.js";
 import { WebGLProgramSystem as WebGLProgramSystemClass } from "./renderer/webgl_renderer/webgl_program/webgl_program_system.js";
 import { WebGLBufferSystem as WebGLBufferSystemClass } from "./renderer/webgl_renderer/webgl_buffer/webgl_buffer_system.js";
-import { WebGLUniformSystem as WebGLUniformSystemClass } from "./renderer/webgl_renderer/webgl_uniform/webgl_uniform_system.js";
+import { WebGLTextureSystem as WebGLTextureSystemClass } from "./renderer/webgl_renderer/webgl_texture/webgl_texture_system.js";
 import { GlProgram as GlProgramClass } from "./renderer/webgl_renderer/webgl_program/gl_program/gl_program.js";
 import { UniformLocation as UniformLocationClass } from "./renderer/webgl_renderer/webgl_program/gl_program/gl_location/uniform_location.js";
 import { AttribLocation as AttribLocationClass } from "./renderer/webgl_renderer/webgl_program/gl_program/gl_location/attrib_location.js";
@@ -20,6 +20,7 @@ import { GlAttrib as GlAttribClass } from "./renderer/webgl_renderer/webgl_buffe
 import { Camera2D as Camera2DClass } from "./camera/camera2d.js";
 import { RenderNode as RenderNodeClass } from "./render_node/render_node.js";
 import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
+import { Texture as TextureClass } from "./texture/texture.js";
 import { GlTexture as GlTextureClass } from "./renderer/webgl_renderer/webgl_texture/gl_texture.js";
 import {
 	GlBufferTargetTypeEnum as _GlBufferTargetTypeEnum,
@@ -30,6 +31,7 @@ import {
 	GlTextureTargetTypeEnum as _GlTextureTargetTypeEnum,
 	GlTexturePnameTypeEnum as _GlTexturePnameTypeEnum,
 	GlTextureParamTypeEnum as _GlTextureParamTypeEnum,
+	GlTextureImageUnitsEnum as _GlTextureImageUnitsEnum,
 } from "./renderer/webgl_renderer/webgl_texture/gl_texture_type.js";
 
 declare global {
@@ -75,14 +77,29 @@ declare global {
 		type WebGLContext = WebGL2RenderingContext;
 		/** gl pipe */
 		type WebGLPipe = {
-			getProgramKey: (renderNode?: AllRenderNode) => string;
-			getShaderSource: (renderNode?: AllRenderNode) => GlProgramFormat;
-			getUniformLocationsFormat: (renderNode?: AllRenderNode) => GlLocationsFormat;
-			getAttribLocationsFormat: (renderNode?: AllRenderNode) => GlLocationsFormat;
-			getAttribsFormat: (renderNode: AllRenderNode) => GlAttribsFormat;
-			getBuffersFormat: (renderNode: AllRenderNode) => GlBuffersFormat;
-			getTextures: (renderNode: AllRenderNode) => Array<GlTexture>;
-			getUniformsFormat: (renderNode: AllRenderNode) => GlUniformsFormat;
+			getGlProgram: (
+				gl: WebGLContext,
+				cacheGlPrograms: WebGLProgramSystem["_cacheGlPrograms"],
+				renderNode?: AllRenderNode,
+			) => GlProgram;
+			initBuffers: (
+				gl: WebGLContext,
+				cacheGlBuffers: WebGLBufferSystem["_cacheGlBuffers"],
+				renderNode: AllRenderNode,
+			) => void;
+			getAttribs: (cacheGlAttribs: WebGLBufferSystem["_cacheGlAttribs"], renderNode: AllRenderNode) => GlAttribs;
+			initTextures: (
+				gl: WebGLContext,
+				cacheTextures: WebGLTextureSystem["_cacheTextures"],
+				renderNode: AllRenderNode,
+			) => void;
+			uniform: (
+				gl: WebGLContext,
+				textureSystem: WebGLTextureSystem,
+				glProgram: GlProgram,
+				renderNode: AllRenderNode,
+			) => void;
+			drawArrays: (gl: WebGLContext, glProgram: GlProgram) => void;
 		};
 		type TypedArray =
 			| Int8Array
@@ -98,13 +115,15 @@ declare global {
 		type GlProgramFormat = {
 			vertexSource: string;
 			fragmentSource: string;
+			uniformLocationsFormat: GlUniformLocationsFormat;
+			attribLocationsFormat: GlAttribLocationsFormat;
 		};
 		/** gl location */
 		type GlDataTypeEnum = keyof typeof _GlDataTypeEnum;
 		type GlLocationFormat = { name: string; type: GlDataTypeEnum };
 		type GlLocationsFormat = Array<GlLocationFormat>;
 
-		type GlUniformLocationFormat = GlLocationFormat & { isTexture?: boolean; isGlobal?: boolean };
+		type GlUniformLocationFormat = GlLocationFormat;
 		type GlUniformLocationsFormat = Array<GlUniformLocationFormat>;
 
 		type GlAttribLocationFormat = GlLocationFormat;
@@ -132,9 +151,43 @@ declare global {
 		};
 		type GlAttribsFormat = { arrtibsKey: string; arrtibs: Array<GlAttribFormat> };
 		/** gl texture */
+		type TextureUnitName =
+			| "TEXTURE0"
+			| "TEXTURE1"
+			| "TEXTURE2"
+			| "TEXTURE3"
+			| "TEXTURE4"
+			| "TEXTURE5"
+			| "TEXTURE6"
+			| "TEXTURE7"
+			| "TEXTURE8"
+			| "TEXTURE9"
+			| "TEXTURE10"
+			| "TEXTURE11"
+			| "TEXTURE12"
+			| "TEXTURE13"
+			| "TEXTURE14"
+			| "TEXTURE15"
+			| "TEXTURE16"
+			| "TEXTURE17"
+			| "TEXTURE18"
+			| "TEXTURE19"
+			| "TEXTURE20"
+			| "TEXTURE21"
+			| "TEXTURE22"
+			| "TEXTURE23"
+			| "TEXTURE24"
+			| "TEXTURE25"
+			| "TEXTURE26"
+			| "TEXTURE27"
+			| "TEXTURE28"
+			| "TEXTURE29"
+			| "TEXTURE30"
+			| "TEXTURE31";
 		type GlTextureTargetTypeEnum = keyof typeof _GlTextureTargetTypeEnum;
 		type GlTexturePnameTypeEnum = keyof typeof _GlTexturePnameTypeEnum;
 		type GlTextureParamTypeEnum = keyof typeof _GlTextureParamTypeEnum;
+		type GlTextureImageUnitsEnum = keyof typeof _GlTextureImageUnitsEnum;
 		/** gl uniform */
 		type GlUniformFormat = {};
 		type GlUniformsFormat = Array<GlUniformFormat>;
@@ -147,7 +200,7 @@ declare global {
 		type CanvasRenderer = CanvasRendererClass;
 		type WebGLProgramSystem = WebGLProgramSystemClass;
 		type WebGLBufferSystem = WebGLBufferSystemClass;
-		type WebGLUniformSystem = WebGLUniformSystemClass;
+		type WebGLTextureSystem = WebGLTextureSystemClass;
 		type GlProgram = GlProgramClass;
 		type UniformLocation = UniformLocationClass;
 		type AttribLocation = AttribLocationClass;
@@ -168,6 +221,7 @@ declare global {
 		type RenderNode = RenderNodeClass;
 		type Sprite2D = Sprite2DClass;
 		type AllRenderNode = Sprite2D;
+		type Texture = TextureClass;
 		type GlTexture = GlTextureClass;
 	}
 }

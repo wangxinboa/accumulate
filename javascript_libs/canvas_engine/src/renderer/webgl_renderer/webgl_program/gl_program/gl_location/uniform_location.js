@@ -1,10 +1,6 @@
 import { GlLocation } from "./gl_location.js";
 
 export class UniformLocation extends GlLocation {
-	/** @type {boolean} */
-	isGlobal;
-	/** @type {boolean} */
-	isTexture;
 	/** @type {WebGLUniformLocation | null} */
 	uniformLocation;
 	/**
@@ -13,8 +9,6 @@ export class UniformLocation extends GlLocation {
 	constructor(glUniformLocationFormat) {
 		super(glUniformLocationFormat);
 
-		this.isGlobal = glUniformLocationFormat.isGlobal ?? false;
-		this.isTexture = glUniformLocationFormat.isTexture ?? false;
 		this.uniformLocation = null;
 	}
 	/**

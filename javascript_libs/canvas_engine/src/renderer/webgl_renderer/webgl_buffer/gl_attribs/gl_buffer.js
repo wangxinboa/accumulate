@@ -13,15 +13,18 @@ export class GlBuffer extends BaseCleanUp {
 	usage;
 
 	/**
-	 * @param {CanvasEngineType.GlBufferFormat} glBufferFormat
+	 * @param {CanvasEngineType.GlBufferFormat['key']} key
+	 * @param {CanvasEngineType.GlBufferFormat['target']} target
+	 * @param {CanvasEngineType.GlBufferFormat['data']} data
+	 * @param {CanvasEngineType.GlBufferFormat['usage']} usage
 	 */
-	constructor(glBufferFormat) {
+	constructor(key, target, data, usage) {
 		super();
 
-		this.key = glBufferFormat.key;
-		this.target = glBufferFormat.target;
-		this.data = glBufferFormat.data;
-		this.usage = glBufferFormat.usage;
+		this.key = key;
+		this.target = target;
+		this.data = data;
+		this.usage = usage;
 
 		this.buffer = null;
 	}

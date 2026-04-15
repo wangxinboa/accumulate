@@ -1,16 +1,16 @@
-import { BaseCleanUp } from "../../../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp, CustomMap } from "../../../../../javascript_utils/javascript_utils.js";
 import { GlAttribs } from "./gl_attribs/gl_attribs.js";
 import { GlBuffer } from "./gl_attribs/gl_buffer.js";
 
 export class WebGLBufferSystem extends BaseCleanUp {
 	/** @type {CanvasEngineType.WebGLRenderer} */
 	renderer;
-	/** @type {Record<string, GlBuffer>} */
+	/** @type {CustomMap<GlBuffer>} */
 	_cacheGlBuffers;
-	/** @type {Record<CanvasEngineType.AllRenderNode["id"], GlAttribs>} */
+	/** @type {CustomMap<GlAttribs>} */
 	_cacheGlAttribs;
 	/** @type {GlBuffer | null} */
-	activeBuffer;
+	_activeBuffer;
 	/**
 	 * @param {CanvasEngineType.WebGLRenderer} renderer
 	 */
@@ -19,10 +19,10 @@ export class WebGLBufferSystem extends BaseCleanUp {
 
 		this.renderer = renderer;
 
-		this._cacheGlBuffers = {};
-		this._cacheGlAttribs = {};
+		this._cacheGlBuffers = new CustomMap();
+		this._cacheGlAttribs = new CustomMap();
 
-		this.activeBuffer = null;
+		this._activeBuffer = null;
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLPipe} webglPipe
@@ -30,31 +30,20 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
 	bindBuffersByRenderNode(webglPipe, renderNode, glProgram) {
-		// initCacheGlBuffers
-		const buffersFormat = webglPipe.getBuffersFormat(renderNode);
+		// initBuffers
+		webglPipe.initBuffers(this.renderer.gl, this._cacheGlBuffers, renderNode);
 
-		for (let i = 0, len = buffersFormat.length; i < len; i++) {
-			const bufferFormat = buffersFormat[i];
+		// getAttribs
+		const glAttribs = webglPipe.getAttribs(this._cacheGlAttribs, renderNode);
 
-			if (!(this._cacheGlBuffers[bufferFormat.key] instanceof GlBuffer)) {
-				this._cacheGlBuffers[bufferFormat.key] = new GlBuffer(bufferFormat).bufferData(this.renderer.gl);
-			}
-		}
-		// initCacheGlAttribs
-		const attribsFormat = webglPipe.getAttribsFormat(renderNode);
-
-		let glAttribs = this._cacheGlAttribs[renderNode.id];
-		if (!(this._cacheGlAttribs[renderNode.id] instanceof GlAttribs)) {
-			glAttribs = this._cacheGlAttribs[renderNode.id] = new GlAttribs(attribsFormat);
-		}
-
+		// vertexAttribPointer
 		for (let i = 0, len = glAttribs.arrtibNames.length; i < len; i++) {
 			const glAttrib = glAttribs.arrtibs[glAttribs.arrtibNames[i]];
-			const glAttribBuffer = this._cacheGlBuffers[glAttrib.bufferKey];
+			const glAttribBuffer = this._cacheGlBuffers.get(glAttrib.bufferKey);
 
-			if (this.activeBuffer !== glAttribBuffer) {
-				this.activeBuffer = glAttribBuffer;
-				this.activeBuffer.bindBuffer(this.renderer.gl);
+			if (this._activeBuffer !== glAttribBuffer) {
+				this._activeBuffer = glAttribBuffer;
+				this._activeBuffer.bindBuffer(this.renderer.gl);
 			}
 
 			glAttrib.vertexAttribPointer(this.renderer.gl, glProgram);

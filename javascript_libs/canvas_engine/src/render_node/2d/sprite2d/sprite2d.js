@@ -1,13 +1,13 @@
-import { GlTexture } from "../../../renderer/webgl_renderer/webgl_texture/gl_texture.js";
+import { Texture } from "../../../texture/texture.js";
 import { Render2DNode } from "./../render_2d_node.js";
 
 export class Sprite2D extends Render2DNode {
 	/** @type {boolean} */
 	isSprite2D;
-	/** @type {GlTexture} */
+	/** @type {Texture} */
 	texture;
 	/**
-	 * @param {GlTexture} texture
+	 * @param {Texture} texture
 	 */
 	constructor(texture) {
 		super();
@@ -31,6 +31,6 @@ export class Sprite2D extends Render2DNode {
 	 * @param {string} url
 	 */
 	static createFromUrl(url) {
-		return new Sprite2D(GlTexture.createFromUrl(url));
+		return new Sprite2D(Texture.createFromUrl(url));
 	}
 }

@@ -1,12 +1,11 @@
-import { BaseCleanUp } from "../../../../../javascript_utils/javascript_utils.js";
-import { GlProgram } from "./gl_program/gl_program.js";
+import { BaseCleanUp, CustomMap } from "../../../../../javascript_utils/javascript_utils.js";
 
 export class WebGLProgramSystem extends BaseCleanUp {
 	/** @type {CanvasEngineType.WebGLRenderer} */
 	renderer;
 	/** @type {CanvasEngineType.GlProgram | null} */
 	activeGlProgram;
-	/** @private @type {Record<string, CanvasEngineType.GlProgram>} */
+	/** @private @type {CustomMap<CanvasEngineType.GlProgram>} */
 	_cacheGlPrograms;
 	/**
 	 * @param {CanvasEngineType.WebGLRenderer} renderer
@@ -16,27 +15,14 @@ export class WebGLProgramSystem extends BaseCleanUp {
 
 		this.renderer = renderer;
 		this.activeGlProgram = null;
-		this._cacheGlPrograms = {};
+		this._cacheGlPrograms = new CustomMap();
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLPipe} webglPipe
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 */
 	useProgramByRenderNode(webglPipe, renderNode) {
-		const glProgramKey = webglPipe.getProgramKey();
-
-		if (!(this._cacheGlPrograms[glProgramKey] instanceof GlProgram)) {
-			this._cacheGlPrograms[glProgramKey] = new GlProgram(
-				this.renderer.gl,
-				webglPipe.getShaderSource(renderNode),
-			).initLocations(
-				this.renderer.gl,
-				webglPipe.getUniformLocationsFormat(renderNode),
-				webglPipe.getAttribLocationsFormat(renderNode),
-			);
-		}
-
-		const glProgram = this._cacheGlPrograms[glProgramKey];
+		const glProgram = webglPipe.getGlProgram(this.renderer.gl, this._cacheGlPrograms, renderNode);
 
 		if (this.activeGlProgram !== glProgram) {
 			glProgram.use(this.renderer.gl);

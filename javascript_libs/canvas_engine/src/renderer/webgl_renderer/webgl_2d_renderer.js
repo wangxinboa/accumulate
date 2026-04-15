@@ -2,9 +2,9 @@ import { Renderer } from "../renderer.js";
 import { WebGLProgramSystem } from "./webgl_program/webgl_program_system.js";
 import { WebGLExtensions } from "./webgl_extensions.js";
 import { WebGLBufferSystem } from "./webgl_buffer/webgl_buffer_system.js";
-import { WebGLUniformSystem } from "./webgl_uniform/webgl_uniform_system.js";
 import { WebGLTextureSystem } from "./webgl_texture/webgl_texture_system.js";
 import { getWebGLPipeByRenderNode } from "./webgl_utils/get_webgl_pipe_by_render_node.js";
+import { uCameraProjectionName, uCameraViewName, uRenderNodeModelName } from "./shaders/global_uniform_names.js";
 
 export class WebGL2DRenderer extends Renderer {
 	/** @type {CanvasEngineType.WebGLContext} */
@@ -15,8 +15,6 @@ export class WebGL2DRenderer extends Renderer {
 	programSystem;
 	/** @type {WebGLBufferSystem} */
 	bufferSystem;
-	/** @type {WebGLUniformSystem} */
-	uniformSystem;
 	/** @type {WebGLTextureSystem} */
 	textureSystem;
 	/** @type {number} */
@@ -36,11 +34,10 @@ export class WebGL2DRenderer extends Renderer {
 		this.extensions = new WebGLExtensions(this);
 		this.programSystem = new WebGLProgramSystem(this);
 		this.bufferSystem = new WebGLBufferSystem(this);
-		this.uniformSystem = new WebGLUniformSystem(this);
 		this.textureSystem = new WebGLTextureSystem(this);
 
 		let gl;
-		if ((gl = this.canvas.getContext("webgl2"))) {
+		if ((gl = this.canvas.getContext("webgl2", webgl2DRendererOption))) {
 			this.webglVersio = 2;
 		} else {
 			throw new Error("浏览器不支持 webgl");
@@ -90,30 +87,17 @@ export class WebGL2DRenderer extends Renderer {
 		const webglPipe = getWebGLPipeByRenderNode(renderNode);
 
 		const glProgram = this.programSystem.useProgramByRenderNode(webglPipe, renderNode);
+
 		this.bufferSystem.bindBuffersByRenderNode(webglPipe, renderNode, glProgram);
-		this.textureSystem.bindTexturesByRenderNode(webglPipe, renderNode);
+		this.textureSystem.initTexturesByRenderNode(webglPipe, renderNode);
 
-		this.gl.uniformMatrix4fv(
-			glProgram.uniformLocationsMap.get("u_projection").uniformLocation,
-			false,
-			camera.projectionMatrix.elements,
-		);
-		this.gl.uniformMatrix4fv(
-			glProgram.uniformLocationsMap.get("u_view").uniformLocation,
-			false,
-			camera.matrixWorld.elements,
-		);
-		this.gl.uniformMatrix4fv(
-			glProgram.uniformLocationsMap.get("u_model").uniformLocation,
-			false,
-			renderNode.matrixWorld.elements,
-		);
+		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
+		glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);
+		glProgram.uniform(this.gl, uRenderNodeModelName, renderNode.matrixWorld);
 
-		this.gl.activeTexture(this.gl.TEXTURE0);
-		this.gl.bindTexture(this.gl.TEXTURE_2D, renderNode.texture.texture);
-		this.gl.uniform1i(glProgram.uniformLocationsMap.get("u_image").uniformLocation, 0);
+		webglPipe.uniform(this.gl, this.textureSystem, glProgram, renderNode);
 
-		this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+		webglPipe.drawArrays(this.gl, glProgram);
 	}
 
 	destroy() {

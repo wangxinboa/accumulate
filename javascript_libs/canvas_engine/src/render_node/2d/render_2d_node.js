@@ -1,4 +1,4 @@
-import { PiDivide180 } from "../../math/math_utils.js";
+import { clamp, PiDivide180 } from "../../math/math_utils.js";
 import { Matrix4 } from "../../math/matrix4.js";
 import { RenderNode } from "../render_node.js";
 
@@ -11,12 +11,6 @@ export class Render2DNode extends RenderNode {
 	parent = null;
 	/** @type {boolean} */
 	isRender2DNode;
-	/** @type {boolean} */
-	matrixNeedsUpdate;
-	/** @type {Matrix4} */
-	matrix;
-	/** @type {Matrix4} */
-	matrixWorld;
 	/** @type {number} */
 	_x;
 	/** @type {number} */
@@ -29,18 +23,23 @@ export class Render2DNode extends RenderNode {
 	_scaleX;
 	/** @type {number} */
 	_scaleY;
+	/** @type {number} */
+	_width;
+	/** @type {number} */
+	_height;
 
 	constructor() {
 		super();
 
 		this.isRender2DNode = true;
 
-		this.matrixNeedsUpdate = true;
-		this.matrix = new Matrix4();
-		this.matrixWorld = new Matrix4();
+		this._width = 0;
+		this._height = 0;
 
 		this._x = 0;
 		this._y = 0;
+		this._pivotX = 0;
+		this._pivotY = 0;
 		this._rotationMatrix3 = 0;
 		this._rotationAngle = 0;
 		this._scaleX = 1;
@@ -49,7 +48,7 @@ export class Render2DNode extends RenderNode {
 	// matrix 更新
 	updateMatrix() {
 		if (this.matrixNeedsUpdate) {
-			translationMatrix4.makeTranslation(this.x, this.y, 0);
+			translationMatrix4.makeTranslation(this.x - this.width * this.pivotX, this.y - this.height * this.pivotY, 0);
 			rotationMatrix4.makeRotationZ(this.rotation);
 			scaleMatrix4.makeScale(this.scaleX, this.scaleY, 0);
 
@@ -80,6 +79,20 @@ export class Render2DNode extends RenderNode {
 	}
 	set y(val) {
 		this._y = val;
+		this.matrixNeedsUpdate = true;
+	}
+	get pivotX() {
+		return this._pivotX;
+	}
+	set pivotX(val) {
+		this._pivotX = clamp(val, 0, 1);
+		this.matrixNeedsUpdate = true;
+	}
+	get pivotY() {
+		return this._pivotY;
+	}
+	set pivotY(val) {
+		this._pivotY = clamp(val, 0, 1);
 		this.matrixNeedsUpdate = true;
 	}
 	get rotationAngle() {
@@ -113,5 +126,18 @@ export class Render2DNode extends RenderNode {
 	set scaleY(val) {
 		this._scaleY = val;
 		this.matrixNeedsUpdate = true;
+	}
+
+	get width() {
+		return this._width;
+	}
+	set width(val) {
+		this._width = val;
+	}
+	get height() {
+		return this._height;
+	}
+	set height(val) {
+		this._height = val;
 	}
 }
