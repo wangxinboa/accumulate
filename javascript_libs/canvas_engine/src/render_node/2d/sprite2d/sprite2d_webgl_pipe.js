@@ -58,46 +58,48 @@ export const Sprite2DWebGLPipe = {
 		return cacheGlAttribs.get(attribsKey);
 	},
 	initBuffers(gl, cacheGlBuffers, sprite2d) {
-		const bufferTextureKey = sprite2d.texture.key;
-		const width = sprite2d.width;
-		const height = sprite2d.height;
+		if (sprite2d.isReady) {
+			const bufferTextureKey = sprite2d.texture.key;
+			const width = sprite2d.width;
+			const height = sprite2d.height;
 
-		if (!cacheGlBuffers.has(bufferTextureKey)) {
-			cacheGlBuffers.set(
-				bufferTextureKey,
-				new GlBuffer(
-					`${sprite2d.texture.key}`,
-					GlBufferTargetTypeEnum.ARRAY_BUFFER,
-					new Float32Array([
-						// 位置x,y, 纹理坐标u,v
-						0,
-						0,
-						0,
-						1, // 左下
-						width,
-						0,
-						1,
-						1, // 右下
-						0,
-						height,
-						0,
-						0, // 左上
-						0,
-						height,
-						0.0,
-						0.0, // 左上
-						width,
-						0,
-						1,
-						1, // 右下
-						width,
-						height,
-						1,
-						0, // 右上
-					]),
-					GlBufferUsageTypeEnum.STATIC_DRAW,
-				).bufferData(gl),
-			);
+			if (!cacheGlBuffers.has(bufferTextureKey)) {
+				cacheGlBuffers.set(
+					bufferTextureKey,
+					new GlBuffer(
+						`${sprite2d.texture.key}`,
+						GlBufferTargetTypeEnum.ARRAY_BUFFER,
+						new Float32Array([
+							// 位置x,y, 纹理坐标u,v
+							0,
+							0,
+							0,
+							1, // 左下
+							width,
+							0,
+							1,
+							1, // 右下
+							0,
+							height,
+							0,
+							0, // 左上
+							0,
+							height,
+							0.0,
+							0.0, // 左上
+							width,
+							0,
+							1,
+							1, // 右下
+							width,
+							height,
+							1,
+							0, // 右上
+						]),
+						GlBufferUsageTypeEnum.STATIC_DRAW,
+					).bufferData(gl),
+				);
+			}
 		}
 	},
 	/**
@@ -109,12 +111,12 @@ export const Sprite2DWebGLPipe = {
 			cacheTextures.set(textureKey, new GlTexture());
 		}
 
-		if (sprite2d.texture.isReady) {
+		if (sprite2d.isReady) {
 			cacheTextures.get(textureKey).initTexture(gl, sprite2d.texture);
 		}
 	},
-	uniform(gl, webglTextureSystem, glProgram, renderNode) {
-		glProgram.uniform(gl, uImageName, webglTextureSystem.getGlTexture(renderNode.texture.key));
+	uniform(gl, webglTextureSystem, glProgram, sprite2d) {
+		glProgram.uniform(gl, uImageName, webglTextureSystem.getGlTexture(sprite2d.texture.key));
 	},
 
 	drawArrays(gl, glProgram) {

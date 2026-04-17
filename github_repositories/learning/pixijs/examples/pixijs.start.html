@@ -1,35 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
-	<link rel="icon" href="./logo.png">
-	<title>pixijs.start</title>
-	<link href="../../../../css/default.css" rel="stylesheet" type="text/css" />
-	<link href="../../../../css/common.css" rel="stylesheet" type="text/css" />
-</head>
-<!--
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0" />
+		<link rel="icon" href="./logo.png" />
+		<title>pixijs.start</title>
+		<link href="../../../../css/default.css" rel="stylesheet" type="text/css" />
+		<link href="../../../../css/common.css" rel="stylesheet" type="text/css" />
+	</head>
+	<!--
 
 	-->
-
-<body>
-	<script type="importmap">
-		{
-			"imports": {
-				"eventemitter3": "../libs/eventemitter3/dist/eventemitter3.esm.js",
-				"earcut": "../libs/earcut/src/earcut.js",
-				"@pixi/colord": "../libs/@pixi/colord/index.mjs",
-				"@pixi/colord/plugins/names": "../libs/@pixi/colord/plugins/names.mjs",
-				"ismobilejs": "../libs/ismobilejs/esm/isMobile.js",
-				"parse-svg-path": "../libs/parse-svg-path/index.js",
-				"@xmldom/xmldom": "../libs/@xmldom/xmldom/lib/index.js"
+	<body>
+		<script type="importmap">
+			{
+				"imports": {
+					"eventemitter3": "../libs/eventemitter3/dist/eventemitter3.esm.js",
+					"earcut": "../libs/earcut/src/earcut.js",
+					"@pixi/colord": "../libs/@pixi/colord/index.mjs",
+					"@pixi/colord/plugins/names": "../libs/@pixi/colord/plugins/names.mjs",
+					"ismobilejs": "../libs/ismobilejs/esm/isMobile.js",
+					"parse-svg-path": "../libs/parse-svg-path/index.js",
+					"@xmldom/xmldom": "../libs/@xmldom/xmldom/lib/index.js"
+				}
 			}
-		}
-	</script>
-	<div style="position: absolute; left: 0; top: 0; z-index: -1;">用来测试透明度</div>
-	<script defer type="module" src="./pixijs.modules.js"></script>
-</body>
-
+		</script>
+		<div style="position: absolute; left: 0; top: 0; z-index: -1">用来测试透明度</div>
+		<script defer type="module" src="./pixijs.modules.js"></script>
+	</body>
 </html>

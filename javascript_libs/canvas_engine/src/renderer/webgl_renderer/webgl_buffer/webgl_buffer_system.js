@@ -32,7 +32,6 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	bindBuffersByRenderNode(webglPipe, renderNode, glProgram) {
 		// initBuffers
 		webglPipe.initBuffers(this.renderer.gl, this._cacheGlBuffers, renderNode);
-
 		// getAttribs
 		const glAttribs = webglPipe.getAttribs(this._cacheGlAttribs, renderNode);
 
@@ -41,12 +40,14 @@ export class WebGLBufferSystem extends BaseCleanUp {
 			const glAttrib = glAttribs.arrtibs[glAttribs.arrtibNames[i]];
 			const glAttribBuffer = this._cacheGlBuffers.get(glAttrib.bufferKey);
 
-			if (this._activeBuffer !== glAttribBuffer) {
-				this._activeBuffer = glAttribBuffer;
-				this._activeBuffer.bindBuffer(this.renderer.gl);
-			}
+			if (glAttribBuffer instanceof GlBuffer) {
+				if (this._activeBuffer !== glAttribBuffer) {
+					this._activeBuffer = glAttribBuffer;
+					this._activeBuffer.bindBuffer(this.renderer.gl);
+				}
 
-			glAttrib.vertexAttribPointer(this.renderer.gl, glProgram);
+				glAttrib.vertexAttribPointer(this.renderer.gl, glProgram);
+			}
 		}
 	}
 }

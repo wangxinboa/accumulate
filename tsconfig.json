@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"rootDir": "./",
 		"outDir": "./dist",
 		"allowJs": true,
 		"checkJs": true,
@@ -11,5 +12,5 @@
 		// 检查未使用的函数参数
 		"noUnusedParameters": true
 	},
-	"include": ["**/*"]
+	"include": ["javascript_libs/**/*"]
 }
