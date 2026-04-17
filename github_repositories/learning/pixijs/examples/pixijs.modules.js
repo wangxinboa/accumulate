@@ -8,4 +8,4 @@ extensions.add(browserExt, webworkerExt);
 
 // 对照源码
 // import("../examples/src/scene/sprite/sprite.js");
-import("../examples/src/scene/text/text.js");
+import("../examples/src/scene/text/text_fill_gradient.js");
