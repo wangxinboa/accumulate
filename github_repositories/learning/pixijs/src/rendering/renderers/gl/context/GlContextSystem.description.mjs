@@ -105,7 +105,17 @@ class GlContextSystem {
 		this.webGLVersion = gl instanceof DOMAdapter.get().getWebGLRenderingContext() ? 1 : 2;
 		this.getExtensions();
 		this.validateContext(gl);
-		this._renderer.runners.contextChange.emit(gl);
+
+		this._renderer.context.contextChange(gl);
+		this._renderer.buffer.contextChange();
+		this._renderer.texture.contextChange(gl);
+		this._renderer.renderTarget.contextChange();
+		this._renderer.geometry.contextChange();
+		this._renderer.uniformGroup.contextChange(gl);
+		this._renderer.shader.contextChange(gl);
+		this._renderer.state.contextChange(gl);
+		this._renderer.stencil.contextChange(gl);
+
 		const element = this._renderer.view.canvas;
 		element.addEventListener("webglcontextlost", this.handleContextLost, false);
 		element.addEventListener("webglcontextrestored", this.handleContextRestored, false);

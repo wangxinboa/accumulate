@@ -4,6 +4,8 @@ import { AbstractRenderer as AbstractRendererClass } from "./rendering/renderers
 import { ViewSystem as ViewSystemClass } from "./rendering/renderers/shared/view/ViewSystem.mjs";
 import { Container as ContainerClass } from "./scene/container/Container.mjs";
 import { Sprite as SpriteClass } from "./scene/sprite/Sprite.mjs";
+import { Text as TextClass } from "./scene/text/Text.mjs";
+import { AbstractText as AbstractTextClass } from "./scene/text/AbstractText.mjs";
 import { Texture as TextureClass } from "./rendering/renderers/shared/texture/Texture.mjs";
 import { TextureSource as TextureSourceClass } from "./rendering/renderers/shared/texture/sources/TextureSource.mjs";
 import { RenderTarget as RenderTargetClass } from "./rendering/renderers/shared/renderTarget/RenderTarget.mjs";
@@ -97,7 +99,7 @@ declare global {
 		type ViewSystem = InstanceType<typeof ViewSystemClass>;
 		type BackgroundSystem = InstanceType<typeof BackgroundSystemClass>;
 		type GlobalUniformSystem = GlobalUniformSystemClass;
-		type GlContextSystem = InstanceType<typeof GlContextSystemClass>;
+		type GlContextSystem = GlContextSystemClass;
 		type GlBufferSystem = GlBufferSystemClass;
 		type GlTextureSystem = GlTextureSystemClass;
 		type GlRenderTargetSystem = GlRenderTargetSystemClass;
@@ -128,6 +130,8 @@ declare global {
 		type RenderGroup = RenderGroupClass;
 		type InstructionSet = InstructionSetClass;
 		type Sprite = SpriteClass;
+		type Text = TextClass;
+		type AbstractText = AbstractTextClass;
 		type Texture = TextureClass;
 		type TextureSource = InstanceType<typeof TextureSourceClass>;
 		type AllContainer = Container | Sprite;

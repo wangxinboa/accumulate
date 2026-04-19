@@ -6,6 +6,8 @@ import { GlRenderTarget } from "../GlRenderTarget.mjs";
 
 ("use strict");
 class GlRenderTargetAdaptor {
+	/** @type {PixijsType.Renderer} */
+	_renderer;
 	constructor() {
 		this._clearColorCache = [0, 0, 0, 0];
 		this._viewPortCache = new Rectangle();

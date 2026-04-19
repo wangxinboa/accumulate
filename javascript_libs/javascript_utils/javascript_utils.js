@@ -13,6 +13,7 @@ import { deepClone } from "./data_type/object.js";
 import throttle from "./timer/throttle.js";
 import debounce from "./timer/debounce.js";
 import now from "./timer/now.js";
+import { getUrlSearchParam } from "./url/get_url_search_param.js";
 import { copyTextToClipboard, readTextFromClipboard } from "./clipboard.js";
 import { CustomMap } from "./custom_map.js";
 
@@ -30,6 +31,7 @@ export {
 	throttle,
 	debounce,
 	now,
+	getUrlSearchParam,
 	copyTextToClipboard,
 	readTextFromClipboard,
 	CustomMap,
@@ -49,6 +51,7 @@ const jsUtils = {
 	throttle,
 	debounce,
 	now,
+	getUrlSearchParam,
 	copyTextToClipboard,
 	readTextFromClipboard,
 	CustomMap,
