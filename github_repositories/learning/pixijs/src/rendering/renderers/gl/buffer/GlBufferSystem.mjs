@@ -6,7 +6,7 @@ import { GlBuffer } from "./GlBuffer.mjs";
 ("use strict");
 class GlBufferSystem {
 	/**
-	 * @param {CanvasEngineType.WebGLRenderer} renderer - The renderer this System works for.
+	 * @param {PixijsType.WebGLRenderer} renderer - The renderer this System works for.
 	 */
 	constructor(renderer) {
 		this._gpuBuffers = /* @__PURE__ */ Object.create(null);

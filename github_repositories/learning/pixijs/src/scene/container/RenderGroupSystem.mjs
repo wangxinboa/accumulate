@@ -50,6 +50,9 @@ class RenderGroupSystem {
 	destroy() {
 		this._renderer = null;
 	}
+	/**
+	 * @param {PixijsType.RenderGroup} renderGroup
+	 */
 	_updateCachedRenderGroups(renderGroup, closestCacheAsTexture) {
 		if (renderGroup.isCachedAsTexture) {
 			if (!renderGroup.updateCacheTexture) return;

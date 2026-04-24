@@ -26,8 +26,10 @@ import { BlendModePipe as BlendModePipeClass } from "./rendering/renderers/share
 import { BatcherPipe as BatcherPipeClass } from "./rendering/batcher/shared/BatcherPipe.mjs";
 import { GlBatchAdaptor as GlBatchAdaptorClass } from "./rendering/batcher/gl/GlBatchAdaptor.mjs";
 import { SpritePipe as SpritePipeClass } from "./scene/sprite/SpritePipe.mjs";
+import { CanvasTextPipe as CanvasTextPipeClass } from "./scene/text/canvas/CanvasTextPipe.mjs";
 import { BatchableSprite as BatchableSpriteClass } from "./scene/sprite/BatchableSprite.mjs";
 import { ColorMaskPipe as ColorMaskPipeClass } from "./rendering/mask/color/ColorMaskPipe.mjs";
+import { RenderGroupPipe as RenderGroupPipeClass } from "./scene/container/RenderGroupPipe.mjs";
 import { Color as ColorClass } from "./color/Color.mjs";
 import { Point as PointClass } from "./maths/point/Point.mjs";
 import { Matrix as MatrixClass } from "./maths/matrix/Matrix.mjs";
@@ -124,13 +126,22 @@ declare global {
 		type BlendModePipe = BlendModePipeClass;
 		type BatcherPipe = InstanceType<typeof BatcherPipeClass>;
 		type SpritePipe = SpritePipeClass;
+		type CanvasTextPipe = CanvasTextPipeClass;
 		type BatchableSprite = BatchableSpriteClass;
+		type ColorMaskPipe = ColorMaskPipeClass;
+		type RenderGroupPipe = RenderGroupPipeClass;
+		type AllRenderPipe = BatcherPipe | SpritePipe | CanvasTextPipe | BatchableSprite | ColorMaskPipe | RenderGroupPipe;
 		type GlBatchAdaptor = GlBatchAdaptorClass;
 		type Container = ContainerClass;
 		type RenderGroup = RenderGroupClass;
 		type InstructionSet = InstructionSetClass;
 		type Sprite = SpriteClass;
 		type Text = TextClass;
+		type gpuTextData = {
+			texture: Texture | null;
+			currentKey: string;
+			batchableSprite: BatchableSprite;
+		};
 		type AbstractText = AbstractTextClass;
 		type Texture = TextureClass;
 		type TextureSource = InstanceType<typeof TextureSourceClass>;
@@ -221,7 +232,9 @@ declare global {
 			blendMode: BlendModePipe;
 			batch: BatcherPipe;
 			sprite: SpritePipe;
-			colorMask: ColorMaskPipeClass;
+			colorMask: ColorMaskPipe;
+			text: CanvasTextPipe;
+			renderGroup: RenderGroupPipe;
 		};
 		type WebGLContext = WebGLRenderingContext | WebGL2RenderingContext;
 		type AbstractRendererRunners = WebGLRendererRunners;

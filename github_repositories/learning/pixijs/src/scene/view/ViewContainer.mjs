@@ -69,7 +69,9 @@ class ViewContainer extends Container {
 		const { renderPipes, renderableGC } = renderer;
 		renderPipes.blendMode.setBlendMode(this, this.groupBlendMode, instructionSet);
 		const rp = renderPipes;
-		/** @type {PixijsType.SpritePipe} */ (rp[this.renderPipeId]).addRenderable(this, instructionSet);
+		// /** @type {PixijsType.CanvasTextPipe} */
+		// /** @type {PixijsType.SpritePipe} */
+		/** @type {PixijsType.CanvasTextPipe} */ (rp[this.renderPipeId]).addRenderable(this, instructionSet);
 		renderableGC.addRenderable(this);
 		this.didViewUpdate = false;
 		const children = this.children;

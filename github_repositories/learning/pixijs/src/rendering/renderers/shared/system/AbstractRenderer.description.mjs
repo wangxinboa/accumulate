@@ -1,5 +1,4 @@
 import { Color } from "../../../../color/Color.mjs";
-import { loadEnvironmentExtensions } from "../../../../environment/autoDetectEnvironment.mjs";
 import { Container } from "../../../../scene/container/Container.mjs";
 import { unsafeEvalSupported } from "../../../../utils/browser/unsafeEvalSupported.mjs";
 import { deprecation, v8_0_0 } from "../../../../utils/logging/deprecation.mjs";
@@ -7,9 +6,9 @@ import "../../../../utils/utils.mjs";
 import { CLEAR } from "../../gl/const.mjs";
 import { SystemRunner } from "./SystemRunner.mjs";
 import EventEmitter from "eventemitter3";
-
+// loadEnvironmentExtensions
 import "../../../../app/init.mjs";
-
+// system
 import { GlContextSystem } from "../../gl/context/GlContextSystem.mjs";
 import { GlGeometrySystem } from "../../gl/geometry/GlGeometrySystem.mjs";
 import { GlBackBufferSystem } from "../../gl/GlBackBufferSystem.mjs";
@@ -35,7 +34,7 @@ import { RenderGroupSystem } from "../../../../scene/container/RenderGroupSystem
 import { CanvasTextSystem } from "../../../../scene/text/canvas/CanvasTextSystem.mjs";
 import { RendererInitHook } from "../../../../utils/global/globalHooks.mjs";
 import { GlBufferSystem } from "../../gl/buffer/GlBufferSystem.mjs";
-
+// renderPipe
 import { BlendModePipe } from "../blendModes/BlendModePipe.mjs";
 import { BatcherPipe } from "../../../batcher/shared/BatcherPipe.mjs";
 import { SpritePipe } from "../../../../scene/sprite/SpritePipe.mjs";
@@ -46,7 +45,7 @@ import { ColorMaskPipe } from "../../../mask/color/ColorMaskPipe.mjs";
 import { CustomRenderPipe } from "../../../../scene/container/CustomRenderPipe.mjs";
 import { DOMPipe } from "../../../../dom/DOMPipe.mjs";
 import { CanvasTextPipe } from "../../../../scene/text/canvas/CanvasTextPipe.mjs";
-
+// pipeAdaptor
 import { GlBatchAdaptor } from "../../../batcher/gl/GlBatchAdaptor.mjs";
 
 ("use strict");

@@ -61,6 +61,9 @@ class CanvasTextSystem {
 		}
 		return { texture, canvasAndContext };
 	}
+	/**
+	 * @param {PixijsType.Text} text
+	 */
 	getManagedTexture(text) {
 		text._resolution = text._autoResolution ? this._renderer.resolution : text.resolution;
 		const textKey = text._getKey();

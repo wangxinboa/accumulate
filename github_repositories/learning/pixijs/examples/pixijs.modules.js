@@ -9,8 +9,15 @@ extensions.add(browserExt, webworkerExt);
 // 1. 获取 URL 中的 exampleUrl 参数
 const exampleUrl = getUrlSearchParam("exampleUrl");
 
-import(exampleUrl);
+if (exampleUrl) {
+	import(exampleUrl);
+} else {
+	throw new Error("exampleUrl 参数不存在");
+}
 
 // 对照源码
+// ?exampleUrl=../examples/src/scene/sprite/sprite.js
 // import("../examples/src/scene/sprite/sprite.js");
+
+// ?exampleUrl=../examples/src/scene/text/text_fill_gradient.js
 // import("../examples/src/scene/text/text_fill_gradient.js");
