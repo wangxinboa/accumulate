@@ -26,6 +26,9 @@ class CanvasTextPipe {
 			}
 		}
 	}
+	/**
+	 * @param {PixijsType.Text} text
+	 */
 	validateRenderable(text) {
 		const gpuText = this._getGpuText(text);
 		const newKey = text._getKey();

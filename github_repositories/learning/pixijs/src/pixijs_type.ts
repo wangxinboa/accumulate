@@ -145,7 +145,7 @@ declare global {
 		type AbstractText = AbstractTextClass;
 		type Texture = TextureClass;
 		type TextureSource = InstanceType<typeof TextureSourceClass>;
-		type AllContainer = Container | Sprite;
+		type AllContainer = Container | Sprite | Text;
 		type RenderTarget = InstanceType<typeof RenderTargetClass>;
 		type Color = InstanceType<typeof ColorClass>;
 		type Point = PointClass;
