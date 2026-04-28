@@ -98,14 +98,14 @@ class CanvasTextPipe {
 	}
 	/**
 	 * @param {PixijsType.Text} text
-	 * @returns {PixijsType.gpuTextData}
+	 * @returns {PixijsType.GpuTextData}
 	 */
 	_getGpuText(text) {
 		return this._gpuText[text.uid] || this.initGpuText(text);
 	}
 	/**
 	 * @param {PixijsType.Text} text
-	 * @returns {PixijsType.gpuTextData}
+	 * @returns {PixijsType.GpuTextData}
 	 */
 	initGpuText(text) {
 		const gpuTextData = {

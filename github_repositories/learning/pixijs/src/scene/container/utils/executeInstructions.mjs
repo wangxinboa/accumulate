@@ -2,7 +2,7 @@
 /**
  *
  * @param {PixijsType.RenderGroup} renderGroup
- * @param {PixijsType.WebGLRendererRenderPipes} renderer
+ * @param {PixijsType.WebGLRenderer['renderPipes']} renderer
  */
 function executeInstructions(renderGroup, renderer) {
 	const instructionSet = renderGroup.instructionSet;

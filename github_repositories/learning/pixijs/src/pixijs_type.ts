@@ -137,7 +137,7 @@ declare global {
 		type InstructionSet = InstructionSetClass;
 		type Sprite = SpriteClass;
 		type Text = TextClass;
-		type gpuTextData = {
+		type GpuTextData = {
 			texture: Texture | null;
 			currentKey: string;
 			batchableSprite: BatchableSprite;
