@@ -1,5 +1,8 @@
 const textarea = document.createElement("textarea");
 
+/**
+ * @param {string} text
+ */
 export function copyTextToClipboard(text) {
 	textarea.value = text;
 	document.body.appendChild(textarea);

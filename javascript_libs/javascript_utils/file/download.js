@@ -1,4 +1,4 @@
-const saveLink = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+const saveLink = /** @type {HTMLAnchorElement} */ (document.createElementNS("http://www.w3.org/1999/xhtml", "a"));
 
 // https://www.iana.org/assignments/media-types/media-types.xhtml
 export const MME = {
@@ -9,6 +9,11 @@ export const MME = {
 
 // https://developer.mozilla.org/zh-CN/docs/Web/API/Blob/Blob
 
+/**
+ * @param {string} fileName
+ * @param {BlobPart} data
+ * @param {string} type
+ */
 export default function downloadFile(fileName, data, type) {
 	const url = window.URL || window.webkitURL || window;
 	const blob = new Blob([data], { type });

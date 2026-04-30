@@ -67,7 +67,7 @@ export const Sprite2DWebGLPipe = {
 				cacheGlBuffers.set(
 					bufferTextureKey,
 					new GlBuffer(
-						`${sprite2d.texture.key}`,
+						bufferTextureKey,
 						GlBufferTargetTypeEnum.ARRAY_BUFFER,
 						new Float32Array([
 							// 位置x,y, 纹理坐标u,v

@@ -1,4 +1,4 @@
-import now from "./now.js";
+import getNode from "./now.js";
 /**
  * underscore 节流函数，返回函数连续调用时，func 执行频率限定为 次 / wait
  *
@@ -8,11 +8,16 @@ import now from "./now.js";
  * @return {function}             返回客户调用函数
  */
 export default function throttle(func, wait) {
-	let context,
-		args,
-		result,
-		now,
-		previous = null;
+	/** @type {any} */
+	let context = null;
+	/** @type {IArguments | null} */
+	let args = null;
+	/** @type {any} */
+	let result = null;
+	/**  @type {number | null} */
+	let now = null;
+	/** @type {number | null} */
+	let previous = null;
 
 	function run() {
 		result = func.apply(context, args);
@@ -20,9 +25,10 @@ export default function throttle(func, wait) {
 		previous = now;
 	}
 
+	/** @this {any} */
 	function throttle() {
 		// 获得当前时间戳
-		now = now();
+		now = getNode();
 
 		context = this;
 		args = arguments;

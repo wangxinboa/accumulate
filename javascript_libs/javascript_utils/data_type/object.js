@@ -2,13 +2,21 @@ import { isPrimitive, isFunction, isObject } from "./is_type.js";
 
 const _map_ = new Map();
 
+/**
+ * @param {Record<string, any>} source
+ */
 export function deepClone(source) {
 	const target = _deepClone(source, _map_);
 	_map_.clear();
 	return target;
 }
 
+/**
+ * @param {any} source
+ * @param {Map<any, any>} map
+ */
 function _deepClone(source, map) {
+	/** @type {string | any[] | Record<string, any> | null} */
 	let target = null;
 	if (source instanceof HTMLElement || isFunction(source) || isPrimitive(source)) {
 		target = source;

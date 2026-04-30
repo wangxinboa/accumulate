@@ -1,4 +1,4 @@
-import { getUrlSearchParam } from "../../../../javascript_libs/javascript_utils/url/get_url_search_param.js";
+import { getInitUrlSearchParam } from "../../../../javascript_libs/javascript_utils/url/get_url_search_param.js";
 
 import { browserExt } from "../src/environment-browser/browserExt.mjs";
 import { webworkerExt } from "../src/environment-webworker/webworkerExt.mjs";
@@ -7,7 +7,7 @@ import { extensions } from "../src/extensions/Extensions.mjs";
 extensions.add(browserExt, webworkerExt);
 
 // 1. 获取 URL 中的 exampleUrl 参数
-const exampleUrl = getUrlSearchParam("exampleUrl");
+const exampleUrl = getInitUrlSearchParam("exampleUrl");
 
 if (exampleUrl) {
 	import(exampleUrl);

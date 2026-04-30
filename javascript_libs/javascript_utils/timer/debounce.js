@@ -7,7 +7,16 @@ import now from "./now.js";
  * @return {function}               返回客户调用函数
  */
 export default function debounce(func, wait) {
-	let timeout, args, context, timestamp, result;
+	/** @type {number | null}  */
+	let timeout;
+	/** @type {IArguments | null} */
+	let args;
+	/** @type {null} */
+	let context;
+	/** @type {number} */
+	let timestamp;
+	/** @type {any} */
+	let result;
 
 	function run() {
 		// 现在和上一次时间戳比较
@@ -22,6 +31,9 @@ export default function debounce(func, wait) {
 		}
 	}
 
+	/**
+	 * @this {any}
+	 */
 	function debounce() {
 		context = this;
 		args = arguments;
