@@ -1,13 +1,13 @@
-import { isFunction } from '../../../../../javascript_libs/javascript_utils/data_type/is_type.js';
-import proxyFunction from './proxy_function.js';
+import { isFunction } from "../../../../../javascript_libs/javascript_utils/javascript_utils.js";
+import proxyFunction from "./proxy_function.js";
 
-const excludePrototypeKey = ['constructor', '__proto__'];
+const excludePrototypeKey = ["constructor", "__proto__"];
 
 export default function proxytClass(originalClass, className) {
-
 	const proxy = proxyFunction(originalClass, `${className}`);
 
-	for (let key in originalClass) {
+	const originalClassDescriptors = Object.getOwnPropertyDescriptors(originalClass);
+	for (let key in originalClassDescriptors) {
 		const value = originalClass[key];
 		if (isFunction(value)) {
 			originalClass[key] = proxyFunction(originalClass[key], `${className}.${key}`);

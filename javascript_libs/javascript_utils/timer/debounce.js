@@ -1,4 +1,4 @@
-import now from "./now.js";
+import { now } from "./now.js";
 /**
  * underscore 防抖函数，返回函数连续调用时，空闲时间必须大于或等于 wait，func 才会执行
  *
@@ -6,7 +6,7 @@ import now from "./now.js";
  * @param  {number}     wait        表示时间窗口的间隔
  * @return {function}               返回客户调用函数
  */
-export default function debounce(func, wait) {
+export function debounce(func, wait) {
 	/** @type {number | null}  */
 	let timeout;
 	/** @type {IArguments | null} */

@@ -1,6 +1,5 @@
-import { isFunction } from '../../../../../javascript_libs/javascript_utils/data_type/is_type.js';
-import MarkLog from '../mark_log.js';
-
+import { isFunction } from "../../../../../javascript_libs/javascript_utils/javascript_utils.js";
+import MarkLog from "../mark_log.js";
 
 export const AllMarkFunctionMessage = {};
 export const AllProxyFunctionMap = new Map();
@@ -44,11 +43,12 @@ class MarkFunctionMessage {
 		this.allResult.push(result);
 
 		return {
-			args, result,
+			args,
+			result,
 			used: this.used,
 			originalFunction: this.originalFunction,
 			markFunctionMessage: this,
-		}
+		};
 	}
 }
 
@@ -93,7 +93,7 @@ export default function proxyFunction(originalFunction, key) {
 		},
 		set(target, prop, value) {
 			if (isFunction(value)) {
-				target[prop] = proxyFunction(value, `${key}.${prop}`);;
+				target[prop] = proxyFunction(value, `${key}.${prop}`);
 			} else {
 				target[prop] = value;
 			}

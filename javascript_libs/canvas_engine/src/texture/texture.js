@@ -34,6 +34,10 @@ export class Texture extends BaseCleanUp {
 		return this.source.isLoaded;
 	}
 
+	get image2D() {
+		return this.source.data;
+	}
+
 	/**
 	 * @param {string} url
 	 */

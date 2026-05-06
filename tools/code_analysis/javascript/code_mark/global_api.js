@@ -1,8 +1,12 @@
-import { isFunction, isObject } from '../../../../javascript_libs/javascript_utils/data_type/is_type.js'
-import proxytClass from './proxy/proxy_class.js';
-import proxyFunction, { AllMarkFunctionMessage, AllProxyFunctionMap, AllOriginalFunctionMap } from './proxy/proxy_function.js';
-import MarkLog from './mark_log.js';
-import CodeAnalysisUi from '../../ui/code_analysis_ui.js';
+import { isFunction, isObject } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
+import proxytClass from "./proxy/proxy_class.js";
+import proxyFunction, {
+	AllMarkFunctionMessage,
+	AllProxyFunctionMap,
+	AllOriginalFunctionMap,
+} from "./proxy/proxy_function.js";
+import MarkLog from "./mark_log.js";
+import CodeAnalysisUi from "../../ui/code_analysis_ui.js";
 
 globalThis.codeAnalysisUi = new CodeAnalysisUi();
 
@@ -26,7 +30,7 @@ globalThis.codeMarkClass = function CodeMarkClass(originalClass, aliasName) {
 
 	const convertedClass = proxytClass(originalClass, className);
 	return convertedClass;
-}
+};
 
 globalThis.CodeMarkAllFunction = {};
 globalThis.codeMarkFunction = function codeMarkFunction(originalFunction, aliasName) {
@@ -37,7 +41,7 @@ globalThis.codeMarkFunction = function codeMarkFunction(originalFunction, aliasN
 		throw new Error(`codeMarkFunction CodeMarkAllFunction 已存在 ${functionName} function`);
 	}
 
-	if (functionName === '') {
+	if (functionName === "") {
 		// console.info('originalFunction:', originalFunction);
 		throw new Error(`codeMarkFunction functionName 不能为空字符串`);
 	}
@@ -45,16 +49,13 @@ globalThis.codeMarkFunction = function codeMarkFunction(originalFunction, aliasN
 	CodeMarkAllFunction[functionName] = originalFunction;
 
 	return proxyFunction(originalFunction, functionName);
-}
-
+};
 
 globalThis.codeMarkObject = function codeMarkObject(originalObject, objectName) {
 	const descriptors = Object.getOwnPropertyDescriptors(originalObject);
 
 	for (let key in descriptors) {
-		if (
-			originalObject === window
-		) {
+		if (originalObject === window) {
 			continue;
 		} else {
 			const descriptor = descriptors[key];
@@ -69,4 +70,4 @@ globalThis.codeMarkObject = function codeMarkObject(originalObject, objectName) 
 		}
 	}
 	return originalObject;
-}
+};

@@ -1,5 +1,5 @@
 import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
-import now from "../../../javascript_utils/timer/now.js";
+import { now } from "../../../javascript_utils/javascript_utils.js";
 import { LoaderManager } from "../loader/loader_manager.js";
 
 export class TimeTicker extends BaseCleanUp {

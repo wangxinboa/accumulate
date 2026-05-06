@@ -1,5 +1,4 @@
-import { isFunction } from "../../../../../javascript_utils/data_type/is_type.js";
-import { BaseCleanUp } from "../../../../../javascript_utils/javascript_utils.js";
+import { isFunction, BaseCleanUp } from "../../../../../javascript_utils/javascript_utils.js";
 import { resizeCanvas } from "../../../canvas_engine_utils/scale_canvas.js";
 
 export class CanvasDomSystem extends BaseCleanUp {

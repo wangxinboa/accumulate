@@ -10,9 +10,11 @@ import {
 	isNonArrayObject,
 } from "./data_type/is_type.js";
 import { deepClone } from "./data_type/object.js";
-import throttle from "./timer/throttle.js";
-import debounce from "./timer/debounce.js";
-import now from "./timer/now.js";
+import { downloadFile } from "./file/download.js";
+import { Loader } from "./loader/loader.js";
+import { throttle } from "./timer/throttle.js";
+import { debounce } from "./timer/debounce.js";
+import { now } from "./timer/now.js";
 import { getInitUrlSearchParam } from "./url/get_url_search_param.js";
 import { copyTextToClipboard, readTextFromClipboard } from "./clipboard.js";
 import { CustomMap } from "./custom_map.js";
@@ -28,6 +30,8 @@ export {
 	isPlainObject,
 	isNonArrayObject,
 	deepClone,
+	downloadFile,
+	Loader,
 	throttle,
 	debounce,
 	now,
@@ -48,6 +52,8 @@ const jsUtils = {
 	isPlainObject,
 	isNonArrayObject,
 	deepClone,
+	downloadFile,
+	Loader,
 	throttle,
 	debounce,
 	now,

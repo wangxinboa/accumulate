@@ -1,3 +1,3 @@
-import { Loader } from "../../../javascript_utils/loader/loader.js";
+import { Loader } from "../../../javascript_utils/javascript_utils.js";
 
 export const LoaderManager = new Loader();

@@ -18,4 +18,4 @@ else {
 	};
 }
 
-export default now;
+export { now };

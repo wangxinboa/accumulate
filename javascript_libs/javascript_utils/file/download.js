@@ -14,7 +14,7 @@ export const MME = {
  * @param {BlobPart} data
  * @param {string} type
  */
-export default function downloadFile(fileName, data, type) {
+export function downloadFile(fileName, data, type) {
 	const url = window.URL || window.webkitURL || window;
 	const blob = new Blob([data], { type });
 
