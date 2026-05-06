@@ -3,7 +3,6 @@ import { WebGLProgramSystem } from "./webgl_program/webgl_program_system.js";
 import { WebGLExtensions } from "./webgl_extensions.js";
 import { WebGLBufferSystem } from "./webgl_buffer/webgl_buffer_system.js";
 import { WebGLTextureSystem } from "./webgl_texture/webgl_texture_system.js";
-import { getWebGLPipeByRenderNode } from "./webgl_utils/get_webgl_pipe_by_render_node.js";
 import { uCameraProjectionName, uCameraViewName, uRenderNodeModelName } from "./shaders/global_uniform_names.js";
 
 export class WebGL2DRenderer extends Renderer {
@@ -84,20 +83,18 @@ export class WebGL2DRenderer extends Renderer {
 	_renderNode(renderNode, camera, timestamp) {
 		renderNode.updateMatrix();
 
-		const webglPipe = getWebGLPipeByRenderNode(renderNode);
+		const glProgram = this.programSystem.useProgramByRenderNode(renderNode);
 
-		const glProgram = this.programSystem.useProgramByRenderNode(webglPipe, renderNode);
-
-		this.bufferSystem.bindBuffersByRenderNode(webglPipe, renderNode, glProgram);
-		this.textureSystem.initTexturesByRenderNode(webglPipe, renderNode);
+		this.bufferSystem.bindBuffersByRenderNode(renderNode, glProgram);
+		this.textureSystem.initTexturesByRenderNode(renderNode);
 
 		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
 		glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);
 		glProgram.uniform(this.gl, uRenderNodeModelName, renderNode.matrixWorld);
 
-		webglPipe.uniform(this.gl, this.textureSystem, glProgram, renderNode);
+		renderNode.uniform(this.gl, this.textureSystem, glProgram);
 
-		webglPipe.drawArrays(this.gl, glProgram);
+		renderNode.drawArrays(this.gl, glProgram);
 	}
 
 	destroy() {

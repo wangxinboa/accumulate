@@ -18,11 +18,10 @@ export class WebGLProgramSystem extends BaseCleanUp {
 		this._cacheGlPrograms = new CustomMap();
 	}
 	/**
-	 * @param {CanvasEngineType.WebGLPipe} webglPipe
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 */
-	useProgramByRenderNode(webglPipe, renderNode) {
-		const glProgram = webglPipe.getGlProgram(this.renderer.gl, this._cacheGlPrograms, renderNode);
+	useProgramByRenderNode(renderNode) {
+		const glProgram = renderNode.getGlProgram(this.renderer.gl, this._cacheGlPrograms);
 
 		if (this.activeGlProgram !== glProgram) {
 			glProgram.use(this.renderer.gl);

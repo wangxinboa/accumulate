@@ -25,10 +25,9 @@ export class WebGLTextureSystem extends BaseCleanUp {
 	}
 
 	/**
-	 * @param {CanvasEngineType.WebGLPipe} webglPipe
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 */
-	initTexturesByRenderNode(webglPipe, renderNode) {
-		webglPipe.initTextures(this.renderer.gl, this._cacheTextures, renderNode);
+	initTexturesByRenderNode(renderNode) {
+		renderNode.initTextures(this.renderer.gl, this._cacheTextures);
 	}
 }

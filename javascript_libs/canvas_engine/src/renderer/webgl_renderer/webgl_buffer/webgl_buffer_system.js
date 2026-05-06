@@ -25,15 +25,14 @@ export class WebGLBufferSystem extends BaseCleanUp {
 		this._activeBuffer = null;
 	}
 	/**
-	 * @param {CanvasEngineType.WebGLPipe} webglPipe
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
-	bindBuffersByRenderNode(webglPipe, renderNode, glProgram) {
+	bindBuffersByRenderNode(renderNode, glProgram) {
 		// initBuffers
-		webglPipe.initBuffers(this.renderer.gl, this._cacheGlBuffers, renderNode);
+		renderNode.initBuffers(this.renderer.gl, this._cacheGlBuffers);
 		// getAttribs
-		const glAttribs = webglPipe.getAttribs(this._cacheGlAttribs, renderNode);
+		const glAttribs = renderNode.getAttribs(this._cacheGlAttribs);
 
 		// vertexAttribPointer
 		for (let i = 0, len = glAttribs.arrtibNames.length; i < len; i++) {

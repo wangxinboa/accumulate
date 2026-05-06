@@ -1,4 +1,4 @@
-import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp } from "../../../../javascript_utils/javascript_utils.js";
 
 export class TextTexture extends BaseCleanUp {
 	/** @type {boolean} */

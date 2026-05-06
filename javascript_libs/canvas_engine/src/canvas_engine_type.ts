@@ -1,5 +1,3 @@
-import { BaseTask as BaseTaskClass } from "./loader/task/base_task.js";
-import { ImageTask as ImageTaskClass } from "./loader/task/image_task.js";
 import { Color as ColorClass } from "./math/color.js";
 import { Matrix3 as Matrix3Class } from "./math/matrix3.js";
 import { Matrix4 as Matrix4Class } from "./math/matrix4.js";
@@ -75,32 +73,7 @@ declare global {
 			rendererType: "webgl" | "canvas";
 		} & CanvasEngineOption;
 		type WebGLContext = WebGL2RenderingContext;
-		/** gl pipe */
-		type WebGLPipe = {
-			getGlProgram: (
-				gl: WebGLContext,
-				cacheGlPrograms: WebGLProgramSystem["_cacheGlPrograms"],
-				renderNode?: AllRenderNode,
-			) => GlProgram;
-			initBuffers: (
-				gl: WebGLContext,
-				cacheGlBuffers: WebGLBufferSystem["_cacheGlBuffers"],
-				renderNode: AllRenderNode,
-			) => void;
-			getAttribs: (cacheGlAttribs: WebGLBufferSystem["_cacheGlAttribs"], renderNode: AllRenderNode) => GlAttribs;
-			initTextures: (
-				gl: WebGLContext,
-				cacheTextures: WebGLTextureSystem["_cacheTextures"],
-				renderNode: AllRenderNode,
-			) => void;
-			uniform: (
-				gl: WebGLContext,
-				textureSystem: WebGLTextureSystem,
-				glProgram: GlProgram,
-				renderNode: AllRenderNode,
-			) => void;
-			drawArrays: (gl: WebGLContext, glProgram: GlProgram) => void;
-		};
+
 		type TypedArray =
 			| Int8Array
 			| Uint8Array
@@ -207,10 +180,6 @@ declare global {
 		type GlBuffer = GlBufferClass;
 		type GlAttribs = GlAttribsClass;
 		type GlAttrib = GlAttribClass;
-		type BaseTask = BaseTaskClass;
-		type ImageTask = ImageTaskClass;
-		type AllTaskType = BaseTaskClass | ImageTask;
-		type TaskCallback = (task: AllTaskType) => void;
 		type Color = ColorClass;
 		type Matrix3 = Matrix3Class;
 		type Matrix4 = Matrix4Class;

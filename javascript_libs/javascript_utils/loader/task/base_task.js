@@ -1,13 +1,13 @@
-import { BaseCleanUp } from "../../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp } from "../../javascript_utils.js";
 
 export class BaseTask extends BaseCleanUp {
 	/** @type {string} 任务作为独一无二的标识 key */
 	key;
-	/** @type {Array<CanvasEngineType.TaskCallback>} */
+	/** @type {Array<JavaScriptUtilsType.TaskCallback>} */
 	loadedCallbacks;
-	/** @type {Array<CanvasEngineType.TaskCallback>} */
+	/** @type {Array<JavaScriptUtilsType.TaskCallback>} */
 	errorCallbacks;
-	/** @type {Array<CanvasEngineType.TaskCallback>} */
+	/** @type {Array<JavaScriptUtilsType.TaskCallback>} */
 	finalErrorCallbacks;
 	/** @type {boolean} */
 	isLoaded;
@@ -38,7 +38,7 @@ export class BaseTask extends BaseCleanUp {
 		return this;
 	}
 	/**
-	 * @param {CanvasEngineType.TaskCallback} loadedCallback
+	 * @param {JavaScriptUtilsType.TaskCallback} loadedCallback
 	 */
 	addLoadedCallback(loadedCallback) {
 		this.loadedCallbacks.push(loadedCallback);
@@ -54,7 +54,7 @@ export class BaseTask extends BaseCleanUp {
 		this.loadedCallbacks.length = 0;
 	}
 	/**
-	 * @param {CanvasEngineType.TaskCallback} errorCallback
+	 * @param {JavaScriptUtilsType.TaskCallback} errorCallback
 	 */
 	addErrorCallback(errorCallback) {
 		this.errorCallbacks.push(errorCallback);
@@ -73,7 +73,7 @@ export class BaseTask extends BaseCleanUp {
 		}
 	}
 	/**
-	 * @param {CanvasEngineType.TaskCallback} finalErrorCallback
+	 * @param {JavaScriptUtilsType.TaskCallback} finalErrorCallback
 	 */
 	addFinalErrorCallbacks(finalErrorCallback) {
 		this.finalErrorCallbacks.push(finalErrorCallback);

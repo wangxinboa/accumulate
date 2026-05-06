@@ -5,7 +5,7 @@ import { GlTextureParamTypeEnum } from "../renderer/webgl_renderer/webgl_texture
 export class Texture extends BaseCleanUp {
 	/** @type {boolean} */
 	isTexture;
-	/** @type {CanvasEngineType.ImageTask} */
+	/** @type {JavaScriptUtilsType.ImageTask} */
 	source;
 	/**
 	 * @param {string} url
