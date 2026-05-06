@@ -31,6 +31,7 @@ export class WebGLExtensions extends BaseCleanUp {
 	initExtensions() {
 		this.WEBGL_lose_context = this.renderer.gl.getExtension("WEBGL_lose_context");
 	}
+	/** 执行 gl context 上下文丢失 */
 	extensionContextLost() {
 		this.isExtensionLossTriggered = true;
 		this.WEBGL_lose_context?.loseContext();
@@ -49,12 +50,14 @@ export class WebGLExtensions extends BaseCleanUp {
 		webglContextEvent.preventDefault();
 		// 如果需要 WebGLContextEvent 特有属性，可在此处断言：(event as WebGLContextEvent)
 		if (this.renderer.gl.isContextLost()) {
+			this.renderer.deleteGlCache();
+
 			setTimeout(this._extensionRestoreContext, 0);
 		}
 	}
 	/** @private */
 	_handleContextRestored() {
-		this.renderer.initContext();
+		this.renderer.resetGl();
 	}
 	destroy() {
 		// 类型断言以规避 TS 对非标准事件类型的严格检查

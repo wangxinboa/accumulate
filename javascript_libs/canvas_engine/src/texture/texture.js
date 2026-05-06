@@ -30,7 +30,7 @@ export class Texture extends BaseCleanUp {
 	get height() {
 		return this.source.height;
 	}
-	get isReady() {
+	get isLoaded() {
 		return this.source.isLoaded;
 	}
 

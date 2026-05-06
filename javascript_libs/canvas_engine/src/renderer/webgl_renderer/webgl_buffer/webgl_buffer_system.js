@@ -49,4 +49,14 @@ export class WebGLBufferSystem extends BaseCleanUp {
 			}
 		}
 	}
+	resetAllBuffers() {
+		for (let i = 0, len = this._cacheGlBuffers.array.length; i < len; i++) {
+			this._cacheGlBuffers.array[i].bufferData(this.renderer.gl);
+		}
+	}
+	deleteAllBuffers() {
+		for (let i = 0, len = this._cacheGlBuffers.array.length; i < len; i++) {
+			this._cacheGlBuffers.array[i].deleteBuffer(this.renderer.gl);
+		}
+	}
 }

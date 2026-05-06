@@ -17,9 +17,7 @@ export class WebGL2DRenderer extends Renderer {
 	/** @type {WebGLTextureSystem} */
 	textureSystem;
 	/** @type {number} */
-	webglVersio;
-	/** @type {boolean} */
-	isNewContext;
+	webglVersion;
 
 	static key = "webgl";
 	/**
@@ -28,8 +26,6 @@ export class WebGL2DRenderer extends Renderer {
 	constructor(webgl2DRendererOption) {
 		super(webgl2DRendererOption);
 
-		this.isNewContext = false;
-
 		this.extensions = new WebGLExtensions(this);
 		this.programSystem = new WebGLProgramSystem(this);
 		this.bufferSystem = new WebGLBufferSystem(this);
@@ -37,7 +33,7 @@ export class WebGL2DRenderer extends Renderer {
 
 		let gl;
 		if ((gl = this.canvas.getContext("webgl2", webgl2DRendererOption))) {
-			this.webglVersio = 2;
+			this.webglVersion = 2;
 		} else {
 			throw new Error("浏览器不支持 webgl");
 		}
@@ -45,11 +41,18 @@ export class WebGL2DRenderer extends Renderer {
 
 		this.extensions.initCanvas();
 
-		this.initContext();
-	}
-	initContext() {
 		this.extensions.initExtensions();
-		this.isNewContext = true;
+	}
+	resetGl() {
+		this.extensions.initExtensions();
+		this.programSystem.resetAllPrograms();
+		this.bufferSystem.resetAllBuffers();
+		this.textureSystem.resetAllTextures();
+	}
+	deleteGlCache() {
+		this.programSystem.deleteAllPrograms();
+		this.bufferSystem.deleteAllBuffers();
+		this.textureSystem.deleteTextures();
 	}
 	clear() {
 		this.gl.clearColor(
@@ -70,10 +73,6 @@ export class WebGL2DRenderer extends Renderer {
 		this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 		this.clear();
 		this._traverseRender(scene, camera, timestamp);
-
-		if (this.isNewContext) {
-			this.isNewContext = false;
-		}
 	}
 	/**
 	 * @abstract @param {CanvasEngineType.AllRenderNode} renderNode

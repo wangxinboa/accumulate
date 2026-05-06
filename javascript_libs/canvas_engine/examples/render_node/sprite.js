@@ -63,18 +63,25 @@ for (let i = 0; i < imageUrls.length; i++) {
 }
 
 let count = 0;
+let isPositive = true;
 engine.timeTicker.addRunCallback(function () {
-	// console.info("count:", count);
-
 	for (let i = 0; i < imageUrls.length; i++) {
-		sprite2ds[i].x += 1;
-		sprite2ds[i].y += 1;
+		sprite2ds[i].x += isPositive ? 1 : -1;
+		sprite2ds[i].y += isPositive ? 1 : -1;
 	}
 
 	// sprite2ds[0].rotationAngle += 1;
 
 	if (count > 99) {
-		engine.timeTicker.parse();
+		// engine.timeTicker.parse();
+		isPositive = false;
+	} else if (count < 0) {
+		isPositive = true;
 	}
-	count++;
+
+	if (isPositive) {
+		count++;
+	} else {
+		count--;
+	}
 });

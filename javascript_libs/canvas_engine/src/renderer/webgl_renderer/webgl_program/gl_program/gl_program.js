@@ -139,7 +139,30 @@ export class GlProgram extends BaseCleanUp {
 		gl.useProgram(this.program);
 		return this;
 	}
+	/**
+	 * @param {CanvasEngineType.WebGLContext} gl
+	 * @returns {GlProgram}
+	 */
+	delete(gl) {
+		gl.deleteProgram(this.program);
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.WebGLContext} gl
+	 * @returns {GlProgram}
+	 */
+	reset(gl) {
+		this.program = this._initProgram(gl);
 
+		for (let i = 0, len = this.uniformLocationsMap.array.length; i < len; i++) {
+			this.uniformLocationsMap.array[i].initGlLocation(gl, this.program);
+		}
+		for (let i = 0, len = this.attribLocationsMap.array.length; i < len; i++) {
+			this.attribLocationsMap.array[i].initGlLocation(gl, this.program);
+		}
+
+		return this;
+	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {string} locationName
@@ -170,7 +193,6 @@ export class GlProgram extends BaseCleanUp {
 			}
 		}
 	}
-
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {number} mode

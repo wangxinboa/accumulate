@@ -10,6 +10,8 @@ export class CustomMap extends BaseCleanUp {
 	map;
 	/** @type {Array<T>} */
 	array;
+	/** @type {number} */
+	count = 0;
 
 	constructor() {
 		super();
@@ -43,6 +45,7 @@ export class CustomMap extends BaseCleanUp {
 
 		this.map[key] = value;
 		this.array.push(value);
+		this.count++;
 
 		return this;
 	}
@@ -80,6 +83,7 @@ export class CustomMap extends BaseCleanUp {
 			const index = this.array.indexOf(value);
 
 			this.array.splice(index, 1);
+			this.count--;
 			delete this.map[key];
 		}
 		return this;
@@ -88,7 +92,7 @@ export class CustomMap extends BaseCleanUp {
 		for (let key in this.map) {
 			delete this.map[key];
 		}
-		this.array.length = 0;
+		this.count = this.array.length = 0;
 
 		return this;
 	}

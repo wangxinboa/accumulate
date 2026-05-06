@@ -30,4 +30,16 @@ export class WebGLTextureSystem extends BaseCleanUp {
 	initTexturesByRenderNode(renderNode) {
 		renderNode.initTextures(this.renderer.gl, this._cacheTextures);
 	}
+
+	resetAllTextures() {
+		for (let i = 0, len = this._cacheTextures.array.length; i < len; i++) {
+			this._cacheTextures.array[i].resetTexture(this.renderer.gl);
+		}
+	}
+
+	deleteTextures() {
+		for (let i = 0, len = this._cacheTextures.array.length; i < len; i++) {
+			this._cacheTextures.array[i].deleteTexture(this.renderer.gl);
+		}
+	}
 }
