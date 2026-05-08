@@ -136,8 +136,7 @@ export class Sprite2DPipe extends Render2DNode {
 	initTextures(gl, cacheTextures) {
 		const textureKey = this.texture.key;
 		if (this.texture.image2D && !cacheTextures.has(textureKey)) {
-			cacheTextures.set(textureKey, new GlTexture(this.texture.image2D));
-			cacheTextures.get(textureKey).initTexture(gl, this.texture);
+			cacheTextures.set(textureKey, new GlTexture(this.texture.image2D).initTexture(gl, this.texture));
 		}
 	}
 	/**

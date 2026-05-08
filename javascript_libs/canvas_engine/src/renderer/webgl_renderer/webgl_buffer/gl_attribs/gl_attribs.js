@@ -2,7 +2,7 @@ import { BaseCleanUp } from "../../../../../../javascript_utils/javascript_utils
 import { GlAttrib } from "./gl_attrib.js";
 
 export class GlAttribs extends BaseCleanUp {
-	/** @type {CanvasEngineType.GlAttribsFormat["arrtibsKey"]} */
+	/** @type {CanvasEngineType.GlAttribsFormat["attribsKey"]} */
 	key;
 	/** @type {Record<string, CanvasEngineType.GlAttrib>} */
 	arrtibs;
@@ -14,7 +14,7 @@ export class GlAttribs extends BaseCleanUp {
 	constructor(glAttribsFormat) {
 		super();
 
-		this.key = glAttribsFormat.arrtibsKey;
+		this.key = glAttribsFormat.attribsKey;
 		this.arrtibs = {};
 		this.arrtibNames = [];
 

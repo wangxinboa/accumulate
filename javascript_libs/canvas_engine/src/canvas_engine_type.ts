@@ -122,7 +122,7 @@ declare global {
 			stride: number;
 			offset: number;
 		};
-		type GlAttribsFormat = { arrtibsKey: string; arrtibs: Array<GlAttribFormat> };
+		type GlAttribsFormat = { attribsKey: string; arrtibs: Array<GlAttribFormat> };
 		/** gl texture */
 		type TextureUnitName =
 			| "TEXTURE0"
