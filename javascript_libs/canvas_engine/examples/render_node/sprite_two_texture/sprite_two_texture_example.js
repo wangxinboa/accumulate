@@ -1,5 +1,5 @@
-import { Canvas2DEngine } from "../../src/canvas_2d_engine.js";
-import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
+import { Canvas2DEngine } from "../../../src/canvas_2d_engine.js";
+import { Sprite2DTwoTexture } from "./sprite_two_texture.js";
 
 const engine = new Canvas2DEngine({
 	container: document.body,
@@ -27,15 +27,31 @@ globalThis.engine = engine;
 // ]);
 
 const imageUrls = [
-	"https://pixijs.com/assets/bunny.png",
-	"https://pixijs.com/assets/bunny.png",
-	"https://pixijs.com/assets/bunny.png",
-	"https://pixijs.com/assets/bunny.png",
-	"https://pixijs.com/assets/bunny.png",
-	"https://fastly.picsum.photos/id/33/20/20.jpg?hmac=2qevnyLh9jL-kOMjRHF1xg1TyBmOATzt_B__g1C_E7Y",
-	"https://fastly.picsum.photos/id/902/20/20.jpg?hmac=1D9rRqsVpj0c559bCL-1Sd4HQ63BwJrzIjSze3DGFTA",
-	"https://fastly.picsum.photos/id/343/20/20.jpg?hmac=5Kl5BY351WQTvor_ar4Nrj3gXJi8G7clWzDjWB9Wz2o",
-	"https://fastly.picsum.photos/id/1027/20/20.jpg?hmac=H7OrzD_uAN3Gat2uSpNJEAn6Je8mtax_CWXdEmljiF8",
+	[
+		"https://pixijs.com/assets/bunny.png",
+		"https://fastly.picsum.photos/id/33/20/20.jpg?hmac=2qevnyLh9jL-kOMjRHF1xg1TyBmOATzt_B__g1C_E7Y",
+	],
+	[
+		"https://pixijs.com/assets/bunny.png",
+		"https://fastly.picsum.photos/id/902/20/20.jpg?hmac=1D9rRqsVpj0c559bCL-1Sd4HQ63BwJrzIjSze3DGFTA",
+	],
+	[
+		"https://pixijs.com/assets/bunny.png",
+		"https://fastly.picsum.photos/id/343/20/20.jpg?hmac=5Kl5BY351WQTvor_ar4Nrj3gXJi8G7clWzDjWB9Wz2o",
+	],
+	[
+		"https://pixijs.com/assets/bunny.png",
+		"https://fastly.picsum.photos/id/1027/20/20.jpg?hmac=H7OrzD_uAN3Gat2uSpNJEAn6Je8mtax_CWXdEmljiF8",
+	],
+	// "https://pixijs.com/assets/bunny.png",
+	// "https://pixijs.com/assets/bunny.png",
+	// "https://pixijs.com/assets/bunny.png",
+	// "https://pixijs.com/assets/bunny.png",
+	// "https://pixijs.com/assets/bunny.png",
+	// "https://fastly.picsum.photos/id/33/20/20.jpg?hmac=2qevnyLh9jL-kOMjRHF1xg1TyBmOATzt_B__g1C_E7Y",
+	// "https://fastly.picsum.photos/id/902/20/20.jpg?hmac=1D9rRqsVpj0c559bCL-1Sd4HQ63BwJrzIjSze3DGFTA",
+	// "https://fastly.picsum.photos/id/343/20/20.jpg?hmac=5Kl5BY351WQTvor_ar4Nrj3gXJi8G7clWzDjWB9Wz2o",
+	// "https://fastly.picsum.photos/id/1027/20/20.jpg?hmac=H7OrzD_uAN3Gat2uSpNJEAn6Je8mtax_CWXdEmljiF8",
 	// `../assets/number_images/0.png`,
 	// `../assets/number_images/1.png`,
 	// `../assets/number_images/2.png`,
@@ -49,13 +65,14 @@ const imageUrls = [
 ];
 
 /**
- * @type {CanvasEngineType.Sprite2D[]}
+ * @type {Sprite2DTwoTexture[]}
  */
 const sprite2ds = [];
 globalThis.sprite2ds = sprite2ds;
 
 for (let i = 0; i < imageUrls.length; i++) {
-	const sprite2d = Sprite2D.createFromUrl(imageUrls[i]);
+	const urls = imageUrls[i];
+	const sprite2d = Sprite2DTwoTexture.createFromUrl(urls[0], urls[1]);
 	sprite2d.x = (i % 5) * 100;
 	sprite2d.y = ((i - (i % 5)) / 5) * 100;
 	sprite2d.pivotX = 0.5;
@@ -66,11 +83,12 @@ for (let i = 0; i < imageUrls.length; i++) {
 	engine.scene.add(sprite2d);
 }
 
-sprite2ds[0].texture.unpackFlipY = false;
-sprite2ds[1].texture.unpackFlipY = true;
-sprite2ds[2].texture.unpackFlipY = true;
-sprite2ds[3].texture.unpackFlipY = true;
-sprite2ds[4].texture.unpackFlipY = false;
+sprite2ds[0].texture1.unpackFlipY = false;
+
+sprite2ds[0].texture2.unpackFlipY = true;
+sprite2ds[1].texture2.unpackFlipY = true;
+sprite2ds[2].texture2.unpackFlipY = true;
+sprite2ds[3].texture2.unpackFlipY = false;
 
 let count = 0;
 let isPositive = true;
@@ -78,12 +96,11 @@ engine.timeTicker.addRunCallback(function () {
 	for (let i = 0; i < imageUrls.length; i++) {
 		sprite2ds[i].x += isPositive ? 1 : -1;
 		sprite2ds[i].y += isPositive ? 1 : -1;
+
+		sprite2ds[i].clamp = count / 100;
 	}
 
-	// sprite2ds[0].rotationAngle += 1;
-
 	if (count > 99) {
-		// engine.timeTicker.parse();
 		isPositive = false;
 	} else if (count < 0) {
 		isPositive = true;

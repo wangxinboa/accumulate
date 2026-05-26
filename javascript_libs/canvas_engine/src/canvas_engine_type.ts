@@ -165,7 +165,7 @@ declare global {
 		type GlUniformFormat = {};
 		type GlUniformsFormat = Array<GlUniformFormat>;
 
-		type GlUniformValue = GlTexture | Matrix3 | Matrix4;
+		type GlUniformValue = GlTexture | Matrix3 | Matrix4 | number;
 
 		// class
 		type WebGL2DRenderer = WebGL2DRendererClass;

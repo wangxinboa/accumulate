@@ -5,8 +5,19 @@ import { GlTextureParamTypeEnum } from "../renderer/webgl_renderer/webgl_texture
 export class Texture extends BaseCleanUp {
 	/** @type {boolean} */
 	isTexture;
+	/** @type {boolean} */
+	needUpdate;
+
 	/** @type {JavaScriptUtilsType.ImageTask} */
 	source;
+
+	/** @type {keyof typeof GlTextureParamTypeEnum} */
+	wrapS;
+	/** @type {keyof typeof GlTextureParamTypeEnum} */
+	wrapT;
+
+	/** @type {boolean} */
+	unpackFlipY;
 	/**
 	 * @param {string} url
 	 */
@@ -17,8 +28,15 @@ export class Texture extends BaseCleanUp {
 
 		this.source = LoaderManager.addImageTask(url);
 
+		this.unpackFlipY = true;
 		this.wrapS = GlTextureParamTypeEnum.REPEAT;
 		this.wrapT = GlTextureParamTypeEnum.REPEAT;
+
+		this.minFilter = GlTextureParamTypeEnum.LINEAR;
+		this.magFilter = GlTextureParamTypeEnum.LINEAR;
+		this.unpackFlipY = true;
+
+		this.needUpdate = true;
 	}
 
 	get key() {

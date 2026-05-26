@@ -188,6 +188,9 @@ export class GlProgram extends BaseCleanUp {
 						/** @type {CanvasEngineType.Matrix4} */ (locationValue).elements,
 					);
 					break;
+				case GlDataTypeEnum.float:
+					gl.uniform1f(glLocation.uniformLocation, /** @type {number} */ (locationValue));
+					break;
 				default:
 					throw new Error(`GlDataTypeEnum 中不存在对应的 gl 数据类型 ${glLocation.type}`);
 			}
