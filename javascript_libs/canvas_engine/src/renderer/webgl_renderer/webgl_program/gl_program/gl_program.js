@@ -15,7 +15,9 @@ export class GlProgram extends BaseCleanUp {
 	uniformLocationsMap;
 	/** @type {CustomMap<AttribLocation>} */
 	attribLocationsMap;
-
+	/** @type {Record<string, boolean>} */
+	enableVertexAttribArrayMap;
+	// attribLocationsMap;
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.GlProgramFormat} glProgramFormat
@@ -28,6 +30,7 @@ export class GlProgram extends BaseCleanUp {
 
 		this.uniformLocationsMap = new CustomMap().disableOverwrite();
 		this.attribLocationsMap = new CustomMap().disableOverwrite();
+		this.enableVertexAttribArrayMap = {};
 
 		this.program = this._initProgram(gl);
 
@@ -159,9 +162,33 @@ export class GlProgram extends BaseCleanUp {
 		}
 		for (let i = 0, len = this.attribLocationsMap.array.length; i < len; i++) {
 			this.attribLocationsMap.array[i].initGlLocation(gl, this.program);
+
+			this.enableVertexAttribArrayMap[this.attribLocationsMap.array[i].locationName] = false;
 		}
 
 		return this;
+	}
+
+	/**
+	 * @param {CanvasEngineType.WebGLContext} gl
+	 * @param {CanvasEngineType.GlAttrib} glAttrib
+	 */
+	enableVertexAttribArray(gl, glAttrib) {
+		const attribName = glAttrib.attribName;
+		if (!this.enableVertexAttribArrayMap[attribName]) {
+			const loaction = this.getAttribLocation(attribName);
+			gl.vertexAttribPointer(
+				loaction,
+				glAttrib.size,
+				gl[glAttrib.type],
+				glAttrib.normalized,
+				glAttrib.stride,
+				glAttrib.offset,
+			);
+			gl.enableVertexAttribArray(loaction);
+
+			this.enableVertexAttribArrayMap[attribName] = true;
+		}
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl

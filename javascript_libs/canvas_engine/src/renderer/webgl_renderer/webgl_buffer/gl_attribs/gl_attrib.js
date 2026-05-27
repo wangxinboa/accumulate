@@ -35,14 +35,4 @@ export class GlAttrib extends BaseCleanUp {
 		this.stride = stride;
 		this.offset = offset;
 	}
-
-	/**
-	 * @param {CanvasEngineType.WebGLContext} gl
-	 * @param {CanvasEngineType.GlProgram} glProgram
-	 */
-	vertexAttribPointer(gl, glProgram) {
-		const loaction = glProgram.getAttribLocation(this.attribName);
-		gl.vertexAttribPointer(loaction, this.size, gl[this.type], this.normalized, this.stride, this.offset);
-		gl.enableVertexAttribArray(loaction);
-	}
 }

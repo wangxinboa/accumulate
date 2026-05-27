@@ -66,26 +66,26 @@ for (let i = 0; i < imageUrls.length; i++) {
 	engine.scene.add(sprite2d);
 }
 
-sprite2ds[0].texture.unpackFlipY = false;
-sprite2ds[1].texture.unpackFlipY = true;
-sprite2ds[2].texture.unpackFlipY = true;
-sprite2ds[3].texture.unpackFlipY = true;
-sprite2ds[4].texture.unpackFlipY = false;
+// sprite2ds[0].texture.unpackFlipY = false;
+// sprite2ds[1].texture.unpackFlipY = true;
+// sprite2ds[2].texture.unpackFlipY = true;
+// sprite2ds[3].texture.unpackFlipY = true;
+// sprite2ds[4].texture.unpackFlipY = false;
 
 let count = 0;
 let isPositive = true;
 engine.timeTicker.addRunCallback(function () {
 	for (let i = 0; i < imageUrls.length; i++) {
-		sprite2ds[i].x += isPositive ? 1 : -1;
-		sprite2ds[i].y += isPositive ? 1 : -1;
+		sprite2ds[i].x += isPositive ? 0.2 : -0.2;
+		sprite2ds[i].y += isPositive ? 0.2 : -0.2;
 	}
 
 	// sprite2ds[0].rotationAngle += 1;
 
-	if (count > 99) {
+	if (sprite2ds[0].x > 100) {
 		// engine.timeTicker.parse();
 		isPositive = false;
-	} else if (count < 0) {
+	} else if (sprite2ds[0].x < 0) {
 		isPositive = true;
 	}
 

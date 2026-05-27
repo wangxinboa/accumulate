@@ -67,7 +67,7 @@ export class WebGLBufferSystem extends BaseCleanUp {
 					this._activeBuffer.bindBuffer(this.renderer.gl);
 				}
 
-				glAttrib.vertexAttribPointer(this.renderer.gl, glProgram);
+				glProgram.enableVertexAttribArray(this.renderer.gl, glAttrib);
 			}
 		}
 	}
