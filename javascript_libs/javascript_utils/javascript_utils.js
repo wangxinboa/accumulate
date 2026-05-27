@@ -12,6 +12,7 @@ import {
 import { deepClone } from "./data_type/object.js";
 import { downloadFile } from "./file/download.js";
 import { Loader } from "./loader/loader.js";
+import { ControlledConsoleTime, ControlledConsoleTimeEnd } from "./performance_monitoring/controlled_console_time.js";
 import { throttle } from "./timer/throttle.js";
 import { debounce } from "./timer/debounce.js";
 import { now } from "./timer/now.js";
@@ -32,6 +33,8 @@ export {
 	deepClone,
 	downloadFile,
 	Loader,
+	ControlledConsoleTime,
+	ControlledConsoleTimeEnd,
 	throttle,
 	debounce,
 	now,
@@ -54,6 +57,8 @@ const jsUtils = {
 	deepClone,
 	downloadFile,
 	Loader,
+	ControlledConsoleTime,
+	ControlledConsoleTimeEnd,
 	throttle,
 	debounce,
 	now,

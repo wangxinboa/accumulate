@@ -40,10 +40,20 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	 * @param {string} attribsKey
 	 */
 	getAttribs(attribsKey) {
-		if (!this._cacheGlAttribs.has(attribsKey)) {
-			this._cacheGlAttribs.set(attribsKey, new GlAttribs(attribsKey));
-		}
 		return this._cacheGlAttribs.get(attribsKey);
+	}
+	/**
+	 * @param {string} attribsKey
+	 */
+	hasAttribs(attribsKey) {
+		return this._cacheGlAttribs.has(attribsKey);
+	}
+	/**
+	 * @param {string} attribsKey
+	 * @param {CanvasEngineType.GlAttribs} glAttribs
+	 */
+	setAttribs(attribsKey, glAttribs) {
+		this._cacheGlAttribs.set(attribsKey, glAttribs);
 	}
 
 	/**

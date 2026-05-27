@@ -175,20 +175,18 @@ export class GlProgram extends BaseCleanUp {
 	 */
 	enableVertexAttribArray(gl, glAttrib) {
 		const attribName = glAttrib.attribName;
-		if (!this.enableVertexAttribArrayMap[attribName]) {
-			const loaction = this.getAttribLocation(attribName);
-			gl.vertexAttribPointer(
-				loaction,
-				glAttrib.size,
-				gl[glAttrib.type],
-				glAttrib.normalized,
-				glAttrib.stride,
-				glAttrib.offset,
-			);
-			gl.enableVertexAttribArray(loaction);
+		const loaction = this.getAttribLocation(attribName);
+		gl.vertexAttribPointer(
+			loaction,
+			glAttrib.size,
+			gl[glAttrib.type],
+			glAttrib.normalized,
+			glAttrib.stride,
+			glAttrib.offset,
+		);
+		gl.enableVertexAttribArray(loaction);
 
-			this.enableVertexAttribArrayMap[attribName] = true;
-		}
+		this.enableVertexAttribArrayMap[attribName] = true;
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl

@@ -10,6 +10,7 @@ import {
 	glProgramFormat,
 	uImageName,
 } from "./sprite2d_webgl_pipe/gl_program_format.js";
+import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
 
 export class Sprite2DPipe extends Render2DNode {
 	/** @type {CanvasEngineType.Texture} */
@@ -40,27 +41,32 @@ export class Sprite2DPipe extends Render2DNode {
 	getAttribs(bufferSystem) {
 		const attribsKey = this.texture.key;
 		const bufferKey = this.texture.key;
-
-		return bufferSystem
-			.getAttribs(attribsKey)
-			.addAttrib(
-				bufferKey,
-				aPositionName,
-				2,
-				GlBufferDataTypeEnum.FLOAT,
-				false,
-				16, // 每个顶点5个float，每个float4字节，共20字节,
-				0,
-			)
-			.addAttrib(
-				bufferKey,
-				aTextureCoordName,
-				2,
-				GlBufferDataTypeEnum.FLOAT,
-				false,
-				16, // 每个顶点5个float，每个float4字节，共20字节,
-				8, // 跳过前2个浮点数(x,y)，每个浮点数4字节,
+		if (!bufferSystem.hasAttribs(attribsKey)) {
+			bufferSystem.setAttribs(
+				attribsKey,
+				new GlAttribs(attribsKey)
+					.addAttrib(
+						bufferKey,
+						aPositionName,
+						2,
+						GlBufferDataTypeEnum.FLOAT,
+						false,
+						16, // 每个顶点5个float，每个float4字节，共20字节,
+						0,
+					)
+					.addAttrib(
+						bufferKey,
+						aTextureCoordName,
+						2,
+						GlBufferDataTypeEnum.FLOAT,
+						false,
+						16, // 每个顶点5个float，每个float4字节，共20字节,
+						8, // 跳过前2个浮点数(x,y)，每个浮点数4字节,
+					),
 			);
+		}
+
+		return bufferSystem.getAttribs(attribsKey);
 	}
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
