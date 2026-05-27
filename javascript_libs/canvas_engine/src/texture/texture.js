@@ -28,7 +28,6 @@ export class Texture extends BaseCleanUp {
 
 		this.source = LoaderManager.addImageTask(url);
 
-		this.unpackFlipY = true;
 		this.wrapS = GlTextureParamTypeEnum.REPEAT;
 		this.wrapT = GlTextureParamTypeEnum.REPEAT;
 

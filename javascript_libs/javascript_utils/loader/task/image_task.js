@@ -1,7 +1,7 @@
 import { BaseTask } from "./base_task.js";
 
 export class ImageTask extends BaseTask {
-	/** @type {HTMLImageElement | null} */
+	/** @type {HTMLImageElement} */
 	data;
 	/** @type {string} */
 	src;
@@ -14,7 +14,7 @@ export class ImageTask extends BaseTask {
 	constructor(src, crossOrigin = true) {
 		super(src);
 
-		this.data = null;
+		this.data = new Image();
 		this.src = src;
 		this.crossOrigin = crossOrigin;
 
@@ -24,7 +24,6 @@ export class ImageTask extends BaseTask {
 		this.height = 0;
 	}
 	startLoad() {
-		this.data = new Image();
 		this.data.src = this.src;
 		this.data.crossOrigin = this.crossOrigin ? "anonymous" : "";
 

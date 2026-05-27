@@ -1,4 +1,5 @@
 import { BaseCleanUp, CustomMap } from "../../../../../javascript_utils/javascript_utils.js";
+import { GlProgram } from "./gl_program/gl_program.js";
 
 export class WebGLProgramSystem extends BaseCleanUp {
 	/** @type {CanvasEngineType.WebGLRenderer} */
@@ -18,10 +19,21 @@ export class WebGLProgramSystem extends BaseCleanUp {
 		this._cacheGlPrograms = new CustomMap();
 	}
 	/**
+	 * @param {string} glProgramKey
+	 * @param {CanvasEngineType.GlProgramFormat} glProgramFormat
+	 */
+	addGlProgram(glProgramKey, glProgramFormat) {
+		if (!this._cacheGlPrograms.has(glProgramKey)) {
+			this._cacheGlPrograms.set(glProgramKey, new GlProgram(this.renderer.gl, glProgramFormat));
+		}
+		return this._cacheGlPrograms.get(glProgramKey);
+	}
+
+	/**
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 */
 	useProgramByRenderNode(renderNode) {
-		const glProgram = renderNode.getGlProgram(this.renderer.gl, this._cacheGlPrograms);
+		const glProgram = renderNode.getGlProgram(this);
 
 		if (this.activeGlProgram !== glProgram) {
 			glProgram.use(this.renderer.gl);

@@ -4,10 +4,6 @@ import {
 	GlBufferTargetTypeEnum,
 	GlBufferUsageTypeEnum,
 } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
-import { GlProgram } from "../../../renderer/webgl_renderer/webgl_program/gl_program/gl_program.js";
-import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
-import { GlBuffer } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
-import { GlTexture } from "../../../renderer/webgl_renderer/webgl_texture/gl_texture.js";
 import {
 	aPositionName,
 	aTextureCoordName,
@@ -33,110 +29,87 @@ export class Sprite2DPipe extends Render2DNode {
 
 	static key = "Sprite2D";
 	/**
-	 * @param {WebGL2RenderingContext} gl
-	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]['_cacheGlPrograms']} cacheGlPrograms
+	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} programSystem
 	 */
-	getGlProgram(gl, cacheGlPrograms) {
-		const glProgramKey = Sprite2DPipe.key;
-		if (!cacheGlPrograms.has(glProgramKey)) {
-			cacheGlPrograms.set(glProgramKey, new GlProgram(gl, glProgramFormat));
-		}
-		return cacheGlPrograms.get(glProgramKey);
+	getGlProgram(programSystem) {
+		return programSystem.addGlProgram(Sprite2DPipe.key, glProgramFormat);
 	}
 	/**
-	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]["_cacheGlAttribs"]} cacheGlAttribs
+	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
-	getAttribs(cacheGlAttribs) {
+	getAttribs(bufferSystem) {
 		const attribsKey = this.texture.key;
 		const bufferKey = this.texture.key;
-		if (!cacheGlAttribs.has(attribsKey)) {
-			cacheGlAttribs.set(
-				attribsKey,
-				new GlAttribs({
-					attribsKey: attribsKey,
-					arrtibs: [
-						{
-							bufferKey: bufferKey,
-							attribName: aPositionName,
-							size: 2,
-							type: GlBufferDataTypeEnum.FLOAT,
-							normalized: false,
-							stride: 16, // 每个顶点5个float，每个float4字节，共20字节,
-							offset: 0,
-						},
-						{
-							bufferKey: bufferKey,
-							attribName: aTextureCoordName,
-							size: 2,
-							type: GlBufferDataTypeEnum.FLOAT,
-							normalized: false,
-							stride: 16, // 每个顶点5个float，每个float4字节，共20字节,
-							offset: 8, // 跳过前2个浮点数(x,y)，每个浮点数4字节,
-						},
-					],
-				}),
+
+		return bufferSystem
+			.getAttribs(attribsKey)
+			.addAttrib(
+				bufferKey,
+				aPositionName,
+				2,
+				GlBufferDataTypeEnum.FLOAT,
+				false,
+				16, // 每个顶点5个float，每个float4字节，共20字节,
+				0,
+			)
+			.addAttrib(
+				bufferKey,
+				aTextureCoordName,
+				2,
+				GlBufferDataTypeEnum.FLOAT,
+				false,
+				16, // 每个顶点5个float，每个float4字节，共20字节,
+				8, // 跳过前2个浮点数(x,y)，每个浮点数4字节,
 			);
-		}
-		return cacheGlAttribs.get(attribsKey);
 	}
 	/**
-	 * @param {WebGL2RenderingContext} gl
-	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]['_cacheGlBuffers']} cacheGlBuffers
+	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
-	initBuffers(gl, cacheGlBuffers) {
+	addBuffers(bufferSystem) {
 		if (this.isReady) {
 			const bufferTextureKey = this.texture.key;
 			const width = this.width;
 			const height = this.height;
 
-			if (!cacheGlBuffers.has(bufferTextureKey)) {
-				cacheGlBuffers.set(
-					bufferTextureKey,
-					new GlBuffer(
-						bufferTextureKey,
-						GlBufferTargetTypeEnum.ARRAY_BUFFER,
-						new Float32Array([
-							// 位置x,y, 纹理坐标u,v
-							0,
-							0,
-							0,
-							1, // 左下
-							width,
-							0,
-							1,
-							1, // 右下
-							0,
-							height,
-							0,
-							0, // 左上
-							0,
-							height,
-							0.0,
-							0.0, // 左上
-							width,
-							0,
-							1,
-							1, // 右下
-							width,
-							height,
-							1,
-							0, // 右上
-						]),
-						GlBufferUsageTypeEnum.STATIC_DRAW,
-					).bufferData(gl),
-				);
-			}
+			bufferSystem.addBuffer(
+				bufferTextureKey,
+				GlBufferTargetTypeEnum.ARRAY_BUFFER,
+				new Float32Array([
+					// 位置x,y, 纹理坐标u,v
+					0,
+					0,
+					0,
+					1, // 左下
+					width,
+					0,
+					1,
+					1, // 右下
+					0,
+					height,
+					0,
+					0, // 左上
+					0,
+					height,
+					0.0,
+					0.0, // 左上
+					width,
+					0,
+					1,
+					1, // 右下
+					width,
+					height,
+					1,
+					0, // 右上
+				]),
+				GlBufferUsageTypeEnum.STATIC_DRAW,
+			);
 		}
 	}
 	/**
-	 * @param {CanvasEngineType.WebGLContext} gl
-	 * @param {CanvasEngineType.WebGLRenderer["textureSystem"]["_cacheTextures"]} cacheTextures
+	 * @param {CanvasEngineType.WebGLRenderer["textureSystem"]} textureSystem
 	 */
-	initTextures(gl, cacheTextures) {
-		const textureKey = this.texture.key;
-		if (this.texture.image2D && !cacheTextures.has(textureKey)) {
-			cacheTextures.set(textureKey, new GlTexture(this.texture.image2D).initTexture(gl, this.texture));
-		}
+	updateTextures(textureSystem) {
+		textureSystem.updateTexture(this.texture.key, this.texture);
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl

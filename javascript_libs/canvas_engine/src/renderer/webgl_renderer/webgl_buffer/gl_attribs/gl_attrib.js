@@ -16,18 +16,24 @@ export class GlAttrib extends BaseCleanUp {
 	/** @type {CanvasEngineType.GlAttribFormat["offset"]} */
 	offset;
 	/**
-	 * @param {CanvasEngineType.GlAttribFormat} glAttribFormat
+	 * @param {CanvasEngineType.GlAttribFormat['bufferKey']} bufferKey
+	 * @param {CanvasEngineType.GlAttribFormat['attribName']} attribName
+	 * @param {CanvasEngineType.GlAttribFormat['size']} size
+	 * @param {CanvasEngineType.GlAttribFormat['type']} type
+	 * @param {CanvasEngineType.GlAttribFormat['normalized']} normalized
+	 * @param {CanvasEngineType.GlAttribFormat['stride']} stride
+	 * @param {CanvasEngineType.GlAttribFormat['offset']} offset
 	 */
-	constructor(glAttribFormat) {
+	constructor(bufferKey, attribName, size, type, normalized, stride, offset) {
 		super();
 
-		this.bufferKey = glAttribFormat.bufferKey;
-		this.attribName = glAttribFormat.attribName;
-		this.size = glAttribFormat.size;
-		this.type = glAttribFormat.type;
-		this.normalized = glAttribFormat.normalized;
-		this.stride = glAttribFormat.stride;
-		this.offset = glAttribFormat.offset;
+		this.bufferKey = bufferKey;
+		this.attribName = attribName;
+		this.size = size;
+		this.type = type;
+		this.normalized = normalized;
+		this.stride = stride;
+		this.offset = offset;
 	}
 
 	/**

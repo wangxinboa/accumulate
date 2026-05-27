@@ -9,21 +9,30 @@ export class GlAttribs extends BaseCleanUp {
 	/** @type {Array<CanvasEngineType.GlAttrib["attribName"]>} */
 	arrtibNames;
 	/**
-	 * @param {CanvasEngineType.GlAttribsFormat} glAttribsFormat
+	 * @param {CanvasEngineType.GlAttribsFormat['attribsKey']} attribsKey
 	 */
-	constructor(glAttribsFormat) {
+	constructor(attribsKey) {
 		super();
 
-		this.key = glAttribsFormat.attribsKey;
+		this.key = attribsKey;
 		this.arrtibs = {};
 		this.arrtibNames = [];
+	}
 
-		for (let i = 0, len = glAttribsFormat.arrtibs.length; i < len; i++) {
-			const glAttribFormat = glAttribsFormat.arrtibs[i];
+	/**
+	 * @param {CanvasEngineType.GlAttribFormat['bufferKey']} bufferKey
+	 * @param {CanvasEngineType.GlAttribFormat['attribName']} attribName
+	 * @param {CanvasEngineType.GlAttribFormat['size']} size
+	 * @param {CanvasEngineType.GlAttribFormat['type']} type
+	 * @param {CanvasEngineType.GlAttribFormat['normalized']} normalized
+	 * @param {CanvasEngineType.GlAttribFormat['stride']} stride
+	 * @param {CanvasEngineType.GlAttribFormat['offset']} offset
+	 */
+	addAttrib(bufferKey, attribName, size, type, normalized, stride, offset) {
+		this.arrtibs[attribName] = new GlAttrib(bufferKey, attribName, size, type, normalized, stride, offset);
+		this.arrtibNames.push(attribName);
 
-			this.arrtibs[glAttribFormat.attribName] = new GlAttrib(glAttribFormat);
-			this.arrtibNames.push(glAttribFormat.attribName);
-		}
+		return this;
 	}
 
 	destroy() {

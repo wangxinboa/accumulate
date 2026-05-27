@@ -24,15 +24,37 @@ export class WebGLBufferSystem extends BaseCleanUp {
 
 		this._activeBuffer = null;
 	}
+
+	/**
+	 * @param {CanvasEngineType.GlBufferFormat['key']} key
+	 * @param {CanvasEngineType.GlBufferFormat['target']} target
+	 * @param {CanvasEngineType.GlBufferFormat['data']} data
+	 * @param {CanvasEngineType.GlBufferFormat['usage']} usage
+	 */
+	addBuffer(key, target, data, usage) {
+		if (!this._cacheGlBuffers.has(key)) {
+			this._cacheGlBuffers.set(key, new GlBuffer(key, target, data, usage).bufferData(this.renderer.gl));
+		}
+	}
+	/**
+	 * @param {string} attribsKey
+	 */
+	getAttribs(attribsKey) {
+		if (!this._cacheGlAttribs.has(attribsKey)) {
+			this._cacheGlAttribs.set(attribsKey, new GlAttribs(attribsKey));
+		}
+		return this._cacheGlAttribs.get(attribsKey);
+	}
+
 	/**
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
 	bindBuffersByRenderNode(renderNode, glProgram) {
-		// initBuffers
-		renderNode.initBuffers(this.renderer.gl, this._cacheGlBuffers);
+		// addBuffers
+		renderNode.addBuffers(this);
 		// getAttribs
-		const glAttribs = renderNode.getAttribs(this._cacheGlAttribs);
+		const glAttribs = renderNode.getAttribs(this);
 
 		// vertexAttribPointer
 		for (let i = 0, len = glAttribs.arrtibNames.length; i < len; i++) {
