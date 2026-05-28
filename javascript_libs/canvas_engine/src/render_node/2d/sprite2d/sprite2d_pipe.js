@@ -12,6 +12,13 @@ import {
 } from "./sprite2d_webgl_pipe/gl_program_format.js";
 import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
 
+/**
+ * @param {{width: number; height: number}} sprite2DPipe
+ */
+export function getBufferKey(sprite2DPipe) {
+	return `texture-${sprite2DPipe.width}-${sprite2DPipe.height}`;
+}
+
 export class Sprite2DPipe extends Render2DNode {
 	/** @type {CanvasEngineType.Texture} */
 	texture;
@@ -39,43 +46,46 @@ export class Sprite2DPipe extends Render2DNode {
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
 	getAttribs(bufferSystem) {
-		const attribsKey = this.texture.key;
-		const bufferKey = this.texture.key;
-		if (!bufferSystem.hasAttribs(attribsKey)) {
-			bufferSystem.setAttribs(
-				attribsKey,
-				new GlAttribs(attribsKey)
-					.addAttrib(
-						bufferKey,
-						aPositionName,
-						2,
-						GlBufferDataTypeEnum.FLOAT,
-						false,
-						16, // 每个顶点5个float，每个float4字节，共20字节,
-						0,
-					)
-					.addAttrib(
-						bufferKey,
-						aTextureCoordName,
-						2,
-						GlBufferDataTypeEnum.FLOAT,
-						false,
-						16, // 每个顶点5个float，每个float4字节，共20字节,
-						8, // 跳过前2个浮点数(x,y)，每个浮点数4字节,
-					),
-			);
-		}
+		if (this.isReady) {
+			const attribsKey = this.texture.key;
+			const bufferKey = getBufferKey(this);
 
-		return bufferSystem.getAttribs(attribsKey);
+			if (!bufferSystem.hasAttribs(attribsKey)) {
+				bufferSystem.setAttribs(
+					attribsKey,
+					new GlAttribs(attribsKey)
+						.addAttrib(
+							bufferKey,
+							aPositionName,
+							2,
+							GlBufferDataTypeEnum.FLOAT,
+							false,
+							16, // 每个顶点5个float，每个float4字节，共20字节,
+							0,
+						)
+						.addAttrib(
+							bufferKey,
+							aTextureCoordName,
+							2,
+							GlBufferDataTypeEnum.FLOAT,
+							false,
+							16, // 每个顶点5个float，每个float4字节，共20字节,
+							8, // 跳过前2个浮点数(x,y)，每个浮点数4字节,
+						),
+				);
+			}
+
+			return bufferSystem.getAttribs(attribsKey);
+		}
 	}
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
 	addBuffers(bufferSystem) {
 		if (this.isReady) {
-			const bufferTextureKey = this.texture.key;
 			const width = this.width;
 			const height = this.height;
+			const bufferTextureKey = getBufferKey(this);
 
 			bufferSystem.addBuffer(
 				bufferTextureKey,

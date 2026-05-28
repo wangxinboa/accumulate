@@ -29,6 +29,11 @@ export class GlAttribs extends BaseCleanUp {
 	 * @param {CanvasEngineType.GlAttribFormat['offset']} offset
 	 */
 	addAttrib(bufferKey, attribName, size, type, normalized, stride, offset) {
+		if (this.arrtibs[attribName]) {
+			console.warn(`GlAttribs ${this.key} 已经存在 attrib ${attribName}`);
+			return this;
+		}
+
 		this.arrtibs[attribName] = new GlAttrib(bufferKey, attribName, size, type, normalized, stride, offset);
 		this.arrtibNames.push(attribName);
 

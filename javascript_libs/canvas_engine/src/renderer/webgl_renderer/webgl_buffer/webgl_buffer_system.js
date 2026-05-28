@@ -50,7 +50,7 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	}
 	/**
 	 * @param {string} attribsKey
-	 * @param {CanvasEngineType.GlAttribs} glAttribs
+	 * @param {GlAttribs} glAttribs
 	 */
 	setAttribs(attribsKey, glAttribs) {
 		this._cacheGlAttribs.set(attribsKey, glAttribs);
@@ -67,17 +67,19 @@ export class WebGLBufferSystem extends BaseCleanUp {
 		const glAttribs = renderNode.getAttribs(this);
 
 		// vertexAttribPointer
-		for (let i = 0, len = glAttribs.arrtibNames.length; i < len; i++) {
-			const glAttrib = glAttribs.arrtibs[glAttribs.arrtibNames[i]];
-			const glAttribBuffer = this._cacheGlBuffers.get(glAttrib.bufferKey);
+		if (glAttribs instanceof GlAttribs) {
+			for (let i = 0, len = glAttribs.arrtibNames.length; i < len; i++) {
+				const glAttrib = glAttribs.arrtibs[glAttribs.arrtibNames[i]];
+				const glAttribBuffer = this._cacheGlBuffers.get(glAttrib.bufferKey);
 
-			if (glAttribBuffer instanceof GlBuffer) {
-				if (this._activeBuffer !== glAttribBuffer) {
-					this._activeBuffer = glAttribBuffer;
-					this._activeBuffer.bindBuffer(this.renderer.gl);
+				if (glAttribBuffer instanceof GlBuffer) {
+					if (this._activeBuffer !== glAttribBuffer) {
+						this._activeBuffer = glAttribBuffer;
+						this._activeBuffer.bindBuffer(this.renderer.gl);
+					}
+
+					glProgram.enableVertexAttribArray(this.renderer.gl, glAttrib);
 				}
-
-				glProgram.enableVertexAttribArray(this.renderer.gl, glAttrib);
 			}
 		}
 	}
