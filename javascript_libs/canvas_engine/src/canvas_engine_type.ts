@@ -19,6 +19,7 @@ import { Camera2D as Camera2DClass } from "./camera/camera2d.js";
 import { RenderNode as RenderNodeClass } from "./render_node/render_node.js";
 import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
 import { Texture as TextureClass } from "./texture/texture.js";
+import { TextTexture as TextTextureClass } from "./texture/text_texture/text_texture.js";
 import { GlTexture as GlTextureClass } from "./renderer/webgl_renderer/webgl_texture/gl_texture.js";
 import {
 	GlBufferTargetTypeEnum as _GlBufferTargetTypeEnum,
@@ -191,6 +192,7 @@ declare global {
 		type Sprite2D = Sprite2DClass;
 		type AllRenderNode = Sprite2D;
 		type Texture = TextureClass;
+		type TextTexture = TextTextureClass;
 		type GlTexture = GlTextureClass;
 	}
 }

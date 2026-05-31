@@ -11,6 +11,7 @@ import {
 	uImageName,
 } from "./sprite2d_webgl_pipe/gl_program_format.js";
 import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
+import { GlBuffer } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 
 /**
  * @param {{width: number; height: number}} sprite2DPipe
@@ -79,46 +80,52 @@ export class Sprite2DPipe extends Render2DNode {
 		}
 	}
 	/**
+	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
-	addBuffers(bufferSystem) {
+	addBuffers(gl, bufferSystem) {
 		if (this.isReady) {
 			const width = this.width;
 			const height = this.height;
 			const bufferTextureKey = getBufferKey(this);
 
-			bufferSystem.addBuffer(
-				bufferTextureKey,
-				GlBufferTargetTypeEnum.ARRAY_BUFFER,
-				new Float32Array([
-					// 位置x,y, 纹理坐标u,v
-					0,
-					0,
-					0,
-					1, // 左下
-					width,
-					0,
-					1,
-					1, // 右下
-					0,
-					height,
-					0,
-					0, // 左上
-					0,
-					height,
-					0.0,
-					0.0, // 左上
-					width,
-					0,
-					1,
-					1, // 右下
-					width,
-					height,
-					1,
-					0, // 右上
-				]),
-				GlBufferUsageTypeEnum.STATIC_DRAW,
-			);
+			if (!bufferSystem.hasBuffer(bufferTextureKey)) {
+				bufferSystem.setBuffer(
+					bufferTextureKey,
+					new GlBuffer(
+						bufferTextureKey,
+						GlBufferTargetTypeEnum.ARRAY_BUFFER,
+						new Float32Array([
+							// 位置x,y, 纹理坐标u,v
+							0,
+							0,
+							0,
+							1, // 左下
+							width,
+							0,
+							1,
+							1, // 右下
+							0,
+							height,
+							0,
+							0, // 左上
+							0,
+							height,
+							0.0,
+							0.0, // 左上
+							width,
+							0,
+							1,
+							1, // 右下
+							width,
+							height,
+							1,
+							0, // 右上
+						]),
+						GlBufferUsageTypeEnum.STATIC_DRAW,
+					).bufferData(gl),
+				);
+			}
 		}
 	}
 	/**

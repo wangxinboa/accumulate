@@ -44,17 +44,20 @@ export class GlBuffer extends BaseCleanUp {
 	 */
 	bindBuffer(gl) {
 		gl.bindBuffer(gl[this.target], this.buffer);
+		return this;
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 */
 	unbindBuffer(gl) {
 		gl.bindBuffer(gl[this.target], null);
+		return this;
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 */
 	deleteBuffer(gl) {
 		gl.deleteBuffer(this.buffer);
+		return this;
 	}
 }

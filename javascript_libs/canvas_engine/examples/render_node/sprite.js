@@ -75,7 +75,7 @@ for (let i = 0; i < imageUrls.length; i++) {
 let count = 0;
 let isPositive = true;
 engine.timeTicker.addRunCallback(function () {
-	for (let i = 0; i < imageUrls.length; i++) {
+	for (let i = 0; i < sprite2ds.length; i++) {
 		sprite2ds[i].x += isPositive ? 0.2 : -0.2;
 		sprite2ds[i].y += isPositive ? 0.2 : -0.2;
 	}

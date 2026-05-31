@@ -1,4 +1,4 @@
-import { getInitUrlSearchParam } from "../../../../javascript_libs/javascript_utils/url/get_url_search_param.js";
+import { getInitUrlSearchParam } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
 
 import { browserExt } from "../src/environment-browser/browserExt.mjs";
 import { webworkerExt } from "../src/environment-webworker/webworkerExt.mjs";
@@ -6,18 +6,16 @@ import { extensions } from "../src/extensions/Extensions.mjs";
 
 extensions.add(browserExt, webworkerExt);
 
+const exampleRelativePath = [
+	"../examples/src/scene/sprite/sprite.js",
+	"../examples/src/scene/text/text_fill_gradient.js",
+];
+
 // 1. 获取 URL 中的 exampleUrl 参数
-const exampleUrl = getInitUrlSearchParam("exampleUrl");
+const exampleId = getInitUrlSearchParam("exampleId");
 
-if (exampleUrl) {
-	import(exampleUrl);
+if (exampleId) {
+	import(exampleRelativePath[Number(exampleId)]);
 } else {
-	throw new Error("exampleUrl 参数不存在");
+	throw new Error("exampleId 参数不存在");
 }
-
-// 对照源码
-// ?exampleUrl=../examples/src/scene/sprite/sprite.js
-// import("../examples/src/scene/sprite/sprite.js");
-
-// ?exampleUrl=../examples/src/scene/text/text_fill_gradient.js
-// import("../examples/src/scene/text/text_fill_gradient.js");

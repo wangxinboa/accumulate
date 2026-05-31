@@ -112,6 +112,10 @@ export class Loader {
 	 * @param {Function} loadingCompleteCallback 添加当所有任务加载完毕之后的回调执行函数
 	 */
 	addLoadingCompleteCallback(loadingCompleteCallback) {
-		this._loadingCompleteCallbacks.push(loadingCompleteCallback);
+		if (this.isLoadingComplete) {
+			loadingCompleteCallback?.();
+		} else {
+			this._loadingCompleteCallbacks.push(loadingCompleteCallback);
+		}
 	}
 }

@@ -8,6 +8,8 @@ export class WebGLProgramSystem extends BaseCleanUp {
 	activeGlProgram;
 	/** @private @type {CustomMap<CanvasEngineType.GlProgram>} */
 	_cacheGlPrograms;
+	/** @type {boolean} */
+	programHasChanged = true;
 	/**
 	 * @param {CanvasEngineType.WebGLRenderer} renderer
 	 */
@@ -35,7 +37,8 @@ export class WebGLProgramSystem extends BaseCleanUp {
 	useProgramByRenderNode(renderNode) {
 		const glProgram = renderNode.getGlProgram(this);
 
-		if (this.activeGlProgram !== glProgram) {
+		this.programHasChanged = this.activeGlProgram !== glProgram;
+		if (this.programHasChanged) {
 			glProgram.use(this.renderer.gl);
 			this.activeGlProgram = glProgram;
 		}

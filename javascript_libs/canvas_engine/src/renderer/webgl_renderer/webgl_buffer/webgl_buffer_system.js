@@ -26,17 +26,6 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	}
 
 	/**
-	 * @param {CanvasEngineType.GlBufferFormat['key']} key
-	 * @param {CanvasEngineType.GlBufferFormat['target']} target
-	 * @param {CanvasEngineType.GlBufferFormat['data']} data
-	 * @param {CanvasEngineType.GlBufferFormat['usage']} usage
-	 */
-	addBuffer(key, target, data, usage) {
-		if (!this._cacheGlBuffers.has(key)) {
-			this._cacheGlBuffers.set(key, new GlBuffer(key, target, data, usage).bufferData(this.renderer.gl));
-		}
-	}
-	/**
 	 * @param {string} attribsKey
 	 */
 	getAttribs(attribsKey) {
@@ -57,12 +46,31 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	}
 
 	/**
+	 * @param {string} bufferKey
+	 */
+	getBuffer(bufferKey) {
+		return this._cacheGlBuffers.get(bufferKey);
+	}
+	/**
+	 * @param {string} bufferKey
+	 */
+	hasBuffer(bufferKey) {
+		return this._cacheGlBuffers.has(bufferKey);
+	}
+	/**
+	 * @param {string} bufferKey
+	 * @param {GlBuffer} glBuffer
+	 */
+	setBuffer(bufferKey, glBuffer) {
+		this._cacheGlBuffers.set(bufferKey, glBuffer);
+	}
+	/**
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
 	bindBuffersByRenderNode(renderNode, glProgram) {
 		// addBuffers
-		renderNode.addBuffers(this);
+		renderNode.addBuffers(this.renderer.gl, this);
 		// getAttribs
 		const glAttribs = renderNode.getAttribs(this);
 
