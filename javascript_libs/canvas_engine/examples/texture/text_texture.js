@@ -1,0 +1,48 @@
+import { Canvas2DEngine } from "../../src/canvas_2d_engine.js";
+import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
+import { TextTexture } from "../../src/texture/text_texture.js";
+
+const engine = new Canvas2DEngine({
+	container: document.body,
+	rendererType: "webgl",
+	autoStart: true,
+	waitLoadingCompleteStart: true,
+	backgroundColor: 0xffffff,
+});
+
+globalThis.engine = engine;
+
+/**
+ * @type {CanvasEngineType.Sprite2D[]}
+ */
+const sprite2ds = [];
+globalThis.sprite2ds = sprite2ds;
+
+sprite2ds.push(new Sprite2D(new TextTexture("Basic text in pixi")));
+
+for (let i = 0; i < sprite2ds.length; i++) {
+	engine.scene.add(sprite2ds[i]);
+}
+
+let count = 0;
+let isPositive = true;
+
+engine.timeTicker.addRunCallback(function () {
+	for (let i = 0; i < sprite2ds.length; i++) {
+		sprite2ds[i].x += isPositive ? 0.2 : -0.2;
+		sprite2ds[i].y += isPositive ? 0.2 : -0.2;
+	}
+
+	if (sprite2ds[0].x > 100) {
+		// engine.timeTicker.parse();
+		isPositive = false;
+	} else if (sprite2ds[0].x < 0) {
+		isPositive = true;
+	}
+
+	if (isPositive) {
+		count++;
+	} else {
+		count--;
+	}
+});

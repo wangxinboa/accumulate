@@ -1,12 +1,12 @@
-import { Texture } from "../../../src/texture/texture.js";
+import { ImageTexture } from "../../../src/texture/image_texture.js";
 import { Sprite2DTwoTexturePipe } from "./sprite_two_texture_pipe.js";
 
 export class Sprite2DTwoTexture extends Sprite2DTwoTexturePipe {
 	/** @type {boolean} */
 	isSprite2D = true;
 	/**
-	 * @param {CanvasEngineType.Texture} texture1
-	 * @param {CanvasEngineType.Texture} texture2
+	 * @param {CanvasEngineType.Sprite2DTexture} texture1
+	 * @param {CanvasEngineType.Sprite2DTexture} texture2
 	 */
 	constructor(texture1, texture2) {
 		super(texture1, texture2);
@@ -22,6 +22,6 @@ export class Sprite2DTwoTexture extends Sprite2DTwoTexturePipe {
 	 * @param {string} url2
 	 */
 	static createFromUrl(url1, url2) {
-		return new Sprite2DTwoTexture(Texture.createFromUrl(url1), Texture.createFromUrl(url2));
+		return new Sprite2DTwoTexture(ImageTexture.createFromUrl(url1), ImageTexture.createFromUrl(url2));
 	}
 }

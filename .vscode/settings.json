@@ -52,10 +52,7 @@
 	"workbench.colorTheme": "Dark Modern",
 	// eslint
 	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-	"eslint.workingDirectories": ["./"],
-	"eslint.run": "onType",
-	"eslint.lintTask.enable": true,
-	"eslint.lintTask.options": ". --ext .js,.jsx,.ts,.tsx",
+	"eslint.run": "onSave",
 	// prettier
 	"prettier.printWidth": 120,
 	"prettier.useTabs": true,

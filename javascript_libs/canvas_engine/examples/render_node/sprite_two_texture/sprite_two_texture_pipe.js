@@ -17,15 +17,15 @@ import { getBufferKey } from "../../../src/render_node/2d/sprite2d/sprite2d_pipe
 import { GlBuffer } from "../../../src/renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 
 export class Sprite2DTwoTexturePipe extends Render2DNode {
-	/** @type {CanvasEngineType.Texture} */
+	/** @type {CanvasEngineType.ImageTexture} */
 	texture1;
-	/** @type {CanvasEngineType.Texture} */
+	/** @type {CanvasEngineType.ImageTexture} */
 	texture2;
 	/** @type {number} */
 	clamp;
 	/**
-	 * @param {CanvasEngineType.Texture} texture1
-	 * @param {CanvasEngineType.Texture} texture2
+	 * @param {CanvasEngineType.ImageTexture} texture1
+	 * @param {CanvasEngineType.ImageTexture} texture2
 	 */
 	constructor(texture1, texture2) {
 		super();
