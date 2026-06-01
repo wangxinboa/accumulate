@@ -68,6 +68,7 @@ declare global {
 			autoStart?: boolean;
 			waitLoadingCompleteStart?: boolean;
 		};
+		type TimeTickerCallback = (timestamp: number) => void;
 		/** CanvasEngine 初始化配置 */
 		type CanvasEngineOption = TimeTickerOption & RendererOption;
 		/** Canvas2DEngine 初始化配置 */
@@ -187,16 +188,16 @@ declare global {
 		type Matrix4 = Matrix4Class;
 		type Vector2 = Vector2Class;
 		type Vector3 = Vector3Class;
-		type TimeTickerCallback = (timestamp: number) => void;
 		type BaseTexture = BaseTextureClass;
 		type ImageTexture = ImageTextureClass;
 		type TextTexture = TextTextureClass;
-		type AllTexture = ImageTexture | TextTexture;
 		type GlTexture = GlTextureClass;
 		type Camera2D = Camera2DClass;
 		type RenderNode = RenderNodeClass;
 		type Sprite2D = Sprite2DClass;
-		type Sprite2DTexture = ImageTexture;
+
+		type AllTexture = ImageTexture | TextTexture;
+		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
 	}
 }

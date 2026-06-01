@@ -6,7 +6,7 @@ const engine = new Canvas2DEngine({
 	container: document.body,
 	rendererType: "webgl",
 	autoStart: true,
-	waitLoadingCompleteStart: true,
+	// waitLoadingCompleteStart: false,
 	backgroundColor: 0xffffff,
 });
 

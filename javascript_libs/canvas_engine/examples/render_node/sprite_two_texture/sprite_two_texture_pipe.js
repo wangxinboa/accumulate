@@ -13,7 +13,7 @@ import {
 	uImageName1,
 	uImageName2,
 } from "./gl_program_format.js";
-import { getBufferKey } from "../../../src/render_node/2d/sprite2d/sprite2d_pipe.js";
+import { getBufferKey } from "../../../src/render_node/2d/sprite2d/sprite2d.js";
 import { GlBuffer } from "../../../src/renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 
 export class Sprite2DTwoTexturePipe extends Render2DNode {
@@ -136,8 +136,10 @@ export class Sprite2DTwoTexturePipe extends Render2DNode {
 	 * @param {CanvasEngineType.WebGLRenderer["textureSystem"]} textureSystem
 	 */
 	updateTextures(textureSystem) {
-		textureSystem.updateTexture(this.texture1.key, this.texture1);
-		textureSystem.updateTexture(this.texture2.key, this.texture2);
+		if (this.isReady) {
+			textureSystem.updateTexture(this.texture1.key, this.texture1);
+			textureSystem.updateTexture(this.texture2.key, this.texture2);
+		}
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl

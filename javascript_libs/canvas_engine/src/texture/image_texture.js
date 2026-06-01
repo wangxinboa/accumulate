@@ -17,6 +17,13 @@ export class ImageTexture extends BaseTexture {
 		this.source = LoaderManager.addImageTask(url);
 	}
 
+	/**
+	 * @param {CanvasEngineType.AllTexture} texture
+	 */
+	isSameTexParameter(texture) {
+		return super.isSameTexParameter(texture) && this.key === texture.key;
+	}
+
 	get key() {
 		return this.source.src;
 	}

@@ -2,10 +2,12 @@ import { BaseCleanUp, CustomMap } from "../../../../../javascript_utils/javascri
 import { GlTexture } from "./gl_texture.js";
 
 export class WebGLTextureSystem extends BaseCleanUp {
-	/** @private @type {CustomMap<GlTexture>} */
-	_cacheTextures;
 	/** @type {CanvasEngineType.WebGLRenderer} */
 	renderer;
+	/** @private @type {CustomMap<GlTexture>} */
+	_cacheTextures;
+	/** @private @type {boolean} */
+	_cacheUnpackFlipY;
 	/**
 	 * @param {CanvasEngineType.WebGLRenderer} renderer
 	 */
@@ -15,6 +17,8 @@ export class WebGLTextureSystem extends BaseCleanUp {
 		this.renderer = renderer;
 
 		this._cacheTextures = new CustomMap();
+
+		this._cacheUnpackFlipY = false;
 	}
 	/**
 	 * @param {string} textureKey
@@ -40,6 +44,11 @@ export class WebGLTextureSystem extends BaseCleanUp {
 	 * @param {CanvasEngineType.AllTexture} texture
 	 */
 	updateTexture(textureKey, texture) {
+		if (texture.unpackFlipY !== this._cacheUnpackFlipY) {
+			this._cacheUnpackFlipY = texture.unpackFlipY;
+			this.renderer.gl.pixelStorei(this.renderer.gl.UNPACK_FLIP_Y_WEBGL, texture.unpackFlipY);
+		}
+
 		if (this.hasGlTexture(textureKey)) {
 			this.getGlTexture(textureKey).update(this.renderer.gl, texture);
 		} else {

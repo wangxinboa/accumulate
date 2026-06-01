@@ -38,13 +38,12 @@ export class GlTexture extends BaseCleanUp {
 	 * @param {CanvasEngineType.AllTexture} texture
 	 */
 	update(gl, texture) {
-		if (this.isSameStyle(texture)) {
+		if (this.cacheTexture && texture.isSameTexParameter(this.cacheTexture)) {
 			return this;
 		}
 
 		gl.bindTexture(gl.TEXTURE_2D, this.texture);
 
-		gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, texture.unpackFlipY);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl[texture.wrapS]);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl[texture.wrapT]);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl[texture.minFilter]);
@@ -55,20 +54,5 @@ export class GlTexture extends BaseCleanUp {
 		this.cacheTexture = texture;
 
 		return this;
-	}
-	/**
-	 * @param {CanvasEngineType.AllTexture} texture
-	 */
-	isSameStyle(texture) {
-		if (this.cacheTexture === texture) {
-			return (
-				this.cacheTexture.wrapS === texture.wrapS &&
-				this.cacheTexture.wrapT === texture.wrapT &&
-				this.cacheTexture.minFilter === texture.minFilter &&
-				this.cacheTexture.magFilter === texture.magFilter &&
-				this.cacheTexture.unpackFlipY === texture.unpackFlipY
-			);
-		}
-		return false;
 	}
 }

@@ -28,4 +28,22 @@ export class BaseTexture extends BaseCleanUp {
 		this.magFilter = GlTextureParamTypeEnum.LINEAR;
 		this.unpackFlipY = true;
 	}
+	/**
+	 * @param {CanvasEngineType.AllTexture} texture
+	 * @returns
+	 */
+	isSameTexParameter(texture) {
+		return (
+			this instanceof texture.constructor &&
+			this.wrapS === texture.wrapS &&
+			this.wrapT === texture.wrapT &&
+			this.minFilter === texture.minFilter &&
+			this.magFilter === texture.magFilter &&
+			this.unpackFlipY === texture.unpackFlipY
+		);
+	}
+
+	get isLoaded() {
+		return true;
+	}
 }
