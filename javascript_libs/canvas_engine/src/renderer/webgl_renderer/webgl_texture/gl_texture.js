@@ -3,7 +3,7 @@ import { BaseCleanUp } from "../../../../../javascript_utils/javascript_utils.js
 export class GlTexture extends BaseCleanUp {
 	/** @type {WebGLTexture | null} */
 	texture = null;
-	/** @type {CanvasEngineType.Texture | null} */
+	/** @type {CanvasEngineType.AllTexture | null} */
 	cacheTexture;
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
@@ -35,7 +35,7 @@ export class GlTexture extends BaseCleanUp {
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
-	 * @param {CanvasEngineType.Texture} texture
+	 * @param {CanvasEngineType.AllTexture} texture
 	 */
 	update(gl, texture) {
 		if (this.isSameStyle(texture)) {
@@ -49,6 +49,7 @@ export class GlTexture extends BaseCleanUp {
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl[texture.wrapT]);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl[texture.minFilter]);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl[texture.magFilter]);
+
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image2D);
 
 		this.cacheTexture = texture;
@@ -56,7 +57,7 @@ export class GlTexture extends BaseCleanUp {
 		return this;
 	}
 	/**
-	 * @param {CanvasEngineType.Texture} texture
+	 * @param {CanvasEngineType.AllTexture} texture
 	 */
 	isSameStyle(texture) {
 		if (this.cacheTexture === texture) {

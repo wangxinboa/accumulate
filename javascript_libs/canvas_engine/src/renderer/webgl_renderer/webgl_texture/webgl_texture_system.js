@@ -37,15 +37,13 @@ export class WebGLTextureSystem extends BaseCleanUp {
 	}
 	/**
 	 * @param {string} textureKey
-	 * @param {CanvasEngineType.Texture} texture
+	 * @param {CanvasEngineType.AllTexture} texture
 	 */
 	updateTexture(textureKey, texture) {
-		if (texture.isLoaded) {
-			if (this.hasGlTexture(textureKey)) {
-				this.getGlTexture(textureKey).update(this.renderer.gl, texture);
-			} else {
-				this.setGlTexture(textureKey, new GlTexture(this.renderer.gl).update(this.renderer.gl, texture));
-			}
+		if (this.hasGlTexture(textureKey)) {
+			this.getGlTexture(textureKey).update(this.renderer.gl, texture);
+		} else {
+			this.setGlTexture(textureKey, new GlTexture(this.renderer.gl).update(this.renderer.gl, texture));
 		}
 	}
 

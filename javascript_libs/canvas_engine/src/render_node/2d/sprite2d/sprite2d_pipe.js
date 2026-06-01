@@ -21,10 +21,10 @@ export function getBufferKey(sprite2DPipe) {
 }
 
 export class Sprite2DPipe extends Render2DNode {
-	/** @type {CanvasEngineType.Texture} */
+	/** @type {CanvasEngineType.Sprite2DTexture} */
 	texture;
 	/**
-	 * @param {CanvasEngineType.Texture} texture
+	 * @param {CanvasEngineType.Sprite2DTexture} texture
 	 */
 	constructor(texture) {
 		super();
@@ -32,6 +32,7 @@ export class Sprite2DPipe extends Render2DNode {
 		this.texture = texture;
 	}
 
+	/** @private */
 	get isReady() {
 		return this.texture.isLoaded;
 	}
@@ -132,7 +133,9 @@ export class Sprite2DPipe extends Render2DNode {
 	 * @param {CanvasEngineType.WebGLRenderer["textureSystem"]} textureSystem
 	 */
 	updateTextures(textureSystem) {
-		textureSystem.updateTexture(this.texture.key, this.texture);
+		if (this.isReady) {
+			textureSystem.updateTexture(this.texture.key, this.texture);
+		}
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl

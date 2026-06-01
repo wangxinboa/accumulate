@@ -13,7 +13,6 @@ export class BaseTexture extends BaseCleanUp {
 	minFilter;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
 	magFilter;
-
 	/** @type {boolean} */
 	unpackFlipY;
 
@@ -22,8 +21,8 @@ export class BaseTexture extends BaseCleanUp {
 
 		this.isBaseTexture = true;
 
-		this.wrapS = GlTextureParamTypeEnum.REPEAT;
-		this.wrapT = GlTextureParamTypeEnum.REPEAT;
+		this.wrapS = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
+		this.wrapT = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
 
 		this.minFilter = GlTextureParamTypeEnum.LINEAR;
 		this.magFilter = GlTextureParamTypeEnum.LINEAR;

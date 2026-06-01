@@ -19,6 +19,7 @@ import { now } from "./timer/now.js";
 import { getInitUrlSearchParam } from "./url/get_url_search_param.js";
 import { copyTextToClipboard, readTextFromClipboard } from "./clipboard.js";
 import { CustomMap } from "./custom_map.js";
+import { DefaultVariable } from "./default_variable.js";
 
 export {
 	BaseCleanUp,
@@ -42,6 +43,7 @@ export {
 	copyTextToClipboard,
 	readTextFromClipboard,
 	CustomMap,
+	DefaultVariable,
 };
 
 const jsUtils = {
@@ -66,6 +68,7 @@ const jsUtils = {
 	copyTextToClipboard,
 	readTextFromClipboard,
 	CustomMap,
+	DefaultVariable,
 };
 globalThis.jsUtils = jsUtils;
 

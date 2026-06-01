@@ -1,11 +1,11 @@
-import { Texture } from "../../../texture/texture.js";
+import { ImageTexture } from "../../../texture/image_texture.js";
 import { Sprite2DPipe } from "./sprite2d_pipe.js";
 
 export class Sprite2D extends Sprite2DPipe {
 	/** @type {boolean} */
 	isSprite2D = true;
 	/**
-	 * @param {Texture} texture
+	 * @param {CanvasEngineType.Sprite2DTexture} texture
 	 */
 	constructor(texture) {
 		super(texture);
@@ -20,6 +20,6 @@ export class Sprite2D extends Sprite2DPipe {
 	 * @param {string} url
 	 */
 	static createFromUrl(url) {
-		return new Sprite2D(Texture.createFromUrl(url));
+		return new Sprite2D(ImageTexture.createFromUrl(url));
 	}
 }
