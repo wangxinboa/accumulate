@@ -82,11 +82,11 @@ export class WebGL2DRenderer extends Renderer {
 	_renderNode(renderNode, camera, timestamp) {
 		renderNode.updateMatrix();
 
-		const glProgram = this.programSystem.useProgramByRenderNode(renderNode);
+		const glProgram = this.programSystem.useProgram(renderNode);
 
-		this.bufferSystem.bindBuffersByRenderNode(renderNode, glProgram);
+		this.bufferSystem.bindBuffers(renderNode, glProgram);
 
-		this.textureSystem.updateTexturesByRenderNode(renderNode);
+		this.textureSystem.updateTextures(renderNode);
 
 		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
 		glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);

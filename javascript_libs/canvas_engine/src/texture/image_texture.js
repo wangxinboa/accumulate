@@ -33,7 +33,7 @@ export class ImageTexture extends BaseTexture {
 	get height() {
 		return this.source.height;
 	}
-	get isLoaded() {
+	get isReady() {
 		return this.source.isLoaded;
 	}
 	get image2D() {

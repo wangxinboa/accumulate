@@ -13,6 +13,7 @@ import {
 import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
 import { GlBuffer } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 import { ImageTexture } from "../../../texture/image_texture.js";
+import { getPositionUvFloat32ArrayFromWidthAndHeight } from "../../../renderer/webgl_renderer/webgl_buffer/webgl_buffer_utils.js";
 
 /**
  * @param {{width: number; height: number}} sprite2DPipe
@@ -32,10 +33,9 @@ export class Sprite2D extends Render2DNode {
 
 		this.texture = texture;
 	}
-
 	/** @private */
 	get isReady() {
-		return this.texture.isLoaded;
+		return this.texture.isReady;
 	}
 	get width() {
 		return this.texture.width;
@@ -49,7 +49,6 @@ export class Sprite2D extends Render2DNode {
 	static createFromUrl(url) {
 		return new Sprite2D(ImageTexture.createFromUrl(url));
 	}
-
 	static key = "Sprite2D";
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} programSystem
@@ -60,13 +59,13 @@ export class Sprite2D extends Render2DNode {
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
-	getAttribs(bufferSystem) {
+	updateAttribs(bufferSystem) {
 		if (this.isReady) {
 			const attribsKey = this.texture.key;
 			const bufferKey = getBufferKey(this);
 
-			if (!bufferSystem.hasAttribs(attribsKey)) {
-				bufferSystem.setAttribs(
+			if (!bufferSystem.hasGlAttribs(attribsKey)) {
+				bufferSystem.setGlAttribs(
 					attribsKey,
 					new GlAttribs(attribsKey)
 						.addAttrib(
@@ -90,52 +89,26 @@ export class Sprite2D extends Render2DNode {
 				);
 			}
 
-			return bufferSystem.getAttribs(attribsKey);
+			return bufferSystem.getGlAttribs(attribsKey);
 		}
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
-	addBuffers(gl, bufferSystem) {
+	updateBuffers(gl, bufferSystem) {
 		if (this.isReady) {
 			const width = this.width;
 			const height = this.height;
 			const bufferTextureKey = getBufferKey(this);
 
-			if (!bufferSystem.hasBuffer(bufferTextureKey)) {
-				bufferSystem.setBuffer(
+			if (!bufferSystem.hasGlBuffer(bufferTextureKey)) {
+				bufferSystem.setGlBuffer(
 					bufferTextureKey,
 					new GlBuffer(
 						bufferTextureKey,
 						GlBufferTargetTypeEnum.ARRAY_BUFFER,
-						new Float32Array([
-							// 位置x,y, 纹理坐标u,v
-							0,
-							0,
-							0,
-							1, // 左下
-							width,
-							0,
-							1,
-							1, // 右下
-							0,
-							height,
-							0,
-							0, // 左上
-							0,
-							height,
-							0.0,
-							0.0, // 左上
-							width,
-							0,
-							1,
-							1, // 右下
-							width,
-							height,
-							1,
-							0, // 右上
-						]),
+						getPositionUvFloat32ArrayFromWidthAndHeight(width, height),
 						GlBufferUsageTypeEnum.STATIC_DRAW,
 					).bufferData(gl),
 				);
@@ -147,7 +120,7 @@ export class Sprite2D extends Render2DNode {
 	 */
 	updateTextures(textureSystem) {
 		if (this.isReady) {
-			textureSystem.updateTexture(this.texture.key, this.texture);
+			textureSystem.updateGlTexture(this.texture.key, this.texture);
 		}
 	}
 	/**

@@ -34,7 +34,7 @@ export class WebGLProgramSystem extends BaseCleanUp {
 	/**
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 */
-	useProgramByRenderNode(renderNode) {
+	useProgram(renderNode) {
 		const glProgram = renderNode.getGlProgram(this);
 
 		this.programHasChanged = this.activeGlProgram !== glProgram;

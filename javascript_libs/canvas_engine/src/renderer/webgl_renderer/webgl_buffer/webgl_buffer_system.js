@@ -28,51 +28,51 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	/**
 	 * @param {string} attribsKey
 	 */
-	getAttribs(attribsKey) {
+	getGlAttribs(attribsKey) {
 		return this._cacheGlAttribs.get(attribsKey);
 	}
 	/**
 	 * @param {string} attribsKey
 	 */
-	hasAttribs(attribsKey) {
+	hasGlAttribs(attribsKey) {
 		return this._cacheGlAttribs.has(attribsKey);
 	}
 	/**
 	 * @param {string} attribsKey
 	 * @param {GlAttribs} glAttribs
 	 */
-	setAttribs(attribsKey, glAttribs) {
+	setGlAttribs(attribsKey, glAttribs) {
 		this._cacheGlAttribs.set(attribsKey, glAttribs);
 	}
 
 	/**
 	 * @param {string} bufferKey
 	 */
-	getBuffer(bufferKey) {
+	getGlBuffer(bufferKey) {
 		return this._cacheGlBuffers.get(bufferKey);
 	}
 	/**
 	 * @param {string} bufferKey
 	 */
-	hasBuffer(bufferKey) {
+	hasGlBuffer(bufferKey) {
 		return this._cacheGlBuffers.has(bufferKey);
 	}
 	/**
 	 * @param {string} bufferKey
 	 * @param {GlBuffer} glBuffer
 	 */
-	setBuffer(bufferKey, glBuffer) {
+	setGlBuffer(bufferKey, glBuffer) {
 		this._cacheGlBuffers.set(bufferKey, glBuffer);
 	}
 	/**
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
-	bindBuffersByRenderNode(renderNode, glProgram) {
-		// addBuffers
-		renderNode.addBuffers(this.renderer.gl, this);
+	bindBuffers(renderNode, glProgram) {
+		// updateBuffers
+		renderNode.updateBuffers(this.renderer.gl, this);
 		// getAttribs
-		const glAttribs = renderNode.getAttribs(this);
+		const glAttribs = renderNode.updateAttribs(this);
 
 		// vertexAttribPointer
 		if (glAttribs instanceof GlAttribs) {
@@ -83,6 +83,8 @@ export class WebGLBufferSystem extends BaseCleanUp {
 				if (glAttribBuffer instanceof GlBuffer) {
 					if (this._activeBuffer !== glAttribBuffer) {
 						this._activeBuffer = glAttribBuffer;
+						this._activeBuffer.bindBuffer(this.renderer.gl);
+					} else if (this._activeBuffer.dataHasChanged) {
 						this._activeBuffer.bindBuffer(this.renderer.gl);
 					}
 

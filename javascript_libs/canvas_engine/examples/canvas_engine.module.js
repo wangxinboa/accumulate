@@ -3,6 +3,7 @@ import { getInitUrlSearchParam } from "../../javascript_utils/javascript_utils.j
 const exampleRelativePath = [
 	"./render_node/sprite.js",
 	"./render_node/sprite_text.js",
+	"./render_node/text.js",
 	"./render_node/sprite_two_texture/sprite_two_texture_example.js",
 ];
 

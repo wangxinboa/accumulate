@@ -43,7 +43,7 @@ export class WebGLTextureSystem extends BaseCleanUp {
 	 * @param {string} textureKey
 	 * @param {CanvasEngineType.AllTexture} texture
 	 */
-	updateTexture(textureKey, texture) {
+	updateGlTexture(textureKey, texture) {
 		if (texture.unpackFlipY !== this._cacheUnpackFlipY) {
 			this._cacheUnpackFlipY = texture.unpackFlipY;
 			this.renderer.gl.pixelStorei(this.renderer.gl.UNPACK_FLIP_Y_WEBGL, texture.unpackFlipY);
@@ -59,7 +59,7 @@ export class WebGLTextureSystem extends BaseCleanUp {
 	/**
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 */
-	updateTexturesByRenderNode(renderNode) {
+	updateTextures(renderNode) {
 		renderNode.updateTextures(this);
 	}
 	resetAllTextures() {

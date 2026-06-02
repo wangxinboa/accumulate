@@ -17,15 +17,15 @@ import { getBufferKey } from "../../../src/render_node/2d/sprite2d/sprite2d.js";
 import { GlBuffer } from "../../../src/renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 
 export class Sprite2DTwoTexturePipe extends Render2DNode {
-	/** @type {CanvasEngineType.ImageTexture} */
+	/** @type {CanvasEngineType.Sprite2DTexture} */
 	texture1;
-	/** @type {CanvasEngineType.ImageTexture} */
+	/** @type {CanvasEngineType.Sprite2DTexture} */
 	texture2;
 	/** @type {number} */
 	clamp;
 	/**
-	 * @param {CanvasEngineType.ImageTexture} texture1
-	 * @param {CanvasEngineType.ImageTexture} texture2
+	 * @param {CanvasEngineType.Sprite2DTexture} texture1
+	 * @param {CanvasEngineType.Sprite2DTexture} texture2
 	 */
 	constructor(texture1, texture2) {
 		super();
@@ -37,7 +37,7 @@ export class Sprite2DTwoTexturePipe extends Render2DNode {
 	}
 
 	get isReady() {
-		return this.texture1.isLoaded && this.texture2.isLoaded;
+		return this.texture1.isReady && this.texture2.isReady;
 	}
 
 	static cacheProgramKey = "Sprite2DTwoTexture";
@@ -51,13 +51,13 @@ export class Sprite2DTwoTexturePipe extends Render2DNode {
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
-	getAttribs(bufferSystem) {
+	updateAttribs(bufferSystem) {
 		if (this.isReady) {
 			const attribsKey = this.texture1.key;
 			const bufferKey = getBufferKey(this);
 
-			if (!bufferSystem.hasAttribs(attribsKey)) {
-				bufferSystem.setAttribs(
+			if (!bufferSystem.hasGlAttribs(attribsKey)) {
+				bufferSystem.setGlAttribs(
 					attribsKey,
 					new GlAttribs(attribsKey)
 						.addAttrib(
@@ -80,21 +80,21 @@ export class Sprite2DTwoTexturePipe extends Render2DNode {
 						),
 				);
 			}
-			return bufferSystem.getAttribs(attribsKey);
+			return bufferSystem.getGlAttribs(attribsKey);
 		}
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
-	addBuffers(gl, bufferSystem) {
+	updateBuffers(gl, bufferSystem) {
 		if (this.isReady) {
 			const width = this.width;
 			const height = this.height;
 			const bufferTextureKey = getBufferKey(this);
 
-			if (!bufferSystem.hasBuffer(bufferTextureKey)) {
-				bufferSystem.setBuffer(
+			if (!bufferSystem.hasGlBuffer(bufferTextureKey)) {
+				bufferSystem.setGlBuffer(
 					bufferTextureKey,
 					new GlBuffer(
 						bufferTextureKey,
@@ -137,8 +137,8 @@ export class Sprite2DTwoTexturePipe extends Render2DNode {
 	 */
 	updateTextures(textureSystem) {
 		if (this.isReady) {
-			textureSystem.updateTexture(this.texture1.key, this.texture1);
-			textureSystem.updateTexture(this.texture2.key, this.texture2);
+			textureSystem.updateGlTexture(this.texture1.key, this.texture1);
+			textureSystem.updateGlTexture(this.texture2.key, this.texture2);
 		}
 	}
 	/**

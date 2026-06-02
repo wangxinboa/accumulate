@@ -43,7 +43,7 @@ export class BaseTexture extends BaseCleanUp {
 		);
 	}
 
-	get isLoaded() {
+	get isReady() {
 		return true;
 	}
 }

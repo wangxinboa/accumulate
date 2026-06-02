@@ -18,6 +18,7 @@ import { GlAttrib as GlAttribClass } from "./renderer/webgl_renderer/webgl_buffe
 import { Camera2D as Camera2DClass } from "./camera/camera2d.js";
 import { RenderNode as RenderNodeClass } from "./render_node/render_node.js";
 import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
+import { Text as TextClass } from "./render_node/2d/text/text.js";
 import { BaseTexture as BaseTextureClass } from "./texture/base_texture.js";
 import { ImageTexture as ImageTextureClass } from "./texture/image_texture.js";
 import { TextTexture as TextTextureClass } from "./texture/text_texture.js";
@@ -195,7 +196,7 @@ declare global {
 		type Camera2D = Camera2DClass;
 		type RenderNode = RenderNodeClass;
 		type Sprite2D = Sprite2DClass;
-
+		type Text = TextClass;
 		type AllTexture = ImageTexture | TextTexture;
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
