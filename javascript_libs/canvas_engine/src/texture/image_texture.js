@@ -5,7 +5,7 @@ export class ImageTexture extends BaseTexture {
 	/** @type {boolean} */
 	isTexture;
 	/** @type {JavaScriptUtilsType.ImageTask} */
-	source;
+	_source;
 	/**
 	 * @param {string} url
 	 */
@@ -14,16 +14,35 @@ export class ImageTexture extends BaseTexture {
 
 		this.isTexture = true;
 
-		this.source = LoaderManager.addImageTask(url);
+		this._onImageLoaded = this._onImageLoaded.bind(this);
+		this._source = LoaderManager.addImageTask(url);
+		this._onSourceChange();
 	}
-
 	/**
 	 * @param {CanvasEngineType.AllTexture} texture
 	 */
 	isSameTexParameter(texture) {
 		return super.isSameTexParameter(texture) && this.key === texture.key;
 	}
-
+	get source() {
+		return this._source;
+	}
+	set source(value) {
+		this._source = value;
+		this._onSourceChange();
+	}
+	/** @private */
+	_onSourceChange() {
+		if (this._source.isLoaded) {
+			this._onImageLoaded();
+		} else {
+			this._source.addLoadedCallback(this._onImageLoaded);
+		}
+	}
+	/** @private */
+	_onImageLoaded() {
+		this.onTextureRectChange(this.width, this.height);
+	}
 	get key() {
 		return this.source.src;
 	}
@@ -39,7 +58,6 @@ export class ImageTexture extends BaseTexture {
 	get image2D() {
 		return this.source.data;
 	}
-
 	/**
 	 * @param {string} url
 	 */

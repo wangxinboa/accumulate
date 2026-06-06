@@ -1,16 +1,18 @@
 import { clamp, PiDivide180 } from "../../math/math_utils.js";
+import { Matrix3 } from "../../math/matrix3.js";
 import { Matrix4 } from "../../math/matrix4.js";
-import { RenderNode } from "../render_node.js";
+import { RenderNodeEvent } from "../render_node_event.js";
 
-const translationMatrix4 = new Matrix4();
-const rotationMatrix4 = new Matrix4();
-const scaleMatrix4 = new Matrix4();
+const matrix4 = new Matrix4();
+const matrix3 = new Matrix3();
 
-export class Render2DNode extends RenderNode {
+export class Render2DNode extends RenderNodeEvent {
 	/** @type {Render2DNode | null} */
 	parent = null;
 	/** @type {boolean} */
 	isRender2DNode;
+	/** @type {boolean} */
+	applyCameraTransform;
 	/** @type {number} */
 	_x;
 	/** @type {number} */
@@ -27,11 +29,14 @@ export class Render2DNode extends RenderNode {
 	_width;
 	/** @type {number} */
 	_height;
-
+	/** @type {CanvasEngineType.Geometry2DDef | null} */
+	geometry;
 	constructor() {
 		super();
 
 		this.isRender2DNode = true;
+
+		this.applyCameraTransform = true;
 
 		this._width = 0;
 		this._height = 0;
@@ -44,26 +49,52 @@ export class Render2DNode extends RenderNode {
 		this._rotationAngle = 0;
 		this._scaleX = 1;
 		this._scaleY = 1;
+
+		this.matrix3WorldInvert = new Matrix3();
+
+		this.geometry = null;
+		this._updateGeometry = this._updateGeometry.bind(this);
+	}
+	/**
+	 * @param {number} x
+	 * @param {number} y
+	 * @returns {boolean}
+	 */
+	hitTest(x, y) {
+		if (this.geometry) {
+			return this.geometry.containPoint(x, y);
+		}
+		throw new Error("Render2DNode 形状 geometry 信息不存在");
+	}
+	/**
+	 * @protected
+	 */
+	_updateGeometry() {
+		throw new Error("Render2DNode 子类未实现 _updateGeometry 方法");
 	}
 	// matrix 更新
 	updateMatrix() {
 		if (this.matrixNeedsUpdate) {
-			translationMatrix4.makeTranslation(this.x - this.width * this.pivotX, this.y - this.height * this.pivotY, 0);
-			rotationMatrix4.makeRotationZ(this.rotation);
-			scaleMatrix4.makeScale(this.scaleX, this.scaleY, 0);
+			this.matrix
+				.identity()
+				.multiply(matrix4.makeTranslation(this.x - this.width * this.pivotX, this.y - this.height * this.pivotY, 0))
+				.multiply(matrix4.makeRotationZ(this.rotation))
+				.multiply(matrix4.makeScale(this.scaleX, this.scaleY, 0));
 
-			this.matrix.identity().multiply(translationMatrix4).multiply(rotationMatrix4).multiply(scaleMatrix4);
+			this.matrix3WorldInvert
+				.identity()
+				.multiply(matrix3.makeTranslation(this.x, this.y))
+				.multiply(matrix3.makeRotation(this.rotation))
+				.multiply(matrix3.makeScale(this.scaleX === 0 ? 0 : this.scaleX, this.scaleY === 0 ? 0 : this.scaleY))
+				.invert();
 
-			this.updateMatrixWorld();
+			if (this.parent && this.parent.matrixWorld) {
+				this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
+			} else {
+				this.matrixWorld.copy(this.matrix);
+			}
 
 			this.matrixNeedsUpdate = false;
-		}
-	}
-	updateMatrixWorld() {
-		if (this.parent && this.parent.matrixWorld) {
-			this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
-		} else {
-			this.matrixWorld.copy(this.matrix);
 		}
 	}
 	// matrix 相关属性
@@ -127,7 +158,7 @@ export class Render2DNode extends RenderNode {
 		this._scaleY = val;
 		this.matrixNeedsUpdate = true;
 	}
-
+	// 宽高
 	get width() {
 		return this._width;
 	}

@@ -1,3 +1,4 @@
+import { Rectangle } from "../../../math/geometry_2d_def/rectangle.js";
 import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
 import { GlBuffer } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 import {
@@ -12,26 +13,45 @@ import { Sprite2D } from "../sprite2d/sprite2d.js";
 import {
 	aPositionName,
 	aTextureCoordName,
-	glProgramFormat,
+	sprite2dGlProgramFormat,
 	uImageName,
 } from "../sprite2d/sprite2d_webgl_pipe/gl_program_format.js";
 
 export class Text extends Render2DNode {
 	/** @type {TextTexture} */
-	texture;
+	_texture;
+	/** @type {CanvasEngineType.Rectangle} */
+	geometry;
 	/**
 	 * @param {string} text
 	 */
 	constructor(text) {
 		super();
 
-		this.texture = new TextTexture(text);
+		this._texture = new TextTexture(text);
+		this.geometry = new Rectangle();
+
+		this._onTextureChange();
 	}
-	get width() {
-		return this.texture.width;
+	_updateGeometry() {
+		this.width = this.texture.width;
+		this.height = this.texture.height;
+
+		this.geometry.updateShape(0, 0, this.width, this.height);
 	}
-	get height() {
-		return this.texture.height;
+	get texture() {
+		return this._texture;
+	}
+	set texture(value) {
+		this._texture = value;
+		this._onTextureChange();
+	}
+	/** @private */
+	_onTextureChange() {
+		if (this.texture.isReady) {
+			this._updateGeometry();
+		}
+		this.texture.registerTextureRectChangeCallback(this._updateGeometry);
 	}
 	get text() {
 		return this.texture.text;
@@ -39,17 +59,17 @@ export class Text extends Render2DNode {
 	set text(text) {
 		this.texture.text = text;
 	}
-	get textHasChanged() {
-		return this.texture.textHasChanged;
+	get textHasChange() {
+		return this.texture.textHasChange;
 	}
-	set textHasChanged(value) {
-		this.texture.textHasChanged = value;
+	set textHasChange(value) {
+		this.texture.textHasChange = value;
 	}
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer['programSystem']} programSystem
 	 */
 	getGlProgram(programSystem) {
-		return programSystem.addGlProgram(Sprite2D.key, glProgramFormat);
+		return programSystem.addGlProgram(Sprite2D.key, sprite2dGlProgramFormat);
 	}
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer['bufferSystem']} bufferSystem
@@ -79,7 +99,7 @@ export class Text extends Render2DNode {
 		const height = this.height;
 
 		if (bufferSystem.hasGlBuffer(bufferKey)) {
-			if (this.textHasChanged) {
+			if (this.textHasChange) {
 				bufferSystem
 					.getGlBuffer(bufferKey)
 					.updateBufferSubData(gl, 0, getPositionUvFloat32ArrayFromWidthAndHeight(width, height));
@@ -102,15 +122,15 @@ export class Text extends Render2DNode {
 	updateTextures(textureSystem) {
 		textureSystem.updateGlTexture(this.texture.key, this.texture);
 
-		this.textHasChanged = false;
+		this.textHasChange = false;
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
-	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} webglTextureSystem
+	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
-	uniform(gl, webglTextureSystem, glProgram) {
-		glProgram.uniform(gl, uImageName, webglTextureSystem.getGlTexture(this.texture.key));
+	uniform(gl, textureSystem, glProgram) {
+		glProgram.uniform(gl, uImageName, textureSystem.getGlTexture(this.texture.key));
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl

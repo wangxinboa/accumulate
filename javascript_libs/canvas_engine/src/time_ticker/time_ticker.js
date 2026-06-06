@@ -45,12 +45,12 @@ export class TimeTicker extends BaseCleanUp {
 	}
 	run() {
 		if (this._started) {
+			this._timestamp = now();
+			this._requestId = requestAnimationFrame(this.run);
+
 			for (let i = 0, len = this._runCallbacks.length; i < len; i++) {
 				this._runCallbacks[i](this._timestamp);
 			}
-
-			this._timestamp = now();
-			this._requestId = requestAnimationFrame(this.run);
 		}
 	}
 	parse() {

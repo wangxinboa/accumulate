@@ -1,12 +1,15 @@
 import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
+import { EventSystem } from "../event/event_system.js";
 import { BackgroundSystem } from "./renderer_system/background/background_system.js";
 import { CanvasDomSystem } from "./renderer_system/canvas_dom/canvas_dom_system.js";
 
-export class Renderer extends BaseCleanUp {
+export class BaseRenderer extends BaseCleanUp {
 	/** @type {BackgroundSystem} */
 	backgroundSystem;
 	/** @type {CanvasDomSystem} */
 	canvasSystem;
+	/** @type {EventSystem} */
+	eventSystem;
 	/**
 	 * @param {CanvasEngineType.RendererOption} rendererOption
 	 */
@@ -15,9 +18,10 @@ export class Renderer extends BaseCleanUp {
 
 		this.backgroundSystem = new BackgroundSystem(rendererOption);
 		this.canvasSystem = new CanvasDomSystem(rendererOption);
+		this.eventSystem = new EventSystem(this.canvasSystem.canvasDom);
 	}
 	/**
-	 * @abstract @param {CanvasEngineType.RenderNode} renderNode
+	 * @param {CanvasEngineType.RenderNode} renderNode
 	 * @param {CanvasEngineType.Camera2D} camera
 	 * @param {number} timestamp
 	 */
@@ -40,14 +44,17 @@ export class Renderer extends BaseCleanUp {
 	_renderNode(_renderNode, _camera, _timestamp) {
 		throw new Error("Renderer 子类未实现 _renderNode 方法");
 	}
-
-	get canvas() {
-		return this.canvasSystem.canvasDom;
+	/**
+	 * @param {number} _width
+	 * @param {number} _height
+	 */
+	resize(_width, _height) {
+		throw new Error("Renderer 子类未实现 resize 方法");
 	}
-
 	destroy() {
 		this.backgroundSystem.destroy();
 		this.canvasSystem.destroy();
+		this.eventSystem.destroy();
 
 		super.destroy();
 	}

@@ -20,6 +20,8 @@ export class RenderNode extends BaseCleanUp {
 	matrixWorld;
 	/** @type {boolean} */
 	visible;
+	/** @type {Array<CanvasEngineType.RenderNodeTween>} */
+	tweens;
 
 	constructor() {
 		super();
@@ -35,6 +37,8 @@ export class RenderNode extends BaseCleanUp {
 		this.matrixWorld = new Matrix4();
 
 		this.visible = true;
+
+		this.tweens = [];
 	}
 	/**
 	 * @param {RenderNode} renderNode

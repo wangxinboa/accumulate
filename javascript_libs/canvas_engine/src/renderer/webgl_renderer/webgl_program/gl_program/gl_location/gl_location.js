@@ -20,6 +20,6 @@ export class GlLocation extends BaseCleanUp {
 	 * @param {WebGLProgram} _program
 	 */
 	initGlLocation(_gl, _program) {
-		throw new Error("GlLocation 子类未实现 initGlLocation 方法");
+		throw new Error(`GlLocation ${this.locationName} of type ${this.type} does not implement initGlLocation method`);
 	}
 }

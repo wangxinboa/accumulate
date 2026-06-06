@@ -1,8 +1,11 @@
+import { Geometry2DDef as Geometry2DDefClass } from "./math/geometry_2d_def/geometry_2d_def.js";
+import { Rectangle as RectangleClass } from "./math/geometry_2d_def/rectangle.js";
 import { Color as ColorClass } from "./math/color.js";
 import { Matrix3 as Matrix3Class } from "./math/matrix3.js";
 import { Matrix4 as Matrix4Class } from "./math/matrix4.js";
 import { Vector2 as Vector2Class } from "./math/vector2.js";
 import { Vector3 as Vector3Class } from "./math/vector3.js";
+import { BaseRenderer as BaseRendererClass } from "./renderer/base_renderer.js";
 import { CanvasRenderer as CanvasRendererClass } from "./renderer/canvas_renderer/canvas_renderer.js";
 import { WebGL2DRenderer as WebGL2DRendererClass } from "./renderer/webgl_renderer/webgl_2d_renderer.js";
 import { WebGLProgramSystem as WebGLProgramSystemClass } from "./renderer/webgl_renderer/webgl_program/webgl_program_system.js";
@@ -17,6 +20,8 @@ import { GlAttribs as GlAttribsClass } from "./renderer/webgl_renderer/webgl_buf
 import { GlAttrib as GlAttribClass } from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attrib.js";
 import { Camera2D as Camera2DClass } from "./camera/camera2d.js";
 import { RenderNode as RenderNodeClass } from "./render_node/render_node.js";
+import { Scene2D as Scene2DClass } from "./render_node/2d/scene2d.js";
+import { RenderNodeTween as RenderNodeTweenClass } from "./render_node_tween/render_node_tween.js";
 import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
 import { Text as TextClass } from "./render_node/2d/text/text.js";
 import { BaseTexture as BaseTextureClass } from "./texture/base_texture.js";
@@ -172,6 +177,7 @@ declare global {
 		type GlUniformValue = GlTexture | Matrix3 | Matrix4 | number;
 
 		// class
+		type BaseRenderer = BaseRendererClass;
 		type WebGL2DRenderer = WebGL2DRendererClass;
 		type WebGLRenderer = WebGL2DRenderer;
 		type CanvasRenderer = CanvasRendererClass;
@@ -184,6 +190,8 @@ declare global {
 		type GlBuffer = GlBufferClass;
 		type GlAttribs = GlAttribsClass;
 		type GlAttrib = GlAttribClass;
+		type Geometry2DDef = Geometry2DDefClass;
+		type Rectangle = RectangleClass;
 		type Color = ColorClass;
 		type Matrix3 = Matrix3Class;
 		type Matrix4 = Matrix4Class;
@@ -195,11 +203,27 @@ declare global {
 		type GlTexture = GlTextureClass;
 		type Camera2D = Camera2DClass;
 		type RenderNode = RenderNodeClass;
+		type RenderNodeTween = RenderNodeTweenClass;
+		type Scene2D = Scene2DClass;
 		type Sprite2D = Sprite2DClass;
 		type Text = TextClass;
 		type AllTexture = ImageTexture | TextTexture;
 		type Sprite2DTexture = ImageTexture | TextTexture;
-		type AllRenderNode = Sprite2D;
+		type AllRenderNode = Sprite2D | Text;
+
+		type RenderNodeEventCallback = (x: number, y: number, sx: number, sy: number) => void;
+		type RenderNodeEventCallbacks = Array<RenderNodeEventCallback>;
+		type RenderNodeWheelEventCallback = (
+			dx: number,
+			dy: number,
+			dz: number,
+			x: number,
+			y: number,
+			sx: number,
+			sy: number,
+		) => void;
+		type RenderNodeWheelEventCallbacks = Array<RenderNodeWheelEventCallback>;
+		type onTextureRectChangeCallback = (width: number, height: number) => void;
 	}
 }
 

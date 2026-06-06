@@ -1,15 +1,5 @@
-import { Canvas2DEngine } from "../../src/canvas_2d_engine.js";
+import { engine } from "../canvas_engine.module.js";
 import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
-
-const engine = new Canvas2DEngine({
-	container: document.body,
-	rendererType: "webgl",
-	autoStart: true,
-	waitLoadingCompleteStart: true,
-	backgroundColor: 0xff0000,
-});
-
-globalThis.engine = engine;
 
 // LoaderManager.addImageTasks([
 // 	"https://fastly.picsum.photos/id/33/20/20.jpg?hmac=2qevnyLh9jL-kOMjRHF1xg1TyBmOATzt_B__g1C_E7Y",
@@ -49,7 +39,7 @@ const imageUrls = [
 ];
 
 /**
- * @type {CanvasEngineType.Sprite2D[]}
+ * @type {Array<CanvasEngineType.Sprite2D>}
  */
 const sprite2ds = [];
 globalThis.sprite2ds = sprite2ds;

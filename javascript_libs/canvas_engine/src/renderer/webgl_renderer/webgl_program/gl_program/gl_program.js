@@ -28,8 +28,8 @@ export class GlProgram extends BaseCleanUp {
 		this.vertexSource = glProgramFormat.vertexSource;
 		this.fragmentSource = glProgramFormat.fragmentSource;
 
-		this.uniformLocationsMap = new CustomMap().disableOverwrite();
-		this.attribLocationsMap = new CustomMap().disableOverwrite();
+		this.uniformLocationsMap = new CustomMap();
+		this.attribLocationsMap = new CustomMap();
 		this.enableVertexAttribArrayMap = {};
 
 		this.program = this._initProgram(gl);
@@ -217,7 +217,7 @@ export class GlProgram extends BaseCleanUp {
 					gl.uniform1f(glLocation.uniformLocation, /** @type {number} */ (locationValue));
 					break;
 				default:
-					throw new Error(`GlDataTypeEnum 中不存在对应的 gl 数据类型 ${glLocation.type}`);
+					throw new Error(`GlProgram.uniform 中 GlDataTypeEnum 不支持 ${glLocation.type} 类型`);
 			}
 		}
 	}

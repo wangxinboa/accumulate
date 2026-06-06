@@ -5,9 +5,9 @@ export class GlAttribs extends BaseCleanUp {
 	/** @type {CanvasEngineType.GlAttribsFormat["attribsKey"]} */
 	key;
 	/** @type {Record<string, CanvasEngineType.GlAttrib>} */
-	arrtibs;
+	attribs;
 	/** @type {Array<CanvasEngineType.GlAttrib["attribName"]>} */
-	arrtibNames;
+	attribNames;
 	/**
 	 * @param {CanvasEngineType.GlAttribsFormat['attribsKey']} attribsKey
 	 */
@@ -15,8 +15,8 @@ export class GlAttribs extends BaseCleanUp {
 		super();
 
 		this.key = attribsKey;
-		this.arrtibs = {};
-		this.arrtibNames = [];
+		this.attribs = {};
+		this.attribNames = [];
 	}
 
 	/**
@@ -29,20 +29,19 @@ export class GlAttribs extends BaseCleanUp {
 	 * @param {CanvasEngineType.GlAttribFormat['offset']} offset
 	 */
 	addAttrib(bufferKey, attribName, size, type, normalized, stride, offset) {
-		if (this.arrtibs[attribName]) {
-			console.warn(`GlAttribs ${this.key} 已经存在 attrib ${attribName}`);
-			return this;
+		if (this.attribs[attribName]) {
+			throw new Error(`GlAttribs ${this.key} 已经存在 attrib ${attribName}`);
 		}
 
-		this.arrtibs[attribName] = new GlAttrib(bufferKey, attribName, size, type, normalized, stride, offset);
-		this.arrtibNames.push(attribName);
+		this.attribs[attribName] = new GlAttrib(bufferKey, attribName, size, type, normalized, stride, offset);
+		this.attribNames.push(attribName);
 
 		return this;
 	}
 
 	destroy() {
-		for (let i = 0, len = this.arrtibNames.length; i < len; i++) {
-			this.arrtibs[this.arrtibNames[i]].destroy();
+		for (let i = 0, len = this.attribNames.length; i < len; i++) {
+			this.attribs[this.attribNames[i]].destroy();
 		}
 		super.destroy();
 	}

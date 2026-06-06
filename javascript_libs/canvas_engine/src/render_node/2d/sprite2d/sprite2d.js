@@ -7,13 +7,14 @@ import {
 import {
 	aPositionName,
 	aTextureCoordName,
-	glProgramFormat,
+	sprite2dGlProgramFormat,
 	uImageName,
 } from "./sprite2d_webgl_pipe/gl_program_format.js";
 import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
 import { GlBuffer } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 import { ImageTexture } from "../../../texture/image_texture.js";
 import { getPositionUvFloat32ArrayFromWidthAndHeight } from "../../../renderer/webgl_renderer/webgl_buffer/webgl_buffer_utils.js";
+import { Rectangle } from "../../../math/geometry_2d_def/rectangle.js";
 
 /**
  * @param {{width: number; height: number}} sprite2DPipe
@@ -24,24 +25,43 @@ export function getBufferKey(sprite2DPipe) {
 
 export class Sprite2D extends Render2DNode {
 	/** @type {CanvasEngineType.Sprite2DTexture} */
-	texture;
+	_texture;
+	/** @type {CanvasEngineType.Rectangle} */
+	geometry;
 	/**
 	 * @param {CanvasEngineType.Sprite2DTexture} texture
 	 */
 	constructor(texture) {
 		super();
 
-		this.texture = texture;
+		this._texture = texture;
+		this.geometry = new Rectangle();
+
+		this._onTextureChange();
+	}
+	_updateGeometry() {
+		this.width = this.texture.width;
+		this.height = this.texture.height;
+
+		this.geometry.updateShape(0, 0, this.width, this.height);
+	}
+	get texture() {
+		return this._texture;
+	}
+	set texture(value) {
+		this._texture = value;
+		this._onTextureChange();
+	}
+	/** @private */
+	_onTextureChange() {
+		if (this.texture.isReady) {
+			this._updateGeometry();
+		}
+		this.texture.registerTextureRectChangeCallback(this._updateGeometry);
 	}
 	/** @private */
 	get isReady() {
 		return this.texture.isReady;
-	}
-	get width() {
-		return this.texture.width;
-	}
-	get height() {
-		return this.texture.height;
 	}
 	/**
 	 * @param {string} url
@@ -54,15 +74,15 @@ export class Sprite2D extends Render2DNode {
 	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} programSystem
 	 */
 	getGlProgram(programSystem) {
-		return programSystem.addGlProgram(Sprite2D.key, glProgramFormat);
+		return programSystem.addGlProgram(Sprite2D.key, sprite2dGlProgramFormat);
 	}
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
 	updateAttribs(bufferSystem) {
 		if (this.isReady) {
-			const attribsKey = this.texture.key;
 			const bufferKey = getBufferKey(this);
+			const attribsKey = bufferKey;
 
 			if (!bufferSystem.hasGlAttribs(attribsKey)) {
 				bufferSystem.setGlAttribs(

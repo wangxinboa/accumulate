@@ -76,15 +76,15 @@ export class WebGLBufferSystem extends BaseCleanUp {
 
 		// vertexAttribPointer
 		if (glAttribs instanceof GlAttribs) {
-			for (let i = 0, len = glAttribs.arrtibNames.length; i < len; i++) {
-				const glAttrib = glAttribs.arrtibs[glAttribs.arrtibNames[i]];
+			for (let i = 0, len = glAttribs.attribNames.length; i < len; i++) {
+				const glAttrib = glAttribs.attribs[glAttribs.attribNames[i]];
 				const glAttribBuffer = this._cacheGlBuffers.get(glAttrib.bufferKey);
 
 				if (glAttribBuffer instanceof GlBuffer) {
 					if (this._activeBuffer !== glAttribBuffer) {
 						this._activeBuffer = glAttribBuffer;
 						this._activeBuffer.bindBuffer(this.renderer.gl);
-					} else if (this._activeBuffer.dataHasChanged) {
+					} else if (this._activeBuffer.dataHasChange) {
 						this._activeBuffer.bindBuffer(this.renderer.gl);
 					}
 

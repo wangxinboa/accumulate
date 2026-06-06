@@ -21,6 +21,6 @@ export function resizeCanvas(canvas, devicePixelRatio) {
 	if (containerDom) {
 		scaleCanvas(canvas, devicePixelRatio, containerDom.scrollWidth, containerDom.scrollHeight);
 	} else {
-		console.warn("resizeCanvas 时, canvas 不存在父节点 dom, 无法获取父节点宽高");
+		throw new Error("resizeCanvas 时, canvas 不存在父节点 dom, 无法获取父节点宽高");
 	}
 }

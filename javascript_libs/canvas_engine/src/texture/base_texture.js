@@ -4,7 +4,6 @@ import { GlTextureParamTypeEnum } from "../renderer/webgl_renderer/webgl_texture
 export class BaseTexture extends BaseCleanUp {
 	/** @type {boolean} */
 	isBaseTexture;
-
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
 	wrapS;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
@@ -15,7 +14,8 @@ export class BaseTexture extends BaseCleanUp {
 	magFilter;
 	/** @type {boolean} */
 	unpackFlipY;
-
+	/** @type {CanvasEngineType.onTextureRectChangeCallback | null} */
+	onTextureRectChangeCallback;
 	constructor() {
 		super();
 
@@ -27,6 +27,8 @@ export class BaseTexture extends BaseCleanUp {
 		this.minFilter = GlTextureParamTypeEnum.LINEAR;
 		this.magFilter = GlTextureParamTypeEnum.LINEAR;
 		this.unpackFlipY = true;
+
+		this.onTextureRectChangeCallback = null;
 	}
 	/**
 	 * @param {CanvasEngineType.AllTexture} texture
@@ -42,8 +44,24 @@ export class BaseTexture extends BaseCleanUp {
 			this.unpackFlipY === texture.unpackFlipY
 		);
 	}
-
 	get isReady() {
 		return true;
+	}
+	/**
+	 * @param {CanvasEngineType.onTextureRectChangeCallback} callback
+	 */
+	registerTextureRectChangeCallback(callback) {
+		this.onTextureRectChangeCallback = callback;
+		return this;
+	}
+	/**
+	 * @param {number} width
+	 * @param {number} height
+	 */
+	onTextureRectChange(width, height) {
+		if (this.onTextureRectChangeCallback) {
+			this.onTextureRectChangeCallback(width, height);
+		}
+		return this;
 	}
 }

@@ -16,7 +16,7 @@ export class CustomMap extends BaseCleanUp {
 	constructor() {
 		super();
 
-		this._enableOverwrite = true;
+		this._enableOverwrite = false;
 		/** @type {Record<string | number, T>} */
 		this.map = {};
 		/** @type {T[]} */

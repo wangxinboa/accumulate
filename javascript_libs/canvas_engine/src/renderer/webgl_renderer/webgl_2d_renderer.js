@@ -1,11 +1,18 @@
-import { Renderer } from "../renderer.js";
+import { BaseRenderer } from "../base_renderer.js";
 import { WebGLProgramSystem } from "./webgl_program/webgl_program_system.js";
 import { WebGLExtensions } from "./webgl_extensions.js";
 import { WebGLBufferSystem } from "./webgl_buffer/webgl_buffer_system.js";
 import { WebGLTextureSystem } from "./webgl_texture/webgl_texture_system.js";
 import { uCameraProjectionName, uCameraViewName, uRenderNodeModelName } from "./shaders/global_uniform_names.js";
+import { Scene2D } from "../../render_node/2d/scene2d.js";
+import { Camera2D } from "../../camera/camera2d.js";
 
-export class WebGL2DRenderer extends Renderer {
+export class WebGL2DRenderer extends BaseRenderer {
+	static key = "webgl";
+	/** @type {Camera2D} */
+	camera;
+	/** @type {Scene2D} */
+	scene;
 	/** @type {CanvasEngineType.WebGLContext} */
 	gl;
 	/** @type {WebGLExtensions} */
@@ -18,21 +25,24 @@ export class WebGL2DRenderer extends Renderer {
 	textureSystem;
 	/** @type {number} */
 	webglVersion;
-
-	static key = "webgl";
 	/**
 	 * @param {CanvasEngineType.RendererOption} webgl2DRendererOption
 	 */
 	constructor(webgl2DRendererOption) {
 		super(webgl2DRendererOption);
 
+		this.scene = new Scene2D();
+		this.camera = new Camera2D();
+
 		this.extensions = new WebGLExtensions(this);
 		this.programSystem = new WebGLProgramSystem(this);
 		this.bufferSystem = new WebGLBufferSystem(this);
 		this.textureSystem = new WebGLTextureSystem(this);
 
+		this.eventSystem.activate2d(this.scene, this.camera);
+
 		let gl;
-		if ((gl = this.canvas.getContext("webgl2", webgl2DRendererOption))) {
+		if ((gl = this.canvasSystem.canvasDom.getContext("webgl2", webgl2DRendererOption))) {
 			this.webglVersion = 2;
 		} else {
 			throw new Error("浏览器不支持 webgl");
@@ -42,6 +52,13 @@ export class WebGL2DRenderer extends Renderer {
 		this.extensions.initCanvas();
 
 		this.extensions.initExtensions();
+	}
+	/**
+	 * @param {number} width
+	 * @param {number} height
+	 */
+	resize(width, height) {
+		this.camera.updateProjection(width, height, this.canvasSystem.devicePixelRatio);
 	}
 	resetGl() {
 		this.extensions.initExtensions();
@@ -65,21 +82,27 @@ export class WebGL2DRenderer extends Renderer {
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 	}
 	/**
-	 * @param {CanvasEngineType.RenderNode} scene
-	 * @param {CanvasEngineType.Camera2D} camera
 	 * @param {number} timestamp
 	 */
-	render(scene, camera, timestamp) {
-		this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+	render(timestamp) {
+		// this.gl.enable(this.gl.BLEND);
+		// this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+
+		this.gl.viewport(0, 0, this.canvasSystem.canvasDom.width, this.canvasSystem.canvasDom.height);
 		this.clear();
-		this._traverseRender(scene, camera, timestamp);
+
+		this.camera.updateMatrix();
+
+		this.scene.clearDescendants();
+		this._traverseRender(this.scene, this.camera, timestamp);
 	}
 	/**
 	 * @abstract @param {CanvasEngineType.AllRenderNode} renderNode
 	 * @param {CanvasEngineType.Camera2D} camera
-	 * @param {number} timestamp
 	 */
-	_renderNode(renderNode, camera, timestamp) {
+	_renderNode(renderNode, camera) {
+		this.scene.registerDescendant(renderNode);
+
 		renderNode.updateMatrix();
 
 		const glProgram = this.programSystem.useProgram(renderNode);
@@ -89,7 +112,9 @@ export class WebGL2DRenderer extends Renderer {
 		this.textureSystem.updateTextures(renderNode);
 
 		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
-		glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);
+		if (renderNode.applyCameraTransform) {
+			glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);
+		}
 		glProgram.uniform(this.gl, uRenderNodeModelName, renderNode.matrixWorld);
 
 		renderNode.uniform(this.gl, this.textureSystem, glProgram);
@@ -98,9 +123,12 @@ export class WebGL2DRenderer extends Renderer {
 	}
 
 	destroy() {
+		this.scene.destroy();
+
 		this.extensions.destroy();
 		this.programSystem.destroy();
 		this.bufferSystem.destroy();
+		this.textureSystem.destroy();
 
 		super.destroy();
 	}

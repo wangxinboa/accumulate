@@ -1,18 +1,8 @@
-import { Canvas2DEngine } from "../../src/canvas_2d_engine.js";
+import { engine } from "../canvas_engine.module.js";
 import { Text } from "../../src/render_node/2d/text/text.js";
 
-const engine = new Canvas2DEngine({
-	container: document.body,
-	rendererType: "webgl",
-	autoStart: true,
-	// waitLoadingCompleteStart: false,
-	backgroundColor: 0xffffff,
-});
-
-globalThis.engine = engine;
-
 /**
- * @type {CanvasEngineType.Text[]}
+ * @type {Array<CanvasEngineType.Text>}
  */
 const texts = [];
 globalThis.texts = texts;

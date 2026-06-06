@@ -10,7 +10,6 @@ const ctx = canvasDom.getContext("2d", {
 export class TextTexture extends BaseTexture {
 	/** @type {boolean} */
 	isTextTexture;
-
 	/** @type {string} */
 	key;
 	/** @type {string} */
@@ -26,7 +25,7 @@ export class TextTexture extends BaseTexture {
 	/** @type {string} */
 	_text = "";
 	/** @type {boolean} */
-	textHasChanged;
+	textHasChange;
 	/** @type {number} */
 	width = 0;
 	/** @type {number} */
@@ -52,22 +51,24 @@ export class TextTexture extends BaseTexture {
 
 		this.text = text;
 
-		this.textHasChanged = false;
+		this.textHasChange = false;
 	}
 
 	/**
 	 * @param {CanvasEngineType.AllTexture} texture
 	 */
 	isSameTexParameter(texture) {
-		return super.isSameTexParameter(texture) && !this.textHasChanged;
+		return super.isSameTexParameter(texture) && !this.textHasChange;
 	}
 	get text() {
 		return this._text;
 	}
 	set text(value) {
 		this._text = value;
-		this.textHasChanged = true;
+		this.textHasChange = true;
 		this._setTextMeasure();
+
+		this.onTextureRectChange(this.width, this.height);
 	}
 	/**
 	 * @private
@@ -85,13 +86,16 @@ export class TextTexture extends BaseTexture {
 
 			const textMetrics = ctx.measureText(this._text);
 
+			const actualBoundingBoxAscent = Math.ceil(textMetrics.actualBoundingBoxAscent);
+			const actualBoundingBoxDescent = Math.ceil(textMetrics.actualBoundingBoxDescent);
+
 			const width = Math.ceil(textMetrics.width);
-			const height = Math.ceil(textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent);
+			const height = actualBoundingBoxAscent + actualBoundingBoxDescent;
 
 			const pixelWidth = width * devicePixelRatio;
 			const pixelHeight = height * devicePixelRatio;
 
-			const offsetY = textMetrics.actualBoundingBoxAscent;
+			const offsetY = actualBoundingBoxAscent;
 
 			canvasDom.style.width = `${width}px`;
 			canvasDom.style.height = `${height}px`;

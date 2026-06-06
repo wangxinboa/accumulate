@@ -24,8 +24,8 @@ export class WebGLExtensions extends BaseCleanUp {
 		this._handleContextRestored = this._handleContextRestored.bind(this);
 	}
 	initCanvas() {
-		this.renderer.canvas.addEventListener("webglcontextlost", this._handleContextLost);
-		this.renderer.canvas.addEventListener("webglcontextrestored", this._handleContextRestored);
+		this.renderer.canvasSystem.canvasDom.addEventListener("webglcontextlost", this._handleContextLost);
+		this.renderer.canvasSystem.canvasDom.addEventListener("webglcontextrestored", this._handleContextRestored);
 	}
 
 	initExtensions() {
@@ -60,9 +60,8 @@ export class WebGLExtensions extends BaseCleanUp {
 		this.renderer.resetGl();
 	}
 	destroy() {
-		// 类型断言以规避 TS 对非标准事件类型的严格检查
-		this.renderer.canvas.removeEventListener("webglcontextlost", this._handleContextLost);
-		this.renderer.canvas.removeEventListener("webglcontextrestored", this._handleContextRestored);
+		this.renderer.canvasSystem.canvasDom.removeEventListener("webglcontextlost", this._handleContextLost);
+		this.renderer.canvasSystem.canvasDom.removeEventListener("webglcontextrestored", this._handleContextRestored);
 
 		super.destroy();
 	}

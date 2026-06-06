@@ -1,6 +1,7 @@
+import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
 import { getHexR, getHexG, getHexB } from "./math_utils.js";
 
-export class Color {
+export class Color extends BaseCleanUp {
 	/** @type {number} */
 	r;
 	/** @type {number} */
@@ -13,6 +14,8 @@ export class Color {
 	 * @param {number} b
 	 */
 	constructor(r = 1, g = 1, b = 1) {
+		super();
+
 		this.r = r;
 		this.g = g;
 		this.b = b;

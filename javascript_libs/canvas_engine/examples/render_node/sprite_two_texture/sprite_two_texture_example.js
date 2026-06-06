@@ -1,17 +1,5 @@
-import { Canvas2DEngine } from "../../../src/canvas_2d_engine.js";
 import { Sprite2D } from "../../../src/render_node/2d/sprite2d/sprite2d.js";
 import { Sprite2DTwoTexture } from "./sprite_two_texture.js";
-
-const engine = new Canvas2DEngine({
-	container: document.body,
-	rendererType: "webgl",
-	autoStart: true,
-	waitLoadingCompleteStart: true,
-	backgroundColor: 0xff0000,
-	alpha: true,
-});
-
-globalThis.engine = engine;
 
 const spriteTwoTextureImageUrls = [
 	[
@@ -33,7 +21,7 @@ const spriteTwoTextureImageUrls = [
 	["https://pixijs.com/assets/bunny.png", "https://pixijs.com/assets/bunny.png"],
 ];
 
-/** @type {Sprite2DTwoTexture[]} */
+/** @type {Array<Sprite2DTwoTexture>} */
 const sprite2dTwoTextures = [];
 globalThis.sprite2dTwoTextures = sprite2dTwoTextures;
 
@@ -59,11 +47,11 @@ sprite2dTwoTextures[3].texture2.unpackFlipY = false;
 
 const sprite2dUrls = ["https://pixijs.com/assets/flowerTop.png", "https://pixijs.com/assets/eggHead.png"];
 
-/** @type {Sprite2D[]} */
+/** @type {Array<Sprite2D>} */
 const sprite2ds = [];
 globalThis.sprite2ds = sprite2ds;
 
-for (let i = 0; i < sprite2ds.length; i++) {
+for (let i = 0; i < sprite2dUrls.length; i++) {
 	const sprite2d = Sprite2D.createFromUrl(sprite2dUrls[i]);
 	sprite2d.x = (i % 5) * 300 + 100;
 	sprite2d.y = ((i - (i % 5)) / 5) * 100 + 400;

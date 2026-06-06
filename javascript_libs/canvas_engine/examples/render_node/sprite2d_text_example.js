@@ -1,19 +1,9 @@
-import { Canvas2DEngine } from "../../src/canvas_2d_engine.js";
+import { engine } from "../canvas_engine.module.js";
 import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
 import { TextTexture } from "../../src/texture/text_texture.js";
 
-const engine = new Canvas2DEngine({
-	container: document.body,
-	rendererType: "webgl",
-	autoStart: true,
-	// waitLoadingCompleteStart: false,
-	backgroundColor: 0xffffff,
-});
-
-globalThis.engine = engine;
-
 /**
- * @type {CanvasEngineType.Sprite2D[]}
+ * @type {Array<CanvasEngineType.Sprite2D>}
  */
 const sprite2ds = [];
 globalThis.sprite2ds = sprite2ds;

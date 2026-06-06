@@ -12,7 +12,7 @@ export class GlBuffer extends BaseCleanUp {
 	/** @type {WebGLBuffer | null} */
 	buffer;
 	/** @type {boolean} */
-	dataHasChanged;
+	dataHasChange;
 	/**
 	 * @param {CanvasEngineType.GlBufferFormat['key']} key
 	 * @param {CanvasEngineType.GlBufferFormat['target']} target
@@ -29,7 +29,7 @@ export class GlBuffer extends BaseCleanUp {
 
 		this.buffer = null;
 
-		this.dataHasChanged = false;
+		this.dataHasChange = false;
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
@@ -41,7 +41,7 @@ export class GlBuffer extends BaseCleanUp {
 		gl.bufferData(gl[this.target], this.data, gl[this.usage]);
 		gl.bindBuffer(gl[this.target], null);
 
-		this.dataHasChanged = true;
+		this.dataHasChange = true;
 
 		return this;
 	}
@@ -57,7 +57,7 @@ export class GlBuffer extends BaseCleanUp {
 		gl.bufferSubData(gl[this.target], dstByteOffset, this.data);
 		gl.bindBuffer(gl[this.target], null);
 
-		this.dataHasChanged = true;
+		this.dataHasChange = true;
 
 		return this;
 	}
@@ -67,7 +67,7 @@ export class GlBuffer extends BaseCleanUp {
 	bindBuffer(gl) {
 		gl.bindBuffer(gl[this.target], this.buffer);
 
-		this.dataHasChanged = false;
+		this.dataHasChange = false;
 		return this;
 	}
 	/**
