@@ -90,12 +90,12 @@ export class TextTexture extends BaseTexture {
 			const actualBoundingBoxDescent = Math.ceil(textMetrics.actualBoundingBoxDescent);
 
 			const width = Math.ceil(textMetrics.width);
-			const height = actualBoundingBoxAscent + actualBoundingBoxDescent;
+			const height = actualBoundingBoxAscent + actualBoundingBoxDescent + 1;
 
 			const pixelWidth = width * devicePixelRatio;
 			const pixelHeight = height * devicePixelRatio;
 
-			const offsetY = actualBoundingBoxAscent;
+			const offsetY = actualBoundingBoxAscent + 1;
 
 			canvasDom.style.width = `${width}px`;
 			canvasDom.style.height = `${height}px`;

@@ -20,6 +20,8 @@ import { GlAttribs as GlAttribsClass } from "./renderer/webgl_renderer/webgl_buf
 import { GlAttrib as GlAttribClass } from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attrib.js";
 import { Camera2D as Camera2DClass } from "./camera/camera2d.js";
 import { RenderNode as RenderNodeClass } from "./render_node/render_node.js";
+import { RenderEventNode as RenderEventNodeClass } from "./render_node/render_event_node.js";
+import { Render2DNode as Render2DNodeClass } from "./render_node/2d/render_2d_node.js";
 import { Scene2D as Scene2DClass } from "./render_node/2d/scene2d.js";
 import { RenderNodeTween as RenderNodeTweenClass } from "./render_node_tween/render_node_tween.js";
 import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
@@ -203,6 +205,8 @@ declare global {
 		type GlTexture = GlTextureClass;
 		type Camera2D = Camera2DClass;
 		type RenderNode = RenderNodeClass;
+		type RenderEventNode = RenderEventNodeClass;
+		type Render2DNode = Render2DNodeClass;
 		type RenderNodeTween = RenderNodeTweenClass;
 		type Scene2D = Scene2DClass;
 		type Sprite2D = Sprite2DClass;
@@ -211,8 +215,8 @@ declare global {
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D | Text;
 
-		type RenderNodeEventCallback = (x: number, y: number, sx: number, sy: number) => void;
-		type RenderNodeEventCallbacks = Array<RenderNodeEventCallback>;
+		type RenderEventNodeCallback = (x: number, y: number, sx: number, sy: number) => void;
+		type RenderEventNodeCallbacks = Array<RenderEventNodeCallback>;
 		type RenderNodeWheelEventCallback = (
 			dx: number,
 			dy: number,

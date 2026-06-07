@@ -1,12 +1,12 @@
 import { clamp, PiDivide180 } from "../../math/math_utils.js";
 import { Matrix3 } from "../../math/matrix3.js";
 import { Matrix4 } from "../../math/matrix4.js";
-import { RenderNodeEvent } from "../render_node_event.js";
+import { RenderEventNode } from "../render_event_node.js";
 
 const matrix4 = new Matrix4();
 const matrix3 = new Matrix3();
 
-export class Render2DNode extends RenderNodeEvent {
+export class Render2DNode extends RenderEventNode {
 	/** @type {Render2DNode | null} */
 	parent = null;
 	/** @type {boolean} */

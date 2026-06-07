@@ -1,21 +1,36 @@
-import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp, CustomMap } from "../../../javascript_utils/javascript_utils.js";
 import { Vector2 } from "../math/vector2.js";
 
 let _hitTestCounter = 0;
 let _canvasPositionInCamera = new Vector2(0, 0);
 let _canvasPositionInScene = new Vector2(0, 0);
-let _hitPoint = new Vector2();
+let _hitPoint = new Vector2(0, 0);
+let _dragPostion = new Vector2(0, 0);
 
 export class Event2DMode extends BaseCleanUp {
 	/** @type {CanvasEngineType.Scene2D | null} */
 	scene2d;
 	/** @type {CanvasEngineType.Camera2D | null} */
 	camera2d;
+	/** @type {CustomMap<CanvasEngineType.Render2DNode> | null} */
+	tempMoveEnterMap;
+	/** @type {CustomMap<CanvasEngineType.Render2DNode>} */
+	preMoveEnterMap;
+	/** @type {CustomMap<CanvasEngineType.Render2DNode>} */
+	nowMoveEnterMap;
+	/** @type {Array<CanvasEngineType.Render2DNode>} */
+	dragNodes;
+
 	constructor() {
 		super();
 
 		this.scene2d = null;
 		this.camera2d = null;
+
+		this.tempMoveEnterMap = null;
+		this.preMoveEnterMap = new CustomMap();
+		this.nowMoveEnterMap = new CustomMap();
+		this.dragNodes = [];
 
 		this.hitTestLimit = 1;
 	}
@@ -53,7 +68,6 @@ export class Event2DMode extends BaseCleanUp {
 			_hitPoint.set(_canvasPositionInScene.x, _canvasPositionInScene.y);
 		}
 		_hitPoint.applyMatrix3(renderNode.matrix3WorldInvert);
-
 		return renderNode.hitTest(_hitPoint.x, _hitPoint.y);
 	}
 	/**
@@ -63,9 +77,8 @@ export class Event2DMode extends BaseCleanUp {
 	processDownEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
 		if (this.scene2d) {
-			for (let i = 0, len = this.scene2d.allDescendants.length; i < len; i++) {
+			for (let i = this.scene2d.allDescendants.length - 1; i >= 0; i--) {
 				const descendant = this.scene2d.allDescendants[i];
-
 				if (descendant.hitTestDisabled) {
 					continue;
 				}
@@ -81,13 +94,31 @@ export class Event2DMode extends BaseCleanUp {
 							_canvasPositionInScene.y,
 						);
 					}
-				}
+					if (descendant.hasDragStartEvents) {
+						descendant.executeDragStartEvents(
+							_canvasPositionInCamera.x,
+							_canvasPositionInCamera.y,
+							_canvasPositionInScene.x,
+							_canvasPositionInScene.y,
+						);
+						if (descendant.hasDragEvents || descendant.hasDragEndEvents || descendant.dragUpdatesPosition) {
+							descendant.dragStartNodeX = descendant.x;
+							descendant.dragStartNodeY = descendant.y;
 
+							descendant.dragStartEventSceneX = _canvasPositionInScene.x;
+							descendant.dragStartEventSceneY = _canvasPositionInScene.y;
+
+							descendant.dragStartEventCameraX = _canvasPositionInCamera.x;
+							descendant.dragStartEventCameraY = _canvasPositionInCamera.y;
+
+							this.dragNodes.push(descendant);
+						}
+					}
+				}
 				if (this.hitTestLimit <= _hitTestCounter) {
 					break;
 				}
 			}
-
 			this.scene2d.executeMouseDownEvents(
 				_canvasPositionInCamera.x,
 				_canvasPositionInCamera.y,
@@ -103,17 +134,66 @@ export class Event2DMode extends BaseCleanUp {
 	processMoveEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
 		if (this.scene2d) {
-			for (let i = 0, len = this.scene2d.allDescendants.length; i < len; i++) {
-				const descendant = this.scene2d.allDescendants[i];
-				if (descendant.hitTestDisabled) {
-					continue;
-				}
-				if (this._hitTest(descendant)) {
-					if (descendant.hitTestCountable) {
-						_hitTestCounter++;
+			if (this.dragNodes.length > 0) {
+				for (let i = 0, len = this.dragNodes.length; i < len; i++) {
+					const dragNode = this.dragNodes[i];
+
+					if (dragNode.applyCameraTransform) {
+						_dragPostion.x = dragNode.dragStartNodeX + _canvasPositionInCamera.x - dragNode.dragStartEventCameraX;
+						_dragPostion.y = dragNode.dragStartNodeY + _canvasPositionInCamera.y - dragNode.dragStartEventCameraY;
+					} else {
+						_dragPostion.x = dragNode.dragStartNodeX + _canvasPositionInScene.x - dragNode.dragStartEventSceneX;
+						_dragPostion.y = dragNode.dragStartNodeY + _canvasPositionInScene.y - dragNode.dragStartEventSceneY;
 					}
-					if (descendant.hasMouseMoveEvents) {
-						descendant.executeMouseMoveEvents(
+					if (dragNode.dragUpdatesPosition) {
+						dragNode.x = _dragPostion.x;
+						dragNode.y = _dragPostion.y;
+					}
+					dragNode.executeDragEvents(
+						_canvasPositionInCamera.x,
+						_canvasPositionInCamera.y,
+						_canvasPositionInScene.x,
+						_canvasPositionInScene.y,
+					);
+				}
+			} else {
+				for (let i = this.scene2d.allDescendants.length - 1; i >= 0; i--) {
+					const descendant = this.scene2d.allDescendants[i];
+					if (descendant.hitTestDisabled) {
+						continue;
+					}
+					if (this._hitTest(descendant)) {
+						if (descendant.hitTestCountable) {
+							_hitTestCounter++;
+						}
+						if (descendant.hasMouseMoveEvents) {
+							descendant.executeMouseMoveEvents(
+								_canvasPositionInCamera.x,
+								_canvasPositionInCamera.y,
+								_canvasPositionInScene.x,
+								_canvasPositionInScene.y,
+							);
+						}
+						this.nowMoveEnterMap.set(descendant.id, descendant);
+						if (descendant.hasMouseEnterEvents && !this.preMoveEnterMap.has(descendant.id)) {
+							descendant.executeMouseEnterEvents(
+								_canvasPositionInCamera.x,
+								_canvasPositionInCamera.y,
+								_canvasPositionInScene.x,
+								_canvasPositionInScene.y,
+							);
+						}
+					}
+
+					if (this.hitTestLimit <= _hitTestCounter) {
+						break;
+					}
+				}
+
+				for (let i = this.preMoveEnterMap.array.length - 1; i >= 0; i--) {
+					const preMoveNode = this.preMoveEnterMap.array[i];
+					if (preMoveNode.hasMouseLeaveEvents && !this.nowMoveEnterMap.has(preMoveNode.id)) {
+						preMoveNode.executeMouseLeaveEvents(
 							_canvasPositionInCamera.x,
 							_canvasPositionInCamera.y,
 							_canvasPositionInScene.x,
@@ -121,16 +201,18 @@ export class Event2DMode extends BaseCleanUp {
 						);
 					}
 				}
-				if (this.hitTestLimit <= _hitTestCounter) {
-					break;
-				}
+				this.tempMoveEnterMap = this.preMoveEnterMap;
+				this.preMoveEnterMap = this.nowMoveEnterMap;
+				this.nowMoveEnterMap = this.tempMoveEnterMap;
+				this.nowMoveEnterMap.clear();
+
+				this.scene2d.executeMouseMoveEvents(
+					_canvasPositionInCamera.x,
+					_canvasPositionInCamera.y,
+					_canvasPositionInScene.x,
+					_canvasPositionInScene.y,
+				);
 			}
-			this.scene2d.executeMouseMoveEvents(
-				_canvasPositionInCamera.x,
-				_canvasPositionInCamera.y,
-				_canvasPositionInScene.x,
-				_canvasPositionInScene.y,
-			);
 		}
 	}
 	/**
@@ -140,17 +222,11 @@ export class Event2DMode extends BaseCleanUp {
 	processUpEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
 		if (this.scene2d) {
-			for (let i = 0, len = this.scene2d.allDescendants.length; i < len; i++) {
-				const descendant = this.scene2d.allDescendants[i];
-				if (descendant.hitTestDisabled) {
-					continue;
-				}
-				if (this._hitTest(descendant)) {
-					if (descendant.hitTestCountable) {
-						_hitTestCounter++;
-					}
-					if (descendant.hasMouseUpEvents) {
-						descendant.executeMouseUpEvents(
+			if (this.dragNodes.length > 0) {
+				for (let i = 0, len = this.dragNodes.length; i < len; i++) {
+					const dragNode = this.dragNodes[i];
+					if (dragNode.hasDragEndEvents) {
+						dragNode.executeDragEndEvents(
 							_canvasPositionInCamera.x,
 							_canvasPositionInCamera.y,
 							_canvasPositionInScene.x,
@@ -158,7 +234,29 @@ export class Event2DMode extends BaseCleanUp {
 						);
 					}
 				}
+				this.dragNodes.length = 0;
+			} else {
+				for (let i = this.scene2d.allDescendants.length - 1; i >= 0; i--) {
+					const descendant = this.scene2d.allDescendants[i];
+					if (descendant.hitTestDisabled) {
+						continue;
+					}
+					if (this._hitTest(descendant)) {
+						if (descendant.hitTestCountable) {
+							_hitTestCounter++;
+						}
+						if (descendant.hasMouseUpEvents) {
+							descendant.executeMouseUpEvents(
+								_canvasPositionInCamera.x,
+								_canvasPositionInCamera.y,
+								_canvasPositionInScene.x,
+								_canvasPositionInScene.y,
+							);
+						}
+					}
+				}
 			}
+
 			this.scene2d.executeMouseUpEvents(
 				_canvasPositionInCamera.x,
 				_canvasPositionInCamera.y,

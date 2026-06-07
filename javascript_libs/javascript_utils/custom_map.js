@@ -89,9 +89,7 @@ export class CustomMap extends BaseCleanUp {
 		return this;
 	}
 	clear() {
-		for (let key in this.map) {
-			delete this.map[key];
-		}
+		this.map = {};
 		this.count = this.array.length = 0;
 
 		return this;
