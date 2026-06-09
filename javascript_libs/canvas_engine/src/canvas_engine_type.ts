@@ -25,7 +25,6 @@ import { Render2DNode as Render2DNodeClass } from "./render_node/2d/render_2d_no
 import { Scene2D as Scene2DClass } from "./render_node/2d/scene2d.js";
 import { RenderNodeTween as RenderNodeTweenClass } from "./render_node_tween/render_node_tween.js";
 import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
-import { Text as TextClass } from "./render_node/2d/text/text.js";
 import { BaseTexture as BaseTextureClass } from "./texture/base_texture.js";
 import { ImageTexture as ImageTextureClass } from "./texture/image_texture.js";
 import { TextTexture as TextTextureClass } from "./texture/text_texture.js";
@@ -34,12 +33,13 @@ import {
 	GlBufferTargetTypeEnum as _GlBufferTargetTypeEnum,
 	GlBufferUsageTypeEnum as _GlBufferUsageTypeEnum,
 	GlBufferDataTypeEnum as _GlBufferDataTypeEnum,
+	GetTextureBufferTypeEnum as _GetTextureBufferTypeEnum,
 } from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
 import {
 	GlTextureTargetTypeEnum as _GlTextureTargetTypeEnum,
 	GlTexturePnameTypeEnum as _GlTexturePnameTypeEnum,
 	GlTextureParamTypeEnum as _GlTextureParamTypeEnum,
-	GlTextureImageUnitsEnum as _GlTextureImageUnitsEnum,
+	GlTextureImageUnitEnum as _GlTextureImageUnitEnum,
 } from "./renderer/webgl_renderer/webgl_texture/gl_texture_type.js";
 
 declare global {
@@ -123,6 +123,7 @@ declare global {
 			usage: GlBufferUsageTypeEnum;
 		};
 		type GlBufferDataTypeEnum = keyof typeof _GlBufferDataTypeEnum;
+		type GetTextureBufferTypeEnum = keyof typeof _GetTextureBufferTypeEnum;
 		type GlBuffersFormat = Array<GlBufferFormat>;
 		type GlAttribFormat = {
 			bufferKey: string;
@@ -171,7 +172,7 @@ declare global {
 		type GlTextureTargetTypeEnum = keyof typeof _GlTextureTargetTypeEnum;
 		type GlTexturePnameTypeEnum = keyof typeof _GlTexturePnameTypeEnum;
 		type GlTextureParamTypeEnum = keyof typeof _GlTextureParamTypeEnum;
-		type GlTextureImageUnitsEnum = keyof typeof _GlTextureImageUnitsEnum;
+		type GlTextureImageUnitEnum = keyof typeof _GlTextureImageUnitEnum;
 		/** gl uniform */
 		type GlUniformFormat = {};
 		type GlUniformsFormat = Array<GlUniformFormat>;
@@ -210,10 +211,9 @@ declare global {
 		type RenderNodeTween = RenderNodeTweenClass;
 		type Scene2D = Scene2DClass;
 		type Sprite2D = Sprite2DClass;
-		type Text = TextClass;
 		type AllTexture = ImageTexture | TextTexture;
 		type Sprite2DTexture = ImageTexture | TextTexture;
-		type AllRenderNode = Sprite2D | Text;
+		type AllRenderNode = Sprite2D;
 
 		type RenderEventNodeCallback = (x: number, y: number, sx: number, sy: number) => void;
 		type RenderEventNodeCallbacks = Array<RenderEventNodeCallback>;

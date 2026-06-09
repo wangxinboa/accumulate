@@ -55,7 +55,7 @@ export class ImageTexture extends BaseTexture {
 	get isReady() {
 		return this.source.isLoaded;
 	}
-	get image2D() {
+	get image2d() {
 		return this.source.data;
 	}
 	/**

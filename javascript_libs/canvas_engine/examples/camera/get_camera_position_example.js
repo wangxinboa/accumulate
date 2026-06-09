@@ -37,6 +37,9 @@ engine.scene.onMouseUp((x, y) => {
 engine.scene.onWheel((dx, dy) => {
 	camera.x -= dx;
 	camera.y -= dy;
+
+	sprite2dMove.x += dx;
+	sprite2dMove.y += dy;
 });
 
 const gui = new GUI();

@@ -14,6 +14,8 @@ for (let i = 0; i < sprite2ds.length; i++) {
 	engine.scene.add(sprite2ds[i]);
 }
 
+engine.timeTicker.start();
+
 let count = 0;
 let isPositive = true;
 

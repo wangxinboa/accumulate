@@ -5,15 +5,19 @@ export class BaseTexture extends BaseCleanUp {
 	/** @type {boolean} */
 	isBaseTexture;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	wrapS;
+	_wrapS;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	wrapT;
+	_wrapT;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	minFilter;
+	_minFilter;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	magFilter;
+	_magFilter;
 	/** @type {boolean} */
 	unpackFlipY;
+	/** @type {boolean} */
+	needUpdapte;
+	/** @type {boolean} */
+	image2DHasChange;
 	/** @type {CanvasEngineType.onTextureRectChangeCallback | null} */
 	onTextureRectChangeCallback;
 	constructor() {
@@ -21,14 +25,45 @@ export class BaseTexture extends BaseCleanUp {
 
 		this.isBaseTexture = true;
 
-		this.wrapS = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
-		this.wrapT = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
+		this._wrapS = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
+		this._wrapT = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
 
-		this.minFilter = GlTextureParamTypeEnum.LINEAR;
-		this.magFilter = GlTextureParamTypeEnum.LINEAR;
+		this._minFilter = GlTextureParamTypeEnum.LINEAR;
+		this._magFilter = GlTextureParamTypeEnum.LINEAR;
 		this.unpackFlipY = true;
 
+		this.needUpdapte = true;
+		this.image2DHasChange = true;
+
 		this.onTextureRectChangeCallback = null;
+	}
+	get wrapS() {
+		return this._wrapS;
+	}
+	set wrapS(value) {
+		this.needUpdapte = true;
+		this._wrapS = value;
+	}
+	get wrapT() {
+		return this._wrapT;
+	}
+	set wrapT(value) {
+		this.needUpdapte = true;
+		this._wrapT = value;
+	}
+	get minFilter() {
+		return this._minFilter;
+	}
+	set minFilter(value) {
+		this.needUpdapte = true;
+		this._minFilter = value;
+	}
+	get magFilter() {
+		return this._magFilter;
+	}
+	set magFilter(value) {
+		this.needUpdapte = true;
+		this._magFilter = value;
 	}
 	/**
 	 * @param {CanvasEngineType.AllTexture} texture

@@ -24,14 +24,12 @@ export class TextTexture extends BaseTexture {
 	fontFamily;
 	/** @type {string} */
 	_text = "";
-	/** @type {boolean} */
-	textHasChange;
 	/** @type {number} */
 	width = 0;
 	/** @type {number} */
 	height = 0;
 	/** @type {ImageData} */
-	image2D = DefaultVariable.ImageData;
+	image2d = DefaultVariable.ImageData;
 	/**
 	 * @param {string} text
 	 */
@@ -50,24 +48,22 @@ export class TextTexture extends BaseTexture {
 		this.fontFamily = "Arial";
 
 		this.text = text;
-
-		this.textHasChange = false;
 	}
 
 	/**
 	 * @param {CanvasEngineType.AllTexture} texture
 	 */
 	isSameTexParameter(texture) {
-		return super.isSameTexParameter(texture) && !this.textHasChange;
+		return super.isSameTexParameter(texture) && !this.image2DHasChange;
 	}
 	get text() {
 		return this._text;
 	}
 	set text(value) {
 		this._text = value;
-		this.textHasChange = true;
 		this._setTextMeasure();
 
+		this.image2DHasChange = true;
 		this.onTextureRectChange(this.width, this.height);
 	}
 	/**
@@ -117,7 +113,7 @@ export class TextTexture extends BaseTexture {
 
 			this.width = width;
 			this.height = height;
-			this.image2D = ctx.getImageData(0, 0, pixelWidth, pixelHeight);
+			this.image2d = ctx.getImageData(0, 0, pixelWidth, pixelHeight);
 		} else {
 			throw new Error("Failed to create canvas context for measuring text.");
 		}

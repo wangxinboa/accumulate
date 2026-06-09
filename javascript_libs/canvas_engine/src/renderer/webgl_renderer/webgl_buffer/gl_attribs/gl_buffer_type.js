@@ -26,3 +26,10 @@ export const GlBufferDataTypeEnum = Object.freeze({
 	// webgl2
 	HALF_FLOAT: "HALF_FLOAT",
 });
+
+export const GetTextureBufferTypeEnum = Object.freeze({
+	/** render node 的 texture buffer 根据 key 来获取, 如果 key 一样, texture 有变化的话, 就 bufferSubData 更新原来的 buffer */
+	fromTextureKey: "fromTextureKey",
+	/** render node 的 texture buffer 根据 width height 来获取, 不一样的话, 就创建一个新的 Buffer */
+	fromTextureWidthAndHeight: "fromTextureWidthAndHeight",
+});

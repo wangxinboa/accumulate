@@ -48,7 +48,7 @@ export const GlTextureParamTypeEnum = Object.freeze({
 });
 
 /** @type {Record<number, CanvasEngineType.TextureUnitName>} */
-export const GlTextureImageUnitsEnum = Object.freeze({
+export const GlTextureImageUnitEnum = Object.freeze({
 	0: "TEXTURE0",
 	1: "TEXTURE1",
 	2: "TEXTURE2",

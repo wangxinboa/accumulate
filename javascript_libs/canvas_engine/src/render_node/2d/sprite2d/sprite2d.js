@@ -1,5 +1,6 @@
 import { Render2DNode } from "../render_2d_node.js";
 import {
+	GetTextureBufferTypeEnum,
 	GlBufferDataTypeEnum,
 	GlBufferTargetTypeEnum,
 	GlBufferUsageTypeEnum,
@@ -15,6 +16,7 @@ import { GlBuffer } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attri
 import { ImageTexture } from "../../../texture/image_texture.js";
 import { getPositionUvFloat32ArrayFromWidthAndHeight } from "../../../renderer/webgl_renderer/webgl_buffer/webgl_buffer_utils.js";
 import { Rectangle } from "../../../math/geometry_2d_def/rectangle.js";
+import { TextTexture } from "../../../texture/text_texture.js";
 
 /**
  * @param {{width: number; height: number}} sprite2DPipe
@@ -28,6 +30,14 @@ export class Sprite2D extends Render2DNode {
 	_texture;
 	/** @type {CanvasEngineType.Rectangle} */
 	geometry;
+	/** @type {CanvasEngineType.GetTextureBufferTypeEnum} */
+	getTextureBufferType;
+	/** @type {number} */
+	cacheBufferWidth;
+	/** @type {number} */
+	cacheBufferHeight;
+	/** @type {boolean} */
+	fixedGeometry;
 	/**
 	 * @param {CanvasEngineType.Sprite2DTexture} texture
 	 */
@@ -36,6 +46,13 @@ export class Sprite2D extends Render2DNode {
 
 		this._texture = texture;
 		this.geometry = new Rectangle();
+
+		this.getTextureBufferType = GetTextureBufferTypeEnum.fromTextureWidthAndHeight;
+
+		this.cacheBufferWidth = this.width;
+		this.cacheBufferHeight = this.height;
+
+		this.fixedGeometry = false;
 
 		this._onTextureChange();
 	}
@@ -51,6 +68,20 @@ export class Sprite2D extends Render2DNode {
 	set texture(value) {
 		this._texture = value;
 		this._onTextureChange();
+	}
+	get text() {
+		if (this.texture instanceof TextTexture) {
+			return this.texture.text;
+		} else {
+			throw new Error("sprite2d texture 不为 TextTexture");
+		}
+	}
+	set text(text) {
+		if (this.texture instanceof TextTexture) {
+			this.texture.text = text;
+		} else {
+			throw new Error("sprite2d texture 不为 TextTexture");
+		}
 	}
 	/** @private */
 	_onTextureChange() {
@@ -69,6 +100,19 @@ export class Sprite2D extends Render2DNode {
 	static createFromUrl(url) {
 		return new Sprite2D(ImageTexture.createFromUrl(url));
 	}
+	/**
+	 * @param {string} text
+	 */
+	static createFromText(text) {
+		return new Sprite2D(new TextTexture(text)).setGetTextureBufferType(GetTextureBufferTypeEnum.fromTextureKey);
+	}
+	/**
+	 * @param {CanvasEngineType.GetTextureBufferTypeEnum} getTextureBufferType
+	 */
+	setGetTextureBufferType(getTextureBufferType) {
+		this.getTextureBufferType = getTextureBufferType;
+		return this;
+	}
 	static key = "Sprite2D";
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} programSystem
@@ -81,7 +125,18 @@ export class Sprite2D extends Render2DNode {
 	 */
 	updateAttribs(bufferSystem) {
 		if (this.isReady) {
-			const bufferKey = getBufferKey(this);
+			let bufferKey;
+			switch (this.getTextureBufferType) {
+				case GetTextureBufferTypeEnum.fromTextureKey:
+					bufferKey = this.texture.key;
+					break;
+				case GetTextureBufferTypeEnum.fromTextureWidthAndHeight:
+					bufferKey = getBufferKey(this);
+					break;
+				default:
+					throw new Error("未知的获取 buffer key 类型");
+			}
+
 			const attribsKey = bufferKey;
 
 			if (!bufferSystem.hasGlAttribs(attribsKey)) {
@@ -120,23 +175,42 @@ export class Sprite2D extends Render2DNode {
 		if (this.isReady) {
 			const width = this.width;
 			const height = this.height;
-			const bufferTextureKey = getBufferKey(this);
 
-			if (!bufferSystem.hasGlBuffer(bufferTextureKey)) {
+			let bufferKey;
+			switch (this.getTextureBufferType) {
+				case GetTextureBufferTypeEnum.fromTextureKey:
+					bufferKey = this.texture.key;
+					break;
+				case GetTextureBufferTypeEnum.fromTextureWidthAndHeight:
+					bufferKey = getBufferKey(this);
+					break;
+				default:
+					throw new Error("未知的获取 buffer key 类型");
+			}
+
+			if (bufferSystem.hasGlBuffer(bufferKey)) {
+				if (this.cacheBufferWidth !== width || this.cacheBufferHeight !== height) {
+					bufferSystem
+						.getGlBuffer(bufferKey)
+						.updateBufferSubData(gl, 0, getPositionUvFloat32ArrayFromWidthAndHeight(width, height));
+				}
+			} else {
 				bufferSystem.setGlBuffer(
-					bufferTextureKey,
+					bufferKey,
 					new GlBuffer(
-						bufferTextureKey,
+						bufferKey,
 						GlBufferTargetTypeEnum.ARRAY_BUFFER,
 						getPositionUvFloat32ArrayFromWidthAndHeight(width, height),
 						GlBufferUsageTypeEnum.STATIC_DRAW,
 					).bufferData(gl),
 				);
 			}
+			this.cacheBufferWidth = width;
+			this.cacheBufferHeight = height;
 		}
 	}
 	/**
-	 * @param {CanvasEngineType.WebGLRenderer["textureSystem"]} textureSystem
+	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 */
 	updateTextures(textureSystem) {
 		if (this.isReady) {
@@ -145,12 +219,12 @@ export class Sprite2D extends Render2DNode {
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
-	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} webglTextureSystem
+	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
-	uniform(gl, webglTextureSystem, glProgram) {
+	uniform(gl, textureSystem, glProgram) {
 		if (this.isReady) {
-			glProgram.uniform(gl, uImageName, webglTextureSystem.getGlTexture(this.texture.key));
+			glProgram.uniform(gl, uImageName, textureSystem.getGlTexture(this.texture.key));
 		}
 	}
 	/**

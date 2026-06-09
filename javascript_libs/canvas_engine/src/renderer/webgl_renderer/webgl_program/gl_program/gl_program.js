@@ -1,5 +1,5 @@
 import { BaseCleanUp, CustomMap } from "../../../../../../javascript_utils/javascript_utils.js";
-import { GlTextureImageUnitsEnum } from "../../webgl_texture/gl_texture_type.js";
+import { GlTextureImageUnitEnum } from "../../webgl_texture/gl_texture_type.js";
 import { GlDataTypeEnum } from "./gl_data_type.js";
 import { AttribLocation } from "./gl_location/attrib_location.js";
 import { UniformLocation } from "./gl_location/uniform_location.js";
@@ -199,7 +199,7 @@ export class GlProgram extends BaseCleanUp {
 
 			switch (glLocation.type) {
 				case GlDataTypeEnum.sampler2D:
-					gl.activeTexture(gl[GlTextureImageUnitsEnum[this.uniformTexturesCount]]);
+					gl.activeTexture(gl[GlTextureImageUnitEnum[this.uniformTexturesCount]]);
 					gl.bindTexture(gl.TEXTURE_2D, /** @type {CanvasEngineType.GlTexture} */ (locationValue).texture);
 					gl.uniform1i(glLocation.uniformLocation, this.uniformTexturesCount);
 
