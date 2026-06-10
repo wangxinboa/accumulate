@@ -39,7 +39,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.bufferSystem = new WebGLBufferSystem(this);
 		this.textureSystem = new WebGLTextureSystem(this);
 
-		this.eventSystem.activate2d(this.scene, this.camera);
+		this.eventSystem.activate2D(this.scene, this.camera);
 
 		let gl;
 		if ((gl = this.canvasSystem.canvasDom.getContext("webgl2", webgl2DRendererOption))) {
@@ -109,7 +109,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 
 		this.bufferSystem.bindBuffers(renderNode, glProgram);
 
-		this.textureSystem.updateTextures(renderNode);
+		renderNode.updateTextures(this.textureSystem);
 
 		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
 		if (renderNode.applyCameraTransform) {

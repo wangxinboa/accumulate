@@ -137,8 +137,8 @@ export class Sprite2DTwoTexturePipe extends Render2DNode {
 	 */
 	updateTextures(textureSystem) {
 		if (this.isReady) {
-			textureSystem.updateGlTexture(this.texture1.key, this.texture1);
-			textureSystem.updateGlTexture(this.texture2.key, this.texture2);
+			textureSystem.updateGlTexture(this.texture1);
+			textureSystem.updateGlTexture(this.texture2);
 		}
 	}
 	/**

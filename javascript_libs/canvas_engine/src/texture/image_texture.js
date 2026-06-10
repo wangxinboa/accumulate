@@ -18,17 +18,12 @@ export class ImageTexture extends BaseTexture {
 		this._source = LoaderManager.addImageTask(url);
 		this._onSourceChange();
 	}
-	/**
-	 * @param {CanvasEngineType.AllTexture} texture
-	 */
-	isSameTexParameter(texture) {
-		return super.isSameTexParameter(texture) && this.key === texture.key;
-	}
 	get source() {
 		return this._source;
 	}
 	set source(value) {
 		this._source = value;
+
 		this._onSourceChange();
 	}
 	/** @private */
@@ -55,7 +50,7 @@ export class ImageTexture extends BaseTexture {
 	get isReady() {
 		return this.source.isLoaded;
 	}
-	get image2d() {
+	get image2D() {
 		return this.source.data;
 	}
 	/**

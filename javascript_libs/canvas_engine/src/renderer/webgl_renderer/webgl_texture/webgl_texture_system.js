@@ -40,27 +40,18 @@ export class WebGLTextureSystem extends BaseCleanUp {
 		this._cacheTextures.set(textureKey, glTexture);
 	}
 	/**
-	 * @param {string} textureKey
-	 * @param {CanvasEngineType.AllTexture} texture
+	 * @param {CanvasEngineType.BaseTexture} texture
 	 */
-	updateGlTexture(textureKey, texture) {
+	updateGlTexture(texture) {
 		if (texture.unpackFlipY !== this._cacheUnpackFlipY) {
 			this._cacheUnpackFlipY = texture.unpackFlipY;
 			this.renderer.gl.pixelStorei(this.renderer.gl.UNPACK_FLIP_Y_WEBGL, texture.unpackFlipY);
 		}
-
-		if (this.hasGlTexture(textureKey)) {
-			this.getGlTexture(textureKey).update(this.renderer.gl, texture);
+		if (this.hasGlTexture(texture.key)) {
+			this.getGlTexture(texture.key).update(this.renderer.gl, texture);
 		} else {
-			this.setGlTexture(textureKey, new GlTexture(this.renderer.gl).update(this.renderer.gl, texture));
+			this.setGlTexture(texture.key, new GlTexture(this.renderer.gl).update(this.renderer.gl, texture));
 		}
-	}
-
-	/**
-	 * @param {CanvasEngineType.AllRenderNode} renderNode
-	 */
-	updateTextures(renderNode) {
-		renderNode.updateTextures(this);
 	}
 	resetAllTextures() {
 		for (let i = 0, len = this._cacheTextures.array.length; i < len; i++) {

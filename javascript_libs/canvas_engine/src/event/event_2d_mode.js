@@ -9,9 +9,9 @@ let _dragPostion = new Vector2(0, 0);
 
 export class Event2DMode extends BaseCleanUp {
 	/** @type {CanvasEngineType.Scene2D | null} */
-	scene2d;
+	scene2D;
 	/** @type {CanvasEngineType.Camera2D | null} */
-	camera2d;
+	camera2D;
 	/** @type {CustomMap<CanvasEngineType.Render2DNode> | null} */
 	tempMoveEnterMap;
 	/** @type {CustomMap<CanvasEngineType.Render2DNode>} */
@@ -24,8 +24,8 @@ export class Event2DMode extends BaseCleanUp {
 	constructor() {
 		super();
 
-		this.scene2d = null;
-		this.camera2d = null;
+		this.scene2D = null;
+		this.camera2D = null;
 
 		this.tempMoveEnterMap = null;
 		this.preMoveEnterMap = new CustomMap();
@@ -35,12 +35,12 @@ export class Event2DMode extends BaseCleanUp {
 		this.hitTestLimit = 1;
 	}
 	/**
-	 * @param {CanvasEngineType.Scene2D} scene2d
-	 * @param {CanvasEngineType.Camera2D} camera2d
+	 * @param {CanvasEngineType.Scene2D} scene2D
+	 * @param {CanvasEngineType.Camera2D} camera2D
 	 */
-	bindScene(scene2d, camera2d) {
-		this.scene2d = scene2d;
-		this.camera2d = camera2d;
+	bindScene(scene2D, camera2D) {
+		this.scene2D = scene2D;
+		this.camera2D = camera2D;
 		return this;
 	}
 	/**
@@ -53,8 +53,8 @@ export class Event2DMode extends BaseCleanUp {
 
 		_canvasPositionInCamera.set(offsetX, offsetY);
 		_canvasPositionInScene.set(offsetX, offsetY);
-		if (this.camera2d) {
-			_canvasPositionInCamera.applyMatrix3(this.camera2d.matrix3WorldInvert);
+		if (this.camera2D) {
+			_canvasPositionInCamera.applyMatrix3(this.camera2D.matrix3WorldInvert);
 		}
 	}
 	/**
@@ -76,9 +76,9 @@ export class Event2DMode extends BaseCleanUp {
 	 */
 	processDownEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
-		if (this.scene2d) {
-			for (let i = this.scene2d.allDescendants.length - 1; i >= 0; i--) {
-				const descendant = this.scene2d.allDescendants[i];
+		if (this.scene2D) {
+			for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
+				const descendant = this.scene2D.allDescendants[i];
 				if (descendant.hitTestDisabled) {
 					continue;
 				}
@@ -119,7 +119,7 @@ export class Event2DMode extends BaseCleanUp {
 					break;
 				}
 			}
-			this.scene2d.executeMouseDownEvents(
+			this.scene2D.executeMouseDownEvents(
 				_canvasPositionInCamera.x,
 				_canvasPositionInCamera.y,
 				_canvasPositionInScene.x,
@@ -133,7 +133,7 @@ export class Event2DMode extends BaseCleanUp {
 	 */
 	processMoveEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
-		if (this.scene2d) {
+		if (this.scene2D) {
 			if (this.dragNodes.length > 0) {
 				for (let i = 0, len = this.dragNodes.length; i < len; i++) {
 					const dragNode = this.dragNodes[i];
@@ -157,8 +157,8 @@ export class Event2DMode extends BaseCleanUp {
 					);
 				}
 			} else {
-				for (let i = this.scene2d.allDescendants.length - 1; i >= 0; i--) {
-					const descendant = this.scene2d.allDescendants[i];
+				for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
+					const descendant = this.scene2D.allDescendants[i];
 					if (descendant.hitTestDisabled) {
 						continue;
 					}
@@ -206,7 +206,7 @@ export class Event2DMode extends BaseCleanUp {
 				this.nowMoveEnterMap = this.tempMoveEnterMap;
 				this.nowMoveEnterMap.clear();
 
-				this.scene2d.executeMouseMoveEvents(
+				this.scene2D.executeMouseMoveEvents(
 					_canvasPositionInCamera.x,
 					_canvasPositionInCamera.y,
 					_canvasPositionInScene.x,
@@ -221,7 +221,7 @@ export class Event2DMode extends BaseCleanUp {
 	 */
 	processUpEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
-		if (this.scene2d) {
+		if (this.scene2D) {
 			if (this.dragNodes.length > 0) {
 				for (let i = 0, len = this.dragNodes.length; i < len; i++) {
 					const dragNode = this.dragNodes[i];
@@ -236,8 +236,8 @@ export class Event2DMode extends BaseCleanUp {
 				}
 				this.dragNodes.length = 0;
 			} else {
-				for (let i = this.scene2d.allDescendants.length - 1; i >= 0; i--) {
-					const descendant = this.scene2d.allDescendants[i];
+				for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
+					const descendant = this.scene2D.allDescendants[i];
 					if (descendant.hitTestDisabled) {
 						continue;
 					}
@@ -257,7 +257,7 @@ export class Event2DMode extends BaseCleanUp {
 				}
 			}
 
-			this.scene2d.executeMouseUpEvents(
+			this.scene2D.executeMouseUpEvents(
 				_canvasPositionInCamera.x,
 				_canvasPositionInCamera.y,
 				_canvasPositionInScene.x,
@@ -274,8 +274,8 @@ export class Event2DMode extends BaseCleanUp {
 	 */
 	processWheelEvents(deltaX, deltaY, deltaZ, offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
-		if (this.scene2d) {
-			this.scene2d.executeWheelEvents(
+		if (this.scene2D) {
+			this.scene2D.executeWheelEvents(
 				deltaX,
 				deltaY,
 				deltaZ,

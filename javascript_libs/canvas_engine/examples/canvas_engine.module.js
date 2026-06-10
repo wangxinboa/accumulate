@@ -32,7 +32,7 @@ engine.timeTicker.addRunCallback(function () {
 
 globalThis.engine = engine;
 
-const exampleRelativePath = [
+const exampleRelativePaths = [
 	"./camera/get_camera_position_example.js",
 	"./event/text_mouse_event_example.js",
 	"./render_node/sprite_two_texture/sprite_two_texture_example.js",
@@ -46,7 +46,9 @@ const exampleRelativePath = [
 const exampleId = getInitUrlSearchParam("exampleId");
 
 if (exampleId) {
-	import(exampleRelativePath[Number(exampleId)]);
+	const exampleRelativePath = exampleRelativePaths[Number(exampleId)];
+	import(exampleRelativePath);
+	console.info(`import ${exampleRelativePath}`);
 } else {
 	throw new Error("exampleId 参数不存在");
 }

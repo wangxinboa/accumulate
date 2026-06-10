@@ -5,7 +5,7 @@ export class EventSystem extends BaseCleanUp {
 	/** @private @type {HTMLElement} */
 	_domElement;
 	/** @type {Event2DMode} */
-	event2dMode;
+	event2DMode;
 	/** @type {Event2DMode | null} */
 	activeEvent;
 	/**
@@ -14,7 +14,7 @@ export class EventSystem extends BaseCleanUp {
 	constructor(domElement) {
 		super();
 		this._domElement = domElement;
-		this.event2dMode = new Event2DMode();
+		this.event2DMode = new Event2DMode();
 
 		this.activeEvent = null;
 
@@ -32,8 +32,8 @@ export class EventSystem extends BaseCleanUp {
 	 * @param {CanvasEngineType.Scene2D} scene
 	 * @param {CanvasEngineType.Camera2D} camera
 	 */
-	activate2d(scene, camera) {
-		this.activeEvent = this.event2dMode.bindScene(scene, camera);
+	activate2D(scene, camera) {
+		this.activeEvent = this.event2DMode.bindScene(scene, camera);
 	}
 	/**
 	 * @param {MouseEvent} event
@@ -69,7 +69,7 @@ export class EventSystem extends BaseCleanUp {
 	}
 
 	destroy() {
-		this.event2dMode.destroy();
+		this.event2DMode.destroy();
 
 		this._domElement.removeEventListener("mousedown", this.onMouseDown);
 		this._domElement.removeEventListener("mousemove", this.onMouseMove);

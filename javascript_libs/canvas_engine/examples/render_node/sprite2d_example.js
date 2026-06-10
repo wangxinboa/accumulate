@@ -41,41 +41,41 @@ const imageUrls = [
 /**
  * @type {Array<CanvasEngineType.Sprite2D>}
  */
-const sprite2ds = [];
-globalThis.sprite2ds = sprite2ds;
+const sprite2Ds = [];
+globalThis.sprite2Ds = sprite2Ds;
 
 for (let i = 0; i < imageUrls.length; i++) {
-	const sprite2d = Sprite2D.createFromUrl(imageUrls[i]);
-	sprite2d.x = (i % 5) * 100;
-	sprite2d.y = ((i - (i % 5)) / 5) * 100;
-	sprite2d.pivotX = 0.5;
-	sprite2d.pivotY = 0.5;
+	const sprite2D = Sprite2D.createFromUrl(imageUrls[i]);
+	sprite2D.x = (i % 5) * 100;
+	sprite2D.y = ((i - (i % 5)) / 5) * 100;
+	sprite2D.pivotX = 0.5;
+	sprite2D.pivotY = 0.5;
 
-	sprite2ds.push(sprite2d);
+	sprite2Ds.push(sprite2D);
 
-	engine.scene.add(sprite2d);
+	engine.scene.add(sprite2D);
 }
 
-// sprite2ds[0].texture.unpackFlipY = false;
-// sprite2ds[1].texture.unpackFlipY = true;
-// sprite2ds[2].texture.unpackFlipY = true;
-// sprite2ds[3].texture.unpackFlipY = true;
-// sprite2ds[4].texture.unpackFlipY = false;
+// sprite2Ds[0].texture.unpackFlipY = false;
+// sprite2Ds[1].texture.unpackFlipY = true;
+// sprite2Ds[2].texture.unpackFlipY = true;
+// sprite2Ds[3].texture.unpackFlipY = true;
+// sprite2Ds[4].texture.unpackFlipY = false;
 
 let count = 0;
 let isPositive = true;
 engine.timeTicker.addRunCallback(function () {
-	for (let i = 0; i < sprite2ds.length; i++) {
-		sprite2ds[i].x += isPositive ? 0.2 : -0.2;
-		sprite2ds[i].y += isPositive ? 0.2 : -0.2;
+	for (let i = 0; i < sprite2Ds.length; i++) {
+		sprite2Ds[i].x += isPositive ? 0.2 : -0.2;
+		sprite2Ds[i].y += isPositive ? 0.2 : -0.2;
 	}
 
-	// sprite2ds[0].rotationAngle += 1;
+	// sprite2Ds[0].rotationAngle += 1;
 
-	if (sprite2ds[0].x > 100) {
+	if (sprite2Ds[0].x > 100) {
 		// engine.timeTicker.parse();
 		isPositive = false;
-	} else if (sprite2ds[0].x < 0) {
+	} else if (sprite2Ds[0].x < 0) {
 		isPositive = true;
 	}
 

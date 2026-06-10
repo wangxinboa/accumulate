@@ -211,7 +211,6 @@ declare global {
 		type RenderNodeTween = RenderNodeTweenClass;
 		type Scene2D = Scene2DClass;
 		type Sprite2D = Sprite2DClass;
-		type AllTexture = ImageTexture | TextTexture;
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
 
@@ -228,6 +227,14 @@ declare global {
 		) => void;
 		type RenderNodeWheelEventCallbacks = Array<RenderNodeWheelEventCallback>;
 		type onTextureRectChangeCallback = (width: number, height: number) => void;
+		type BaseTextureImage2D = HTMLImageElement | ImageData;
+		type GlTextureCacheParameter = {
+			wrapS: BaseTexture["wrapS"];
+			wrapT: BaseTexture["wrapT"];
+			minFilter: BaseTexture["minFilter"];
+			magFilter: BaseTexture["magFilter"];
+			image2D: BaseTexture["image2D"];
+		};
 	}
 }
 

@@ -63,7 +63,7 @@ const attribLocationsFormat = [
 	},
 ];
 
-export const sprite2dGlProgramFormat = {
+export const sprite2DGlProgramFormat = {
 	vertexSource,
 	fragmentSource,
 	uniformLocationsFormat,

@@ -22,60 +22,60 @@ const spriteTwoTextureImageUrls = [
 ];
 
 /** @type {Array<Sprite2DTwoTexture>} */
-const sprite2dTwoTextures = [];
-globalThis.sprite2dTwoTextures = sprite2dTwoTextures;
+const sprite2DTwoTextures = [];
+globalThis.sprite2DTwoTextures = sprite2DTwoTextures;
 
 for (let i = 0; i < spriteTwoTextureImageUrls.length; i++) {
 	const urls = spriteTwoTextureImageUrls[i];
-	const sprite2d = Sprite2DTwoTexture.createFromUrl(urls[0], urls[1]);
-	sprite2d.x = (i % 5) * 100;
-	sprite2d.y = ((i - (i % 5)) / 5) * 100;
-	sprite2d.pivotX = 0;
-	sprite2d.pivotY = 0;
+	const sprite2D = Sprite2DTwoTexture.createFromUrl(urls[0], urls[1]);
+	sprite2D.x = (i % 5) * 100;
+	sprite2D.y = ((i - (i % 5)) / 5) * 100;
+	sprite2D.pivotX = 0;
+	sprite2D.pivotY = 0;
 
-	sprite2dTwoTextures.push(sprite2d);
+	sprite2DTwoTextures.push(sprite2D);
 
-	engine.scene.add(sprite2d);
+	engine.scene.add(sprite2D);
 }
 
-sprite2dTwoTextures[0].texture1.unpackFlipY = false;
+sprite2DTwoTextures[0].texture1.unpackFlipY = false;
 
-sprite2dTwoTextures[0].texture2.unpackFlipY = true;
-sprite2dTwoTextures[1].texture2.unpackFlipY = true;
-sprite2dTwoTextures[2].texture2.unpackFlipY = true;
-sprite2dTwoTextures[3].texture2.unpackFlipY = false;
+sprite2DTwoTextures[0].texture2.unpackFlipY = true;
+sprite2DTwoTextures[1].texture2.unpackFlipY = true;
+sprite2DTwoTextures[2].texture2.unpackFlipY = true;
+sprite2DTwoTextures[3].texture2.unpackFlipY = false;
 
-const sprite2dUrls = ["https://pixijs.com/assets/flowerTop.png", "https://pixijs.com/assets/eggHead.png"];
+const sprite2DUrls = ["https://pixijs.com/assets/flowerTop.png", "https://pixijs.com/assets/eggHead.png"];
 
 /** @type {Array<Sprite2D>} */
-const sprite2ds = [];
-globalThis.sprite2ds = sprite2ds;
+const sprite2Ds = [];
+globalThis.sprite2Ds = sprite2Ds;
 
-for (let i = 0; i < sprite2dUrls.length; i++) {
-	const sprite2d = Sprite2D.createFromUrl(sprite2dUrls[i]);
-	sprite2d.x = (i % 5) * 300 + 100;
-	sprite2d.y = ((i - (i % 5)) / 5) * 100 + 400;
-	sprite2d.pivotX = 0.5;
-	sprite2d.pivotY = 0.5;
+for (let i = 0; i < sprite2DUrls.length; i++) {
+	const sprite2D = Sprite2D.createFromUrl(sprite2DUrls[i]);
+	sprite2D.x = (i % 5) * 300 + 100;
+	sprite2D.y = ((i - (i % 5)) / 5) * 100 + 400;
+	sprite2D.pivotX = 0.5;
+	sprite2D.pivotY = 0.5;
 
-	sprite2ds.push(sprite2d);
+	sprite2Ds.push(sprite2D);
 
-	engine.scene.add(sprite2d);
+	engine.scene.add(sprite2D);
 }
 
 let count = 0;
 let isPositive = true;
 engine.timeTicker.addRunCallback(function () {
-	for (let i = 0; i < sprite2dTwoTextures.length; i++) {
-		sprite2dTwoTextures[i].x += isPositive ? 0.5 : -0.5;
-		sprite2dTwoTextures[i].y += isPositive ? 0.5 : -0.5;
+	for (let i = 0; i < sprite2DTwoTextures.length; i++) {
+		sprite2DTwoTextures[i].x += isPositive ? 0.5 : -0.5;
+		sprite2DTwoTextures[i].y += isPositive ? 0.5 : -0.5;
 
-		sprite2dTwoTextures[i].clamp = 1 - sprite2dTwoTextures[0].x / 100;
+		sprite2DTwoTextures[i].clamp = 1 - sprite2DTwoTextures[0].x / 100;
 	}
 
-	if (sprite2dTwoTextures[0].x > 100) {
+	if (sprite2DTwoTextures[0].x > 100) {
 		isPositive = false;
-	} else if (sprite2dTwoTextures[0].x < 0) {
+	} else if (sprite2DTwoTextures[0].x < 0) {
 		isPositive = true;
 	}
 

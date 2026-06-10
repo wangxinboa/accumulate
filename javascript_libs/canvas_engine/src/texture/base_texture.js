@@ -1,23 +1,26 @@
-import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp, DefaultVariable } from "../../../javascript_utils/javascript_utils.js";
 import { GlTextureParamTypeEnum } from "../renderer/webgl_renderer/webgl_texture/gl_texture_type.js";
 
+/**
+ * @abstract
+ */
 export class BaseTexture extends BaseCleanUp {
+	/** @type {string} */
+	_key = "";
 	/** @type {boolean} */
 	isBaseTexture;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	_wrapS;
+	wrapS;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	_wrapT;
+	wrapT;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	_minFilter;
+	minFilter;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	_magFilter;
+	magFilter;
 	/** @type {boolean} */
 	unpackFlipY;
-	/** @type {boolean} */
-	needUpdapte;
-	/** @type {boolean} */
-	image2DHasChange;
+	/** @type {CanvasEngineType.BaseTextureImage2D} */
+	_image2D = DefaultVariable.ImageData;
 	/** @type {CanvasEngineType.onTextureRectChangeCallback | null} */
 	onTextureRectChangeCallback;
 	constructor() {
@@ -25,59 +28,26 @@ export class BaseTexture extends BaseCleanUp {
 
 		this.isBaseTexture = true;
 
-		this._wrapS = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
-		this._wrapT = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
+		this.wrapS = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
+		this.wrapT = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
 
-		this._minFilter = GlTextureParamTypeEnum.LINEAR;
-		this._magFilter = GlTextureParamTypeEnum.LINEAR;
+		this.minFilter = GlTextureParamTypeEnum.LINEAR;
+		this.magFilter = GlTextureParamTypeEnum.LINEAR;
 		this.unpackFlipY = true;
-
-		this.needUpdapte = true;
-		this.image2DHasChange = true;
 
 		this.onTextureRectChangeCallback = null;
 	}
-	get wrapS() {
-		return this._wrapS;
+	get key() {
+		return this._key;
 	}
-	set wrapS(value) {
-		this.needUpdapte = true;
-		this._wrapS = value;
+	set key(value) {
+		this._key = value;
 	}
-	get wrapT() {
-		return this._wrapT;
+	get image2D() {
+		return this._image2D;
 	}
-	set wrapT(value) {
-		this.needUpdapte = true;
-		this._wrapT = value;
-	}
-	get minFilter() {
-		return this._minFilter;
-	}
-	set minFilter(value) {
-		this.needUpdapte = true;
-		this._minFilter = value;
-	}
-	get magFilter() {
-		return this._magFilter;
-	}
-	set magFilter(value) {
-		this.needUpdapte = true;
-		this._magFilter = value;
-	}
-	/**
-	 * @param {CanvasEngineType.AllTexture} texture
-	 * @returns
-	 */
-	isSameTexParameter(texture) {
-		return (
-			this instanceof texture.constructor &&
-			this.wrapS === texture.wrapS &&
-			this.wrapT === texture.wrapT &&
-			this.minFilter === texture.minFilter &&
-			this.magFilter === texture.magFilter &&
-			this.unpackFlipY === texture.unpackFlipY
-		);
+	set image2D(value) {
+		this._image2D = value;
 	}
 	get isReady() {
 		return true;

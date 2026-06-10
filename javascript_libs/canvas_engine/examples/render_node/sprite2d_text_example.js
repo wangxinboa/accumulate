@@ -5,13 +5,13 @@ import { TextTexture } from "../../src/texture/text_texture.js";
 /**
  * @type {Array<CanvasEngineType.Sprite2D>}
  */
-const sprite2ds = [];
-globalThis.sprite2ds = sprite2ds;
+const sprite2Ds = [];
+globalThis.sprite2Ds = sprite2Ds;
 
-sprite2ds.push(new Sprite2D(new TextTexture("Basic text in pixi")));
+sprite2Ds.push(new Sprite2D(new TextTexture("Basic text in pixi")));
 
-for (let i = 0; i < sprite2ds.length; i++) {
-	engine.scene.add(sprite2ds[i]);
+for (let i = 0; i < sprite2Ds.length; i++) {
+	engine.scene.add(sprite2Ds[i]);
 }
 
 engine.timeTicker.start();
@@ -20,15 +20,15 @@ let count = 0;
 let isPositive = true;
 
 engine.timeTicker.addRunCallback(function () {
-	for (let i = 0; i < sprite2ds.length; i++) {
-		sprite2ds[i].x += isPositive ? 0.2 : -0.2;
-		sprite2ds[i].y += isPositive ? 0.2 : -0.2;
+	for (let i = 0; i < sprite2Ds.length; i++) {
+		sprite2Ds[i].x += isPositive ? 0.2 : -0.2;
+		sprite2Ds[i].y += isPositive ? 0.2 : -0.2;
 	}
 
-	if (sprite2ds[0].x > 100) {
+	if (sprite2Ds[0].x > 100) {
 		// engine.timeTicker.parse();
 		isPositive = false;
-	} else if (sprite2ds[0].x < 0) {
+	} else if (sprite2Ds[0].x < 0) {
 		isPositive = true;
 	}
 

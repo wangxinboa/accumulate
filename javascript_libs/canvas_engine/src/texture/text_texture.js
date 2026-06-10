@@ -1,5 +1,4 @@
 import { BaseTexture } from "./base_texture.js";
-import { DefaultVariable } from "../../../javascript_utils/javascript_utils.js";
 
 let textTextureKey = 0;
 const canvasDom = document.createElement("canvas");
@@ -10,8 +9,6 @@ const ctx = canvasDom.getContext("2d", {
 export class TextTexture extends BaseTexture {
 	/** @type {boolean} */
 	isTextTexture;
-	/** @type {string} */
-	key;
 	/** @type {string} */
 	fontStyle;
 	/** @type {string} */
@@ -28,8 +25,6 @@ export class TextTexture extends BaseTexture {
 	width = 0;
 	/** @type {number} */
 	height = 0;
-	/** @type {ImageData} */
-	image2d = DefaultVariable.ImageData;
 	/**
 	 * @param {string} text
 	 */
@@ -50,12 +45,6 @@ export class TextTexture extends BaseTexture {
 		this.text = text;
 	}
 
-	/**
-	 * @param {CanvasEngineType.AllTexture} texture
-	 */
-	isSameTexParameter(texture) {
-		return super.isSameTexParameter(texture) && !this.image2DHasChange;
-	}
 	get text() {
 		return this._text;
 	}
@@ -63,7 +52,6 @@ export class TextTexture extends BaseTexture {
 		this._text = value;
 		this._setTextMeasure();
 
-		this.image2DHasChange = true;
 		this.onTextureRectChange(this.width, this.height);
 	}
 	/**
@@ -113,7 +101,7 @@ export class TextTexture extends BaseTexture {
 
 			this.width = width;
 			this.height = height;
-			this.image2d = ctx.getImageData(0, 0, pixelWidth, pixelHeight);
+			this.image2D = ctx.getImageData(0, 0, pixelWidth, pixelHeight);
 		} else {
 			throw new Error("Failed to create canvas context for measuring text.");
 		}

@@ -21,21 +21,21 @@ for (let i = 0; i < textureUrls.length; i++) {
 
 globalThis.textures = textures;
 
-const sprite2d = Sprite2D.createFromUrl(textureUrls[0]);
-sprite2d.x = 100;
-sprite2d.y = 100;
-sprite2d.pivotX = 0.5;
-sprite2d.pivotY = 0.5;
+const sprite2D = Sprite2D.createFromUrl(textureUrls[0]);
+sprite2D.x = 100;
+sprite2D.y = 100;
+sprite2D.pivotX = 0.5;
+sprite2D.pivotY = 0.5;
 
-engine.scene.add(sprite2d);
+engine.scene.add(sprite2D);
 
-globalThis.sprite2d = sprite2d;
+globalThis.sprite2D = sprite2D;
 
 let count = 0;
 let textureIndex = 0;
 engine.timeTicker.addRunCallback(function () {
-	if (count > 100) {
-		sprite2d.texture = textures[++textureIndex % textures.length];
+	if (count > 30) {
+		sprite2D.texture = textures[++textureIndex % textures.length];
 		count = 0;
 	}
 

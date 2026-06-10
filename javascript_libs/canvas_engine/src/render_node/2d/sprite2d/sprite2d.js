@@ -8,7 +8,7 @@ import {
 import {
 	aPositionName,
 	aTextureCoordName,
-	sprite2dGlProgramFormat,
+	sprite2DGlProgramFormat,
 	uImageName,
 } from "./sprite2d_webgl_pipe/gl_program_format.js";
 import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
@@ -73,14 +73,14 @@ export class Sprite2D extends Render2DNode {
 		if (this.texture instanceof TextTexture) {
 			return this.texture.text;
 		} else {
-			throw new Error("sprite2d texture 不为 TextTexture");
+			throw new Error("sprite2D texture 不为 TextTexture");
 		}
 	}
 	set text(text) {
 		if (this.texture instanceof TextTexture) {
 			this.texture.text = text;
 		} else {
-			throw new Error("sprite2d texture 不为 TextTexture");
+			throw new Error("sprite2D texture 不为 TextTexture");
 		}
 	}
 	/** @private */
@@ -118,7 +118,7 @@ export class Sprite2D extends Render2DNode {
 	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} programSystem
 	 */
 	getGlProgram(programSystem) {
-		return programSystem.addGlProgram(Sprite2D.key, sprite2dGlProgramFormat);
+		return programSystem.addGlProgram(Sprite2D.key, sprite2DGlProgramFormat);
 	}
 	/**
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
@@ -214,7 +214,7 @@ export class Sprite2D extends Render2DNode {
 	 */
 	updateTextures(textureSystem) {
 		if (this.isReady) {
-			textureSystem.updateGlTexture(this.texture.key, this.texture);
+			textureSystem.updateGlTexture(this.texture);
 		}
 	}
 	/**
