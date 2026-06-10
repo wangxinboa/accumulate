@@ -10,13 +10,13 @@ export class BaseTexture extends BaseCleanUp {
 	/** @type {boolean} */
 	isBaseTexture;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	wrapS;
+	_wrapS;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	wrapT;
+	_wrapT;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	minFilter;
+	_minFilter;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	magFilter;
+	_magFilter;
 	/** @type {boolean} */
 	unpackFlipY;
 	/** @type {CanvasEngineType.BaseTextureImage2D} */
@@ -28,13 +28,15 @@ export class BaseTexture extends BaseCleanUp {
 
 		this.isBaseTexture = true;
 
-		this.wrapS = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
-		this.wrapT = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
+		this._wrapS = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
+		this._wrapT = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
 
-		this.minFilter = GlTextureParamTypeEnum.LINEAR;
-		this.magFilter = GlTextureParamTypeEnum.LINEAR;
+		this._minFilter = GlTextureParamTypeEnum.LINEAR;
+		this._magFilter = GlTextureParamTypeEnum.LINEAR;
+
 		this.unpackFlipY = true;
 
+		this.needTexImage2D = true;
 		this.onTextureRectChangeCallback = null;
 	}
 	get key() {
@@ -42,6 +44,34 @@ export class BaseTexture extends BaseCleanUp {
 	}
 	set key(value) {
 		this._key = value;
+	}
+	get wrapS() {
+		return this._wrapS;
+	}
+	set wrapS(value) {
+		this.needTexImage2D = true;
+		this._wrapS = value;
+	}
+	get wrapT() {
+		return this._wrapT;
+	}
+	set wrapT(value) {
+		this.needTexImage2D = true;
+		this._wrapT = value;
+	}
+	get minFilter() {
+		return this._minFilter;
+	}
+	set minFilter(value) {
+		this.needTexImage2D = true;
+		this._minFilter = value;
+	}
+	get magFilter() {
+		return this._magFilter;
+	}
+	set magFilter(value) {
+		this.needTexImage2D = true;
+		this._magFilter = value;
 	}
 	get image2D() {
 		return this._image2D;
@@ -52,6 +82,20 @@ export class BaseTexture extends BaseCleanUp {
 	get isReady() {
 		return true;
 	}
+	/**
+	 * @param {CanvasEngineType.BaseTexture} texture
+	 * @returns
+	 */
+	isNotSameTexParameter(texture) {
+		return (
+			this.wrapS !== texture.wrapS ||
+			this.wrapT !== texture.wrapT ||
+			this.minFilter !== texture.minFilter ||
+			this.magFilter !== texture.magFilter ||
+			this.image2D !== texture.image2D
+		);
+	}
+
 	/**
 	 * @param {CanvasEngineType.onTextureRectChangeCallback} callback
 	 */

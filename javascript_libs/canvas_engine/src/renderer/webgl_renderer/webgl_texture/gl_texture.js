@@ -4,8 +4,8 @@ import { GlTextureParamTypeEnum } from "./gl_texture_type.js";
 export class GlTexture extends BaseCleanUp {
 	/** @type {WebGLTexture | null} */
 	texture = null;
-	/** @type {CanvasEngineType.GlTextureCacheParameter} */
-	cacheParameter;
+	/** @type {CanvasEngineType.BaseTexture | null} */
+	cacheTexture;
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 */
@@ -13,6 +13,8 @@ export class GlTexture extends BaseCleanUp {
 		super();
 
 		this.texture = gl.createTexture();
+
+		this.cacheTexture = null;
 
 		this.cacheParameter = {
 			wrapS: GlTextureParamTypeEnum.CLAMP_TO_EDGE,
@@ -28,7 +30,11 @@ export class GlTexture extends BaseCleanUp {
 	resetTexture(gl) {
 		this.texture = gl.createTexture();
 
-		return this._updateTexParameterFromCache(gl);
+		if (this.cacheTexture) {
+			this.update(gl, this.cacheTexture);
+		}
+
+		return this;
 	}
 	/**
 	 * @param {CanvasEngineType.WebGLContext} gl
@@ -43,41 +49,21 @@ export class GlTexture extends BaseCleanUp {
 	 */
 	update(gl, texture) {
 		if (
-			this.cacheParameter.wrapS !== texture.wrapS ||
-			this.cacheParameter.wrapT !== texture.wrapT ||
-			this.cacheParameter.minFilter !== texture.minFilter ||
-			this.cacheParameter.magFilter !== texture.magFilter ||
-			this.cacheParameter.image2D !== texture.image2D
+			this.cacheTexture === null ||
+			(this.cacheTexture === texture && this.cacheTexture.needTexImage2D) ||
+			(this.cacheTexture !== texture && this.cacheTexture.isNotSameTexParameter(texture))
 		) {
 			gl.bindTexture(gl.TEXTURE_2D, this.texture);
 
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl[this.cacheParameter.wrapS]);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl[this.cacheParameter.wrapT]);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl[this.cacheParameter.minFilter]);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl[this.cacheParameter.magFilter]);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl[texture.wrapS]);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl[texture.wrapT]);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl[texture.minFilter]);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl[texture.magFilter]);
 			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image2D);
 
-			this.cacheParameter.wrapS = texture.wrapS;
-			this.cacheParameter.wrapT = texture.wrapT;
-			this.cacheParameter.minFilter = texture.minFilter;
-			this.cacheParameter.magFilter = texture.magFilter;
-			this.cacheParameter.image2D = texture.image2D;
+			texture.needTexImage2D = false;
+			this.cacheTexture = texture;
 		}
-		return this;
-	}
-	/**
-	 * @private
-	 * @param {CanvasEngineType.WebGLContext} gl
-	 */
-	_updateTexParameterFromCache(gl) {
-		gl.bindTexture(gl.TEXTURE_2D, this.texture);
-
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl[this.cacheParameter.wrapS]);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl[this.cacheParameter.wrapT]);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl[this.cacheParameter.minFilter]);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl[this.cacheParameter.magFilter]);
-
-		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.cacheParameter.image2D);
 
 		return this;
 	}

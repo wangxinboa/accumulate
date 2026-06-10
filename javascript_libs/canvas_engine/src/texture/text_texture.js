@@ -50,6 +50,7 @@ export class TextTexture extends BaseTexture {
 	}
 	set text(value) {
 		this._text = value;
+		this.needTexImage2D = true;
 		this._setTextMeasure();
 
 		this.onTextureRectChange(this.width, this.height);
