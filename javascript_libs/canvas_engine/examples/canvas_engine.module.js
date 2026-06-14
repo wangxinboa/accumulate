@@ -40,6 +40,7 @@ const exampleRelativePaths = [
 	"./render_node/sprite2d_text_example.js",
 	"./render_node/sprite2d_example.js",
 	"./render_node/text_example.js",
+	"./tween/sprite2d_change_position.js",
 ];
 
 // 1. 获取 URL 中的 exampleId 参数

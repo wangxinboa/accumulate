@@ -37,7 +37,7 @@ export class CustomMap extends BaseCleanUp {
 	 * @returns {CustomMap<T>}
 	 */
 	set(key, value) {
-		if (this._enableOverwrite && this.has(key)) {
+		if (!this._enableOverwrite && this.has(key)) {
 			throw new Error(`CustomMap 中键 ${key} 已存在，且禁止覆盖`);
 		}
 

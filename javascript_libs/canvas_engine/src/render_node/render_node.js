@@ -1,4 +1,4 @@
-import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp, TweenManager } from "../../../javascript_utils/javascript_utils.js";
 import { Matrix4 } from "../math/matrix4.js";
 
 let renderNodeId = 0;
@@ -20,9 +20,8 @@ export class RenderNode extends BaseCleanUp {
 	matrixWorld;
 	/** @type {boolean} */
 	visible;
-	/** @type {Array<CanvasEngineType.RenderNodeTween>} */
-	tweens;
-
+	/** @type {TweenManager} */
+	tweenManager;
 	constructor() {
 		super();
 
@@ -38,7 +37,33 @@ export class RenderNode extends BaseCleanUp {
 
 		this.visible = true;
 
-		this.tweens = [];
+		this.tweenManager = new TweenManager();
+	}
+	/**
+	 * @param {number} timestamp
+	 */
+	updateTween(timestamp) {
+		this.tweenManager.update(timestamp, this);
+		return this;
+	}
+	/**
+	 * @param {string} tweenName
+	 */
+	startTween(tweenName) {
+		this.tweenManager.start(tweenName, this);
+		return this;
+	}
+	pauseTween() {
+		this.tweenManager.pause();
+		return this;
+	}
+	/**
+	 * @param {string} tweenName
+	 * @param {JavaScriptUtilsType.TweenConfig} tweenConfig
+	 */
+	setTween(tweenName, tweenConfig) {
+		this.tweenManager.setTween(tweenName, tweenConfig);
+		return this;
 	}
 	/**
 	 * @param {RenderNode} renderNode

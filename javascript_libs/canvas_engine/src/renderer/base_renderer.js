@@ -30,6 +30,7 @@ export class BaseRenderer extends BaseCleanUp {
 		for (let i = 0, len = renderNode.children.length; i < len; i++) {
 			child = renderNode.children[i];
 			if (child.visible) {
+				child.updateTween(timestamp);
 				this._renderNode(child, camera, timestamp);
 				this._traverseRender(child, camera, timestamp);
 			}

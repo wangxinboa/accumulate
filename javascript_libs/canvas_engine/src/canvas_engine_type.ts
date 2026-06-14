@@ -23,7 +23,6 @@ import { RenderNode as RenderNodeClass } from "./render_node/render_node.js";
 import { RenderEventNode as RenderEventNodeClass } from "./render_node/render_event_node.js";
 import { Render2DNode as Render2DNodeClass } from "./render_node/2d/render_2d_node.js";
 import { Scene2D as Scene2DClass } from "./render_node/2d/scene2d.js";
-import { RenderNodeTween as RenderNodeTweenClass } from "./render_node_tween/render_node_tween.js";
 import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
 import { BaseTexture as BaseTextureClass } from "./texture/base_texture.js";
 import { ImageTexture as ImageTextureClass } from "./texture/image_texture.js";
@@ -208,7 +207,6 @@ declare global {
 		type RenderNode = RenderNodeClass;
 		type RenderEventNode = RenderEventNodeClass;
 		type Render2DNode = Render2DNodeClass;
-		type RenderNodeTween = RenderNodeTweenClass;
 		type Scene2D = Scene2DClass;
 		type Sprite2D = Sprite2DClass;
 		type Sprite2DTexture = ImageTexture | TextTexture;
@@ -228,13 +226,6 @@ declare global {
 		type RenderNodeWheelEventCallbacks = Array<RenderNodeWheelEventCallback>;
 		type onTextureRectChangeCallback = (width: number, height: number) => void;
 		type BaseTextureImage2D = HTMLImageElement | ImageData;
-		type GlTextureCacheParameter = {
-			wrapS: BaseTexture["wrapS"];
-			wrapT: BaseTexture["wrapT"];
-			minFilter: BaseTexture["minFilter"];
-			magFilter: BaseTexture["magFilter"];
-			image2D: BaseTexture["image2D"];
-		};
 	}
 }
 
