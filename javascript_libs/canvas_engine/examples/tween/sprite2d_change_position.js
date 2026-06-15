@@ -36,3 +36,10 @@ const stop = Sprite2D.createFromText("stop").onMouseDown(() => {
 });
 stop.x = 400;
 engine.scene.add(stop);
+
+const resume = Sprite2D.createFromText("resume").onMouseDown(() => {
+	console.info("resume onMouseDown");
+	sprite2D.resumeTween();
+});
+resume.x = 500;
+engine.scene.add(resume);

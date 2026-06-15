@@ -63,7 +63,11 @@ export class Tween extends BaseCleanUp {
 	onUpdate(targetObj, portion) {
 		for (let i = 0, len = this.targets.length; i < len; i++) {
 			const target = this.targets[i];
-			setValueByPath(targetObj, target.path, portion * (target.target - /** @type {number} */ (target.start)));
+			setValueByPath(
+				targetObj,
+				target.path,
+				/** @type {number} */ (target.start) + portion * (target.target - /** @type {number} */ (target.start)),
+			);
 		}
 
 		for (let i = 0, len = this.updateCallback.length; i < len; i++) {

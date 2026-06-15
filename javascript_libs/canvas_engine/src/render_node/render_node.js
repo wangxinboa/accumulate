@@ -57,6 +57,10 @@ export class RenderNode extends BaseCleanUp {
 		this.tweenManager.pause();
 		return this;
 	}
+	resumeTween() {
+		this.tweenManager.resume();
+		return this;
+	}
 	/**
 	 * @param {string} tweenName
 	 * @param {JavaScriptUtilsType.TweenConfig} tweenConfig

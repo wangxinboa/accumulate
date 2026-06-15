@@ -10,12 +10,10 @@ export class TweenManager extends BaseCleanUp {
 	pausedTime;
 	/** @type {boolean} */
 	isPlaying;
-	/** @type {boolean} */
-	isPaused;
-	/** @type {CustomMap<Tween>} */
-	tweenMap;
 	/** @type {number} */
 	currentLoopCount;
+	/** @type {CustomMap<Tween>} */
+	tweenMap;
 	/** @type {Tween | null} */
 	acticeTween = null;
 	constructor() {
@@ -24,9 +22,8 @@ export class TweenManager extends BaseCleanUp {
 		this.startTime = 0;
 		this.pausedTime = 0;
 		this.isPlaying = false;
-		this.isPaused = false;
-		this.tweenMap = new CustomMap();
 		this.currentLoopCount = 0;
+		this.tweenMap = new CustomMap();
 		this.acticeTween = null;
 	}
 	/**
@@ -43,16 +40,12 @@ export class TweenManager extends BaseCleanUp {
 	 */
 	start(tweenName, targetObj) {
 		if (this.tweenMap.has(tweenName)) {
-			if (this.isPaused && this.acticeTween === this.tweenMap.get(tweenName)) {
-				this.startTime = this.startTime + (now() - this.pausedTime);
-			} else {
-				this.startTime = now();
-				this.acticeTween = this.tweenMap.get(tweenName);
-				this.acticeTween.onStart(targetObj);
-			}
+			this.startTime = now();
+			this.acticeTween = this.tweenMap.get(tweenName);
+			this.acticeTween.onStart(targetObj);
 
+			this.currentLoopCount = 0;
 			this.isPlaying = true;
-			this.isPaused = false;
 		}
 		return this;
 	}
@@ -60,15 +53,22 @@ export class TweenManager extends BaseCleanUp {
 		if (this.isPlaying) {
 			this.pausedTime = now();
 			this.isPlaying = false;
-			this.isPaused = true;
 		}
+		return this;
+	}
+	resume() {
+		if (!this.isPlaying) {
+			this.startTime = this.startTime + (now() - this.pausedTime);
+			this.isPlaying = true;
+		}
+		return this;
 	}
 	/**
 	 * @param {number} time
 	 * @param {Object} targetObj
 	 */
 	update(time, targetObj) {
-		if (this.acticeTween !== null && this.isPlaying && !this.isPaused) {
+		if (this.acticeTween !== null && this.isPlaying) {
 			const portion = Math.min(
 				time < this.startTime + this.acticeTween.delayTime
 					? 0
