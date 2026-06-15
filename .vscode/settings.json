@@ -33,7 +33,7 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"diffEditor.ignoreTrimWhitespace": true,
-	"js/ts.preferences.quoteStyle": "single",
+	"js/ts.preferences.quoteStyle": "double",
 	"js/ts.preferences.importModuleSpecifierEnding": "js",
 	"js/ts.updateImportsOnFileMove.enabled": "never",
 	"editor.formatOnSave": true,
@@ -56,5 +56,6 @@
 	// prettier
 	"prettier.printWidth": 120,
 	"prettier.useTabs": true,
-	"prettier.singleQuote": false
+	"prettier.singleQuote": false,
+	"explorer.confirmDragAndDrop": false
 }
