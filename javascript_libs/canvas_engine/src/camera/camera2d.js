@@ -8,6 +8,7 @@ export class Camera2D extends Render2DNode {
 	projectionMatrix;
 	constructor() {
 		super();
+		this.applyCameraTransform = false;
 
 		this.projectionMatrix = new Matrix4();
 

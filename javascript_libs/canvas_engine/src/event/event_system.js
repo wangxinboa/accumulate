@@ -24,8 +24,8 @@ export class EventSystem extends BaseCleanUp {
 		this.onWheel = this.onWheel.bind(this);
 
 		this._domElement.addEventListener("mousedown", this.onMouseDown);
-		this._domElement.addEventListener("mousemove", this.onMouseMove);
-		this._domElement.addEventListener("mouseup", this.onMouseUp);
+		window.addEventListener("mousemove", this.onMouseMove);
+		window.addEventListener("mouseup", this.onMouseUp);
 		this._domElement.addEventListener("wheel", this.onWheel, { passive: true });
 	}
 	/**
@@ -72,8 +72,8 @@ export class EventSystem extends BaseCleanUp {
 		this.event2DMode.destroy();
 
 		this._domElement.removeEventListener("mousedown", this.onMouseDown);
-		this._domElement.removeEventListener("mousemove", this.onMouseMove);
-		this._domElement.removeEventListener("mouseup", this.onMouseUp);
+		window.removeEventListener("mousemove", this.onMouseMove);
+		window.removeEventListener("mouseup", this.onMouseUp);
 		this._domElement.removeEventListener("wheel", this.onWheel);
 
 		super.destroy();

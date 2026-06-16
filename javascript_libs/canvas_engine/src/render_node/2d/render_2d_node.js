@@ -171,4 +171,45 @@ export class Render2DNode extends RenderEventNode {
 	set height(val) {
 		this._height = val;
 	}
+	// 子类方法
+	/**
+	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} _programSystem
+	 */
+	getGlProgram(_programSystem) {
+		throw new Error("Render2DNode 子类未实现 getGlProgram 方法");
+	}
+	/**
+	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} _bufferSystem
+	 */
+	updateAttribs(_bufferSystem) {
+		throw new Error("Render2DNode 子类未实现 updateAttribs 方法");
+	}
+	/**
+	 * @param {CanvasEngineType.WebGLContext} _gl
+	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} _bufferSystem
+	 */
+	updateBuffers(_gl, _bufferSystem) {
+		throw new Error("Render2DNode 子类未实现 updateBuffers 方法");
+	}
+	/**
+	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} _textureSystem
+	 */
+	updateTextures(_textureSystem) {
+		throw new Error("Render2DNode 子类未实现 updateTextures 方法");
+	}
+	/**
+	 * @param {CanvasEngineType.WebGLContext} _gl
+	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} _textureSystem
+	 * @param {CanvasEngineType.GlProgram} _glProgram
+	 */
+	uniform(_gl, _textureSystem, _glProgram) {
+		throw new Error("Render2DNode 子类未实现 uniform 方法");
+	}
+	/**
+	 * @param {CanvasEngineType.WebGLContext} _gl
+	 * @param {CanvasEngineType.GlProgram} _glProgram
+	 */
+	drawArrays(_gl, _glProgram) {
+		throw new Error("Render2DNode 子类未实现 drawArrays 方法");
+	}
 }

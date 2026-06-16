@@ -95,7 +95,6 @@ export class BaseTexture extends BaseCleanUp {
 			this.image2D !== texture.image2D
 		);
 	}
-
 	/**
 	 * @param {CanvasEngineType.onTextureRectChangeCallback} callback
 	 */
