@@ -101,18 +101,23 @@ export class Event2DMode extends BaseCleanUp {
 							_canvasPositionInScene.x,
 							_canvasPositionInScene.y,
 						);
-						if (descendant.hasDragEvents || descendant.hasDragEndEvents || descendant.dragUpdatesPosition) {
-							descendant.dragStartNodeX = descendant.x;
-							descendant.dragStartNodeY = descendant.y;
+					}
+					if (
+						descendant.hasDragStartEvents ||
+						descendant.hasDragEvents ||
+						descendant.hasDragEndEvents ||
+						descendant.dragUpdatesPosition
+					) {
+						descendant.dragStartNodeX = descendant.x;
+						descendant.dragStartNodeY = descendant.y;
 
-							descendant.dragStartEventSceneX = _canvasPositionInScene.x;
-							descendant.dragStartEventSceneY = _canvasPositionInScene.y;
+						descendant.dragStartEventSceneX = _canvasPositionInScene.x;
+						descendant.dragStartEventSceneY = _canvasPositionInScene.y;
 
-							descendant.dragStartEventCameraX = _canvasPositionInCamera.x;
-							descendant.dragStartEventCameraY = _canvasPositionInCamera.y;
+						descendant.dragStartEventCameraX = _canvasPositionInCamera.x;
+						descendant.dragStartEventCameraY = _canvasPositionInCamera.y;
 
-							this.dragNodes.push(descendant);
-						}
+						this.dragNodes.push(descendant);
 					}
 				}
 				if (this.hitTestLimit <= _hitTestCounter) {
@@ -149,12 +154,14 @@ export class Event2DMode extends BaseCleanUp {
 						dragNode.x = _dragPostion.x;
 						dragNode.y = _dragPostion.y;
 					}
-					dragNode.executeDragEvents(
-						_canvasPositionInCamera.x,
-						_canvasPositionInCamera.y,
-						_canvasPositionInScene.x,
-						_canvasPositionInScene.y,
-					);
+					if (dragNode.hasDragEvents) {
+						dragNode.executeDragEvents(
+							_canvasPositionInCamera.x,
+							_canvasPositionInCamera.y,
+							_canvasPositionInScene.x,
+							_canvasPositionInScene.y,
+						);
+					}
 				}
 			} else {
 				for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
