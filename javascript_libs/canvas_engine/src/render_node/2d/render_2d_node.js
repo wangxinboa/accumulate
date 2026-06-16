@@ -31,6 +31,8 @@ export class Render2DNode extends RenderEventNode {
 	_height;
 	/** @type {CanvasEngineType.Geometry2DDef | null} */
 	geometry;
+	/** @protected @type {boolean} */
+	_fixedGeometry;
 	constructor() {
 		super();
 
@@ -53,6 +55,7 @@ export class Render2DNode extends RenderEventNode {
 		this.matrix3WorldInvert = new Matrix3();
 
 		this.geometry = null;
+		this._fixedGeometry = false;
 		this._updateGeometry = this._updateGeometry.bind(this);
 	}
 	/**
