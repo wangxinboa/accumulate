@@ -88,7 +88,7 @@ export class TimeTicker extends BaseCleanUp {
 	/**
 	 * @param {CanvasEngineType.TimeTickerCallback} pauseCallbacks
 	 */
-	addParseCallback(pauseCallbacks) {
+	addPauseCallback(pauseCallbacks) {
 		if (!this._pauseCallbacks.includes(pauseCallbacks)) {
 			this._pauseCallbacks.push(pauseCallbacks);
 		}
@@ -96,7 +96,7 @@ export class TimeTicker extends BaseCleanUp {
 	/**
 	 * @param {CanvasEngineType.TimeTickerCallback} pauseCallbacks
 	 */
-	removeParseCallback(pauseCallbacks) {
+	removePauseCallback(pauseCallbacks) {
 		const index = this._pauseCallbacks.indexOf(pauseCallbacks);
 		if (index > -1) {
 			this._pauseCallbacks.splice(index, 1);
