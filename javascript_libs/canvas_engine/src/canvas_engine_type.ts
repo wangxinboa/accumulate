@@ -225,6 +225,7 @@ declare global {
 		) => void;
 		type RenderNodeWheelEventCallbacks = Array<RenderNodeWheelEventCallback>;
 		type onTextureRectChangeCallback = (width: number, height: number) => void;
+		type onTextureRectChangeCallbacks = Array<onTextureRectChangeCallback>;
 		type BaseTextureImage2D = HTMLImageElement | ImageData;
 	}
 }

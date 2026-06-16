@@ -66,6 +66,9 @@ export class Sprite2D extends Render2DNode {
 		return this._texture;
 	}
 	set texture(value) {
+		if (this.texture) {
+			this.texture.unregisterTextureRectChangeCallback(this._updateGeometry);
+		}
 		this._texture = value;
 		this._onTextureChange();
 	}

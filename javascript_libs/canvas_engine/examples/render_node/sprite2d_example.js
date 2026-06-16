@@ -1,41 +1,16 @@
 import { engine } from "../canvas_engine.module.js";
 import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
 
-// LoaderManager.addImageTasks([
-// 	"https://fastly.picsum.photos/id/33/20/20.jpg?hmac=2qevnyLh9jL-kOMjRHF1xg1TyBmOATzt_B__g1C_E7Y",
-// 	"https://fastly.picsum.photos/id/902/20/20.jpg?hmac=1D9rRqsVpj0c559bCL-1Sd4HQ63BwJrzIjSze3DGFTA",
-// 	"https://fastly.picsum.photos/id/343/20/20.jpg?hmac=5Kl5BY351WQTvor_ar4Nrj3gXJi8G7clWzDjWB9Wz2o",
-// 	"https://fastly.picsum.photos/id/1027/20/20.jpg?hmac=H7OrzD_uAN3Gat2uSpNJEAn6Je8mtax_CWXdEmljiF8",
-// 	`../assets/number_images/0.png`,
-// 	`../assets/number_images/1.png`,
-// 	`../assets/number_images/2.png`,
-// 	`../assets/number_images/3.png`,
-// 	`../assets/number_images/4.png`,
-// 	`../assets/number_images/5.png`,
-// 	`../assets/number_images/6.png`,
-// 	`../assets/number_images/7.png`,
-// ]);
-
 const imageUrls = [
-	"https://pixijs.com/assets/bunny.png",
-	"https://pixijs.com/assets/bunny.png",
-	"https://pixijs.com/assets/bunny.png",
-	"https://pixijs.com/assets/bunny.png",
-	"https://pixijs.com/assets/bunny.png",
-	"https://fastly.picsum.photos/id/33/20/20.jpg?hmac=2qevnyLh9jL-kOMjRHF1xg1TyBmOATzt_B__g1C_E7Y",
-	"https://fastly.picsum.photos/id/902/20/20.jpg?hmac=1D9rRqsVpj0c559bCL-1Sd4HQ63BwJrzIjSze3DGFTA",
-	"https://fastly.picsum.photos/id/343/20/20.jpg?hmac=5Kl5BY351WQTvor_ar4Nrj3gXJi8G7clWzDjWB9Wz2o",
-	"https://fastly.picsum.photos/id/1027/20/20.jpg?hmac=H7OrzD_uAN3Gat2uSpNJEAn6Je8mtax_CWXdEmljiF8",
-	// `../assets/number_images/0.png`,
-	// `../assets/number_images/1.png`,
-	// `../assets/number_images/2.png`,
-	// `../assets/number_images/3.png`,
-	// `../assets/number_images/4.png`,
-	// `../assets/number_images/5.png`,
-	// `../assets/number_images/6.png`,
-	// `../assets/number_images/7.png`,
-	// "https://pixijs.com/examples/previews/animated-sprite_particles_thumbnail.webp",
-	// "http://localhost:7999/examples/resources/sky.jpg",
+	"../assets/bunny.png",
+	"../assets/bunny.png",
+	"../assets/bunny.png",
+	"../assets/bunny.png",
+	"../assets/bunny.png",
+	"../assets/33-20x20.jpg",
+	"../assets/902-20x20.jpg",
+	"../assets/343-20x20.jpg",
+	"../assets/1027-20x20.jpg",
 ];
 
 /**
@@ -73,7 +48,7 @@ engine.timeTicker.addRunCallback(function () {
 	// sprite2Ds[0].rotationAngle += 1;
 
 	if (sprite2Ds[0].x > 100) {
-		// engine.timeTicker.parse();
+		// engine.timeTicker.pause();
 		isPositive = false;
 	} else if (sprite2Ds[0].x < 0) {
 		isPositive = true;

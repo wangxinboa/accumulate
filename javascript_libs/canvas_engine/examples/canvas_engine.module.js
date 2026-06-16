@@ -35,7 +35,6 @@ globalThis.engine = engine;
 const exampleRelativePaths = [
 	"./camera/get_camera_position_example.js",
 	"./event/text_mouse_event_example.js",
-	"./render_node/sprite_two_texture/sprite_two_texture_example.js",
 	"./render_node/sprite2d_change_texture_example.js",
 	"./render_node/sprite2d_text_example.js",
 	"./render_node/sprite2d_example.js",

@@ -10,11 +10,11 @@ export class TimeTicker extends BaseCleanUp {
 	/** @private @type {number} */
 	_timestamp = 0;
 	/** @private @type {number} */
-	_parseTimestamp = 0;
+	_pauseTimestamp = 0;
 	/** @private @type {Array<CanvasEngineType.TimeTickerCallback>} */
 	_runCallbacks;
 	/** @private @type {Array<CanvasEngineType.TimeTickerCallback>} */
-	_parseCallbacks;
+	_pauseCallbacks;
 	/**
 	 * @param {CanvasEngineType.TimeTickerOption} timeTickerOption
 	 */
@@ -24,7 +24,7 @@ export class TimeTicker extends BaseCleanUp {
 		this._started = false;
 		this._requestId = null;
 		this._runCallbacks = [];
-		this._parseCallbacks = [];
+		this._pauseCallbacks = [];
 
 		this.start = this.start.bind(this);
 		this.run = this.run.bind(this);
@@ -53,18 +53,18 @@ export class TimeTicker extends BaseCleanUp {
 			}
 		}
 	}
-	parse() {
+	pause() {
 		if (this._started) {
 			this._started = false;
-			this._parseTimestamp = now();
+			this._pauseTimestamp = now();
 
 			if (this._requestId !== null) {
 				cancelAnimationFrame(this._requestId);
 				this._requestId = null;
 			}
 
-			for (let i = 0, len = this._parseCallbacks.length; i < len; i++) {
-				this._parseCallbacks[i](this._parseTimestamp);
+			for (let i = 0, len = this._pauseCallbacks.length; i < len; i++) {
+				this._pauseCallbacks[i](this._pauseTimestamp);
 			}
 		}
 	}
@@ -86,20 +86,20 @@ export class TimeTicker extends BaseCleanUp {
 		}
 	}
 	/**
-	 * @param {CanvasEngineType.TimeTickerCallback} parseCallbacks
+	 * @param {CanvasEngineType.TimeTickerCallback} pauseCallbacks
 	 */
-	addParseCallback(parseCallbacks) {
-		if (!this._parseCallbacks.includes(parseCallbacks)) {
-			this._parseCallbacks.push(parseCallbacks);
+	addParseCallback(pauseCallbacks) {
+		if (!this._pauseCallbacks.includes(pauseCallbacks)) {
+			this._pauseCallbacks.push(pauseCallbacks);
 		}
 	}
 	/**
-	 * @param {CanvasEngineType.TimeTickerCallback} parseCallbacks
+	 * @param {CanvasEngineType.TimeTickerCallback} pauseCallbacks
 	 */
-	removeParseCallback(parseCallbacks) {
-		const index = this._parseCallbacks.indexOf(parseCallbacks);
+	removeParseCallback(pauseCallbacks) {
+		const index = this._pauseCallbacks.indexOf(pauseCallbacks);
 		if (index > -1) {
-			this._parseCallbacks.splice(index, 1);
+			this._pauseCallbacks.splice(index, 1);
 		}
 	}
 	destroy() {

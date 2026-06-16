@@ -718,3 +718,5 @@ export class Matrix4 {
 		return array;
 	}
 }
+
+export const initializeMatrix4 = new Matrix4();

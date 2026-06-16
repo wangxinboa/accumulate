@@ -5,19 +5,15 @@ import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
 const camera = engine.camera;
 globalThis.camera = camera;
 
-const sprite2DDown = Sprite2D.createFromUrl(
-	"https://fastly.picsum.photos/id/902/20/20.jpg?hmac=1D9rRqsVpj0c559bCL-1Sd4HQ63BwJrzIjSze3DGFTA",
-);
+const sprite2DDown = Sprite2D.createFromUrl("../assets/902-20x20.jpg");
 globalThis.sprite2DDown = sprite2DDown;
 engine.scene.add(sprite2DDown);
 
-const sprite2DMove = Sprite2D.createFromUrl(
-	"https://fastly.picsum.photos/id/33/20/20.jpg?hmac=2qevnyLh9jL-kOMjRHF1xg1TyBmOATzt_B__g1C_E7Y",
-);
+const sprite2DMove = Sprite2D.createFromUrl("../assets/33-20x20.jpg");
 globalThis.sprite2DMove = sprite2DMove;
 engine.scene.add(sprite2DMove);
 
-const sprite2DUp = Sprite2D.createFromUrl("https://pixijs.com/assets/bunny.png");
+const sprite2DUp = Sprite2D.createFromUrl("../assets/bunny.png");
 globalThis.sprite2DUp = sprite2DUp;
 engine.scene.add(sprite2DUp);
 

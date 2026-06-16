@@ -26,7 +26,7 @@ engine.timeTicker.addRunCallback(function () {
 	}
 
 	if (sprite2Ds[0].x > 100) {
-		// engine.timeTicker.parse();
+		// engine.timeTicker.pause();
 		isPositive = false;
 	} else if (sprite2Ds[0].x < 0) {
 		isPositive = true;

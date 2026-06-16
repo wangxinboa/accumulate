@@ -45,14 +45,14 @@ export class WebGLProgramSystem extends BaseCleanUp {
 
 		return glProgram;
 	}
-	deleteAllPrograms() {
+	deleteGlPrograms() {
 		this.activeGlProgram = null;
 
 		for (let i = 0, len = this._cacheGlPrograms.array.length; i < len; i++) {
 			this._cacheGlPrograms.array[i].delete(this.renderer.gl);
 		}
 	}
-	resetAllPrograms() {
+	resetGlPrograms() {
 		this.activeGlProgram = null;
 
 		for (let i = 0, len = this._cacheGlPrograms.array.length; i < len; i++) {

@@ -255,7 +255,7 @@ export class RenderEventNode extends RenderNode {
 	 * @param {number} sy
 	 */
 	executeWheelEvents(dx, dy, dz, x, y, sx, sy) {
-		for (let i = 0, len = this.mouseUpEvents.length; i < len; i++) {
+		for (let i = 0, len = this.wheelEvents.length; i < len; i++) {
 			this.wheelEvents[i](dx, dy, dz, x, y, sx, sy);
 		}
 		return this;

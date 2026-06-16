@@ -184,7 +184,6 @@ export class Event2DMode extends BaseCleanUp {
 							);
 						}
 					}
-
 					if (this.hitTestLimit <= _hitTestCounter) {
 						break;
 					}
@@ -253,6 +252,9 @@ export class Event2DMode extends BaseCleanUp {
 								_canvasPositionInScene.y,
 							);
 						}
+					}
+					if (this.hitTestLimit <= _hitTestCounter) {
+						break;
 					}
 				}
 			}

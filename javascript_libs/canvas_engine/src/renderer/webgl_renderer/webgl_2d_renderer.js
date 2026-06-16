@@ -6,6 +6,7 @@ import { WebGLTextureSystem } from "./webgl_texture/webgl_texture_system.js";
 import { uCameraProjectionName, uCameraViewName, uRenderNodeModelName } from "./shaders/global_uniform_names.js";
 import { Scene2D } from "../../render_node/2d/scene2d.js";
 import { Camera2D } from "../../camera/camera2d.js";
+import { initializeMatrix4 } from "../../math/matrix4.js";
 
 export class WebGL2DRenderer extends BaseRenderer {
 	static key = "webgl";
@@ -62,14 +63,14 @@ export class WebGL2DRenderer extends BaseRenderer {
 	}
 	resetGl() {
 		this.extensions.initExtensions();
-		this.programSystem.resetAllPrograms();
-		this.bufferSystem.resetAllBuffers();
-		this.textureSystem.resetAllTextures();
+		this.programSystem.resetGlPrograms();
+		this.bufferSystem.resetGlBuffers();
+		this.textureSystem.resetGlTextures();
 	}
 	deleteGlCache() {
-		this.programSystem.deleteAllPrograms();
-		this.bufferSystem.deleteAllBuffers();
-		this.textureSystem.deleteTextures();
+		this.programSystem.deleteGlPrograms();
+		this.bufferSystem.deleteGlBuffers();
+		this.textureSystem.deleteGlTextures();
 	}
 	clear() {
 		this.gl.clearColor(
@@ -114,6 +115,8 @@ export class WebGL2DRenderer extends BaseRenderer {
 		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
 		if (renderNode.applyCameraTransform) {
 			glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);
+		} else {
+			glProgram.uniform(this.gl, uCameraViewName, initializeMatrix4);
 		}
 		glProgram.uniform(this.gl, uRenderNodeModelName, renderNode.matrixWorld);
 
