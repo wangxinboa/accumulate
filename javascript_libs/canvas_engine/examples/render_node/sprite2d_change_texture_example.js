@@ -1,6 +1,6 @@
-import { engine } from "../canvas_engine.module.js";
+import { engine } from "../canvas_engine_examples.module.js";
 import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
-import { ImageTexture } from "../../src/texture/image_texture.js";
+import { ImageTexture } from "../../src/textures/image_texture.js";
 
 const textureUrls = [
 	"../assets/bunny.png",

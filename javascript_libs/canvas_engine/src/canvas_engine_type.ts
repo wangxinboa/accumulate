@@ -24,9 +24,9 @@ import { RenderEventNode as RenderEventNodeClass } from "./render_node/render_ev
 import { Render2DNode as Render2DNodeClass } from "./render_node/2d/render_2d_node.js";
 import { Scene2D as Scene2DClass } from "./render_node/2d/scene2d.js";
 import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
-import { BaseTexture as BaseTextureClass } from "./texture/base_texture.js";
-import { ImageTexture as ImageTextureClass } from "./texture/image_texture.js";
-import { TextTexture as TextTextureClass } from "./texture/text_texture.js";
+import { BaseTexture as BaseTextureClass } from "./textures/base_texture.js";
+import { ImageTexture as ImageTextureClass } from "./textures/image_texture.js";
+import { TextTexture as TextTextureClass } from "./textures/text_texture.js";
 import { GlTexture as GlTextureClass } from "./renderer/webgl_renderer/webgl_texture/gl_texture.js";
 import {
 	GlBufferTargetTypeEnum as _GlBufferTargetTypeEnum,

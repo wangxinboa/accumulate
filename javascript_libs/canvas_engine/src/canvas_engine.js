@@ -10,5 +10,5 @@ export { GlAttribs } from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_
 export { GlBuffer } from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 export { getPositionUvFloat32ArrayFromWidthAndHeight } from "./renderer/webgl_renderer/webgl_buffer/webgl_buffer_utils.js";
 export { Sprite2D } from "./render_node/2d/sprite2d/sprite2d.js";
-export { ImageTexture } from "./texture/image_texture.js";
-export { TextTexture } from "./texture/text_texture.js";
+export { ImageTexture } from "./textures/image_texture.js";
+export { TextTexture } from "./textures/text_texture.js";
