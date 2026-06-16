@@ -67,6 +67,12 @@ export class Render2DNode extends RenderEventNode {
 		throw new Error("Render2DNode 形状 geometry 信息不存在");
 	}
 	/**
+	 * @param {any} _args
+	 */
+	fixGeometry(..._args) {
+		throw new Error("Render2DNode 子类未实现 fixGeometry 方法");
+	}
+	/**
 	 * @protected
 	 */
 	_updateGeometry() {
@@ -83,7 +89,7 @@ export class Render2DNode extends RenderEventNode {
 
 			this.matrix3WorldInvert
 				.identity()
-				.multiply(matrix3.makeTranslation(this.x, this.y))
+				.multiply(matrix3.makeTranslation(this.x - this.width * this.pivotX, this.y - this.height * this.pivotY))
 				.multiply(matrix3.makeRotation(this.rotation))
 				.multiply(matrix3.makeScale(this.scaleX === 0 ? 0 : this.scaleX, this.scaleY === 0 ? 0 : this.scaleY))
 				.invert();

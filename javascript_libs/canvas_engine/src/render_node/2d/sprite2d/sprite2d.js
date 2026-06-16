@@ -36,8 +36,8 @@ export class Sprite2D extends Render2DNode {
 	cacheBufferWidth;
 	/** @type {number} */
 	cacheBufferHeight;
-	/** @type {boolean} */
-	fixedGeometry;
+	/** @private @type {boolean} */
+	_fixedGeometry;
 	/**
 	 * @param {CanvasEngineType.Sprite2DTexture} texture
 	 */
@@ -52,15 +52,30 @@ export class Sprite2D extends Render2DNode {
 		this.cacheBufferWidth = this.width;
 		this.cacheBufferHeight = this.height;
 
-		this.fixedGeometry = false;
+		this._fixedGeometry = false;
 
 		this._onTextureChange();
 	}
-	_updateGeometry() {
-		this.width = this.texture.width;
-		this.height = this.texture.height;
-
+	/**
+	 * @param {number} width
+	 * @param {number} height
+	 */
+	fixGeometry(width, height) {
+		this.width = width;
+		this.height = height;
 		this.geometry.updateShape(0, 0, this.width, this.height);
+		this._fixedGeometry = true;
+
+		return this;
+	}
+	_updateGeometry() {
+		if (!this._fixedGeometry) {
+			this.width = this.texture.width;
+			this.height = this.texture.height;
+
+			this.geometry.updateShape(0, 0, this.width, this.height);
+		}
+		return this;
 	}
 	get texture() {
 		return this._texture;
