@@ -1,4 +1,4 @@
-import { ImageTask } from "./task/image_task.js";
+import { ImageTask } from "./tasks/image_task.js";
 
 export class Loader {
 	/** @type {Array<JavaScriptUtilsType.AllTaskType>} 所有加载任务的数组列表 */

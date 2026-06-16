@@ -1,5 +1,5 @@
-import { BaseTask as BaseTaskClass } from "./loader/task/base_task.js";
-import { ImageTask as ImageTaskClass } from "./loader/task/image_task.js";
+import { BaseTask as BaseTaskClass } from "./loader/tasks/base_task.js";
+import { ImageTask as ImageTaskClass } from "./loader/tasks/image_task.js";
 
 declare global {
 	namespace JavaScriptUtilsType {
