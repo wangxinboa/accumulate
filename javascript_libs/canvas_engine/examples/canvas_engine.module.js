@@ -1,22 +1,6 @@
 import { getInitUrlSearchParam } from "../../javascript_utils/javascript_utils.js";
 import { Canvas2DEngine } from "../src/canvas_2d_engine.js";
-import Stats from "../../../javascript_libs/stats.js/build/stats.module.js";
-
-const StatsTool = {
-	stats: new /** @type {any} */ (Stats)(),
-	init() {
-		StatsTool.stats.domElement.style.position = "absolute";
-		StatsTool.stats.domElement.style.top = "initial";
-		StatsTool.stats.domElement.style.bottom = "0px";
-		StatsTool.stats.domElement.style.height = "fit-content";
-		document.body.appendChild(StatsTool.stats.domElement);
-	},
-	update() {
-		StatsTool.stats.update();
-	},
-};
-StatsTool.init();
-globalThis.StatsTool = StatsTool;
+import { StatsTool } from "../../stats.js/stats.js";
 
 export const engine = new Canvas2DEngine({
 	container: document.body,
@@ -26,11 +10,10 @@ export const engine = new Canvas2DEngine({
 	backgroundColor: 0xff0000,
 });
 
+StatsTool.init();
 engine.timeTicker.addRunCallback(function () {
 	StatsTool.update();
 });
-
-globalThis.engine = engine;
 
 const exampleRelativePaths = [
 	"./camera/get_camera_position_example.js",

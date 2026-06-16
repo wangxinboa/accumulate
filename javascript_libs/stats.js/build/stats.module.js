@@ -1,7 +1,7 @@
 /**
  * @author mrdoob / http://mrdoob.com/
  */
-
+/** @type {any} */
 var Stats = function () {
 
 	var mode = 0;

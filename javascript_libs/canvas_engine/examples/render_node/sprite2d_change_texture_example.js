@@ -19,8 +19,6 @@ for (let i = 0; i < textureUrls.length; i++) {
 	textures.push(ImageTexture.createFromUrl(textureUrls[i]));
 }
 
-globalThis.textures = textures;
-
 const sprite2D = Sprite2D.createFromUrl(textureUrls[0]);
 sprite2D.x = 100;
 sprite2D.y = 100;
@@ -28,8 +26,6 @@ sprite2D.pivotX = 0.5;
 sprite2D.pivotY = 0.5;
 
 engine.scene.add(sprite2D);
-
-globalThis.sprite2D = sprite2D;
 
 let count = 0;
 let textureIndex = 0;

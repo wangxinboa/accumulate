@@ -3,18 +3,14 @@ import { engine } from "../canvas_engine.module.js";
 import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
 
 const camera = engine.camera;
-globalThis.camera = camera;
 
 const sprite2DDown = Sprite2D.createFromUrl("../assets/902-20x20.jpg");
-globalThis.sprite2DDown = sprite2DDown;
 engine.scene.add(sprite2DDown);
 
 const sprite2DMove = Sprite2D.createFromUrl("../assets/33-20x20.jpg");
-globalThis.sprite2DMove = sprite2DMove;
 engine.scene.add(sprite2DMove);
 
 const sprite2DUp = Sprite2D.createFromUrl("../assets/bunny.png");
-globalThis.sprite2DUp = sprite2DUp;
 engine.scene.add(sprite2DUp);
 
 engine.scene.onMouseDown((x, y) => {

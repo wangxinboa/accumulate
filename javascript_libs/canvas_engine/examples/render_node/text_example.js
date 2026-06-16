@@ -5,7 +5,6 @@ import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
  * @type {Array<CanvasEngineType.Sprite2D>}
  */
 const sprite2Ds = [];
-globalThis.sprite2Ds = sprite2Ds;
 
 sprite2Ds.push(Sprite2D.createFromText("Basic text in pixi"));
 

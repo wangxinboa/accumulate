@@ -21,7 +21,6 @@ sprite2D.setTween("to1", {
 });
 
 engine.scene.add(sprite2D);
-globalThis.sprite2D = sprite2D;
 
 const start = Sprite2D.createFromText("start").onMouseDown(() => {
 	console.info("start onMouseDown");

@@ -1,30 +1,4 @@
-import { BaseCleanUp } from "../../javascript_utils/javascript_utils.js";
-import { TimeTicker } from "./time_ticker/time_ticker.js";
-
-export class CanvasEngine extends BaseCleanUp {
-	/** @type {TimeTicker} */
-	timeTicker;
-	/**
-	 * @param {CanvasEngineType.CanvasEngineOption} canvasEngineOption
-	 */
-	constructor(canvasEngineOption) {
-		super();
-
-		this.render = this.render.bind(this);
-
-		this.timeTicker = new TimeTicker(canvasEngineOption);
-		this.timeTicker.addRunCallback(this.render);
-	}
-	/**
-	 * @param {number} _timestamp
-	 */
-	render(_timestamp) {
-		throw new Error("CanvasEngine 子类未实现 render 方法");
-	}
-
-	destroy() {
-		this.timeTicker.destroy();
-
-		super.destroy();
-	}
-}
+export { Canvas2DEngine } from "./canvas_2d_engine.js";
+export { Sprite2D } from "./render_node/2d/sprite2d/sprite2d.js";
+export { ImageTexture } from "./texture/image_texture.js";
+export { TextTexture } from "./texture/text_texture.js";

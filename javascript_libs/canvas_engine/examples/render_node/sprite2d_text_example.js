@@ -6,7 +6,6 @@ import { TextTexture } from "../../src/texture/text_texture.js";
  * @type {Array<CanvasEngineType.Sprite2D>}
  */
 const sprite2Ds = [];
-globalThis.sprite2Ds = sprite2Ds;
 
 sprite2Ds.push(new Sprite2D(new TextTexture("Basic text in pixi")));
 

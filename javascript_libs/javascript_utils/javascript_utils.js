@@ -77,6 +77,5 @@ const jsUtils = {
 	CustomMap,
 	DefaultVariable,
 };
-globalThis.jsUtils = jsUtils;
 
 export default jsUtils;

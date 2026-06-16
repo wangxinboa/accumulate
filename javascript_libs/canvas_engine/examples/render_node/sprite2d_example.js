@@ -17,7 +17,6 @@ const imageUrls = [
  * @type {Array<CanvasEngineType.Sprite2D>}
  */
 const sprite2Ds = [];
-globalThis.sprite2Ds = sprite2Ds;
 
 for (let i = 0; i < imageUrls.length; i++) {
 	const sprite2D = Sprite2D.createFromUrl(imageUrls[i]);
