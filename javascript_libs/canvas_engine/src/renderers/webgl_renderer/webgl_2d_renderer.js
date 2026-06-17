@@ -124,9 +124,9 @@ export class WebGL2DRenderer extends BaseRenderer {
 
 		renderNode.drawArrays(this.gl, glProgram);
 	}
-
 	destroy() {
 		this.scene.destroy();
+		this.camera.destroy();
 
 		this.extensions.destroy();
 		this.programSystem.destroy();

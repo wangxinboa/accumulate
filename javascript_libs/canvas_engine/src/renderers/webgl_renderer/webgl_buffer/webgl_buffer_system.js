@@ -24,7 +24,6 @@ export class WebGLBufferSystem extends BaseCleanUp {
 
 		this._activeBuffer = null;
 	}
-
 	/**
 	 * @param {string} attribsKey
 	 */
@@ -44,7 +43,6 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	setGlAttribs(attribsKey, glAttribs) {
 		this._cacheGlAttribs.set(attribsKey, glAttribs);
 	}
-
 	/**
 	 * @param {string} bufferKey
 	 */
@@ -102,5 +100,18 @@ export class WebGLBufferSystem extends BaseCleanUp {
 		for (let i = 0, len = this._cacheGlBuffers.array.length; i < len; i++) {
 			this._cacheGlBuffers.array[i].deleteBuffer(this.renderer.gl);
 		}
+	}
+	destroy() {
+		for (let i = 0, len = this._cacheGlBuffers.array.length; i < len; i++) {
+			this._cacheGlBuffers.array[i].destroy();
+		}
+		this._cacheGlBuffers.destroy();
+
+		for (let i = 0, len = this._cacheGlAttribs.array.length; i < len; i++) {
+			this._cacheGlAttribs.array[i].destroy();
+		}
+		this._cacheGlAttribs.destroy();
+
+		super.destroy();
 	}
 }

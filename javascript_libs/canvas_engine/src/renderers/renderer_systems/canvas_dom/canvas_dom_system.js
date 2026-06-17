@@ -1,4 +1,4 @@
-import { isFunction, BaseCleanUp } from "../../../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp } from "../../../../../javascript_utils/javascript_utils.js";
 import { resizeCanvas } from "../../../canvas_engine_utils/scale_canvas.js";
 
 export class CanvasDomSystem extends BaseCleanUp {
@@ -8,9 +8,8 @@ export class CanvasDomSystem extends BaseCleanUp {
 	canvasDom;
 	/** @type {number} */
 	devicePixelRatio;
-	/** @type {CanvasEngineType.CanvasDomOnResize | undefined} */
+	/** @type {CanvasEngineType.CanvasDomOnResize | null} */
 	onResizeCallback;
-
 	/**
 	 * @param {CanvasEngineType.CanvasDomOption} canvasDomOption
 	 */
@@ -21,7 +20,7 @@ export class CanvasDomSystem extends BaseCleanUp {
 
 		if (canvasDomOption.container) {
 			this.canvasDom = document.createElement("canvas");
-			this.containerDom = canvasDomOption?.container ?? null;
+			this.containerDom = canvasDomOption.container;
 
 			this.containerDom.appendChild(this.canvasDom);
 		} else if (canvasDomOption.canvas) {
@@ -34,8 +33,9 @@ export class CanvasDomSystem extends BaseCleanUp {
 		window.addEventListener("resize", this.resize);
 
 		this.resize();
-	}
 
+		this.onResizeCallback = null;
+	}
 	/**
 	 * @param {CanvasEngineType.CanvasDomOnResize} callback
 	 */
@@ -47,15 +47,16 @@ export class CanvasDomSystem extends BaseCleanUp {
 		resizeCanvas(this.canvasDom, this.devicePixelRatio);
 		this.triggerResizeCallback();
 	}
-
 	triggerResizeCallback() {
-		if (this.onResizeCallback && isFunction(this.onResizeCallback)) {
+		if (this.onResizeCallback) {
 			this.onResizeCallback(this.canvasDom.clientWidth, this.canvasDom.clientHeight);
 		}
 	}
-
 	destroy() {
 		window.removeEventListener("resize", this.resize);
+		if (this.containerDom) {
+			this.canvasDom.remove();
+		}
 
 		super.destroy();
 	}

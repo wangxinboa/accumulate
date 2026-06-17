@@ -30,7 +30,6 @@ export class WebGLProgramSystem extends BaseCleanUp {
 		}
 		return this._cacheGlPrograms.get(glProgramKey);
 	}
-
 	/**
 	 * @param {CanvasEngineType.AllRenderNode} renderNode
 	 */
@@ -58,5 +57,13 @@ export class WebGLProgramSystem extends BaseCleanUp {
 		for (let i = 0, len = this._cacheGlPrograms.array.length; i < len; i++) {
 			this._cacheGlPrograms.array[i].reset(this.renderer.gl);
 		}
+	}
+	destroy() {
+		for (let i = 0, len = this._cacheGlPrograms.array.length; i < len; i++) {
+			this._cacheGlPrograms.array[i].destroy();
+		}
+		this._cacheGlPrograms.destroy();
+
+		super.destroy();
 	}
 }

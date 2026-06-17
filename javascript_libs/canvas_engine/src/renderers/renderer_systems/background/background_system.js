@@ -22,4 +22,9 @@ export class BackgroundSystem extends BaseCleanUp {
 			backgroundOption?.backgroundColor ?? BackgroundSystem.defaultOption.backgroundColor,
 		);
 	}
+	destroy() {
+		this.color.destroy();
+
+		super.destroy();
+	}
 }

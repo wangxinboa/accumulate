@@ -63,4 +63,12 @@ export class WebGLTextureSystem extends BaseCleanUp {
 			this._cacheTextures.array[i].deleteTexture(this.renderer.gl);
 		}
 	}
+	destroy() {
+		for (let i = 0, len = this._cacheTextures.array.length; i < len; i++) {
+			this._cacheTextures.array[i].destroy();
+		}
+		this._cacheTextures.destroy();
+
+		super.destroy();
+	}
 }
