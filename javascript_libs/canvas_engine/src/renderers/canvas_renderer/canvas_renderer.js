@@ -1,5 +1,5 @@
-import { Camera2D } from "../../camera/camera2d.js";
-import { Scene2D } from "../../render_node/2d/scene2d.js";
+import { Camera2D } from "../../cameras/camera2d.js";
+import { Scene2D } from "../../render_nodes/2d/scene2d.js";
 import { BaseRenderer } from "../base_renderer.js";
 
 export class CanvasRenderer extends BaseRenderer {

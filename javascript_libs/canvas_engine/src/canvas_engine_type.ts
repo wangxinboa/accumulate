@@ -1,45 +1,45 @@
-import { Geometry2DDef as Geometry2DDefClass } from "./math/geometry_2d_def/geometry_2d_def.js";
-import { Rectangle as RectangleClass } from "./math/geometry_2d_def/rectangle.js";
+import { Geometry2DDef as Geometry2DDefClass } from "./math/geometry_2d_defs/geometry_2d_def.js";
+import { Rectangle as RectangleClass } from "./math/geometry_2d_defs/rectangle.js";
 import { Color as ColorClass } from "./math/color.js";
 import { Matrix3 as Matrix3Class } from "./math/matrix3.js";
 import { Matrix4 as Matrix4Class } from "./math/matrix4.js";
 import { Vector2 as Vector2Class } from "./math/vector2.js";
 import { Vector3 as Vector3Class } from "./math/vector3.js";
-import { BaseRenderer as BaseRendererClass } from "./renderer/base_renderer.js";
-import { CanvasRenderer as CanvasRendererClass } from "./renderer/canvas_renderer/canvas_renderer.js";
-import { WebGL2DRenderer as WebGL2DRendererClass } from "./renderer/webgl_renderer/webgl_2d_renderer.js";
-import { WebGLProgramSystem as WebGLProgramSystemClass } from "./renderer/webgl_renderer/webgl_program/webgl_program_system.js";
-import { WebGLBufferSystem as WebGLBufferSystemClass } from "./renderer/webgl_renderer/webgl_buffer/webgl_buffer_system.js";
-import { WebGLTextureSystem as WebGLTextureSystemClass } from "./renderer/webgl_renderer/webgl_texture/webgl_texture_system.js";
-import { GlProgram as GlProgramClass } from "./renderer/webgl_renderer/webgl_program/gl_program/gl_program.js";
-import { UniformLocation as UniformLocationClass } from "./renderer/webgl_renderer/webgl_program/gl_program/gl_location/uniform_location.js";
-import { AttribLocation as AttribLocationClass } from "./renderer/webgl_renderer/webgl_program/gl_program/gl_location/attrib_location.js";
-import { GlDataTypeEnum as _GlDataTypeEnum } from "./renderer/webgl_renderer/webgl_program/gl_program/gl_data_type.js";
-import { GlBuffer as GlBufferClass } from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
-import { GlAttribs as GlAttribsClass } from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
-import { GlAttrib as GlAttribClass } from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attrib.js";
-import { Camera2D as Camera2DClass } from "./camera/camera2d.js";
-import { RenderNode as RenderNodeClass } from "./render_node/render_node.js";
-import { RenderEventNode as RenderEventNodeClass } from "./render_node/render_event_node.js";
-import { Render2DNode as Render2DNodeClass } from "./render_node/2d/render_2d_node.js";
-import { Scene2D as Scene2DClass } from "./render_node/2d/scene2d.js";
-import { Sprite2D as Sprite2DClass } from "./render_node/2d/sprite2d/sprite2d.js";
+import { BaseRenderer as BaseRendererClass } from "./renderers/base_renderer.js";
+import { CanvasRenderer as CanvasRendererClass } from "./renderers/canvas_renderer/canvas_renderer.js";
+import { WebGL2DRenderer as WebGL2DRendererClass } from "./renderers/webgl_renderer/webgl_2d_renderer.js";
+import { WebGLProgramSystem as WebGLProgramSystemClass } from "./renderers/webgl_renderer/webgl_program/webgl_program_system.js";
+import { WebGLBufferSystem as WebGLBufferSystemClass } from "./renderers/webgl_renderer/webgl_buffer/webgl_buffer_system.js";
+import { WebGLTextureSystem as WebGLTextureSystemClass } from "./renderers/webgl_renderer/webgl_texture/webgl_texture_system.js";
+import { GlProgram as GlProgramClass } from "./renderers/webgl_renderer/webgl_program/gl_program/gl_program.js";
+import { UniformLocation as UniformLocationClass } from "./renderers/webgl_renderer/webgl_program/gl_program/gl_location/uniform_location.js";
+import { AttribLocation as AttribLocationClass } from "./renderers/webgl_renderer/webgl_program/gl_program/gl_location/attrib_location.js";
+import { GlDataTypeEnum as _GlDataTypeEnum } from "./renderers/webgl_renderer/webgl_program/gl_program/gl_data_type.js";
+import { GlBuffer as GlBufferClass } from "./renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
+import { GlAttribs as GlAttribsClass } from "./renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
+import { GlAttrib as GlAttribClass } from "./renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_attrib.js";
+import { Camera2D as Camera2DClass } from "./cameras/camera2d.js";
+import { RenderNode as RenderNodeClass } from "./render_nodes/render_node.js";
+import { RenderEventNode as RenderEventNodeClass } from "./render_nodes/render_event_node.js";
+import { Render2DNode as Render2DNodeClass } from "./render_nodes/2d/render_2d_node.js";
+import { Scene2D as Scene2DClass } from "./render_nodes/2d/scene2d.js";
+import { Sprite2D as Sprite2DClass } from "./render_nodes/2d/sprite2d/sprite2d.js";
 import { BaseTexture as BaseTextureClass } from "./textures/base_texture.js";
 import { ImageTexture as ImageTextureClass } from "./textures/image_texture.js";
 import { TextTexture as TextTextureClass } from "./textures/text_texture.js";
-import { GlTexture as GlTextureClass } from "./renderer/webgl_renderer/webgl_texture/gl_texture.js";
+import { GlTexture as GlTextureClass } from "./renderers/webgl_renderer/webgl_texture/gl_texture.js";
 import {
 	GlBufferTargetTypeEnum as _GlBufferTargetTypeEnum,
 	GlBufferUsageTypeEnum as _GlBufferUsageTypeEnum,
 	GlBufferDataTypeEnum as _GlBufferDataTypeEnum,
 	GetTextureBufferTypeEnum as _GetTextureBufferTypeEnum,
-} from "./renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
+} from "./renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
 import {
 	GlTextureTargetTypeEnum as _GlTextureTargetTypeEnum,
 	GlTexturePnameTypeEnum as _GlTexturePnameTypeEnum,
 	GlTextureParamTypeEnum as _GlTextureParamTypeEnum,
 	GlTextureImageUnitEnum as _GlTextureImageUnitEnum,
-} from "./renderer/webgl_renderer/webgl_texture/gl_texture_type.js";
+} from "./renderers/webgl_renderer/webgl_texture/gl_texture_type.js";
 
 declare global {
 	namespace CanvasEngineType {

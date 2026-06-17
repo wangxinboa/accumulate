@@ -1,5 +1,5 @@
 import { BaseCleanUp, DefaultVariable } from "../../../javascript_utils/javascript_utils.js";
-import { GlTextureParamTypeEnum } from "../renderer/webgl_renderer/webgl_texture/gl_texture_type.js";
+import { GlTextureParamTypeEnum } from "../renderers/webgl_renderer/webgl_texture/gl_texture_type.js";
 
 /**
  * @abstract

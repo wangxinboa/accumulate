@@ -16,13 +16,13 @@ engine.timeTicker.addRunCallback(function () {
 });
 
 const exampleRelativePaths = [
-	"./camera/get_camera_position_example.js",
+	"./cameras/get_camera_position_example.js",
 	"./event/text_mouse_event_example.js",
-	"./render_node/sprite2d_change_texture_example.js",
-	"./render_node/sprite2d_text_example.js",
-	"./render_node/sprite2d_example.js",
-	"./render_node/sprite2d_fixed_geometry.js",
-	"./render_node/text_example.js",
+	"./render_nodes/sprite2d_change_texture_example.js",
+	"./render_nodes/sprite2d_text_example.js",
+	"./render_nodes/sprite2d_example.js",
+	"./render_nodes/sprite2d_fixed_geometry.js",
+	"./render_nodes/text_example.js",
 	"./tween/sprite2d_change_position.js",
 ];
 

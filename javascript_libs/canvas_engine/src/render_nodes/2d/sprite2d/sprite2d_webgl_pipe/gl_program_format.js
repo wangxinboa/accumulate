@@ -2,8 +2,8 @@ import {
 	uCameraProjectionName,
 	uCameraViewName,
 	uRenderNodeModelName,
-} from "../../../../renderer/webgl_renderer/shaders/global_uniform_names.js";
-import { GlDataTypeEnum } from "../../../../renderer/webgl_renderer/webgl_program/gl_program/gl_data_type.js";
+} from "../../../../renderers/webgl_renderer/shaders/global_uniform_names.js";
+import { GlDataTypeEnum } from "../../../../renderers/webgl_renderer/webgl_program/gl_program/gl_data_type.js";
 
 export const uImageName = "u_image";
 

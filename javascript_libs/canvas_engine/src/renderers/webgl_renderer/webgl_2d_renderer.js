@@ -4,8 +4,8 @@ import { WebGLExtensions } from "./webgl_extensions.js";
 import { WebGLBufferSystem } from "./webgl_buffer/webgl_buffer_system.js";
 import { WebGLTextureSystem } from "./webgl_texture/webgl_texture_system.js";
 import { uCameraProjectionName, uCameraViewName, uRenderNodeModelName } from "./shaders/global_uniform_names.js";
-import { Scene2D } from "../../render_node/2d/scene2d.js";
-import { Camera2D } from "../../camera/camera2d.js";
+import { Scene2D } from "../../render_nodes/2d/scene2d.js";
+import { Camera2D } from "../../cameras/camera2d.js";
 import { initializeMatrix4 } from "../../math/matrix4.js";
 
 export class WebGL2DRenderer extends BaseRenderer {

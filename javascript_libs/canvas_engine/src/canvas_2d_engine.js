@@ -1,6 +1,6 @@
 import { BaseCanvasEngine } from "./base_canvas_engine.js";
-import { CanvasRenderer } from "./renderer/canvas_renderer/canvas_renderer.js";
-import { WebGL2DRenderer } from "./renderer/webgl_renderer/webgl_2d_renderer.js";
+import { CanvasRenderer } from "./renderers/canvas_renderer/canvas_renderer.js";
+import { WebGL2DRenderer } from "./renderers/webgl_renderer/webgl_2d_renderer.js";
 
 export class Canvas2DEngine extends BaseCanvasEngine {
 	/** @type {WebGL2DRenderer | CanvasRenderer} */

@@ -1,5 +1,5 @@
 import { Matrix4 } from "../math/matrix4.js";
-import { Render2DNode } from "../render_node/2d/render_2d_node.js";
+import { Render2DNode } from "../render_nodes/2d/render_2d_node.js";
 
 const _matrix4_ = new Matrix4();
 

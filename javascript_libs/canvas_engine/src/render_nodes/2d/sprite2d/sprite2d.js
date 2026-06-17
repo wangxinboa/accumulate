@@ -4,19 +4,19 @@ import {
 	GlBufferDataTypeEnum,
 	GlBufferTargetTypeEnum,
 	GlBufferUsageTypeEnum,
-} from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
+} from "../../../renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
 import {
 	aPositionName,
 	aTextureCoordName,
 	sprite2DGlProgramFormat,
 	uImageName,
 } from "./sprite2d_webgl_pipe/gl_program_format.js";
-import { GlAttribs } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
-import { GlBuffer } from "../../../renderer/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
+import { GlAttribs } from "../../../renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
+import { GlBuffer } from "../../../renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 import { ImageTexture } from "../../../textures/image_texture.js";
 import { TextTexture } from "../../../textures/text_texture.js";
-import { getPositionUvFloat32ArrayFromWidthAndHeight } from "../../../renderer/webgl_renderer/webgl_buffer/webgl_buffer_utils.js";
-import { Rectangle } from "../../../math/geometry_2d_def/rectangle.js";
+import { getPositionUvFloat32ArrayFromWidthAndHeight } from "../../../renderers/webgl_renderer/webgl_buffer/webgl_buffer_utils.js";
+import { Rectangle } from "../../../math/geometry_2d_defs/rectangle.js";
 
 /**
  * @param {{width: number; height: number}} sprite2DPipe

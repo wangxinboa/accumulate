@@ -1,5 +1,5 @@
 import { engine } from "../canvas_engine_examples.module.js";
-import { Sprite2D } from "../../src/render_node/2d/sprite2d/sprite2d.js";
+import { Sprite2D } from "../../src/render_nodes/2d/sprite2d/sprite2d.js";
 
 const sprite2D = Sprite2D.createFromUrl("../assets/bunny.png");
 

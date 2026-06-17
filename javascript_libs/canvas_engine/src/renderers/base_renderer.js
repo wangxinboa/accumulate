@@ -1,7 +1,7 @@
 import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
 import { EventSystem } from "../event/event_system.js";
-import { BackgroundSystem } from "./renderer_system/background/background_system.js";
-import { CanvasDomSystem } from "./renderer_system/canvas_dom/canvas_dom_system.js";
+import { BackgroundSystem } from "./renderer_systems/background/background_system.js";
+import { CanvasDomSystem } from "./renderer_systems/canvas_dom/canvas_dom_system.js";
 
 export class BaseRenderer extends BaseCleanUp {
 	/** @type {BackgroundSystem} */
