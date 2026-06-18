@@ -15,6 +15,9 @@ export class Camera2D extends Render2DNode {
 		this.width = 0;
 		this.height = 0;
 	}
+	centerSelf() {
+		this.pivotX = this.pivotY = -0.5;
+	}
 	/**
 	 * @param {number} width
 	 * @param {number} height

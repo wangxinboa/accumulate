@@ -121,18 +121,21 @@ export class Render2DNode extends RenderEventNode {
 		this._y = val;
 		this.matrixNeedsUpdate = true;
 	}
+	centerSelf() {
+		this.pivotX = this.pivotY = 0.5;
+	}
 	get pivotX() {
 		return this._pivotX;
 	}
 	set pivotX(val) {
-		this._pivotX = clamp(val, 0, 1);
+		this._pivotX = clamp(val, -1, 1);
 		this.matrixNeedsUpdate = true;
 	}
 	get pivotY() {
 		return this._pivotY;
 	}
 	set pivotY(val) {
-		this._pivotY = clamp(val, 0, 1);
+		this._pivotY = clamp(val, -1, 1);
 		this.matrixNeedsUpdate = true;
 	}
 	get rotationAngle() {
