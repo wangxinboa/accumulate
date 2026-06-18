@@ -212,16 +212,16 @@ declare global {
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
 
-		type RenderEventNodeCallback = (
-			renderEventNode: RenderEventNode,
+		type RenderEventNodeCallback<T extends RenderEventNode> = (
+			renderEventNode: T,
 			x: number,
 			y: number,
 			sx: number,
 			sy: number,
 		) => void;
-		type RenderEventNodeCallbacks = Array<RenderEventNodeCallback>;
-		type RenderNodeWheelEventCallback = (
-			renderEventNode: RenderEventNode,
+		type RenderEventNodeCallbacks<T extends RenderEventNode = RenderEventNode> = Array<RenderEventNodeCallback<T>>;
+		type RenderNodeWheelEventCallback<T extends RenderEventNode> = (
+			renderEventNode: T,
 			dx: number,
 			dy: number,
 			dz: number,
@@ -230,7 +230,9 @@ declare global {
 			sx: number,
 			sy: number,
 		) => void;
-		type RenderNodeWheelEventCallbacks = Array<RenderNodeWheelEventCallback>;
+		type RenderNodeWheelEventCallbacks<T extends RenderEventNode = RenderEventNode> = Array<
+			RenderNodeWheelEventCallback<T>
+		>;
 		type onTextureRectChangeCallback = (width: number, height: number) => void;
 		type onTextureRectChangeCallbacks = Array<onTextureRectChangeCallback>;
 		type BaseTextureImage2D = HTMLImageElement | ImageData;

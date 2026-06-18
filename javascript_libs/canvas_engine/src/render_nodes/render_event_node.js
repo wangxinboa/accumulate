@@ -5,23 +5,23 @@ export class RenderEventNode extends RenderNode {
 	hitTestDisabled;
 	/** @type {boolean} */
 	hitTestCountable;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks} */
+	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
 	mouseDownEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks} */
+	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
 	mouseMoveEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks} */
+	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
 	mouseUpEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks} */
+	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
 	mouseEnterEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks} */
+	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
 	mouseLeaveEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks} */
+	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
 	dragStartEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks} */
+	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
 	dragEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks} */
+	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
 	dragEndEvents;
-	/** @type {CanvasEngineType.RenderNodeWheelEventCallbacks} */
+	/** @type {CanvasEngineType.RenderNodeWheelEventCallbacks<this>} */
 	wheelEvents;
 	/** @type {number} */
 	dragStartNodeX;
@@ -69,7 +69,7 @@ export class RenderEventNode extends RenderNode {
 		return this.mouseDownEvents.length > 0;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderEventNodeCallback} eventCallback
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
 	onMouseDown(eventCallback) {
 		this.mouseDownEvents.push(eventCallback);
@@ -91,7 +91,7 @@ export class RenderEventNode extends RenderNode {
 		return this.mouseMoveEvents.length > 0;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderEventNodeCallback} eventCallback
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
 	onMouseMove(eventCallback) {
 		this.mouseMoveEvents.push(eventCallback);
@@ -113,7 +113,7 @@ export class RenderEventNode extends RenderNode {
 		return this.mouseUpEvents.length > 0;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderEventNodeCallback} eventCallback
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
 	onMouseUp(eventCallback) {
 		this.mouseUpEvents.push(eventCallback);
@@ -135,7 +135,7 @@ export class RenderEventNode extends RenderNode {
 		return this.mouseEnterEvents.length > 0;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderEventNodeCallback} eventCallback
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
 	onMouseEnter(eventCallback) {
 		this.mouseEnterEvents.push(eventCallback);
@@ -157,7 +157,7 @@ export class RenderEventNode extends RenderNode {
 		return this.mouseLeaveEvents.length > 0;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderEventNodeCallback} eventCallback
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
 	onMouseLeave(eventCallback) {
 		this.mouseLeaveEvents.push(eventCallback);
@@ -179,7 +179,7 @@ export class RenderEventNode extends RenderNode {
 		return this.dragStartEvents.length > 0;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderEventNodeCallback} eventCallback
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
 	onDragStart(eventCallback) {
 		this.dragStartEvents.push(eventCallback);
@@ -201,7 +201,7 @@ export class RenderEventNode extends RenderNode {
 		return this.dragEvents.length > 0;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderEventNodeCallback} eventCallback
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
 	onDrag(eventCallback) {
 		this.dragEvents.push(eventCallback);
@@ -223,7 +223,7 @@ export class RenderEventNode extends RenderNode {
 		return this.dragEndEvents.length > 0;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderEventNodeCallback} eventCallback
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
 	onDragEnd(eventCallback) {
 		this.dragEndEvents.push(eventCallback);
@@ -242,7 +242,7 @@ export class RenderEventNode extends RenderNode {
 		return this;
 	}
 	/**
-	 * @param {CanvasEngineType.RenderNodeWheelEventCallback} eventCallback
+	 * @param {CanvasEngineType.RenderNodeWheelEventCallback<this>} eventCallback
 	 */
 	onWheel(eventCallback) {
 		this.wheelEvents.push(eventCallback);
