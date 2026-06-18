@@ -212,9 +212,16 @@ declare global {
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
 
-		type RenderEventNodeCallback = (x: number, y: number, sx: number, sy: number) => void;
+		type RenderEventNodeCallback = (
+			renderEventNode: RenderEventNode,
+			x: number,
+			y: number,
+			sx: number,
+			sy: number,
+		) => void;
 		type RenderEventNodeCallbacks = Array<RenderEventNodeCallback>;
 		type RenderNodeWheelEventCallback = (
+			renderEventNode: RenderEventNode,
 			dx: number,
 			dy: number,
 			dz: number,

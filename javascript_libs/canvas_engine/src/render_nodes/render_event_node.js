@@ -83,7 +83,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeMouseDownEvents(x, y, sx, sy) {
 		for (let i = 0, len = this.mouseDownEvents.length; i < len; i++) {
-			this.mouseDownEvents[i](x, y, sx, sy);
+			this.mouseDownEvents[i](this, x, y, sx, sy);
 		}
 		return this;
 	}
@@ -105,7 +105,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeMouseMoveEvents(x, y, sx, sy) {
 		for (let i = 0, len = this.mouseMoveEvents.length; i < len; i++) {
-			this.mouseMoveEvents[i](x, y, sx, sy);
+			this.mouseMoveEvents[i](this, x, y, sx, sy);
 		}
 		return this;
 	}
@@ -127,7 +127,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeMouseUpEvents(x, y, sx, sy) {
 		for (let i = 0, len = this.mouseUpEvents.length; i < len; i++) {
-			this.mouseUpEvents[i](x, y, sx, sy);
+			this.mouseUpEvents[i](this, x, y, sx, sy);
 		}
 		return this;
 	}
@@ -149,7 +149,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeMouseEnterEvents(x, y, sx, sy) {
 		for (let i = 0, len = this.mouseEnterEvents.length; i < len; i++) {
-			this.mouseEnterEvents[i](x, y, sx, sy);
+			this.mouseEnterEvents[i](this, x, y, sx, sy);
 		}
 		return this;
 	}
@@ -171,7 +171,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeMouseLeaveEvents(x, y, sx, sy) {
 		for (let i = 0, len = this.mouseLeaveEvents.length; i < len; i++) {
-			this.mouseLeaveEvents[i](x, y, sx, sy);
+			this.mouseLeaveEvents[i](this, x, y, sx, sy);
 		}
 		return this;
 	}
@@ -193,7 +193,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeDragStartEvents(x, y, sx, sy) {
 		for (let i = 0, len = this.dragStartEvents.length; i < len; i++) {
-			this.dragStartEvents[i](x, y, sx, sy);
+			this.dragStartEvents[i](this, x, y, sx, sy);
 		}
 		return this;
 	}
@@ -215,7 +215,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeDragEvents(x, y, sx, sy) {
 		for (let i = 0, len = this.dragEvents.length; i < len; i++) {
-			this.dragEvents[i](x, y, sx, sy);
+			this.dragEvents[i](this, x, y, sx, sy);
 		}
 		return this;
 	}
@@ -237,7 +237,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeDragEndEvents(x, y, sx, sy) {
 		for (let i = 0, len = this.dragEndEvents.length; i < len; i++) {
-			this.dragEndEvents[i](x, y, sx, sy);
+			this.dragEndEvents[i](this, x, y, sx, sy);
 		}
 		return this;
 	}
@@ -259,7 +259,7 @@ export class RenderEventNode extends RenderNode {
 	 */
 	executeWheelEvents(dx, dy, dz, x, y, sx, sy) {
 		for (let i = 0, len = this.wheelEvents.length; i < len; i++) {
-			this.wheelEvents[i](dx, dy, dz, x, y, sx, sy);
+			this.wheelEvents[i](this, dx, dy, dz, x, y, sx, sy);
 		}
 		return this;
 	}
