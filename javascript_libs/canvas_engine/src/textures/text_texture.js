@@ -7,6 +7,15 @@ const ctx = canvasDom.getContext("2d", {
 });
 
 export class TextTexture extends BaseTexture {
+	static defaultTextOption = {
+		/** font style */
+		fontStyle: "normal",
+		fontVariant: "normal",
+		fontSize: 26,
+		fontWeight: "normal",
+		fontFamily: "Arial",
+	};
+
 	/** @type {boolean} */
 	isTextTexture;
 	/** @type {string} */
@@ -27,8 +36,9 @@ export class TextTexture extends BaseTexture {
 	height = 0;
 	/**
 	 * @param {string} text
+	 * @param {CanvasEngineType.TextOption} [textOption]
 	 */
-	constructor(text) {
+	constructor(text, textOption = TextTexture.defaultTextOption) {
 		super();
 
 		this.isTextTexture = true;
@@ -36,11 +46,11 @@ export class TextTexture extends BaseTexture {
 		this.key = `text_texture_${textTextureKey++}`;
 
 		/** font style */
-		this.fontStyle = "normal";
-		this.fontVariant = "normal";
-		this.fontSize = 26;
-		this.fontWeight = "normal";
-		this.fontFamily = "Arial";
+		this.fontStyle = textOption.fontStyle;
+		this.fontVariant = textOption.fontVariant;
+		this.fontSize = textOption.fontSize;
+		this.fontWeight = textOption.fontWeight;
+		this.fontFamily = textOption.fontFamily;
 
 		this.text = text;
 	}

@@ -12,8 +12,8 @@ export class Canvas2DEngine extends BaseCanvasEngine {
 
 		this.renderer = new WebGL2DRenderer(canvasEngineOption);
 
-		this.resize = this.resize.bind(this);
-		this.renderer.canvasSystem.onResize(this.resize);
+		this.executeResizeCallbacks = this.executeResizeCallbacks.bind(this);
+		this.renderer.canvasSystem.registerResizeCallback(this.executeResizeCallbacks);
 	}
 	get scene() {
 		return this.renderer.scene;
@@ -25,7 +25,8 @@ export class Canvas2DEngine extends BaseCanvasEngine {
 	 * @param {number} width
 	 * @param {number} height
 	 */
-	resize(width, height) {
+	executeResizeCallbacks(width, height) {
+		super.executeResizeCallbacks(width, height);
 		this.renderer.resize(width, height);
 	}
 	/**

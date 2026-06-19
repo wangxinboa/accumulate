@@ -76,6 +76,7 @@ declare global {
 			waitLoadingCompleteStart?: boolean;
 		};
 		type TimeTickerCallback = (timestamp: number) => void;
+		type TimeTickerCallbacks = Array<TimeTickerCallback>;
 		/** CanvasEngine 初始化配置 */
 		type CanvasEngineOption = TimeTickerOption & RendererOption;
 		/** Canvas2DEngine 初始化配置 */
@@ -212,6 +213,9 @@ declare global {
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
 
+		type BaseCanvasEngineResizeCallback = (width: number, height: number) => void;
+		type BaseCanvasEngineResizeCallbacks = Array<BaseCanvasEngineResizeCallback>;
+
 		type RenderEventNodeCallback<T extends RenderEventNode> = (
 			renderEventNode: T,
 			x: number,
@@ -233,9 +237,17 @@ declare global {
 		type RenderNodeWheelEventCallbacks<T extends RenderEventNode = RenderEventNode> = Array<
 			RenderNodeWheelEventCallback<T>
 		>;
-		type onTextureRectChangeCallback = (width: number, height: number) => void;
-		type onTextureRectChangeCallbacks = Array<onTextureRectChangeCallback>;
+		type textureRectChangeCallback = (width: number, height: number) => void;
+		type textureRectChangeCallbacks = Array<textureRectChangeCallback>;
 		type BaseTextureImage2D = HTMLImageElement | ImageData;
+
+		type TextOption = {
+			fontStyle: string;
+			fontVariant: string;
+			fontSize: number;
+			fontWeight: string;
+			fontFamily: string;
+		};
 	}
 }
 

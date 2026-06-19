@@ -21,8 +21,8 @@ export class BaseTexture extends BaseCleanUp {
 	_unpackFlipY;
 	/** @type {CanvasEngineType.BaseTextureImage2D} */
 	_image2D = DefaultVariable.ImageData;
-	/** @type {CanvasEngineType.onTextureRectChangeCallbacks} */
-	onTextureRectChangeCallbacks;
+	/** @type {CanvasEngineType.textureRectChangeCallbacks} */
+	textureRectChangeCallbacks;
 	constructor() {
 		super();
 
@@ -37,7 +37,7 @@ export class BaseTexture extends BaseCleanUp {
 		this._unpackFlipY = true;
 
 		this.needTexImage2D = true;
-		this.onTextureRectChangeCallbacks = [];
+		this.textureRectChangeCallbacks = [];
 	}
 	get key() {
 		return this._key;
@@ -104,19 +104,19 @@ export class BaseTexture extends BaseCleanUp {
 		);
 	}
 	/**
-	 * @param {CanvasEngineType.onTextureRectChangeCallback} callback
+	 * @param {CanvasEngineType.textureRectChangeCallback} callback
 	 */
 	registerTextureRectChangeCallback(callback) {
-		this.onTextureRectChangeCallbacks.push(callback);
+		this.textureRectChangeCallbacks.push(callback);
 		return this;
 	}
 	/**
-	 * @param {CanvasEngineType.onTextureRectChangeCallback} callback
+	 * @param {CanvasEngineType.textureRectChangeCallback} callback
 	 */
 	unregisterTextureRectChangeCallback(callback) {
-		const index = this.onTextureRectChangeCallbacks.indexOf(callback);
+		const index = this.textureRectChangeCallbacks.indexOf(callback);
 		if (index > -1) {
-			this.onTextureRectChangeCallbacks.splice(index, 1);
+			this.textureRectChangeCallbacks.splice(index, 1);
 		}
 		return this;
 	}
@@ -125,8 +125,8 @@ export class BaseTexture extends BaseCleanUp {
 	 * @param {number} height
 	 */
 	onTextureRectChange(width, height) {
-		for (let i = 0, len = this.onTextureRectChangeCallbacks.length; i < len; i++) {
-			this.onTextureRectChangeCallbacks[i](width, height);
+		for (let i = 0, len = this.textureRectChangeCallbacks.length; i < len; i++) {
+			this.textureRectChangeCallbacks[i](width, height);
 		}
 		return this;
 	}

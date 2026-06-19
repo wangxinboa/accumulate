@@ -28,7 +28,7 @@ export class Loader {
 	 */
 	_addTask(task) {
 		this._cacheLoadedTasks[task.key] = task;
-		task.addLoadedCallback(this._afterTaskLoadingComplete).addFinalErrorCallbacks(this._afterTaskFinalError);
+		task.registerLoadedCallback(this._afterTaskLoadingComplete).registerFinalErrorCallback(this._afterTaskFinalError);
 		this._taskList.push(task);
 
 		this._nextTaskStartLoad();

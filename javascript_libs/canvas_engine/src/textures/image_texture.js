@@ -31,7 +31,7 @@ export class ImageTexture extends BaseTexture {
 		if (this._source.isLoaded) {
 			this._onImageLoaded();
 		} else {
-			this._source.addLoadedCallback(this._onImageLoaded);
+			this._source.registerLoadedCallback(this._onImageLoaded);
 		}
 	}
 	/** @private */

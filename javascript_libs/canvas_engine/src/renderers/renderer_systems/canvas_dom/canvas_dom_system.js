@@ -9,7 +9,7 @@ export class CanvasDomSystem extends BaseCleanUp {
 	/** @type {number} */
 	devicePixelRatio;
 	/** @type {CanvasEngineType.CanvasDomOnResize | null} */
-	onResizeCallback;
+	resizeCallback;
 	/**
 	 * @param {CanvasEngineType.CanvasDomOption} canvasDomOption
 	 */
@@ -34,22 +34,23 @@ export class CanvasDomSystem extends BaseCleanUp {
 
 		this.resize();
 
-		this.onResizeCallback = null;
+		this.resizeCallback = null;
 	}
 	/**
 	 * @param {CanvasEngineType.CanvasDomOnResize} callback
 	 */
-	onResize(callback) {
-		this.onResizeCallback = callback;
-		this.triggerResizeCallback();
+	registerResizeCallback(callback) {
+		this.resizeCallback = callback;
+		this._executeResizeCallback();
 	}
 	resize() {
 		resizeCanvas(this.canvasDom, this.devicePixelRatio);
-		this.triggerResizeCallback();
+		this._executeResizeCallback();
 	}
-	triggerResizeCallback() {
-		if (this.onResizeCallback) {
-			this.onResizeCallback(this.canvasDom.clientWidth, this.canvasDom.clientHeight);
+	/** @private */
+	_executeResizeCallback() {
+		if (this.resizeCallback) {
+			this.resizeCallback(this.canvasDom.clientWidth, this.canvasDom.clientHeight);
 		}
 	}
 	destroy() {

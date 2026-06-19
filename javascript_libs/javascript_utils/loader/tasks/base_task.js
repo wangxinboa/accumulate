@@ -40,7 +40,7 @@ export class BaseTask extends BaseCleanUp {
 	/**
 	 * @param {JavaScriptUtilsType.TaskCallback} loadedCallback
 	 */
-	addLoadedCallback(loadedCallback) {
+	registerLoadedCallback(loadedCallback) {
 		this.loadedCallbacks.push(loadedCallback);
 		return this;
 	}
@@ -56,7 +56,7 @@ export class BaseTask extends BaseCleanUp {
 	/**
 	 * @param {JavaScriptUtilsType.TaskCallback} errorCallback
 	 */
-	addErrorCallback(errorCallback) {
+	registerErrorCallback(errorCallback) {
 		this.errorCallbacks.push(errorCallback);
 		return this;
 	}
@@ -75,7 +75,7 @@ export class BaseTask extends BaseCleanUp {
 	/**
 	 * @param {JavaScriptUtilsType.TaskCallback} finalErrorCallback
 	 */
-	addFinalErrorCallbacks(finalErrorCallback) {
+	registerFinalErrorCallback(finalErrorCallback) {
 		this.finalErrorCallbacks.push(finalErrorCallback);
 		return this;
 	}

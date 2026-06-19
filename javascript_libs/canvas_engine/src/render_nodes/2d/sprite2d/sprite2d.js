@@ -116,9 +116,12 @@ export class Sprite2D extends Render2DNode {
 	}
 	/**
 	 * @param {string} text
+	 * @param {CanvasEngineType.TextOption} [textOption]
 	 */
-	static createFromText(text) {
-		return new Sprite2D(new TextTexture(text)).setGetTextureBufferType(GetTextureBufferTypeEnum.fromTextureKey);
+	static createFromText(text, textOption) {
+		return new Sprite2D(new TextTexture(text, textOption)).setGetTextureBufferType(
+			GetTextureBufferTypeEnum.fromTextureKey,
+		);
 	}
 	/**
 	 * @param {CanvasEngineType.GetTextureBufferTypeEnum} getTextureBufferType
