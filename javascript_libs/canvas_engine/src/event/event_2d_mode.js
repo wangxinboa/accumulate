@@ -79,12 +79,12 @@ export class Event2DMode extends BaseCleanUp {
 		_canvasPositionInCamera.set(offsetX, offsetY);
 		_canvasPositionInScene.set(offsetX, offsetY);
 		if (this.camera2D) {
-			_canvasPositionInCamera.applyMatrix3(this.camera2D.matrix3WorldInvert);
+			this.camera2D.screenToCamera(_canvasPositionInCamera);
 		}
 	}
 	/**
 	 * @private
-	 * @param {CanvasEngineType.AllRenderNode} renderNode
+	 * @param {CanvasEngineType.Render2DNode} renderNode
 	 */
 	_hitTest(renderNode) {
 		if (renderNode.applyCameraTransform) {

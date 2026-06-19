@@ -27,7 +27,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 	/** @type {number} */
 	webglVersion;
 	/**
-	 * @param {CanvasEngineType.RendererOption} webgl2DRendererOption
+	 * @param {CanvasEngineType.Canvas2DEngineOption} webgl2DRendererOption
 	 */
 	constructor(webgl2DRendererOption) {
 		super(webgl2DRendererOption);

@@ -5,23 +5,23 @@ export class RenderEventNode extends RenderNode {
 	hitTestDisabled;
 	/** @type {boolean} */
 	hitTestCountable;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
+	/** @type {Array<Function>} */
 	mouseDownEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
+	/** @type {Array<Function>} */
 	mouseMoveEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
+	/** @type {Array<Function>} */
 	mouseUpEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
+	/** @type {Array<Function>} */
 	mouseEnterEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
+	/** @type {Array<Function>} */
 	mouseLeaveEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
+	/** @type {Array<Function>} */
 	dragStartEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
+	/** @type {Array<Function>} */
 	dragEvents;
-	/** @type {CanvasEngineType.RenderEventNodeCallbacks<this>} */
+	/** @type {Array<Function>} */
 	dragEndEvents;
-	/** @type {CanvasEngineType.RenderNodeWheelEventCallbacks<this>} */
+	/** @type {Array<Function>} */
 	wheelEvents;
 	/** @type {number} */
 	dragStartNodeX;

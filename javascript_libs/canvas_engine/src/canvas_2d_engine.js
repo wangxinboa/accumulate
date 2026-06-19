@@ -1,9 +1,8 @@
 import { BaseCanvasEngine } from "./base_canvas_engine.js";
-import { CanvasRenderer } from "./renderers/canvas_renderer/canvas_renderer.js";
 import { WebGL2DRenderer } from "./renderers/webgl_renderer/webgl_2d_renderer.js";
 
 export class Canvas2DEngine extends BaseCanvasEngine {
-	/** @type {WebGL2DRenderer | CanvasRenderer} */
+	/** @type {WebGL2DRenderer} */
 	renderer;
 	/**
 	 * @param {CanvasEngineType.Canvas2DEngineOption} canvasEngineOption
@@ -11,10 +10,7 @@ export class Canvas2DEngine extends BaseCanvasEngine {
 	constructor(canvasEngineOption) {
 		super(canvasEngineOption);
 
-		this.renderer =
-			canvasEngineOption?.rendererType === WebGL2DRenderer.key
-				? new WebGL2DRenderer(canvasEngineOption)
-				: new CanvasRenderer(canvasEngineOption);
+		this.renderer = new WebGL2DRenderer(canvasEngineOption);
 
 		this.resize = this.resize.bind(this);
 		this.renderer.canvasSystem.onResize(this.resize);

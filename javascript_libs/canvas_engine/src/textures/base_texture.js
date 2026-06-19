@@ -18,7 +18,7 @@ export class BaseTexture extends BaseCleanUp {
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
 	_magFilter;
 	/** @type {boolean} */
-	unpackFlipY;
+	_unpackFlipY;
 	/** @type {CanvasEngineType.BaseTextureImage2D} */
 	_image2D = DefaultVariable.ImageData;
 	/** @type {CanvasEngineType.onTextureRectChangeCallbacks} */
@@ -34,7 +34,7 @@ export class BaseTexture extends BaseCleanUp {
 		this._minFilter = GlTextureParamTypeEnum.LINEAR;
 		this._magFilter = GlTextureParamTypeEnum.LINEAR;
 
-		this.unpackFlipY = true;
+		this._unpackFlipY = true;
 
 		this.needTexImage2D = true;
 		this.onTextureRectChangeCallbacks = [];
@@ -73,6 +73,13 @@ export class BaseTexture extends BaseCleanUp {
 		this.needTexImage2D = true;
 		this._magFilter = value;
 	}
+	get unpackFlipY() {
+		return this._unpackFlipY;
+	}
+	set unpackFlipY(value) {
+		this.needTexImage2D = true;
+		this._unpackFlipY = value;
+	}
 	get image2D() {
 		return this._image2D;
 	}
@@ -92,6 +99,7 @@ export class BaseTexture extends BaseCleanUp {
 			this.wrapT !== texture.wrapT ||
 			this.minFilter !== texture.minFilter ||
 			this.magFilter !== texture.magFilter ||
+			this.unpackFlipY !== texture.unpackFlipY ||
 			this.image2D !== texture.image2D
 		);
 	}

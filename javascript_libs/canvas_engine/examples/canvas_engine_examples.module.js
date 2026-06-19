@@ -6,7 +6,7 @@ export const engine = new Canvas2DEngine({
 	container: document.body,
 	rendererType: "webgl",
 	autoStart: true,
-	waitLoadingCompleteStart: true,
+	waitLoadingCompleteStart: false,
 	backgroundColor: 0xff0000,
 });
 
@@ -16,6 +16,7 @@ engine.timeTicker.addRunCallback(function () {
 });
 
 const exampleRelativePaths = [
+	"./cameras/camera_coordinate_system.js",
 	"./cameras/get_camera_position_example.js",
 	"./event/text_mouse_event_example.js",
 	"./render_nodes/sprite2d_change_texture_example.js",
