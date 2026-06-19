@@ -1,9 +1,6 @@
 import { BaseCleanUp, DefaultVariable } from "../../../javascript_utils/javascript_utils.js";
 import { GlTextureParamTypeEnum } from "../renderers/webgl_renderer/webgl_texture/gl_texture_type.js";
 
-/**
- * @abstract
- */
 export class BaseTexture extends BaseCleanUp {
 	/** @type {string} */
 	_key = "";
@@ -21,7 +18,7 @@ export class BaseTexture extends BaseCleanUp {
 	_unpackFlipY;
 	/** @type {CanvasEngineType.BaseTextureImage2D} */
 	_image2D = DefaultVariable.ImageData;
-	/** @type {CanvasEngineType.textureRectChangeCallbacks} */
+	/** @type {CanvasEngineType.TextureRectChangeCallbacks} */
 	textureRectChangeCallbacks;
 	constructor() {
 		super();
@@ -104,14 +101,14 @@ export class BaseTexture extends BaseCleanUp {
 		);
 	}
 	/**
-	 * @param {CanvasEngineType.textureRectChangeCallback} callback
+	 * @param {CanvasEngineType.TextureRectChangeCallback} callback
 	 */
 	addTextureRectChangeCallback(callback) {
 		this.textureRectChangeCallbacks.push(callback);
 		return this;
 	}
 	/**
-	 * @param {CanvasEngineType.textureRectChangeCallback} callback
+	 * @param {CanvasEngineType.TextureRectChangeCallback} callback
 	 */
 	removeTextureRectChangeCallback(callback) {
 		const index = this.textureRectChangeCallbacks.indexOf(callback);

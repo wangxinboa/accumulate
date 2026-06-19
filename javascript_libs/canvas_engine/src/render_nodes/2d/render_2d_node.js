@@ -7,6 +7,8 @@ const matrix3 = new Matrix3();
 export class Render2DNode extends RenderEventNode {
 	/** @type {Render2DNode | null} */
 	parent = null;
+	/** @type {Array<Render2DNode>} */
+	children = [];
 	/** @type {boolean} */
 	isRender2DNode;
 	/** @type {boolean} */
@@ -96,14 +98,26 @@ export class Render2DNode extends RenderEventNode {
 				.multiply(matrix3.makeRotation(this.rotation))
 				.multiply(matrix3.makeScale(this.scaleX === 0 ? 0 : this.scaleX, this.scaleY === 0 ? 0 : this.scaleY));
 
-			if (this.parent && this.parent.matrixWorld) {
-				this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
-			} else {
-				this.matrixWorld.copy(this.matrix);
-			}
-			this.matrixWorldInvert.copy(this.matrixWorld).invert();
+			this.updateMatrixWorld();
 
 			this.matrixNeedsUpdate = false;
+		}
+	}
+	/**
+	 * @param {boolean} updateChildren
+	 */
+	updateMatrixWorld(updateChildren = false) {
+		if (this.parent && this.parent.matrixWorld) {
+			this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
+		} else {
+			this.matrixWorld.copy(this.matrix);
+		}
+		this.matrixWorldInvert.copy(this.matrixWorld).invert();
+
+		if (updateChildren) {
+			for (let i = 0, len = this.children.length; i < len; i++) {
+				this.children[i].updateMatrixWorld(true);
+			}
 		}
 	}
 	// matrix 相关属性

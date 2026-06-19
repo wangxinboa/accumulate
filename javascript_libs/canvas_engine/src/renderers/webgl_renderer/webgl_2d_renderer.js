@@ -42,6 +42,9 @@ export class WebGL2DRenderer extends BaseRenderer {
 
 		this.eventSystem.activate2D(this.scene, this.camera);
 
+		this.resize = this.resize.bind(this);
+		this.canvasSystem.addResizeCallback(this.resize);
+
 		let gl;
 		if ((gl = this.canvasSystem.canvasDom.getContext("webgl2", webgl2DRendererOption))) {
 			this.webglVersion = 2;

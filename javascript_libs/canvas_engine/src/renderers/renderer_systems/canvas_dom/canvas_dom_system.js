@@ -8,8 +8,8 @@ export class CanvasDomSystem extends BaseCleanUp {
 	canvasDom;
 	/** @type {number} */
 	devicePixelRatio;
-	/** @type {CanvasEngineType.CanvasDomOnResize | null} */
-	resizeCallback;
+	/** @private @type {CanvasEngineType.CanvasDomResizeCallbacks} */
+	_resizeCallback;
 	/**
 	 * @param {CanvasEngineType.CanvasDomOption} canvasDomOption
 	 */
@@ -32,13 +32,24 @@ export class CanvasDomSystem extends BaseCleanUp {
 		this.resize = this.resize.bind(this);
 		window.addEventListener("resize", this.resize);
 
-		this.resizeCallback = null;
+		this._resizeCallback = [];
 	}
 	/**
-	 * @param {CanvasEngineType.CanvasDomOnResize} callback
+	 * @param {CanvasEngineType.CanvasDomResizeCallback} callback
 	 */
 	addResizeCallback(callback) {
-		this.resizeCallback = callback;
+		if (!this._resizeCallback.includes(callback)) {
+			this._resizeCallback.push(callback);
+		}
+	}
+	/**
+	 * @param {CanvasEngineType.CanvasDomResizeCallback} callback
+	 */
+	removeResizeCallback(callback) {
+		const index = this._resizeCallback.indexOf(callback);
+		if (index > -1) {
+			this._resizeCallback.splice(index, 1);
+		}
 	}
 	resize() {
 		resizeCanvas(this.canvasDom, this.devicePixelRatio);
@@ -46,8 +57,8 @@ export class CanvasDomSystem extends BaseCleanUp {
 	}
 	/** @private */
 	_executeResizeCallback() {
-		if (this.resizeCallback) {
-			this.resizeCallback(this.canvasDom.clientWidth, this.canvasDom.clientHeight);
+		for (let i = 0, len = this._resizeCallback.length; i < len; i++) {
+			this._resizeCallback[i](this.canvasDom.clientWidth, this.canvasDom.clientHeight);
 		}
 	}
 	destroy() {

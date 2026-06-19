@@ -55,7 +55,8 @@ declare global {
 			canvas?: HTMLCanvasElement;
 			devicePixelRatio?: number;
 		};
-		type CanvasDomOnResize = (width: number, height: number) => void;
+		type CanvasDomResizeCallback = (width: number, height: number) => void;
+		type CanvasDomResizeCallbacks = Array<CanvasDomResizeCallback>;
 		/** WebGL context 初始化配置, 同 WebGLContextAttributes */
 		type WebGLContextOption = {
 			alpha?: boolean;
@@ -213,9 +214,6 @@ declare global {
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
 
-		type BaseCanvasEngineResizeCallback = (width: number, height: number) => void;
-		type BaseCanvasEngineResizeCallbacks = Array<BaseCanvasEngineResizeCallback>;
-
 		type RenderEventNodeCallback<T extends RenderEventNode> = (
 			renderEventNode: T,
 			x: number,
@@ -237,8 +235,8 @@ declare global {
 		type RenderNodeWheelEventCallbacks<T extends RenderEventNode = RenderEventNode> = Array<
 			RenderNodeWheelEventCallback<T>
 		>;
-		type textureRectChangeCallback = (width: number, height: number) => void;
-		type textureRectChangeCallbacks = Array<textureRectChangeCallback>;
+		type TextureRectChangeCallback = (width: number, height: number) => void;
+		type TextureRectChangeCallbacks = Array<TextureRectChangeCallback>;
 		type BaseTextureImage2D = HTMLImageElement | ImageData;
 
 		type TextOption = {

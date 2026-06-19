@@ -12,9 +12,6 @@ export class Canvas2DEngine extends BaseCanvasEngine {
 
 		this.renderer = new WebGL2DRenderer(canvasEngineOption);
 
-		this.executeResizeCallbacks = this.executeResizeCallbacks.bind(this);
-		this.renderer.canvasSystem.addResizeCallback(this.executeResizeCallbacks);
-
 		this.renderer.canvasSystem.resize();
 	}
 	get scene() {
@@ -24,12 +21,16 @@ export class Canvas2DEngine extends BaseCanvasEngine {
 		return this.renderer.camera;
 	}
 	/**
-	 * @param {number} width
-	 * @param {number} height
+	 * @param {CanvasEngineType.CanvasDomResizeCallback} callback
 	 */
-	executeResizeCallbacks(width, height) {
-		super.executeResizeCallbacks(width, height);
-		this.renderer.resize(width, height);
+	addResizeCallback(callback) {
+		this.renderer.canvasSystem.addResizeCallback(callback);
+	}
+	/**
+	 * @param {CanvasEngineType.CanvasDomResizeCallback} callback - 需要移除的回调函数
+	 */
+	removeResizeCallback(callback) {
+		this.renderer.canvasSystem.removeResizeCallback(callback);
 	}
 	/**
 	 * @param {number} timestamp
