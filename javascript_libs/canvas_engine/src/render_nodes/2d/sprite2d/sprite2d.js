@@ -78,7 +78,7 @@ export class Sprite2D extends Render2DNode {
 	}
 	set texture(value) {
 		if (this.texture) {
-			this.texture.unregisterTextureRectChangeCallback(this._updateGeometry);
+			this.texture.removeTextureRectChangeCallback(this._updateGeometry);
 		}
 		this._texture = value;
 		this._onTextureChange();
@@ -102,7 +102,7 @@ export class Sprite2D extends Render2DNode {
 		if (this.texture.isReady) {
 			this._updateGeometry();
 		}
-		this.texture.registerTextureRectChangeCallback(this._updateGeometry);
+		this.texture.addTextureRectChangeCallback(this._updateGeometry);
 	}
 	/** @private */
 	get isReady() {

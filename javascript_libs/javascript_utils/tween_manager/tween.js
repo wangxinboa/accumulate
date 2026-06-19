@@ -87,25 +87,25 @@ export class Tween extends BaseCleanUp {
 	/**
 	 * @param {JavaScriptUtilsType.TweenCallback} callback
 	 */
-	registerStartCallback(callback) {
+	addStartCallback(callback) {
 		this.startCallback.push(callback);
 	}
 	/**
 	 * @param {JavaScriptUtilsType.TweenCallback} callback
 	 */
-	registerUpdateCallback(callback) {
+	addUpdateCallback(callback) {
 		this.updateCallback.push(callback);
 	}
 	/**
 	 * @param {JavaScriptUtilsType.TweenCallback} callback
 	 */
-	registerPauseCallback(callback) {
+	addPauseCallback(callback) {
 		this.pauseCallback.push(callback);
 	}
 	/**
 	 * @param {JavaScriptUtilsType.TweenCallback} callback
 	 */
-	registerEndCallback(callback) {
+	addEndCallback(callback) {
 		this.endCallback.push(callback);
 	}
 

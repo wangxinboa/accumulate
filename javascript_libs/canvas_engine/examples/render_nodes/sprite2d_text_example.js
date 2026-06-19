@@ -18,7 +18,7 @@ engine.timeTicker.start();
 let count = 0;
 let isPositive = true;
 
-engine.timeTicker.registerRunCallback(function () {
+engine.timeTicker.addRunCallback(function () {
 	for (let i = 0; i < sprite2Ds.length; i++) {
 		sprite2Ds[i].x += isPositive ? 0.2 : -0.2;
 		sprite2Ds[i].y += isPositive ? 0.2 : -0.2;

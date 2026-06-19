@@ -11,7 +11,7 @@ export const engine = new Canvas2DEngine({
 });
 
 StatsTool.init();
-engine.timeTicker.registerRunCallback(function () {
+engine.timeTicker.addRunCallback(function () {
 	StatsTool.update();
 });
 

@@ -106,14 +106,14 @@ export class BaseTexture extends BaseCleanUp {
 	/**
 	 * @param {CanvasEngineType.textureRectChangeCallback} callback
 	 */
-	registerTextureRectChangeCallback(callback) {
+	addTextureRectChangeCallback(callback) {
 		this.textureRectChangeCallbacks.push(callback);
 		return this;
 	}
 	/**
 	 * @param {CanvasEngineType.textureRectChangeCallback} callback
 	 */
-	unregisterTextureRectChangeCallback(callback) {
+	removeTextureRectChangeCallback(callback) {
 		const index = this.textureRectChangeCallbacks.indexOf(callback);
 		if (index > -1) {
 			this.textureRectChangeCallbacks.splice(index, 1);

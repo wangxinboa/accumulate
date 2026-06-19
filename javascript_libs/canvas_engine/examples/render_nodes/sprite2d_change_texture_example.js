@@ -29,7 +29,7 @@ engine.scene.add(sprite2D);
 
 let count = 0;
 let textureIndex = 0;
-engine.timeTicker.registerRunCallback(function () {
+engine.timeTicker.addRunCallback(function () {
 	if (count > 30) {
 		sprite2D.texture = textures[++textureIndex % textures.length];
 		count = 0;

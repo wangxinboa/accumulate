@@ -71,7 +71,7 @@ export class TimeTicker extends BaseCleanUp {
 	/**
 	 * @param {CanvasEngineType.TimeTickerCallback} runCallback
 	 */
-	registerRunCallback(runCallback) {
+	addRunCallback(runCallback) {
 		if (!this._runCallbacks.includes(runCallback)) {
 			this._runCallbacks.push(runCallback);
 		}
@@ -79,7 +79,7 @@ export class TimeTicker extends BaseCleanUp {
 	/**
 	 * @param {CanvasEngineType.TimeTickerCallback} runCallback
 	 */
-	unregisterRunCallback(runCallback) {
+	removeRunCallback(runCallback) {
 		const index = this._runCallbacks.indexOf(runCallback);
 		if (index > -1) {
 			this._runCallbacks.splice(index, 1);

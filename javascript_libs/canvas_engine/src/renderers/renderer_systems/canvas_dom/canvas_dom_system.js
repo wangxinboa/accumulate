@@ -32,16 +32,13 @@ export class CanvasDomSystem extends BaseCleanUp {
 		this.resize = this.resize.bind(this);
 		window.addEventListener("resize", this.resize);
 
-		this.resize();
-
 		this.resizeCallback = null;
 	}
 	/**
 	 * @param {CanvasEngineType.CanvasDomOnResize} callback
 	 */
-	registerResizeCallback(callback) {
+	addResizeCallback(callback) {
 		this.resizeCallback = callback;
-		this._executeResizeCallback();
 	}
 	resize() {
 		resizeCanvas(this.canvasDom, this.devicePixelRatio);

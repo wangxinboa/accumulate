@@ -17,14 +17,14 @@ export class BaseCanvasEngine extends BaseCleanUp {
 		this._resizeCallbacks = [];
 
 		this.timeTicker = new TimeTicker(canvasEngineOption);
-		this.timeTicker.registerRunCallback(this.render);
+		this.timeTicker.addRunCallback(this.render);
 	}
 
 	/**
 	 * 注册 resize 回调，会在画布尺寸变化时被调用
 	 * @param {CanvasEngineType.BaseCanvasEngineResizeCallback} callback
 	 */
-	registerResizeCallback(callback) {
+	addResizeCallback(callback) {
 		if (!this._resizeCallbacks.includes(callback)) {
 			this._resizeCallbacks.push(callback);
 		}
@@ -34,7 +34,7 @@ export class BaseCanvasEngine extends BaseCleanUp {
 	 * 取消已注册的 resize 回调
 	 * @param {CanvasEngineType.BaseCanvasEngineResizeCallback} callback - 需要移除的回调函数
 	 */
-	unregisterResizeCallback(callback) {
+	removeResizeCallback(callback) {
 		const index = this._resizeCallbacks.indexOf(callback);
 		if (index > -1) {
 			this._resizeCallbacks.splice(index, 1);
