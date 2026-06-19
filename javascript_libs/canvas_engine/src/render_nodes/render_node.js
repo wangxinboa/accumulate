@@ -1,5 +1,4 @@
 import { BaseCleanUp, TweenManager } from "../../../javascript_utils/javascript_utils.js";
-import { Matrix4 } from "../math/matrix4.js";
 
 let renderNodeId = 0;
 
@@ -13,12 +12,6 @@ export class RenderNode extends BaseCleanUp {
 	/** @type {Array<RenderNode>} */
 	children;
 	/** @type {boolean} */
-	matrixNeedsUpdate;
-	/** @type {Matrix4} */
-	matrix;
-	/** @type {Matrix4} */
-	matrixWorld;
-	/** @type {boolean} */
 	visible;
 	/** @type {TweenManager} */
 	tweenManager;
@@ -30,10 +23,6 @@ export class RenderNode extends BaseCleanUp {
 
 		this.parent = null;
 		this.children = [];
-
-		this.matrixNeedsUpdate = true;
-		this.matrix = new Matrix4();
-		this.matrixWorld = new Matrix4();
 
 		this.visible = true;
 

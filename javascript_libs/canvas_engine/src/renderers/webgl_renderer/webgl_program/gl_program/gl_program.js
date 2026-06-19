@@ -213,6 +213,13 @@ export class GlProgram extends BaseCleanUp {
 						/** @type {CanvasEngineType.Matrix4} */ (locationValue).elements,
 					);
 					break;
+				case GlDataTypeEnum.mat3:
+					gl.uniformMatrix3fv(
+						glLocation.uniformLocation,
+						false,
+						/** @type {CanvasEngineType.Matrix3} */ (locationValue).elements,
+					);
+					break;
 				case GlDataTypeEnum.float:
 					gl.uniform1f(glLocation.uniformLocation, /** @type {number} */ (locationValue));
 					break;

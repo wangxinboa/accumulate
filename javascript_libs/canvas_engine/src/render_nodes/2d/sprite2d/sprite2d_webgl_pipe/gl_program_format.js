@@ -14,13 +14,13 @@ const vertexSource =
 	"attribute vec2 a_position;" +
 	"attribute vec2 a_texCoord;" +
 	"varying vec2 v_texCoord;" +
-	// 添加矩阵uniforms
-	"uniform mat4 u_projection;" +
-	"uniform mat4 u_view;" +
-	"uniform mat4 u_model;" +
+	"uniform mat3 u_projection;" +
+	"uniform mat3 u_view;" +
+	"uniform mat3 u_model;" +
 	"void main() {" +
-	// 应用矩阵变换：投影 * 视图 * 模型
-	"gl_Position = u_projection * u_view * u_model * vec4(a_position, 0.0, 1.0);" +
+	// 按顺序变换：先模型，再视图，最后投影
+	"vec3 pos = u_projection * u_view * u_model * vec3(a_position, 1.0);" +
+	"gl_Position = vec4(pos.xy, 0.0, 1.0);" +
 	"v_texCoord = a_texCoord;" +
 	"}";
 
@@ -39,15 +39,15 @@ const uniformLocationsFormat = [
 		name: uImageName,
 	},
 	{
-		type: GlDataTypeEnum.mat4,
+		type: GlDataTypeEnum.mat3,
 		name: uCameraProjectionName,
 	},
 	{
-		type: GlDataTypeEnum.mat4,
+		type: GlDataTypeEnum.mat3,
 		name: uCameraViewName,
 	},
 	{
-		type: GlDataTypeEnum.mat4,
+		type: GlDataTypeEnum.mat3,
 		name: uRenderNodeModelName,
 	},
 ];

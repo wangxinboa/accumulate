@@ -92,7 +92,7 @@ export class Event2DMode extends BaseCleanUp {
 		} else {
 			_hitPoint.set(_canvasPositionInScene.x, _canvasPositionInScene.y);
 		}
-		_hitPoint.applyMatrix3(renderNode.matrix3WorldInvert);
+		_hitPoint.applyMatrix3(renderNode.matrixWorldInvert);
 		return renderNode.hitTest(_hitPoint.x, _hitPoint.y);
 	}
 	/**

@@ -1,19 +1,18 @@
-import { Matrix4 } from "../math/matrix4.js";
-import { Vector2 } from "../math/vector2.js"; // 新增：引入 Vector2
+import { Matrix3 } from "../math/matrix3.js";
 import { Render2DNode } from "../render_nodes/2d/render_2d_node.js";
 
-const _matrix4_ = new Matrix4();
+const _Matrix3_ = new Matrix3();
 
 export class Camera2D extends Render2DNode {
 	/** @type {number} */
 	retinaScaling;
-	/** @type {Matrix4} */
+	/** @type {Matrix3} */
 	projectionMatrix;
 	constructor() {
 		super();
 		this.applyCameraTransform = false;
 
-		this.projectionMatrix = new Matrix4();
+		this.projectionMatrix = new Matrix3();
 
 		this.width = 0;
 		this.height = 0;
@@ -32,13 +31,13 @@ export class Camera2D extends Render2DNode {
 
 		this.projectionMatrix
 			.identity()
-			.multiply(_matrix4_.makeScale(retinaScaling / width, -retinaScaling / height, 1))
-			.multiply(_matrix4_.makeTranslation(-width / retinaScaling, -height / retinaScaling, 0));
+			.multiply(_Matrix3_.makeScale(retinaScaling / width, -retinaScaling / height))
+			.multiply(_Matrix3_.makeTranslation(-width / retinaScaling, -height / retinaScaling));
 	}
 	/**
-	 * @param {Vector2} screenPoint - 要转换的屏幕坐标，转换后的世界坐标将写回该对象
+	 * @param {CanvasEngineType.Vector2} screenPoint - 要转换的屏幕坐标，转换后的世界坐标将写回该对象
 	 */
 	screenToCamera(screenPoint) {
-		screenPoint.applyMatrix3(this.matrix3WorldInvert);
+		screenPoint.applyMatrix3(this.matrixWorldInvert);
 	}
 }

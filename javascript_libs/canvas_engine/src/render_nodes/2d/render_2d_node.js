@@ -1,9 +1,7 @@
 import { clamp, PiDivide180 } from "../../math/math_utils.js";
 import { Matrix3 } from "../../math/matrix3.js";
-import { Matrix4 } from "../../math/matrix4.js";
 import { RenderEventNode } from "../render_event_node.js";
 
-const matrix4 = new Matrix4();
 const matrix3 = new Matrix3();
 
 export class Render2DNode extends RenderEventNode {
@@ -29,6 +27,12 @@ export class Render2DNode extends RenderEventNode {
 	_width;
 	/** @type {number} */
 	_height;
+	/** @type {Matrix3} */
+	matrix;
+	/** @type {Matrix3} */
+	matrixWorld;
+	/** @type {Matrix3} */
+	matrixWorldInvert;
 	/** @type {CanvasEngineType.Geometry2DDef | null} */
 	geometry;
 	/** @protected @type {boolean} */
@@ -52,7 +56,9 @@ export class Render2DNode extends RenderEventNode {
 		this._scaleX = 1;
 		this._scaleY = 1;
 
-		this.matrix3WorldInvert = new Matrix3();
+		this.matrix = new Matrix3();
+		this.matrixWorld = new Matrix3();
+		this.matrixWorldInvert = new Matrix3();
 
 		this.geometry = null;
 		this._fixedGeometry = false;
@@ -86,22 +92,16 @@ export class Render2DNode extends RenderEventNode {
 		if (this.matrixNeedsUpdate) {
 			this.matrix
 				.identity()
-				.multiply(matrix4.makeTranslation(this.x - this.width * this.pivotX, this.y - this.height * this.pivotY, 0))
-				.multiply(matrix4.makeRotationZ(this.rotation))
-				.multiply(matrix4.makeScale(this.scaleX, this.scaleY, 0));
-
-			this.matrix3WorldInvert
-				.identity()
 				.multiply(matrix3.makeTranslation(this.x - this.width * this.pivotX, this.y - this.height * this.pivotY))
 				.multiply(matrix3.makeRotation(this.rotation))
-				.multiply(matrix3.makeScale(this.scaleX === 0 ? 0 : this.scaleX, this.scaleY === 0 ? 0 : this.scaleY))
-				.invert();
+				.multiply(matrix3.makeScale(this.scaleX === 0 ? 0 : this.scaleX, this.scaleY === 0 ? 0 : this.scaleY));
 
 			if (this.parent && this.parent.matrixWorld) {
 				this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
 			} else {
 				this.matrixWorld.copy(this.matrix);
 			}
+			this.matrixWorldInvert.copy(this.matrixWorld).invert();
 
 			this.matrixNeedsUpdate = false;
 		}

@@ -93,6 +93,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.clear();
 
 		this.camera.updateMatrix();
+		this.scene.updateMatrix();
 
 		this.scene.clearDescendants();
 		this._traverseRender(this.scene, this.camera, timestamp);
