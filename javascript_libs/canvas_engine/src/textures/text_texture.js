@@ -15,7 +15,6 @@ export class TextTexture extends BaseTexture {
 		fontWeight: "normal",
 		fontFamily: "Arial",
 	};
-
 	/** @type {boolean} */
 	isTextTexture;
 	/** @type {string} */

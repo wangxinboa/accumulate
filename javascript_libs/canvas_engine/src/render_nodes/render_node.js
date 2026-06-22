@@ -1,6 +1,13 @@
 import { BaseCleanUp, TweenManager } from "../../../javascript_utils/javascript_utils.js";
 
 let renderNodeId = 0;
+/**
+ * @param {RenderNode} a
+ * @param {RenderNode} b
+ */
+function sortChildren(a, b) {
+	return a.zIndex - b.zIndex;
+}
 
 export class RenderNode extends BaseCleanUp {
 	/** @type {string} */
@@ -15,6 +22,8 @@ export class RenderNode extends BaseCleanUp {
 	visible;
 	/** @type {TweenManager} */
 	tweenManager;
+	/** @type {number} */
+	zIndex;
 	constructor() {
 		super();
 
@@ -27,6 +36,8 @@ export class RenderNode extends BaseCleanUp {
 		this.visible = true;
 
 		this.tweenManager = new TweenManager();
+
+		this.zIndex = 0;
 	}
 	/**
 	 * @param {number} timestamp
@@ -88,6 +99,9 @@ export class RenderNode extends BaseCleanUp {
 		return this;
 	}
 	afterRemoveChild() {}
+	sortChildren() {
+		this.children.sort(sortChildren);
+	}
 
 	destroy() {
 		for (let i = this.children.length - 1; i >= 0; i--) {

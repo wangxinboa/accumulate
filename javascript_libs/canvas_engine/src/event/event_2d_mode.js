@@ -224,6 +224,7 @@ export class Event2DMode extends BaseCleanUp {
 				this.tempMoveEnterMap = this.preMoveEnterMap;
 				this.preMoveEnterMap = this.nowMoveEnterMap;
 				this.nowMoveEnterMap = this.tempMoveEnterMap;
+				this.tempMoveEnterMap = null;
 				this.nowMoveEnterMap.clear();
 
 				this.scene2D.executeMouseMoveEvents(
@@ -314,5 +315,11 @@ export class Event2DMode extends BaseCleanUp {
 				_canvasPositionInScene.y,
 			);
 		}
+	}
+	destroy() {
+		this.preMoveEnterMap.destroy();
+		this.nowMoveEnterMap.destroy();
+
+		super.destroy();
 	}
 }
