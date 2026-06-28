@@ -1,7 +1,7 @@
 /*css 级通用样式*/
 
 /*文本溢出显示省略号*/
-.prevent_text_overflow {
+.preventTextOverflow {
 	overflow: hidden;
 	/*文本溢出显示省略号*/
 	text-overflow: ellipsis;
@@ -10,7 +10,7 @@
 }
 
 /*隐藏的input按钮*/
-.hidden_input_button {
+.hiddenInputButton {
 	position: absolute;
 	font-size: 0;
 	outline: 0;
@@ -31,24 +31,24 @@
 }
 
 /*绝对定位,存放信息*/
-.absolute-info {
+.absoluteInfo {
 	position: absolute;
 	max-width: 100%;
 	z-index: 1;
 }
 
-.absolute-info.top {
+.absoluteInfo.top {
 	top: 0;
 }
 
-.absolute-info.bottom {
+.absoluteInfo.bottom {
 	bottom: 0;
 }
 
-.absolute-info.left {
+.absoluteInfo.left {
 	left: 0;
 }
 
-.absolute-info.right {
+.absoluteInfo.right {
 	right: 0;
 }

@@ -8,7 +8,6 @@ const ctx = canvasDom.getContext("2d", {
 
 export class TextTexture extends BaseTexture {
 	static defaultTextOption = {
-		/** font style */
 		fontStyle: "normal",
 		fontVariant: "normal",
 		fontSize: 26,
@@ -41,15 +40,13 @@ export class TextTexture extends BaseTexture {
 		super();
 
 		this.isTextTexture = true;
-
 		this.key = `text_texture_${textTextureKey++}`;
 
-		/** font style */
-		this.fontStyle = textOption.fontStyle;
-		this.fontVariant = textOption.fontVariant;
-		this.fontSize = textOption.fontSize;
-		this.fontWeight = textOption.fontWeight;
-		this.fontFamily = textOption.fontFamily;
+		this.fontStyle = textOption.fontStyle ?? TextTexture.defaultTextOption.fontStyle;
+		this.fontVariant = textOption.fontVariant ?? TextTexture.defaultTextOption.fontVariant;
+		this.fontSize = textOption.fontSize ?? TextTexture.defaultTextOption.fontSize;
+		this.fontWeight = textOption.fontWeight ?? TextTexture.defaultTextOption.fontWeight;
+		this.fontFamily = textOption.fontFamily ?? TextTexture.defaultTextOption.fontFamily;
 
 		this.text = text;
 	}
@@ -61,9 +58,9 @@ export class TextTexture extends BaseTexture {
 		this._text = value;
 		this.needTexImage2D = true;
 		this._setTextMeasure();
-
 		this.onTextureRectChange(this.width, this.height);
 	}
+
 	/**
 	 * @private
 	 * @param {TextTexture} textTexture
@@ -71,23 +68,22 @@ export class TextTexture extends BaseTexture {
 	_getFontString(textTexture) {
 		return `${textTexture.fontStyle} ${textTexture.fontVariant} ${textTexture.fontWeight} ${textTexture.fontSize}px ${textTexture.fontFamily}`;
 	}
+
 	/** @private */
 	_setTextMeasure() {
 		if (ctx) {
 			const font = this._getFontString(this);
-
 			ctx.font = font;
 
 			const textMetrics = ctx.measureText(this._text);
-
 			const actualBoundingBoxAscent = Math.ceil(textMetrics.actualBoundingBoxAscent);
 			const actualBoundingBoxDescent = Math.ceil(textMetrics.actualBoundingBoxDescent);
 
 			const width = Math.ceil(textMetrics.width);
 			const height = actualBoundingBoxAscent + actualBoundingBoxDescent + 1;
 
-			const pixelWidth = width * devicePixelRatio;
-			const pixelHeight = height * devicePixelRatio;
+			const pixelWidth = width * window.devicePixelRatio;
+			const pixelHeight = height * window.devicePixelRatio;
 
 			const offsetY = actualBoundingBoxAscent + 1;
 
@@ -97,7 +93,7 @@ export class TextTexture extends BaseTexture {
 			canvasDom.width = pixelWidth;
 			canvasDom.height = pixelHeight;
 
-			ctx.scale(devicePixelRatio, devicePixelRatio);
+			ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
 			ctx.fillStyle = "rgba(255, 255, 255, 1)";
 			ctx.fillRect(0, 0, canvasDom.width, canvasDom.height);

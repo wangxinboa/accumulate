@@ -240,11 +240,11 @@ declare global {
 		type BaseTextureImage2D = HTMLImageElement | ImageData;
 
 		type TextOption = {
-			fontStyle: string;
-			fontVariant: string;
-			fontSize: number;
-			fontWeight: string;
-			fontFamily: string;
+			fontStyle?: string;
+			fontVariant?: string;
+			fontSize?: number;
+			fontWeight?: string;
+			fontFamily?: string;
 		};
 	}
 }
