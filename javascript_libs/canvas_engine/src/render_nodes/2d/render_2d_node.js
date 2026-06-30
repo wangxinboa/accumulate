@@ -4,6 +4,24 @@ import { RenderEventNode } from "../render_event_node.js";
 
 const matrix3 = new Matrix3();
 
+/**
+ * 2D 渲染节点基类，提供位置、旋转、缩放、pivot 等属性。
+ *
+ * 局部变换矩阵（matrix）的计算顺序：
+ *   1. 平移到 pivot 中心：Translation(-width * pivotX, -height * pivotY)
+ *   2. 旋转：Rotation(rotation)
+ *   3. 缩放：Scale(scaleX, scaleY)
+ *
+ * 世界矩阵（matrixWorld）= 父节点的世界矩阵 * 本节点的局部矩阵。
+ *
+ * pivot 属性定义节点的“锚点”位置，用于旋转和缩放的中心。
+ * 取值范围通常为 [0, 1]（0 为左上角，1 为右下角，0.5 为几何中心）。
+ * 也可取负值或大于 1 的值，用于特殊效果（如相机偏移）。
+ *
+ * applyCameraTransform 属性控制该节点的世界坐标是否再乘以视图矩阵。
+ * 若为 true，则顶点着色器中会额外乘以 camera.matrixWorld；若为 false，则不乘。
+ * 在本引擎中，大多数场景物体设为 true，相机本身设为 false。
+ */
 export class Render2DNode extends RenderEventNode {
 	/** @type {Render2DNode | null} */
 	parent = null;

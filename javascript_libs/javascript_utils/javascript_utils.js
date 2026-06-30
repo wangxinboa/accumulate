@@ -21,6 +21,7 @@ import { getInitUrlSearchParam } from "./url/get_url_search_param.js";
 import { copyTextToClipboard, readTextFromClipboard } from "./clipboard.js";
 import { CustomMap } from "./custom_map.js";
 import { DefaultVariable } from "./default_variable.js";
+import { Keyboard } from "./keyboard.js";
 
 export {
 	BaseCleanUp,
@@ -48,6 +49,7 @@ export {
 	readTextFromClipboard,
 	CustomMap,
 	DefaultVariable,
+	Keyboard,
 };
 
 const jsUtils = {
@@ -76,6 +78,7 @@ const jsUtils = {
 	readTextFromClipboard,
 	CustomMap,
 	DefaultVariable,
+	Keyboard,
 };
 
 export default jsUtils;

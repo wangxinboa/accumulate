@@ -1,4 +1,4 @@
-import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
+import { BaseCleanUp, Keyboard } from "../../../javascript_utils/javascript_utils.js";
 import { Event2DMode } from "./event_2d_mode.js";
 
 export class EventSystem extends BaseCleanUp {
@@ -6,6 +6,8 @@ export class EventSystem extends BaseCleanUp {
 	_domElement;
 	/** @type {Event2DMode} */
 	event2DMode;
+	/** @type {Keyboard} 键盘事件管理器 */
+	keyboard; // 新增属性
 	/** @type {Event2DMode | null} */
 	activeEvent;
 	/**
@@ -15,6 +17,8 @@ export class EventSystem extends BaseCleanUp {
 		super();
 		this._domElement = domElement;
 		this.event2DMode = new Event2DMode();
+		// 实例化键盘管理器，默认监听 window
+		this.keyboard = new Keyboard(window);
 
 		this.activeEvent = null;
 
@@ -89,6 +93,7 @@ export class EventSystem extends BaseCleanUp {
 	 */
 	destroy() {
 		this.event2DMode.destroy();
+		this.keyboard.destroy();
 
 		this._domElement.removeEventListener("mousedown", this.onMouseDown);
 		window.removeEventListener("mousemove", this.onMouseMove);

@@ -20,6 +20,9 @@ export class Canvas2DEngine extends BaseCanvasEngine {
 	get camera() {
 		return this.renderer.camera;
 	}
+	get keyboard() {
+		return this.renderer.eventSystem.keyboard;
+	}
 	/**
 	 * @param {CanvasEngineType.CanvasDomResizeCallback} callback
 	 */
