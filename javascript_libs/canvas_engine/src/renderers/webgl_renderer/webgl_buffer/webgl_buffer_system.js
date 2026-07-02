@@ -67,10 +67,10 @@ export class WebGLBufferSystem extends BaseCleanUp {
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
 	bindBuffers(renderNode, glProgram) {
-		// updateBuffers
-		renderNode.updateBuffers(this.renderer.gl, this);
-		// getAttribs
-		const glAttribs = renderNode.updateAttribs(this);
+		// 使用 renderNode.pipe 更新缓冲区
+		renderNode.pipe.updateBuffers(renderNode, this.renderer.gl, this);
+		// 使用 renderNode.pipe 获取属性配置
+		const glAttribs = renderNode.pipe.updateAttribs(renderNode, this);
 
 		// vertexAttribPointer
 		if (glAttribs instanceof GlAttribs) {

@@ -85,6 +85,14 @@ export class Render2DNode extends RenderEventNode {
 		this._updateGeometry = this._updateGeometry.bind(this);
 	}
 	/**
+	 * 获取当前节点的渲染管道对象，子类需覆盖此方法
+	 * @returns {CanvasEngineType.RenderPipe<this> | null}
+	 */
+	get pipe() {
+		return null;
+	}
+
+	/**
 	 * @param {number} x
 	 * @param {number} y
 	 * @returns {boolean}
@@ -95,18 +103,21 @@ export class Render2DNode extends RenderEventNode {
 		}
 		throw new Error("Render2DNode 形状 geometry 信息不存在");
 	}
+
 	/**
 	 * @param {any} _args
 	 */
 	fixGeometry(..._args) {
 		throw new Error("Render2DNode 子类未实现 fixGeometry 方法");
 	}
+
 	/**
 	 * @protected
 	 */
 	_updateGeometry() {
 		throw new Error("Render2DNode 子类未实现 _updateGeometry 方法");
 	}
+
 	// matrix 更新
 	updateMatrix() {
 		if (this.matrixNeedsUpdate) {
@@ -121,6 +132,7 @@ export class Render2DNode extends RenderEventNode {
 			this.matrixNeedsUpdate = false;
 		}
 	}
+
 	/**
 	 * @param {boolean} updateChildren
 	 */
@@ -138,6 +150,7 @@ export class Render2DNode extends RenderEventNode {
 			}
 		}
 	}
+
 	// matrix 相关属性
 	get x() {
 		return this._x;
@@ -202,6 +215,7 @@ export class Render2DNode extends RenderEventNode {
 		this._scaleY = val;
 		this.matrixNeedsUpdate = true;
 	}
+
 	// 宽高
 	get width() {
 		return this._width;
@@ -214,46 +228,5 @@ export class Render2DNode extends RenderEventNode {
 	}
 	set height(val) {
 		this._height = val;
-	}
-	// 子类方法
-	/**
-	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} _programSystem
-	 */
-	getGlProgram(_programSystem) {
-		throw new Error("Render2DNode 子类未实现 getGlProgram 方法");
-	}
-	/**
-	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} _bufferSystem
-	 */
-	updateAttribs(_bufferSystem) {
-		throw new Error("Render2DNode 子类未实现 updateAttribs 方法");
-	}
-	/**
-	 * @param {CanvasEngineType.WebGLContext} _gl
-	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} _bufferSystem
-	 */
-	updateBuffers(_gl, _bufferSystem) {
-		throw new Error("Render2DNode 子类未实现 updateBuffers 方法");
-	}
-	/**
-	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} _textureSystem
-	 */
-	updateTextures(_textureSystem) {
-		throw new Error("Render2DNode 子类未实现 updateTextures 方法");
-	}
-	/**
-	 * @param {CanvasEngineType.WebGLContext} _gl
-	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} _textureSystem
-	 * @param {CanvasEngineType.GlProgram} _glProgram
-	 */
-	uniform(_gl, _textureSystem, _glProgram) {
-		throw new Error("Render2DNode 子类未实现 uniform 方法");
-	}
-	/**
-	 * @param {CanvasEngineType.WebGLContext} _gl
-	 * @param {CanvasEngineType.GlProgram} _glProgram
-	 */
-	drawArrays(_gl, _glProgram) {
-		throw new Error("Render2DNode 子类未实现 drawArrays 方法");
 	}
 }

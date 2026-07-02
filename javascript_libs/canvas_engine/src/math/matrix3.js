@@ -235,7 +235,7 @@ export class Matrix3 {
 			t13 = n23 * n12 - n22 * n13,
 			det = n11 * t11 + n21 * t12 + n31 * t13;
 
-		if (det === 0) return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
+		if (Math.abs(det) < 1e-12) return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 		const detInv = 1 / det;
 

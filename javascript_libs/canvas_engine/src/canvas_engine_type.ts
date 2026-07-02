@@ -213,7 +213,57 @@ declare global {
 		type Sprite2D = Sprite2DClass;
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
+		/**
+		 * 渲染管道对象接口，为渲染节点提供 WebGL 渲染相关的方法。
+		 * 所有方法第一个参数均为具体的渲染节点实例。
+		 */
+		interface RenderPipe<TNode extends Render2DNode = Render2DNode> {
+			/**
+			 * 获取当前节点所使用的着色器程序
+			 * @param node 当前节点
+			 * @param programSystem WebGL 程序系统
+			 */
+			getGlProgram(node: TNode, programSystem: WebGLProgramSystem): GlProgram;
 
+			/**
+			 * 更新顶点属性配置
+			 * @param node 当前节点
+			 * @param bufferSystem WebGL 缓冲系统
+			 */
+			updateAttribs(node: TNode, bufferSystem: WebGLBufferSystem): GlAttribs | undefined;
+
+			/**
+			 * 更新顶点缓冲区数据
+			 * @param node 当前节点
+			 * @param gl WebGL 上下文
+			 * @param bufferSystem WebGL 缓冲系统
+			 */
+			updateBuffers(node: TNode, gl: WebGLContext, bufferSystem: WebGLBufferSystem): void;
+
+			/**
+			 * 更新纹理
+			 * @param node 当前节点
+			 * @param textureSystem WebGL 纹理系统
+			 */
+			updateTextures(node: TNode, textureSystem: WebGLTextureSystem): void;
+
+			/**
+			 * 设置 Uniform 变量（包括纹理绑定）
+			 * @param node 当前节点
+			 * @param gl WebGL 上下文
+			 * @param textureSystem WebGL 纹理系统
+			 * @param glProgram 当前使用的着色器程序
+			 */
+			uniform(node: TNode, gl: WebGLContext, textureSystem: WebGLTextureSystem, glProgram: GlProgram): void;
+
+			/**
+			 * 执行绘制命令
+			 * @param node 当前节点
+			 * @param gl WebGL 上下文
+			 * @param glProgram 当前使用的着色器程序
+			 */
+			drawArrays(node: TNode, gl: WebGLContext, glProgram: GlProgram): void;
+		}
 		type RenderEventNodeCallback<T extends RenderEventNode> = (
 			renderEventNode: T,
 			x: number,

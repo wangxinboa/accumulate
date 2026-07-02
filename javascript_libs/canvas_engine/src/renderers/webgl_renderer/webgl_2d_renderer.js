@@ -63,6 +63,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 	 */
 	resize(width, height) {
 		this.camera.updateProjection(width, height, this.canvasSystem.devicePixelRatio);
+		this.gl.viewport(0, 0, this.canvasSystem.canvasDom.width, this.canvasSystem.canvasDom.height);
 	}
 	resetGl() {
 		this.extensions.initExtensions();
@@ -92,7 +93,6 @@ export class WebGL2DRenderer extends BaseRenderer {
 		// this.gl.enable(this.gl.BLEND);
 		// this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
-		this.gl.viewport(0, 0, this.canvasSystem.canvasDom.width, this.canvasSystem.canvasDom.height);
 		this.clear();
 
 		this.camera.updateMatrix();
@@ -110,11 +110,14 @@ export class WebGL2DRenderer extends BaseRenderer {
 
 		renderNode.updateMatrix();
 
+		// 使用 renderNode.pipe 获取程序
 		const glProgram = this.programSystem.useProgram(renderNode);
 
+		// 使用 renderNode.pipe 绑定缓冲区
 		this.bufferSystem.bindBuffers(renderNode, glProgram);
 
-		renderNode.updateTextures(this.textureSystem);
+		// 使用 renderNode.pipe 更新纹理
+		renderNode.pipe.updateTextures(renderNode, this.textureSystem);
 
 		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
 		if (renderNode.applyCameraTransform) {
@@ -124,9 +127,9 @@ export class WebGL2DRenderer extends BaseRenderer {
 		}
 		glProgram.uniform(this.gl, uRenderNodeModelName, renderNode.matrixWorld);
 
-		renderNode.uniform(this.gl, this.textureSystem, glProgram);
-
-		renderNode.drawArrays(this.gl, glProgram);
+		// 使用 renderNode.pipe 设置 uniform 并绘制
+		renderNode.pipe.uniform(renderNode, this.gl, this.textureSystem, glProgram);
+		renderNode.pipe.drawArrays(renderNode, this.gl, glProgram);
 	}
 	destroy() {
 		this.scene.destroy();
