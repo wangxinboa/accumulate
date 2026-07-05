@@ -90,8 +90,8 @@ export class WebGL2DRenderer extends BaseRenderer {
 	 * @param {number} timestamp
 	 */
 	render(timestamp) {
-		// this.gl.enable(this.gl.BLEND);
-		// this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+		this.gl.enable(this.gl.BLEND);
+		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
 		this.clear();
 
@@ -117,7 +117,9 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.bufferSystem.bindBuffers(renderNode, glProgram);
 
 		// 使用 renderNode.pipe 更新纹理
-		renderNode.pipe.updateTextures(renderNode, this.textureSystem);
+		if (renderNode.pipe.updateTextures) {
+			renderNode.pipe.updateTextures(renderNode, this.textureSystem);
+		}
 
 		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
 		if (renderNode.applyCameraTransform) {

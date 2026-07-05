@@ -1,11 +1,8 @@
 import { engine } from "../canvas_engine_examples.module.js";
 import { Sprite2D } from "../../src/render_nodes/2d/sprite2d/sprite2d.js";
+import { ImageTexture } from "../../src/textures/image_texture.js";
 
-const imageUrls = [
-	"../assets/bunny.png",
-	"../assets/bunny.png",
-	"../assets/bunny.png",
-	"../assets/bunny.png",
+const textureUrls = [
 	"../assets/bunny.png",
 	"../assets/33-20x20.jpg",
 	"../assets/902-20x20.jpg",
@@ -14,48 +11,46 @@ const imageUrls = [
 ];
 
 /**
- * @type {Array<CanvasEngineType.Sprite2D>}
+ * @type {Array<CanvasEngineType.Sprite2DTexture>}
  */
-const sprite2Ds = [];
-
-for (let i = 0; i < imageUrls.length; i++) {
-	const sprite2D = Sprite2D.createFromUrl(imageUrls[i]);
-	sprite2D.x = (i % 5) * 100;
-	sprite2D.y = ((i - (i % 5)) / 5) * 100;
-	sprite2D.pivotX = 0.5;
-	sprite2D.pivotY = 0.5;
-
-	sprite2Ds.push(sprite2D);
-
-	engine.scene.add(sprite2D);
+const textures = [];
+for (let i = 0; i < textureUrls.length; i++) {
+	textures.push(ImageTexture.createFromUrl(textureUrls[i]));
 }
 
-// sprite2Ds[0].texture.unpackFlipY = false;
-// sprite2Ds[1].texture.unpackFlipY = true;
-// sprite2Ds[2].texture.unpackFlipY = true;
-// sprite2Ds[3].texture.unpackFlipY = true;
-// sprite2Ds[4].texture.unpackFlipY = false;
+const udpateTextureText = Sprite2D.createFromText(`更新 texture`);
+udpateTextureText.x = 100;
+udpateTextureText.y = 0;
+engine.scene.add(udpateTextureText);
+
+const udpateTexture = Sprite2D.createFromTexture(textures[0]);
+udpateTexture.x = 100;
+udpateTexture.y = 50;
+udpateTexture.pivotX = 0.5;
+udpateTexture.pivotY = 0.5;
+
+engine.scene.add(udpateTexture);
+
+const fixedUdpateTextureText = Sprite2D.createFromText(`fixed 更新 texture`);
+fixedUdpateTextureText.x = 300;
+fixedUdpateTextureText.y = 0;
+engine.scene.add(fixedUdpateTextureText);
+
+const fixedUdpateTexture = Sprite2D.createFromTexture(textures[0]);
+fixedUdpateTexture.x = 300;
+fixedUdpateTexture.y = 50;
+fixedUdpateTexture.fixGeometry(60, 90);
+fixedUdpateTexture.dragUpdatesPosition = true;
+engine.scene.add(fixedUdpateTexture);
 
 let count = 0;
-let isPositive = true;
+let textureIndex = 0;
+
 engine.timeTicker.addRunCallback(function () {
-	for (let i = 0; i < sprite2Ds.length; i++) {
-		sprite2Ds[i].x += isPositive ? 0.2 : -0.2;
-		sprite2Ds[i].y += isPositive ? 0.2 : -0.2;
+	if (count > 30) {
+		fixedUdpateTexture.texture = udpateTexture.texture = textures[++textureIndex % textures.length];
+		count = 0;
 	}
 
-	// sprite2Ds[0].rotationAngle += 1;
-
-	if (sprite2Ds[0].x > 100) {
-		// engine.timeTicker.pause();
-		isPositive = false;
-	} else if (sprite2Ds[0].x < 0) {
-		isPositive = true;
-	}
-
-	if (isPositive) {
-		count++;
-	} else {
-		count--;
-	}
+	count++;
 });

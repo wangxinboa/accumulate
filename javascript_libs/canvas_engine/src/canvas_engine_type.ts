@@ -1,5 +1,5 @@
 import { Geometry2DDef as Geometry2DDefClass } from "./math/geometry_2d_defs/geometry_2d_def.js";
-import { Rectangle as RectangleClass } from "./math/geometry_2d_defs/rectangle.js";
+import { RectangleDef as RectangleDefClass } from "./math/geometry_2d_defs/rectangle_def.js";
 import { Color as ColorClass } from "./math/color.js";
 import { Matrix3 as Matrix3Class } from "./math/matrix3.js";
 import { Matrix4 as Matrix4Class } from "./math/matrix4.js";
@@ -23,6 +23,7 @@ import { RenderNode as RenderNodeClass } from "./render_nodes/render_node.js";
 import { RenderEventNode as RenderEventNodeClass } from "./render_nodes/render_event_node.js";
 import { Render2DNode as Render2DNodeClass } from "./render_nodes/2d/render_2d_node.js";
 import { Scene2D as Scene2DClass } from "./render_nodes/2d/scene2d.js";
+import { Circle as CircleClass } from "./render_nodes/2d/circle/circle.js";
 import { Sprite2D as Sprite2DClass } from "./render_nodes/2d/sprite2d/sprite2d.js";
 import { BaseTexture as BaseTextureClass } from "./textures/base_texture.js";
 import { ImageTexture as ImageTextureClass } from "./textures/image_texture.js";
@@ -178,7 +179,7 @@ declare global {
 		type GlUniformFormat = {};
 		type GlUniformsFormat = Array<GlUniformFormat>;
 
-		type GlUniformValue = GlTexture | Matrix3 | Matrix4 | number;
+		type GlUniformValue = GlTexture | Matrix3 | Matrix4 | number | Color;
 
 		// class
 		type BaseRenderer = BaseRendererClass;
@@ -195,7 +196,7 @@ declare global {
 		type GlAttribs = GlAttribsClass;
 		type GlAttrib = GlAttribClass;
 		type Geometry2DDef = Geometry2DDefClass;
-		type Rectangle = RectangleClass;
+		type RectangleDef = RectangleDefClass;
 		type Color = ColorClass;
 		type Matrix3 = Matrix3Class;
 		type Matrix4 = Matrix4Class;
@@ -210,6 +211,7 @@ declare global {
 		type RenderEventNode = RenderEventNodeClass;
 		type Render2DNode = Render2DNodeClass;
 		type Scene2D = Scene2DClass;
+		type Circle = CircleClass;
 		type Sprite2D = Sprite2DClass;
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;
@@ -245,7 +247,7 @@ declare global {
 			 * @param node 当前节点
 			 * @param textureSystem WebGL 纹理系统
 			 */
-			updateTextures(node: TNode, textureSystem: WebGLTextureSystem): void;
+			updateTextures?(node: TNode, textureSystem: WebGLTextureSystem): void;
 
 			/**
 			 * 设置 Uniform 变量（包括纹理绑定）

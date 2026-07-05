@@ -223,6 +223,9 @@ export class GlProgram extends BaseCleanUp {
 				case GlDataTypeEnum.float:
 					gl.uniform1f(glLocation.uniformLocation, /** @type {number} */ (locationValue));
 					break;
+				case GlDataTypeEnum.color:
+					gl.uniform4fv(glLocation.uniformLocation, /** @type {CanvasEngineType.Color} */ (locationValue).array);
+					break;
 				default:
 					throw new Error(`GlProgram.uniform 中 GlDataTypeEnum 不支持 ${glLocation.type} 类型`);
 			}

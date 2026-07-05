@@ -2,13 +2,13 @@ import { Render2DNode } from "../render_2d_node.js";
 import { GetTextureBufferTypeEnum } from "../../../renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
 import { ImageTexture } from "../../../textures/image_texture.js";
 import { TextTexture } from "../../../textures/text_texture.js";
-import { Rectangle } from "../../../math/geometry_2d_defs/rectangle.js";
+import { RectangleDef } from "../../../math/geometry_2d_defs/rectangle_def.js";
 import { Sprite2DPipe } from "./sprite2d_pipe/sprite2d_pipe.js";
 
 export class Sprite2D extends Render2DNode {
 	/** @type {CanvasEngineType.Sprite2DTexture} */
 	_texture;
-	/** @type {CanvasEngineType.Rectangle} */
+	/** @type {CanvasEngineType.RectangleDef} */
 	geometry;
 	/** @type {CanvasEngineType.GetTextureBufferTypeEnum} */
 	getTextureBufferType;
@@ -24,7 +24,7 @@ export class Sprite2D extends Render2DNode {
 		super();
 
 		this._texture = texture;
-		this.geometry = new Rectangle();
+		this.geometry = new RectangleDef();
 
 		this.getTextureBufferType = GetTextureBufferTypeEnum.fromTextureWidthAndHeight;
 
@@ -117,6 +117,13 @@ export class Sprite2D extends Render2DNode {
 	 */
 	static createFromUrl(url) {
 		return new Sprite2D(ImageTexture.createFromUrl(url));
+	}
+
+	/**
+	 * @param {CanvasEngineType.Sprite2DTexture} texture
+	 */
+	static createFromTexture(texture) {
+		return new Sprite2D(texture);
 	}
 
 	/**

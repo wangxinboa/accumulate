@@ -4,7 +4,12 @@ import {
 	GlBufferTargetTypeEnum,
 	GlBufferUsageTypeEnum,
 } from "../../../../renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
-import { aPositionName, aTextureCoordName, sprite2DGlProgramFormat, uImageName } from "./gl_program_format.js";
+import {
+	aPositionName,
+	aTextureCoordName,
+	sprite2DGlProgramFormat,
+	uImageName,
+} from "./sprite2d_pipe_gl_program_format.js";
 import { GlAttribs } from "../../../../renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
 import { GlBuffer } from "../../../../renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 import { getPositionUvFloat32ArrayFromWidthAndHeight } from "../../../../renderers/webgl_renderer/webgl_buffer/webgl_buffer_utils.js";

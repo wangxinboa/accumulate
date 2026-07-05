@@ -19,10 +19,8 @@ const exampleRelativePaths = [
 	"./cameras/camera_coordinate_system.js",
 	"./cameras/get_camera_position_example.js",
 	"./event/text_mouse_event_example.js",
-	"./render_nodes/sprite2d_change_texture_example.js",
-	"./render_nodes/sprite2d_text_example.js",
+	"./render_nodes/circle_example.js",
 	"./render_nodes/sprite2d_example.js",
-	"./render_nodes/sprite2d_fixed_geometry.js",
 	"./render_nodes/text_example.js",
 	"./tween/sprite2d_change_position.js",
 ];

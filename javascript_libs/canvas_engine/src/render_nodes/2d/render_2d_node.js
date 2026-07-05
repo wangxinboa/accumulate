@@ -113,8 +113,9 @@ export class Render2DNode extends RenderEventNode {
 
 	/**
 	 * @protected
+	 * @param {any} _args
 	 */
-	_updateGeometry() {
+	_updateGeometry(..._args) {
 		throw new Error("Render2DNode 子类未实现 _updateGeometry 方法");
 	}
 

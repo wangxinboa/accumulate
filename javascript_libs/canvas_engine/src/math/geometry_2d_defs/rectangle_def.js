@@ -1,7 +1,7 @@
 import { Vector2 } from "../vector2.js";
 import { Geometry2DDef } from "./geometry_2d_def.js";
 
-export class Rectangle extends Geometry2DDef {
+export class RectangleDef extends Geometry2DDef {
 	constructor(minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity) {
 		super();
 
