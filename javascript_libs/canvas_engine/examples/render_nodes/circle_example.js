@@ -2,9 +2,18 @@ import { engine } from "../canvas_engine_examples.module.js";
 import { Circle } from "../../src/render_nodes/2d/circle/circle.js";
 import { Color } from "../../src/math/color.js";
 import { Sprite2D } from "../../src/render_nodes/2d/sprite2d/sprite2d.js";
+import { GUI } from "../../../../javascript_libs/lil-gui/dist/lil-gui.esm.js";
+
+const camera = engine.camera;
+
+engine.scene.onWheel((_node, dx, dy) => {
+	camera.x -= dx;
+	camera.y -= dy;
+});
 
 // 创建一个点，半径30，红色，半透明
-const circle = new Circle(30, new Color(1, 1, 0, 1));
+const circle = new Circle(100, new Color(1, 1, 0, 1));
+circle.color.hexString = "#87876e";
 circle.x = 400;
 circle.y = 200;
 circle.centerSelf();
@@ -13,7 +22,6 @@ engine.scene.add(circle);
 // 点击点改变颜色和半径
 circle.onMouseDown(() => {
 	circle.color = new Color(Math.random(), Math.random(), Math.random());
-	circle.radius = 20 + Math.random() * 40;
 });
 
 // 显示操作提示
@@ -27,6 +35,23 @@ const desc = Sprite2D.createFromText("Point 示例");
 desc.x = 20;
 desc.y = 20;
 engine.scene.add(desc);
+
+// ===== GUI 控制 =====
+const gui = new GUI({ title: "Circle 控制" });
+
+// 添加半径控制
+gui.add(circle, "radius", 0, 100, 0.1).name("半径");
+
+// 添加颜色控制
+gui.addColor(circle.color, "hexString").name("颜色");
+
+// 添加透明度控制（可选）
+gui
+	.add(circle.color, "a", 0, 1, 0.01)
+	.name("透明度")
+	.onChange((/** @type {number} */ val) => {
+		circle.color.setAlpha(val);
+	});
 
 // let count = 0;
 

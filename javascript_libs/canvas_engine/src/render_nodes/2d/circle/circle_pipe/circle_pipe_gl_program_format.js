@@ -29,7 +29,7 @@ const fragmentSource =
 	"varying vec2 v_position;" +
 	"void main() {" +
 	"float dist = distance(v_position, vec2(u_radius, u_radius));" +
-	"float t = 1.0 - clamp(dist - u_radius + 1.0, 0.0, 1.0);" +
+	"float t = 1.0 - smoothstep(u_radius - 0.5, u_radius + 0.5, dist);" +
 	"gl_FragColor = vec4(u_color.rgb, u_color.a * t);" +
 	"}";
 

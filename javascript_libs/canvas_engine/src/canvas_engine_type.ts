@@ -10,6 +10,11 @@ import { CanvasRenderer as CanvasRendererClass } from "./renderers/canvas_render
 import { WebGL2DRenderer as WebGL2DRendererClass } from "./renderers/webgl_renderer/webgl_2d_renderer.js";
 import { WebGLProgramSystem as WebGLProgramSystemClass } from "./renderers/webgl_renderer/webgl_program/webgl_program_system.js";
 import { WebGLBufferSystem as WebGLBufferSystemClass } from "./renderers/webgl_renderer/webgl_buffer/webgl_buffer_system.js";
+import { WebGLStateSystem as WebGLStateSystemClass } from "./renderers/webgl_renderer/webgl_state/webgl_state_system.js";
+import {
+	GlBlendParamTypeEnum as _GlBlendParamTypeEnum,
+	GlBlendEquationTypeEnum as _GlBlendEquationTypeEnum,
+} from "./renderers/webgl_renderer/webgl_state/webgl_state_constants.js";
 import { WebGLTextureSystem as WebGLTextureSystemClass } from "./renderers/webgl_renderer/webgl_texture/webgl_texture_system.js";
 import { GlProgram as GlProgramClass } from "./renderers/webgl_renderer/webgl_program/gl_program/gl_program.js";
 import { UniformLocation as UniformLocationClass } from "./renderers/webgl_renderer/webgl_program/gl_program/gl_location/uniform_location.js";
@@ -40,7 +45,7 @@ import {
 	GlTexturePnameTypeEnum as _GlTexturePnameTypeEnum,
 	GlTextureParamTypeEnum as _GlTextureParamTypeEnum,
 	GlTextureImageUnitEnum as _GlTextureImageUnitEnum,
-} from "./renderers/webgl_renderer/webgl_texture/gl_texture_type.js";
+} from "./renderers/webgl_renderer/webgl_texture/gl_texture_constants.js";
 
 declare global {
 	namespace CanvasEngineType {
@@ -188,6 +193,7 @@ declare global {
 		type CanvasRenderer = CanvasRendererClass;
 		type WebGLProgramSystem = WebGLProgramSystemClass;
 		type WebGLBufferSystem = WebGLBufferSystemClass;
+		type WebGLStateSystem = WebGLStateSystemClass;
 		type WebGLTextureSystem = WebGLTextureSystemClass;
 		type GlProgram = GlProgramClass;
 		type UniformLocation = UniformLocationClass;
@@ -266,6 +272,10 @@ declare global {
 			 */
 			drawArrays(node: TNode, gl: WebGLContext, glProgram: GlProgram): void;
 		}
+
+		type GlBlendParamTypeEnum = keyof typeof _GlBlendParamTypeEnum;
+		type GlBlendEquationTypeEnum = keyof typeof _GlBlendEquationTypeEnum;
+
 		type RenderEventNodeCallback<T extends RenderEventNode> = (
 			renderEventNode: T,
 			x: number,

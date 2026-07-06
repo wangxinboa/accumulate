@@ -4,6 +4,7 @@ let textTextureKey = 0;
 const canvasDom = document.createElement("canvas");
 const ctx = canvasDom.getContext("2d", {
 	willReadFrequently: true,
+	alpha: true,
 });
 
 export class TextTexture extends BaseTexture {
@@ -95,7 +96,7 @@ export class TextTexture extends BaseTexture {
 
 			ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-			ctx.fillStyle = "rgba(255, 255, 255, 1)";
+			ctx.fillStyle = "rgba(255, 255, 255, 0)";
 			ctx.fillRect(0, 0, canvasDom.width, canvasDom.height);
 
 			ctx.textBaseline = "alphabetic";

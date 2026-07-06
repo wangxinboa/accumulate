@@ -8,6 +8,7 @@ export const engine = new Canvas2DEngine({
 	autoStart: true,
 	waitLoadingCompleteStart: false,
 	backgroundColor: 0xff0000,
+	antialias: true,
 });
 
 StatsTool.init();

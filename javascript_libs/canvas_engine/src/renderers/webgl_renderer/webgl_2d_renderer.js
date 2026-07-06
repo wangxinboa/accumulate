@@ -3,6 +3,7 @@ import { WebGLProgramSystem } from "./webgl_program/webgl_program_system.js";
 import { WebGLExtensions } from "./webgl_extensions.js";
 import { WebGLBufferSystem } from "./webgl_buffer/webgl_buffer_system.js";
 import { WebGLTextureSystem } from "./webgl_texture/webgl_texture_system.js";
+import { WebGLStateSystem } from "./webgl_state/webgl_state_system.js";
 import { uCameraProjectionName, uCameraViewName, uRenderNodeModelName } from "./shaders/global_uniform_names.js";
 import { Scene2D } from "../../render_nodes/2d/scene2d.js";
 import { Camera2D } from "../../cameras/camera2d.js";
@@ -24,8 +25,11 @@ export class WebGL2DRenderer extends BaseRenderer {
 	bufferSystem;
 	/** @type {WebGLTextureSystem} */
 	textureSystem;
+	/** @type {WebGLStateSystem} */
+	stateSystem;
 	/** @type {number} */
 	webglVersion;
+
 	/**
 	 * @param {CanvasEngineType.Canvas2DEngineOption} webgl2DRendererOption
 	 */
@@ -39,6 +43,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.programSystem = new WebGLProgramSystem(this);
 		this.bufferSystem = new WebGLBufferSystem(this);
 		this.textureSystem = new WebGLTextureSystem(this);
+		this.stateSystem = new WebGLStateSystem(this);
 
 		this.eventSystem.activate2D(this.scene, this.camera);
 
@@ -57,6 +62,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 
 		this.extensions.initExtensions();
 	}
+
 	/**
 	 * @param {number} width
 	 * @param {number} height
@@ -65,17 +71,21 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.camera.updateProjection(width, height, this.canvasSystem.devicePixelRatio);
 		this.gl.viewport(0, 0, this.canvasSystem.canvasDom.width, this.canvasSystem.canvasDom.height);
 	}
+
 	resetGl() {
 		this.extensions.initExtensions();
 		this.programSystem.resetGlPrograms();
 		this.bufferSystem.resetGlBuffers();
 		this.textureSystem.resetGlTextures();
+		this.stateSystem.resetState();
 	}
+
 	deleteGlCache() {
 		this.programSystem.deleteGlPrograms();
 		this.bufferSystem.deleteGlBuffers();
 		this.textureSystem.deleteGlTextures();
 	}
+
 	clear() {
 		this.gl.clearColor(
 			this.backgroundSystem.color.r,
@@ -86,13 +96,11 @@ export class WebGL2DRenderer extends BaseRenderer {
 
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 	}
+
 	/**
 	 * @param {number} timestamp
 	 */
 	render(timestamp) {
-		this.gl.enable(this.gl.BLEND);
-		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
-
 		this.clear();
 
 		this.camera.updateMatrix();
@@ -101,6 +109,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.scene.clearDescendants();
 		this._traverseRender(this.scene, this.camera, timestamp);
 	}
+
 	/**
 	 * @abstract @param {CanvasEngineType.AllRenderNode} renderNode
 	 * @param {CanvasEngineType.Camera2D} camera
@@ -109,6 +118,8 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.scene.registerDescendant(renderNode);
 
 		renderNode.updateMatrix();
+
+		this.stateSystem.setState(renderNode);
 
 		// 使用 renderNode.pipe 获取程序
 		const glProgram = this.programSystem.useProgram(renderNode);
@@ -133,6 +144,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 		renderNode.pipe.uniform(renderNode, this.gl, this.textureSystem, glProgram);
 		renderNode.pipe.drawArrays(renderNode, this.gl, glProgram);
 	}
+
 	destroy() {
 		this.scene.destroy();
 		this.camera.destroy();
@@ -141,6 +153,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.programSystem.destroy();
 		this.bufferSystem.destroy();
 		this.textureSystem.destroy();
+		this.stateSystem.destroy();
 
 		super.destroy();
 	}

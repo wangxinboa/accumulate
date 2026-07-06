@@ -1,5 +1,5 @@
 import { BaseCleanUp, CustomMap } from "../../../../../../javascript_utils/javascript_utils.js";
-import { GlTextureImageUnitEnum } from "../../webgl_texture/gl_texture_type.js";
+import { GlTextureImageUnitEnum } from "../../webgl_texture/gl_texture_constants.js";
 import { GlDataTypeEnum } from "./gl_data_type.js";
 import { AttribLocation } from "./gl_location/attrib_location.js";
 import { UniformLocation } from "./gl_location/uniform_location.js";
