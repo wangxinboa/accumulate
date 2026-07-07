@@ -23,6 +23,9 @@ export class Canvas2DEngine extends BaseCanvasEngine {
 	get keyboard() {
 		return this.renderer.eventSystem.keyboard;
 	}
+	get eventSystem() {
+		return this.renderer.eventSystem;
+	}
 	/**
 	 * @param {CanvasEngineType.CanvasDomResizeCallback} callback
 	 */

@@ -1,6 +1,7 @@
 import { getInitUrlSearchParam } from "../../javascript_utils/javascript_utils.js";
 import { Canvas2DEngine } from "../src/canvas_2d_engine.js";
 import { StatsTool } from "../../stats.js/stats.js";
+import { initHitTest } from "./test_tools/hit_test/hit_test.js"; // 新增导入
 
 export const engine = new Canvas2DEngine({
 	container: document.body,
@@ -9,6 +10,13 @@ export const engine = new Canvas2DEngine({
 	waitLoadingCompleteStart: false,
 	backgroundColor: 0xff0000,
 	antialias: true,
+});
+
+const camera = engine.camera;
+
+engine.scene.onWheel((_node, dx, dy) => {
+	camera.x -= dx;
+	camera.y -= dy;
 });
 
 StatsTool.init();
@@ -38,3 +46,6 @@ if (exampleId) {
 } else {
 	throw new Error("exampleId 参数不存在");
 }
+
+// 2. 初始化点击测试工具
+initHitTest();

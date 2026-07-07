@@ -4,13 +4,6 @@ import { Color } from "../../src/math/color.js";
 import { Sprite2D } from "../../src/render_nodes/2d/sprite2d/sprite2d.js";
 import { GUI } from "../../../../javascript_libs/lil-gui/dist/lil-gui.esm.js";
 
-const camera = engine.camera;
-
-engine.scene.onWheel((_node, dx, dy) => {
-	camera.x -= dx;
-	camera.y -= dy;
-});
-
 // 显示操作提示
 const info = Sprite2D.createFromText("点击点改变颜色和大小");
 engine.scene.add(info);

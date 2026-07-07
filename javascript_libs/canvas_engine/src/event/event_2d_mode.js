@@ -96,6 +96,31 @@ export class Event2DMode extends BaseCleanUp {
 		return renderNode.hitTest(_hitPoint.x, _hitPoint.y);
 	}
 	/**
+	 * 公开的命中测试方法，不触发任何事件
+	 * @param {number} cameraX - 相机坐标 x
+	 * @param {number} cameraY - 相机坐标 y
+	 * @returns {boolean} 是否命中任何可计数的节点
+	 */
+	hitTestPointInCamera(cameraX, cameraY) {
+		if (!this.scene2D) {
+			return false;
+		}
+
+		for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
+			const descendant = this.scene2D.allDescendants[i];
+			if (descendant.hitTestDisabled) {
+				continue;
+			}
+			_hitPoint.set(cameraX, cameraY);
+			_hitPoint.applyMatrix3(descendant.matrixWorldInvert);
+
+			if (descendant.hitTest(_hitPoint.x, _hitPoint.y)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
 	 * @param {number} offsetX
 	 * @param {number} offsetY
 	 */

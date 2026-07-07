@@ -1,8 +1,6 @@
 import { engine } from "../canvas_engine_examples.module.js";
 import { Sprite2D } from "../../src/render_nodes/2d/sprite2d/sprite2d.js";
 
-const camera = engine.camera;
-
 const pos = Sprite2D.createFromText(`-,-`);
 
 pos.x = 200;
@@ -32,8 +30,3 @@ for (let i = 0; i < 9; i++) {
 	numberSprite2Ds.push(sprite2D);
 	engine.scene.add(sprite2D);
 }
-
-engine.scene.onWheel((_node, dx, dy) => {
-	camera.x -= dx;
-	camera.y -= dy;
-});

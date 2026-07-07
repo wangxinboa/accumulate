@@ -27,9 +27,6 @@ engine.scene.onMouseUp((_node, x, y) => {
 });
 
 engine.scene.onWheel((_node, dx, dy) => {
-	camera.x -= dx;
-	camera.y -= dy;
-
 	sprite2DMove.x += dx;
 	sprite2DMove.y += dy;
 });
