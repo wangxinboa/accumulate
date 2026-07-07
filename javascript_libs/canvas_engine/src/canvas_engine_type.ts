@@ -29,6 +29,7 @@ import { RenderEventNode as RenderEventNodeClass } from "./render_nodes/render_e
 import { Render2DNode as Render2DNodeClass } from "./render_nodes/2d/render_2d_node.js";
 import { Scene2D as Scene2DClass } from "./render_nodes/2d/scene2d.js";
 import { Circle as CircleClass } from "./render_nodes/2d/circle/circle.js";
+import { Rectangle as RectangleClass } from "./render_nodes/2d/rectangle/rectangle.js";
 import { Sprite2D as Sprite2DClass } from "./render_nodes/2d/sprite2d/sprite2d.js";
 import { BaseTexture as BaseTextureClass } from "./textures/base_texture.js";
 import { ImageTexture as ImageTextureClass } from "./textures/image_texture.js";
@@ -141,7 +142,7 @@ declare global {
 			stride: number;
 			offset: number;
 		};
-		type GlAttribsFormat = { attribsKey: string; arrtibs: Array<GlAttribFormat> };
+		type GlAttribsFormat = { attribsKey: string; attribs: Array<GlAttribFormat> };
 		/** gl texture */
 		type TextureUnitName =
 			| "TEXTURE0"
@@ -218,6 +219,7 @@ declare global {
 		type Render2DNode = Render2DNodeClass;
 		type Scene2D = Scene2DClass;
 		type Circle = CircleClass;
+		type Rectangle = RectangleClass;
 		type Sprite2D = Sprite2DClass;
 		type Sprite2DTexture = ImageTexture | TextTexture;
 		type AllRenderNode = Sprite2D;

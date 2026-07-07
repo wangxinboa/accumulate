@@ -61,7 +61,7 @@ export class Event2DMode extends BaseCleanUp {
 	 * @private
 	 * @param {CanvasEngineType.Render2DNode} renderNode
 	 */
-	_updatesDragPosition(renderNode) {
+	_updateDragPosition(renderNode) {
 		if (renderNode.applyCameraTransform) {
 			renderNode.x = renderNode.dragStartNodeX + _canvasPositionInCamera.x - renderNode.dragStartEventCameraX;
 			renderNode.y = renderNode.dragStartNodeY + _canvasPositionInCamera.y - renderNode.dragStartEventCameraY;
@@ -166,7 +166,7 @@ export class Event2DMode extends BaseCleanUp {
 					const dragNode = this.dragNodes[i];
 
 					if (dragNode.dragUpdatesPosition) {
-						this._updatesDragPosition(dragNode);
+						this._updateDragPosition(dragNode);
 					}
 					if (dragNode.hasDragEvents) {
 						dragNode.executeDragEvents(
@@ -234,7 +234,7 @@ export class Event2DMode extends BaseCleanUp {
 					_canvasPositionInScene.y,
 				);
 				if (this.camera2D.isDraging && this.hitTestLimit > hitTestCounter) {
-					this._updatesDragPosition(this.camera2D);
+					this._updateDragPosition(this.camera2D);
 				}
 			}
 		}

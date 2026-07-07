@@ -57,3 +57,28 @@ export function getPositionFloat32ArrayFromDiameter(diameter) {
 		diameter,
 	]);
 }
+
+/**
+ * 生成矩形顶点位置数据（无 UV）
+ * @param {number} width
+ * @param {number} height
+ * @returns {Float32Array}
+ */
+export function getPositionFloat32ArrayFromWidthAndHeight(width, height) {
+	return new Float32Array([
+		// 三角形1：左下、右下、左上
+		0,
+		0,
+		width,
+		0,
+		0,
+		height,
+		// 三角形2：左上、右下、右上
+		0,
+		height,
+		width,
+		0,
+		width,
+		height,
+	]);
+}
