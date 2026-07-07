@@ -11,9 +11,18 @@ engine.scene.onWheel((_node, dx, dy) => {
 	camera.y -= dy;
 });
 
+// 显示操作提示
+const info = Sprite2D.createFromText("点击矩形改变颜色和大小");
+engine.scene.add(info);
+
+// 添加一个背景文字说明
+const desc = Sprite2D.createFromText("Rectangle 示例");
+desc.y = info.height;
+engine.scene.add(desc);
+
 // 创建一个矩形，默认宽高100，红色半透明
 const rectangle = new Rectangle(150, 100, new Color(1, 1, 0, 0.8));
-rectangle.x = 400;
+rectangle.x = 200;
 rectangle.y = 200;
 rectangle.centerSelf();
 engine.scene.add(rectangle);
@@ -23,24 +32,12 @@ rectangle.onMouseDown(() => {
 	rectangle.color = new Color(Math.random(), Math.random(), Math.random(), 1);
 });
 
-// 显示操作提示
-const info = Sprite2D.createFromText("点击矩形改变颜色和大小");
-info.x = 20;
-info.y = 50;
-engine.scene.add(info);
-
-// 添加一个背景文字说明
-const desc = Sprite2D.createFromText("Rectangle 示例");
-desc.x = 20;
-desc.y = 20;
-engine.scene.add(desc);
-
 // ===== GUI 控制 =====
 const gui = new GUI({ title: "Rectangle 控制" });
 
 // 添加宽高控制
-gui.add(rectangle, "width", 10, 300, 1).name("宽度");
-gui.add(rectangle, "height", 10, 300, 1).name("高度");
+gui.add(rectangle, "width", 1, 300, 1).name("宽度");
+gui.add(rectangle, "height", 1, 300, 1).name("高度");
 
 // 添加颜色控制
 gui.addColor(rectangle.color, "hexString").name("颜色");

@@ -5,6 +5,7 @@ import { Matrix3 as Matrix3Class } from "./math/matrix3.js";
 import { Matrix4 as Matrix4Class } from "./math/matrix4.js";
 import { Vector2 as Vector2Class } from "./math/vector2.js";
 import { Vector3 as Vector3Class } from "./math/vector3.js";
+import { Canvas2DEngine as Canvas2DEngineClass } from "./canvas_2d_engine.js";
 import { BaseRenderer as BaseRendererClass } from "./renderers/base_renderer.js";
 import { CanvasRenderer as CanvasRendererClass } from "./renderers/canvas_renderer/canvas_renderer.js";
 import { WebGL2DRenderer as WebGL2DRendererClass } from "./renderers/webgl_renderer/webgl_2d_renderer.js";
@@ -188,6 +189,7 @@ declare global {
 		type GlUniformValue = GlTexture | Matrix3 | Matrix4 | number | Color;
 
 		// class
+		type Canvas2DEngine = Canvas2DEngineClass;
 		type BaseRenderer = BaseRendererClass;
 		type WebGL2DRenderer = WebGL2DRendererClass;
 		type WebGLRenderer = WebGL2DRenderer;

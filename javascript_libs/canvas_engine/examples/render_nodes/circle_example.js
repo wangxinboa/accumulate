@@ -11,11 +11,20 @@ engine.scene.onWheel((_node, dx, dy) => {
 	camera.y -= dy;
 });
 
+// 显示操作提示
+const info = Sprite2D.createFromText("点击点改变颜色和大小");
+engine.scene.add(info);
+
+// 添加一个背景文字说明
+const desc = Sprite2D.createFromText("Point 示例");
+desc.y = info.height;
+engine.scene.add(desc);
+
 // 创建一个点，半径30，红色，半透明
 const circle = new Circle(100, new Color(1, 1, 0, 1));
 circle.color.hexString = "#87876e";
-circle.x = 400;
-circle.y = 200;
+circle.x = 300;
+circle.y = desc.height + 300;
 circle.centerSelf();
 engine.scene.add(circle);
 
@@ -23,18 +32,6 @@ engine.scene.add(circle);
 circle.onMouseDown(() => {
 	circle.color = new Color(Math.random(), Math.random(), Math.random());
 });
-
-// 显示操作提示
-const info = Sprite2D.createFromText("点击点改变颜色和大小");
-info.x = 20;
-info.y = 50;
-engine.scene.add(info);
-
-// 添加一个背景文字说明
-const desc = Sprite2D.createFromText("Point 示例");
-desc.x = 20;
-desc.y = 20;
-engine.scene.add(desc);
 
 // ===== GUI 控制 =====
 const gui = new GUI({ title: "Circle 控制" });

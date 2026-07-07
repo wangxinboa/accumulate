@@ -65,21 +65,6 @@ export class Rectangle extends Render2DNode {
 			this.geometry.max.y = val;
 		}
 	}
-
-	/**
-	 * 固定几何体尺寸
-	 * @param {number} width
-	 * @param {number} height
-	 * @returns {this}
-	 */
-	fixGeometry(width, height) {
-		this.width = width;
-		this.height = height;
-		this.geometry.updateShape(0, 0, width, height);
-		this._fixedGeometry = true;
-		return this;
-	}
-
 	/**
 	 * 静态工厂方法
 	 * @param {number} width
