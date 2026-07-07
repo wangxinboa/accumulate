@@ -104,7 +104,14 @@ export function initHitTest() {
 	activeEvent = engine.eventSystem.activeEvent;
 
 	// 注册事件（使用已抽离的函数）
-	engine.scene.onMouseDown(handleMouseDown);
-	engine.scene.onMouseMove(handleMouseMove);
-	engine.scene.onMouseUp(handleMouseUp);
+	engine.scene.addMouseDownEvent(handleMouseDown);
+	engine.scene.addMouseMoveEvent(handleMouseMove);
+	engine.scene.addMouseUpEvent(handleMouseUp);
+}
+
+export function disableHitTest() {
+	// 注册事件（使用已抽离的函数）
+	engine.scene.removeMouseDownEvent(handleMouseDown);
+	engine.scene.removeMouseMoveEvent(handleMouseMove);
+	engine.scene.removeMouseUpEvent(handleMouseUp);
 }

@@ -21,7 +21,7 @@ rectangle.centerSelf();
 engine.scene.add(rectangle);
 
 // 点击矩形改变颜色
-rectangle.onMouseDown(() => {
+rectangle.addMouseDownEvent(() => {
 	rectangle.color = new Color(Math.random(), Math.random(), Math.random(), 1);
 });
 

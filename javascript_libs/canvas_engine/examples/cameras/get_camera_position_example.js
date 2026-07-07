@@ -13,20 +13,20 @@ engine.scene.add(sprite2DMove);
 const sprite2DUp = Sprite2D.createFromUrl("../assets/bunny.png");
 engine.scene.add(sprite2DUp);
 
-engine.scene.onMouseDown((_node, x, y) => {
+engine.scene.addMouseDownEvent((_node, x, y) => {
 	sprite2DDown.x = x;
 	sprite2DDown.y = y;
 });
-engine.scene.onMouseMove((_node, x, y) => {
+engine.scene.addMouseMoveEvent((_node, x, y) => {
 	sprite2DMove.x = x;
 	sprite2DMove.y = y;
 });
-engine.scene.onMouseUp((_node, x, y) => {
+engine.scene.addMouseUpEvent((_node, x, y) => {
 	sprite2DUp.x = x;
 	sprite2DUp.y = y;
 });
 
-engine.scene.onWheel((_node, dx, dy) => {
+engine.scene.addWheelEvent((_node, dx, dy) => {
 	sprite2DMove.x += dx;
 	sprite2DMove.y += dy;
 });

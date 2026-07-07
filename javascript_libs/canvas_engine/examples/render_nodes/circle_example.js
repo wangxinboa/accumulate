@@ -22,7 +22,7 @@ circle.centerSelf();
 engine.scene.add(circle);
 
 // 点击点改变颜色和半径
-circle.onMouseDown(() => {
+circle.addMouseDownEvent(() => {
 	circle.color = new Color(Math.random(), Math.random(), Math.random());
 });
 
@@ -42,13 +42,3 @@ gui
 	.onChange((/** @type {number} */ val) => {
 		circle.color.setAlpha(val);
 	});
-
-// let count = 0;
-
-// engine.timeTicker.addRunCallback(function () {
-// 	if (count > 30) {
-// 		// engine.timeTicker.pause();
-// 	}
-
-// 	count++;
-// });

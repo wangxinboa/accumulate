@@ -14,7 +14,7 @@ export const engine = new Canvas2DEngine({
 
 const camera = engine.camera;
 
-engine.scene.onWheel((_node, dx, dy) => {
+engine.scene.addWheelEvent((_node, dx, dy) => {
 	camera.x -= dx;
 	camera.y -= dy;
 });

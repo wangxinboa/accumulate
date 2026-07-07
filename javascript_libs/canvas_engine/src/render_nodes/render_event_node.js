@@ -71,8 +71,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
-	onMouseDown(eventCallback) {
-		this.mouseDownEvents.push(eventCallback);
+	addMouseDownEvent(eventCallback) {
+		if (!this.mouseDownEvents.includes(eventCallback)) {
+			this.mouseDownEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeMouseDownEvent(eventCallback) {
+		const index = this.mouseDownEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.mouseDownEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
@@ -93,8 +105,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
-	onMouseMove(eventCallback) {
-		this.mouseMoveEvents.push(eventCallback);
+	addMouseMoveEvent(eventCallback) {
+		if (!this.mouseMoveEvents.includes(eventCallback)) {
+			this.mouseMoveEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeMouseMoveEvent(eventCallback) {
+		const index = this.mouseMoveEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.mouseMoveEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
@@ -115,8 +139,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
-	onMouseUp(eventCallback) {
-		this.mouseUpEvents.push(eventCallback);
+	addMouseUpEvent(eventCallback) {
+		if (!this.mouseUpEvents.includes(eventCallback)) {
+			this.mouseUpEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeMouseUpEvent(eventCallback) {
+		const index = this.mouseUpEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.mouseUpEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
@@ -137,8 +173,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
-	onMouseEnter(eventCallback) {
-		this.mouseEnterEvents.push(eventCallback);
+	addMouseEnterEvent(eventCallback) {
+		if (!this.mouseEnterEvents.includes(eventCallback)) {
+			this.mouseEnterEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeMouseEnterEvent(eventCallback) {
+		const index = this.mouseEnterEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.mouseEnterEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
@@ -159,8 +207,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
-	onMouseLeave(eventCallback) {
-		this.mouseLeaveEvents.push(eventCallback);
+	addMouseLeaveEvent(eventCallback) {
+		if (!this.mouseLeaveEvents.includes(eventCallback)) {
+			this.mouseLeaveEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeMouseLeaveEvent(eventCallback) {
+		const index = this.mouseLeaveEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.mouseLeaveEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
@@ -181,8 +241,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
-	onDragStart(eventCallback) {
-		this.dragStartEvents.push(eventCallback);
+	addDragStartEvent(eventCallback) {
+		if (!this.dragStartEvents.includes(eventCallback)) {
+			this.dragStartEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeDragStartEvent(eventCallback) {
+		const index = this.dragStartEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.dragStartEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
@@ -203,8 +275,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
-	onDrag(eventCallback) {
-		this.dragEvents.push(eventCallback);
+	addDragEvent(eventCallback) {
+		if (!this.dragEvents.includes(eventCallback)) {
+			this.dragEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeDragEvent(eventCallback) {
+		const index = this.dragEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.dragEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
@@ -225,8 +309,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
-	onDragEnd(eventCallback) {
-		this.dragEndEvents.push(eventCallback);
+	addDragEndEvent(eventCallback) {
+		if (!this.dragEndEvents.includes(eventCallback)) {
+			this.dragEndEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeDragEndEvent(eventCallback) {
+		const index = this.dragEndEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.dragEndEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
@@ -244,8 +340,20 @@ export class RenderEventNode extends RenderNode {
 	/**
 	 * @param {CanvasEngineType.RenderNodeWheelEventCallback<this>} eventCallback
 	 */
-	onWheel(eventCallback) {
-		this.wheelEvents.push(eventCallback);
+	addWheelEvent(eventCallback) {
+		if (!this.wheelEvents.includes(eventCallback)) {
+			this.wheelEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderNodeWheelEventCallback<this>} eventCallback
+	 */
+	removeWheelEvent(eventCallback) {
+		const index = this.wheelEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.wheelEvents.splice(index, 1);
+		}
 		return this;
 	}
 	/**
