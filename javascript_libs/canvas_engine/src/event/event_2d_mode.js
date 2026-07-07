@@ -157,7 +157,7 @@ export class Event2DMode extends BaseCleanUp {
 						descendant.hasDragStartEvents ||
 						descendant.hasDragEvents ||
 						descendant.hasDragEndEvents ||
-						descendant.dragUpdatesPosition
+						descendant.dragUpdatePosition
 					) {
 						this._cacheDragPosition(descendant);
 
@@ -174,7 +174,7 @@ export class Event2DMode extends BaseCleanUp {
 				_canvasPositionInScene.x,
 				_canvasPositionInScene.y,
 			);
-			if (this.camera2D.dragUpdatesPosition && this.hitTestLimit > hitTestCounter) {
+			if (this.camera2D.dragUpdatePosition && this.hitTestLimit > hitTestCounter) {
 				this._cacheDragPosition(this.camera2D);
 			}
 		}
@@ -190,7 +190,7 @@ export class Event2DMode extends BaseCleanUp {
 				for (let i = 0, len = this.dragNodes.length; i < len; i++) {
 					const dragNode = this.dragNodes[i];
 
-					if (dragNode.dragUpdatesPosition) {
+					if (dragNode.dragUpdatePosition) {
 						this._updateDragPosition(dragNode);
 					}
 					if (dragNode.hasDragEvents) {

@@ -18,37 +18,37 @@ for (let i = 0; i < textureUrls.length; i++) {
 	textures.push(ImageTexture.createFromUrl(textureUrls[i]));
 }
 
-const udpateTextureText = Sprite2D.createFromText(`更新 texture`);
-udpateTextureText.x = 100;
-udpateTextureText.y = 0;
-engine.scene.add(udpateTextureText);
+const updateTextureText = Sprite2D.createFromText(`更新 texture`);
+updateTextureText.x = 100;
+updateTextureText.y = 0;
+engine.scene.add(updateTextureText);
 
-const udpateTexture = Sprite2D.createFromTexture(textures[0]);
-udpateTexture.x = 100;
-udpateTexture.y = 50;
-udpateTexture.pivotX = 0.5;
-udpateTexture.pivotY = 0.5;
+const updateTexture = Sprite2D.createFromTexture(textures[0]);
+updateTexture.x = 100;
+updateTexture.y = 50;
+updateTexture.pivotX = 0.5;
+updateTexture.pivotY = 0.5;
 
-engine.scene.add(udpateTexture);
+engine.scene.add(updateTexture);
 
-const fixedUdpateTextureText = Sprite2D.createFromText(`fixed 更新 texture`);
-fixedUdpateTextureText.x = 300;
-fixedUdpateTextureText.y = 0;
-engine.scene.add(fixedUdpateTextureText);
+const fixedUpdateTextureText = Sprite2D.createFromText(`fixed 更新 texture`);
+fixedUpdateTextureText.x = 300;
+fixedUpdateTextureText.y = 0;
+engine.scene.add(fixedUpdateTextureText);
 
-const fixedUdpateTexture = Sprite2D.createFromTexture(textures[0]);
-fixedUdpateTexture.x = 300;
-fixedUdpateTexture.y = 50;
-fixedUdpateTexture.fixGeometry(60, 90);
-fixedUdpateTexture.dragUpdatesPosition = true;
-engine.scene.add(fixedUdpateTexture);
+const fixedUpdateTexture = Sprite2D.createFromTexture(textures[0]);
+fixedUpdateTexture.x = 300;
+fixedUpdateTexture.y = 50;
+fixedUpdateTexture.fixGeometry(60, 90);
+fixedUpdateTexture.dragUpdatePosition = true;
+engine.scene.add(fixedUpdateTexture);
 
 let count = 0;
 let textureIndex = 0;
 
 engine.timeTicker.addRunCallback(function () {
 	if (count > 30) {
-		fixedUdpateTexture.texture = udpateTexture.texture = textures[++textureIndex % textures.length];
+		fixedUpdateTexture.texture = updateTexture.texture = textures[++textureIndex % textures.length];
 		count = 0;
 	}
 

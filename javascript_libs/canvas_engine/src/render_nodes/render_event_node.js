@@ -36,7 +36,7 @@ export class RenderEventNode extends RenderNode {
 	/** @type {number} */
 	dragStartEventCameraY;
 	/** @type {boolean} */
-	dragUpdatesPosition;
+	dragUpdatePosition;
 	/** @type {boolean} */
 	isDraging;
 	constructor() {
@@ -62,7 +62,7 @@ export class RenderEventNode extends RenderNode {
 		this.dragStartEventSceneY = 0;
 		this.dragStartEventCameraX = 0;
 		this.dragStartEventCameraY = 0;
-		this.dragUpdatesPosition = false;
+		this.dragUpdatePosition = false;
 		this.isDraging = false;
 	}
 	get hasMouseDownEvents() {

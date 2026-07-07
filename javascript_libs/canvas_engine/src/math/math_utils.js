@@ -50,3 +50,14 @@ export function rgbToHexString(r, g, b) {
 	const bi = Math.round(b * 255);
 	return "#" + ((1 << 24) + (ri << 16) + (gi << 8) + bi).toString(16).slice(1);
 }
+
+/**
+ * 计算叉积符号，用于判断方向和点在三角形的哪一侧
+ * @param {{x: number, y: number}} p1
+ * @param {{x: number, y: number}} p2
+ * @param {{x: number, y: number}} p3
+ * @returns {number}
+ */
+export function sign(p1, p2, p3) {
+	return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+}

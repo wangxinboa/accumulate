@@ -35,7 +35,6 @@ export class Circle extends Render2DNode {
 		this.geometry.updateShape(value);
 		this.width = value * 2;
 		this.height = value * 2;
-		this.matrixNeedsUpdate = true;
 	}
 
 	static create(radius = 10, color = new Color(1, 1, 1)) {

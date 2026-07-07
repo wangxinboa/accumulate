@@ -60,7 +60,7 @@ const mouseDragText = Sprite2D.createFromText(`${mouseDragTextString}-${mouseDra
 	mouseDragText.text = `${mouseDragTextString}-${++mouseDragTextCount}`;
 });
 
-mouseDragText.dragUpdatesPosition = true;
+mouseDragText.dragUpdatePosition = true;
 mouseDragText.x = 0;
 mouseDragText.y = 400;
 engine.scene.add(mouseDragText);

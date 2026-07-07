@@ -121,7 +121,7 @@ export class Render2DNode extends RenderEventNode {
 
 	// matrix 更新
 	updateMatrix() {
-		if (this.matrixNeedsUpdate) {
+		if (this.matrixNeedUpdate) {
 			this.matrix
 				.identity()
 				.multiply(matrix3.makeTranslation(this.x - this.width * this.pivotX, this.y - this.height * this.pivotY))
@@ -130,7 +130,7 @@ export class Render2DNode extends RenderEventNode {
 
 			this.updateMatrixWorld();
 
-			this.matrixNeedsUpdate = false;
+			this.matrixNeedUpdate = false;
 		}
 	}
 
@@ -158,14 +158,14 @@ export class Render2DNode extends RenderEventNode {
 	}
 	set x(val) {
 		this._x = val;
-		this.matrixNeedsUpdate = true;
+		this.matrixNeedUpdate = true;
 	}
 	get y() {
 		return this._y;
 	}
 	set y(val) {
 		this._y = val;
-		this.matrixNeedsUpdate = true;
+		this.matrixNeedUpdate = true;
 	}
 	centerSelf() {
 		this.pivotX = this.pivotY = 0.5;
@@ -175,14 +175,14 @@ export class Render2DNode extends RenderEventNode {
 	}
 	set pivotX(val) {
 		this._pivotX = clamp(val, -1, 1);
-		this.matrixNeedsUpdate = true;
+		this.matrixNeedUpdate = true;
 	}
 	get pivotY() {
 		return this._pivotY;
 	}
 	set pivotY(val) {
 		this._pivotY = clamp(val, -1, 1);
-		this.matrixNeedsUpdate = true;
+		this.matrixNeedUpdate = true;
 	}
 	get rotationAngle() {
 		return this._rotationAngle;
@@ -191,7 +191,7 @@ export class Render2DNode extends RenderEventNode {
 		this._rotationAngle = val;
 		this._rotationMatrix3 = val * PiDivide180;
 
-		this.matrixNeedsUpdate = true;
+		this.matrixNeedUpdate = true;
 	}
 	get rotation() {
 		return this._rotationMatrix3;
@@ -200,21 +200,21 @@ export class Render2DNode extends RenderEventNode {
 		this._rotationMatrix3 = val;
 		this._rotationAngle = val / PiDivide180;
 
-		this.matrixNeedsUpdate = true;
+		this.matrixNeedUpdate = true;
 	}
 	get scaleX() {
 		return this._scaleX;
 	}
 	set scaleX(val) {
 		this._scaleX = val;
-		this.matrixNeedsUpdate = true;
+		this.matrixNeedUpdate = true;
 	}
 	get scaleY() {
 		return this._scaleY;
 	}
 	set scaleY(val) {
 		this._scaleY = val;
-		this.matrixNeedsUpdate = true;
+		this.matrixNeedUpdate = true;
 	}
 
 	// 宽高

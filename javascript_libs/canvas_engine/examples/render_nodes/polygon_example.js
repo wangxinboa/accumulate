@@ -4,15 +4,13 @@ import { Color } from "../../src/math/color.js";
 import { Sprite2D } from "../../src/render_nodes/2d/sprite2d/sprite2d.js";
 import { GUI } from "../../../../javascript_libs/lil-gui/dist/lil-gui.esm.js";
 
-// ===== 1. 凸多边形示例：六边形 =====
+// ===== 1. 凸多边形示例：六边形（扁平坐标数组） =====
+/** @type {Array<number>} */
 const hexagonPoints = [];
 const radius = 80;
 for (let i = 0; i < 6; i++) {
 	const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
-	hexagonPoints.push({
-		x: radius * Math.cos(angle),
-		y: radius * Math.sin(angle),
-	});
+	hexagonPoints.push(radius * Math.cos(angle), radius * Math.sin(angle));
 }
 
 const hexagon = new Polygon(hexagonPoints, new Color(0.2, 0.6, 1, 0.8));
@@ -21,15 +19,8 @@ hexagon.y = 200;
 hexagon.centerSelf();
 engine.scene.add(hexagon);
 
-// ===== 2. 凹多边形示例：L 形 =====
-const lShapePoints = [
-	{ x: 0, y: 0 },
-	{ x: 150, y: 0 },
-	{ x: 150, y: 80 },
-	{ x: 80, y: 80 },
-	{ x: 80, y: 150 },
-	{ x: 0, y: 150 },
-];
+// ===== 2. 凹多边形示例：L 形（扁平坐标数组） =====
+const lShapePoints = [0, 0, 150, 0, 150, 80, 80, 80, 80, 150, 0, 150];
 
 const lShape = new Polygon(lShapePoints, new Color(1, 0.6, 0.2, 0.8));
 lShape.x = 500;
@@ -38,10 +29,10 @@ lShape.centerSelf();
 engine.scene.add(lShape);
 
 // ===== 交互：点击改变颜色 =====
-hexagon.onMouseDown(() => {
+hexagon.addMouseDownEvent(() => {
 	hexagon.color = new Color(Math.random(), Math.random(), Math.random(), 1);
 });
-lShape.onMouseDown(() => {
+lShape.addMouseDownEvent(() => {
 	lShape.color = new Color(Math.random(), Math.random(), Math.random(), 1);
 });
 
