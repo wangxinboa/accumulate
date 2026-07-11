@@ -11,7 +11,7 @@ export class TextTexture extends BaseTexture {
 	static defaultTextOption = {
 		fontStyle: "normal",
 		fontVariant: "normal",
-		fontSize: 26,
+		fontSize: 16,
 		fontWeight: "normal",
 		fontFamily: "Arial",
 	};

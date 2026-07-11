@@ -8,8 +8,6 @@ export class Polygon extends Render2DNode {
 	color;
 	/** @type {number[]} 扁平坐标数组 [x1, y1, x2, y2, ...] */
 	_points;
-	/** @type {number} 缓存顶点数量，用于 drawArrays */
-	cachedVertexCount;
 	/** @type {boolean} 标记几何体是否需要更新 buffer */
 	bufferNeedUpdate;
 
@@ -23,7 +21,6 @@ export class Polygon extends Render2DNode {
 		this.color = color;
 		this._points = [];
 		this.geometry = new PolygonDef([]);
-		this.cachedVertexCount = 0;
 		this.bufferNeedUpdate = true;
 
 		this.setPoints(points);
@@ -44,6 +41,10 @@ export class Polygon extends Render2DNode {
 		return this._points;
 	}
 
+	get cachedVertexCount() {
+		return this.geometry.triangles.length / 2;
+	}
+
 	/**
 	 * 设置多边形的顶点，自动计算宽高并更新几何体
 	 * @param {number[]} points - 扁平坐标数组 [x1, y1, x2, y2, ...]
@@ -51,6 +52,11 @@ export class Polygon extends Render2DNode {
 	 */
 	setPoints(points) {
 		this._points = points;
+		// 更新碰撞几何体
+		this.geometry.updateShape(points);
+
+		// 标记几何体已改变，需要更新缓冲区
+		this.bufferNeedUpdate = true;
 
 		// 计算边界框，确定节点的宽高（每两个数一对坐标）
 		let minX = Infinity,
@@ -67,16 +73,8 @@ export class Polygon extends Render2DNode {
 			if (y > maxY) maxY = y;
 		}
 		// 避免宽高为0导致矩阵异常
-		const w = Math.max(maxX - minX, 1);
-		const h = Math.max(maxY - minY, 1);
-		this.width = w;
-		this.height = h;
-
-		// 更新碰撞几何体
-		this.geometry.updateShape(points);
-
-		// 标记几何体已改变，需要更新缓冲区
-		this.bufferNeedUpdate = true;
+		this.width = Math.max(maxX - minX, 1);
+		this.height = Math.max(maxY - minY, 1);
 
 		return this;
 	}

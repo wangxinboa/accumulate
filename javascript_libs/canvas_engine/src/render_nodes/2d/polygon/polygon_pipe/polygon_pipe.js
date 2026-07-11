@@ -75,7 +75,6 @@ export const PolygonPipe = {
 			);
 			polygon.bufferNeedUpdate = false;
 		}
-		polygon.cachedVertexCount = trianglesData.length / 2;
 	},
 
 	/**

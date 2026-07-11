@@ -13,6 +13,7 @@ export class GlBuffer extends BaseCleanUp {
 	buffer;
 	/** @type {boolean} */
 	dataHasChange;
+
 	/**
 	 * @param {CanvasEngineType.GlBufferFormat['key']} key
 	 * @param {CanvasEngineType.GlBufferFormat['target']} target
@@ -41,6 +42,7 @@ export class GlBuffer extends BaseCleanUp {
 		gl.bufferData(gl[this.target], this.data, gl[this.usage]);
 		gl.bindBuffer(gl[this.target], null);
 
+		this._allocatedSize = this.data.byteLength;
 		this.dataHasChange = true;
 
 		return this;
@@ -51,12 +53,18 @@ export class GlBuffer extends BaseCleanUp {
 	 * @param {CanvasEngineType.GlBufferFormat['data']} data
 	 */
 	updateBufferSubData(gl, dstByteOffset, data) {
+		// 如果新数据大小超过当前分配的 buffer 容量，则重新分配整个 buffer
+		if (data.byteLength !== this.data.byteLength) {
+			gl.bindBuffer(gl[this.target], this.buffer);
+			gl.bufferData(gl[this.target], data, gl[this.usage]);
+			gl.bindBuffer(gl[this.target], null);
+		} else {
+			gl.bindBuffer(gl[this.target], this.buffer);
+			gl.bufferSubData(gl[this.target], dstByteOffset, data);
+			gl.bindBuffer(gl[this.target], null);
+		}
+
 		this.data = data;
-
-		gl.bindBuffer(gl[this.target], this.buffer);
-		gl.bufferSubData(gl[this.target], dstByteOffset, this.data);
-		gl.bindBuffer(gl[this.target], null);
-
 		this.dataHasChange = true;
 
 		return this;

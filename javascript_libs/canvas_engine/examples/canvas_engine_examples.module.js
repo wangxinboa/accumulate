@@ -8,7 +8,7 @@ export const engine = new Canvas2DEngine({
 	rendererType: "webgl",
 	autoStart: true,
 	waitLoadingCompleteStart: false,
-	backgroundColor: 0xff0000,
+	backgroundColor: 0x00ffff,
 	antialias: true,
 });
 
