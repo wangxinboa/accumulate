@@ -6,9 +6,9 @@ declare global {
 	namespace JavaScriptUtilsType {
 		type BaseTask = BaseTaskClass;
 		type ImageTask = ImageTaskClass;
-		type JsonTask<Object> = JsonTaskClass<Object>;
-		type AllTaskType<T = never> = BaseTask | ImageTask | JsonTask<T>;
-		type TaskCallback<T = never> = (task: AllTaskType<T>) => void;
+		type JsonTask<T> = JsonTaskClass<T>;
+		type AllTaskType = ImageTask | JsonTask<Object>;
+		type TaskCallback<Task> = (task: Task) => void;
 
 		type TweenConfig = {
 			duration: number;

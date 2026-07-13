@@ -23,7 +23,7 @@ export class Loader {
 	/**
 	 * 添加任务到任务数组中
 	 * @private
-	 * @template {JavaScriptUtilsType.BaseTask} T
+	 * @template {JavaScriptUtilsType.AllTaskType} T
 	 * @param {T} task
 	 * @returns {T}
 	 */

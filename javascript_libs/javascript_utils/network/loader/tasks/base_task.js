@@ -3,11 +3,11 @@ import { BaseCleanUp } from "../../../javascript_utils.js";
 export class BaseTask extends BaseCleanUp {
 	/** @type {string} 任务作为独一无二的标识 key */
 	key;
-	/** @type {Array<JavaScriptUtilsType.TaskCallback>} */
+	/** @type {Array<JavaScriptUtilsType.TaskCallback<this>>} */
 	loadedCallbacks;
-	/** @type {Array<JavaScriptUtilsType.TaskCallback>} */
+	/** @type {Array<JavaScriptUtilsType.TaskCallback<this>>} */
 	errorCallbacks;
-	/** @type {Array<JavaScriptUtilsType.TaskCallback>} */
+	/** @type {Array<JavaScriptUtilsType.TaskCallback<this>>} */
 	finalErrorCallbacks;
 	/** @type {boolean} */
 	isLoaded;
@@ -42,8 +42,7 @@ export class BaseTask extends BaseCleanUp {
 		return this;
 	}
 	/**
-	 * @template [T=this]
-	 * @param {JavaScriptUtilsType.TaskCallback<T>} loadedCallback
+	 * @param {JavaScriptUtilsType.TaskCallback<this>} loadedCallback
 	 * @returns {this}
 	 */
 	addLoadedCallback(loadedCallback) {
@@ -60,8 +59,7 @@ export class BaseTask extends BaseCleanUp {
 		this.loadedCallbacks.length = 0;
 	}
 	/**
-	 * @template [T=this]
-	 * @param {JavaScriptUtilsType.TaskCallback<T>} errorCallback
+	 * @param {JavaScriptUtilsType.TaskCallback<this>} errorCallback
 	 */
 	addErrorCallback(errorCallback) {
 		this.errorCallbacks.push(errorCallback);
@@ -80,7 +78,7 @@ export class BaseTask extends BaseCleanUp {
 		}
 	}
 	/**
-	 * @param {JavaScriptUtilsType.TaskCallback} finalErrorCallback
+	 * @param {JavaScriptUtilsType.TaskCallback<this>} finalErrorCallback
 	 */
 	addFinalErrorCallback(finalErrorCallback) {
 		this.finalErrorCallbacks.push(finalErrorCallback);
