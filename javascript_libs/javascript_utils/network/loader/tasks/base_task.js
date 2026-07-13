@@ -1,4 +1,4 @@
-import { BaseCleanUp } from "../../javascript_utils.js";
+import { BaseCleanUp } from "../../../javascript_utils.js";
 
 export class BaseTask extends BaseCleanUp {
 	/** @type {string} 任务作为独一无二的标识 key */
@@ -30,15 +30,21 @@ export class BaseTask extends BaseCleanUp {
 
 		this.isLoaded = false;
 		this.isError = false;
+
+		this.onload = this.onload.bind(this);
+		this.onerror = this.onerror.bind(this);
 	}
 	startLoad() {
-		return this;
+		throw new Error("BaseTask 子类未实现 startLoad 方法");
 	}
-	loadingComplete() {
+	/** @protected */
+	_loadingComplete() {
 		return this;
 	}
 	/**
-	 * @param {JavaScriptUtilsType.TaskCallback} loadedCallback
+	 * @template [T=this]
+	 * @param {JavaScriptUtilsType.TaskCallback<T>} loadedCallback
+	 * @returns {this}
 	 */
 	addLoadedCallback(loadedCallback) {
 		this.loadedCallbacks.push(loadedCallback);
@@ -47,14 +53,15 @@ export class BaseTask extends BaseCleanUp {
 	onload() {
 		this.isLoaded = true;
 
-		this.loadingComplete();
+		this._loadingComplete();
 		for (let i = this.loadedCallbacks.length - 1; i >= 0; i--) {
 			this.loadedCallbacks[i]?.(this);
 		}
 		this.loadedCallbacks.length = 0;
 	}
 	/**
-	 * @param {JavaScriptUtilsType.TaskCallback} errorCallback
+	 * @template [T=this]
+	 * @param {JavaScriptUtilsType.TaskCallback<T>} errorCallback
 	 */
 	addErrorCallback(errorCallback) {
 		this.errorCallbacks.push(errorCallback);

@@ -27,12 +27,12 @@ export class ImageTask extends BaseTask {
 		this.data.src = this.src;
 		this.data.crossOrigin = this.crossOrigin ? "anonymous" : "";
 
-		this.data.onload = this.onload.bind(this);
-		this.data.onerror = this.onerror.bind(this);
+		this.data.onload = this.onload;
+		this.data.onerror = this.onerror;
 
 		return this;
 	}
-	loadingComplete() {
+	_loadingComplete() {
 		if (this.data) {
 			this.naturalWidth = this.data.naturalWidth;
 			this.naturalHeight = this.data.naturalHeight;

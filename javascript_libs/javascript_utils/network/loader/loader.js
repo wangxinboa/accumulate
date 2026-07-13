@@ -1,4 +1,5 @@
 import { ImageTask } from "./tasks/image_task.js";
+import { JsonTask } from "./tasks/json_task.js";
 
 export class Loader {
 	/** @type {Array<JavaScriptUtilsType.AllTaskType>} 所有加载任务的数组列表 */
@@ -101,6 +102,35 @@ export class Loader {
 		const tasks = [];
 		for (let i = 0, len = urls.length; i < len; i++) {
 			tasks.push(this.addImageTask(urls[i]));
+		}
+		return tasks;
+	}
+
+	/**
+	 * 添加一个 JSON 加载任务
+	 * @param {string} url - JSON 文件地址
+	 * @param {RequestInit} [options] - fetch 附加选项
+	 * @returns {JsonTask<Object>}
+	 */
+	addJsonTask(url, options) {
+		if (this._cacheLoadedTasks[url] instanceof JsonTask) {
+			return this._cacheLoadedTasks[url];
+		} else {
+			const jsonTask = new JsonTask(url, options);
+			return this._addTask(jsonTask);
+		}
+	}
+
+	/**
+	 * 添加多个 JSON 加载任务
+	 * @param {string[]} urls - JSON 文件地址数组
+	 * @param {RequestInit} [options] - fetch 附加选项
+	 * @returns {JsonTask<Object>[]}
+	 */
+	addJsonTasks(urls, options) {
+		const tasks = [];
+		for (let i = 0, len = urls.length; i < len; i++) {
+			tasks.push(this.addJsonTask(urls[i], options));
 		}
 		return tasks;
 	}

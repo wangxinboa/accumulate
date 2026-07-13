@@ -11,7 +11,8 @@ import {
 } from "./data_type/is_type.js";
 import { deepClone, getValueByPath, setValueByPath } from "./data_type/object.js";
 import { downloadFile } from "./file/download.js";
-import { Loader } from "./loader/loader.js";
+import { fetchJson } from "./network/fetch/fetch_json.js";
+import { Loader } from "./network/loader/loader.js";
 import { ControlledConsoleTime, ControlledConsoleTimeEnd } from "./performance_monitoring/controlled_console_time.js";
 import { throttle } from "./timer/throttle.js";
 import { debounce } from "./timer/debounce.js";
@@ -22,35 +23,6 @@ import { copyTextToClipboard, readTextFromClipboard } from "./clipboard.js";
 import { CustomMap } from "./custom_map.js";
 import { DefaultVariable } from "./default_variable.js";
 import { Keyboard } from "./keyboard.js";
-
-export {
-	BaseCleanUp,
-	isFunction,
-	isNumber,
-	isString,
-	isBoolean,
-	isPrimitive,
-	isObject,
-	isPlainObject,
-	isNonArrayObject,
-	deepClone,
-	getValueByPath,
-	setValueByPath,
-	downloadFile,
-	Loader,
-	ControlledConsoleTime,
-	ControlledConsoleTimeEnd,
-	throttle,
-	debounce,
-	now,
-	TweenManager,
-	getInitUrlSearchParam,
-	copyTextToClipboard,
-	readTextFromClipboard,
-	CustomMap,
-	DefaultVariable,
-	Keyboard,
-};
 
 const jsUtils = {
 	BaseCleanUp,
@@ -66,6 +38,37 @@ const jsUtils = {
 	getValueByPath,
 	setValueByPath,
 	downloadFile,
+	fetchJson,
+	Loader,
+	ControlledConsoleTime,
+	ControlledConsoleTimeEnd,
+	throttle,
+	debounce,
+	now,
+	TweenManager,
+	getInitUrlSearchParam,
+	copyTextToClipboard,
+	readTextFromClipboard,
+	CustomMap,
+	DefaultVariable,
+	Keyboard,
+};
+
+export {
+	BaseCleanUp,
+	isFunction,
+	isNumber,
+	isString,
+	isBoolean,
+	isPrimitive,
+	isObject,
+	isPlainObject,
+	isNonArrayObject,
+	deepClone,
+	getValueByPath,
+	setValueByPath,
+	downloadFile,
+	fetchJson,
 	Loader,
 	ControlledConsoleTime,
 	ControlledConsoleTimeEnd,

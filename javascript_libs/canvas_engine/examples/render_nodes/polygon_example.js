@@ -70,7 +70,6 @@ engine.scene.add(tempCircle);
 
 // 绑定场景事件（一直在，但通过 isAdding 控制）
 engine.scene.addMouseDownEvent((_node, x, y) => {
-	console.clear();
 	if (!isAdding) {
 		return;
 	}
@@ -99,9 +98,6 @@ engine.scene.addMouseMoveEvent((_node, x, y) => {
 		customPoints[customPoints.length - 1] = y;
 		customPolygon.setPoints(customPoints);
 	}
-
-	console.info("customPolygon.points", customPolygon.points);
-	console.info("customPolygon.geometry.triangles", customPolygon.geometry.triangles);
 });
 
 // ===== GUI 控制 =====
@@ -139,7 +135,6 @@ addFolder
 			start: () => {
 				isAdding = true;
 				tempCircle.visible = false;
-				console.log("开始添加多边形，点击场景添加顶点");
 			},
 		},
 		"start",
@@ -157,7 +152,6 @@ addFolder
 					if (count < 3) {
 						// 顶点太少，移除多边形
 						engine.scene.remove(customPolygon);
-						console.log("顶点少于3个，已移除");
 					} else {
 						customPoints.pop();
 						customPoints.pop();
@@ -165,7 +159,6 @@ addFolder
 						customPolygon.setPoints(customPoints);
 						// 完成多边形，使其可交互
 						customPolygon.hitTestDisabled = false;
-						console.log(`完成多边形，顶点数 ${count}`);
 					}
 				}
 			},
