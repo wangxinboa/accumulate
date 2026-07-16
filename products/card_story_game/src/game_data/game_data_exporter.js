@@ -1,14 +1,24 @@
-export class GameDataExporter {
+import { BaseCleanUp } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
+
+export class GameDataExporter extends BaseCleanUp {
+	/**
+	 * @param {CardStoryGameType.CardStoryGame} game
+	 */
+	constructor(game) {
+		super();
+
+		this.game = game;
+	}
+
 	/**
 	 * 导出游戏数据为 JSON 字符串
-	 * @param {CardStoryGameType.CardStoryGame} game
 	 * @returns {string} JSON 字符串
 	 */
-	static export(game) {
+	export() {
 		return JSON.stringify(
 			{
 				saveData: {
-					cards: game.cardManager.allCardPositionsMap.array,
+					cards: this.game.cardManager.allCardPositionsMap.array,
 				},
 			},
 			null,

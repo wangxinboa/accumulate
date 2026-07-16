@@ -58,7 +58,7 @@ export class TimeTicker extends BaseCleanUp {
 			this._started = false;
 			this._pauseTimestamp = now();
 
-			if (this._requestId !== null) {
+			if (this._requestId) {
 				cancelAnimationFrame(this._requestId);
 				this._requestId = null;
 			}
@@ -103,7 +103,7 @@ export class TimeTicker extends BaseCleanUp {
 		}
 	}
 	destroy() {
-		if (this._requestId !== null) {
+		if (this._requestId) {
 			cancelAnimationFrame(this._requestId);
 		}
 

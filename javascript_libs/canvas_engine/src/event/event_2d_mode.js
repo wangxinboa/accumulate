@@ -106,8 +106,8 @@ export class Event2DMode extends BaseCleanUp {
 			return false;
 		}
 
-		for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
-			const descendant = this.scene2D.allDescendants[i];
+		for (let i = this.scene2D.allEventDescendants.length - 1; i >= 0; i--) {
+			const descendant = this.scene2D.allEventDescendants[i];
 			if (descendant.hitTestDisabled) {
 				continue;
 			}
@@ -128,8 +128,8 @@ export class Event2DMode extends BaseCleanUp {
 		this._beforeProcess(offsetX, offsetY);
 		if (this.scene2D && this.camera2D) {
 			let hitTestCounter = 0;
-			for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
-				const descendant = this.scene2D.allDescendants[i];
+			for (let i = this.scene2D.allEventDescendants.length - 1; i >= 0; i--) {
+				const descendant = this.scene2D.allEventDescendants[i];
 				if (descendant.hitTestDisabled) {
 					continue;
 				}
@@ -204,8 +204,8 @@ export class Event2DMode extends BaseCleanUp {
 				}
 			} else {
 				let hitTestCounter = 0;
-				for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
-					const descendant = this.scene2D.allDescendants[i];
+				for (let i = this.scene2D.allEventDescendants.length - 1; i >= 0; i--) {
+					const descendant = this.scene2D.allEventDescendants[i];
 					if (descendant.hitTestDisabled) {
 						continue;
 					}
@@ -286,8 +286,8 @@ export class Event2DMode extends BaseCleanUp {
 				this.dragNodes.length = 0;
 			} else {
 				let hitTestCounter = 0;
-				for (let i = this.scene2D.allDescendants.length - 1; i >= 0; i--) {
-					const descendant = this.scene2D.allDescendants[i];
+				for (let i = this.scene2D.allEventDescendants.length - 1; i >= 0; i--) {
+					const descendant = this.scene2D.allEventDescendants[i];
 					if (descendant.hitTestDisabled) {
 						continue;
 					}

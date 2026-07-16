@@ -5,6 +5,11 @@ import { TextTexture } from "../../../../../../javascript_libs/canvas_engine/src
 import { BaseCardPipe } from "./base_card_pipe/base_card_pipe.js";
 import { CardManager } from "../../card_manager.js";
 
+const textOption = {
+	fontSize: 12,
+	fontFamily: "Arial",
+};
+
 export class BaseCard extends Render2DNode {
 	text = "";
 	bgColor;
@@ -30,11 +35,7 @@ export class BaseCard extends Render2DNode {
 
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
 
-		this.textTexture = new TextTexture(text, {
-			fontSize: 12,
-			fontFamily: "Arial",
-			fontWeight: "bold",
-		});
+		this.textTexture = new TextTexture(text, textOption);
 
 		this.text = text;
 
@@ -59,6 +60,18 @@ export class BaseCard extends Render2DNode {
 		this.gridY = gridY;
 		this.gridPositionKey = CardManager.getGridPositionKey(gridX, gridY);
 		return this;
+	}
+
+	/**
+	 * 自定义 JSON 序列化，只导出必要字段，避免循环引用
+	 * @returns {object} 可序列化的卡牌数据
+	 */
+	toJSON() {
+		return {
+			text: this.text,
+			gridX: this.gridX,
+			gridY: this.gridY,
+		};
 	}
 
 	destroy() {

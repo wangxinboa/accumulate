@@ -106,7 +106,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 		this.camera.updateMatrix();
 		this.scene.updateMatrix();
 
-		this.scene.clearDescendants();
+		this.scene.clearEventDescendants();
 		this._traverseRender(this.scene, this.camera, timestamp);
 	}
 
@@ -115,34 +115,37 @@ export class WebGL2DRenderer extends BaseRenderer {
 	 * @param {CanvasEngineType.Camera2D} camera
 	 */
 	_renderNode(renderNode, camera) {
-		this.scene.registerDescendant(renderNode);
+		if (renderNode.geometry) {
+			this.scene.registerEventDescendant(renderNode);
+		}
 
 		renderNode.updateMatrix();
 
-		this.stateSystem.setState(renderNode);
+		if (renderNode.pipe) {
+			this.stateSystem.setState(renderNode);
+			// 使用 renderNode.pipe 获取程序
+			const glProgram = this.programSystem.useProgram(renderNode);
 
-		// 使用 renderNode.pipe 获取程序
-		const glProgram = this.programSystem.useProgram(renderNode);
+			// 使用 renderNode.pipe 绑定缓冲区
+			this.bufferSystem.bindBuffers(renderNode, glProgram);
 
-		// 使用 renderNode.pipe 绑定缓冲区
-		this.bufferSystem.bindBuffers(renderNode, glProgram);
+			// 使用 renderNode.pipe 更新纹理
+			if (renderNode.pipe.updateTextures) {
+				renderNode.pipe.updateTextures(renderNode, this.textureSystem);
+			}
 
-		// 使用 renderNode.pipe 更新纹理
-		if (renderNode.pipe.updateTextures) {
-			renderNode.pipe.updateTextures(renderNode, this.textureSystem);
+			glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
+			if (renderNode.applyCameraTransform) {
+				glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);
+			} else {
+				glProgram.uniform(this.gl, uCameraViewName, initializeMatrix4);
+			}
+			glProgram.uniform(this.gl, uRenderNodeModelName, renderNode.matrixWorld);
+
+			// 使用 renderNode.pipe 设置 uniform 并绘制
+			renderNode.pipe.uniform(renderNode, this.gl, this.textureSystem, glProgram);
+			renderNode.pipe.drawArrays(renderNode, this.gl, glProgram);
 		}
-
-		glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
-		if (renderNode.applyCameraTransform) {
-			glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);
-		} else {
-			glProgram.uniform(this.gl, uCameraViewName, initializeMatrix4);
-		}
-		glProgram.uniform(this.gl, uRenderNodeModelName, renderNode.matrixWorld);
-
-		// 使用 renderNode.pipe 设置 uniform 并绘制
-		renderNode.pipe.uniform(renderNode, this.gl, this.textureSystem, glProgram);
-		renderNode.pipe.drawArrays(renderNode, this.gl, glProgram);
 	}
 
 	destroy() {

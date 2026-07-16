@@ -1,15 +1,51 @@
 {
 	"saveData": {
 		"cards": [
-			{ "text": "Card 1", "gridX": 0, "gridY": 0 },
-			{ "text": "Card 2", "gridX": 1, "gridY": 0 },
-			{ "text": "Card 3", "gridX": 2, "gridY": 0 },
-			{ "text": "Card 4", "gridX": 0, "gridY": 1 },
-			{ "text": "Card 5", "gridX": 1, "gridY": 1 },
-			{ "text": "Card 6", "gridX": 2, "gridY": 1 },
-			{ "text": "Card 7", "gridX": 0, "gridY": 2 },
-			{ "text": "Card 8", "gridX": 1, "gridY": 2 },
-			{ "text": "Card 9", "gridX": 2, "gridY": 2 }
+			{
+				"text": "test card 1",
+				"gridX": 0,
+				"gridY": 0
+			},
+			{
+				"text": "test card 2",
+				"gridX": 1,
+				"gridY": 0
+			},
+			{
+				"text": "test card 4",
+				"gridX": 0,
+				"gridY": 1
+			},
+			{
+				"text": "test card 5",
+				"gridX": 1,
+				"gridY": 1
+			},
+			{
+				"text": "test card 6",
+				"gridX": 2,
+				"gridY": 1
+			},
+			{
+				"text": "test card 7",
+				"gridX": 0,
+				"gridY": 2
+			},
+			{
+				"text": "test card 8",
+				"gridX": 1,
+				"gridY": 2
+			},
+			{
+				"text": "test card 9",
+				"gridX": 2,
+				"gridY": 2
+			},
+			{
+				"text": "test card 3",
+				"gridX": 3,
+				"gridY": -1
+			}
 		]
 	}
 }

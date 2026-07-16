@@ -46,6 +46,9 @@ export class RenderNode extends BaseCleanUp {
 	/** @type {CanvasEngineType.GlBlendEquationTypeEnum} Alpha 混合方程 */
 	equationAlpha;
 
+	/** @type {boolean} */
+	matrixNeedUpdate;
+
 	constructor() {
 		super();
 
@@ -69,7 +72,27 @@ export class RenderNode extends BaseCleanUp {
 		this.dstAlpha = GlBlendParamTypeEnum.ONE;
 		this.equationRGB = GlBlendEquationTypeEnum.FUNC_ADD;
 		this.equationAlpha = GlBlendEquationTypeEnum.FUNC_ADD;
+
+		this.matrixNeedUpdate = false;
+		this._worldMatrixNeedUpdate = false;
 	}
+
+	get worldMatrixNeedUpdate() {
+		return this._worldMatrixNeedUpdate;
+	}
+
+	set worldMatrixNeedUpdate(val) {
+		if (this._worldMatrixNeedUpdate !== val) {
+			this._worldMatrixNeedUpdate = val;
+
+			if (val) {
+				for (let i = 0, len = this.children.length; i < len; i++) {
+					this.children[i].worldMatrixNeedUpdate = val;
+				}
+			}
+		}
+	}
+
 	/**
 	 * 开启混合（链式调用）
 	 * @returns {this}
@@ -180,11 +203,13 @@ export class RenderNode extends BaseCleanUp {
 	 */
 	add(renderNode) {
 		if (!this.children.includes(renderNode)) {
-			if (renderNode.parent !== null) {
+			if (renderNode.parent) {
 				renderNode.parent.remove(renderNode);
 			}
 			renderNode.parent = this;
 			this.children.push(renderNode);
+
+			this.worldMatrixNeedUpdate = true;
 
 			this.afterAddChild();
 		}

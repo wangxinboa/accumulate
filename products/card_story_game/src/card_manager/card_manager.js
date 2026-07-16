@@ -1,11 +1,11 @@
-import { Vector2 } from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
-import { BaseCleanUp, CustomMap } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
+import { Render2DNode, Vector2 } from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { CustomMap } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { BaseCard } from "./cards/base_card/base_card.js";
 
 const _gridPosition = new Vector2();
 const _worldPosition = new Vector2();
 
-export class CardManager extends BaseCleanUp {
+export class CardManager extends Render2DNode {
 	static cardWidth = 60;
 	static cardHeight = 90;
 	/** @type {CardStoryGameType.CardStoryGame} */
@@ -184,8 +184,9 @@ export class CardManager extends BaseCleanUp {
 			.addDragEvent(this.onCardDrag)
 			.addDragEndEvent(this.onCardDragEnd)
 			.updatePosition(pos.x, pos.y, gridX, gridY);
+
 		this.allCardPositionsMap.set(gridKey, newCard);
-		this.game.engine.scene.add(newCard);
+		this.add(newCard);
 		return newCard;
 	}
 
@@ -193,7 +194,7 @@ export class CardManager extends BaseCleanUp {
 		const cardArray = this.allCardPositionsMap.array.slice();
 		for (let i = 0, len = cardArray.length; i < len; i++) {
 			const card = cardArray[i];
-			this.game.engine.scene.remove(card);
+			this.remove(card);
 			card.destroy();
 		}
 		this.allCardPositionsMap.clear();

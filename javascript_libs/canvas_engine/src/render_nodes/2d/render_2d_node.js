@@ -131,25 +131,21 @@ export class Render2DNode extends RenderEventNode {
 			this.updateMatrixWorld();
 
 			this.matrixNeedUpdate = false;
+			this.worldMatrixNeedUpdate = false;
+		} else if (this.worldMatrixNeedUpdate) {
+			this.updateMatrixWorld();
+
+			this.worldMatrixNeedUpdate = false;
 		}
 	}
 
-	/**
-	 * @param {boolean} updateChildren
-	 */
-	updateMatrixWorld(updateChildren = false) {
+	updateMatrixWorld() {
 		if (this.parent && this.parent.matrixWorld) {
 			this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
 		} else {
 			this.matrixWorld.copy(this.matrix);
 		}
 		this.matrixWorldInvert.copy(this.matrixWorld).invert();
-
-		if (updateChildren) {
-			for (let i = 0, len = this.children.length; i < len; i++) {
-				this.children[i].updateMatrixWorld(true);
-			}
-		}
 	}
 
 	// matrix 相关属性
@@ -158,14 +154,18 @@ export class Render2DNode extends RenderEventNode {
 	}
 	set x(val) {
 		this._x = val;
+
 		this.matrixNeedUpdate = true;
+		this.worldMatrixNeedUpdate = true;
 	}
 	get y() {
 		return this._y;
 	}
 	set y(val) {
 		this._y = val;
+
 		this.matrixNeedUpdate = true;
+		this.worldMatrixNeedUpdate = true;
 	}
 	centerSelf() {
 		this.pivotX = this.pivotY = 0.5;
@@ -175,14 +175,18 @@ export class Render2DNode extends RenderEventNode {
 	}
 	set pivotX(val) {
 		this._pivotX = clamp(val, -1, 1);
+
 		this.matrixNeedUpdate = true;
+		this.worldMatrixNeedUpdate = true;
 	}
 	get pivotY() {
 		return this._pivotY;
 	}
 	set pivotY(val) {
 		this._pivotY = clamp(val, -1, 1);
+
 		this.matrixNeedUpdate = true;
+		this.worldMatrixNeedUpdate = true;
 	}
 	get rotationAngle() {
 		return this._rotationAngle;
@@ -192,6 +196,7 @@ export class Render2DNode extends RenderEventNode {
 		this._rotationMatrix3 = val * PiDivide180;
 
 		this.matrixNeedUpdate = true;
+		this.worldMatrixNeedUpdate = true;
 	}
 	get rotation() {
 		return this._rotationMatrix3;
@@ -201,20 +206,25 @@ export class Render2DNode extends RenderEventNode {
 		this._rotationAngle = val / PiDivide180;
 
 		this.matrixNeedUpdate = true;
+		this.worldMatrixNeedUpdate = true;
 	}
 	get scaleX() {
 		return this._scaleX;
 	}
 	set scaleX(val) {
 		this._scaleX = val;
+
 		this.matrixNeedUpdate = true;
+		this.worldMatrixNeedUpdate = true;
 	}
 	get scaleY() {
 		return this._scaleY;
 	}
 	set scaleY(val) {
 		this._scaleY = val;
+
 		this.matrixNeedUpdate = true;
+		this.worldMatrixNeedUpdate = true;
 	}
 
 	// 宽高
