@@ -62,8 +62,8 @@ export class CardManager extends Render2DNode {
 		this.onCardDrag = this.onCardDrag.bind(this);
 		this.onCardDragEnd = this.onCardDragEnd.bind(this);
 
-		this.gapX = 5;
-		this.gapY = 5;
+		this.gapX = 4;
+		this.gapY = 4;
 		this.cellWidth = this.gapX * 2 + CardManager.cardWidth;
 		this.cellHeight = this.gapY * 2 + CardManager.cardHeight;
 	}

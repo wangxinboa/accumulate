@@ -32,13 +32,13 @@ export function throttle(func, wait) {
 
 		context = this;
 		args = arguments;
-		if (previous === null) {
-			//previous 还未初始化
-			run();
-		} else {
+		if (previous) {
 			if (now - previous > wait) {
 				run();
 			}
+		} else {
+			//previous 还未初始化
+			run();
 		}
 		return result;
 	}

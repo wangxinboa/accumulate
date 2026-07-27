@@ -19,7 +19,7 @@ export function resizeCanvas(canvas, devicePixelRatio = window.devicePixelRatio)
 	const containerDom = canvas.parentElement;
 
 	if (containerDom) {
-		scaleCanvas(canvas, containerDom.scrollWidth, containerDom.scrollHeight, devicePixelRatio);
+		scaleCanvas(canvas, containerDom.clientWidth, containerDom.clientHeight, devicePixelRatio);
 	} else {
 		throw new Error("resizeCanvas 时, canvas 不存在父节点 dom, 无法获取父节点宽高");
 	}

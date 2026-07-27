@@ -1,6 +1,7 @@
 {
 	"git.confirmSync": false,
 	"explorer.confirmDelete": false,
+	"explorer.confirmDragAndDrop": false,
 	"js/ts.suggest.autoImports": true,
 	"[typescript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -44,17 +45,11 @@
 	"js/ts.format.semicolons": "insert",
 	"js/ts.suggest.paths": true,
 	"js/ts.preferences.importModuleSpecifier": "relative",
-	"editor.quickSuggestions": {
-		"other": "on",
-		"comments": "on",
-		"strings": "on"
-	},
 	"workbench.colorTheme": "Dark Modern",
 	// eslint
 	"eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
 	// prettier
 	"prettier.printWidth": 120,
 	"prettier.useTabs": true,
-	"prettier.singleQuote": false,
-	"explorer.confirmDragAndDrop": false
+	"prettier.singleQuote": false
 }
