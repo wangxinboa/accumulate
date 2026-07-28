@@ -168,12 +168,26 @@ export class Event2DMode extends BaseCleanUp {
 					break;
 				}
 			}
-			this.scene2D.executeMouseDownEvents(
-				_canvasPositionInCamera.x,
-				_canvasPositionInCamera.y,
-				_canvasPositionInScene.x,
-				_canvasPositionInScene.y,
-			);
+
+			// 根据是否有节点被命中，触发不同的场景事件
+			if (this.hitTestLimit <= hitTestCounter) {
+				// 有节点被命中，触发普通场景事件
+				this.scene2D.executeMouseDownEvents(
+					_canvasPositionInCamera.x,
+					_canvasPositionInCamera.y,
+					_canvasPositionInScene.x,
+					_canvasPositionInScene.y,
+				);
+			} else {
+				// 没有节点被命中，触发"无命中"场景事件
+				this.scene2D.executeMouseDownWhenNoNodeHitEvents(
+					_canvasPositionInCamera.x,
+					_canvasPositionInCamera.y,
+					_canvasPositionInScene.x,
+					_canvasPositionInScene.y,
+				);
+			}
+
 			if (this.camera2D.dragUpdatePosition && this.hitTestLimit > hitTestCounter) {
 				this._cacheDragPosition(this.camera2D);
 			}
@@ -235,6 +249,8 @@ export class Event2DMode extends BaseCleanUp {
 						break;
 					}
 				}
+
+				// 处理 mouseLeave 事件
 				for (let i = this.preMoveEnterMap.array.length - 1; i >= 0; i--) {
 					const preMoveNode = this.preMoveEnterMap.array[i];
 					if (preMoveNode.hasMouseLeaveEvents && !this.nowMoveEnterMap.has(preMoveNode.id)) {
@@ -252,13 +268,24 @@ export class Event2DMode extends BaseCleanUp {
 				this.tempMoveEnterMap = null;
 				this.nowMoveEnterMap.clear();
 
-				this.scene2D.executeMouseMoveEvents(
-					_canvasPositionInCamera.x,
-					_canvasPositionInCamera.y,
-					_canvasPositionInScene.x,
-					_canvasPositionInScene.y,
-				);
-				if (this.camera2D.isDraging && this.hitTestLimit > hitTestCounter) {
+				// 根据是否有节点被命中，触发不同的场景事件
+				if (this.hitTestLimit <= hitTestCounter) {
+					this.scene2D.executeMouseMoveEvents(
+						_canvasPositionInCamera.x,
+						_canvasPositionInCamera.y,
+						_canvasPositionInScene.x,
+						_canvasPositionInScene.y,
+					);
+				} else {
+					this.scene2D.executeMouseMoveWhenNoNodeHitEvents(
+						_canvasPositionInCamera.x,
+						_canvasPositionInCamera.y,
+						_canvasPositionInScene.x,
+						_canvasPositionInScene.y,
+					);
+				}
+
+				if (this.camera2D.isDraging) {
 					this._updateDragPosition(this.camera2D);
 				}
 			}
@@ -308,12 +335,24 @@ export class Event2DMode extends BaseCleanUp {
 						break;
 					}
 				}
-				this.scene2D.executeMouseUpEvents(
-					_canvasPositionInCamera.x,
-					_canvasPositionInCamera.y,
-					_canvasPositionInScene.x,
-					_canvasPositionInScene.y,
-				);
+
+				// 根据是否有节点被命中，触发不同的场景事件
+				if (this.hitTestLimit <= hitTestCounter) {
+					this.scene2D.executeMouseUpEvents(
+						_canvasPositionInCamera.x,
+						_canvasPositionInCamera.y,
+						_canvasPositionInScene.x,
+						_canvasPositionInScene.y,
+					);
+				} else {
+					this.scene2D.executeMouseUpWhenNoNodeHitEvents(
+						_canvasPositionInCamera.x,
+						_canvasPositionInCamera.y,
+						_canvasPositionInScene.x,
+						_canvasPositionInScene.y,
+					);
+				}
+
 				if (this.camera2D.isDraging) {
 					this.camera2D.isDraging = false;
 				}

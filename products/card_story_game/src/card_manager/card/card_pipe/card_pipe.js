@@ -2,40 +2,40 @@ import {
 	GlBufferDataTypeEnum,
 	GlBufferTargetTypeEnum,
 	GlBufferUsageTypeEnum,
-} from "../../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
+} from "../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer_type.js";
 import {
 	aPositionName,
 	aTexCoordName,
 	aIsBgName,
-	baseCardGlProgramFormat,
+	CardGlProgramFormat,
 	uBgColorName,
 	uTextColorName,
 	uImageName,
-} from "./base_card_pipe_gl_program_format.js";
-import { GlAttribs } from "../../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
-import { GlBuffer } from "../../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
+} from "./card_pipe_gl_program_format.js";
+import { GlAttribs } from "../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
+import { GlBuffer } from "../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_buffer.js";
 import { generateCardVertexData } from "./generate_card_vertex_data.js";
 
 /**
- * @param {CardStoryGameType.BaseCard} card
+ * @param {CardStoryGameType.Card} card
  * @returns {string}
  */
 function getBufferKey(card) {
-	return "basecard-" + card.id;
+	return "Card-" + card.id;
 }
 
-export const BaseCardPipe = {
+export const CardPipe = {
 	/**
-	 * @param {CardStoryGameType.BaseCard} _card
+	 * @param {CardStoryGameType.Card} _card
 	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} programSystem
 	 * @returns {CanvasEngineType.GlProgram}
 	 */
 	getGlProgram(_card, programSystem) {
-		return programSystem.addGlProgram("BaseCard", baseCardGlProgramFormat);
+		return programSystem.addGlProgram("Card", CardGlProgramFormat);
 	},
 
 	/**
-	 * @param {CardStoryGameType.BaseCard} card
+	 * @param {CardStoryGameType.Card} card
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 * @returns {CanvasEngineType.GlAttribs | undefined}
 	 */
@@ -56,7 +56,7 @@ export const BaseCardPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.BaseCard} card
+	 * @param {CardStoryGameType.Card} card
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
@@ -79,7 +79,7 @@ export const BaseCardPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.BaseCard} card
+	 * @param {CardStoryGameType.Card} card
 	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 */
 	updateTextures(card, textureSystem) {
@@ -89,7 +89,7 @@ export const BaseCardPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.BaseCard} card
+	 * @param {CardStoryGameType.Card} card
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 * @param {CanvasEngineType.GlProgram} glProgram
@@ -103,7 +103,7 @@ export const BaseCardPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.BaseCard} _card
+	 * @param {CardStoryGameType.Card} _card
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */

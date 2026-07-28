@@ -7,7 +7,7 @@ import { WebGLStateSystem } from "./webgl_state/webgl_state_system.js";
 import { uCameraProjectionName, uCameraViewName, uRenderNodeModelName } from "./shaders/global_uniform_names.js";
 import { Scene2D } from "../../render_nodes/2d/scene2d.js";
 import { Camera2D } from "../../cameras/camera2d.js";
-import { initializeMatrix4 } from "../../math/matrix4.js";
+import { initializeMatrix3 } from "../../math/matrix3.js";
 
 export class WebGL2DRenderer extends BaseRenderer {
 	static key = "webgl";
@@ -123,13 +123,10 @@ export class WebGL2DRenderer extends BaseRenderer {
 
 		if (renderNode.pipe) {
 			this.stateSystem.setState(renderNode);
-			// 使用 renderNode.pipe 获取程序
 			const glProgram = this.programSystem.useProgram(renderNode);
 
-			// 使用 renderNode.pipe 绑定缓冲区
 			this.bufferSystem.bindBuffers(renderNode, glProgram);
 
-			// 使用 renderNode.pipe 更新纹理
 			if (renderNode.pipe.updateTextures) {
 				renderNode.pipe.updateTextures(renderNode, this.textureSystem);
 			}
@@ -138,11 +135,10 @@ export class WebGL2DRenderer extends BaseRenderer {
 			if (renderNode.applyCameraTransform) {
 				glProgram.uniform(this.gl, uCameraViewName, camera.matrixWorld);
 			} else {
-				glProgram.uniform(this.gl, uCameraViewName, initializeMatrix4);
+				glProgram.uniform(this.gl, uCameraViewName, initializeMatrix3);
 			}
 			glProgram.uniform(this.gl, uRenderNodeModelName, renderNode.matrixWorld);
 
-			// 使用 renderNode.pipe 设置 uniform 并绘制
 			renderNode.pipe.uniform(renderNode, this.gl, this.textureSystem, glProgram);
 			renderNode.pipe.drawArrays(renderNode, this.gl, glProgram);
 		}

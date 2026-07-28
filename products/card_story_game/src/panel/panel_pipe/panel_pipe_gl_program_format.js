@@ -2,8 +2,8 @@ import {
 	uCameraProjectionName,
 	uCameraViewName,
 	uRenderNodeModelName,
-} from "../../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/shaders/global_uniform_names.js";
-import { GlDataTypeEnum } from "../../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/webgl_program/gl_program/gl_data_type.js";
+	GlDataTypeEnum,
+} from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 
 export const uBgColorName = "u_bgColor";
 export const uTextColorName = "u_textColor";
@@ -11,7 +11,7 @@ export const uImageName = "u_image";
 
 export const aPositionName = "a_position";
 export const aTexCoordName = "a_texCoord";
-export const aIsBgName = "a_isBg"; // 新增：用于区分背景和文字矩形
+export const aIsBgName = "a_isBg";
 
 const vertexSource =
 	"attribute vec2 a_position;" +
@@ -62,7 +62,7 @@ export const attribLocationsFormat = [
 	{ type: GlDataTypeEnum.float, name: aIsBgName },
 ];
 
-export const baseCardGlProgramFormat = {
+export const panelGlProgramFormat = {
 	vertexSource: vertexSource,
 	fragmentSource: fragmentSource,
 	uniformLocationsFormat: uniformLocationsFormat,

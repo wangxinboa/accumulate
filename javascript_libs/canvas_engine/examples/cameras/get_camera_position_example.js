@@ -26,11 +26,6 @@ engine.scene.addMouseUpEvent((_node, x, y) => {
 	sprite2DUp.y = y;
 });
 
-engine.scene.addWheelEvent((_node, dx, dy) => {
-	sprite2DMove.x += dx;
-	sprite2DMove.y += dy;
-});
-
 const gui = new GUI();
 const camera2DFolder = gui.addFolder("camera2D");
 

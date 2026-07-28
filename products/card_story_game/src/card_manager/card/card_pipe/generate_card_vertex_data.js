@@ -18,11 +18,11 @@ function _setVertex(array, index, x, y, u, v, isBg) {
 }
 
 /**
- * 生成 BaseCard 的顶点数据（背景 + 文字矩形，支持 padding 和 object-fit: contain）
+ * 生成 Card 的顶点数据（背景 + 文字矩形，支持 padding 和 object-fit: contain）
  * 返回 Float32Array，每5个分量一个顶点：[x, y, u, v, isBg]
  * 共12个顶点（背景6个，文字6个），总长度 60。
  *
- * @param {CardStoryGameType.BaseCard} card
+ * @param {CardStoryGameType.Card} card
  * @returns {Float32Array}
  */
 export function generateCardVertexData(card) {

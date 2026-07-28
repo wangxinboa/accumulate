@@ -31,6 +31,7 @@ export class GameDataLoader extends BaseCleanUp {
 					const gridX = cardInfo.gridX || 0;
 					const gridY = cardInfo.gridY || 0;
 
+					// 直接创建，事件已在 createCardAt 内部绑定
 					cardManager.createCardAt(gridX, gridY, text);
 				}
 			} catch (e) {

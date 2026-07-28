@@ -1,4 +1,8 @@
 export { Canvas2DEngine } from "./canvas_2d_engine.js";
+export { CircleDef } from "./math/geometry_2d_defs/circle_def.js";
+export { PolygonDef } from "./math/geometry_2d_defs/polygon_def.js";
+export { RectangleDef } from "./math/geometry_2d_defs/rectangle_def.js";
+export { Color } from "./math/color.js";
 export { Vector2 } from "./math/vector2.js";
 export {
 	GlBlendParamTypeEnum,
@@ -6,6 +10,7 @@ export {
 } from "./renderers/webgl_renderer/webgl_state/webgl_state_constants.js";
 export { Render2DNode } from "./render_nodes/2d/render_2d_node.js";
 export { Sprite2D } from "./render_nodes/2d/sprite2d/sprite2d.js";
+export { GlDataTypeEnum } from "./renderers/webgl_renderer/webgl_program/gl_program/gl_data_type.js";
 export {
 	GlBufferTargetTypeEnum,
 	GlBufferUsageTypeEnum,
@@ -17,3 +22,8 @@ export { GlBuffer } from "./renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_
 export { getPositionUvFloat32ArrayFromWidthAndHeight } from "./renderers/webgl_renderer/webgl_buffer/webgl_buffer_utils.js";
 export { ImageTexture } from "./textures/image_texture.js";
 export { TextTexture } from "./textures/text_texture.js";
+export {
+	uCameraProjectionName,
+	uCameraViewName,
+	uRenderNodeModelName,
+} from "./renderers/webgl_renderer/shaders/global_uniform_names.js";

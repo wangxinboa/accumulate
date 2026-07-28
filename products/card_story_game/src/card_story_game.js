@@ -4,6 +4,7 @@ import { CardManager } from "./card_manager/card_manager.js";
 import { GameDataExporter } from "./game_data/game_data_exporter.js";
 import { GameDataLoader } from "./game_data/game_data_loader.js";
 import { downloadFile } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
+import { Panel } from "./panel/panel.js";
 
 export class CardStoryGame extends BaseCleanUp {
 	constructor() {
@@ -21,6 +22,9 @@ export class CardStoryGame extends BaseCleanUp {
 		this.cardManager = new CardManager(this);
 		this.engine.scene.add(this.cardManager);
 
+		this.panel = new Panel();
+		this.engine.scene.add(this.panel);
+
 		this.loader = new GameDataLoader(this);
 		this.exporter = new GameDataExporter(this);
 
@@ -30,8 +34,12 @@ export class CardStoryGame extends BaseCleanUp {
 	}
 
 	resize() {
-		this.engine.scene.x = this.engine.camera.width / 2;
-		this.engine.scene.y = this.engine.camera.height / 2;
+		this.cardManager.x = this.engine.camera.width / 2;
+		this.cardManager.y = this.engine.camera.height / 2;
+
+		if (this.panel) {
+			this.panel.updateSizeAndPosition(this.engine.camera.width, this.engine.camera.height);
+		}
 	}
 
 	/**
@@ -51,7 +59,9 @@ export class CardStoryGame extends BaseCleanUp {
 		this.engine.destroy();
 		this.cardManager.destroy();
 		this.loader.destroy();
-
+		if (this.panel) {
+			this.panel.destroy();
+		}
 		super.destroy();
 	}
 }

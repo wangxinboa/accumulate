@@ -7,9 +7,9 @@ export class Rectangle extends Render2DNode {
 	/** @type {Color} */
 	color;
 	/** @type {number} 缓存宽度用于buffer更新 */
-	_cacheBufferWidth;
+	cacheBufferWidth;
 	/** @type {number} 缓存高度用于buffer更新 */
-	_cacheBufferHeight;
+	cacheBufferHeight;
 
 	/**
 	 * @param {number} width
@@ -21,8 +21,8 @@ export class Rectangle extends Render2DNode {
 
 		this.color = color;
 
-		this._cacheBufferWidth = -1;
-		this._cacheBufferHeight = -1;
+		this.cacheBufferWidth = -1;
+		this.cacheBufferHeight = -1;
 
 		this.geometry = new RectangleDef(0, 0, width, height);
 

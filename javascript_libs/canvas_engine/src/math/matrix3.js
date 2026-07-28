@@ -495,3 +495,5 @@ export class Matrix3 {
 }
 
 const _m3 = new Matrix3();
+
+export const initializeMatrix3 = new Matrix3();

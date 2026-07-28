@@ -1,6 +1,6 @@
 import { Render2DNode, Vector2 } from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { CustomMap } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
-import { BaseCard } from "./cards/base_card/base_card.js";
+import { Card } from "./card/card.js";
 
 const _gridPosition = new Vector2();
 const _worldPosition = new Vector2();
@@ -23,27 +23,6 @@ export class CardManager extends Render2DNode {
 		return a >= b ? a * a + a + b : a + b * b;
 	}
 
-	// /**
-	//  * @param {number} positionKey
-	//  */
-	// static parseGridPositionKey(positionKey) {
-	// 	const z = positionKey;
-	// 	const sqrtz = Math.floor(Math.sqrt(z));
-	// 	const sq = sqrtz * sqrtz;
-	// 	let a, b;
-	// 	if (z - sq < sqrtz) {
-	// 		a = z - sq;
-	// 		b = sqrtz;
-	// 	} else {
-	// 		a = sqrtz;
-	// 		b = z - sq - sqrtz;
-	// 	}
-	// 	return {
-	// 		x: a - CardManager.coordOffset,
-	// 		y: b - CardManager.coordOffset,
-	// 	};
-	// }
-
 	allCardPositionsMap;
 	gapX;
 	gapY;
@@ -58,6 +37,7 @@ export class CardManager extends Render2DNode {
 		this.game = cardStoryGame;
 		this.allCardPositionsMap = new CustomMap();
 
+		this.onCardMouseDown = this.onCardMouseDown.bind(this);
 		this.onCardDragStart = this.onCardDragStart.bind(this);
 		this.onCardDrag = this.onCardDrag.bind(this);
 		this.onCardDragEnd = this.onCardDragEnd.bind(this);
@@ -138,7 +118,14 @@ export class CardManager extends Render2DNode {
 	}
 
 	/**
-	 * @param {CardStoryGameType.BaseCard} card
+	 * @param {CardStoryGameType.Card} card
+	 */
+	onCardMouseDown(card) {
+		this.game.panel.show(card);
+	}
+
+	/**
+	 * @param {CardStoryGameType.Card} card
 	 */
 	onCardDragStart(card) {
 		card.zIndex = 1;
@@ -148,7 +135,7 @@ export class CardManager extends Render2DNode {
 	onCardDrag() {}
 
 	/**
-	 * @param {CardStoryGameType.BaseCard} card
+	 * @param {CardStoryGameType.Card} card
 	 */
 	onCardDragEnd(card) {
 		const nearestGrid = this._worldToGridNearest(card.x, card.y);
@@ -179,11 +166,14 @@ export class CardManager extends Render2DNode {
 			throw new Error("Grid (" + gridX + ", " + gridY + ") is already occupied.");
 		}
 		const pos = this._gridToWorld(gridX, gridY);
-		const newCard = new BaseCard(text)
+		const newCard = new Card(text)
 			.addDragStartEvent(this.onCardDragStart)
 			.addDragEvent(this.onCardDrag)
 			.addDragEndEvent(this.onCardDragEnd)
 			.updatePosition(pos.x, pos.y, gridX, gridY);
+
+		// ---- 新增：点击卡牌时显示面板标题 ----
+		newCard.addMouseDownEvent(this.onCardMouseDown);
 
 		this.allCardPositionsMap.set(gridKey, newCard);
 		this.add(newCard);

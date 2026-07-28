@@ -1,16 +1,16 @@
-import { Render2DNode } from "../../../../../../javascript_libs/canvas_engine/src/render_nodes/2d/render_2d_node.js";
-import { Color } from "../../../../../../javascript_libs/canvas_engine/src/math/color.js";
-import { RectangleDef } from "../../../../../../javascript_libs/canvas_engine/src/math/geometry_2d_defs/rectangle_def.js";
-import { TextTexture } from "../../../../../../javascript_libs/canvas_engine/src/textures/text_texture.js";
-import { BaseCardPipe } from "./base_card_pipe/base_card_pipe.js";
-import { CardManager } from "../../card_manager.js";
+import { Render2DNode } from "../../../../../javascript_libs/canvas_engine/src/render_nodes/2d/render_2d_node.js";
+import { Color } from "../../../../../javascript_libs/canvas_engine/src/math/color.js";
+import { RectangleDef } from "../../../../../javascript_libs/canvas_engine/src/math/geometry_2d_defs/rectangle_def.js";
+import { TextTexture } from "../../../../../javascript_libs/canvas_engine/src/textures/text_texture.js";
+import { CardPipe } from "./card_pipe/card_pipe.js";
+import { CardManager } from "../card_manager.js";
 
 const textOption = {
 	fontSize: 12,
 	fontFamily: "Arial",
 };
 
-export class BaseCard extends Render2DNode {
+export class Card extends Render2DNode {
 	text = "";
 	bgColor;
 	textColor;
@@ -18,8 +18,8 @@ export class BaseCard extends Render2DNode {
 	gridX = 0;
 	gridY = 0;
 	gridPositionKey = 0;
-	_cacheBufferWidth = -1;
-	_cacheBufferHeight = -1;
+	cacheBufferWidth = -1;
+	cacheBufferHeight = -1;
 
 	/**
 	 * @param {string} text
@@ -44,7 +44,7 @@ export class BaseCard extends Render2DNode {
 	}
 
 	get pipe() {
-		return BaseCardPipe;
+		return CardPipe;
 	}
 
 	/**

@@ -54,12 +54,12 @@ export const RectanglePipe = {
 		const bufferKey = getBufferKey(rectangle);
 
 		if (bufferSystem.hasGlBuffer(bufferKey)) {
-			if (rectangle._cacheBufferWidth !== width || rectangle._cacheBufferHeight !== height) {
+			if (rectangle.cacheBufferWidth !== width || rectangle.cacheBufferHeight !== height) {
 				bufferSystem
 					.getGlBuffer(bufferKey)
 					.updateBufferSubData(gl, 0, getPositionFloat32ArrayFromWidthAndHeight(width, height));
-				rectangle._cacheBufferWidth = width;
-				rectangle._cacheBufferHeight = height;
+				rectangle.cacheBufferWidth = width;
+				rectangle.cacheBufferHeight = height;
 			}
 		} else {
 			bufferSystem.setGlBuffer(
@@ -71,8 +71,8 @@ export const RectanglePipe = {
 					GlBufferUsageTypeEnum.STATIC_DRAW,
 				).bufferData(gl),
 			);
-			rectangle._cacheBufferWidth = width;
-			rectangle._cacheBufferHeight = height;
+			rectangle.cacheBufferWidth = width;
+			rectangle.cacheBufferHeight = height;
 		}
 	},
 
