@@ -1,8 +1,9 @@
 import { BaseCleanUp } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { Canvas2DEngine } from "../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { CardManager } from "./card_manager/card_manager.js";
-import { GameDataExporter } from "./game_data/game_data_exporter.js";
 import { GameDataLoader } from "./game_data/game_data_loader.js";
+import { GameDataExporter } from "./game_data/game_data_exporter.js";
+import { GameConfig } from "./game_data/game_config.js";
 import { downloadFile } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { Panel } from "./panel/panel.js";
 
@@ -19,11 +20,16 @@ export class CardStoryGame extends BaseCleanUp {
 		});
 		this.engine.camera.dragUpdatePosition = true;
 
+		// 游戏配置
+		this.gameConfig = new GameConfig();
+
 		this.cardManager = new CardManager(this);
 		this.engine.scene.add(this.cardManager);
 
 		this.panel = new Panel();
 		this.engine.scene.add(this.panel);
+
+		this.engine.scene.addMouseDownEventWhenNoNodeHit(this.panel.hide);
 
 		this.loader = new GameDataLoader(this);
 		this.exporter = new GameDataExporter(this);
@@ -56,6 +62,7 @@ export class CardStoryGame extends BaseCleanUp {
 	}
 
 	destroy() {
+		this.gameConfig.destroy();
 		this.engine.destroy();
 		this.cardManager.destroy();
 		this.loader.destroy();

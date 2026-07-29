@@ -11,21 +11,45 @@ const textOption = {
 };
 
 export class Card extends Render2DNode {
+	/** @type {number} 模板 ID，关联到 GameConfig 中的模板 */
+	templateId = 0;
+	/** @type {string} 卡牌显示文本 */
 	text = "";
+	/** @type {Color} 背景色 */
 	bgColor;
+	/** @type {Color} 文字颜色 */
 	textColor;
+	/** @type {TextTexture} 文字纹理 */
 	textTexture;
+	/** @type {number} 网格 X 坐标 */
 	gridX = 0;
+	/** @type {number} 网格 Y 坐标 */
 	gridY = 0;
+	/** @type {string|number} 网格位置唯一键 */
 	gridPositionKey = 0;
+	/** @type {number} 缓存宽（用于 buffer 更新检测） */
 	cacheBufferWidth = -1;
+	/** @type {number} 缓存高（用于 buffer 更新检测） */
 	cacheBufferHeight = -1;
+	/** @type {CardStoryGameType.CardStoryGame} 游戏实例引用 */
+	game;
 
 	/**
-	 * @param {string} text
+	 * @param {number} templateId - 模板 ID
+	 * @param {CardStoryGameType.CardStoryGame} game - 游戏实例
 	 */
-	constructor(text) {
+	constructor(templateId, game) {
 		super();
+
+		this.templateId = templateId;
+		this.game = game;
+
+		// 从配置中获取模板数据
+		const template = game.gameConfig.getCardTemplate(templateId);
+		if (!template) {
+			throw new Error("模板 " + templateId + " 不存在");
+		}
+		this.text = template.name || "Card";
 
 		this.bgColor = new Color(0.2, 0.4, 0.8, 1);
 		this.textColor = new Color(0, 0, 0, 1);
@@ -35,9 +59,7 @@ export class Card extends Render2DNode {
 
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
 
-		this.textTexture = new TextTexture(text, textOption);
-
-		this.text = text;
+		this.textTexture = new TextTexture(this.text, textOption);
 
 		this.dragUpdatePosition = true;
 		this.centerSelf();
@@ -48,10 +70,12 @@ export class Card extends Render2DNode {
 	}
 
 	/**
+	 * 更新卡牌位置和网格坐标
 	 * @param {number} worldX
 	 * @param {number} worldY
 	 * @param {number} gridX
 	 * @param {number} gridY
+	 * @returns {this}
 	 */
 	updatePosition(worldX, worldY, gridX, gridY) {
 		this.x = worldX;
@@ -68,6 +92,7 @@ export class Card extends Render2DNode {
 	 */
 	toJSON() {
 		return {
+			templateId: this.templateId,
 			text: this.text,
 			gridX: this.gridX,
 			gridY: this.gridY,

@@ -23,6 +23,8 @@ export class RenderEventNode extends RenderNode {
 	dragEndEvents;
 	/** @type {Array<Function>} */
 	wheelEvents;
+	/** @type {Array<Function>} */
+	clickEvents;
 	/** @type {number} */
 	dragStartNodeX;
 	/** @type {number} */
@@ -53,8 +55,8 @@ export class RenderEventNode extends RenderNode {
 		this.dragStartEvents = [];
 		this.dragEvents = [];
 		this.dragEndEvents = [];
-
 		this.wheelEvents = [];
+		this.clickEvents = [];
 
 		this.dragStartNodeX = 0;
 		this.dragStartNodeY = 0;
@@ -370,5 +372,56 @@ export class RenderEventNode extends RenderNode {
 			this.wheelEvents[i](this, dx, dy, dz, x, y, sx, sy);
 		}
 		return this;
+	}
+
+	// ===== Click 事件 =====
+	get hasClickEvents() {
+		return this.clickEvents.length > 0;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	addClickEvent(eventCallback) {
+		if (!this.clickEvents.includes(eventCallback)) {
+			this.clickEvents.push(eventCallback);
+		}
+		return this;
+	}
+	/**
+	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
+	 */
+	removeClickEvent(eventCallback) {
+		const index = this.clickEvents.indexOf(eventCallback);
+		if (index !== -1) {
+			this.clickEvents.splice(index, 1);
+		}
+		return this;
+	}
+	/**
+	 * @param {number} x
+	 * @param {number} y
+	 * @param {number} sx
+	 * @param {number} sy
+	 */
+	executeClickEvents(x, y, sx, sy) {
+		for (let i = 0, len = this.clickEvents.length; i < len; i++) {
+			this.clickEvents[i](this, x, y, sx, sy);
+		}
+		return this;
+	}
+
+	destroy() {
+		this.mouseDownEvents.length = 0;
+		this.mouseMoveEvents.length = 0;
+		this.mouseUpEvents.length = 0;
+		this.mouseEnterEvents.length = 0;
+		this.mouseLeaveEvents.length = 0;
+		this.dragStartEvents.length = 0;
+		this.dragEvents.length = 0;
+		this.dragEndEvents.length = 0;
+		this.wheelEvents.length = 0;
+		this.clickEvents.length = 0;
+
+		super.destroy();
 	}
 }

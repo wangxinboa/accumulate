@@ -23,6 +23,7 @@ export class CardManager extends Render2DNode {
 		return a >= b ? a * a + a + b : a + b * b;
 	}
 
+	/** @type {CustomMap<Card>} */
 	allCardPositionsMap;
 	gapX;
 	gapY;
@@ -118,24 +119,26 @@ export class CardManager extends Render2DNode {
 	}
 
 	/**
-	 * @param {CardStoryGameType.Card} card
+	 * @param {Card} card
 	 */
 	onCardMouseDown(card) {
 		this.game.panel.show(card);
 	}
 
 	/**
-	 * @param {CardStoryGameType.Card} card
+	 * @param {Card} card
 	 */
 	onCardDragStart(card) {
 		card.zIndex = 1;
-		card.parent?.sortChildren();
+		if (card.parent) {
+			card.parent.sortChildren();
+		}
 	}
 
 	onCardDrag() {}
 
 	/**
-	 * @param {CardStoryGameType.Card} card
+	 * @param {Card} card
 	 */
 	onCardDragEnd(card) {
 		const nearestGrid = this._worldToGridNearest(card.x, card.y);
@@ -156,23 +159,34 @@ export class CardManager extends Render2DNode {
 	}
 
 	/**
-	 * @param {number} gridX
-	 * @param {number} gridY
-	 * @param {string} text
+	 * 根据模板 ID 和存档数据创建卡牌
+	 * @param {number} templateId - 模板 ID
+	 * @param {Object} saveData - 存档数据，包含 text, gridX, gridY
+	 * @param {string} [saveData.text] - 可选文本，若未提供则使用模板中的 name
+	 * @param {number} saveData.gridX - 网格 X 坐标
+	 * @param {number} saveData.gridY - 网格 Y 坐标
+	 * @returns {Card}
 	 */
-	createCardAt(gridX, gridY, text) {
+	createCard(templateId, saveData) {
+		const gridX = saveData.gridX || 0;
+		const gridY = saveData.gridY || 0;
 		const gridKey = CardManager.getGridPositionKey(gridX, gridY);
+
 		if (this._isGridOccupied(gridKey)) {
 			throw new Error("Grid (" + gridX + ", " + gridY + ") is already occupied.");
 		}
+
 		const pos = this._gridToWorld(gridX, gridY);
-		const newCard = new Card(text)
+
+		// 创建卡牌实例，只传 templateId 和 game
+		const newCard = new Card(templateId, this.game);
+
+		newCard
 			.addDragStartEvent(this.onCardDragStart)
 			.addDragEvent(this.onCardDrag)
 			.addDragEndEvent(this.onCardDragEnd)
 			.updatePosition(pos.x, pos.y, gridX, gridY);
 
-		// ---- 新增：点击卡牌时显示面板标题 ----
 		newCard.addMouseDownEvent(this.onCardMouseDown);
 
 		this.allCardPositionsMap.set(gridKey, newCard);
@@ -180,6 +194,9 @@ export class CardManager extends Render2DNode {
 		return newCard;
 	}
 
+	/**
+	 * 清空所有卡牌
+	 */
 	clearAllCards() {
 		const cardArray = this.allCardPositionsMap.array.slice();
 		for (let i = 0, len = cardArray.length; i < len; i++) {

@@ -18,6 +18,71 @@ declare global {
 			/** 存档数据，当 mode 为 "continue" 时必填 */
 			saveData?: SaveData;
 		}
+
+		// ===== 配置相关类型 =====
+		interface CardTemplateConfig {
+			id: number;
+			name: string;
+			description: string;
+			actions?: Array<{
+				label: string;
+				actionId: number;
+			}>;
+		}
+
+		interface ActionConfig {
+			id: number;
+			name: string;
+			description: string;
+		}
+
+		interface EventConfig {
+			id: number;
+		}
+
+		interface AttributeConfig {
+			id: number;
+			type: string;
+			name: string;
+		}
+
+		interface EnvironmentalRuleConfig {
+			id: string;
+			description: string;
+		}
+
+		interface SlotGenerationRuleConfig {
+			id: string;
+			description: string;
+		}
+
+		interface LogicOperatorsConfig {
+			[key: string]: string;
+		}
+
+		// ===== UI 配置 =====
+		interface CardPadding {
+			left: number;
+			right: number;
+			top: number;
+			bottom: number;
+		}
+
+		interface UIConfig {
+			cardPadding: CardPadding;
+		}
+
+		/** 游戏配置数据（game_config.json 结构） */
+		interface GameConfigData {
+			cardTemplates?: CardTemplateConfig[];
+			actions?: ActionConfig[];
+			events?: EventConfig[];
+			attributes?: AttributeConfig[];
+			environmentalRules?: EnvironmentalRuleConfig[];
+			slotGenerationRules?: SlotGenerationRuleConfig[];
+			logicOperators?: LogicOperatorsConfig;
+			uiConfig?: UIConfig;
+		}
 	}
 }
 

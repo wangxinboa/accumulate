@@ -52,11 +52,12 @@ export function generateCardVertexData(card) {
 	const offsetX = (width - drawWidth) / 2;
 	const offsetY = (textHeight - drawHeight) / 2;
 
-	// ---- 读取 padding（默认值为 0） ----
-	const padLeft = 2;
-	const padRight = 2;
-	const padTop = 0;
-	const padBottom = 0;
+	// ---- 从游戏配置中读取 padding（提供默认值） ----
+	const padding = card.game.gameConfig.uiConfig.cardPadding || {};
+	const padLeft = padding.left ?? 4;
+	const padRight = padding.right ?? 4;
+	const padTop = padding.top ?? 0;
+	const padBottom = padding.bottom ?? 0;
 
 	// ---- 应用 padding 后的内容区域 ----
 	const contentX = offsetX + padLeft;
