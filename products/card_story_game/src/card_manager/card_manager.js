@@ -1,11 +1,12 @@
-import { Render2DNode, Vector2 } from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
-import { CustomMap } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
+import { Vector2 } from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { BaseCleanUp, CustomMap } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
+import { Panel } from "../panel/panel.js";
 import { Card } from "./card/card.js";
 
 const _gridPosition = new Vector2();
 const _worldPosition = new Vector2();
 
-export class CardManager extends Render2DNode {
+export class CardManager extends BaseCleanUp {
 	static cardWidth = 60;
 	static cardHeight = 90;
 	/** @type {CardStoryGameType.CardStoryGame} */
@@ -38,7 +39,7 @@ export class CardManager extends Render2DNode {
 		this.game = cardStoryGame;
 		this.allCardPositionsMap = new CustomMap();
 
-		this.onCardMouseDown = this.onCardMouseDown.bind(this);
+		this.onCardClick = this.onCardClick.bind(this);
 		this.onCardDragStart = this.onCardDragStart.bind(this);
 		this.onCardDrag = this.onCardDrag.bind(this);
 		this.onCardDragEnd = this.onCardDragEnd.bind(this);
@@ -121,7 +122,8 @@ export class CardManager extends Render2DNode {
 	/**
 	 * @param {Card} card
 	 */
-	onCardMouseDown(card) {
+	onCardClick(card) {
+		card.changeZIndex(Card.zIndex);
 		this.game.panel.show(card);
 	}
 
@@ -129,10 +131,7 @@ export class CardManager extends Render2DNode {
 	 * @param {Card} card
 	 */
 	onCardDragStart(card) {
-		card.zIndex = 1;
-		if (card.parent) {
-			card.parent.sortChildren();
-		}
+		card.changeZIndex(Panel.zIndex + 1);
 	}
 
 	onCardDrag() {}
@@ -155,7 +154,8 @@ export class CardManager extends Render2DNode {
 			card.updatePosition(targetWorldPos.x, targetWorldPos.y, targetFreeGrid.x, targetFreeGrid.y);
 			this.allCardPositionsMap.set(card.gridPositionKey, card);
 		}
-		card.zIndex = 0;
+
+		card.changeZIndex(Card.zIndex);
 	}
 
 	/**
@@ -182,15 +182,14 @@ export class CardManager extends Render2DNode {
 		const newCard = new Card(templateId, this.game);
 
 		newCard
+			.addClickEvent(this.onCardClick)
 			.addDragStartEvent(this.onCardDragStart)
 			.addDragEvent(this.onCardDrag)
 			.addDragEndEvent(this.onCardDragEnd)
 			.updatePosition(pos.x, pos.y, gridX, gridY);
 
-		newCard.addMouseDownEvent(this.onCardMouseDown);
-
 		this.allCardPositionsMap.set(gridKey, newCard);
-		this.add(newCard);
+		this.game.addCard(newCard);
 		return newCard;
 	}
 
@@ -201,7 +200,7 @@ export class CardManager extends Render2DNode {
 		const cardArray = this.allCardPositionsMap.array.slice();
 		for (let i = 0, len = cardArray.length; i < len; i++) {
 			const card = cardArray[i];
-			this.remove(card);
+			this.game.removeCard(card);
 			card.destroy();
 		}
 		this.allCardPositionsMap.clear();

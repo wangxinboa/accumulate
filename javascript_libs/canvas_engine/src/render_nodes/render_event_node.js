@@ -162,10 +162,11 @@ export class RenderEventNode extends RenderNode {
 	 * @param {number} y
 	 * @param {number} sx
 	 * @param {number} sy
+	 * @param {boolean} hasMovedAfterDown
 	 */
-	executeMouseUpEvents(x, y, sx, sy) {
+	executeMouseUpEvents(x, y, sx, sy, hasMovedAfterDown) {
 		for (let i = 0, len = this.mouseUpEvents.length; i < len; i++) {
-			this.mouseUpEvents[i](this, x, y, sx, sy);
+			this.mouseUpEvents[i](this, x, y, sx, sy, hasMovedAfterDown);
 		}
 		return this;
 	}
@@ -402,10 +403,11 @@ export class RenderEventNode extends RenderNode {
 	 * @param {number} y
 	 * @param {number} sx
 	 * @param {number} sy
+	 * @param {boolean} hasMovedAfterDown
 	 */
-	executeClickEvents(x, y, sx, sy) {
+	executeClickEvents(x, y, sx, sy, hasMovedAfterDown) {
 		for (let i = 0, len = this.clickEvents.length; i < len; i++) {
-			this.clickEvents[i](this, x, y, sx, sy);
+			this.clickEvents[i](this, x, y, sx, sy, hasMovedAfterDown);
 		}
 		return this;
 	}

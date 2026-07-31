@@ -63,9 +63,7 @@ export const CardPipe = {
 	updateBuffers(card, gl, bufferSystem) {
 		const bufferKey = getBufferKey(card);
 
-		if (bufferSystem.hasGlBuffer(bufferKey)) {
-			// bufferSystem.getGlBuffer(bufferKey).updateBufferSubData(gl, 0, data);
-		} else {
+		if (!bufferSystem.hasGlBuffer(bufferKey)) {
 			bufferSystem.setGlBuffer(
 				bufferKey,
 				new GlBuffer(

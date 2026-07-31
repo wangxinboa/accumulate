@@ -11,6 +11,8 @@ const textOption = {
 };
 
 export class Card extends Render2DNode {
+	static zIndex = 10;
+
 	/** @type {number} 模板 ID，关联到 GameConfig 中的模板 */
 	templateId = 0;
 	/** @type {string} 卡牌显示文本 */
@@ -87,13 +89,22 @@ export class Card extends Render2DNode {
 	}
 
 	/**
+	 * @param {number} zIndex
+	 */
+	changeZIndex(zIndex) {
+		this.zIndex = zIndex;
+		if (this.parent) {
+			this.parent.sortChildren();
+		}
+	}
+
+	/**
 	 * 自定义 JSON 序列化，只导出必要字段，避免循环引用
 	 * @returns {object} 可序列化的卡牌数据
 	 */
 	toJSON() {
 		return {
 			templateId: this.templateId,
-			text: this.text,
 			gridX: this.gridX,
 			gridY: this.gridY,
 		};

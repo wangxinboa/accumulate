@@ -14,6 +14,8 @@ const textOption = {
 };
 
 export class Panel extends Render2DNode {
+	static zIndex = 1000;
+
 	constructor() {
 		super();
 
@@ -41,7 +43,7 @@ export class Panel extends Render2DNode {
 		this.hide = this.hide.bind(this);
 		this.updateSizeAndPosition = this.updateSizeAndPosition.bind(this);
 
-		this.zIndex = Infinity;
+		this.zIndex = Panel.zIndex;
 	}
 
 	get pipe() {
@@ -57,8 +59,18 @@ export class Panel extends Render2DNode {
 		return this;
 	}
 
-	hide() {
-		this.visible = false;
+	/**
+	 * @param {CanvasEngineType.Scene2D} _scene2d
+	 * @param {number} _x
+	 * @param {number} _y
+	 * @param {number} _sx
+	 * @param {number} _sy
+	 * @param {boolean} [hasMovedAfterDown]
+	 */
+	hide(_scene2d, _x, _y, _sx, _sy, hasMovedAfterDown) {
+		if (!hasMovedAfterDown) {
+			this.visible = false;
+		}
 		return this;
 	}
 

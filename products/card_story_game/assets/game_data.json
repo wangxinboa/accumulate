@@ -2,8 +2,8 @@
 	"saveData": {
 		"cards": [
 			{ "templateId": 0, "gridX": 0, "gridY": 0 },
-			{ "templateId": 0, "gridX": 1, "gridY": 0 },
-			{ "templateId": 0, "gridX": 0, "gridY": 1 },
+			{ "templateId": 1, "gridX": 1, "gridY": 0 },
+			{ "templateId": 2, "gridX": 0, "gridY": 1 },
 			{ "templateId": 0, "gridX": 1, "gridY": 1 },
 			{ "templateId": 0, "gridX": 2, "gridY": 1 },
 			{ "templateId": 0, "gridX": 0, "gridY": 2 },

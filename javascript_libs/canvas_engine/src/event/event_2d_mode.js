@@ -19,6 +19,15 @@ export class Event2DMode extends BaseCleanUp {
 	/** @type {Array<CanvasEngineType.Render2DNode>} */
 	dragNodes;
 
+	/** @private @type {CanvasEngineType.Render2DNode | null} */
+	_mouseDownHitNode;
+	/** @private @type {number | null} */
+	_mouseDownScreenX;
+	/** @private @type {number | null} */
+	_mouseDownScreenY;
+	/** @private @type {boolean} 是否已发生有效拖拽（移动超过阈值） */
+	_hasMovedAfterDown;
+
 	constructor() {
 		super();
 
@@ -29,6 +38,11 @@ export class Event2DMode extends BaseCleanUp {
 		this.preMoveEnterMap = new CustomMap();
 		this.nowMoveEnterMap = new CustomMap();
 		this.dragNodes = [];
+
+		this._mouseDownHitNode = null;
+		this._mouseDownScreenX = null;
+		this._mouseDownScreenY = null;
+		this._hasMovedAfterDown = false;
 
 		this.hitTestLimit = 1;
 	}
@@ -126,7 +140,11 @@ export class Event2DMode extends BaseCleanUp {
 	 */
 	processDownEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
+
 		if (this.scene2D && this.camera2D) {
+			this._mouseDownScreenX = offsetX;
+			this._mouseDownScreenY = offsetY;
+
 			let hitTestCounter = 0;
 			for (let i = this.scene2D.allEventDescendants.length - 1; i >= 0; i--) {
 				const descendant = this.scene2D.allEventDescendants[i];
@@ -134,6 +152,9 @@ export class Event2DMode extends BaseCleanUp {
 					continue;
 				}
 				if (this._hitTest(descendant)) {
+					if (this._mouseDownHitNode === null) {
+						this._mouseDownHitNode = descendant;
+					}
 					if (descendant.hitTestCountable) {
 						hitTestCounter++;
 					}
@@ -200,10 +221,19 @@ export class Event2DMode extends BaseCleanUp {
 	processMoveEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
 		if (this.scene2D && this.camera2D) {
+			// ---- 判断是否发生了有效移动 ----
+			if (
+				!this._hasMovedAfterDown &&
+				this._mouseDownScreenX !== null &&
+				(offsetX !== this._mouseDownScreenX || offsetY !== this._mouseDownScreenY)
+			) {
+				this._hasMovedAfterDown = true;
+			}
+
+			// ---- 处理拖拽移动 ----
 			if (this.dragNodes.length > 0) {
 				for (let i = 0, len = this.dragNodes.length; i < len; i++) {
 					const dragNode = this.dragNodes[i];
-
 					if (dragNode.dragUpdatePosition) {
 						this._updateDragPosition(dragNode);
 					}
@@ -217,6 +247,7 @@ export class Event2DMode extends BaseCleanUp {
 					}
 				}
 			} else {
+				// ---- 无拖拽时执行普通的 mouseMove/Enter/Leave ----
 				let hitTestCounter = 0;
 				for (let i = this.scene2D.allEventDescendants.length - 1; i >= 0; i--) {
 					const descendant = this.scene2D.allEventDescendants[i];
@@ -297,8 +328,10 @@ export class Event2DMode extends BaseCleanUp {
 	 */
 	processUpEvents(offsetX, offsetY) {
 		this._beforeProcess(offsetX, offsetY);
+
 		if (this.scene2D && this.camera2D) {
-			if (this.dragNodes.length > 0) {
+			// ---- 处理拖拽结束 ----
+			if (this.dragNodes.length > 0 && this._hasMovedAfterDown) {
 				for (let i = 0, len = this.dragNodes.length; i < len; i++) {
 					const dragNode = this.dragNodes[i];
 					if (dragNode.hasDragEndEvents) {
@@ -310,8 +343,8 @@ export class Event2DMode extends BaseCleanUp {
 						);
 					}
 				}
-				this.dragNodes.length = 0;
 			} else {
+				let upHitNode = null;
 				let hitTestCounter = 0;
 				for (let i = this.scene2D.allEventDescendants.length - 1; i >= 0; i--) {
 					const descendant = this.scene2D.allEventDescendants[i];
@@ -319,6 +352,9 @@ export class Event2DMode extends BaseCleanUp {
 						continue;
 					}
 					if (this._hitTest(descendant)) {
+						if (upHitNode === null) {
+							upHitNode = descendant;
+						}
 						if (descendant.hitTestCountable) {
 							hitTestCounter++;
 						}
@@ -328,6 +364,7 @@ export class Event2DMode extends BaseCleanUp {
 								_canvasPositionInCamera.y,
 								_canvasPositionInScene.x,
 								_canvasPositionInScene.y,
+								this._hasMovedAfterDown,
 							);
 						}
 					}
@@ -343,6 +380,7 @@ export class Event2DMode extends BaseCleanUp {
 						_canvasPositionInCamera.y,
 						_canvasPositionInScene.x,
 						_canvasPositionInScene.y,
+						this._hasMovedAfterDown,
 					);
 				} else {
 					this.scene2D.executeMouseUpWhenNoNodeHitEvents(
@@ -350,12 +388,30 @@ export class Event2DMode extends BaseCleanUp {
 						_canvasPositionInCamera.y,
 						_canvasPositionInScene.x,
 						_canvasPositionInScene.y,
+						this._hasMovedAfterDown,
 					);
 				}
-
 				if (this.camera2D.isDraging) {
 					this.camera2D.isDraging = false;
 				}
+				if (this._mouseDownHitNode !== null && this._mouseDownHitNode === upHitNode) {
+					if (upHitNode.hasClickEvents) {
+						upHitNode.executeClickEvents(
+							_canvasPositionInCamera.x,
+							_canvasPositionInCamera.y,
+							_canvasPositionInScene.x,
+							_canvasPositionInScene.y,
+							this._hasMovedAfterDown,
+						);
+					}
+				}
+			}
+
+			this._hasMovedAfterDown = false;
+			this._mouseDownHitNode = null;
+			this._mouseDownScreenX = this._mouseDownScreenY = null;
+			if (this.dragNodes.length > 0) {
+				this.dragNodes.length = 0;
 			}
 		}
 	}

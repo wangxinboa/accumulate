@@ -24,12 +24,11 @@ export class CardStoryGame extends BaseCleanUp {
 		this.gameConfig = new GameConfig();
 
 		this.cardManager = new CardManager(this);
-		this.engine.scene.add(this.cardManager);
 
 		this.panel = new Panel();
 		this.engine.scene.add(this.panel);
 
-		this.engine.scene.addMouseDownEventWhenNoNodeHit(this.panel.hide);
+		this.engine.scene.addMouseUpEventWhenNoNodeHit(this.panel.hide);
 
 		this.loader = new GameDataLoader(this);
 		this.exporter = new GameDataExporter(this);
@@ -40,12 +39,21 @@ export class CardStoryGame extends BaseCleanUp {
 	}
 
 	resize() {
-		this.cardManager.x = this.engine.camera.width / 2;
-		this.cardManager.y = this.engine.camera.height / 2;
+		this.panel.updateSizeAndPosition(this.engine.camera.width, this.engine.camera.height);
+	}
 
-		if (this.panel) {
-			this.panel.updateSizeAndPosition(this.engine.camera.width, this.engine.camera.height);
-		}
+	/**
+	 * @param {CardStoryGameType.Card} card
+	 */
+	addCard(card) {
+		this.engine.scene.add(card);
+	}
+
+	/**
+	 * @param {CardStoryGameType.Card} card
+	 */
+	removeCard(card) {
+		this.engine.scene.remove(card);
 	}
 
 	/**
