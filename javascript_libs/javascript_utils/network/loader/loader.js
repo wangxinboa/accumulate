@@ -110,7 +110,7 @@ export class Loader {
 	 * 添加一个 JSON 加载任务
 	 * @param {string} url - JSON 文件地址
 	 * @param {RequestInit} [options] - fetch 附加选项
-	 * @returns {JsonTask<Object>}
+	 * @returns {JsonTask<any>}
 	 */
 	addJsonTask(url, options) {
 		if (this._cacheLoadedTasks[url] instanceof JsonTask) {
@@ -125,7 +125,7 @@ export class Loader {
 	 * 添加多个 JSON 加载任务
 	 * @param {string[]} urls - JSON 文件地址数组
 	 * @param {RequestInit} [options] - fetch 附加选项
-	 * @returns {JsonTask<Object>[]}
+	 * @returns {JsonTask<any>[]}
 	 */
 	addJsonTasks(urls, options) {
 		const tasks = [];

@@ -7,7 +7,7 @@ declare global {
 		type BaseTask = BaseTaskClass;
 		type ImageTask = ImageTaskClass;
 		type JsonTask<T> = JsonTaskClass<T>;
-		type AllTaskType = ImageTask | JsonTask<Object>;
+		type AllTaskType = ImageTask | JsonTask<any>;
 		type TaskCallback<Task> = (task: Task) => void;
 
 		type TweenConfig = {
