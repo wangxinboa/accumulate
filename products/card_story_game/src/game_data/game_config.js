@@ -1,4 +1,5 @@
 import { BaseCleanUp, CustomMap } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
+import { defaultGameConfig } from "../../assets/game_config.js";
 
 /**
  * 游戏配置类，存储所有静态配置数据
@@ -21,22 +22,18 @@ export class GameConfig extends BaseCleanUp {
 		this.slotGenerationRules = new CustomMap();
 		/** @type {CardStoryGameType.LogicOperatorsConfig} 逻辑算子定义 */
 		this.logicOperators = {};
-		/** @type {CardStoryGameType.UIConfig} UI 配置，直接存储 JSON 中的 uiConfig 对象 */
-		this.uiConfig = {
-			cardPadding: {
-				left: 4,
-				right: 4,
-				top: 0,
-				bottom: 0,
-			},
-		};
+
+		/** @type {CardStoryGameType.UIConfig} 从 JSON 加载的原始 UI 配置（未合并默认值） */
+		this.uiConfig = defaultGameConfig.uiConfig;
+		/** @private @type {CardStoryGameType.UIConfig} 默认 UI 配置（来自 game_config.js） */
+		this._defaultUiConfig = defaultGameConfig.uiConfig;
 	}
 
 	/**
 	 * 从 JSON 数据初始化配置
 	 * @param {CardStoryGameType.GameConfigData} data - 配置数据（来自 game_config.json）
 	 */
-	initFromData(data) {
+	initConfig(data) {
 		// 清空现有数据
 		this.cardTemplates.clear();
 		this.actions.clear();
@@ -98,11 +95,10 @@ export class GameConfig extends BaseCleanUp {
 			this.logicOperators = data.logicOperators;
 		}
 
-		// 加载 UI 配置
+		// 加载 UI 配置（原始数据，不与默认值合并）
 		if (data.uiConfig) {
 			this.uiConfig = data.uiConfig;
 		}
-		// 若没有则保留默认值
 	}
 
 	/**

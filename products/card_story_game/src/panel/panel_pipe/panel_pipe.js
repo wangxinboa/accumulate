@@ -9,10 +9,12 @@ import {
 	aPositionName,
 	aTexCoordName,
 	aIsBgName,
+	aTexIndexName,
 	panelGlProgramFormat,
 	uBgColorName,
 	uTextColorName,
-	uImageName,
+	uTitleImageName,
+	uDescImageName,
 } from "./panel_pipe_gl_program_format.js";
 import { generatePanelVertexData } from "./generate_panel_vertex_data.js";
 
@@ -44,9 +46,10 @@ export const PanelPipe = {
 			bufferSystem.setGlAttribs(
 				attribsKey,
 				new GlAttribs(attribsKey)
-					.addAttrib(bufferKey, aPositionName, 2, GlBufferDataTypeEnum.FLOAT, false, 20, 0)
-					.addAttrib(bufferKey, aTexCoordName, 2, GlBufferDataTypeEnum.FLOAT, false, 20, 8)
-					.addAttrib(bufferKey, aIsBgName, 1, GlBufferDataTypeEnum.FLOAT, false, 20, 16),
+					.addAttrib(bufferKey, aPositionName, 2, GlBufferDataTypeEnum.FLOAT, false, 24, 0) // stride 6*4=24
+					.addAttrib(bufferKey, aTexCoordName, 2, GlBufferDataTypeEnum.FLOAT, false, 24, 8)
+					.addAttrib(bufferKey, aIsBgName, 1, GlBufferDataTypeEnum.FLOAT, false, 24, 16)
+					.addAttrib(bufferKey, aTexIndexName, 1, GlBufferDataTypeEnum.FLOAT, false, 24, 20),
 			);
 		}
 		return bufferSystem.getGlAttribs(attribsKey);
@@ -58,16 +61,22 @@ export const PanelPipe = {
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
 	updateBuffers(panel, gl, bufferSystem) {
+		if (!panel.titleTexture || !panel.descriptionTexture) {
+			return;
+		}
+
 		const bufferKey = getBufferKey(panel);
 		const width = panel.width;
 		const height = panel.height;
+		const titleText = panel.titleTexture.text;
+		const descText = panel.descriptionTexture.text;
 
-		// 如果尺寸没变且缓冲区存在，则无需更新
 		if (
 			bufferSystem.hasGlBuffer(bufferKey) &&
 			panel.cacheBufferWidth === width &&
 			panel.cacheBufferHeight === height &&
-			panel.cacheTitleText === panel.titleTexture.text
+			panel.cacheTitleText === titleText &&
+			panel.cacheDescText === descText
 		) {
 			return;
 		}
@@ -87,7 +96,8 @@ export const PanelPipe = {
 		}
 		panel.cacheBufferWidth = width;
 		panel.cacheBufferHeight = height;
-		panel.cacheTitleText = panel.titleTexture.text;
+		panel.cacheTitleText = titleText;
+		panel.cacheDescText = descText;
 	},
 
 	/**
@@ -97,6 +107,9 @@ export const PanelPipe = {
 	updateTextures(panel, textureSystem) {
 		if (panel.titleTexture && panel.titleTexture.isReady) {
 			textureSystem.updateGlTexture(panel.titleTexture);
+		}
+		if (panel.descriptionTexture && panel.descriptionTexture.isReady) {
+			textureSystem.updateGlTexture(panel.descriptionTexture);
 		}
 	},
 
@@ -109,8 +122,20 @@ export const PanelPipe = {
 	uniform(panel, gl, textureSystem, glProgram) {
 		glProgram.uniform(gl, uBgColorName, panel.bgColor);
 		glProgram.uniform(gl, uTextColorName, panel.textColor);
+
+		// 标题纹理
 		if (panel.titleTexture && panel.titleTexture.isReady) {
-			glProgram.uniform(gl, uImageName, textureSystem.getGlTexture(panel.titleTexture.key));
+			const titleGlTex = textureSystem.getGlTexture(panel.titleTexture.key);
+			if (titleGlTex) {
+				glProgram.uniform(gl, uTitleImageName, titleGlTex);
+			}
+		}
+		// 描述纹理
+		if (panel.descriptionTexture && panel.descriptionTexture.isReady) {
+			const descGlTex = textureSystem.getGlTexture(panel.descriptionTexture.key);
+			if (descGlTex) {
+				glProgram.uniform(gl, uDescImageName, descGlTex);
+			}
 		}
 	},
 
@@ -120,6 +145,6 @@ export const PanelPipe = {
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */
 	drawArrays(_panel, gl, glProgram) {
-		glProgram.drawArrays(gl, gl.TRIANGLES, 0, 12);
+		glProgram.drawArrays(gl, gl.TRIANGLES, 0, 18); // 18顶点 = 6背景 + 6标题 + 6描述
 	},
 };

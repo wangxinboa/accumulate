@@ -3,16 +3,9 @@ import { Color } from "../../../../../javascript_libs/canvas_engine/src/math/col
 import { RectangleDef } from "../../../../../javascript_libs/canvas_engine/src/math/geometry_2d_defs/rectangle_def.js";
 import { TextTexture } from "../../../../../javascript_libs/canvas_engine/src/textures/text_texture.js";
 import { CardPipe } from "./card_pipe/card_pipe.js";
-import { CardManager } from "../card_manager.js";
-
-const textOption = {
-	fontSize: 12,
-	fontFamily: "Arial",
-};
+import { defaultGameConfig } from "../../../assets/game_config.js";
 
 export class Card extends Render2DNode {
-	static zIndex = 10;
-
 	/** @type {number} 模板 ID，关联到 GameConfig 中的模板 */
 	templateId = 0;
 	/** @type {string} 卡牌显示文本 */
@@ -53,15 +46,26 @@ export class Card extends Render2DNode {
 		}
 		this.text = template.name || "Card";
 
-		this.bgColor = new Color(0.2, 0.4, 0.8, 1);
-		this.textColor = new Color(0, 0, 0, 1);
+		const uiConfig = game.gameConfig.uiConfig ?? defaultGameConfig.uiConfig;
 
-		this.width = CardManager.cardWidth;
-		this.height = CardManager.cardHeight;
+		// 从配置创建颜色对象
+		const bgColorObj = uiConfig.cardBgColor;
+		this.bgColor = new Color(bgColorObj.r, bgColorObj.g, bgColorObj.b, bgColorObj.a);
+
+		const textColorObj = uiConfig.cardTextColor;
+		this.textColor = new Color(textColorObj.r, textColorObj.g, textColorObj.b, textColorObj.a);
+
+		this.width = uiConfig.cardWidth;
+		this.height = uiConfig.cardHeight;
 
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
 
-		this.textTexture = new TextTexture(this.text, textOption);
+		// 文字纹理
+		this.textTexture = new TextTexture(this.text, {
+			fontSize: uiConfig.cardFontSize,
+			fontFamily: uiConfig.cardFontFamily,
+			fontWeight: "normal",
+		});
 
 		this.dragUpdatePosition = true;
 		this.centerSelf();
@@ -84,7 +88,10 @@ export class Card extends Render2DNode {
 		this.y = worldY;
 		this.gridX = gridX;
 		this.gridY = gridY;
-		this.gridPositionKey = CardManager.getGridPositionKey(gridX, gridY);
+		const coordOffset = this.game.gameConfig.uiConfig?.gridCoordOffset ?? defaultGameConfig.uiConfig.gridCoordOffset;
+		const a = gridX + coordOffset;
+		const b = gridY + coordOffset;
+		this.gridPositionKey = a >= b ? a * a + a + b : a + b * b;
 		return this;
 	}
 

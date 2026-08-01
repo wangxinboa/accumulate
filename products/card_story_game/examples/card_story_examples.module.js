@@ -11,11 +11,5 @@ function initCardStory() {
 		StatsTool.update();
 	});
 
-	cardStoryGame.loader.load();
-
-	window.cardStoryGame = cardStoryGame;
-	// // 加载游戏数据
-	// cardStoryGame.loadGameData("../assets/game_data.json");
-
 	return cardStoryGame;
 }

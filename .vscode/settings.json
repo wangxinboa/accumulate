@@ -65,5 +65,17 @@
 	// prettier
 	"prettier.printWidth": 120,
 	"prettier.useTabs": true,
-	"prettier.singleQuote": false
+	"prettier.singleQuote": false,
+
+	"chat.disableAIFeatures": true,
+	"github.copilot.enable": { "*": true },
+	"editor.inlineSuggest.enabled": false,
+	"github.copilot.nextEditSuggestions.enabled": false,
+	"chat.agent.enabled": false,
+	"github.copilot.chat.commitMessageGeneration.instructions": [
+		{ "text": "使用简体中文，遵循 Conventional Commits 格式：type: description" },
+		{ "text": "常用 type: feat/fix/docs/style/refactor/test/chore" },
+		{ "text": "首行不超过 72 字符，不加句号，使用祈使句" }
+	],
+	"git.addAICoAuthor": "off"
 }

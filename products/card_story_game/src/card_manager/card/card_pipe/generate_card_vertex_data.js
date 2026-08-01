@@ -1,3 +1,5 @@
+import { defaultGameConfig } from "../../../../assets/game_config.js";
+
 /**
  * 辅助函数：向 Float32Array 写入单个顶点数据
  * @param {Float32Array} array - 目标数组
@@ -28,7 +30,9 @@ function _setVertex(array, index, x, y, u, v, isBg) {
 export function generateCardVertexData(card) {
 	const width = card.width;
 	const height = card.height;
-	const textHeight = width / 3;
+	const uiConfig = card.game.gameConfig.uiConfig ?? defaultGameConfig.uiConfig;
+	const textHeightRatio = uiConfig.cardTextHeightRatio;
+	const textHeight = width * textHeightRatio;
 
 	// 获取纹理宽高，若未准备好则使用1x1
 	let texWidth = 1;
@@ -52,12 +56,12 @@ export function generateCardVertexData(card) {
 	const offsetX = (width - drawWidth) / 2;
 	const offsetY = (textHeight - drawHeight) / 2;
 
-	// ---- 从游戏配置中读取 padding（提供默认值） ----
-	const padding = card.game.gameConfig.uiConfig.cardPadding || {};
-	const padLeft = padding.left ?? 4;
-	const padRight = padding.right ?? 4;
-	const padTop = padding.top ?? 0;
-	const padBottom = padding.bottom ?? 0;
+	// ---- 从配置中读取 padding ----
+	const padding = uiConfig.cardPadding;
+	const padLeft = padding.left;
+	const padRight = padding.right;
+	const padTop = padding.top;
+	const padBottom = padding.bottom;
 
 	// ---- 应用 padding 后的内容区域 ----
 	const contentX = offsetX + padLeft;

@@ -1,6 +1,9 @@
 import { BaseCleanUp } from "../../../javascript_utils/javascript_utils.js";
 import { getHexR, getHexG, getHexB, rgbToHexString } from "./math_utils.js";
 
+/** @type {Color} */
+let _color;
+
 export class Color extends BaseCleanUp {
 	/** @type {number} */
 	r;
@@ -92,5 +95,15 @@ export class Color extends BaseCleanUp {
 	 */
 	static createFromHex(hex = 0) {
 		return new Color(getHexR(hex), getHexG(hex), getHexB(hex));
+	}
+
+	/**
+	 * 设置颜色（传入带 # 的十六进制字符串，如 "#ff0000"）
+	 * @param {string} hexStringValue - 必须包含 # 前缀
+	 */
+	static createFromHexString(hexStringValue) {
+		_color = new Color();
+		_color.hexString = hexStringValue;
+		return _color;
 	}
 }

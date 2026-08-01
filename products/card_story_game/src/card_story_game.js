@@ -11,31 +11,30 @@ export class CardStoryGame extends BaseCleanUp {
 	constructor() {
 		super();
 
+		this.gameConfig = new GameConfig();
+
 		this.engine = new Canvas2DEngine({
 			container: document.body,
 			rendererType: "webgl",
 			autoStart: true,
 			waitLoadingCompleteStart: false,
-			backgroundColor: 0xff0000,
+			backgroundColor: 0x000000,
 		});
 		this.engine.camera.dragUpdatePosition = true;
 
-		// 游戏配置
-		this.gameConfig = new GameConfig();
-
 		this.cardManager = new CardManager(this);
 
-		this.panel = new Panel();
+		this.panel = new Panel(this);
 		this.engine.scene.add(this.panel);
 
 		this.engine.scene.addMouseUpEventWhenNoNodeHit(this.panel.hide);
 
-		this.loader = new GameDataLoader(this);
-		this.exporter = new GameDataExporter(this);
-
 		this.resize = this.resize.bind(this);
 		this.engine.addResizeCallback(this.resize);
 		this.resize();
+
+		this.loader = new GameDataLoader(this).loadConfig();
+		this.exporter = new GameDataExporter(this);
 	}
 
 	resize() {
@@ -67,6 +66,38 @@ export class CardStoryGame extends BaseCleanUp {
 			downloadFile("game_data.json", jsonStr, "application/json");
 		}
 		return jsonStr;
+	}
+
+	/**
+	 * 配置加载完成后的回调
+	 * @param {CardStoryGameType.GameConfigData} configData
+	 */
+	onConfigLoaded(configData) {
+		this.gameConfig.initConfig(configData);
+
+		// 设置引擎背景色（使用 RGBA 对象）
+		const bg = configData.uiConfig.engineBackgroundColor;
+		this.engine.renderer.backgroundSystem.color.setValue(bg.r, bg.g, bg.b, bg.a);
+
+		this.panel.initConfig(configData);
+		this.panel.updateSizeAndPosition(this.engine.camera.width, this.engine.camera.height);
+
+		this.cardManager.initConfig(configData);
+
+		console.info("配置加载完成");
+	}
+
+	/**
+	 * @param {CardStoryGameType.GameData} gameData
+	 */
+	onGameDataLoaded(gameData) {
+		const cardsData = gameData.saveData?.cards || [];
+		for (let i = 0, len = cardsData.length; i < len; i++) {
+			const saveData = cardsData[i];
+			const templateId = saveData.templateId || 0;
+			this.cardManager.createCard(templateId, saveData);
+		}
+		console.info("存档加载完成，共 " + cardsData.length + " 张卡牌");
 	}
 
 	destroy() {

@@ -1,35 +1,35 @@
 import { Vector2 } from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { BaseCleanUp, CustomMap } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
-import { Panel } from "../panel/panel.js";
+import { defaultGameConfig } from "../../assets/game_config.js";
 import { Card } from "./card/card.js";
 
 const _gridPosition = new Vector2();
 const _worldPosition = new Vector2();
 
 export class CardManager extends BaseCleanUp {
-	static cardWidth = 60;
-	static cardHeight = 90;
 	/** @type {CardStoryGameType.CardStoryGame} */
 	game;
-	static coordOffset = 10000;
-	static maxSearchDepth = 100;
-
-	/**
-	 * @param {number} x
-	 * @param {number} y
-	 */
-	static getGridPositionKey(x, y) {
-		const a = x + CardManager.coordOffset;
-		const b = y + CardManager.coordOffset;
-		return a >= b ? a * a + a + b : a + b * b;
-	}
+	/** @type {number} 卡牌宽度（从配置读取） */
+	cardWidth;
+	/** @type {number} 卡牌高度（从配置读取） */
+	cardHeight;
+	/** @type {number} 网格偏移量（从配置读取） */
+	coordOffset;
+	/** @type {number} BFS最大搜索深度（从配置读取） */
+	maxSearchDepth;
+	/** @type {number} 网格水平间距（从配置读取） */
+	gapX;
+	/** @type {number} 网格垂直间距（从配置读取） */
+	gapY;
+	/** @type {number} 网格单元宽度 */
+	cellWidth;
+	/** @type {number} 网格单元高度 */
+	cellHeight;
+	/** @type {number} */
+	cardZIndex;
 
 	/** @type {CustomMap<Card>} */
 	allCardPositionsMap;
-	gapX;
-	gapY;
-	cellWidth;
-	cellHeight;
 
 	/**
 	 * @param {CardStoryGameType.CardStoryGame} cardStoryGame
@@ -39,15 +39,41 @@ export class CardManager extends BaseCleanUp {
 		this.game = cardStoryGame;
 		this.allCardPositionsMap = new CustomMap();
 
+		this.cardWidth = -1;
+		this.cardHeight = -1;
+		this.coordOffset = -1;
+		this.maxSearchDepth = -1;
+		this.gapX = -1;
+		this.gapY = -1;
+		this.cellWidth = -1;
+		this.cellHeight = -1;
+		this.cardZIndex = -1;
+
 		this.onCardClick = this.onCardClick.bind(this);
 		this.onCardDragStart = this.onCardDragStart.bind(this);
 		this.onCardDrag = this.onCardDrag.bind(this);
 		this.onCardDragEnd = this.onCardDragEnd.bind(this);
+	}
 
-		this.gapX = 4;
-		this.gapY = 4;
-		this.cellWidth = this.gapX * 2 + CardManager.cardWidth;
-		this.cellHeight = this.gapY * 2 + CardManager.cardHeight;
+	/**
+	 * 根据游戏配置初始化面板参数
+	 * @param {CardStoryGameType.GameConfigData} configData - 游戏配置数据（来自 game_config.json）
+	 */
+	initConfig(configData) {
+		// 从配置读取参数
+		const uiConfig = configData.uiConfig ?? defaultGameConfig.uiConfig;
+		this.cardWidth = uiConfig.cardWidth;
+		this.cardHeight = uiConfig.cardHeight;
+		this.coordOffset = uiConfig.gridCoordOffset;
+		this.maxSearchDepth = uiConfig.gridMaxSearchDepth;
+		this.gapX = uiConfig.cardGapX;
+		this.gapY = uiConfig.cardGapY;
+		this.cellWidth = this.gapX * 2 + this.cardWidth;
+		this.cellHeight = this.gapY * 2 + this.cardHeight;
+
+		console.info("configData:", configData);
+
+		this.cardZIndex = uiConfig.cardZIndex;
 	}
 
 	/**
@@ -78,15 +104,15 @@ export class CardManager extends BaseCleanUp {
 	 * @param {number} startY
 	 */
 	_findNearestFreeGridBFS(startX, startY) {
-		const startKey = CardManager.getGridPositionKey(startX, startY);
+		const startKey = this._getGridPositionKey(startX, startY);
 		if (!this._isGridOccupied(startKey)) {
 			return _gridPosition.set(startX, startY);
 		}
-		for (let d = 1; d <= CardManager.maxSearchDepth; d++) {
+		for (let d = 1; d <= this.maxSearchDepth; d++) {
 			for (let dx = -d; dx <= d; dx++) {
 				const x = startX + dx;
 				const y = startY - d;
-				const key = CardManager.getGridPositionKey(x, y);
+				const key = this._getGridPositionKey(x, y);
 				if (!this._isGridOccupied(key)) {
 					return _gridPosition.set(x, y);
 				}
@@ -94,7 +120,7 @@ export class CardManager extends BaseCleanUp {
 			for (let dy = -d + 1; dy <= d; dy++) {
 				const x = startX + d;
 				const y = startY + dy;
-				const key = CardManager.getGridPositionKey(x, y);
+				const key = this._getGridPositionKey(x, y);
 				if (!this._isGridOccupied(key)) {
 					return _gridPosition.set(x, y);
 				}
@@ -102,7 +128,7 @@ export class CardManager extends BaseCleanUp {
 			for (let dx = d - 1; dx >= -d; dx--) {
 				const x = startX + dx;
 				const y = startY + d;
-				const key = CardManager.getGridPositionKey(x, y);
+				const key = this._getGridPositionKey(x, y);
 				if (!this._isGridOccupied(key)) {
 					return _gridPosition.set(x, y);
 				}
@@ -110,7 +136,7 @@ export class CardManager extends BaseCleanUp {
 			for (let dy = d - 1; dy >= -d + 1; dy--) {
 				const x = startX - d;
 				const y = startY + dy;
-				const key = CardManager.getGridPositionKey(x, y);
+				const key = this._getGridPositionKey(x, y);
 				if (!this._isGridOccupied(key)) {
 					return _gridPosition.set(x, y);
 				}
@@ -120,10 +146,21 @@ export class CardManager extends BaseCleanUp {
 	}
 
 	/**
+	 * @param {number} x
+	 * @param {number} y
+	 * @returns {string|number}
+	 */
+	_getGridPositionKey(x, y) {
+		const a = x + this.coordOffset;
+		const b = y + this.coordOffset;
+		return a >= b ? a * a + a + b : a + b * b;
+	}
+
+	/**
 	 * @param {Card} card
 	 */
 	onCardClick(card) {
-		card.changeZIndex(Card.zIndex);
+		card.changeZIndex(this.cardZIndex);
 		this.game.panel.show(card);
 	}
 
@@ -131,7 +168,7 @@ export class CardManager extends BaseCleanUp {
 	 * @param {Card} card
 	 */
 	onCardDragStart(card) {
-		card.changeZIndex(Panel.zIndex + 1);
+		card.changeZIndex(this.game.panel.zIndex + 1);
 	}
 
 	onCardDrag() {}
@@ -141,7 +178,7 @@ export class CardManager extends BaseCleanUp {
 	 */
 	onCardDragEnd(card) {
 		const nearestGrid = this._worldToGridNearest(card.x, card.y);
-		const nearestGridKey = CardManager.getGridPositionKey(nearestGrid.x, nearestGrid.y);
+		const nearestGridKey = this._getGridPositionKey(nearestGrid.x, nearestGrid.y);
 
 		if (this._isGridOccupied(nearestGridKey)) {
 			const oldWorldPos = this._gridToWorld(card.gridX, card.gridY);
@@ -155,7 +192,7 @@ export class CardManager extends BaseCleanUp {
 			this.allCardPositionsMap.set(card.gridPositionKey, card);
 		}
 
-		card.changeZIndex(Card.zIndex);
+		card.changeZIndex(this.cardZIndex);
 	}
 
 	/**
@@ -170,7 +207,7 @@ export class CardManager extends BaseCleanUp {
 	createCard(templateId, saveData) {
 		const gridX = saveData.gridX || 0;
 		const gridY = saveData.gridY || 0;
-		const gridKey = CardManager.getGridPositionKey(gridX, gridY);
+		const gridKey = this._getGridPositionKey(gridX, gridY);
 
 		if (this._isGridOccupied(gridKey)) {
 			throw new Error("Grid (" + gridX + ", " + gridY + ") is already occupied.");
@@ -178,7 +215,7 @@ export class CardManager extends BaseCleanUp {
 
 		const pos = this._gridToWorld(gridX, gridY);
 
-		// 创建卡牌实例，只传 templateId 和 game
+		// 创建卡牌实例，传入 game 和尺寸
 		const newCard = new Card(templateId, this.game);
 
 		newCard
