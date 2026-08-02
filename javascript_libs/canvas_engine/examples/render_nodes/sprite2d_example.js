@@ -19,12 +19,12 @@ for (let i = 0; i < textureUrls.length; i++) {
 }
 
 const updateTextureText = Sprite2D.createFromText(`更新 texture`);
-updateTextureText.x = 100;
+updateTextureText.x = -100;
 updateTextureText.y = 0;
 engine.scene.add(updateTextureText);
 
 const updateTexture = Sprite2D.createFromTexture(textures[0]);
-updateTexture.x = 100;
+updateTexture.x = -100;
 updateTexture.y = 50;
 updateTexture.pivotX = 0.5;
 updateTexture.pivotY = 0.5;
@@ -32,12 +32,12 @@ updateTexture.pivotY = 0.5;
 engine.scene.add(updateTexture);
 
 const fixedUpdateTextureText = Sprite2D.createFromText(`fixed 更新 texture`);
-fixedUpdateTextureText.x = 300;
+fixedUpdateTextureText.x = 100;
 fixedUpdateTextureText.y = 0;
 engine.scene.add(fixedUpdateTextureText);
 
 const fixedUpdateTexture = Sprite2D.createFromTexture(textures[0]);
-fixedUpdateTexture.x = 300;
+fixedUpdateTexture.x = 100;
 fixedUpdateTexture.y = 50;
 fixedUpdateTexture.fixGeometry(60, 90);
 fixedUpdateTexture.dragUpdatePosition = true;

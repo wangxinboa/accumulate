@@ -16,7 +16,7 @@ const camera = engine.camera;
 
 engine.scene.addWheelEvent((_node, dx, dy) => {
 	camera.x -= dx;
-	camera.y -= dy;
+	camera.y += dy;
 });
 
 StatsTool.init();

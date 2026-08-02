@@ -4,6 +4,8 @@ export { PolygonDef } from "./math/geometry_2d_defs/polygon_def.js";
 export { RectangleDef } from "./math/geometry_2d_defs/rectangle_def.js";
 export { Color } from "./math/color.js";
 export { Vector2 } from "./math/vector2.js";
+export { Matrix3 } from "./math/matrix3.js";
+export { Matrix4 } from "./math/matrix4.js";
 export {
 	GlBlendParamTypeEnum,
 	GlBlendEquationTypeEnum,

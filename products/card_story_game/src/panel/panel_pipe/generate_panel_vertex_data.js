@@ -22,15 +22,19 @@ function _setVertex(array, index, x, y, u, v, isBg, texIndex) {
 /**
  * 生成 Panel 的顶点数据（背景 + 标题矩形 + 描述矩形）
  * 背景占满整个面板。
- * 标题矩形：由 panel.titleHeight 控制，位置由 titleX/titleY 控制。
- * 描述矩形：位置由 panel.descRect 控制，但宽高直接使用纹理的实际尺寸（保持原始字体大小）
+ * 标题矩形：由 panel.titleHeight 控制，位置由 titleX/titleY 控制（titleY 是从顶部向下的偏移）。
+ * 描述矩形：使用 panel.descVisibleWidth 和 panel.descVisibleHeight 作为顶点尺寸，
+ *           纹理坐标始终保持 0-1，滚动通过 UV 变换矩阵实现。
+ *
+ * 适配 Y 向上的坐标系：面板局部坐标原点在左下角，顶部为 y=panelHeight。
+ * 因此将 titleY 和 descRect.y（从顶部向下的偏移）转换为 Y 坐标：y = panelHeight - 偏移 - 高度。
  *
  * @param {CardStoryGameType.Panel} panel
  * @returns {Float32Array}
  */
 export function generatePanelVertexData(panel) {
-	const width = panel.width;
-	const height = panel.height;
+	const panelWidth = panel.width;
+	const panelHeight = panel.height;
 
 	// ---- 标题纹理宽高 ----
 	let titleTexWidth = 1,
@@ -43,31 +47,28 @@ export function generatePanelVertexData(panel) {
 	const titleHeight = panel.titleHeight;
 	const titleWidth = titleHeight * titleAspect;
 	const titleX = panel.titleX;
-	const titleY = panel.titleY;
+	const titleYOffset = panel.titleY; // 从顶部向下的偏移
 
-	// ---- 描述纹理实际宽高 ----
-	let descTexWidth = 1,
-		descTexHeight = 1;
-	if (panel.descriptionTexture && panel.descriptionTexture.isReady) {
-		descTexWidth = panel.descriptionTexture.width;
-		descTexHeight = panel.descriptionTexture.height;
-	}
-	// 直接使用纹理尺寸，不缩放
+	// ---- 描述矩形：使用 Panel 计算好的可见尺寸 ----
 	const descRect = panel.descRect;
 	const dX = descRect.x;
-	const dY = descRect.y;
-	const dW = descTexWidth;
-	const dH = descTexHeight;
+	const dYOffset = descRect.y; // 从顶部向下的偏移
+	const dW = panel.descVisibleWidth;
+	const dH = panel.descVisibleHeight;
+
+	// 计算 Y 坐标（在 Y 向上的坐标系中，顶部为 panelHeight）
+	const titleY = panelHeight - titleYOffset - titleHeight;
+	const descY = panelHeight - dYOffset - dH;
 
 	const floatArray = new Float32Array(18 * 6); // 18 顶点 * 6 分量
 
 	// ---- 背景矩形（6 个顶点） ----
 	_setVertex(floatArray, 0, 0, 0, 0, 0, 1, 0);
-	_setVertex(floatArray, 1, width, 0, 0, 0, 1, 0);
-	_setVertex(floatArray, 2, 0, height, 0, 0, 1, 0);
-	_setVertex(floatArray, 3, 0, height, 0, 0, 1, 0);
-	_setVertex(floatArray, 4, width, 0, 0, 0, 1, 0);
-	_setVertex(floatArray, 5, width, height, 0, 0, 1, 0);
+	_setVertex(floatArray, 1, panelWidth, 0, 0, 0, 1, 0);
+	_setVertex(floatArray, 2, 0, panelHeight, 0, 0, 1, 0);
+	_setVertex(floatArray, 3, 0, panelHeight, 0, 0, 1, 0);
+	_setVertex(floatArray, 4, panelWidth, 0, 0, 0, 1, 0);
+	_setVertex(floatArray, 5, panelWidth, panelHeight, 0, 0, 1, 0);
 
 	// ---- 标题矩形（6 个顶点） ----
 	_setVertex(floatArray, 6, titleX, titleY, 0, 1, 0, 0);
@@ -78,12 +79,13 @@ export function generatePanelVertexData(panel) {
 	_setVertex(floatArray, 11, titleX + titleWidth, titleY + titleHeight, 1, 0, 0, 0);
 
 	// ---- 描述矩形（6 个顶点） ----
-	_setVertex(floatArray, 12, dX, dY, 0, 1, 0, 1);
-	_setVertex(floatArray, 13, dX + dW, dY, 1, 1, 0, 1);
-	_setVertex(floatArray, 14, dX, dY + dH, 0, 0, 0, 1);
-	_setVertex(floatArray, 15, dX, dY + dH, 0, 0, 0, 1);
-	_setVertex(floatArray, 16, dX + dW, dY, 1, 1, 0, 1);
-	_setVertex(floatArray, 17, dX + dW, dY + dH, 1, 0, 0, 1);
+	// 纹理坐标始终为 0-1，滚动由着色器中的 UV 变换矩阵处理
+	_setVertex(floatArray, 12, dX, descY, 0, 1, 0, 1);
+	_setVertex(floatArray, 13, dX + dW, descY, 1, 1, 0, 1);
+	_setVertex(floatArray, 14, dX, descY + dH, 0, 0, 0, 1);
+	_setVertex(floatArray, 15, dX, descY + dH, 0, 0, 0, 1);
+	_setVertex(floatArray, 16, dX + dW, descY, 1, 1, 0, 1);
+	_setVertex(floatArray, 17, dX + dW, descY + dH, 1, 0, 0, 1);
 
 	return floatArray;
 }

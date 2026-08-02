@@ -15,6 +15,7 @@ import {
 	uTextColorName,
 	uTitleImageName,
 	uDescImageName,
+	uUvTransformName,
 } from "./panel_pipe_gl_program_format.js";
 import { generatePanelVertexData } from "./generate_panel_vertex_data.js";
 
@@ -71,6 +72,7 @@ export const PanelPipe = {
 		const titleText = panel.titleTexture.text;
 		const descText = panel.descriptionTexture.text;
 
+		// 检查是否需要更新缓冲区
 		if (
 			bufferSystem.hasGlBuffer(bufferKey) &&
 			panel.cacheBufferWidth === width &&
@@ -122,6 +124,9 @@ export const PanelPipe = {
 	uniform(panel, gl, textureSystem, glProgram) {
 		glProgram.uniform(gl, uBgColorName, panel.bgColor);
 		glProgram.uniform(gl, uTextColorName, panel.textColor);
+
+		// 传递 UV 变换矩阵
+		glProgram.uniform(gl, uUvTransformName, panel._uvTransformMatrix);
 
 		// 标题纹理
 		if (panel.titleTexture && panel.titleTexture.isReady) {

@@ -6,7 +6,12 @@ const pos = Sprite2D.createFromText(`-,-`);
 pos.x = 200;
 pos.y = 0;
 
-engine.scene.addMouseMoveEvent((_renderNode, x, y) => {
+engine.scene.addMouseMoveEvent((_renderNode, x, y, sx, sy) => {
+	console.info("x:", x);
+	console.info("y:", y);
+
+	console.info("sx:", sx);
+	console.info("sy:", sy);
 	pos.text = `${Math.round(x)},${Math.round(y)}`;
 });
 

@@ -71,8 +71,6 @@ export class CardManager extends BaseCleanUp {
 		this.cellWidth = this.gapX * 2 + this.cardWidth;
 		this.cellHeight = this.gapY * 2 + this.cardHeight;
 
-		console.info("configData:", configData);
-
 		this.cardZIndex = uiConfig.cardZIndex;
 	}
 

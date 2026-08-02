@@ -161,6 +161,10 @@ declare global {
 			cardZIndex: number;
 			/** 面板 Z 轴顺序（高于卡牌） */
 			panelZIndex: number;
+
+			// ---- 滚动控制 ----
+			/** 是否反转滚轮方向（true 表示手指向下文字向上移动，false 表示向下移动） */
+			scrollInvert: boolean;
 		}
 
 		/** 游戏配置数据（game_config.json 结构） */

@@ -17,16 +17,16 @@ for (let i = 0; i < 6; i++) {
 }
 
 const hexagon = new Polygon(hexagonPoints, new Color(0.2, 0.6, 1, 0.8));
-hexagon.x = 200;
-hexagon.y = 200;
+hexagon.x = -200;
+hexagon.y = 0;
 engine.scene.add(hexagon);
 
 // ===== 2. 凹多边形示例：L 形（扁平坐标数组） =====
 const lShapePoints = [0, 0, 150, 0, 150, 80, 80, 80, 80, 150, 0, 150];
 
 const lShape = new Polygon(lShapePoints, new Color(1, 0.6, 0.2, 0.8));
-lShape.x = 500;
-lShape.y = 200;
+lShape.x = 200;
+lShape.y = 0;
 engine.scene.add(lShape);
 
 // ===== 交互：点击改变颜色 =====
@@ -39,18 +39,19 @@ lShape.addMouseDownEvent(() => {
 
 // ===== 界面提示 =====
 const info1 = Sprite2D.createFromText("点击六边形（凸）改变颜色");
-info1.x = 20;
-info1.y = 50;
+info1.x = -300;
+info1.y = -120;
 engine.scene.add(info1);
 
 const info2 = Sprite2D.createFromText("点击 L 形（凹）改变颜色");
-info2.x = 420;
-info2.y = 50;
+info2.x = 300;
+info2.y = -120;
 engine.scene.add(info2);
 
 const desc = Sprite2D.createFromText("Polygon 示例（支持凸凹多边形）");
-desc.x = 20;
-desc.y = 20;
+desc.x = 0;
+desc.y = 200;
+desc.centerSelf();
 engine.scene.add(desc);
 
 // ===== 动态添加多边形（新增功能） =====

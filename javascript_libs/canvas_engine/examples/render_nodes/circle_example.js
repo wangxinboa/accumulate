@@ -6,18 +6,17 @@ import { GUI } from "../../../../javascript_libs/lil-gui/dist/lil-gui.esm.js";
 
 // 显示操作提示
 const info = Sprite2D.createFromText("点击点改变颜色和大小");
+info.y = -200;
 engine.scene.add(info);
 
 // 添加一个背景文字说明
 const desc = Sprite2D.createFromText("Point 示例");
-desc.y = info.height;
+desc.y = info.height - 200;
 engine.scene.add(desc);
 
 // 创建一个点，半径30，红色，半透明
 const circle = new Circle(100, new Color(1, 1, 0, 1));
 circle.color.hexString = "#87876e";
-circle.x = 300;
-circle.y = desc.height + 300;
 circle.centerSelf();
 engine.scene.add(circle);
 

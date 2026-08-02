@@ -31,7 +31,7 @@ export class BaseTexture extends BaseCleanUp {
 		this._minFilter = GlTextureParamTypeEnum.LINEAR;
 		this._magFilter = GlTextureParamTypeEnum.LINEAR;
 
-		this._unpackFlipY = true;
+		this._unpackFlipY = false;
 
 		this.needTexImage2D = true;
 		this.textureRectChangeCallbacks = [];

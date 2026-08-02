@@ -19,14 +19,8 @@ html {
 }
 
 body {
-	/* position: relative; */
 	font-size: 0.2rem;
 }
-
-/*#app{
-	overflow: auto;     /*配合mac滚动禁止跳页操作*\/
-	touch-action: none; /*静止浏览器滑动页面前进后退*\/
-}*/
 
 div,
 svg,

@@ -1,10 +1,11 @@
 /**
+ * 生成包含位置和纹理坐标的顶点数据（Float32Array），用于矩形网格。
+ * 顶点顺序：两个三角形构成矩形，纹理坐标从 (0,0) 到 (1,1)。
  * @param {number} width
  * @param {number} height
+ * @returns {Float32Array} 格式为 [x, y, u, v, x, y, u, v, ...]
  */
 export function getPositionUvFloat32ArrayFromWidthAndHeight(width, height) {
-	// Implementation for creating buffer from width and height
-
 	return new Float32Array([
 		// 位置x,y, 纹理坐标u,v
 		0,

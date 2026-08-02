@@ -14,9 +14,9 @@ const matrix3 = new Matrix3();
  *
  * 世界矩阵（matrixWorld）= 父节点的世界矩阵 * 本节点的局部矩阵。
  *
- * pivot 属性定义节点的“锚点”位置，用于旋转和缩放的中心。
- * 取值范围通常为 [0, 1]（0 为左上角，1 为右下角，0.5 为几何中心）。
- * 也可取负值或大于 1 的值，用于特殊效果（如相机偏移）。
+ * pivot 属性定义节点的"锚点"位置，用于旋转和缩放的中心。
+ * 取值范围为 [-1, 1]（0 为左上角，1 为右下角，0.5 为几何中心）。
+ * 超出此范围的值会被钳制到边界。
  *
  * applyCameraTransform 属性控制该节点的世界坐标是否再乘以视图矩阵。
  * 若为 true，则顶点着色器中会额外乘以 camera.matrixWorld；若为 false，则不乘。
@@ -101,7 +101,7 @@ export class Render2DNode extends RenderEventNode {
 		if (this.geometry) {
 			return this.geometry.containPoint(x, y);
 		}
-		throw new Error("Render2DNode 形状 geometry 信息不存在");
+		throw new Error("Render2DNode 子类未正确初始化 geometry，无法进行命中测试");
 	}
 
 	/**

@@ -26,19 +26,22 @@ const start = Sprite2D.createFromText("start").addMouseDownEvent(() => {
 	console.info("start addMouseDownEvent");
 	sprite2D.startTween("to1");
 });
-start.x = 300;
+start.x = -100;
+start.y = 200;
 engine.scene.add(start);
 
 const stop = Sprite2D.createFromText("stop").addMouseDownEvent(() => {
 	console.info("stop addMouseDownEvent");
 	sprite2D.pauseTween();
 });
-stop.x = 400;
+stop.x = 0;
+stop.y = 200;
 engine.scene.add(stop);
 
 const resume = Sprite2D.createFromText("resume").addMouseDownEvent(() => {
 	console.info("resume addMouseDownEvent");
 	sprite2D.resumeTween();
 });
-resume.x = 500;
+resume.x = 100;
+resume.y = 200;
 engine.scene.add(resume);

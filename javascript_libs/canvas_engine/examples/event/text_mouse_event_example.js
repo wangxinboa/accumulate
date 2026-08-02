@@ -6,7 +6,7 @@ let mouseDownTextCount = 0;
 const mouseDownText = Sprite2D.createFromText(`${mouseDownTextString}-${mouseDownTextCount}`).addMouseDownEvent(() => {
 	mouseDownText.text = `${mouseDownTextString}-${++mouseDownTextCount}`;
 });
-mouseDownText.x = 0;
+mouseDownText.x = -200;
 mouseDownText.y = 100;
 engine.scene.add(mouseDownText);
 
@@ -16,8 +16,8 @@ const mouseUpText = Sprite2D.createFromText(`${mouseUpTextString}-${mouseUpTextC
 	mouseUpText.text = `${mouseUpTextString}-${++mouseUpTextCount}`;
 });
 
-mouseUpText.x = 300;
-mouseUpText.y = 100;
+mouseUpText.x = -200;
+mouseUpText.y = 0;
 engine.scene.add(mouseUpText);
 
 const mouseMoveTextString = "mouseMoveText";
@@ -26,8 +26,8 @@ const mouseMoveText = Sprite2D.createFromText(`${mouseMoveTextString}-${mouseMov
 	mouseMoveText.text = `${mouseMoveTextString}-${++mouseMoveTextCount}`;
 });
 
-mouseMoveText.x = 0;
-mouseMoveText.y = 200;
+mouseMoveText.x = -200;
+mouseMoveText.y = -100;
 engine.scene.add(mouseMoveText);
 
 const mouseEnterTextString = "mouseEnterText";
@@ -39,7 +39,7 @@ const mouseEnterText = Sprite2D.createFromText(`${mouseEnterTextString}-${mouseE
 );
 
 mouseEnterText.x = 0;
-mouseEnterText.y = 300;
+mouseEnterText.y = 100;
 engine.scene.add(mouseEnterText);
 
 const mouseLeaveTextString = "mouseLeaveText";
@@ -50,8 +50,8 @@ const mouseLeaveText = Sprite2D.createFromText(`${mouseLeaveTextString}-${mouseL
 	},
 );
 
-mouseLeaveText.x = 300;
-mouseLeaveText.y = 300;
+mouseLeaveText.x = 0;
+mouseLeaveText.y = 0;
 engine.scene.add(mouseLeaveText);
 
 const mouseDragTextString = "mouseDragText";
@@ -61,8 +61,8 @@ const mouseDragText = Sprite2D.createFromText(`${mouseDragTextString}-${mouseDra
 });
 
 mouseDragText.dragUpdatePosition = true;
-mouseDragText.x = 0;
-mouseDragText.y = 400;
+mouseDragText.x = 200;
+mouseDragText.y = 100;
 engine.scene.add(mouseDragText);
 
 engine.timeTicker.start();

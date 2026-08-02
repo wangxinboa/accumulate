@@ -110,7 +110,7 @@ export function initHitTest() {
 }
 
 export function disableHitTest() {
-	// 注册事件（使用已抽离的函数）
+	// 移除之前注册的事件处理函数
 	engine.scene.removeMouseDownEvent(handleMouseDown);
 	engine.scene.removeMouseMoveEvent(handleMouseMove);
 	engine.scene.removeMouseUpEvent(handleMouseUp);

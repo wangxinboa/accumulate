@@ -6,16 +6,18 @@ import { GUI } from "../../../../javascript_libs/lil-gui/dist/lil-gui.esm.js";
 
 // 显示操作提示
 const info = Sprite2D.createFromText("点击矩形改变颜色和大小");
+info.x = -200;
 engine.scene.add(info);
 
 // 添加一个背景文字说明
 const desc = Sprite2D.createFromText("Rectangle 示例");
+desc.x = -200;
 desc.y = info.height;
 engine.scene.add(desc);
 
 // 创建一个矩形，默认宽高100，红色半透明
 const rectangle = new Rectangle(150, 100, new Color(1, 1, 0, 0.8));
-rectangle.x = 200;
+rectangle.x = 0;
 rectangle.y = 200;
 rectangle.centerSelf();
 engine.scene.add(rectangle);

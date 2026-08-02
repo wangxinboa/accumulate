@@ -86,12 +86,13 @@ export class Event2DMode extends BaseCleanUp {
 	}
 	/**
 	 * @private
+	 * @param {CanvasEngineType.Camera2D} camera2D
 	 * @param {number} offsetX
 	 * @param {number} offsetY
 	 */
-	_beforeProcess(offsetX, offsetY) {
-		_canvasPositionInCamera.set(offsetX, offsetY);
-		_canvasPositionInScene.set(offsetX, offsetY);
+	_beforeProcess(camera2D, offsetX, offsetY) {
+		_canvasPositionInCamera.set(offsetX - camera2D.width / 2, -(offsetY - camera2D.height / 2));
+		_canvasPositionInScene.copy(_canvasPositionInCamera);
 		if (this.camera2D) {
 			this.camera2D.screenToCamera(_canvasPositionInCamera);
 		}
@@ -139,9 +140,9 @@ export class Event2DMode extends BaseCleanUp {
 	 * @param {number} offsetY
 	 */
 	processDownEvents(offsetX, offsetY) {
-		this._beforeProcess(offsetX, offsetY);
-
 		if (this.scene2D && this.camera2D) {
+			this._beforeProcess(this.camera2D, offsetX, offsetY);
+
 			this._mouseDownScreenX = offsetX;
 			this._mouseDownScreenY = offsetY;
 
@@ -191,15 +192,7 @@ export class Event2DMode extends BaseCleanUp {
 			}
 
 			// 根据是否有节点被命中，触发不同的场景事件
-			if (this.hitTestLimit <= hitTestCounter) {
-				// 有节点被命中，触发普通场景事件
-				this.scene2D.executeMouseDownEvents(
-					_canvasPositionInCamera.x,
-					_canvasPositionInCamera.y,
-					_canvasPositionInScene.x,
-					_canvasPositionInScene.y,
-				);
-			} else {
+			if (hitTestCounter === 0) {
 				// 没有节点被命中，触发"无命中"场景事件
 				this.scene2D.executeMouseDownWhenNoNodeHitEvents(
 					_canvasPositionInCamera.x,
@@ -208,6 +201,12 @@ export class Event2DMode extends BaseCleanUp {
 					_canvasPositionInScene.y,
 				);
 			}
+			this.scene2D.executeMouseDownEvents(
+				_canvasPositionInCamera.x,
+				_canvasPositionInCamera.y,
+				_canvasPositionInScene.x,
+				_canvasPositionInScene.y,
+			);
 
 			if (this.camera2D.dragUpdatePosition && this.hitTestLimit > hitTestCounter) {
 				this._cacheDragPosition(this.camera2D);
@@ -219,8 +218,8 @@ export class Event2DMode extends BaseCleanUp {
 	 * @param {number} offsetY
 	 */
 	processMoveEvents(offsetX, offsetY) {
-		this._beforeProcess(offsetX, offsetY);
 		if (this.scene2D && this.camera2D) {
+			this._beforeProcess(this.camera2D, offsetX, offsetY);
 			// ---- 判断是否发生了有效移动 ----
 			if (
 				!this._hasMovedAfterDown &&
@@ -300,14 +299,7 @@ export class Event2DMode extends BaseCleanUp {
 				this.nowMoveEnterMap.clear();
 
 				// 根据是否有节点被命中，触发不同的场景事件
-				if (this.hitTestLimit <= hitTestCounter) {
-					this.scene2D.executeMouseMoveEvents(
-						_canvasPositionInCamera.x,
-						_canvasPositionInCamera.y,
-						_canvasPositionInScene.x,
-						_canvasPositionInScene.y,
-					);
-				} else {
+				if (hitTestCounter === 0) {
 					this.scene2D.executeMouseMoveWhenNoNodeHitEvents(
 						_canvasPositionInCamera.x,
 						_canvasPositionInCamera.y,
@@ -315,6 +307,13 @@ export class Event2DMode extends BaseCleanUp {
 						_canvasPositionInScene.y,
 					);
 				}
+
+				this.scene2D.executeMouseMoveEvents(
+					_canvasPositionInCamera.x,
+					_canvasPositionInCamera.y,
+					_canvasPositionInScene.x,
+					_canvasPositionInScene.y,
+				);
 
 				if (this.camera2D.isDraging) {
 					this._updateDragPosition(this.camera2D);
@@ -327,9 +326,8 @@ export class Event2DMode extends BaseCleanUp {
 	 * @param {number} offsetY
 	 */
 	processUpEvents(offsetX, offsetY) {
-		this._beforeProcess(offsetX, offsetY);
-
 		if (this.scene2D && this.camera2D) {
+			this._beforeProcess(this.camera2D, offsetX, offsetY);
 			// ---- 处理拖拽结束 ----
 			if (this.dragNodes.length > 0 && this._hasMovedAfterDown) {
 				for (let i = 0, len = this.dragNodes.length; i < len; i++) {
@@ -374,15 +372,7 @@ export class Event2DMode extends BaseCleanUp {
 				}
 
 				// 根据是否有节点被命中，触发不同的场景事件
-				if (this.hitTestLimit <= hitTestCounter) {
-					this.scene2D.executeMouseUpEvents(
-						_canvasPositionInCamera.x,
-						_canvasPositionInCamera.y,
-						_canvasPositionInScene.x,
-						_canvasPositionInScene.y,
-						this._hasMovedAfterDown,
-					);
-				} else {
+				if (hitTestCounter === 0) {
 					this.scene2D.executeMouseUpWhenNoNodeHitEvents(
 						_canvasPositionInCamera.x,
 						_canvasPositionInCamera.y,
@@ -391,6 +381,13 @@ export class Event2DMode extends BaseCleanUp {
 						this._hasMovedAfterDown,
 					);
 				}
+				this.scene2D.executeMouseUpEvents(
+					_canvasPositionInCamera.x,
+					_canvasPositionInCamera.y,
+					_canvasPositionInScene.x,
+					_canvasPositionInScene.y,
+					this._hasMovedAfterDown,
+				);
 				if (this.camera2D.isDraging) {
 					this.camera2D.isDraging = false;
 				}
@@ -423,8 +420,40 @@ export class Event2DMode extends BaseCleanUp {
 	 * @param {number} offsetY
 	 */
 	processWheelEvents(deltaX, deltaY, deltaZ, offsetX, offsetY) {
-		this._beforeProcess(offsetX, offsetY);
 		if (this.scene2D && this.camera2D) {
+			this._beforeProcess(this.camera2D, offsetX, offsetY);
+
+			let hitTestCounter = 0;
+
+			// 遍历所有事件节点，找到最上层命中的节点，触发其 wheel 事件
+			for (let i = this.scene2D.allEventDescendants.length - 1; i >= 0; i--) {
+				const descendant = this.scene2D.allEventDescendants[i];
+				if (descendant.hitTestDisabled) {
+					continue;
+				}
+				if (this._hitTest(descendant)) {
+					if (descendant.hitTestCountable) {
+						hitTestCounter++;
+					}
+
+					if (descendant.wheelEvents && descendant.wheelEvents.length > 0) {
+						descendant.executeWheelEvents(
+							deltaX,
+							deltaY,
+							deltaZ,
+							_canvasPositionInCamera.x,
+							_canvasPositionInCamera.y,
+							_canvasPositionInScene.x,
+							_canvasPositionInScene.y,
+						);
+					}
+				}
+
+				if (this.hitTestLimit <= hitTestCounter) {
+					break;
+				}
+			}
+
 			this.scene2D.executeWheelEvents(
 				deltaX,
 				deltaY,

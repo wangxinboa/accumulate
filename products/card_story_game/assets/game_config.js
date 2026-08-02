@@ -23,10 +23,10 @@ export const defaultGameConfig = {
 		panelWidth: 300,
 		panelBgColor: { r: 0.2, g: 0.2, b: 0.302, a: 0.8 },
 		panelTextColor: { r: 1, g: 1, b: 1, a: 1 },
-		panelTitleHeight: 14,
+		panelTitleHeight: 24,
 		panelTitleX: 8,
 		panelTitleY: 8,
-		panelTitleFontSize: 16,
+		panelTitleFontSize: 24,
 		panelTitleFontFamily: "math",
 		panelDescFontSize: 12,
 		panelDescFontFamily: "math",
@@ -35,9 +35,9 @@ export const defaultGameConfig = {
 		panelYOffsetSmall: 0.05,
 
 		descriptionRect: {
-			x: 10,
-			y: 30,
-			width: 280,
+			x: 8,
+			y: 32,
+			width: 284,
 			height: 60,
 		},
 		descriptionFontSize: 12,
@@ -48,5 +48,7 @@ export const defaultGameConfig = {
 		gridMaxSearchDepth: 100,
 		cardZIndex: 10,
 		panelZIndex: 1000,
+
+		scrollInvert: true,
 	},
 };

@@ -9,6 +9,7 @@ export const uBgColorName = "u_bgColor";
 export const uTextColorName = "u_textColor";
 export const uTitleImageName = "u_titleImage";
 export const uDescImageName = "u_descImage";
+export const uUvTransformName = "u_uvTransform";
 
 export const aPositionName = "a_position";
 export const aTexCoordName = "a_texCoord";
@@ -26,10 +27,15 @@ const vertexSource =
 	"uniform mat3 u_projection;" +
 	"uniform mat3 u_view;" +
 	"uniform mat3 u_model;" +
+	"uniform mat3 u_uvTransform;" +
 	"void main() {" +
 	"vec3 pos = u_projection * u_view * u_model * vec3(a_position, 1.0);" +
 	"gl_Position = vec4(pos.xy, 0.0, 1.0);" +
-	"v_texCoord = a_texCoord;" +
+	"if (a_texIndex > 0.5) {" +
+	"    v_texCoord = (u_uvTransform * vec3(a_texCoord, 1.0)).xy;" +
+	"} else {" +
+	"    v_texCoord = a_texCoord;" +
+	"}" +
 	"v_isBg = a_isBg;" +
 	"v_texIndex = a_texIndex;" +
 	"}";
@@ -64,6 +70,7 @@ export const uniformLocationsFormat = [
 	{ type: GlDataTypeEnum.mat3, name: uCameraProjectionName },
 	{ type: GlDataTypeEnum.mat3, name: uCameraViewName },
 	{ type: GlDataTypeEnum.mat3, name: uRenderNodeModelName },
+	{ type: GlDataTypeEnum.mat3, name: uUvTransformName },
 	{ type: GlDataTypeEnum.color, name: uBgColorName },
 	{ type: GlDataTypeEnum.color, name: uTextColorName },
 ];
