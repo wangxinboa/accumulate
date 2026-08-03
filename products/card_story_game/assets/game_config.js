@@ -49,6 +49,6 @@ export const defaultGameConfig = {
 		cardZIndex: 10,
 		panelZIndex: 1000,
 
-		scrollInvert: true,
+		scrollInvert: false,
 	},
 };
