@@ -3,11 +3,11 @@ import {
 	Color,
 	RectangleDef,
 	TextTexture,
-} from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
-import { Matrix3 } from "../../../../javascript_libs/canvas_engine/src/math/matrix3.js";
-import { PanelPipe } from "./panel_pipe/panel_pipe.js";
+} from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { Matrix3 } from "../../../../../javascript_libs/canvas_engine/src/math/matrix3.js";
+import { CardPanelPipe } from "./card_panel_pipe/card_panel_pipe.js";
 
-export class Panel extends Render2DNode {
+export class CardPanel extends Render2DNode {
 	/**
 	 * @param {CardStoryGameType.CardStoryGame} cardStoryGame
 	 */
@@ -45,7 +45,7 @@ export class Panel extends Render2DNode {
 		/** @type {number} 当前滚动的偏移量（像素），范围 0 ~ (actualDescHeight - fixedHeight) */
 		this.scrollOffset = 0;
 		/** @type {number} 描述区域的固定高度（来自配置） */
-		this._descFixedHeight = 60;
+		this._descFixedHeight = 80;
 		/** @type {Matrix3} UV 变换矩阵，用于滚动 */
 		this._uvTransformMatrix = new Matrix3();
 		/** @type {boolean} 滚动方向是否反转 */
@@ -66,7 +66,7 @@ export class Panel extends Render2DNode {
 	}
 
 	get pipe() {
-		return PanelPipe;
+		return CardPanelPipe;
 	}
 
 	/**
@@ -98,7 +98,7 @@ export class Panel extends Render2DNode {
 			this.descRect.x = descRect.x ?? 8;
 			this.descRect.y = descRect.y ?? 30;
 			this.descRect.width = descRect.width ?? 284;
-			this.descRect.height = descRect.height ?? 60;
+			this.descRect.height = descRect.height ?? 80;
 			this._descFixedHeight = this.descRect.height;
 		}
 		this.descFontSize = uiConfig.descriptionFontSize ?? 12;
@@ -112,13 +112,13 @@ export class Panel extends Render2DNode {
 		const descFontSize = uiConfig.panelDescFontSize ?? 12;
 		const descFontFamily = uiConfig.panelDescFontFamily ?? "math";
 
-		this.titleTexture = new TextTexture("Panel-Title", {
+		this.titleTexture = new TextTexture("CardPanel-Title", {
 			fontSize: titleFontSize,
 			fontFamily: titleFontFamily,
 			fontWeight: "normal",
 		});
 		this.descriptionTexture = new TextTexture(
-			"Panel-Description",
+			"CardPanel-Description",
 			{
 				fontSize: descFontSize,
 				fontFamily: descFontFamily,

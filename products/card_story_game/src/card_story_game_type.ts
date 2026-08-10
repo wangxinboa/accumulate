@@ -1,12 +1,12 @@
 import { CardStoryGame as CardStoryGameClass } from "./card_story_game.js";
 import { Card as CardClass } from "./card_manager/card/card.js";
-import { Panel as PanelClass } from "./panel/panel.js";
+import { CardPanel as CardPanelClass } from "./card_manager/card_panel/card_panel.js";
 
 declare global {
 	namespace CardStoryGameType {
 		type CardStoryGame = CardStoryGameClass;
 		type Card = CardClass;
-		type Panel = PanelClass;
+		type CardPanel = CardPanelClass;
 
 		/** 游戏存档数据（saveData 字段） */
 		interface SaveData {

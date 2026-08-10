@@ -11,7 +11,7 @@ export const uImageName = "u_image";
 
 export const aPositionName = "a_position";
 export const aTexCoordName = "a_texCoord";
-export const aIsBgName = "a_isBg"; // 新增：用于区分背景和文字矩形
+export const aIsBgName = "a_isBg"; // 用于区分背景和文字矩形
 
 const vertexSource =
 	"attribute vec2 a_position;" +

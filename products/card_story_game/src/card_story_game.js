@@ -5,7 +5,7 @@ import { GameDataLoader } from "./game_data/game_data_loader.js";
 import { GameDataExporter } from "./game_data/game_data_exporter.js";
 import { GameConfig } from "./game_data/game_config.js";
 import { downloadFile } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
-import { Panel } from "./panel/panel.js";
+import { CardPanel } from "./card_manager/card_panel/card_panel.js";
 
 export class CardStoryGame extends BaseCleanUp {
 	constructor() {
@@ -24,7 +24,7 @@ export class CardStoryGame extends BaseCleanUp {
 
 		this.cardManager = new CardManager(this);
 
-		this.panel = new Panel(this);
+		this.panel = new CardPanel(this);
 		this.engine.scene.add(this.panel);
 
 		this.engine.scene.addMouseUpEventWhenNoNodeHit(this.panel.hide);

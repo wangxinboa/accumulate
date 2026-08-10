@@ -4,39 +4,39 @@ import {
 	GlBufferUsageTypeEnum,
 	GlAttribs,
 	GlBuffer,
-} from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+} from "../../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import {
 	aPositionName,
 	aTexCoordName,
 	aIsBgName,
 	aTexIndexName,
-	panelGlProgramFormat,
+	cardPanelGlProgramFormat,
 	uBgColorName,
 	uTextColorName,
 	uTitleImageName,
 	uDescImageName,
 	uUvTransformName,
-} from "./panel_pipe_gl_program_format.js";
-import { generatePanelVertexData } from "./generate_panel_vertex_data.js";
+} from "./card_panel_pipe_gl_program_format.js";
+import { generateCardPanelVertexData } from "./generate_card_panel_vertex_data.js";
 
 /**
- * @param {CardStoryGameType.Panel} panel
+ * @param {CardStoryGameType.CardPanel} panel
  */
 function getBufferKey(panel) {
 	return "panel-" + panel.id;
 }
 
-export const PanelPipe = {
+export const CardPanelPipe = {
 	/**
-	 * @param {CardStoryGameType.Panel} _panel
+	 * @param {CardStoryGameType.CardPanel} _panel
 	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} programSystem
 	 */
 	getGlProgram(_panel, programSystem) {
-		return programSystem.addGlProgram("Panel", panelGlProgramFormat);
+		return programSystem.addGlProgram("CardPanel", cardPanelGlProgramFormat);
 	},
 
 	/**
-	 * @param {CardStoryGameType.Panel} panel
+	 * @param {CardStoryGameType.CardPanel} panel
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
 	updateAttribs(panel, bufferSystem) {
@@ -57,7 +57,7 @@ export const PanelPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Panel} panel
+	 * @param {CardStoryGameType.CardPanel} panel
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
@@ -84,14 +84,14 @@ export const PanelPipe = {
 		}
 
 		if (bufferSystem.hasGlBuffer(bufferKey)) {
-			bufferSystem.getGlBuffer(bufferKey).updateBufferSubData(gl, 0, generatePanelVertexData(panel));
+			bufferSystem.getGlBuffer(bufferKey).updateBufferSubData(gl, 0, generateCardPanelVertexData(panel));
 		} else {
 			bufferSystem.setGlBuffer(
 				bufferKey,
 				new GlBuffer(
 					bufferKey,
 					GlBufferTargetTypeEnum.ARRAY_BUFFER,
-					generatePanelVertexData(panel),
+					generateCardPanelVertexData(panel),
 					GlBufferUsageTypeEnum.DYNAMIC_DRAW,
 				).bufferData(gl),
 			);
@@ -103,7 +103,7 @@ export const PanelPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Panel} panel
+	 * @param {CardStoryGameType.CardPanel} panel
 	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 */
 	updateTextures(panel, textureSystem) {
@@ -116,7 +116,7 @@ export const PanelPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Panel} panel
+	 * @param {CardStoryGameType.CardPanel} panel
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 * @param {CanvasEngineType.GlProgram} glProgram
@@ -145,7 +145,7 @@ export const PanelPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Panel} _panel
+	 * @param {CardStoryGameType.CardPanel} _panel
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */

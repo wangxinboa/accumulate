@@ -1,18 +1,5 @@
 {
 	"workbench.colorTheme": "Dark Modern",
-	"workbench.preferredDarkColorTheme": "Dark Modern",
-	// 语法 token 回到旧版配色（函数名 #dcdcaa、关键字 #c586c0、类型 #4ec9b0 等）
-	"editor.tokenColorCustomizations": {
-		"[Dark Modern]": {
-			"comments": "#6a9955",
-			"strings": "#ce9178",
-			"keywords": "#569cd6",
-			"functions": "#dcdcaa",
-			"types": "#4ec9b0",
-			"numbers": "#b5cea8",
-			"variables": "#9cdcfe"
-		}
-	},
 	"git.decorations.enabled": false,
 	"git.confirmSync": false,
 	"explorer.confirmDelete": false,
@@ -65,12 +52,5 @@
 	// prettier
 	"prettier.printWidth": 120,
 	"prettier.useTabs": true,
-	"prettier.singleQuote": false,
-
-	"chat.disableAIFeatures": true,
-	"github.copilot.enable": { "*": true },
-	"editor.inlineSuggest.enabled": false,
-	"github.copilot.nextEditSuggestions.enabled": false,
-	"chat.agent.enabled": false,
-	"git.addAICoAuthor": "off"
+	"prettier.singleQuote": false
 }
