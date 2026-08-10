@@ -303,6 +303,7 @@ export class CardPanel extends Render2DNode {
 			button.setClickCallback((/** @type {{ actionId: number; }} */ btn) => {
 				this._onButtonClick(btn.actionId, card);
 			});
+			button.applyCameraTransform = false;
 			this.add(button);
 			this._activeButtons.push(button);
 		}
