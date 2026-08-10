@@ -35,7 +35,7 @@
 	"[markdown]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"diffEditor.ignoreTrimWhitespace": true,
+	"diffEditor.ignoreTrimWhitespace": false,
 	"js/ts.preferences.quoteStyle": "double",
 	"js/ts.preferences.importModuleSpecifierEnding": "js",
 	"js/ts.updateImportsOnFileMove.enabled": "never",
@@ -53,4 +53,11 @@
 	"prettier.printWidth": 120,
 	"prettier.useTabs": true,
 	"prettier.singleQuote": false
+
+	// "chat.disableAIFeatures": true,
+	// "github.copilot.enable": { "*": true },
+	// "editor.inlineSuggest.enabled": false,
+	// "github.copilot.nextEditSuggestions.enabled": false,
+	// "chat.agent.enabled": false,
+	// "git.addAICoAuthor": "off"
 }

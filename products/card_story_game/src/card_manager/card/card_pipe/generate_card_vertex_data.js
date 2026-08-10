@@ -1,5 +1,3 @@
-import { defaultGameConfig } from "../../../../assets/game_config.js";
-
 /**
  * 辅助函数：向 Float32Array 写入单个顶点数据
  * @param {Float32Array} array - 目标数组
@@ -37,10 +35,10 @@ function _setVertex(array, index, x, y, u, v, isBg) {
 export function generateCardVertexData(card) {
 	const cardWidth = card.width;
 	const cardHeight = card.height;
-	const uiConfig = card.game.gameConfig.uiConfig ?? defaultGameConfig.uiConfig;
+	const cardUiConfig = card.game.gameConfig.uiConfig.card;
 
 	// ---- 文字区域的整体高度（占卡牌宽度的一定比例） ----
-	const textAreaHeight = cardWidth * uiConfig.cardTextHeightRatio;
+	const textAreaHeight = cardWidth * cardUiConfig.textHeightRatio;
 
 	// ---- 获取文字纹理的实际像素尺寸 ----
 	let texWidth = 1;
@@ -65,7 +63,7 @@ export function generateCardVertexData(card) {
 	const offsetY = (textAreaHeight - drawHeight) / 2;
 
 	// ---- 应用内边距 ----
-	const padding = uiConfig.cardPadding;
+	const padding = cardUiConfig.padding;
 	const contentX = offsetX + padding.left;
 	const contentY = offsetY + padding.top;
 	const contentWidth = drawWidth - padding.left - padding.right;

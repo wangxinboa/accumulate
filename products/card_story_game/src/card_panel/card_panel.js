@@ -3,9 +3,11 @@ import {
 	Color,
 	RectangleDef,
 	TextTexture,
-} from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
-import { Matrix3 } from "../../../../../javascript_libs/canvas_engine/src/math/matrix3.js";
+} from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { Matrix3 } from "../../../../javascript_libs/canvas_engine/src/math/matrix3.js";
 import { CardPanelPipe } from "./card_panel_pipe/card_panel_pipe.js";
+import { ButtonPool } from "../game_ui/button/button_pool.js";
+import { Button } from "../game_ui/button/button.js";
 
 export class CardPanel extends Render2DNode {
 	/**
@@ -18,6 +20,7 @@ export class CardPanel extends Render2DNode {
 
 		this.bgColor = new Color();
 		this.textColor = new Color();
+
 		this.width = 0;
 		this.height = 0;
 		this.titleHeight = 0;
@@ -47,7 +50,7 @@ export class CardPanel extends Render2DNode {
 		/** @type {number} 描述区域的固定高度（来自配置） */
 		this._descFixedHeight = 80;
 		/** @type {Matrix3} UV 变换矩阵，用于滚动 */
-		this._uvTransformMatrix = new Matrix3();
+		this._descUvTransformMatrix = new Matrix3();
 		/** @type {boolean} 滚动方向是否反转 */
 		this._scrollInvert = false;
 
@@ -56,6 +59,20 @@ export class CardPanel extends Render2DNode {
 		this.descVisibleWidth = 0;
 		/** @type {number} 描述区域可见高度（像素） */
 		this.descVisibleHeight = 0;
+
+		// ---- 按钮相关 ----
+		this.buttonPool = new ButtonPool();
+		/** @type {Array<Button>} */
+		this._activeButtons = [];
+		// 默认值，将在 initConfig 中覆盖
+		this.buttonPadding = { left: 8, right: 8, top: 4, bottom: 4 };
+		this.buttonGapX = 8;
+		this.buttonGapY = 8;
+		this.buttonMarginTop = 8;
+		this.buttonBgColor = new Color(0.3, 0.3, 0.3, 1);
+		this.buttonTextColor = new Color(1, 1, 1, 1);
+		this.buttonFontSize = 14;
+		this.buttonFontFamily = "math";
 
 		this.hide = this.hide.bind(this);
 		this.updateSizeAndPosition = this.updateSizeAndPosition.bind(this);
@@ -74,26 +91,26 @@ export class CardPanel extends Render2DNode {
 	 * @param {CardStoryGameType.GameConfigData} configData - 游戏配置数据（来自 game_config.json）
 	 */
 	initConfig(configData) {
-		const uiConfig = configData.uiConfig;
-		if (!uiConfig) {
+		const panelUiConfig = configData.uiConfig.panel;
+		if (!panelUiConfig) {
 			return;
 		}
 
 		// 从配置创建颜色对象
-		const bgColorObj = uiConfig.panelBgColor;
+		const bgColorObj = panelUiConfig.panelBgColor;
 		this.bgColor.setValue(bgColorObj.r, bgColorObj.g, bgColorObj.b, bgColorObj.a);
 
-		const textColorObj = uiConfig.panelTextColor;
+		const textColorObj = panelUiConfig.panelTextColor;
 		this.textColor.setValue(textColorObj.r, textColorObj.g, textColorObj.b, textColorObj.a);
 
 		// 尺寸
-		this.width = uiConfig.panelWidth;
-		this.titleHeight = uiConfig.panelTitleHeight;
-		this.titleX = uiConfig.panelTitleX;
-		this.titleY = uiConfig.panelTitleY;
+		this.width = panelUiConfig.panelWidth;
+		this.titleHeight = panelUiConfig.panelTitleHeight;
+		this.titleX = panelUiConfig.panelTitleX;
+		this.titleY = panelUiConfig.panelTitleY;
 
 		// 描述区域
-		const descRect = uiConfig.descriptionRect;
+		const descRect = panelUiConfig.descriptionRect;
 		if (descRect) {
 			this.descRect.x = descRect.x ?? 8;
 			this.descRect.y = descRect.y ?? 30;
@@ -101,16 +118,16 @@ export class CardPanel extends Render2DNode {
 			this.descRect.height = descRect.height ?? 80;
 			this._descFixedHeight = this.descRect.height;
 		}
-		this.descFontSize = uiConfig.descriptionFontSize ?? 12;
+		this.descFontSize = panelUiConfig.descriptionFontSize ?? 12;
 
 		// 滚动方向
-		this._scrollInvert = uiConfig.scrollInvert ?? false;
+		this._scrollInvert = panelUiConfig.scrollInvert ?? false;
 
 		// 纹理字体选项
-		const titleFontSize = uiConfig.panelTitleFontSize ?? 16;
-		const titleFontFamily = uiConfig.panelTitleFontFamily ?? "math";
-		const descFontSize = uiConfig.panelDescFontSize ?? 12;
-		const descFontFamily = uiConfig.panelDescFontFamily ?? "math";
+		const titleFontSize = panelUiConfig.panelTitleFontSize ?? 16;
+		const titleFontFamily = panelUiConfig.panelTitleFontFamily ?? "math";
+		const descFontSize = panelUiConfig.panelDescFontSize ?? 12;
+		const descFontFamily = panelUiConfig.panelDescFontFamily ?? "math";
 
 		this.titleTexture = new TextTexture("CardPanel-Title", {
 			fontSize: titleFontSize,
@@ -124,12 +141,25 @@ export class CardPanel extends Render2DNode {
 				fontFamily: descFontFamily,
 				fontWeight: "normal",
 			},
-			this.descRect.width, // 换行宽度
+			this.descRect.width,
 		);
 
-		this.zIndex = uiConfig.panelZIndex ?? 1000;
+		this.zIndex = panelUiConfig.panelZIndex ?? 1000;
 
-		// 更新几何
+		// ---- 按钮配置 ----
+		if (panelUiConfig.buttonPadding) {
+			this.buttonPadding = panelUiConfig.buttonPadding;
+		}
+		this.buttonGapX = panelUiConfig.buttonGapX ?? 8;
+		this.buttonGapY = panelUiConfig.buttonGapY ?? 8;
+		this.buttonMarginTop = panelUiConfig.buttonMarginTop ?? 8;
+		const btnBg = panelUiConfig.buttonBgColor;
+		this.buttonBgColor.setValue(btnBg.r, btnBg.g, btnBg.b, btnBg.a);
+		const btnText = panelUiConfig.buttonTextColor;
+		this.buttonTextColor.setValue(btnText.r, btnText.g, btnText.b, btnText.a);
+		this.buttonFontSize = panelUiConfig.buttonFontSize ?? 14;
+		this.buttonFontFamily = panelUiConfig.buttonFontFamily ?? "math";
+
 		if (this.geometry) {
 			this.geometry.max.x = this.width;
 			this.geometry.max.y = this.height;
@@ -162,8 +192,133 @@ export class CardPanel extends Render2DNode {
 		// 更新 UV 变换矩阵
 		this._updateScrollMatrix();
 
+		// ---- 清理旧按钮 ----
+		for (let i = 0, len = this._activeButtons.length; i < len; i++) {
+			this.buttonPool.release(this._activeButtons[i]);
+		}
+		this._activeButtons.length = 0;
+
+		// ---- 获取模板的 actions ----
+		const actions = template && template.actions ? template.actions : [];
+		if (actions.length === 0) {
+			this.visible = true;
+			return this;
+		}
+
+		// ---- 测量每个按钮的文字尺寸 ----
+		const buttonInfos = [];
+		for (let i = 0, len = actions.length; i < len; i++) {
+			const action = actions[i];
+			let label, actionId;
+			if (typeof action === "object" && action !== null) {
+				label = action.label || "Action";
+				actionId = action.actionId !== undefined ? action.actionId : i;
+			} else {
+				actionId = action;
+				const globalAction = this.game.gameConfig.getAction(actionId);
+				label = globalAction ? globalAction.name : "Action " + actionId;
+			}
+			// 测量文字宽高
+			const tempTex = new TextTexture(label, {
+				fontSize: this.buttonFontSize,
+				fontFamily: this.buttonFontFamily,
+				fontWeight: "normal",
+			});
+			const textHeight = tempTex.height;
+			const textWidth = tempTex.width;
+			tempTex.destroy();
+			buttonInfos.push({
+				label: label,
+				actionId: actionId,
+				textWidth: textWidth,
+				textHeight: textHeight,
+			});
+		}
+
+		// ---- 计算每个按钮尺寸 ----
+		const padding = this.buttonPadding;
+		const btnWidths = [];
+		const btnHeights = [];
+		for (let i = 0, len = buttonInfos.length; i < len; i++) {
+			const info = buttonInfos[i];
+			const w = info.textWidth + padding.left + padding.right;
+			const h = info.textHeight + padding.top + padding.bottom;
+			btnWidths.push(w);
+			btnHeights.push(h);
+		}
+
+		// ---- 换行布局 ----
+		const panelMargin = 10; // 左右边距
+		const availableWidth = this.width - panelMargin * 2;
+		const gapX = this.buttonGapX;
+		const gapY = this.buttonGapY;
+		const marginTop = this.buttonMarginTop;
+
+		// 描述区域底部 Y（从下往上）
+		const descBottomY = this.height - this.descRect.y - this.descVisibleHeight;
+
+		// 当前行底部 Y（从描述区域向下累加）
+		let rowBottomY = descBottomY - marginTop;
+		let curX = panelMargin;
+		let rowMaxHeight = 0;
+
+		// 存储每个按钮的位置和尺寸
+		const positions = [];
+		for (let i = 0, len = buttonInfos.length; i < len; i++) {
+			const w = btnWidths[i];
+			const h = btnHeights[i];
+			// 检查是否需要换行
+			if (curX + w > availableWidth + panelMargin) {
+				// 换行
+				curX = panelMargin;
+				rowBottomY -= rowMaxHeight + gapY;
+				rowMaxHeight = 0;
+			}
+			// 放置按钮（底部对齐）
+			const x = curX;
+			const y = rowBottomY - h; // 底部对齐，y = 行底部 - 按钮高度
+			positions.push({ x, y, width: w, height: h });
+			curX += w + gapX;
+			if (h > rowMaxHeight) rowMaxHeight = h;
+		}
+
+		// ---- 创建/获取按钮并添加到面板 ----
+		for (let i = 0, len = buttonInfos.length; i < len; i++) {
+			const info = buttonInfos[i];
+			const pos = positions[i];
+			const config = {
+				actionId: info.actionId,
+				label: info.label,
+				width: pos.width,
+				height: pos.height,
+				bgColor: this.buttonBgColor,
+				textColor: this.buttonTextColor,
+				fontSize: this.buttonFontSize,
+				fontFamily: this.buttonFontFamily,
+				padding: this.buttonPadding,
+			};
+			const button = this.buttonPool.acquire(config);
+			button.x = pos.x;
+			button.y = pos.y;
+			button.setClickCallback((/** @type {{ actionId: number; }} */ btn) => {
+				this._onButtonClick(btn.actionId, card);
+			});
+			this.add(button);
+			this._activeButtons.push(button);
+		}
+
 		this.visible = true;
 		return this;
+	}
+
+	/**
+	 * 按钮点击处理
+	 * @param {number} actionId
+	 * @param {CardStoryGameType.Card} card
+	 */
+	_onButtonClick(actionId, card) {
+		console.info("[CardPanel] 按钮点击: actionId=" + actionId + ", card=" + card.text);
+		// TODO: 后续扩展动作执行逻辑
 	}
 
 	/**
@@ -177,6 +332,10 @@ export class CardPanel extends Render2DNode {
 	 */
 	hide(_scene2d, _x, _y, _sx, _sy, hasMovedAfterDown) {
 		if (!hasMovedAfterDown) {
+			for (let i = 0, len = this._activeButtons.length; i < len; i++) {
+				this.buttonPool.release(this._activeButtons[i]);
+			}
+			this._activeButtons.length = 0;
 			this.visible = false;
 		}
 		return this;
@@ -188,10 +347,10 @@ export class CardPanel extends Render2DNode {
 	 * @param {number} canvasHeight
 	 */
 	updateSizeAndPosition(canvasWidth, canvasHeight) {
-		const uiConfig = this.game?.gameConfig?.uiConfig;
-		if (!uiConfig) return;
+		const panelUiConfig = this.game?.gameConfig.uiConfig.panel;
+		if (!panelUiConfig) return;
 
-		const ratio = uiConfig.panelHeightRatio ?? 0.8;
+		const ratio = panelUiConfig.panelHeightRatio ?? 0.8;
 		this.height = canvasHeight * ratio;
 
 		// ---- 新坐标系适配（原点在中心，X向右为正，Y向上为正） ----
@@ -200,7 +359,9 @@ export class CardPanel extends Render2DNode {
 
 		// 从顶部向下偏移：顶部是 -canvasHeight/2，向下为 Y 负方向
 		const yOffset =
-			canvasHeight > 400 ? (uiConfig.panelYOffset ?? 20) : canvasHeight * (uiConfig.panelYOffsetSmall ?? 0.05);
+			canvasHeight > 400
+				? (panelUiConfig.panelYOffset ?? 20)
+				: canvasHeight * (panelUiConfig.panelYOffsetSmall ?? 0.05);
 		this.y = canvasHeight / 2 - this.height - yOffset;
 
 		if (this.geometry) {
@@ -223,8 +384,7 @@ export class CardPanel extends Render2DNode {
 		const actualHeight = this.actualDescHeight;
 
 		if (!this.allowScroll || actualHeight <= fixedHeight) {
-			// 无需滚动，设为单位矩阵
-			this._uvTransformMatrix.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+			this._descUvTransformMatrix.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
 			return;
 		}
 
@@ -236,8 +396,9 @@ export class CardPanel extends Render2DNode {
 		// 行主序： [1, 0, 0]
 		//          [0, scale, offset]
 		//          [0, 0, 1]
-		this._uvTransformMatrix.set(1, 0, 0, 0, scale, offset, 0, 0, 1);
+		this._descUvTransformMatrix.set(1, 0, 0, 0, scale, offset, 0, 0, 1);
 	}
+
 	/**
 	 * 滚轮事件处理函数
 	 * @param {CanvasEngineType.RenderEventNode} _node
@@ -285,8 +446,10 @@ export class CardPanel extends Render2DNode {
 		this._updateScrollMatrix();
 	}
 
-	// ===== 销毁 =====
 	destroy() {
+		if (this.buttonPool) {
+			this.buttonPool.clear();
+		}
 		if (this.titleTexture) {
 			this.titleTexture.destroy();
 		}
@@ -295,6 +458,9 @@ export class CardPanel extends Render2DNode {
 		}
 		this.bgColor.destroy();
 		this.textColor.destroy();
+		this.buttonBgColor.destroy();
+		this.buttonTextColor.destroy();
+
 		super.destroy();
 	}
 }

@@ -3,7 +3,6 @@ import { Color } from "../../../../../javascript_libs/canvas_engine/src/math/col
 import { RectangleDef } from "../../../../../javascript_libs/canvas_engine/src/math/geometry_2d_defs/rectangle_def.js";
 import { TextTexture } from "../../../../../javascript_libs/canvas_engine/src/textures/text_texture.js";
 import { CardPipe } from "./card_pipe/card_pipe.js";
-import { defaultGameConfig } from "../../../assets/game_config.js";
 
 export class Card extends Render2DNode {
 	/** @type {number} 模板 ID，关联到 GameConfig 中的模板 */
@@ -20,7 +19,7 @@ export class Card extends Render2DNode {
 	gridX = 0;
 	/** @type {number} 网格 Y 坐标 */
 	gridY = 0;
-	/** @type {string|number} 网格位置唯一键 */
+	/** @type {number} 网格位置唯一键 */
 	gridPositionKey = 0;
 	/** @type {number} 缓存宽（用于 buffer 更新检测） */
 	cacheBufferWidth = -1;
@@ -46,24 +45,24 @@ export class Card extends Render2DNode {
 		}
 		this.text = template.name || "Card";
 
-		const uiConfig = game.gameConfig.uiConfig ?? defaultGameConfig.uiConfig;
+		const cardUiConfig = game.gameConfig.uiConfig.card;
 
 		// 从配置创建颜色对象
-		const bgColorObj = uiConfig.cardBgColor;
+		const bgColorObj = cardUiConfig.bgColor;
 		this.bgColor = new Color(bgColorObj.r, bgColorObj.g, bgColorObj.b, bgColorObj.a);
 
-		const textColorObj = uiConfig.cardTextColor;
+		const textColorObj = cardUiConfig.textColor;
 		this.textColor = new Color(textColorObj.r, textColorObj.g, textColorObj.b, textColorObj.a);
 
-		this.width = uiConfig.cardWidth;
-		this.height = uiConfig.cardHeight;
+		this.width = cardUiConfig.width;
+		this.height = cardUiConfig.height;
 
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
 
 		// 文字纹理
 		this.textTexture = new TextTexture(this.text, {
-			fontSize: uiConfig.cardFontSize,
-			fontFamily: uiConfig.cardFontFamily,
+			fontSize: cardUiConfig.fontSize,
+			fontFamily: cardUiConfig.fontFamily,
 			fontWeight: "normal",
 		});
 
@@ -77,21 +76,19 @@ export class Card extends Render2DNode {
 
 	/**
 	 * 更新卡牌位置和网格坐标
+	 * @param {number} gridPositionKey - 网格位置唯一键
 	 * @param {number} worldX
 	 * @param {number} worldY
 	 * @param {number} gridX
 	 * @param {number} gridY
 	 * @returns {this}
 	 */
-	updatePosition(worldX, worldY, gridX, gridY) {
+	updatePosition(gridPositionKey, worldX, worldY, gridX, gridY) {
 		this.x = worldX;
 		this.y = worldY;
 		this.gridX = gridX;
 		this.gridY = gridY;
-		const coordOffset = this.game.gameConfig.uiConfig?.gridCoordOffset ?? defaultGameConfig.uiConfig.gridCoordOffset;
-		const a = gridX + coordOffset;
-		const b = gridY + coordOffset;
-		this.gridPositionKey = a >= b ? a * a + a + b : a + b * b;
+		this.gridPositionKey = gridPositionKey;
 		return this;
 	}
 

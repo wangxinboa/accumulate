@@ -48,8 +48,13 @@ export class TimeTicker extends BaseCleanUp {
 			this._timestamp = now();
 			this._requestId = requestAnimationFrame(this.run);
 
-			for (let i = 0, len = this._runCallbacks.length; i < len; i++) {
-				this._runCallbacks[i](this._timestamp);
+			try {
+				for (let i = 0, len = this._runCallbacks.length; i < len; i++) {
+					this._runCallbacks[i](this._timestamp);
+				}
+			} catch (error) {
+				console.error("TimeTicker run callback error:", error);
+				this.pause();
 			}
 		}
 	}

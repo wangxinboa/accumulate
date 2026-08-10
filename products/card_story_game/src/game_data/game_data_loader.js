@@ -36,13 +36,17 @@ export class GameDataLoader extends BaseCleanUp {
 	 * @param {JavaScriptUtilsType.JsonTask<CardStoryGameType.GameConfigData>} task
 	 */
 	_onConfigLoaded(task) {
-		if (task.data) {
-			this.game.onConfigLoaded(task.data);
-			console.info("游戏配置加载完成");
-			// 配置加载完成后，自动加载存档
-			this.loadGameData();
-		} else {
-			console.error("游戏配置加载失败");
+		try {
+			if (task.data) {
+				this.game.onConfigLoaded(task.data);
+				console.info("游戏配置加载完成");
+				// 配置加载完成后，自动加载存档
+				this.loadGameData();
+			} else {
+				throw new Error("游戏配置数据加载失败");
+			}
+		} catch (error) {
+			console.error("游戏配置加载异常", error);
 		}
 	}
 

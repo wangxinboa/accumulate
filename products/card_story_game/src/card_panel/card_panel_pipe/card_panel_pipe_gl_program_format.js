@@ -3,7 +3,7 @@ import {
 	uCameraViewName,
 	uRenderNodeModelName,
 	GlDataTypeEnum,
-} from "../../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+} from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 
 export const uBgColorName = "u_bgColor";
 export const uTextColorName = "u_textColor";

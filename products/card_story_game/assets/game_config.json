@@ -1,51 +1,69 @@
 {
 	"uiConfig": {
-		"cardPadding": {
-			"left": 4,
-			"right": 4,
-			"top": 3,
-			"bottom": 0
-		},
-		"cardWidth": 60,
-		"cardHeight": 90,
-		"cardGapX": 4,
-		"cardGapY": 4,
-		"cardBgColor": { "r": 0.2, "g": 0.4, "b": 0.8, "a": 1 },
-		"cardTextColor": { "r": 0, "g": 0, "b": 0, "a": 1 },
-		"cardFontSize": 16,
-		"cardFontFamily": "math",
-		"cardTextHeightRatio": 0.333,
-
-		"panelWidth": 300,
-		"panelBgColor": { "r": 0.2, "g": 0.2, "b": 0.302, "a": 0.8 },
-		"panelTextColor": { "r": 1, "g": 1, "b": 1, "a": 1 },
-		"panelTitleHeight": 24,
-		"panelTitleX": 8,
-		"panelTitleY": 8,
-		"panelTitleFontSize": 24,
-		"panelTitleFontFamily": "math",
-		"panelDescFontSize": 12,
-		"panelDescFontFamily": "math",
-		"panelHeightRatio": 0.8,
-		"panelYOffset": 20,
-		"panelYOffsetSmall": 0.05,
-
-		"descriptionRect": {
-			"x": 8,
-			"y": 32,
-			"width": 284,
-			"height": 80
-		},
-		"descriptionFontSize": 12,
-
 		"engineBackgroundColor": { "r": 1, "g": 0, "b": 0, "a": 1 },
 
-		"gridCoordOffset": 10000,
-		"gridMaxSearchDepth": 100,
-		"cardZIndex": 10,
-		"panelZIndex": 1000,
+		"card": {
+			"padding": {
+				"left": 4,
+				"right": 4,
+				"top": 3,
+				"bottom": 0
+			},
+			"width": 60,
+			"height": 90,
+			"bgColor": { "r": 0.2, "g": 0.4, "b": 0.8, "a": 1 },
+			"textColor": { "r": 0, "g": 0, "b": 0, "a": 1 },
+			"fontSize": 16,
+			"fontFamily": "math",
+			"textHeightRatio": 0.333,
 
-		"scrollInvert": false
+			"gridCoordOffset": 10000,
+			"gridMaxSearchDepth": 100,
+			"gapX": 4,
+			"gapY": 4,
+
+			"cardZIndex": 10
+		},
+
+		"panel": {
+			"panelWidth": 300,
+			"panelBgColor": { "r": 0.2, "g": 0.2, "b": 0.302, "a": 0.8 },
+			"panelTextColor": { "r": 1, "g": 1, "b": 1, "a": 1 },
+			"panelTitleHeight": 24,
+			"panelTitleX": 8,
+			"panelTitleY": 8,
+			"panelTitleFontSize": 24,
+			"panelTitleFontFamily": "math",
+
+			"panelDescFontSize": 12,
+			"panelDescFontFamily": "math",
+			"panelHeightRatio": 0.8,
+			"panelYOffset": 20,
+			"panelYOffsetSmall": 0.05,
+
+			"descriptionRect": {
+				"x": 8,
+				"y": 32,
+				"width": 284,
+				"height": 80
+			},
+			"descriptionFontSize": 12,
+
+			"panelZIndex": 1000,
+
+			"scrollInvert": false,
+
+			"buttonPadding": { "left": 8, "right": 8, "top": 4, "bottom": 4 },
+			"buttonGapX": 8,
+			"buttonGapY": 8,
+			"buttonMarginTop": 8,
+			"buttonHeight": 30,
+			"buttonGap": 8,
+			"buttonBgColor": { "r": 0.3, "g": 0.3, "b": 0.3, "a": 1 },
+			"buttonTextColor": { "r": 1, "g": 1, "b": 1, "a": 1 },
+			"buttonFontSize": 16,
+			"buttonFontFamily": "math"
+		}
 	},
 	"cardTemplates": [
 		{
@@ -59,7 +77,37 @@
 			"description": "测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111\n测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111\n测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111",
 			"actions": [
 				{
-					"name": "检测"
+					"label": "检 测"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
+				},
+				{
+					"label": "测 试"
 				}
 			]
 		}
