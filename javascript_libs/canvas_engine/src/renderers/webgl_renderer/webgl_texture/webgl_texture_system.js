@@ -5,7 +5,7 @@ export class WebGLTextureSystem extends BaseCleanUp {
 	/** @type {CanvasEngineType.WebGLRenderer} */
 	renderer;
 	/** @private @type {CustomMap<GlTexture>} */
-	_cacheTextures;
+	_cacheGlTextures;
 	/** @private @type {boolean} */
 	_cacheUnpackFlipY;
 	/**
@@ -16,7 +16,7 @@ export class WebGLTextureSystem extends BaseCleanUp {
 
 		this.renderer = renderer;
 
-		this._cacheTextures = new CustomMap();
+		this._cacheGlTextures = new CustomMap();
 
 		this._cacheUnpackFlipY = false;
 	}
@@ -24,20 +24,20 @@ export class WebGLTextureSystem extends BaseCleanUp {
 	 * @param {string} textureKey
 	 */
 	getGlTexture(textureKey) {
-		return this._cacheTextures.get(textureKey);
+		return this._cacheGlTextures.get(textureKey);
 	}
 	/**
 	 * @param {string} textureKey
 	 */
 	hasGlTexture(textureKey) {
-		return this._cacheTextures.has(textureKey);
+		return this._cacheGlTextures.has(textureKey);
 	}
 	/**
 	 * @param {string} textureKey
 	 * @param {GlTexture} glTexture
 	 */
 	setGlTexture(textureKey, glTexture) {
-		this._cacheTextures.set(textureKey, glTexture);
+		this._cacheGlTextures.set(textureKey, glTexture);
 	}
 	/**
 	 * @param {CanvasEngineType.BaseTexture} texture
@@ -54,20 +54,20 @@ export class WebGLTextureSystem extends BaseCleanUp {
 		}
 	}
 	resetGlTextures() {
-		for (let i = 0, len = this._cacheTextures.array.length; i < len; i++) {
-			this._cacheTextures.array[i].resetTexture(this.renderer.gl);
+		for (let i = 0, len = this._cacheGlTextures.array.length; i < len; i++) {
+			this._cacheGlTextures.array[i].resetTexture(this.renderer.gl);
 		}
 	}
 	deleteGlTextures() {
-		for (let i = 0, len = this._cacheTextures.array.length; i < len; i++) {
-			this._cacheTextures.array[i].deleteTexture(this.renderer.gl);
+		for (let i = 0, len = this._cacheGlTextures.array.length; i < len; i++) {
+			this._cacheGlTextures.array[i].deleteTexture(this.renderer.gl);
 		}
 	}
 	destroy() {
-		for (let i = 0, len = this._cacheTextures.array.length; i < len; i++) {
-			this._cacheTextures.array[i].destroy();
+		for (let i = 0, len = this._cacheGlTextures.array.length; i < len; i++) {
+			this._cacheGlTextures.array[i].destroy();
 		}
-		this._cacheTextures.destroy();
+		this._cacheGlTextures.destroy();
 
 		super.destroy();
 	}
