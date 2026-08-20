@@ -33,73 +33,48 @@ function _setVertex(array, index, x, y, u, v, isBg) {
  * @returns {Float32Array}
  */
 export function generateCardVertexData(card) {
-	const cardWidth = card.width;
-	const cardHeight = card.height;
 	const cardUiConfig = card.game.gameConfig.uiConfig.card;
+	const cardWidth = cardUiConfig.width;
+	const cardHeight = cardUiConfig.height;
 
 	// ---- 文字区域的整体高度（占卡牌宽度的一定比例） ----
-	const textAreaHeight = cardWidth * cardUiConfig.textHeightRatio;
+	const titleAreaHeight = cardUiConfig.titleAreaHeight;
 
 	// ---- 获取文字纹理的实际像素尺寸 ----
 	let texWidth = 1;
 	let texHeight = 1;
-	if (card.textTexture && card.textTexture.isReady) {
-		texWidth = card.textTexture.width;
-		texHeight = card.textTexture.height;
+	if (card.titleTexture && card.titleTexture.isReady) {
+		texWidth = card.titleTexture.width;
+		texHeight = card.titleTexture.height;
 	}
-	const textureAspect = texWidth / texHeight;
 
-	// ---- 在文字区域内，对纹理进行 contain 缩放 ----
-	const areaAspect = cardWidth / textAreaHeight;
-	let drawWidth, drawHeight;
-	if (textureAspect > areaAspect) {
-		drawWidth = cardWidth;
-		drawHeight = cardWidth / textureAspect;
+	const titleAreaPadding = cardUiConfig.titleAreaPadding;
+	const titleDrawW = cardWidth - titleAreaPadding.left - titleAreaPadding.right;
+	const titleDrawH = titleAreaHeight - titleAreaPadding.top - titleAreaPadding.bottom;
+
+	let titleRectW = 0;
+	let titleRectH = 0;
+	let titleRectX = 0;
+	let titleRectY = 0;
+
+	const titleTextureAspect = texWidth / texHeight;
+	const titleDrawAspect = titleDrawW / titleDrawH;
+
+	if (titleDrawH > texHeight && titleDrawW > texWidth) {
+		titleRectW = texWidth;
+		titleRectH = texHeight;
 	} else {
-		drawHeight = textAreaHeight;
-		drawWidth = textAreaHeight * textureAspect;
-	}
-	const offsetX = (cardWidth - drawWidth) / 2;
-	const offsetY = (textAreaHeight - drawHeight) / 2;
-
-	// ---- 应用内边距 ----
-	const padding = cardUiConfig.padding;
-	const contentX = offsetX + padding.left;
-	const contentY = offsetY + padding.top;
-	const contentWidth = drawWidth - padding.left - padding.right;
-	const contentHeight = drawHeight - padding.top - padding.bottom;
-
-	// ---- 在内容区域内再次按 contain 缩放并居中 ----
-	let textRectX = contentX;
-	let textRectY = contentY;
-	let textRectW = contentWidth;
-	let textRectH = contentHeight;
-
-	if (contentWidth > 0 && contentHeight > 0) {
-		const contentAspect = contentWidth / contentHeight;
-		if (textureAspect > contentAspect) {
-			textRectW = contentWidth;
-			textRectH = contentWidth / textureAspect;
+		if (titleDrawAspect < titleTextureAspect) {
+			titleRectW = titleDrawW;
+			titleRectH = titleDrawW / titleTextureAspect;
 		} else {
-			textRectH = contentHeight;
-			textRectW = contentHeight * textureAspect;
+			titleRectW = titleDrawH * titleTextureAspect;
+			titleRectH = titleDrawH;
 		}
-		textRectX = contentX + (contentWidth - textRectW) / 2;
-		textRectY = contentY + (contentHeight - textRectH) / 2;
-	} else {
-		// 内容区域无效，退化为不可见
-		textRectW = 0;
-		textRectH = 0;
-		textRectX = offsetX;
-		textRectY = offsetY;
 	}
 
-	// ---- 关键：Y 轴翻转以适应新坐标系（原点在左上，Y 向上） ----
-	// 在旧坐标系（Y 向下）中，文字位于底部（Y 值大）；现在 Y 向上，底部对应 Y=0。
-	// 因此将文字矩形的 Y 坐标镜像翻转：底部对齐卡牌底部（Y=0），顶部向上延伸。
-	// 翻转公式：新Y = cardHeight - (旧Y + 旧H)
-	textRectY = cardHeight - (textRectY + textRectH);
-	// 注意：textRectH 不变，因为高度方向没有变化（只是 Y 起点变了）
+	titleRectX = (cardWidth - titleRectW) / 2;
+	titleRectY = cardHeight - titleAreaHeight + (titleAreaHeight - titleRectH) / 2;
 
 	// ---- 分配顶点缓冲区（12 个顶点 = 6 个背景 + 6 个文字） ----
 	const floatArray = new Float32Array(60);
@@ -113,12 +88,12 @@ export function generateCardVertexData(card) {
 	_setVertex(floatArray, 5, cardWidth, cardHeight, 0, 0, 1);
 
 	// ---- 文字矩形（6 个顶点，纹理坐标顺序：左下(0,1) -> 右下(1,1) -> 左上(0,0) -> 右上(1,0)） ----
-	_setVertex(floatArray, 6, textRectX, textRectY, 0, 1, 0);
-	_setVertex(floatArray, 7, textRectX + textRectW, textRectY, 1, 1, 0);
-	_setVertex(floatArray, 8, textRectX, textRectY + textRectH, 0, 0, 0);
-	_setVertex(floatArray, 9, textRectX, textRectY + textRectH, 0, 0, 0);
-	_setVertex(floatArray, 10, textRectX + textRectW, textRectY, 1, 1, 0);
-	_setVertex(floatArray, 11, textRectX + textRectW, textRectY + textRectH, 1, 0, 0);
+	_setVertex(floatArray, 6, titleRectX, titleRectY, 0, 1, 0);
+	_setVertex(floatArray, 7, titleRectX + titleRectW, titleRectY, 1, 1, 0);
+	_setVertex(floatArray, 8, titleRectX, titleRectY + titleRectH, 0, 0, 0);
+	_setVertex(floatArray, 9, titleRectX, titleRectY + titleRectH, 0, 0, 0);
+	_setVertex(floatArray, 10, titleRectX + titleRectW, titleRectY, 1, 1, 0);
+	_setVertex(floatArray, 11, titleRectX + titleRectW, titleRectY + titleRectH, 1, 0, 0);
 
 	return floatArray;
 }

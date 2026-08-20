@@ -12,7 +12,6 @@ import {
 	aTexIndexName,
 	cardPanelGlProgramFormat,
 	uBgColorName,
-	uTextColorName,
 	uTitleImageName,
 	uDescImageName,
 	uUvTransformName,
@@ -123,10 +122,8 @@ export const CardPanelPipe = {
 	 */
 	uniform(panel, gl, textureSystem, glProgram) {
 		glProgram.uniform(gl, uBgColorName, panel.bgColor);
-		glProgram.uniform(gl, uTextColorName, panel.textColor);
-
-		// 传递 UV 变换矩阵
-		glProgram.uniform(gl, uUvTransformName, panel._descUvTransformMatrix);
+		// 传递 desc UV 变换矩阵
+		glProgram.uniform(gl, uUvTransformName, panel.descUi.descUvTransformMatrix);
 
 		// 标题纹理
 		if (panel.titleTexture && panel.titleTexture.isReady) {

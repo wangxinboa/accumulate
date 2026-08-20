@@ -1,4 +1,6 @@
+import { isBoolean } from "../../../javascript_utils/javascript_utils.js";
 import { BaseTexture } from "./base_texture.js";
+import { tempTextRect, setTempTextRect, setLinesTempTextRect, tempLinesTempTextRect } from "./text_texture_utils.js";
 
 let textTextureKey = 0;
 const canvasDom = document.createElement("canvas");
@@ -7,105 +9,94 @@ const ctx = canvasDom.getContext("2d", {
 	alpha: true,
 });
 
-/**
- * 辅助函数：将文本按最大宽度换行（按字符拆分，适用于中英文混合）
- * @param {CanvasRenderingContext2D} ctx
- * @param {string} text
- * @param {number} maxWidth
- * @returns {string[]} 行数组
- */
-function wrapText(ctx, text, maxWidth) {
-	if (maxWidth <= 0 || !text) return [text || ""];
-	const lines = [];
-	let currentLine = "";
-	for (let i = 0; i < text.length; i++) {
-		const char = text[i];
-		const testLine = currentLine + char;
-		const metrics = ctx.measureText(testLine);
-		if (metrics.width > maxWidth && currentLine.length > 0) {
-			lines.push(currentLine);
-			currentLine = char;
-		} else {
-			currentLine = testLine;
-		}
-	}
-	if (currentLine) lines.push(currentLine);
-	return lines;
-}
-
 export class TextTexture extends BaseTexture {
 	static defaultTextOption = {
 		fontStyle: "normal",
 		fontVariant: "normal",
 		fontSize: 16,
 		fontWeight: "normal",
-		fontFamily: "math",
+		fontFamily: "Arial",
+		useFontBoundingBox: false,
+		fontColor: "#000000",
+		maxWidth: 0,
+		lineGap: 0,
 	};
-	/** @type {boolean} */
-	isTextTexture;
-	/** @type {string} */
-	fontStyle;
-	/** @type {string} */
-	fontVariant;
-	/** @type {number} */
-	fontSize;
-	/** @type {string} */
-	fontWeight;
-	/** @type {string} */
-	fontFamily;
-	/** @type {string} */
+	/** @private */
 	_text = "";
-	/** @type {number} */
-	width = 0;
-	/** @type {number} */
-	height = 0;
-	/** @type {number} 最大宽度（像素），0 表示不限制（单行） */
-	_maxWidth = 0;
-	/** @type {number} 行高倍数，默认为 1.2 */
-	_lineHeightRatio = 1.4;
-	/** @type {string[]} 缓存的行数组 */
-	_lines = [];
-
+	fontStyle = TextTexture.defaultTextOption.fontStyle;
+	fontVariant = TextTexture.defaultTextOption.fontVariant;
+	fontSize = TextTexture.defaultTextOption.fontSize;
+	fontWeight = TextTexture.defaultTextOption.fontWeight;
+	fontFamily = TextTexture.defaultTextOption.fontFamily;
+	useFontBoundingBox = TextTexture.defaultTextOption.useFontBoundingBox;
+	fontColor = TextTexture.defaultTextOption.fontColor;
+	maxWidth = TextTexture.defaultTextOption.maxWidth;
+	lineGap = TextTexture.defaultTextOption.lineGap;
 	/**
-	 * @param {string} text
+	 * @param {string} textString
 	 * @param {CanvasEngineType.TextOption} [textOption]
-	 * @param {number} [maxWidth] 最大宽度（像素），0 表示不限制（单行）
 	 */
-	constructor(text, textOption = TextTexture.defaultTextOption, maxWidth = 0) {
+	constructor(textString, textOption = TextTexture.defaultTextOption) {
 		super();
 
 		this.isTextTexture = true;
 		this.key = `text_texture_${textTextureKey++}`;
 
-		this.fontStyle = textOption.fontStyle ?? TextTexture.defaultTextOption.fontStyle;
-		this.fontVariant = textOption.fontVariant ?? TextTexture.defaultTextOption.fontVariant;
-		this.fontSize = textOption.fontSize ?? TextTexture.defaultTextOption.fontSize;
-		this.fontWeight = textOption.fontWeight ?? TextTexture.defaultTextOption.fontWeight;
-		this.fontFamily = textOption.fontFamily ?? TextTexture.defaultTextOption.fontFamily;
+		this.udpateTextAndStyle(textString, textOption);
+	}
 
-		this._maxWidth = maxWidth;
-		this.text = text;
+	/**
+	 * @param {string} textString
+	 * @param {CanvasEngineType.TextOption} [textOption]
+	 */
+	udpateTextAndStyle(textString, textOption) {
+		this._text = textString;
+		this.udpateStyle(textOption);
+	}
+
+	/**
+	 * @param {CanvasEngineType.TextOption} [textOption]
+	 */
+	udpateStyle(textOption) {
+		if (textOption) {
+			if (textOption.fontStyle) {
+				this.fontStyle = textOption.fontStyle;
+			}
+			if (textOption.fontVariant) {
+				this.fontVariant = textOption.fontVariant;
+			}
+			if (textOption.fontSize) {
+				this.fontSize = textOption.fontSize;
+			}
+			if (textOption.fontWeight) {
+				this.fontWeight = textOption.fontWeight;
+			}
+			if (textOption.fontFamily) {
+				this.fontFamily = textOption.fontFamily;
+			}
+			if (isBoolean(textOption.useFontBoundingBox)) {
+				this.useFontBoundingBox = /** @type {Boolean} */ (textOption.useFontBoundingBox);
+			}
+			if (textOption.fontColor) {
+				this.fontColor = textOption.fontColor;
+			}
+			if (textOption.maxWidth) {
+				this.maxWidth = textOption.maxWidth;
+			}
+			if (textOption.lineGap) {
+				this.lineGap = textOption.lineGap;
+			}
+		}
+		this.updateImage();
 	}
 
 	get text() {
 		return this._text;
 	}
-	set text(value) {
-		this._text = value;
-		this.needTexImage2D = true;
-		this._setTextMeasure();
-		this.onTextureRectChange(this.width, this.height);
-	}
-
-	get maxWidth() {
-		return this._maxWidth;
-	}
-	set maxWidth(value) {
-		if (this._maxWidth !== value) {
-			this._maxWidth = value;
-			this.needTexImage2D = true;
-			this._setTextMeasure();
-			this.onTextureRectChange(this.width, this.height);
+	set text(textString) {
+		if (this._text !== textString) {
+			this._text = textString;
+			this.updateImage();
 		}
 	}
 
@@ -117,63 +108,66 @@ export class TextTexture extends BaseTexture {
 		return `${textTexture.fontStyle} ${textTexture.fontVariant} ${textTexture.fontWeight} ${textTexture.fontSize}px ${textTexture.fontFamily}`;
 	}
 
-	/** @private */
-	_setTextMeasure() {
-		if (!ctx) {
+	updateImage() {
+		if (ctx && this.text) {
+			const font = this._getFontString(this);
+			ctx.font = font;
+			ctx.textBaseline = "top";
+
+			let width = 0,
+				height = 0,
+				offsetY = 0;
+
+			if (this.maxWidth > 0) {
+				setLinesTempTextRect(this, ctx, this.text);
+
+				width = tempLinesTempTextRect.width;
+				height = tempLinesTempTextRect.height;
+			} else {
+				setTempTextRect(this, ctx, this.text);
+
+				width = tempTextRect.width;
+				height = tempTextRect.height;
+				offsetY = tempTextRect.offsetY;
+			}
+
+			const pixelWidth = width * window.devicePixelRatio;
+			const pixelHeight = height * window.devicePixelRatio;
+
+			canvasDom.style.width = `${width}px`;
+			canvasDom.style.height = `${height}px`;
+
+			canvasDom.width = pixelWidth;
+			canvasDom.height = pixelHeight;
+
+			ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+			ctx.fillStyle = "rgba(255, 255, 255, 0)";
+			ctx.fillRect(0, 0, canvasDom.width, canvasDom.height);
+
+			ctx.textBaseline = "top";
+			ctx.font = font;
+
+			ctx.fillStyle = this.fontColor;
+			ctx.lineWidth = 0;
+
+			if (this.maxWidth > 0) {
+				for (let i = 0, len = tempLinesTempTextRect.lines.length; i < len; i++) {
+					ctx.fillText(tempLinesTempTextRect.lines[i], 0, tempLinesTempTextRect.linesoOffsetY[i]);
+				}
+			} else {
+				ctx.fillText(this.text, 0, offsetY);
+			}
+
+			this.width = width;
+			this.height = height;
+			this.image2D = ctx.getImageData(0, 0, pixelWidth, pixelHeight);
+
+			this.needTexImage2D = true;
+
+			this.onTextureRectChange(this.width, this.height);
+		} else {
 			throw new Error("Failed to create canvas context for measuring text.");
 		}
-		const font = this._getFontString(this);
-		ctx.font = font;
-
-		const maxWidth = this._maxWidth;
-		let lines = [this._text];
-		if (maxWidth > 0 && this._text) {
-			lines = wrapText(ctx, this._text, maxWidth);
-		}
-		this._lines = lines;
-
-		// 计算总宽高
-		let maxLineWidth = 0;
-		const lineHeight = this.fontSize * this._lineHeightRatio;
-		for (let i = 0; i < lines.length; i++) {
-			const metrics = ctx.measureText(lines[i]);
-			if (metrics.width > maxLineWidth) maxLineWidth = metrics.width;
-		}
-		let totalWidth = Math.ceil(maxLineWidth);
-		let totalHeight = Math.ceil(lines.length * lineHeight);
-
-		// 如果文本为空，设置最小尺寸为 1x1，避免 getImageData 宽度为 0 报错
-		if (totalWidth === 0) totalWidth = 1;
-		if (totalHeight === 0) totalHeight = 1;
-
-		const pixelWidth = totalWidth * window.devicePixelRatio;
-		const pixelHeight = totalHeight * window.devicePixelRatio;
-
-		canvasDom.style.width = `${totalWidth}px`;
-		canvasDom.style.height = `${totalHeight}px`;
-
-		canvasDom.width = pixelWidth;
-		canvasDom.height = pixelHeight;
-
-		ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-
-		// 清除画布（透明）
-		ctx.clearRect(0, 0, canvasDom.width, canvasDom.height);
-
-		ctx.textBaseline = "alphabetic";
-		ctx.font = font;
-		ctx.fillStyle = "rgba(0, 0, 0, 1)";
-		ctx.lineWidth = 0;
-
-		// 逐行绘制
-		const baselineOffset = this.fontSize * 0.8; // 近似基线偏移
-		for (let i = 0; i < lines.length; i++) {
-			const y = i * lineHeight + baselineOffset;
-			ctx.fillText(lines[i], 0, y);
-		}
-
-		this.width = totalWidth;
-		this.height = totalHeight;
-		this.image2D = ctx.getImageData(0, 0, pixelWidth, pixelHeight);
 	}
 }

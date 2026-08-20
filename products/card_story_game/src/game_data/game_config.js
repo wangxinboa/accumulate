@@ -8,7 +8,7 @@ export class GameConfig extends BaseCleanUp {
 	constructor() {
 		super();
 
-		/** @type {CustomMap<CardStoryGameType.CardTemplateConfig>} 卡牌模板，key 为 templateId */
+		/** @type {CustomMap<CardStoryGameType.CardTemplate>} 卡牌模板，key 为 templateId */
 		this.cardTemplates = new CustomMap();
 		/** @type {CustomMap<CardStoryGameType.ActionConfig>} 动作定义，key 为 actionId */
 		this.actions = new CustomMap();
@@ -54,7 +54,7 @@ export class GameConfig extends BaseCleanUp {
 		if (data.actions) {
 			for (let i = 0, len = data.actions.length; i < len; i++) {
 				const action = data.actions[i];
-				this.actions.set(action.id, action);
+				this.actions.set(action.actionId, action);
 			}
 		}
 
@@ -104,10 +104,30 @@ export class GameConfig extends BaseCleanUp {
 	/**
 	 * 根据 ID 获取卡牌模板
 	 * @param {number} id
-	 * @returns {CardStoryGameType.CardTemplateConfig | null}
+	 * @returns {CardStoryGameType.CardTemplate | null}
 	 */
 	getCardTemplate(id) {
 		return this.cardTemplates.get(id) || null;
+	}
+
+	/**
+	 * @param {CardStoryGameType.CardTemplateAction} cardAction
+	 * @returns {CardStoryGameType.ActionConfig}
+	 */
+	getCardAction(cardAction) {
+		let action;
+		if (typeof cardAction === "string") {
+			action = this.actions.get(cardAction);
+		} else {
+			action = this.actions.get(cardAction.actionId);
+		}
+
+		if (action) {
+			return action;
+		} else {
+			console.error(cardAction);
+			throw new Error("不存在对应动作的信息");
+		}
 	}
 
 	/**

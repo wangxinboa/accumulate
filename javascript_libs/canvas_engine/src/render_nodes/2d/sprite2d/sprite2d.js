@@ -4,34 +4,30 @@ import { ImageTexture } from "../../../textures/image_texture.js";
 import { TextTexture } from "../../../textures/text_texture.js";
 import { RectangleDef } from "../../../math/geometry_2d_defs/rectangle_def.js";
 import { Sprite2DPipe } from "./sprite2d_pipe/sprite2d_pipe.js";
+import { emptyTexture } from "../../../textures/base_texture.js";
 
 export class Sprite2D extends Render2DNode {
 	/** @type {CanvasEngineType.Sprite2DTexture} */
-	_texture;
+	_texture = emptyTexture;
 	/** @type {CanvasEngineType.RectangleDef} */
 	geometry;
-	/** @type {CanvasEngineType.GetTextureBufferTypeEnum} */
-	getTextureBufferType;
-	/** @type {number} */
-	cacheBufferWidth;
-	/** @type {number} */
-	cacheBufferHeight;
-
 	/**
 	 * @param {CanvasEngineType.Sprite2DTexture} texture
 	 */
 	constructor(texture) {
 		super();
 
-		this._texture = texture;
 		this.geometry = new RectangleDef();
-
+		/** @type {boolean} */
+		this._fixedGeometry = false;
+		/** @type {number} */
+		this.cacheBufferWidth = -1;
+		/** @type {number} */
+		this.cacheBufferHeight = -1;
+		/** @type {CanvasEngineType.GetTextureBufferTypeEnum} */
 		this.getTextureBufferType = GetTextureBufferTypeEnum.fromTextureWidthAndHeight;
 
-		this.cacheBufferWidth = this.width;
-		this.cacheBufferHeight = this.height;
-
-		this._onTextureChange();
+		this.texture = texture;
 	}
 
 	/**
@@ -70,18 +66,22 @@ export class Sprite2D extends Render2DNode {
 	}
 
 	get texture() {
-		return this._texture;
+		return this._texture ?? emptyTexture;
 	}
 
-	set texture(value) {
-		if (this._texture === value) {
+	set texture(textureValue) {
+		if (this._texture === textureValue) {
 			return;
 		}
-		if (this.texture) {
-			this.texture.removeTextureRectChangeCallback(this._updateGeometry);
+		if (this._texture) {
+			this._texture.removeTextureRectChangeCallback(this._updateGeometry);
 		}
-		this._texture = value;
-		this._onTextureChange();
+		this._texture = textureValue;
+
+		if (textureValue.isReady) {
+			this._updateGeometry();
+		}
+		textureValue.addTextureRectChangeCallback(this._updateGeometry);
 	}
 
 	get text() {
@@ -91,21 +91,12 @@ export class Sprite2D extends Render2DNode {
 			throw new Error("sprite2D texture 不为 TextTexture");
 		}
 	}
-
 	set text(text) {
 		if (this.texture instanceof TextTexture) {
 			this.texture.text = text;
 		} else {
 			throw new Error("sprite2D texture 不为 TextTexture");
 		}
-	}
-
-	/** @private */
-	_onTextureChange() {
-		if (this.texture.isReady) {
-			this._updateGeometry();
-		}
-		this.texture.addTextureRectChangeCallback(this._updateGeometry);
 	}
 
 	get isReady() {

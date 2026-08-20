@@ -27,49 +27,19 @@ function _setVertex(array, index, x, y, u, v, isBg) {
 export function generateButtonVertexData(button) {
 	const width = button.width;
 	const height = button.height;
-	const padding = button.padding || { left: 8, right: 8, top: 4, bottom: 4 };
-
-	// 文字纹理尺寸
-	let texWidth = 1;
-	let texHeight = 1;
-	if (button.textTexture && button.textTexture.isReady) {
-		texWidth = button.textTexture.width;
-		texHeight = button.textTexture.height;
-	}
-	const textureAspect = texWidth / texHeight;
-
-	// 内容区域（扣除 padding）
-	const contentX = padding.left;
-	const contentY = padding.bottom; // Y 向上，底部为 padding.bottom
-	const contentWidth = width - padding.left - padding.right;
-	const contentHeight = height - padding.top - padding.bottom;
-
-	// 在内容区域内按 contain 缩放文字
-	let drawWidth, drawHeight;
-	if (contentWidth > 0 && contentHeight > 0) {
-		const areaAspect = contentWidth / contentHeight;
-		if (textureAspect > areaAspect) {
-			drawWidth = contentWidth;
-			drawHeight = contentWidth / textureAspect;
-		} else {
-			drawHeight = contentHeight;
-			drawWidth = contentHeight * textureAspect;
-		}
-	} else {
-		// 内容区域无效，退化为不可见
-		drawWidth = 0;
-		drawHeight = 0;
-	}
-
-	// 在内容区域内居中
-	const offsetX = contentX + (contentWidth - drawWidth) / 2;
-	const offsetY = contentY + (contentHeight - drawHeight) / 2;
 
 	// 文字矩形边界（Y 向上）
-	const textRectX = offsetX;
-	const textRectY = offsetY;
-	const textRectW = drawWidth;
-	const textRectH = drawHeight;
+	const textRectX = button.padding.left;
+	const textRectY = button.padding.top;
+	const textRectW = button.textTexture.width;
+	const textRectH = button.textTexture.height;
+
+	// console.info("width:", width);
+	// console.info("height:", height);
+	// console.info("textRectX:", textRectX);
+	// console.info("textRectY:", textRectY);
+	// console.info("textRectW:", textRectW);
+	// console.info("textRectH:", textRectH);
 
 	// 分配 12 个顶点（6背景 + 6文字）
 	const floatArray = new Float32Array(12 * 5);

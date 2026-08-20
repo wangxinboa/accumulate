@@ -54,10 +54,14 @@ export class GameDataLoader extends BaseCleanUp {
 	 * @param {JavaScriptUtilsType.JsonTask<CardStoryGameType.GameData>} task
 	 */
 	_onGameDataLoaded(task) {
-		if (task.data) {
-			this.game.onGameDataLoaded(task.data);
-		} else {
-			console.error("存档加载失败");
+		try {
+			if (task.data) {
+				this.game.onGameDataLoaded(task.data);
+			} else {
+				throw new Error("存档加载失败: task.data 数据不存在");
+			}
+		} catch (e) {
+			console.error("存档加载失败:", e);
 		}
 	}
 }

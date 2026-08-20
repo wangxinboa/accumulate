@@ -55,6 +55,13 @@ export class Color extends BaseCleanUp {
 	}
 
 	/**
+	 * @param {{ r: number; g: number; b: number; a: number; }} colorObj
+	 */
+	setFromJson(colorObj) {
+		return this.setValue(colorObj.r, colorObj.g, colorObj.b, colorObj.a);
+	}
+
+	/**
 	 * @param {number} a
 	 */
 	setAlpha(a) {
@@ -105,5 +112,12 @@ export class Color extends BaseCleanUp {
 		_color = new Color();
 		_color.hexString = hexStringValue;
 		return _color;
+	}
+
+	/**
+	 * @param {{ r: number; g: number; b: number; a: number; }} colorObj
+	 */
+	static createFromJson(colorObj) {
+		return new Color(colorObj.r, colorObj.g, colorObj.b, colorObj.a);
 	}
 }

@@ -22,9 +22,11 @@ export class ImageTexture extends BaseTexture {
 		return this._source;
 	}
 	set source(value) {
-		this._source = value;
+		if (value !== this._source) {
+			this._source = value;
 
-		this._onSourceChange();
+			this._onSourceChange();
+		}
 	}
 	/** @private */
 	_onSourceChange() {
@@ -33,19 +35,16 @@ export class ImageTexture extends BaseTexture {
 		} else {
 			this._source.addLoadedCallback(this._onImageLoaded);
 		}
+		this.needTexImage2D = true;
 	}
 	/** @private */
 	_onImageLoaded() {
+		this.width = this.source.width;
+		this.height = this.source.height;
 		this.onTextureRectChange(this.width, this.height);
 	}
 	get key() {
 		return this.source.src;
-	}
-	get width() {
-		return this.source.width;
-	}
-	get height() {
-		return this.source.height;
 	}
 	get isReady() {
 		return this.source.isLoaded;

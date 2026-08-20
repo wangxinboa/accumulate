@@ -9,7 +9,6 @@ import {
 	aIsBgName,
 	CardGlProgramFormat,
 	uBgColorName,
-	uTextColorName,
 	uImageName,
 } from "./card_pipe_gl_program_format.js";
 import { GlAttribs } from "../../../../../../javascript_libs/canvas_engine/src/renderers/webgl_renderer/webgl_buffer/gl_attribs/gl_attribs.js";
@@ -81,8 +80,8 @@ export const CardPipe = {
 	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 */
 	updateTextures(card, textureSystem) {
-		if (card.textTexture && card.textTexture.isReady) {
-			textureSystem.updateGlTexture(card.textTexture);
+		if (card.titleTexture && card.titleTexture.isReady) {
+			textureSystem.updateGlTexture(card.titleTexture);
 		}
 	},
 
@@ -94,9 +93,8 @@ export const CardPipe = {
 	 */
 	uniform(card, gl, textureSystem, glProgram) {
 		glProgram.uniform(gl, uBgColorName, card.bgColor);
-		glProgram.uniform(gl, uTextColorName, card.textColor);
-		if (card.textTexture && card.textTexture.isReady) {
-			glProgram.uniform(gl, uImageName, textureSystem.getGlTexture(card.textTexture.key));
+		if (card.titleTexture && card.titleTexture.isReady) {
+			glProgram.uniform(gl, uImageName, textureSystem.getGlTexture(card.titleTexture.key));
 		}
 	},
 

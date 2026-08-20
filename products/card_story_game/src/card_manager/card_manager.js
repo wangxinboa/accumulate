@@ -1,5 +1,4 @@
 import { BaseCleanUp } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
-import { defaultGameConfig } from "../../assets/game_config.js";
 import { Card } from "./card/card.js";
 import { CardPosition } from "./card_position.js";
 
@@ -28,12 +27,9 @@ export class CardManager extends BaseCleanUp {
 
 	/**
 	 * 根据游戏配置初始化面板参数
-	 * @param {CardStoryGameType.GameConfigData} configData - 游戏配置数据（来自 game_config.json）
+	 * @param {CardStoryGameType.GameConfigData['uiConfig']['card']} cardUiConfig - 游戏配置数据（来自 game_config.json）
 	 */
-	initConfig(configData) {
-		// 从配置读取参数
-		const cardUiConfig = configData.uiConfig?.card ?? defaultGameConfig.uiConfig.card;
-
+	initConfig(cardUiConfig) {
 		this.positionManager.initConfig(cardUiConfig);
 
 		this.cardZIndex = cardUiConfig.cardZIndex;

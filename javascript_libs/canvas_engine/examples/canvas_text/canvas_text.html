@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Canvas TextMetrics 可视化演示</title>
+		<style>
+			/* ========== 页面基础样式 ========== */
+			html,
+			body,
+			canvas {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			canvas {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="metricsCanvas"></canvas>
+
+		<script type="module">
+			import {
+				tempTextRect,
+				setTempTextRect,
+				tempLinesTempTextRect,
+				setLinesTempTextRect,
+			} from "../../src/textures/text_texture_utils.js";
+
+			const canvas = document.getElementById("metricsCanvas");
+
+			canvas.width = window.innerWidth * window.devicePixelRatio;
+			canvas.height = window.innerHeight * window.devicePixelRatio;
+
+			canvas.style.width = `${window.innerWidth}px`;
+			canvas.style.height = `${window.innerHeight}px`;
+
+			const ctx = canvas.getContext("2d");
+
+			if (ctx) {
+				const x = 10,
+					y = 10;
+
+				ctx.textBaseline = "top";
+				ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+				const textTexture = {
+					text: "育幼院",
+					// text: "啊啊啊1111111111111111",
+					text: "测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111\n测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111\n测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111",
+					font: "normal normal normal 12px Microsoft YaHei",
+					useFontBoundingBox: false,
+					maxWidth: 284,
+
+					lineGap: 1,
+				};
+				ctx.font = textTexture.font;
+
+				let width = 0,
+					height = 0,
+					offsetY = 0;
+
+				if (textTexture.maxWidth > 0) {
+					setLinesTempTextRect(textTexture, ctx, textTexture.text);
+
+					width = tempLinesTempTextRect.width;
+					height = tempLinesTempTextRect.height;
+				} else {
+					setTempTextRect(textTexture, ctx, textTexture.text);
+
+					width = tempTextRect.width;
+					height = tempTextRect.height;
+					offsetY = tempTextRect.offsetY;
+				}
+
+				ctx.fillStyle = "#ff0000";
+				ctx.fillRect(x, y, width, height);
+
+				ctx.fillStyle = "#000000";
+				if (textTexture.maxWidth > 0) {
+					for (let i = 0, len = tempLinesTempTextRect.lines.length; i < len; i++) {
+						ctx.fillText(tempLinesTempTextRect.lines[i], x, tempLinesTempTextRect.linesoOffsetY[i] + y);
+					}
+				} else {
+					ctx.fillText(textTexture.text, x, offsetY + y);
+				}
+			}
+		</script>
+	</body>
+</html>

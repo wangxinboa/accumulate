@@ -125,11 +125,11 @@ export class WebGL2DRenderer extends BaseRenderer {
 			this.stateSystem.setState(renderNode);
 			const glProgram = this.programSystem.useProgram(renderNode);
 
-			this.bufferSystem.bindBuffers(renderNode, glProgram);
-
 			if (renderNode.pipe.updateTextures) {
 				renderNode.pipe.updateTextures(renderNode, this.textureSystem);
 			}
+
+			this.bufferSystem.bindBuffers(renderNode, glProgram);
 
 			glProgram.uniform(this.gl, uCameraProjectionName, camera.projectionMatrix);
 			if (renderNode.applyCameraTransform) {

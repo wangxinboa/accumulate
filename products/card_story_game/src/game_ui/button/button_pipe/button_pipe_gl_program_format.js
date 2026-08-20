@@ -6,7 +6,6 @@ import {
 } from "../../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 
 export const uBgColorName = "u_bgColor";
-export const uTextColorName = "u_textColor";
 export const uImageName = "u_image";
 
 export const aPositionName = "a_position";
@@ -35,13 +34,11 @@ const fragmentSource =
 	"varying float v_isBg;" +
 	"uniform sampler2D u_image;" +
 	"uniform vec4 u_bgColor;" +
-	"uniform vec4 u_textColor;" +
 	"void main() {" +
 	"if (v_isBg > 0.5) {" +
 	"    gl_FragColor = u_bgColor;" +
 	"} else {" +
-	"    vec4 texColor = texture2D(u_image, v_texCoord);" +
-	"    gl_FragColor = vec4(u_textColor.rgb, texColor.a * u_textColor.a);" +
+	"    gl_FragColor = texture2D(u_image, v_texCoord);" +
 	"}" +
 	"}";
 
@@ -52,7 +49,6 @@ export const uniformLocationsFormat = [
 	{ type: GlDataTypeEnum.mat3, name: uCameraViewName },
 	{ type: GlDataTypeEnum.mat3, name: uRenderNodeModelName },
 	{ type: GlDataTypeEnum.color, name: uBgColorName },
-	{ type: GlDataTypeEnum.color, name: uTextColorName },
 ];
 
 /** @type {CanvasEngineType.GlAttribLocationsFormat} */

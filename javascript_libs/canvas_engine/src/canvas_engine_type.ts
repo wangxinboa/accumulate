@@ -225,7 +225,7 @@ declare global {
 		type Polygon = PolygonClass;
 		type Rectangle = RectangleClass;
 		type Sprite2D = Sprite2DClass;
-		type Sprite2DTexture = ImageTexture | TextTexture;
+		type Sprite2DTexture = ImageTexture | TextTexture | BaseTexture;
 		type AllRenderNode = Sprite2D;
 		/**
 		 * 渲染管道对象接口，为渲染节点提供 WebGL 渲染相关的方法。
@@ -314,6 +314,11 @@ declare global {
 			fontSize?: number;
 			fontWeight?: string;
 			fontFamily?: string;
+			useFontBoundingBox?: boolean;
+			fontColor?: string;
+			/** line */
+			maxWidth?: number;
+			lineGap?: number;
 		};
 	}
 }

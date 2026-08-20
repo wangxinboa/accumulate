@@ -1,7 +1,9 @@
-import { Render2DNode } from "../../../../../javascript_libs/canvas_engine/src/render_nodes/2d/render_2d_node.js";
-import { Color } from "../../../../../javascript_libs/canvas_engine/src/math/color.js";
-import { RectangleDef } from "../../../../../javascript_libs/canvas_engine/src/math/geometry_2d_defs/rectangle_def.js";
-import { TextTexture } from "../../../../../javascript_libs/canvas_engine/src/textures/text_texture.js";
+import {
+	Render2DNode,
+	RectangleDef,
+	Color,
+	TextTexture,
+} from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { CardPipe } from "./card_pipe/card_pipe.js";
 
 export class Card extends Render2DNode {
@@ -11,10 +13,8 @@ export class Card extends Render2DNode {
 	text = "";
 	/** @type {Color} 背景色 */
 	bgColor;
-	/** @type {Color} 文字颜色 */
-	textColor;
 	/** @type {TextTexture} 文字纹理 */
-	textTexture;
+	titleTexture;
 	/** @type {number} 网格 X 坐标 */
 	gridX = 0;
 	/** @type {number} 网格 Y 坐标 */
@@ -49,10 +49,7 @@ export class Card extends Render2DNode {
 
 		// 从配置创建颜色对象
 		const bgColorObj = cardUiConfig.bgColor;
-		this.bgColor = new Color(bgColorObj.r, bgColorObj.g, bgColorObj.b, bgColorObj.a);
-
-		const textColorObj = cardUiConfig.textColor;
-		this.textColor = new Color(textColorObj.r, textColorObj.g, textColorObj.b, textColorObj.a);
+		this.bgColor = Color.createFromJson(bgColorObj);
 
 		this.width = cardUiConfig.width;
 		this.height = cardUiConfig.height;
@@ -60,11 +57,7 @@ export class Card extends Render2DNode {
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
 
 		// 文字纹理
-		this.textTexture = new TextTexture(this.text, {
-			fontSize: cardUiConfig.fontSize,
-			fontFamily: cardUiConfig.fontFamily,
-			fontWeight: "normal",
-		});
+		this.titleTexture = new TextTexture(this.text, cardUiConfig.titleTextureOption);
 
 		this.dragUpdatePosition = true;
 		this.centerSelf();
@@ -115,11 +108,10 @@ export class Card extends Render2DNode {
 	}
 
 	destroy() {
-		if (this.textTexture) {
-			this.textTexture.destroy();
+		if (this.titleTexture) {
+			this.titleTexture.destroy();
 		}
 		this.bgColor.destroy();
-		this.textColor.destroy();
 		super.destroy();
 	}
 }

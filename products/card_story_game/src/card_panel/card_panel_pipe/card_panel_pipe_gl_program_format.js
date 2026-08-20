@@ -6,7 +6,6 @@ import {
 } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 
 export const uBgColorName = "u_bgColor";
-export const uTextColorName = "u_textColor";
 export const uTitleImageName = "u_titleImage";
 export const uDescImageName = "u_descImage";
 export const uUvTransformName = "u_uvTransform";
@@ -48,7 +47,6 @@ const fragmentSource =
 	"uniform sampler2D u_titleImage;" +
 	"uniform sampler2D u_descImage;" +
 	"uniform vec4 u_bgColor;" +
-	"uniform vec4 u_textColor;" +
 	"void main() {" +
 	"if (v_isBg > 0.5) {" +
 	"    gl_FragColor = u_bgColor;" +
@@ -59,7 +57,7 @@ const fragmentSource =
 	"    } else {" +
 	"        texColor = texture2D(u_titleImage, v_texCoord);" +
 	"    }" +
-	"    gl_FragColor = vec4(u_textColor.rgb, texColor.a * u_textColor.a);" +
+	"    gl_FragColor = texColor;" +
 	"}" +
 	"}";
 
@@ -72,7 +70,6 @@ export const uniformLocationsFormat = [
 	{ type: GlDataTypeEnum.mat3, name: uRenderNodeModelName },
 	{ type: GlDataTypeEnum.mat3, name: uUvTransformName },
 	{ type: GlDataTypeEnum.color, name: uBgColorName },
-	{ type: GlDataTypeEnum.color, name: uTextColorName },
 ];
 
 /** @type {CanvasEngineType.GlAttribLocationsFormat} */

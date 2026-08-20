@@ -6,6 +6,7 @@ import { GameDataExporter } from "./game_data/game_data_exporter.js";
 import { GameConfig } from "./game_data/game_config.js";
 import { downloadFile } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { CardPanel } from "./card_panel/card_panel.js";
+import { ButtonPool } from "./game_ui/button/button_pool.js";
 
 export class CardStoryGame extends BaseCleanUp {
 	constructor() {
@@ -24,6 +25,7 @@ export class CardStoryGame extends BaseCleanUp {
 
 		this.cardManager = new CardManager(this);
 
+		this.buttonPool = new ButtonPool();
 		this.panel = new CardPanel(this);
 		this.engine.scene.add(this.panel);
 
@@ -79,10 +81,10 @@ export class CardStoryGame extends BaseCleanUp {
 		const bg = configData.uiConfig.engineBackgroundColor;
 		this.engine.renderer.backgroundSystem.color.setValue(bg.r, bg.g, bg.b, bg.a);
 
-		this.panel.initConfig(configData);
-		this.panel.updateSizeAndPosition(this.engine.camera.width, this.engine.camera.height);
+		this.cardManager.initConfig(this.gameConfig.uiConfig.card);
 
-		this.cardManager.initConfig(configData);
+		this.panel.updateConfig(this.gameConfig.uiConfig.panel);
+		this.panel.updateSizeAndPosition(this.engine.camera.width, this.engine.camera.height);
 
 		console.info("配置加载完成");
 	}
@@ -94,7 +96,7 @@ export class CardStoryGame extends BaseCleanUp {
 		const cardsData = gameData.saveData?.cards || [];
 		for (let i = 0, len = cardsData.length; i < len; i++) {
 			const saveData = cardsData[i];
-			const templateId = saveData.templateId || 0;
+			const templateId = saveData.templateId;
 			this.cardManager.createCard(templateId, saveData);
 		}
 		console.info("存档加载完成，共 " + cardsData.length + " 张卡牌");
@@ -104,10 +106,10 @@ export class CardStoryGame extends BaseCleanUp {
 		this.gameConfig.destroy();
 		this.engine.destroy();
 		this.cardManager.destroy();
+		this.buttonPool.destroy();
+		this.panel.destroy();
 		this.loader.destroy();
-		if (this.panel) {
-			this.panel.destroy();
-		}
+		this.exporter.destroy();
 		super.destroy();
 	}
 }

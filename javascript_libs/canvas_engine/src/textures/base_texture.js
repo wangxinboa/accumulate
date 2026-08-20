@@ -4,20 +4,12 @@ import { GlTextureParamTypeEnum } from "../renderers/webgl_renderer/webgl_textur
 export class BaseTexture extends BaseCleanUp {
 	/** @type {string} */
 	_key = "";
-	/** @type {boolean} */
-	isBaseTexture;
-	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	_wrapS;
-	/** @type {keyof typeof GlTextureParamTypeEnum} */
-	_wrapT;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
 	_minFilter;
 	/** @type {keyof typeof GlTextureParamTypeEnum} */
 	_magFilter;
 	/** @type {boolean} */
 	_unpackFlipY;
-	/** @type {CanvasEngineType.BaseTextureImage2D} */
-	_image2D = DefaultVariable.ImageData;
 	/** @type {CanvasEngineType.TextureRectChangeCallbacks} */
 	textureRectChangeCallbacks;
 	constructor() {
@@ -25,13 +17,21 @@ export class BaseTexture extends BaseCleanUp {
 
 		this.isBaseTexture = true;
 
+		/** @type {keyof typeof GlTextureParamTypeEnum} */
 		this._wrapS = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
+		/** @type {keyof typeof GlTextureParamTypeEnum} */
 		this._wrapT = GlTextureParamTypeEnum.CLAMP_TO_EDGE;
 
 		this._minFilter = GlTextureParamTypeEnum.LINEAR;
 		this._magFilter = GlTextureParamTypeEnum.LINEAR;
 
 		this._unpackFlipY = false;
+
+		/** @type {CanvasEngineType.BaseTextureImage2D} */
+		this._image2D = DefaultVariable.ImageData;
+
+		this.width = 1;
+		this.height = 1;
 
 		this.needTexImage2D = true;
 		this.textureRectChangeCallbacks = [];
@@ -92,12 +92,12 @@ export class BaseTexture extends BaseCleanUp {
 	 */
 	isNotSameTexParameter(texture) {
 		return (
+			this.image2D !== texture.image2D ||
 			this.wrapS !== texture.wrapS ||
 			this.wrapT !== texture.wrapT ||
 			this.minFilter !== texture.minFilter ||
 			this.magFilter !== texture.magFilter ||
-			this.unpackFlipY !== texture.unpackFlipY ||
-			this.image2D !== texture.image2D
+			this.unpackFlipY !== texture.unpackFlipY
 		);
 	}
 	/**
@@ -128,3 +128,5 @@ export class BaseTexture extends BaseCleanUp {
 		return this;
 	}
 }
+
+export const emptyTexture = new BaseTexture();

@@ -114,7 +114,7 @@ export class PolygonDef extends Geometry2DDef {
 		this.points = points;
 		if (points.length < 6) {
 			// 至少3个点，每个点2个坐标
-			this.triangles = [];
+			this.triangles.length = 0;
 			return;
 		}
 		this.triangles = earcutTriangulate(points);

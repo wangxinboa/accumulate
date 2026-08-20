@@ -11,7 +11,6 @@ import {
 	aIsBgName,
 	buttonGlProgramFormat,
 	uBgColorName,
-	uTextColorName,
 	uImageName,
 } from "./button_pipe_gl_program_format.js";
 import { generateButtonVertexData } from "./generate_button_vertex_data.js";
@@ -94,7 +93,6 @@ export const ButtonPipe = {
 	 */
 	uniform(button, gl, textureSystem, glProgram) {
 		glProgram.uniform(gl, uBgColorName, button.bgColor);
-		glProgram.uniform(gl, uTextColorName, button.textColor);
 		if (button.textTexture && button.textTexture.isReady) {
 			glProgram.uniform(gl, uImageName, textureSystem.getGlTexture(button.textTexture.key));
 		}

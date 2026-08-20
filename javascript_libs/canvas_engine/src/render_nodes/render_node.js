@@ -210,13 +210,9 @@ export class RenderNode extends BaseCleanUp {
 			this.children.push(renderNode);
 
 			this.worldMatrixNeedUpdate = true;
-
-			this.afterAddChild();
 		}
 		return this;
 	}
-
-	afterAddChild() {}
 
 	/**
 	 * @param {RenderNode} renderNode
@@ -226,13 +222,21 @@ export class RenderNode extends BaseCleanUp {
 		if (index !== -1) {
 			renderNode.parent = null;
 			this.children.splice(index, 1);
-
-			this.afterRemoveChild();
 		}
 		return this;
 	}
 
-	afterRemoveChild() {}
+	/**
+	 * 移除所有子节点。
+	 * @returns {this}
+	 */
+	removeAllChildren() {
+		for (let i = this.children.length - 1; i >= 0; i--) {
+			this.children[i].parent = null;
+		}
+		this.children.length = 0;
+		return this;
+	}
 
 	sortChildren() {
 		this.children.sort(sortChildren);

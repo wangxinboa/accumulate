@@ -128,24 +128,35 @@ export class Render2DNode extends RenderEventNode {
 				.multiply(matrix3.makeRotation(this.rotation))
 				.multiply(matrix3.makeScale(this.scaleX === 0 ? 0 : this.scaleX, this.scaleY === 0 ? 0 : this.scaleY));
 
-			this.updateMatrixWorld();
+			this._updateMatrixWorld();
 
 			this.matrixNeedUpdate = false;
 			this.worldMatrixNeedUpdate = false;
 		} else if (this.worldMatrixNeedUpdate) {
-			this.updateMatrixWorld();
+			this._updateMatrixWorld();
 
 			this.worldMatrixNeedUpdate = false;
 		}
 	}
 
-	updateMatrixWorld() {
+	/** @private */
+	_updateMatrixWorld() {
 		if (this.parent && this.parent.matrixWorld) {
 			this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
 		} else {
 			this.matrixWorld.copy(this.matrix);
 		}
 		this.matrixWorldInvert.copy(this.matrixWorld).invert();
+	}
+
+	/**
+	 * @param {Render2DNode} renderNode2D
+	 */
+	add(renderNode2D) {
+		super.add(renderNode2D);
+
+		renderNode2D.worldMatrixNeedUpdate = true;
+		return this;
 	}
 
 	// matrix 相关属性
@@ -239,5 +250,12 @@ export class Render2DNode extends RenderEventNode {
 	}
 	set height(val) {
 		this._height = val;
+	}
+
+	destroy() {
+		if (this.geometry) {
+			this.geometry.destroy();
+		}
+		super.destroy();
 	}
 }

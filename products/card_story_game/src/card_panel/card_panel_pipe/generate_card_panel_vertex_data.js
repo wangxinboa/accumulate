@@ -33,34 +33,15 @@ function _setVertex(array, index, x, y, u, v, isBg, texIndex) {
  * @returns {Float32Array}
  */
 export function generateCardPanelVertexData(panel) {
-	const panelWidth = panel.width;
-	const panelHeight = panel.height;
-
-	// ---- 标题纹理宽高 ----
-	let titleTexWidth = 1,
-		titleTexHeight = 1;
-	if (panel.titleTexture && panel.titleTexture.isReady) {
-		titleTexWidth = panel.titleTexture.width;
-		titleTexHeight = panel.titleTexture.height;
-	}
-	const titleAspect = titleTexWidth / titleTexHeight;
-	const titleHeight = panel.titleHeight;
-	const titleWidth = titleHeight * titleAspect;
-	const titleX = panel.titleX;
-	const titleYOffset = panel.titleY; // 从顶部向下的偏移
-
-	// ---- 描述矩形：使用 CardPanel 计算好的可见尺寸 ----
-	const descRect = panel.descRect;
-	const dX = descRect.x;
-	const dYOffset = descRect.y; // 从顶部向下的偏移
-	const dW = panel.descVisibleWidth;
-	const dH = panel.descVisibleHeight;
-
-	// 计算 Y 坐标（在 Y 向上的坐标系中，顶部为 panelHeight）
-	const titleY = panelHeight - titleYOffset - titleHeight;
-	const descY = panelHeight - dYOffset - dH;
+	const panelUiConfig = panel.game.gameConfig.uiConfig.panel;
+	const panelTitleUiConfig = panelUiConfig.panelTitle;
+	const panelDescUiConfig = panelUiConfig.panelDesc;
+	const panelDescUi = panel.descUi;
 
 	const floatArray = new Float32Array(18 * 6); // 18 顶点 * 6 分量
+
+	const panelWidth = panel.width;
+	const panelHeight = panel.height;
 
 	// ---- 背景矩形（6 个顶点） ----
 	_setVertex(floatArray, 0, 0, 0, 0, 0, 1, 0);
@@ -70,6 +51,20 @@ export function generateCardPanelVertexData(panel) {
 	_setVertex(floatArray, 4, panelWidth, 0, 0, 0, 1, 0);
 	_setVertex(floatArray, 5, panelWidth, panelHeight, 0, 0, 1, 0);
 
+	// ---- 标题纹理宽高 ----
+	let titleTexWidth = 1,
+		titleTexHeight = 1;
+	if (panel.titleTexture && panel.titleTexture.isReady) {
+		titleTexWidth = panel.titleTexture.width;
+		titleTexHeight = panel.titleTexture.height;
+	}
+
+	const titleAspect = titleTexWidth / titleTexHeight;
+	const titleHeight = panelTitleUiConfig.height;
+	const titleWidth = titleHeight * titleAspect;
+	const titleX = panelTitleUiConfig.x;
+	const titleY = panelHeight - titleHeight - panelTitleUiConfig.y; // 从顶部向下的偏移
+
 	// ---- 标题矩形（6 个顶点） ----
 	_setVertex(floatArray, 6, titleX, titleY, 0, 1, 0, 0);
 	_setVertex(floatArray, 7, titleX + titleWidth, titleY, 1, 1, 0, 0);
@@ -78,14 +73,20 @@ export function generateCardPanelVertexData(panel) {
 	_setVertex(floatArray, 10, titleX + titleWidth, titleY, 1, 1, 0, 0);
 	_setVertex(floatArray, 11, titleX + titleWidth, titleY + titleHeight, 1, 0, 0, 0);
 
+	// ---- 描述矩形：使用 CardPanel 计算好的可见尺寸 ----
+	const dX = panelDescUiConfig.x;
+	const dY = panelHeight - panel.descUi.bottomY;
+	const dW = panelDescUi.descriptionTexture.width;
+	const dH = panel.descUi.actualDescHeight;
+
 	// ---- 描述矩形（6 个顶点） ----
 	// 纹理坐标始终为 0-1，滚动由着色器中的 UV 变换矩阵处理
-	_setVertex(floatArray, 12, dX, descY, 0, 1, 0, 1);
-	_setVertex(floatArray, 13, dX + dW, descY, 1, 1, 0, 1);
-	_setVertex(floatArray, 14, dX, descY + dH, 0, 0, 0, 1);
-	_setVertex(floatArray, 15, dX, descY + dH, 0, 0, 0, 1);
-	_setVertex(floatArray, 16, dX + dW, descY, 1, 1, 0, 1);
-	_setVertex(floatArray, 17, dX + dW, descY + dH, 1, 0, 0, 1);
+	_setVertex(floatArray, 12, dX, dY, 0, 1, 0, 1);
+	_setVertex(floatArray, 13, dX + dW, dY, 1, 1, 0, 1);
+	_setVertex(floatArray, 14, dX, dY + dH, 0, 0, 0, 1);
+	_setVertex(floatArray, 15, dX, dY + dH, 0, 0, 0, 1);
+	_setVertex(floatArray, 16, dX + dW, dY, 1, 1, 0, 1);
+	_setVertex(floatArray, 17, dX + dW, dY + dH, 1, 0, 0, 1);
 
 	return floatArray;
 }

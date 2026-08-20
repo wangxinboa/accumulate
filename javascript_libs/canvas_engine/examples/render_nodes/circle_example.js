@@ -11,7 +11,7 @@ engine.scene.add(info);
 
 // 添加一个背景文字说明
 const desc = Sprite2D.createFromText("Point 示例");
-desc.y = info.height - 200;
+desc.y = desc.height + info.y;
 engine.scene.add(desc);
 
 // 创建一个点，半径30，红色，半透明
