@@ -15,6 +15,7 @@ export class CardPanel extends Render2DNode {
 	constructor(cardStoryGame) {
 		super();
 
+		this.mountedCard = null;
 		this.game = cardStoryGame;
 
 		this.bgColor = new Color();
@@ -82,6 +83,7 @@ export class CardPanel extends Render2DNode {
 			return this;
 		}
 
+		this.mountedCard = card;
 		this.titleTexture.text = card.text;
 
 		const template = this.game.gameConfig.getCardTemplate(card.templateId);
@@ -117,6 +119,7 @@ export class CardPanel extends Render2DNode {
 	hide(_scene2d, _x, _y, _sx, _sy, hasMovedAfterDown) {
 		if (!hasMovedAfterDown) {
 			this.visible = false;
+			this.mountedCard = null;
 		}
 		return this;
 	}

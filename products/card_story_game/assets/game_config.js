@@ -93,6 +93,25 @@ export const defaultGameConfig = Object.freeze({
 					},
 				},
 			},
+
+			slotArea: {
+				x: 8, // 左偏移
+				y: 120, // 从面板顶部向下的偏移（位于描述下方）
+				slot: {
+					width: 60,
+					height: 90,
+					gapX: 8,
+					gapY: 8,
+					titleTextureOption: {
+						fontSize: 12,
+						fontFamily: "Microsoft YaHei",
+						fontWeight: "normal",
+						fontColor: "#ffffff",
+						useFontBoundingBox: true,
+					},
+					bgColor: { r: 0.1, g: 0.1, b: 0.1, a: 0.5 },
+				},
+			},
 		},
 	},
 	cardTemplates: [

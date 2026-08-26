@@ -88,6 +88,25 @@
 						"useFontBoundingBox": false
 					}
 				}
+			},
+
+			"slotArea": {
+				"x": 8,
+				"y": 120,
+				"slot": {
+					"width": 60,
+					"height": 90,
+					"gapX": 8,
+					"gapY": 8,
+					"titleTextureOption": {
+						"fontSize": 12,
+						"fontFamily": "Microsoft YaHei",
+						"fontWeight": "normal",
+						"fontColor": "#ffffff",
+						"useFontBoundingBox": true
+					},
+					"bgColor": { "r": 0.1, "g": 0.1, "b": 0.1, "a": 0.5 }
+				}
 			}
 		}
 	},
@@ -194,7 +213,18 @@
 		{
 			"actionId": "0",
 			"label": "检 测",
-			"effect": "0"
+			"effect": "0",
+			"slots": [
+				{
+					"label": "测试"
+				},
+				{
+					"label": "测试1"
+				},
+				{
+					"label": "测试2"
+				}
+			]
 		},
 		{
 			"actionId": "1",
