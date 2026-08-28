@@ -1,10 +1,9 @@
-import { BaseCleanUp } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
+import { BaseCleanUp, downloadFile } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { Canvas2DEngine } from "../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { CardManager } from "./card_manager/card_manager.js";
 import { GameDataLoader } from "./game_data/game_data_loader.js";
 import { GameDataExporter } from "./game_data/game_data_exporter.js";
 import { GameConfig } from "./game_data/game_config.js";
-import { downloadFile } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { CardPanel } from "./card_panel/card_panel.js";
 import { ButtonPool } from "./game_ui/button/button_pool.js";
 

@@ -94,14 +94,16 @@ export const defaultGameConfig = Object.freeze({
 				},
 			},
 
-			slotArea: {
-				x: 8, // 左偏移
-				y: 120, // 从面板顶部向下的偏移（位于描述下方）
-				slot: {
+			panelSlotArea: {
+				marginTop: 12,
+				x: 8,
+				gapX: 8,
+				gapY: 8,
+				width: 284,
+
+				slotOption: {
 					width: 60,
 					height: 90,
-					gapX: 8,
-					gapY: 8,
 					titleTextureOption: {
 						fontSize: 12,
 						fontFamily: "Microsoft YaHei",
@@ -219,11 +221,45 @@ export const defaultGameConfig = Object.freeze({
 			actionId: "0",
 			label: "检 测",
 			effect: "0",
+			slots: [
+				{
+					label: "测试",
+				},
+				{
+					label: "测试1",
+				},
+				{
+					label: "测试2",
+				},
+				{
+					label: "测试3",
+				},
+				{
+					label: "测试4",
+				},
+			],
 		},
 		{
 			actionId: "1",
 			label: "测 试",
 			effect: "0",
+			slots: [
+				{
+					label: "测试",
+				},
+				{
+					label: "测试1",
+				},
+				{
+					label: "测试2",
+				},
+				{
+					label: "测试3",
+				},
+				{
+					label: "测试4",
+				},
+			],
 		},
 		{
 			actionId: "2",

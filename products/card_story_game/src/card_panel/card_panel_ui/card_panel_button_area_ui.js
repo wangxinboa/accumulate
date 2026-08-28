@@ -15,13 +15,12 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 		super();
 
 		this.game = game;
-		/** @type {CardStoryGameType.UIConfig['panel']['panelButtonArea']} 布局配置 */
-		this.config = defaultGameConfig.uiConfig.panel.panelButtonArea;
+		/** @type {CardStoryGameType.GameConfigData['uiConfig']['panel']['panelButtonArea']} */
+		this.panelButtonAreaUiConfig = defaultGameConfig.uiConfig.panel.panelButtonArea;
 		this.applyCameraTransform = false;
 
 		this.topY = 0;
-		/** @type {CardStoryGameType.GameConfigData['uiConfig']['panel']['panelButtonArea']} */
-		this.panelButtonAreaUiConfig = defaultGameConfig.uiConfig.panel.panelButtonArea;
+		this.bottomY = 0;
 	}
 
 	/**
@@ -37,16 +36,16 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 
 	/**
 	 * 更新按钮列表：清空旧按钮，根据动作列表生成新按钮并布局
-	 * @param {Array<CardStoryGameType.CardTemplateAction>} actions - 卡牌动作列表
+	 * @param {Array<CardStoryGameType.CardTemplateAction>} actionsData - 卡牌动作列表
 	 * @param {Function} onClickCallback
 	 */
-	updateButtons(actions, onClickCallback) {
-		if (!Array.isArray(actions)) {
+	updateButtons(actionsData, onClickCallback) {
+		if (!Array.isArray(actionsData)) {
 			return;
 		}
 
 		const childrenLen = this.children.length;
-		const actionsLen = actions.length;
+		const actionsLen = actionsData.length;
 
 		if (childrenLen < actionsLen) {
 			for (let i = 0, len = actionsLen - childrenLen; i < len; i++) {
@@ -58,16 +57,16 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 			}
 		}
 
-		if (actions.length === 0) {
+		if (actionsData.length === 0) {
 			return;
 		}
 
 		const panelHeight = this.game.panel.height;
-		let nowButtonY = panelHeight - this.topY - this.panelButtonAreaUiConfig.marginTop,
-			nowButtonX = this.panelButtonAreaUiConfig.x;
+		let currentButtonY = panelHeight - this.topY - this.panelButtonAreaUiConfig.marginTop,
+			currentButtonX = this.panelButtonAreaUiConfig.x;
 
 		for (let i = 0, len = actionsLen; i < len; i++) {
-			const action = this.game.gameConfig.getCardAction(actions[i]);
+			const action = this.game.gameConfig.getCardAction(actionsData[i]);
 			const button = this.children[i];
 
 			button.updateConfig(this.panelButtonAreaUiConfig.buttonOption, action.label);
@@ -76,14 +75,24 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 			button.actionId = action.actionId;
 			button.setClickCallback(onClickCallback);
 
-			if (nowButtonX + button.width > this.panelButtonAreaUiConfig.width) {
-				nowButtonX = this.panelButtonAreaUiConfig.x;
-				nowButtonY -= button.height + this.panelButtonAreaUiConfig.gapY;
+			if (currentButtonX + button.width > this.panelButtonAreaUiConfig.width) {
+				currentButtonX = this.panelButtonAreaUiConfig.x;
+				currentButtonY -= button.height + this.panelButtonAreaUiConfig.gapY;
 			}
-			button.y = nowButtonY;
-			button.x = nowButtonX;
+			button.y = currentButtonY;
+			button.x = currentButtonX;
 
-			nowButtonX += this.panelButtonAreaUiConfig.gapX + button.width;
+			currentButtonX += this.panelButtonAreaUiConfig.gapX + button.width;
 		}
+
+		this.bottomY = panelHeight - currentButtonY + this.children[0].height;
+	}
+
+	/**
+	 * @param {number} topY
+	 */
+	startSetTopY(topY) {
+		this.topY = topY;
+		this.bottomY = topY;
 	}
 }

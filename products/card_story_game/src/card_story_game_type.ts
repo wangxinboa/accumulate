@@ -1,6 +1,7 @@
 import { CardStoryGame as CardStoryGameClass } from "./card_story_game.js";
 import { Card as CardClass } from "./card_manager/card/card.js";
 import { CardPanel as CardPanelClass } from "./card_panel/card_panel.js";
+import { CardPanelSlot as CardPanelSlotClass } from "./card_panel/card_panel_ui/card_panel_slot_ui/card_panel_slot.js";
 import { Button as ButtonClass } from "./game_ui/button/button.js";
 import { ButtonPool as ButtonPoolClass } from "./game_ui/button/button_pool.js";
 import { defaultGameConfig } from "../assets/game_config.js";
@@ -10,6 +11,7 @@ declare global {
 		type CardStoryGame = CardStoryGameClass;
 		type Card = CardClass;
 		type CardPanel = CardPanelClass;
+		type CardPanelSlot = CardPanelSlotClass;
 
 		type Button = ButtonClass;
 		type ButtonPool = ButtonPoolClass;
@@ -21,6 +23,8 @@ declare global {
 		};
 
 		type UIConfig = (typeof defaultGameConfig)["uiConfig"];
+		type ActionConfig = (typeof defaultGameConfig)["actions"][number];
+
 		/** 游戏配置数据（game_config.json 结构） */
 		interface GameConfigData {
 			cardTemplates?: CardTemplate[];
@@ -55,11 +59,6 @@ declare global {
 			name: string;
 			description: string;
 			actions?: Array<CardTemplateAction>;
-		}
-
-		interface ActionConfig {
-			actionId: string;
-			label: string;
 		}
 
 		interface EventConfig {

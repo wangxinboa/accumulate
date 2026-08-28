@@ -7,6 +7,7 @@ import {
 import { CardPanelPipe } from "./card_panel_pipe/card_panel_pipe.js";
 import { CardPanelDescUi } from "./card_panel_ui/card_panel_desc_ui.js";
 import { CardPanelButtonAreaUi } from "./card_panel_ui/card_panel_button_area_ui.js";
+import { CardPanelSlotAreaUi } from "./card_panel_ui/card_panel_slot_ui.js";
 
 export class CardPanel extends Render2DNode {
 	/**
@@ -24,6 +25,7 @@ export class CardPanel extends Render2DNode {
 
 		this.descUi = new CardPanelDescUi();
 		this.buttonAreaUi = new CardPanelButtonAreaUi(cardStoryGame);
+		this.slotAreaUi = new CardPanelSlotAreaUi(cardStoryGame);
 
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
 		this.applyCameraTransform = false;
@@ -43,6 +45,7 @@ export class CardPanel extends Render2DNode {
 
 		this._onButtonClick = this._onButtonClick.bind(this);
 		this.add(this.buttonAreaUi);
+		this.add(this.slotAreaUi);
 	}
 
 	get pipe() {
@@ -63,6 +66,7 @@ export class CardPanel extends Render2DNode {
 
 		this.descUi.updateConfig(panelUiConfig.panelDesc);
 		this.buttonAreaUi.updateConfig(panelUiConfig.panelButtonArea);
+		this.slotAreaUi.updateConfig(panelUiConfig.panelSlotArea);
 
 		if (this.geometry) {
 			this.geometry.max.x = this.width;
@@ -90,21 +94,31 @@ export class CardPanel extends Render2DNode {
 		const desc = template ? template.description || "" : "";
 		this.descUi.updateDescription(desc);
 
-		this.buttonAreaUi.topY = this.descUi.bottomY;
+		// 更新按钮
+		this.buttonAreaUi.startSetTopY(this.descUi.bottomY);
 		const actions = template ? template.actions || [] : [];
 		this.buttonAreaUi.updateButtons(actions, this._onButtonClick);
+
+		this.slotAreaUi.startSetTopY(this.buttonAreaUi.bottomY);
+		// 清空所有卡槽（等待点击按钮后显示）
+		this.slotAreaUi.updateSlots([]);
 
 		this.visible = true;
 		return this;
 	}
 
 	/**
-	 * 按钮点击处理
+	 * 按钮点击处理：显示该按钮对应的动作卡槽
 	 * @param {CardStoryGameType.Button} button
 	 */
 	_onButtonClick(button) {
 		const action = this.game.gameConfig.getCardAction(button.actionId);
-		console.info(action);
+		if (action && action.slots) {
+			this.slotAreaUi.updateSlots(action.slots);
+		} else {
+			// 如果动作没有 slots，则清空卡槽
+			this.slotAreaUi.updateSlots([]);
+		}
 	}
 
 	/**
@@ -120,6 +134,8 @@ export class CardPanel extends Render2DNode {
 		if (!hasMovedAfterDown) {
 			this.visible = false;
 			this.mountedCard = null;
+			// 隐藏时清空卡槽
+			this.slotAreaUi.updateSlots([]);
 		}
 		return this;
 	}
@@ -186,6 +202,7 @@ export class CardPanel extends Render2DNode {
 		this.bgColor.destroy();
 		this.titleTexture.destroy();
 		this.buttonAreaUi.destroy();
+		this.slotAreaUi.destroy();
 		this.descUi.destroy();
 
 		super.destroy();

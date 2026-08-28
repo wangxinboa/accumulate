@@ -90,14 +90,16 @@
 				}
 			},
 
-			"slotArea": {
+			"panelSlotArea": {
+				"marginTop": 12,
 				"x": 8,
-				"y": 120,
-				"slot": {
+				"gapX": 8,
+				"gapY": 8,
+				"width": 284,
+
+				"slotOption": {
 					"width": 60,
 					"height": 90,
-					"gapX": 8,
-					"gapY": 8,
 					"titleTextureOption": {
 						"fontSize": 12,
 						"fontFamily": "Microsoft YaHei",
@@ -223,13 +225,36 @@
 				},
 				{
 					"label": "测试2"
+				},
+				{
+					"label": "测试3"
+				},
+				{
+					"label": "测试4"
 				}
 			]
 		},
 		{
 			"actionId": "1",
 			"label": "测 试",
-			"effect": "0"
+			"effect": "0",
+			"slots": [
+				{
+					"label": "测试"
+				},
+				{
+					"label": "测试1"
+				},
+				{
+					"label": "测试2"
+				},
+				{
+					"label": "测试3"
+				},
+				{
+					"label": "测试4"
+				}
+			]
 		},
 		{
 			"actionId": "2",
