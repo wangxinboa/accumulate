@@ -10,6 +10,7 @@ export { Circle } from "./render_nodes/2d/circle/circle.js";
 export { Polygon } from "./render_nodes/2d/polygon/polygon.js";
 export { Rectangle } from "./render_nodes/2d/rectangle/rectangle.js";
 export { Render2DNode } from "./render_nodes/2d/render_2d_node.js";
+export { RenderNodePool } from "./render_nodes/render_node_pool.js";
 export { Scene2D } from "./render_nodes/2d/scene2d.js";
 export { Sprite2D } from "./render_nodes/2d/sprite2d/sprite2d.js";
 export {

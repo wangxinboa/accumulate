@@ -1,11 +1,11 @@
 import { BaseCleanUp, downloadFile } from "../../../javascript_libs/javascript_utils/javascript_utils.js";
-import { Canvas2DEngine } from "../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { Canvas2DEngine, RenderNodePool } from "../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { CardManager } from "./card_manager/card_manager.js";
 import { GameDataLoader } from "./game_data/game_data_loader.js";
 import { GameDataExporter } from "./game_data/game_data_exporter.js";
 import { GameConfig } from "./game_data/game_config.js";
 import { CardPanel } from "./card_panel/card_panel.js";
-import { ButtonPool } from "./game_ui/button/button_pool.js";
+import { Button } from "./game_ui/button/button.js";
 
 export class CardStoryGame extends BaseCleanUp {
 	constructor() {
@@ -24,7 +24,7 @@ export class CardStoryGame extends BaseCleanUp {
 
 		this.cardManager = new CardManager(this);
 
-		this.buttonPool = new ButtonPool();
+		this.buttonPool = new RenderNodePool(Button);
 		this.panel = new CardPanel(this);
 		this.engine.scene.add(this.panel);
 

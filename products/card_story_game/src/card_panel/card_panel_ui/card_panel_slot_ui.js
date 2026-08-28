@@ -1,6 +1,6 @@
-import { Render2DNode } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { Render2DNode, RenderNodePool } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { defaultGameConfig } from "../../../assets/game_config.js";
-import { CardPanelSlotPool } from "./card_panel_slot_ui/card_panel_slot_pool.js";
+import { CardPanelSlot } from "./card_panel_slot_ui/card_panel_slot.js";
 
 /**
  * 管理 CardPanel 内所有槽位的布局与生命周期。
@@ -23,8 +23,8 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 		this.topY = 0;
 		this.bottomY = 0;
 
-		/** @private @type {CardPanelSlotPool} 槽位对象池（内部管理） */
-		this._slotPool = new CardPanelSlotPool();
+		/** @private  槽位对象池（内部管理） */
+		this._slotPool = new RenderNodePool(CardPanelSlot);
 	}
 
 	/**
