@@ -115,11 +115,7 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			card.updateView(this.game.engine.camera);
 
 			// 卡牌中心坐标
-			const cardCenterX = card.viewLeft + card.width / 2;
-			const cardCenterY = card.viewBottom + card.height / 2;
-
 			let closestDistSq = Infinity;
-
 			// 遍历所有卡槽
 			const slots = this.children;
 			for (let i = 0, len = slots.length; i < len; i++) {
@@ -145,8 +141,8 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 
 				if (overlap) {
 					// 计算卡牌中心到卡槽中心的平方距离（避免开平方，提高性能）
-					const dx = cardCenterX - slot.viewCenterX;
-					const dy = cardCenterY - slot.viewCenterY;
+					const dx = card.viewCenterX - slot.viewCenterX;
+					const dy = card.viewCenterY - slot.viewCenterY;
 					const distSq = dx * dx + dy * dy;
 
 					if (distSq < closestDistSq) {

@@ -68,15 +68,13 @@ export class CardManager extends BaseCleanUp {
 	 * @param {Card} card
 	 */
 	onCardDragEnd(card) {
-		this.game.panel.slotAreaUi.setCardOverlappingSlot(null);
-
 		const originalX = card.x;
 		const originalY = card.y;
 		const originalGridX = card.gridX;
 		const originalGridY = card.gridY;
 
 		const nearestGrid = this.positionManager._worldToGridNearest(card.x, card.y);
-		const nearestGridKey = this.positionManager._getGridPositionKey(nearestGrid.x, nearestGrid.y);
+		const nearestGridKey = this.positionManager.getGridPositionKey(nearestGrid.x, nearestGrid.y);
 
 		try {
 			if (this.positionManager._isGridOccupied(nearestGridKey)) {
@@ -87,7 +85,7 @@ export class CardManager extends BaseCleanUp {
 				const targetFreeGrid = this.positionManager._findNearestFreeGridBFS(nearestGrid.x, nearestGrid.y);
 				const targetWorldPos = this.positionManager._gridToWorld(targetFreeGrid.x, targetFreeGrid.y);
 
-				this.positionManager.updateCardPosition(
+				this.positionManager.updateCardGridPosition(
 					card,
 					targetWorldPos.x,
 					targetWorldPos.y,
@@ -97,10 +95,11 @@ export class CardManager extends BaseCleanUp {
 			}
 			card.changeZIndex(this.cardZIndex);
 		} catch (e) {
-			this.positionManager.updateCardPosition(card, originalX, originalY, originalGridX, originalGridY);
+			this.positionManager.updateCardGridPosition(card, originalX, originalY, originalGridX, originalGridY);
 		}
 
 		this.cardIsInPanel = false;
+		this.game.panel.slotAreaUi.setCardOverlappingSlot(null);
 	}
 
 	/**
@@ -115,27 +114,41 @@ export class CardManager extends BaseCleanUp {
 	createCard(templateId, saveData) {
 		const gridX = saveData.gridX || 0;
 		const gridY = saveData.gridY || 0;
-		const gridKey = this.positionManager._getGridPositionKey(gridX, gridY);
+		const gridKey = this.positionManager.getGridPositionKey(gridX, gridY);
 
 		if (this.positionManager._isGridOccupied(gridKey)) {
 			throw new Error("Grid (" + gridX + ", " + gridY + ") is already occupied.");
 		}
 
-		const pos = this.positionManager._gridToWorld(gridX, gridY);
-
 		// 创建卡牌实例，传入 game 和尺寸
-		const newCard = new Card(templateId, this.game);
-
-		newCard
+		const newCard = new Card(templateId, this.game)
 			.addClickEvent(this.onCardClick)
 			.addDragStartEvent(this.onCardDragStart)
 			.addDragEvent(this.onCardDrag)
 			.addDragEndEvent(this.onCardDragEnd);
 
-		this.positionManager.updateCardPosition(newCard, pos.x, pos.y, gridX, gridY);
-		this.game.addCard(newCard);
+		this.addCardToGrid(newCard, gridX, gridY);
 
 		return newCard;
+	}
+
+	/**
+	 * @param {Card} card
+	 * @param {number} gridX
+	 * @param {number} gridY
+	 */
+	addCardToGrid(card, gridX, gridY) {
+		const pos = this.positionManager._gridToWorld(gridX, gridY);
+		this.positionManager.updateCardGridPosition(card, pos.x, pos.y, gridX, gridY);
+		this.game.engine.scene.add(card);
+	}
+
+	/**
+	 * @param {Card} card
+	 */
+	removeCardFromGrid(card) {
+		this.positionManager.clearCardPosition(card);
+		this.game.engine.scene.remove(card);
 	}
 
 	destroy() {

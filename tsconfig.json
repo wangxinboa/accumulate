@@ -7,7 +7,7 @@
 		"strict": true,
 		"noImplicitAny": true,
 		"strictNullChecks": true,
-		"lib": ["DOM", "es2016"],
+		"lib": ["DOM", "es2017"],
 		// 检查未使用的局部变量
 		"noUnusedLocals": true,
 		// 检查未使用的函数参数

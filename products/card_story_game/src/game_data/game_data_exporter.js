@@ -18,7 +18,7 @@ export class GameDataExporter extends BaseCleanUp {
 		return JSON.stringify(
 			{
 				saveData: {
-					cards: this.game.cardManager.allCardPositionsMap.array,
+					cards: Object.values(this.game.cardManager.positionManager.allCardGridPositionsMap),
 				},
 			},
 			null,

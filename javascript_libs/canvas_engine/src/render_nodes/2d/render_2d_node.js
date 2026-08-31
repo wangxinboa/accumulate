@@ -154,8 +154,8 @@ export class Render2DNode extends RenderEventNode {
 		this.viewLeft = this.viewX;
 		this.viewTop = this.viewY + this.height;
 		this.viewBottom = this.viewY;
-		this.viewCenterX = this.viewRight + +this.width / 2;
-		this.viewCenterY = this.viewBottom + +this.height / 2;
+		this.viewCenterX = this.viewLeft + this.width / 2;
+		this.viewCenterY = this.viewBottom + this.height / 2;
 	}
 
 	/** @private */

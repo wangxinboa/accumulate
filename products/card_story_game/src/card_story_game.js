@@ -43,20 +43,6 @@ export class CardStoryGame extends BaseCleanUp {
 	}
 
 	/**
-	 * @param {CardStoryGameType.Card} card
-	 */
-	addCard(card) {
-		this.engine.scene.add(card);
-	}
-
-	/**
-	 * @param {CardStoryGameType.Card} card
-	 */
-	removeCard(card) {
-		this.engine.scene.remove(card);
-	}
-
-	/**
 	 * 导出游戏数据，并可选下载 JSON 文件
 	 * @param {boolean} [download=true] - 是否下载文件
 	 * @returns {string} JSON 字符串

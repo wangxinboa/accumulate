@@ -12,7 +12,7 @@ export class Card extends Render2DNode {
 	/** @type {number} 网格 Y 坐标 */
 	gridY = 0;
 	/** @type {number} 网格位置唯一键 */
-	gridPositionKey = 0;
+	gridPositionKey = -1;
 	/** @type {number} 缓存宽（用于 buffer 更新检测） */
 	cacheBufferWidth = -1;
 	/** @type {number} 缓存高（用于 buffer 更新检测） */
@@ -56,7 +56,6 @@ export class Card extends Render2DNode {
 		this.dragUpdatePosition = true;
 		this.centerSelf();
 	}
-
 	get pipe() {
 		return CardPipe;
 	}
