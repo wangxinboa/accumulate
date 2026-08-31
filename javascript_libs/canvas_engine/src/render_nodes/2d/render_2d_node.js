@@ -27,60 +27,59 @@ export class Render2DNode extends RenderEventNode {
 	parent = null;
 	/** @type {Array<Render2DNode>} */
 	children = [];
-	/** @type {boolean} */
-	isRender2DNode;
-	/** @type {boolean} */
-	applyCameraTransform;
-	/** @type {number} */
-	_x;
-	/** @type {number} */
-	_y;
-	/** @type {number} */
-	_rotationMatrix3;
-	/** @type {number} */
-	_rotationAngle;
-	/** @type {number} */
-	_scaleX;
-	/** @type {number} */
-	_scaleY;
-	/** @type {number} */
-	_width;
-	/** @type {number} */
-	_height;
-	/** @type {Matrix3} */
-	matrix;
-	/** @type {Matrix3} */
-	matrixWorld;
-	/** @type {Matrix3} */
-	matrixWorldInvert;
-	/** @type {CanvasEngineType.Geometry2DDef | null} */
-	geometry;
-	/** @protected @type {boolean} */
-	_fixedGeometry;
 	constructor() {
 		super();
 
+		/** @type {boolean} */
 		this.isRender2DNode = true;
 
+		/** @type {boolean} */
 		this.applyCameraTransform = true;
 
+		/** @type {number} */
 		this._width = 0;
+		/** @type {number} */
 		this._height = 0;
 
+		/** @type {number} */
 		this._x = 0;
+		/** @type {number} */
 		this._y = 0;
+		/** @type {number} */
 		this._pivotX = 0;
+		/** @type {number} */
 		this._pivotY = 0;
-		this._rotationMatrix3 = 0;
+		/** @type {number} */
+		this._rotation = 0;
+		/** @type {number} */
 		this._rotationAngle = 0;
+		/** @type {number} */
 		this._scaleX = 1;
+		/** @type {number} */
 		this._scaleY = 1;
 
+		/** @type {number} */
+		this.viewX = 0;
+		/** @type {number} */
+		this.viewY = 0;
+
+		this.viewRight = 0;
+		this.viewLeft = 0;
+		this.viewTop = 0;
+		this.viewBottom = 0;
+		this.viewCenterX = 0;
+		this.viewCenterY = 0;
+
+		/** @type {Matrix3} */
 		this.matrix = new Matrix3();
+		/** @type {Matrix3} */
 		this.matrixWorld = new Matrix3();
+		/** @type {Matrix3} */
 		this.matrixWorldInvert = new Matrix3();
 
+		/** @type {CanvasEngineType.Geometry2DDef | null} */
 		this.geometry = null;
+		/** @protected @type {boolean} */
 		this._fixedGeometry = false;
 		this._updateGeometry = this._updateGeometry.bind(this);
 	}
@@ -137,6 +136,26 @@ export class Render2DNode extends RenderEventNode {
 
 			this.worldMatrixNeedUpdate = false;
 		}
+	}
+
+	/**
+	 * @param {CanvasEngineType.Camera2D} camera
+	 */
+	updateView(camera) {
+		if (this.applyCameraTransform) {
+			this.viewX = this.matrixWorld.elements[6] + camera.x;
+			this.viewY = this.matrixWorld.elements[7] + camera.y;
+		} else {
+			this.viewX = this.matrixWorld.elements[6];
+			this.viewY = this.matrixWorld.elements[7];
+		}
+
+		this.viewRight = this.viewX + this.width;
+		this.viewLeft = this.viewX;
+		this.viewTop = this.viewY + this.height;
+		this.viewBottom = this.viewY;
+		this.viewCenterX = this.viewRight + +this.width / 2;
+		this.viewCenterY = this.viewBottom + +this.height / 2;
 	}
 
 	/** @private */
@@ -204,16 +223,16 @@ export class Render2DNode extends RenderEventNode {
 	}
 	set rotationAngle(val) {
 		this._rotationAngle = val;
-		this._rotationMatrix3 = val * PiDivide180;
+		this._rotation = val * PiDivide180;
 
 		this.matrixNeedUpdate = true;
 		this.worldMatrixNeedUpdate = true;
 	}
 	get rotation() {
-		return this._rotationMatrix3;
+		return this._rotation;
 	}
 	set rotation(val) {
-		this._rotationMatrix3 = val;
+		this._rotation = val;
 		this._rotationAngle = val / PiDivide180;
 
 		this.matrixNeedUpdate = true;

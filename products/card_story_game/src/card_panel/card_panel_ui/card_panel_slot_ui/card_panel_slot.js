@@ -25,6 +25,14 @@ export class CardPanelSlot extends Render2DNode {
 		return CardPanelSlotPipe;
 	}
 
+	hover() {
+		this.bgColor.r = 1;
+	}
+
+	unHover() {
+		this.bgColor.r = 0.1;
+	}
+
 	/**
 	 * 根据配置更新槽位样式
 	 * @param {CardStoryGameType.UIConfig['panel']['panelSlotArea']['slotOption']} slotOption - 槽位配置
@@ -43,24 +51,6 @@ export class CardPanelSlot extends Render2DNode {
 			this.geometry.max.y = this.height;
 			this.needUpdateBuffer = true;
 		}
-	}
-
-	/**
-	 * 重置槽位到默认状态（用于回收到池中之前清理）
-	 */
-	reset() {
-		this.bgColor.setValue(0.1, 0.1, 0.1, 0.5);
-		this.width = 60;
-		this.height = 90;
-
-		if (this.geometry) {
-			this.geometry.max.x = this.width;
-			this.geometry.max.y = this.height;
-		}
-
-		this._bufferDirty = true;
-		this.matrixNeedUpdate = true;
-		this.worldMatrixNeedUpdate = true;
 	}
 
 	destroy() {

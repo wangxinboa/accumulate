@@ -5,14 +5,6 @@ import { getHexR, getHexG, getHexB, rgbToHexString } from "./math_utils.js";
 let _color;
 
 export class Color extends BaseCleanUp {
-	/** @type {number} */
-	r;
-	/** @type {number} */
-	g;
-	/** @type {number} */
-	b;
-	/** @type {number} */
-	a;
 	/** @type {number[]} */
 	array;
 	/** @private @type {string} 带 # 的十六进制颜色字符串，如 "#ff0000" */
@@ -27,14 +19,8 @@ export class Color extends BaseCleanUp {
 	constructor(r = 1, g = 1, b = 1, a = 1) {
 		super();
 
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		this.a = a;
-
-		this.array = [this.r, this.g, this.b, this.a];
-
-		this._hexString = rgbToHexString(this.r, this.g, this.b);
+		this.array = [r, g, b, a];
+		this._hexString = rgbToHexString(r, g, b);
 	}
 
 	/**
@@ -46,10 +32,10 @@ export class Color extends BaseCleanUp {
 	 * @returns {this}
 	 */
 	setValue(r, g, b, a) {
-		this.r = this.array[0] = r;
-		this.g = this.array[1] = g;
-		this.b = this.array[2] = b;
-		this.a = this.array[3] = a;
+		this.array[0] = r;
+		this.array[1] = g;
+		this.array[2] = b;
+		this.array[3] = a;
 		this._hexString = rgbToHexString(this.r, this.g, this.b);
 		return this;
 	}
@@ -65,7 +51,44 @@ export class Color extends BaseCleanUp {
 	 * @param {number} a
 	 */
 	setAlpha(a) {
-		this.a = this.array[3] = a;
+		this.array[3] = a;
+	}
+
+	get r() {
+		return this.array[0];
+	}
+	/**
+	 * @param {number} val
+	 */
+	set r(val) {
+		this.array[0] = val;
+	}
+	get g() {
+		return this.array[1];
+	}
+	/**
+	 * @param {number} val
+	 */
+	set g(val) {
+		this.array[1] = val;
+	}
+	get b() {
+		return this.array[2];
+	}
+	/**
+	 * @param {number} val
+	 */
+	set b(val) {
+		this.array[2] = val;
+	}
+	get a() {
+		return this.array[3];
+	}
+	/**
+	 * @param {number} val
+	 */
+	set a(val) {
+		this.array[3] = val;
 	}
 
 	get hexString() {
@@ -90,9 +113,9 @@ export class Color extends BaseCleanUp {
 		}
 
 		this._hexString = hexStringValue;
-		this.r = this.array[0] = getHexR(num);
-		this.g = this.array[1] = getHexG(num);
-		this.b = this.array[2] = getHexB(num);
+		this.array[0] = getHexR(num);
+		this.array[1] = getHexG(num);
+		this.array[2] = getHexB(num);
 	}
 
 	/**

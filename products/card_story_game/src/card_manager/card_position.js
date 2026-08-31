@@ -5,37 +5,25 @@ const _gridPosition = new Vector2();
 const _worldPosition = new Vector2();
 
 export class CardPosition extends BaseCleanUp {
-	/** @type {Record<number, boolean>} */
-	allCardPositionsMap;
-	/** @type {number} 卡牌宽度（从配置读取） */
-	cardWidth;
-	/** @type {number} 卡牌高度（从配置读取） */
-	cardHeight;
-	/** @type {number} 网格偏移量（从配置读取） */
-	coordOffset;
-	/** @type {number} BFS最大搜索深度（从配置读取） */
-	maxSearchDepth;
-	/** @type {number} 网格水平间距（从配置读取） */
-	gapX;
-	/** @type {number} 网格垂直间距（从配置读取） */
-	gapY;
-	/** @type {number} 网格单元宽度 */
-	cellWidth;
-	/** @type {number} 网格单元高度 */
-	cellHeight;
-
 	constructor() {
 		super();
-
+		/** @type {Record<number, boolean>} */
 		this.allCardPositionsMap = {};
-
+		/** @type {number} 卡牌宽度（从配置读取） */
 		this.cardWidth = -1;
+		/** @type {number} 卡牌高度（从配置读取） */
 		this.cardHeight = -1;
+		/** @type {number} 网格偏移量（从配置读取） */
 		this.coordOffset = -1;
+		/** @type {number} BFS最大搜索深度（从配置读取） */
 		this.maxSearchDepth = -1;
+		/** @type {number} 网格水平间距（从配置读取） */
 		this.gapX = -1;
+		/** @type {number} 网格垂直间距（从配置读取） */
 		this.gapY = -1;
+		/** @type {number} 网格单元高度 */
 		this.cellWidth = -1;
+		/** @type {number} 网格单元宽度 */
 		this.cellHeight = -1;
 	}
 	/**

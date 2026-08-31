@@ -1,4 +1,8 @@
-import { Render2DNode, RenderNodePool } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import {
+	RectangleDef,
+	Render2DNode,
+	RenderNodePool,
+} from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { defaultGameConfig } from "../../../assets/game_config.js";
 import { CardPanelSlot } from "./card_panel_slot_ui/card_panel_slot.js";
 
@@ -25,6 +29,9 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 
 		/** @private  槽位对象池（内部管理） */
 		this._slotPool = new RenderNodePool(CardPanelSlot);
+
+		/** @type {CardPanelSlot | null} */
+		this._currentHoverSlot = null;
 	}
 
 	/**
@@ -92,6 +99,74 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 	startSetTopY(topY) {
 		this.topY = topY;
 		this.bottomY = topY;
+	}
+
+	/**
+	 * 获取与卡牌重叠且最近的卡槽。
+	 * 同时有多个重叠时，取中心距离最近的卡槽。
+	 *
+	 * @param {CardStoryGameType.Card | null} card - 要检测的卡牌，传入 null 则清空悬停状态
+	 */
+	setOverlappingSlot(card) {
+		if (!card) {
+			this._currentHoverSlot = null;
+			return;
+		}
+		// 计算卡牌 AABB（中心点坐标）
+		card.updateView(this.game.engine.camera);
+
+		// 卡牌中心坐标
+		const cardCenterX = card.viewLeft + card.width / 2;
+		const cardCenterY = card.viewBottom + card.height / 2;
+
+		let closestSlot = null;
+		let closestDistSq = Infinity;
+
+		// 遍历所有卡槽
+		const slots = this.children;
+		for (let i = 0, len = slots.length; i < len; i++) {
+			const slot = slots[i];
+
+			// 只检测 CardPanelSlot 类型
+			if (!(slot instanceof CardPanelSlot)) {
+				continue;
+			}
+			slot.updateView(this.game.engine.camera);
+
+			// 检测卡牌与卡槽是否重叠
+			const overlap = RectangleDef.isOverlapWithRectangle(
+				card.viewLeft,
+				card.viewBottom,
+				card.viewRight,
+				card.viewTop,
+				slot.viewLeft,
+				slot.viewBottom,
+				slot.viewRight,
+				slot.viewTop,
+			);
+
+			if (overlap) {
+				// 计算卡槽中心
+
+				// 计算卡牌中心到卡槽中心的平方距离（避免开平方，提高性能）
+				const dx = cardCenterX - slot.viewCenterX;
+				const dy = cardCenterY - slot.viewCenterY;
+				const distSq = dx * dx + dy * dy;
+
+				if (distSq < closestDistSq) {
+					closestDistSq = distSq;
+					closestSlot = slot;
+				}
+			}
+		}
+
+		if (this._currentHoverSlot && this._currentHoverSlot !== closestSlot) {
+			this._currentHoverSlot.unHover();
+		}
+		if (closestSlot && this._currentHoverSlot !== closestSlot) {
+			closestSlot.hover();
+			this._currentHoverSlot = closestSlot;
+		}
 	}
 
 	destroy() {

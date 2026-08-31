@@ -3,20 +3,15 @@ import { Card } from "./card/card.js";
 import { CardPosition } from "./card_position.js";
 
 export class CardManager extends BaseCleanUp {
-	/** @type {CardStoryGameType.CardStoryGame} */
-	game;
-	/** @type {number} */
-	cardZIndex;
-
 	/**
 	 * @param {CardStoryGameType.CardStoryGame} cardStoryGame
 	 */
 	constructor(cardStoryGame) {
 		super();
+		/** @type {CardStoryGameType.CardStoryGame} */
 		this.game = cardStoryGame;
-
 		this.positionManager = new CardPosition();
-
+		/** @type {number} */
 		this.cardZIndex = -1;
 
 		this.onCardClick = this.onCardClick.bind(this);
@@ -50,33 +45,58 @@ export class CardManager extends BaseCleanUp {
 		card.changeZIndex(this.game.panel.zIndex + 1);
 	}
 
-	onCardDrag() {}
+	/**
+	 * @param {Card} card
+	 */
+	onCardDrag(card) {
+		// 1. 检测卡牌是否与面板重叠，并更新调试矩形
+		const overlap = this.game.panel.checkOverlap(card);
+
+		// 2. 如果与面板重叠，进一步检测与哪个卡槽重叠
+		if (overlap) {
+			// 获取重叠的最近卡槽（内部已处理高亮状态更新）
+			this.game.panel.slotAreaUi.setOverlappingSlot(card);
+		} else {
+			// 卡牌不在面板上时，清除悬停高亮状态
+			this.game.panel.slotAreaUi.setOverlappingSlot(null);
+		}
+	}
 
 	/**
 	 * @param {Card} card
 	 */
 	onCardDragEnd(card) {
+		this.game.panel.slotAreaUi.setOverlappingSlot(null);
+
+		const originalX = card.x;
+		const originalY = card.y;
+		const originalGridX = card.gridX;
+		const originalGridY = card.gridY;
+
 		const nearestGrid = this.positionManager._worldToGridNearest(card.x, card.y);
 		const nearestGridKey = this.positionManager._getGridPositionKey(nearestGrid.x, nearestGrid.y);
 
-		if (this.positionManager._isGridOccupied(nearestGridKey)) {
-			const oldWorldPos = this.positionManager._gridToWorld(card.gridX, card.gridY);
-			card.x = oldWorldPos.x;
-			card.y = oldWorldPos.y;
-		} else {
-			const targetFreeGrid = this.positionManager._findNearestFreeGridBFS(nearestGrid.x, nearestGrid.y);
-			const targetWorldPos = this.positionManager._gridToWorld(targetFreeGrid.x, targetFreeGrid.y);
+		try {
+			if (this.positionManager._isGridOccupied(nearestGridKey)) {
+				const oldWorldPos = this.positionManager._gridToWorld(card.gridX, card.gridY);
+				card.x = oldWorldPos.x;
+				card.y = oldWorldPos.y;
+			} else {
+				const targetFreeGrid = this.positionManager._findNearestFreeGridBFS(nearestGrid.x, nearestGrid.y);
+				const targetWorldPos = this.positionManager._gridToWorld(targetFreeGrid.x, targetFreeGrid.y);
 
-			this.positionManager.updateCardPosition(
-				card,
-				targetWorldPos.x,
-				targetWorldPos.y,
-				targetFreeGrid.x,
-				targetFreeGrid.y,
-			);
+				this.positionManager.updateCardPosition(
+					card,
+					targetWorldPos.x,
+					targetWorldPos.y,
+					targetFreeGrid.x,
+					targetFreeGrid.y,
+				);
+			}
+			card.changeZIndex(this.cardZIndex);
+		} catch (e) {
+			this.positionManager.updateCardPosition(card, originalX, originalY, originalGridX, originalGridY);
 		}
-
-		card.changeZIndex(this.cardZIndex);
 	}
 
 	/**

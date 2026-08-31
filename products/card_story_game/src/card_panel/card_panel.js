@@ -134,10 +134,36 @@ export class CardPanel extends Render2DNode {
 		if (!hasMovedAfterDown) {
 			this.visible = false;
 			this.mountedCard = null;
-			// 隐藏时清空卡槽
+			// 隐藏时清空卡槽并隐藏调试矩形
 			this.slotAreaUi.updateSlots([]);
 		}
 		return this;
+	}
+
+	/**
+	 * 检测卡牌是否与面板重叠，并更新调试矩形
+	 * @param {CardStoryGameType.Card | null} card - 要检测的卡牌，传入 null 则隐藏矩形
+	 * @returns {boolean} 是否重叠
+	 */
+	checkOverlap(card) {
+		if (!card || !this.visible) {
+			return false;
+		}
+
+		card.updateView(this.game.engine.camera);
+		this.updateView(this.game.engine.camera);
+
+		// 使用 RectangleDef 的静态方法检测重叠
+		return RectangleDef.isOverlapWithRectangle(
+			card.viewLeft,
+			card.viewBottom,
+			card.viewRight,
+			card.viewTop,
+			this.viewLeft,
+			this.viewBottom,
+			this.viewRight,
+			this.viewTop,
+		);
 	}
 
 	/**

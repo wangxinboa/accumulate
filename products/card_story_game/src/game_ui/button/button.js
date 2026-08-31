@@ -99,26 +99,10 @@ export class Button extends Render2DNode {
 		}
 	}
 
-	/**
-	 * 重置按钮状态（用于回收时清理）
-	 */
-	reset() {
-		// this.actionId = -1;
-		// this.label = "";
-		// this._clickCallback = null;
-		// // 纹理不会回收，只改变文本
-		// if (this.textTexture) {
-		// 	this.textTexture.text = "";
-		// }
-		// return this;
-	}
-
 	destroy() {
-		// if (this.textTexture) {
-		// 	this.textTexture.destroy();
-		// }
-		// this.bgColor.destroy();
-		// this.textColor.destroy();
-		// super.destroy();
+		this.textTexture.destroy();
+		this.bgColor.destroy();
+
+		super.destroy();
 	}
 }

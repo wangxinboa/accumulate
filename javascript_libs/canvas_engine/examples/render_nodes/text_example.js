@@ -21,6 +21,8 @@ engine.timeTicker.addRunCallback(function () {
 	for (let i = 0; i < sprite2Ds.length; i++) {
 		sprite2Ds[i].x += isPositive ? 1 : -1;
 		sprite2Ds[i].y += isPositive ? 1 : -1;
+
+		sprite2Ds[i].rotationAngle += 1.8;
 	}
 
 	if (sprite2Ds[0].x > 100) {
