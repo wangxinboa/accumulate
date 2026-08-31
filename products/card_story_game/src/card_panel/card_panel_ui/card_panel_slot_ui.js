@@ -107,65 +107,67 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 	 *
 	 * @param {CardStoryGameType.Card | null} card - 要检测的卡牌，传入 null 则清空悬停状态
 	 */
-	setOverlappingSlot(card) {
-		if (!card) {
-			this._currentHoverSlot = null;
-			return;
-		}
-		// 计算卡牌 AABB（中心点坐标）
-		card.updateView(this.game.engine.camera);
-
-		// 卡牌中心坐标
-		const cardCenterX = card.viewLeft + card.width / 2;
-		const cardCenterY = card.viewBottom + card.height / 2;
-
+	setCardOverlappingSlot(card) {
 		let closestSlot = null;
-		let closestDistSq = Infinity;
 
-		// 遍历所有卡槽
-		const slots = this.children;
-		for (let i = 0, len = slots.length; i < len; i++) {
-			const slot = slots[i];
+		if (card) {
+			// 计算卡牌 AABB（中心点坐标）
+			card.updateView(this.game.engine.camera);
 
-			// 只检测 CardPanelSlot 类型
-			if (!(slot instanceof CardPanelSlot)) {
-				continue;
-			}
-			slot.updateView(this.game.engine.camera);
+			// 卡牌中心坐标
+			const cardCenterX = card.viewLeft + card.width / 2;
+			const cardCenterY = card.viewBottom + card.height / 2;
 
-			// 检测卡牌与卡槽是否重叠
-			const overlap = RectangleDef.isOverlapWithRectangle(
-				card.viewLeft,
-				card.viewBottom,
-				card.viewRight,
-				card.viewTop,
-				slot.viewLeft,
-				slot.viewBottom,
-				slot.viewRight,
-				slot.viewTop,
-			);
+			let closestDistSq = Infinity;
 
-			if (overlap) {
-				// 计算卡槽中心
+			// 遍历所有卡槽
+			const slots = this.children;
+			for (let i = 0, len = slots.length; i < len; i++) {
+				const slot = slots[i];
 
-				// 计算卡牌中心到卡槽中心的平方距离（避免开平方，提高性能）
-				const dx = cardCenterX - slot.viewCenterX;
-				const dy = cardCenterY - slot.viewCenterY;
-				const distSq = dx * dx + dy * dy;
+				// 只检测 CardPanelSlot 类型
+				if (!(slot instanceof CardPanelSlot)) {
+					continue;
+				}
+				slot.updateView(this.game.engine.camera);
 
-				if (distSq < closestDistSq) {
-					closestDistSq = distSq;
-					closestSlot = slot;
+				// 检测卡牌与卡槽是否重叠
+				const overlap = RectangleDef.isOverlapWithRectangle(
+					card.viewLeft,
+					card.viewBottom,
+					card.viewRight,
+					card.viewTop,
+					slot.viewLeft,
+					slot.viewBottom,
+					slot.viewRight,
+					slot.viewTop,
+				);
+
+				if (overlap) {
+					// 计算卡牌中心到卡槽中心的平方距离（避免开平方，提高性能）
+					const dx = cardCenterX - slot.viewCenterX;
+					const dy = cardCenterY - slot.viewCenterY;
+					const distSq = dx * dx + dy * dy;
+
+					if (distSq < closestDistSq) {
+						closestDistSq = distSq;
+						closestSlot = slot;
+					}
 				}
 			}
 		}
 
-		if (this._currentHoverSlot && this._currentHoverSlot !== closestSlot) {
-			this._currentHoverSlot.unHover();
-		}
-		if (closestSlot && this._currentHoverSlot !== closestSlot) {
-			closestSlot.hover();
-			this._currentHoverSlot = closestSlot;
+		if (this._currentHoverSlot !== closestSlot) {
+			if (this._currentHoverSlot) {
+				this._currentHoverSlot.unHover();
+			}
+
+			if (closestSlot) {
+				closestSlot.hover();
+				this._currentHoverSlot = closestSlot;
+			} else {
+				this._currentHoverSlot = null;
+			}
 		}
 	}
 

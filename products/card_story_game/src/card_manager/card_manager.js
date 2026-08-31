@@ -18,6 +18,8 @@ export class CardManager extends BaseCleanUp {
 		this.onCardDragStart = this.onCardDragStart.bind(this);
 		this.onCardDrag = this.onCardDrag.bind(this);
 		this.onCardDragEnd = this.onCardDragEnd.bind(this);
+
+		this.cardIsInPanel = false;
 	}
 
 	/**
@@ -50,15 +52,15 @@ export class CardManager extends BaseCleanUp {
 	 */
 	onCardDrag(card) {
 		// 1. 检测卡牌是否与面板重叠，并更新调试矩形
-		const overlap = this.game.panel.checkOverlap(card);
+		this.cardIsInPanel = this.game.panel.checkOverlap(card);
 
 		// 2. 如果与面板重叠，进一步检测与哪个卡槽重叠
-		if (overlap) {
+		if (this.cardIsInPanel) {
 			// 获取重叠的最近卡槽（内部已处理高亮状态更新）
-			this.game.panel.slotAreaUi.setOverlappingSlot(card);
+			this.game.panel.slotAreaUi.setCardOverlappingSlot(card);
 		} else {
 			// 卡牌不在面板上时，清除悬停高亮状态
-			this.game.panel.slotAreaUi.setOverlappingSlot(null);
+			this.game.panel.slotAreaUi.setCardOverlappingSlot(null);
 		}
 	}
 
@@ -66,7 +68,7 @@ export class CardManager extends BaseCleanUp {
 	 * @param {Card} card
 	 */
 	onCardDragEnd(card) {
-		this.game.panel.slotAreaUi.setOverlappingSlot(null);
+		this.game.panel.slotAreaUi.setCardOverlappingSlot(null);
 
 		const originalX = card.x;
 		const originalY = card.y;
@@ -97,6 +99,8 @@ export class CardManager extends BaseCleanUp {
 		} catch (e) {
 			this.positionManager.updateCardPosition(card, originalX, originalY, originalGridX, originalGridY);
 		}
+
+		this.cardIsInPanel = false;
 	}
 
 	/**
