@@ -288,7 +288,7 @@ declare global {
 			y: number,
 			sx: number,
 			sy: number,
-			hasMovedAfterDown?: boolean,
+			hasMovedBeforeUp?: boolean,
 		) => void;
 		type RenderEventNodeCallbacks<T extends RenderEventNode = RenderEventNode> = Array<RenderEventNodeCallback<T>>;
 		type RenderNodeWheelEventCallback<T extends RenderEventNode> = (

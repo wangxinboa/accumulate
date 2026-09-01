@@ -16,6 +16,7 @@ export class CardPanel extends Render2DNode {
 	constructor(cardStoryGame) {
 		super();
 
+		/** @type {CardStoryGameType.Card | null} */
 		this.mountedCard = null;
 		this.game = cardStoryGame;
 
@@ -74,8 +75,27 @@ export class CardPanel extends Render2DNode {
 		}
 	}
 
-	get descriptionTexture() {
-		return this.descUi.descriptionTexture;
+	/**
+	 * @param {CardStoryGameType.Card | null} card
+	 */
+	mountCard(card) {
+		if (this.mountedCard !== card) {
+			if (this.mountedCard) {
+				this.mountedCard.enableDragUpdatePosition();
+			}
+			if (card) {
+				card.disableDragUpdatePosition();
+				this.titleTexture.text = card.text;
+			}
+
+			this.mountedCard = card;
+		}
+	}
+	/**
+	 * @param {CardStoryGameType.Card} card
+	 */
+	isMountedCard(card) {
+		return this.mountedCard === card;
 	}
 
 	/**
@@ -83,12 +103,11 @@ export class CardPanel extends Render2DNode {
 	 * @param {CardStoryGameType.Card} card
 	 */
 	show(card) {
-		if (!this.titleTexture || !this.descriptionTexture) {
+		if (!this.titleTexture || !this.descUi.descriptionTexture) {
 			return this;
 		}
 
-		this.mountedCard = card;
-		this.titleTexture.text = card.text;
+		this.mountCard(card);
 
 		const template = this.game.gameConfig.getCardTemplate(card.templateId);
 		const desc = template ? template.description || "" : "";
@@ -128,12 +147,13 @@ export class CardPanel extends Render2DNode {
 	 * @param {number} _y
 	 * @param {number} _sx
 	 * @param {number} _sy
-	 * @param {boolean} [hasMovedAfterDown]
+	 * @param {boolean} [hasMovedBeforeUp] mouseup 之前是否有 move
 	 */
-	hide(_scene2d, _x, _y, _sx, _sy, hasMovedAfterDown) {
-		if (!hasMovedAfterDown) {
+	hide(_scene2d, _x, _y, _sx, _sy, hasMovedBeforeUp) {
+		if (!hasMovedBeforeUp) {
 			this.visible = false;
-			this.mountedCard = null;
+
+			this.mountCard(null);
 			// 隐藏时清空卡槽并隐藏调试矩形
 			this.slotAreaUi.updateSlots([]);
 		}

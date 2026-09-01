@@ -9,6 +9,9 @@ export class CardPanelSlot extends Render2DNode {
 	constructor() {
 		super();
 
+		this.applyCameraTransform = false;
+		this.pivotY = 1;
+
 		// 默认背景色（半透明灰色）
 		this.bgColor = new Color(0.1, 0.1, 0.1, 0.5);
 

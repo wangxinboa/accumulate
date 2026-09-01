@@ -61,7 +61,7 @@ export const CardPanelPipe = {
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
 	updateBuffers(panel, gl, bufferSystem) {
-		if (!panel.titleTexture || !panel.descriptionTexture) {
+		if (!panel.titleTexture || !panel.descUi.descriptionTexture) {
 			return;
 		}
 
@@ -69,7 +69,7 @@ export const CardPanelPipe = {
 		const width = panel.width;
 		const height = panel.height;
 		const titleText = panel.titleTexture.text;
-		const descText = panel.descriptionTexture.text;
+		const descText = panel.descUi.descriptionTexture.text;
 
 		// 检查是否需要更新缓冲区
 		if (
@@ -109,8 +109,8 @@ export const CardPanelPipe = {
 		if (panel.titleTexture && panel.titleTexture.isReady) {
 			textureSystem.updateGlTexture(panel.titleTexture);
 		}
-		if (panel.descriptionTexture && panel.descriptionTexture.isReady) {
-			textureSystem.updateGlTexture(panel.descriptionTexture);
+		if (panel.descUi.descriptionTexture && panel.descUi.descriptionTexture.isReady) {
+			textureSystem.updateGlTexture(panel.descUi.descriptionTexture);
 		}
 	},
 
@@ -133,8 +133,8 @@ export const CardPanelPipe = {
 			}
 		}
 		// 描述纹理
-		if (panel.descriptionTexture && panel.descriptionTexture.isReady) {
-			const descGlTex = textureSystem.getGlTexture(panel.descriptionTexture.key);
+		if (panel.descUi.descriptionTexture && panel.descUi.descriptionTexture.isReady) {
+			const descGlTex = textureSystem.getGlTexture(panel.descUi.descriptionTexture.key);
 			if (descGlTex) {
 				glProgram.uniform(gl, uDescImageName, descGlTex);
 			}

@@ -127,11 +127,11 @@ export class Scene2D extends Render2DNode {
 	 * @param {number} y
 	 * @param {number} sx
 	 * @param {number} sy
-	 * @param {boolean} hasMovedAfterDown
+	 * @param {boolean} hasMovedBeforeUp
 	 */
-	executeMouseUpWhenNoNodeHitEvents(x, y, sx, sy, hasMovedAfterDown) {
+	executeMouseUpWhenNoNodeHitEvents(x, y, sx, sy, hasMovedBeforeUp) {
 		for (let i = 0, len = this.mouseUpWhenNoNodeHitEvents.length; i < len; i++) {
-			this.mouseUpWhenNoNodeHitEvents[i](this, x, y, sx, sy, hasMovedAfterDown);
+			this.mouseUpWhenNoNodeHitEvents[i](this, x, y, sx, sy, hasMovedBeforeUp);
 		}
 		return this;
 	}

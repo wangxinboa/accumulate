@@ -70,6 +70,14 @@ export class RenderEventNode extends RenderNode {
 	get hasMouseDownEvents() {
 		return this.mouseDownEvents.length > 0;
 	}
+
+	enableDragUpdatePosition() {
+		this.dragUpdatePosition = true;
+	}
+	disableDragUpdatePosition() {
+		this.dragUpdatePosition = false;
+	}
+
 	/**
 	 * @param {CanvasEngineType.RenderEventNodeCallback<this>} eventCallback
 	 */
@@ -162,11 +170,11 @@ export class RenderEventNode extends RenderNode {
 	 * @param {number} y
 	 * @param {number} sx
 	 * @param {number} sy
-	 * @param {boolean} hasMovedAfterDown
+	 * @param {boolean} hasMovedBeforeUp
 	 */
-	executeMouseUpEvents(x, y, sx, sy, hasMovedAfterDown) {
+	executeMouseUpEvents(x, y, sx, sy, hasMovedBeforeUp) {
 		for (let i = 0, len = this.mouseUpEvents.length; i < len; i++) {
-			this.mouseUpEvents[i](this, x, y, sx, sy, hasMovedAfterDown);
+			this.mouseUpEvents[i](this, x, y, sx, sy, hasMovedBeforeUp);
 		}
 		return this;
 	}
@@ -403,11 +411,11 @@ export class RenderEventNode extends RenderNode {
 	 * @param {number} y
 	 * @param {number} sx
 	 * @param {number} sy
-	 * @param {boolean} hasMovedAfterDown
+	 * @param {boolean} hasMovedBeforeUp
 	 */
-	executeClickEvents(x, y, sx, sy, hasMovedAfterDown) {
+	executeClickEvents(x, y, sx, sy, hasMovedBeforeUp) {
 		for (let i = 0, len = this.clickEvents.length; i < len; i++) {
-			this.clickEvents[i](this, x, y, sx, sy, hasMovedAfterDown);
+			this.clickEvents[i](this, x, y, sx, sy, hasMovedBeforeUp);
 		}
 		return this;
 	}

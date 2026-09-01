@@ -118,6 +118,15 @@ export class Render2DNode extends RenderEventNode {
 		throw new Error("Render2DNode 子类未实现 _updateGeometry 方法");
 	}
 
+	/**
+	 * @param {number} x
+	 * @param {number} y
+	 */
+	updateXY(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	// matrix 更新
 	updateMatrix() {
 		if (this.matrixNeedUpdate) {

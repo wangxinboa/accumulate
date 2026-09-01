@@ -76,16 +76,13 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			const slot = this.children[i];
 
 			slot.updateConfig(this.panelSlotAreaConfig.slotOption);
-			slot.applyCameraTransform = false;
-			slot.pivotY = 1;
 
 			if (currentSlotX + slot.width > this.panelSlotAreaConfig.width) {
 				currentSlotX = this.panelSlotAreaConfig.x;
 				currentSlotY -= slot.height + this.panelSlotAreaConfig.gapY;
 			}
 
-			slot.x = currentSlotX;
-			slot.y = currentSlotY;
+			slot.updateXY(currentSlotX, currentSlotY);
 
 			currentSlotX += slot.width + this.panelSlotAreaConfig.gapX;
 		}
@@ -157,13 +154,10 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			if (this._currentHoverSlot) {
 				this._currentHoverSlot.unHover();
 			}
-
 			if (closestSlot) {
 				closestSlot.hover();
-				this._currentHoverSlot = closestSlot;
-			} else {
-				this._currentHoverSlot = null;
 			}
+			this._currentHoverSlot = closestSlot;
 		}
 	}
 
