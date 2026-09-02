@@ -63,7 +63,7 @@ export class Button extends Render2DNode {
 		this.fixedGeometry = buttonOption?.fixedGeometry ?? false;
 
 		if ((title && title !== this.textTexture.text) || buttonOption?.titleTextureOption) {
-			this.textTexture.updateTextAndStyle(title, buttonOption.titleTextureOption);
+			this.textTexture.updateTextAndStyle(title, buttonOption?.titleTextureOption ?? {});
 		}
 
 		this._updateGeometry();

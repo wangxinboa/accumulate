@@ -36,7 +36,7 @@ export class Card extends Render2DNode {
 		this.dragUpdatePosition = true;
 		this.centerSelf();
 
-		this.hasInitialized = false;
+		this.initialized = false;
 	}
 	get pipe() {
 		return CardPipe;
@@ -51,8 +51,8 @@ export class Card extends Render2DNode {
 	 * @param {CardStoryGameType.UIConfig['card']} cardUiConfig
 	 */
 	initialize(template, cardUiConfig) {
-		if (!this.hasInitialized) {
-			this.hasInitialized = true;
+		if (!this.initialized) {
+			this.initialized = true;
 			this.updateConfig(cardUiConfig, false);
 		}
 		if (template) {
@@ -65,11 +65,15 @@ export class Card extends Render2DNode {
 		return this;
 	}
 	/**
-	 * @param {CardStoryGameType.CardTemplate} template
+	 * @param {CardStoryGameType.CardTemplate | null} template
 	 */
 	setTemplate(template) {
-		this.templateId = template.id;
-		this.titleTexture.text = template.name;
+		if (template) {
+			this.templateId = template.id;
+			this.titleTexture.text = template.name;
+		} else {
+			console.error("模板不存在");
+		}
 	}
 	/**
 	 * @param {CardStoryGameType.UIConfig['card']} cardUiConfig - 卡牌 UI 配置

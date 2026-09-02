@@ -82,7 +82,7 @@ export class CardStoryGame extends BaseCleanUp {
 		for (let i = 0, len = cardsData.length; i < len; i++) {
 			const saveData = cardsData[i];
 			const templateId = saveData.templateId;
-			this.cardManager.createCard(templateId, saveData);
+			this.cardManager.createCardToGrid(templateId, saveData.gridX, saveData.gridY);
 		}
 		console.info("存档加载完成，共 " + cardsData.length + " 张卡牌");
 	}

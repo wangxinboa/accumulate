@@ -47,7 +47,9 @@ export class CardManager extends BaseCleanUp {
 	 * @param {Card} card
 	 */
 	onCardDragStart(card) {
-		card.changeZIndex(this.game.panel.zIndex + 1);
+		if (!this.game.panel.isMountedCard(card)) {
+			card.changeZIndex(this.game.panel.zIndex + 1);
+		}
 	}
 
 	/**
@@ -112,44 +114,35 @@ export class CardManager extends BaseCleanUp {
 	/**
 	 * 根据模板 ID 和存档数据创建卡牌
 	 * @param {number} templateId - 模板 ID
-	 * @param {Object} saveData - 存档数据，包含 text, gridX, gridY
-	 * @param {string} [saveData.text] - 可选文本，若未提供则使用模板中的 name
-	 * @param {number} saveData.gridX - 网格 X 坐标
-	 * @param {number} saveData.gridY - 网格 Y 坐标
+	 * @param {number} gridX - 网格 X 坐标
+	 * @param {number} gridY - 网格 Y 坐标
 	 * @returns {Card}
 	 */
-	createCard(templateId, saveData) {
-		const gridX = saveData.gridX || 0;
-		const gridY = saveData.gridY || 0;
+	createCardToGrid(templateId, gridX, gridY) {
 		const gridKey = this.positionManager.getGridPositionKey(gridX, gridY);
 
 		if (this.positionManager._isGridOccupied(gridKey)) {
 			throw new Error("Grid (" + gridX + ", " + gridY + ") is already occupied.");
 		}
 
+		const pos = this.positionManager._gridToWorld(gridX, gridY);
+		const cardTemplate = this.game.gameConfig.getCardTemplate(templateId);
 		// 创建卡牌实例，传入 game 和尺寸
-		const newCard = this.cardPool
-			.acquire(this.game.engine.scene)
-			.initialize(this.game.gameConfig.getCardTemplate(templateId), this.game.gameConfig.uiConfig.card)
-			.addClickEvent(this.onCardClick)
-			.addDragStartEvent(this.onCardDragStart)
-			.addDragEvent(this.onCardDrag)
-			.addDragEndEvent(this.onCardDragEnd);
+		const newCard = this.cardPool.acquire(this.game.engine.scene);
+		this.positionManager.updateCardGridPosition(newCard, pos.x, pos.y, gridX, gridY);
 
-		this.addCardToGrid(newCard, gridX, gridY);
+		if (newCard.initialized) {
+			newCard.setTemplate(cardTemplate);
+		} else {
+			newCard
+				.initialize(cardTemplate, this.game.gameConfig.uiConfig.card)
+				.addClickEvent(this.onCardClick)
+				.addDragStartEvent(this.onCardDragStart)
+				.addDragEvent(this.onCardDrag)
+				.addDragEndEvent(this.onCardDragEnd);
+		}
 
 		return newCard;
-	}
-
-	/**
-	 * @param {Card} card
-	 * @param {number} gridX
-	 * @param {number} gridY
-	 */
-	addCardToGrid(card, gridX, gridY) {
-		const pos = this.positionManager._gridToWorld(gridX, gridY);
-		this.positionManager.updateCardGridPosition(card, pos.x, pos.y, gridX, gridY);
-		this.game.engine.scene.add(card);
 	}
 
 	/**
@@ -157,7 +150,7 @@ export class CardManager extends BaseCleanUp {
 	 */
 	removeCardFromGrid(card) {
 		this.positionManager.clearCardPosition(card);
-		this.game.engine.scene.remove(card);
+		this.cardPool.release(card);
 	}
 
 	destroy() {

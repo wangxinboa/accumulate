@@ -56,9 +56,8 @@ export class TextTexture extends BaseTexture {
 
 	/**
 	 * @param {CanvasEngineType.TextOption} [textOption]
-	 * @param {boolean} [needUpdateImage=true]
 	 */
-	updateStyle(textOption, needUpdateImage = true) {
+	updateStyle(textOption) {
 		if (textOption) {
 			if (textOption.fontStyle) {
 				this.fontStyle = textOption.fontStyle;
@@ -88,9 +87,8 @@ export class TextTexture extends BaseTexture {
 				this.lineGap = textOption.lineGap;
 			}
 		}
-		if (needUpdateImage) {
-			this.updateImage();
-		}
+
+		this.updateImage();
 	}
 
 	get text() {
