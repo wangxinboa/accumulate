@@ -42,22 +42,23 @@ export class TextTexture extends BaseTexture {
 		this.isTextTexture = true;
 		this.key = `text_texture_${textTextureKey++}`;
 
-		this.udpateTextAndStyle(textString, textOption);
+		this.updateTextAndStyle(textString, textOption);
 	}
 
 	/**
 	 * @param {string} textString
 	 * @param {CanvasEngineType.TextOption} [textOption]
 	 */
-	udpateTextAndStyle(textString, textOption) {
+	updateTextAndStyle(textString, textOption) {
 		this._text = textString;
-		this.udpateStyle(textOption);
+		this.updateStyle(textOption);
 	}
 
 	/**
 	 * @param {CanvasEngineType.TextOption} [textOption]
+	 * @param {boolean} [needUpdateImage=true]
 	 */
-	udpateStyle(textOption) {
+	updateStyle(textOption, needUpdateImage = true) {
 		if (textOption) {
 			if (textOption.fontStyle) {
 				this.fontStyle = textOption.fontStyle;
@@ -87,7 +88,9 @@ export class TextTexture extends BaseTexture {
 				this.lineGap = textOption.lineGap;
 			}
 		}
-		this.updateImage();
+		if (needUpdateImage) {
+			this.updateImage();
+		}
 	}
 
 	get text() {

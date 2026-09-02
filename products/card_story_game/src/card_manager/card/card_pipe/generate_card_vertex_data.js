@@ -33,7 +33,7 @@ function _setVertex(array, index, x, y, u, v, isBg) {
  * @returns {Float32Array}
  */
 export function generateCardVertexData(card) {
-	const cardUiConfig = card.game.gameConfig.uiConfig.card;
+	const cardUiConfig = card.cardUiConfig;
 	const cardWidth = cardUiConfig.width;
 	const cardHeight = cardUiConfig.height;
 

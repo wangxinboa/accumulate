@@ -1,3 +1,4 @@
+import { RenderNodePool } from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { BaseCleanUp } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { Card } from "./card/card.js";
 import { CardPosition } from "./card_position.js";
@@ -11,6 +12,8 @@ export class CardManager extends BaseCleanUp {
 		/** @type {CardStoryGameType.CardStoryGame} */
 		this.game = cardStoryGame;
 		this.positionManager = new CardPosition();
+
+		this.cardPool = new RenderNodePool(Card);
 		/** @type {number} */
 		this.cardZIndex = -1;
 
@@ -125,7 +128,9 @@ export class CardManager extends BaseCleanUp {
 		}
 
 		// 创建卡牌实例，传入 game 和尺寸
-		const newCard = new Card(templateId, this.game)
+		const newCard = this.cardPool
+			.acquire(this.game.engine.scene)
+			.initialize(this.game.gameConfig.getCardTemplate(templateId), this.game.gameConfig.uiConfig.card)
 			.addClickEvent(this.onCardClick)
 			.addDragStartEvent(this.onCardDragStart)
 			.addDragEvent(this.onCardDrag)

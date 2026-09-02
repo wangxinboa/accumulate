@@ -63,7 +63,7 @@ export class CardPanel extends Render2DNode {
 		this.width = panelUiConfig.panelWidth;
 		this.zIndex = panelUiConfig.panelZIndex ?? 1000;
 
-		this.titleTexture.udpateStyle(panelUiConfig.panelTitle.textureOption);
+		this.titleTexture.updateStyle(panelUiConfig.panelTitle.textureOption);
 
 		this.descUi.updateConfig(panelUiConfig.panelDesc);
 		this.buttonAreaUi.updateConfig(panelUiConfig.panelButtonArea);

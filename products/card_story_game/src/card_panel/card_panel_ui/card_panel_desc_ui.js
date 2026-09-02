@@ -27,7 +27,7 @@ export class CardPanelDescUi extends BaseCleanUp {
 	 */
 	updateConfig(panelDescUiConfig) {
 		this.panelDescUiConfig = panelDescUiConfig;
-		this.descriptionTexture.udpateStyle(this.panelDescUiConfig.textureOption);
+		this.descriptionTexture.updateStyle(this.panelDescUiConfig.textureOption);
 	}
 
 	/**

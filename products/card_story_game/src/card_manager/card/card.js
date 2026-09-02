@@ -4,62 +4,95 @@ import {
 	Color,
 	TextTexture,
 } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { defaultGameConfig } from "../../../assets/game_config.js";
 import { CardPipe } from "./card_pipe/card_pipe.js";
 
 export class Card extends Render2DNode {
-	/** @type {number} 网格 X 坐标 */
-	gridX = 0;
-	/** @type {number} 网格 Y 坐标 */
-	gridY = 0;
-	/** @type {number} 网格位置唯一键 */
-	gridPositionKey = -1;
-	/** @type {number} 缓存宽（用于 buffer 更新检测） */
-	cacheBufferWidth = -1;
-	/** @type {number} 缓存高（用于 buffer 更新检测） */
-	cacheBufferHeight = -1;
-
-	/**
-	 * @param {number} templateId - 模板 ID
-	 * @param {CardStoryGameType.CardStoryGame} game - 游戏实例
-	 */
-	constructor(templateId, game) {
+	constructor() {
 		super();
 
-		/** @type {CardStoryGameType.CardStoryGame} 游戏实例引用 */
-		this.game = game;
-		/** @type {number} 模板 ID，关联到 GameConfig 中的模板 */
-		this.templateId = templateId;
+		this.cardUiConfig = defaultGameConfig.uiConfig.card;
 
-		// 从配置中获取模板数据
-		const template = game.gameConfig.getCardTemplate(templateId);
-		if (!template) {
-			throw new Error("模板 " + templateId + " 不存在");
-		}
-		/** @type {string} 卡牌显示文本 */
-		this.text = template.name || "Card";
-
-		const cardUiConfig = game.gameConfig.uiConfig.card;
-
-		// 从配置创建颜色对象
-		const bgColorObj = cardUiConfig.bgColor;
+		this.templateId = -1;
 		/** @type {Color} 背景色 */
-		this.bgColor = Color.createFromJson(bgColorObj);
-
-		this.width = cardUiConfig.width;
-		this.height = cardUiConfig.height;
-
+		this.bgColor = new Color();
+		this.width = -1;
+		this.height = -1;
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
-
 		/** @type {TextTexture} 文字纹理 */
-		this.titleTexture = new TextTexture(this.text, cardUiConfig.titleTextureOption);
+		this.titleTexture = new TextTexture("Card");
+
+		/** @type {number} 网格 X 坐标 */
+		this.gridX = 0;
+		/** @type {number} 网格 Y 坐标 */
+		this.gridY = 0;
+		/** @type {number} 网格位置唯一键 */
+		this.gridPositionKey = -1;
+		/** @type {number} 缓存宽（用于 buffer 更新检测） */
+		this.cacheBufferWidth = -1;
+		/** @type {number} 缓存高（用于 buffer 更新检测） */
+		this.cacheBufferHeight = -1;
 
 		this.dragUpdatePosition = true;
 		this.centerSelf();
+
+		this.hasInitialized = false;
 	}
 	get pipe() {
 		return CardPipe;
 	}
 
+	get text() {
+		return this.titleTexture.text;
+	}
+
+	/**
+	 * @param {CardStoryGameType.CardTemplate | null} template
+	 * @param {CardStoryGameType.UIConfig['card']} cardUiConfig
+	 */
+	initialize(template, cardUiConfig) {
+		if (!this.hasInitialized) {
+			this.hasInitialized = true;
+			this.updateConfig(cardUiConfig, false);
+		}
+		if (template) {
+			this.templateId = template.id;
+			this.titleTexture.updateTextAndStyle(template.name, cardUiConfig.titleTextureOption);
+		} else {
+			console.error("模板不存在");
+		}
+
+		return this;
+	}
+	/**
+	 * @param {CardStoryGameType.CardTemplate} template
+	 */
+	setTemplate(template) {
+		this.templateId = template.id;
+		this.titleTexture.text = template.name;
+	}
+	/**
+	 * @param {CardStoryGameType.UIConfig['card']} cardUiConfig - 卡牌 UI 配置
+	 */
+	updateConfig(cardUiConfig, needUpdateTitleTexture = true) {
+		this.cardUiConfig = cardUiConfig;
+		// 从配置创建颜色对象
+		this.bgColor.setValue(
+			this.cardUiConfig.bgColor.r,
+			this.cardUiConfig.bgColor.g,
+			this.cardUiConfig.bgColor.b,
+			this.cardUiConfig.bgColor.a,
+		);
+		this.width = this.cardUiConfig.width;
+		this.height = this.cardUiConfig.height;
+		this.geometry.updateShape(0, 0, this.width, this.height);
+
+		if (needUpdateTitleTexture) {
+			this.titleTexture.updateStyle(this.cardUiConfig.titleTextureOption);
+		}
+
+		return this;
+	}
 	/**
 	 * 更新卡牌位置和网格坐标
 	 * @param {number} gridPositionKey - 网格位置唯一键
@@ -104,9 +137,7 @@ export class Card extends Render2DNode {
 	}
 
 	destroy() {
-		if (this.titleTexture) {
-			this.titleTexture.destroy();
-		}
+		this.titleTexture.destroy();
 		this.bgColor.destroy();
 		super.destroy();
 	}
