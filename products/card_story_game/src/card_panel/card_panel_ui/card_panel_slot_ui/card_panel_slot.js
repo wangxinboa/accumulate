@@ -28,11 +28,11 @@ export class CardPanelSlot extends Render2DNode {
 		return CardPanelSlotPipe;
 	}
 
-	hover() {
+	markAsCardDropTarget() {
 		this.bgColor.r = 1;
 	}
 
-	unHover() {
+	clearCardDropTarget() {
 		this.bgColor.r = 0.1;
 	}
 

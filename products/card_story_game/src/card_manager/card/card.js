@@ -69,12 +69,15 @@ export class Card extends Render2DNode {
 	 * @param {number} gridY
 	 * @returns {this}
 	 */
-	updatePosition(gridPositionKey, worldX, worldY, gridX, gridY) {
+	updateGridPosition(gridPositionKey, worldX, worldY, gridX, gridY) {
 		this.x = worldX;
 		this.y = worldY;
 		this.gridX = gridX;
 		this.gridY = gridY;
 		this.gridPositionKey = gridPositionKey;
+
+		this.applyCameraTransform = true;
+
 		return this;
 	}
 

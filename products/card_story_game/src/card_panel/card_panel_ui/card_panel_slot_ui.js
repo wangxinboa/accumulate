@@ -31,7 +31,7 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 		this._slotPool = new RenderNodePool(CardPanelSlot);
 
 		/** @type {CardPanelSlot | null} */
-		this._currentHoverSlot = null;
+		this.dropTargetSlot = null;
 	}
 
 	/**
@@ -150,14 +150,14 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			}
 		}
 
-		if (this._currentHoverSlot !== closestSlot) {
-			if (this._currentHoverSlot) {
-				this._currentHoverSlot.unHover();
+		if (this.dropTargetSlot !== closestSlot) {
+			if (this.dropTargetSlot) {
+				this.dropTargetSlot.clearCardDropTarget();
 			}
 			if (closestSlot) {
-				closestSlot.hover();
+				closestSlot.markAsCardDropTarget();
 			}
-			this._currentHoverSlot = closestSlot;
+			this.dropTargetSlot = closestSlot;
 		}
 	}
 

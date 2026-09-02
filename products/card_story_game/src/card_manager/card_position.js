@@ -130,7 +130,7 @@ export class CardPosition extends BaseCleanUp {
 	 */
 	updateCardGridPosition(card, worldX, worldY, gridX, gridY) {
 		delete this.allCardGridPositionsMap[card.gridPositionKey];
-		card.updatePosition(this.getGridPositionKey(gridX, gridY), worldX, worldY, gridX, gridY);
+		card.updateGridPosition(this.getGridPositionKey(gridX, gridY), worldX, worldY, gridX, gridY);
 		this.allCardGridPositionsMap[card.gridPositionKey] = true;
 	}
 
