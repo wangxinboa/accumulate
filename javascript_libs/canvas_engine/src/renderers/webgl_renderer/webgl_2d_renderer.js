@@ -119,7 +119,7 @@ export class WebGL2DRenderer extends BaseRenderer {
 			this.scene.registerEventDescendant(renderNode);
 		}
 
-		renderNode.updateMatrix();
+		renderNode.updateMatrix(camera);
 
 		if (renderNode.pipe) {
 			this.stateSystem.setState(renderNode);

@@ -127,8 +127,10 @@ export class Render2DNode extends RenderEventNode {
 		this.y = y;
 	}
 
-	// matrix 更新
-	updateMatrix() {
+	/**
+	 * @param {CanvasEngineType.Camera2D} [camera]
+	 */
+	updateMatrix(camera) {
 		if (this.matrixNeedUpdate) {
 			this.matrix
 				.identity()
@@ -136,15 +138,33 @@ export class Render2DNode extends RenderEventNode {
 				.multiply(matrix3.makeRotation(this.rotation))
 				.multiply(matrix3.makeScale(this.scaleX === 0 ? 0 : this.scaleX, this.scaleY === 0 ? 0 : this.scaleY));
 
-			this._updateMatrixWorld();
+			this._updateMatrixWorld(camera);
 
 			this.matrixNeedUpdate = false;
 			this.worldMatrixNeedUpdate = false;
 		} else if (this.worldMatrixNeedUpdate) {
-			this._updateMatrixWorld();
+			this._updateMatrixWorld(camera);
 
 			this.worldMatrixNeedUpdate = false;
 		}
+	}
+
+	/**
+	 * @private
+	 * @param {CanvasEngineType.Camera2D} [camera]
+	 */
+	_updateMatrixWorld(camera) {
+		if (this.parent && this.parent.matrixWorld) {
+			this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
+		} else {
+			this.matrixWorld.copy(this.matrix);
+		}
+
+		if (camera) {
+			this.updateView(camera);
+		}
+
+		this.matrixWorldInvert.copy(this.matrixWorld).invert();
 	}
 
 	/**
@@ -165,16 +185,6 @@ export class Render2DNode extends RenderEventNode {
 		this.viewBottom = this.viewY;
 		this.viewCenterX = this.viewLeft + this.width / 2;
 		this.viewCenterY = this.viewBottom + this.height / 2;
-	}
-
-	/** @private */
-	_updateMatrixWorld() {
-		if (this.parent && this.parent.matrixWorld) {
-			this.matrixWorld.multiplyMatrices(this.parent.matrixWorld, this.matrix);
-		} else {
-			this.matrixWorld.copy(this.matrix);
-		}
-		this.matrixWorldInvert.copy(this.matrixWorld).invert();
 	}
 
 	/**

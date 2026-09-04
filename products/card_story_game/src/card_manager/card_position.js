@@ -30,7 +30,7 @@ export class CardPosition extends BaseCleanUp {
 	 * 根据游戏配置初始化面板参数
 	 * @param {CardStoryGameType.GameConfigData['uiConfig']['card']} cardUiConfig - 游戏配置数据（来自 game_config.json）
 	 */
-	initConfig(cardUiConfig) {
+	updateConfig(cardUiConfig) {
 		this.cardWidth = cardUiConfig.width;
 		this.cardHeight = cardUiConfig.height;
 		this.coordOffset = cardUiConfig.gridCoordOffset;
@@ -48,7 +48,6 @@ export class CardPosition extends BaseCleanUp {
 	_gridToWorld(gridX, gridY) {
 		return _worldPosition.set(this.cellWidth * gridX, this.cellHeight * gridY);
 	}
-
 	/**
 	 * @param {number} worldX
 	 * @param {number} worldY
@@ -56,7 +55,6 @@ export class CardPosition extends BaseCleanUp {
 	_worldToGridNearest(worldX, worldY) {
 		return _gridPosition.set(Math.round(worldX / this.cellWidth), Math.round(worldY / this.cellHeight));
 	}
-
 	/**
 	 * @param {number} gridX
 	 * @param {number} gridY
@@ -67,51 +65,49 @@ export class CardPosition extends BaseCleanUp {
 		const b = gridY + this.coordOffset;
 		return a >= b ? a * a + a + b : a + b * b;
 	}
-
 	/**
 	 * @param {number} gridKey
 	 */
 	_isGridOccupied(gridKey) {
 		return this.allCardGridPositionsMap[gridKey];
 	}
-
 	/**
-	 * @param {number} startX
-	 * @param {number} startY
+	 * @param {number} startGridX
+	 * @param {number} startGridY
 	 */
-	_findNearestFreeGridBFS(startX, startY) {
-		const startKey = this.getGridPositionKey(startX, startY);
+	findNearestFreeGridBFS(startGridX, startGridY) {
+		const startKey = this.getGridPositionKey(startGridX, startGridY);
 		if (!this._isGridOccupied(startKey)) {
-			return _gridPosition.set(startX, startY);
+			return _gridPosition.set(startGridX, startGridY);
 		}
 		for (let d = 1; d <= this.maxSearchDepth; d++) {
 			for (let dx = -d; dx <= d; dx++) {
-				const x = startX + dx;
-				const y = startY - d;
+				const x = startGridX + dx;
+				const y = startGridY - d;
 				const key = this.getGridPositionKey(x, y);
 				if (!this._isGridOccupied(key)) {
 					return _gridPosition.set(x, y);
 				}
 			}
 			for (let dy = -d + 1; dy <= d; dy++) {
-				const x = startX + d;
-				const y = startY + dy;
+				const x = startGridX + d;
+				const y = startGridY + dy;
 				const key = this.getGridPositionKey(x, y);
 				if (!this._isGridOccupied(key)) {
 					return _gridPosition.set(x, y);
 				}
 			}
 			for (let dx = d - 1; dx >= -d; dx--) {
-				const x = startX + dx;
-				const y = startY + d;
+				const x = startGridX + dx;
+				const y = startGridY + d;
 				const key = this.getGridPositionKey(x, y);
 				if (!this._isGridOccupied(key)) {
 					return _gridPosition.set(x, y);
 				}
 			}
 			for (let dy = d - 1; dy >= -d + 1; dy--) {
-				const x = startX - d;
-				const y = startY + dy;
+				const x = startGridX - d;
+				const y = startGridY + dy;
 				const key = this.getGridPositionKey(x, y);
 				if (!this._isGridOccupied(key)) {
 					return _gridPosition.set(x, y);
@@ -123,21 +119,48 @@ export class CardPosition extends BaseCleanUp {
 
 	/**
 	 * @param {CardStoryGameType.Card} card
+	 * @param {number} gridX
+	 * @param {number} gridY
+	 */
+	toNearestGrid(card, gridX, gridY) {
+		const nearestGridKey = this.getGridPositionKey(gridX, gridY);
+		if (this._isGridOccupied(nearestGridKey)) {
+			const oldWorldPos = this._gridToWorld(card.gridX, card.gridY);
+			card.x = oldWorldPos.x;
+			card.y = oldWorldPos.y;
+		} else {
+			const targetFreeGrid = this.findNearestFreeGridBFS(gridX, gridY);
+			const targetWorldPos = this._gridToWorld(targetFreeGrid.x, targetFreeGrid.y);
+			this.updateCardGridPosition(card, targetWorldPos.x, targetWorldPos.y, targetFreeGrid.x, targetFreeGrid.y);
+		}
+	}
+
+	/**
+	 * @param {CardStoryGameType.Card} card
 	 * @param {number} worldX
 	 * @param {number} worldY
 	 * @param {number} gridX
 	 * @param {number} gridY
 	 */
 	updateCardGridPosition(card, worldX, worldY, gridX, gridY) {
-		delete this.allCardGridPositionsMap[card.gridPositionKey];
-		card.updateGridPosition(this.getGridPositionKey(gridX, gridY), worldX, worldY, gridX, gridY);
+		this.clearCardGridPosition(card);
+		card.toGridPosition(this.getGridPositionKey(gridX, gridY), worldX, worldY, gridX, gridY);
 		this.allCardGridPositionsMap[card.gridPositionKey] = true;
 	}
-
+	/**
+	 * @param {CardStoryGameType.Card} card
+	 * @param {CardStoryGameType.CardPanelSlot} panelSlot
+	 */
+	addCardToPanelSlot(card, panelSlot) {
+		this.clearCardGridPosition(card);
+		card.bindPanelSlot(panelSlot);
+	}
 	/**
 	 * @param {CardStoryGameType.Card} card
 	 */
-	clearCardPosition(card) {
-		delete this.allCardGridPositionsMap[card.gridPositionKey];
+	clearCardGridPosition(card) {
+		if (this.allCardGridPositionsMap[card.gridPositionKey]) {
+			delete this.allCardGridPositionsMap[card.gridPositionKey];
+		}
 	}
 }

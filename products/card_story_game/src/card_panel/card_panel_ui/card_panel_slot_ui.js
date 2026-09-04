@@ -47,6 +47,7 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 	 * @param {Array<{label: string}>} slotsData - 槽位数据数组，每个元素有 label
 	 */
 	updateSlots(slotsData) {
+		this.clearAllSlotCards();
 		if (!Array.isArray(slotsData)) {
 			return;
 		}
@@ -98,18 +99,42 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 		this.bottomY = topY;
 	}
 
+	clearAllSlotCards() {
+		for (let i = this.children.length - 1; i >= 0; i--) {
+			const slot = this.children[i];
+			const card = slot.currentCard;
+			if (card) {
+				this.game.cardManager.positionManager.toNearestGrid(card, card.gridX, card.gridY);
+				card.recoveryZIndex();
+			}
+		}
+	}
+	/**
+	 * @param {CardPanelSlot | null} slot
+	 */
+	changeDropTargetSlot(slot) {
+		if (this.dropTargetSlot !== slot) {
+			if (this.dropTargetSlot) {
+				this.dropTargetSlot.clearCardDropTarget();
+			}
+			if (slot) {
+				slot.markAsCardDropTarget();
+			}
+			this.dropTargetSlot = slot;
+		}
+	}
+
 	/**
 	 * 获取与卡牌重叠且最近的卡槽。
 	 * 同时有多个重叠时，取中心距离最近的卡槽。
 	 *
 	 * @param {CardStoryGameType.Card | null} card - 要检测的卡牌，传入 null 则清空悬停状态
 	 */
-	setCardOverlappingSlot(card) {
+	checkCardOverlappingSlot(card) {
 		let closestSlot = null;
 
 		if (card) {
 			// 计算卡牌 AABB（中心点坐标）
-			card.updateView(this.game.engine.camera);
 
 			// 卡牌中心坐标
 			let closestDistSq = Infinity;
@@ -122,7 +147,6 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 				if (!(slot instanceof CardPanelSlot)) {
 					continue;
 				}
-				slot.updateView(this.game.engine.camera);
 
 				// 检测卡牌与卡槽是否重叠
 				const overlap = RectangleDef.isOverlapWithRectangle(
@@ -150,15 +174,8 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			}
 		}
 
-		if (this.dropTargetSlot !== closestSlot) {
-			if (this.dropTargetSlot) {
-				this.dropTargetSlot.clearCardDropTarget();
-			}
-			if (closestSlot) {
-				closestSlot.markAsCardDropTarget();
-			}
-			this.dropTargetSlot = closestSlot;
-		}
+		this.changeDropTargetSlot(closestSlot);
+		return closestSlot;
 	}
 
 	destroy() {

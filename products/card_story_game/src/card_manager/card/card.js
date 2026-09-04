@@ -5,6 +5,7 @@ import {
 	TextTexture,
 } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { defaultGameConfig } from "../../../assets/game_config.js";
+import { CardStateTypeEnum } from "./card_contants.js";
 import { CardPipe } from "./card_pipe/card_pipe.js";
 
 export class Card extends Render2DNode {
@@ -21,13 +22,17 @@ export class Card extends Render2DNode {
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
 		/** @type {TextTexture} 文字纹理 */
 		this.titleTexture = new TextTexture("Card");
-
+		/** @type {CardStoryGameType.CardStateTypeEnum} 卡牌状态 */
+		this.state = CardStateTypeEnum.Grid;
 		/** @type {number} 网格 X 坐标 */
 		this.gridX = 0;
 		/** @type {number} 网格 Y 坐标 */
 		this.gridY = 0;
 		/** @type {number} 网格位置唯一键 */
 		this.gridPositionKey = -1;
+
+		this.bindedPanelSlot = null;
+
 		/** @type {number} 缓存宽（用于 buffer 更新检测） */
 		this.cacheBufferWidth = -1;
 		/** @type {number} 缓存高（用于 buffer 更新检测） */
@@ -42,7 +47,7 @@ export class Card extends Render2DNode {
 		return CardPipe;
 	}
 
-	get text() {
+	get title() {
 		return this.titleTexture.text;
 	}
 
@@ -97,6 +102,71 @@ export class Card extends Render2DNode {
 
 		return this;
 	}
+
+	isSlot() {
+		return this.state === CardStateTypeEnum.Slot;
+	}
+	isGrid() {
+		return this.state === CardStateTypeEnum.Grid;
+	}
+	isPanel() {
+		return this.state === CardStateTypeEnum.Panel;
+	}
+	isDrag() {
+		return this.state === CardStateTypeEnum.Drag;
+	}
+
+	/**
+	 * @param {number} zIndex
+	 */
+	gridToDrag(zIndex) {
+		this.state = CardStateTypeEnum.Drag;
+
+		this.changeZIndex(zIndex);
+	}
+	dragToGrid() {
+		this.state = CardStateTypeEnum.Grid;
+		this.recoveryZIndex();
+	}
+	bindPanel() {
+		this.state = CardStateTypeEnum.Panel;
+		this.disableDragUpdatePosition();
+	}
+	unbindPanelToGrid() {
+		this.state = CardStateTypeEnum.Grid;
+		this.enableDragUpdatePosition();
+	}
+	/**
+	 * @param {CardStoryGameType.CardPanelSlot} panelSlot
+	 */
+	bindPanelSlot(panelSlot) {
+		this.state = CardStateTypeEnum.Slot;
+		this.bindedPanelSlot = panelSlot;
+		this.bindedPanelSlot.setCurrentCard(this);
+		this.applyCameraTransform = false;
+
+		this.updateXY(
+			panelSlot.viewCenterX - this.width * (this.pivotX - 0.5),
+			panelSlot.viewCenterY - this.height * (this.pivotY - 0.5),
+		);
+	}
+	/**
+	 * @param {number} x
+	 * @param {number} y
+	 * @param {number} zIndex
+	 */
+	unbindPanelSlotToDrag(x, y, zIndex) {
+		this.state = CardStateTypeEnum.Drag;
+		if (this.bindedPanelSlot) {
+			this.bindedPanelSlot.setCurrentCard(null);
+			this.bindedPanelSlot = null;
+		}
+		this.applyCameraTransform = true;
+		this.updateXY(x, y);
+
+		this.changeZIndex(zIndex);
+	}
+
 	/**
 	 * 更新卡牌位置和网格坐标
 	 * @param {number} gridPositionKey - 网格位置唯一键
@@ -106,7 +176,7 @@ export class Card extends Render2DNode {
 	 * @param {number} gridY
 	 * @returns {this}
 	 */
-	updateGridPosition(gridPositionKey, worldX, worldY, gridX, gridY) {
+	toGridPosition(gridPositionKey, worldX, worldY, gridX, gridY) {
 		this.x = worldX;
 		this.y = worldY;
 		this.gridX = gridX;
@@ -126,6 +196,9 @@ export class Card extends Render2DNode {
 		if (this.parent) {
 			this.parent.sortChildren();
 		}
+	}
+	recoveryZIndex() {
+		this.changeZIndex(this.cardUiConfig.cardZIndex);
 	}
 
 	/**

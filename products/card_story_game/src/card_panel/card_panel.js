@@ -17,7 +17,7 @@ export class CardPanel extends Render2DNode {
 		super();
 
 		/** @type {CardStoryGameType.Card | null} */
-		this.mountedCard = null;
+		this.currentCard = null;
 		this.game = cardStoryGame;
 
 		this.bgColor = new Color();
@@ -78,24 +78,18 @@ export class CardPanel extends Render2DNode {
 	/**
 	 * @param {CardStoryGameType.Card | null} card
 	 */
-	mountCard(card) {
-		if (this.mountedCard !== card) {
-			if (this.mountedCard) {
-				this.mountedCard.enableDragUpdatePosition();
+	changeCurrentCard(card) {
+		if (this.currentCard !== card) {
+			if (this.currentCard) {
+				this.currentCard.unbindPanelToGrid();
 			}
 			if (card) {
-				card.disableDragUpdatePosition();
-				this.titleTexture.text = card.text;
+				card.bindPanel();
+				this.titleTexture.text = card.title;
 			}
 
-			this.mountedCard = card;
+			this.currentCard = card;
 		}
-	}
-	/**
-	 * @param {CardStoryGameType.Card} card
-	 */
-	isMountedCard(card) {
-		return this.mountedCard === card;
 	}
 
 	/**
@@ -107,7 +101,7 @@ export class CardPanel extends Render2DNode {
 			return this;
 		}
 
-		this.mountCard(card);
+		this.changeCurrentCard(card);
 
 		const template = this.game.gameConfig.getCardTemplate(card.templateId);
 		const desc = template ? template.description || "" : "";
@@ -153,7 +147,7 @@ export class CardPanel extends Render2DNode {
 		if (!hasMovedBeforeUp) {
 			this.visible = false;
 
-			this.mountCard(null);
+			this.changeCurrentCard(null);
 			// 隐藏时清空卡槽并隐藏调试矩形
 			this.slotAreaUi.updateSlots([]);
 		}
@@ -169,9 +163,6 @@ export class CardPanel extends Render2DNode {
 		if (!card || !this.visible) {
 			return false;
 		}
-
-		card.updateView(this.game.engine.camera);
-		this.updateView(this.game.engine.camera);
 
 		// 使用 RectangleDef 的静态方法检测重叠
 		return RectangleDef.isOverlapWithRectangle(

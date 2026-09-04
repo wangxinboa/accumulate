@@ -34,13 +34,6 @@ export function generateButtonVertexData(button) {
 	const textRectW = button.textTexture.width;
 	const textRectH = button.textTexture.height;
 
-	// console.info("width:", width);
-	// console.info("height:", height);
-	// console.info("textRectX:", textRectX);
-	// console.info("textRectY:", textRectY);
-	// console.info("textRectW:", textRectW);
-	// console.info("textRectH:", textRectH);
-
 	// 分配 12 个顶点（6背景 + 6文字）
 	const floatArray = new Float32Array(12 * 5);
 

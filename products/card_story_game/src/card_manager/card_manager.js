@@ -14,13 +14,13 @@ export class CardManager extends BaseCleanUp {
 		this.positionManager = new CardPosition();
 
 		this.cardPool = new RenderNodePool(Card);
-		/** @type {number} */
-		this.cardZIndex = -1;
 
 		this.onCardClick = this.onCardClick.bind(this);
 		this.onCardDragStart = this.onCardDragStart.bind(this);
 		this.onCardDrag = this.onCardDrag.bind(this);
 		this.onCardDragEnd = this.onCardDragEnd.bind(this);
+
+		this.cardToDragCount = 0;
 
 		this.cardIsInPanel = false;
 	}
@@ -30,25 +30,29 @@ export class CardManager extends BaseCleanUp {
 	 * @param {CardStoryGameType.GameConfigData['uiConfig']['card']} cardUiConfig - 游戏配置数据（来自 game_config.json）
 	 */
 	initConfig(cardUiConfig) {
-		this.positionManager.initConfig(cardUiConfig);
-
-		this.cardZIndex = cardUiConfig.cardZIndex;
+		this.positionManager.updateConfig(cardUiConfig);
 	}
 
 	/**
 	 * @param {Card} card
 	 */
 	onCardClick(card) {
-		card.changeZIndex(this.cardZIndex);
-		this.game.panel.show(card);
+		if (card.isDrag()) {
+			this.game.panel.show(card);
+			card.dragToGrid();
+		}
 	}
 
 	/**
 	 * @param {Card} card
 	 */
 	onCardDragStart(card) {
-		if (!this.game.panel.isMountedCard(card)) {
-			card.changeZIndex(this.game.panel.zIndex + 1);
+		const zIndex = this.game.panel.zIndex + ++this.cardToDragCount;
+		if (card.isGrid()) {
+			card.gridToDrag(zIndex);
+		} else if (card.isSlot()) {
+			this.game.panel.slotAreaUi.changeDropTargetSlot(card.bindedPanelSlot);
+			card.unbindPanelSlotToDrag(card.x - this.game.engine.camera.x, card.y - this.game.engine.camera.y, zIndex);
 		}
 	}
 
@@ -56,17 +60,17 @@ export class CardManager extends BaseCleanUp {
 	 * @param {Card} card
 	 */
 	onCardDrag(card) {
-		if (!this.game.panel.isMountedCard(card)) {
+		if (card.isDrag()) {
 			// 1. 检测卡牌是否与面板重叠，并更新调试矩形
 			this.cardIsInPanel = this.game.panel.checkOverlap(card);
 
 			// 2. 如果与面板重叠，进一步检测与哪个卡槽重叠
 			if (this.cardIsInPanel) {
 				// 获取重叠的最近卡槽（内部已处理高亮状态更新）
-				this.game.panel.slotAreaUi.setCardOverlappingSlot(card);
+				this.game.panel.slotAreaUi.checkCardOverlappingSlot(card);
 			} else {
 				// 卡牌不在面板上时，清除悬停高亮状态
-				this.game.panel.slotAreaUi.setCardOverlappingSlot(null);
+				this.game.panel.slotAreaUi.checkCardOverlappingSlot(null);
 			}
 		}
 	}
@@ -75,39 +79,24 @@ export class CardManager extends BaseCleanUp {
 	 * @param {Card} card
 	 */
 	onCardDragEnd(card) {
-		if (!this.game.panel.isMountedCard(card)) {
-			const originalX = card.x;
-			const originalY = card.y;
-			const originalGridX = card.gridX;
-			const originalGridY = card.gridY;
-
-			const nearestGrid = this.positionManager._worldToGridNearest(card.x, card.y);
-			const nearestGridKey = this.positionManager.getGridPositionKey(nearestGrid.x, nearestGrid.y);
-
-			try {
-				if (this.positionManager._isGridOccupied(nearestGridKey)) {
-					const oldWorldPos = this.positionManager._gridToWorld(card.gridX, card.gridY);
-					card.x = oldWorldPos.x;
-					card.y = oldWorldPos.y;
+		const dropTargetSlot = this.game.panel.slotAreaUi.dropTargetSlot;
+		if (card.isDrag()) {
+			if (dropTargetSlot) {
+				if (dropTargetSlot.currentCard) {
+					this.positionManager.toNearestGrid(card, card.gridX, card.gridY);
+					card.dragToGrid();
 				} else {
-					const targetFreeGrid = this.positionManager._findNearestFreeGridBFS(nearestGrid.x, nearestGrid.y);
-					const targetWorldPos = this.positionManager._gridToWorld(targetFreeGrid.x, targetFreeGrid.y);
-
-					this.positionManager.updateCardGridPosition(
-						card,
-						targetWorldPos.x,
-						targetWorldPos.y,
-						targetFreeGrid.x,
-						targetFreeGrid.y,
-					);
+					this.positionManager.addCardToPanelSlot(card, dropTargetSlot);
 				}
-				card.changeZIndex(this.cardZIndex);
-			} catch (e) {
-				this.positionManager.updateCardGridPosition(card, originalX, originalY, originalGridX, originalGridY);
-			}
+			} else {
+				const nearestGrid = this.positionManager._worldToGridNearest(card.x, card.y);
+				this.positionManager.toNearestGrid(card, nearestGrid.x, nearestGrid.y);
 
-			this.cardIsInPanel = false;
-			this.game.panel.slotAreaUi.setCardOverlappingSlot(null);
+				this.cardIsInPanel = false;
+				this.game.panel.slotAreaUi.checkCardOverlappingSlot(null);
+
+				card.dragToGrid();
+			}
 		}
 	}
 
@@ -149,7 +138,7 @@ export class CardManager extends BaseCleanUp {
 	 * @param {Card} card
 	 */
 	removeCardFromGrid(card) {
-		this.positionManager.clearCardPosition(card);
+		this.positionManager.clearCardGridPosition(card);
 		this.cardPool.release(card);
 	}
 

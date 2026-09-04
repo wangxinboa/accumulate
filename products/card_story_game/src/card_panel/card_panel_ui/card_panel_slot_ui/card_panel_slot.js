@@ -20,6 +20,8 @@ export class CardPanelSlot extends Render2DNode {
 		this.height = 90;
 
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
+		/** @type {CardStoryGameType.Card | null} */
+		this.currentCard = null;
 
 		this.needUpdateBuffer = true;
 	}
@@ -31,9 +33,15 @@ export class CardPanelSlot extends Render2DNode {
 	markAsCardDropTarget() {
 		this.bgColor.r = 1;
 	}
-
 	clearCardDropTarget() {
 		this.bgColor.r = 0.1;
+	}
+
+	/**
+	 * @param {CardStoryGameType.Card | null} card
+	 */
+	setCurrentCard(card) {
+		this.currentCard = card;
 	}
 
 	/**
