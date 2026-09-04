@@ -143,8 +143,7 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			for (let i = 0, len = slots.length; i < len; i++) {
 				const slot = slots[i];
 
-				// 只检测 CardPanelSlot 类型
-				if (!(slot instanceof CardPanelSlot)) {
+				if (slot.currentCard) {
 					continue;
 				}
 

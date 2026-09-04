@@ -82,12 +82,10 @@ export class CardManager extends BaseCleanUp {
 		const dropTargetSlot = this.game.panel.slotAreaUi.dropTargetSlot;
 		if (card.isDrag()) {
 			if (dropTargetSlot) {
-				if (dropTargetSlot.currentCard) {
-					this.positionManager.toNearestGrid(card, card.gridX, card.gridY);
-					card.dragToGrid();
-				} else {
-					this.positionManager.addCardToPanelSlot(card, dropTargetSlot);
-				}
+				this.positionManager.addCardToPanelSlot(card, dropTargetSlot);
+			} else if (this.cardIsInPanel) {
+				this.positionManager.toNearestGrid(card, card.gridX, card.gridY);
+				card.dragToGrid();
 			} else {
 				const nearestGrid = this.positionManager._worldToGridNearest(card.x, card.y);
 				this.positionManager.toNearestGrid(card, nearestGrid.x, nearestGrid.y);

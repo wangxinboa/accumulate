@@ -97,13 +97,13 @@ export const defaultGameConfig = Object.freeze({
 			panelSlotArea: {
 				marginTop: 12,
 				x: 8,
-				gapX: 8,
-				gapY: 8,
+				gapX: 6,
+				gapY: 6,
 				width: 284,
 
 				slotOption: {
-					width: 60,
-					height: 90,
+					width: 62,
+					height: 92,
 					titleTextureOption: {
 						fontSize: 12,
 						fontFamily: "Microsoft YaHei",

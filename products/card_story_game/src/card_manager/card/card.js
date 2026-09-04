@@ -30,7 +30,7 @@ export class Card extends Render2DNode {
 		this.gridY = 0;
 		/** @type {number} 网格位置唯一键 */
 		this.gridPositionKey = -1;
-
+		/** @type {CardStoryGameType.CardPanelSlot | null} */
 		this.bindedPanelSlot = null;
 
 		/** @type {number} 缓存宽（用于 buffer 更新检测） */
@@ -144,6 +144,7 @@ export class Card extends Render2DNode {
 		this.bindedPanelSlot = panelSlot;
 		this.bindedPanelSlot.setCurrentCard(this);
 		this.applyCameraTransform = false;
+		panelSlot.clearCardDropTarget();
 
 		this.updateXY(
 			panelSlot.viewCenterX - this.width * (this.pivotX - 0.5),
