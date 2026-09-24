@@ -1,7 +1,7 @@
 import { RenderNodePool } from "../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { BaseCleanUp } from "../../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { Card } from "./card/card.js";
-import { CardPosition } from "./card_position.js";
+import { CardGridPosition } from "./card_grid_position.js";
 
 export class CardManager extends BaseCleanUp {
 	/**
@@ -11,7 +11,7 @@ export class CardManager extends BaseCleanUp {
 		super();
 		/** @type {CardStoryGameType.CardStoryGame} */
 		this.game = cardStoryGame;
-		this.positionManager = new CardPosition();
+		this.gridPosition = new CardGridPosition();
 
 		this.cardPool = new RenderNodePool(Card);
 
@@ -30,7 +30,7 @@ export class CardManager extends BaseCleanUp {
 	 * @param {CardStoryGameType.GameConfigData['uiConfig']['card']} cardUiConfig - 游戏配置数据（来自 game_config.json）
 	 */
 	initConfig(cardUiConfig) {
-		this.positionManager.updateConfig(cardUiConfig);
+		this.gridPosition.updateConfig(cardUiConfig);
 	}
 
 	/**
@@ -39,7 +39,6 @@ export class CardManager extends BaseCleanUp {
 	onCardClick(card) {
 		if (card.isDrag()) {
 			this.game.panel.show(card);
-			card.dragToGrid();
 		}
 	}
 
@@ -82,13 +81,13 @@ export class CardManager extends BaseCleanUp {
 		const dropTargetSlot = this.game.panel.slotAreaUi.dropTargetSlot;
 		if (card.isDrag()) {
 			if (dropTargetSlot) {
-				this.positionManager.addCardToPanelSlot(card, dropTargetSlot);
+				this.gridPosition.addCardToPanelSlot(card, dropTargetSlot);
 			} else if (this.cardIsInPanel) {
-				this.positionManager.toNearestGrid(card, card.gridX, card.gridY);
+				this.gridPosition.toNearestGrid(card, card.gridX, card.gridY);
 				card.dragToGrid();
 			} else {
-				const nearestGrid = this.positionManager._worldToGridNearest(card.x, card.y);
-				this.positionManager.toNearestGrid(card, nearestGrid.x, nearestGrid.y);
+				const nearestGrid = this.gridPosition._worldToGridNearest(card.x, card.y);
+				this.gridPosition.toNearestGrid(card, nearestGrid.x, nearestGrid.y);
 
 				this.cardIsInPanel = false;
 				this.game.panel.slotAreaUi.checkCardOverlappingSlot(null);
@@ -106,17 +105,17 @@ export class CardManager extends BaseCleanUp {
 	 * @returns {Card}
 	 */
 	createCardToGrid(templateId, gridX, gridY) {
-		const gridKey = this.positionManager.getGridPositionKey(gridX, gridY);
+		const gridKey = this.gridPosition.getGridPositionKey(gridX, gridY);
 
-		if (this.positionManager._isGridOccupied(gridKey)) {
+		if (this.gridPosition._isGridOccupied(gridKey)) {
 			throw new Error("Grid (" + gridX + ", " + gridY + ") is already occupied.");
 		}
 
-		const pos = this.positionManager._gridToWorld(gridX, gridY);
+		const pos = this.gridPosition._gridToWorld(gridX, gridY);
 		const cardTemplate = this.game.gameConfig.getCardTemplate(templateId);
 		// 创建卡牌实例，传入 game 和尺寸
 		const newCard = this.cardPool.acquire(this.game.engine.scene);
-		this.positionManager.updateCardGridPosition(newCard, pos.x, pos.y, gridX, gridY);
+		this.gridPosition.updateCardGridPosition(newCard, pos.x, pos.y, gridX, gridY);
 
 		if (newCard.initialized) {
 			newCard.setTemplate(cardTemplate);
@@ -136,12 +135,12 @@ export class CardManager extends BaseCleanUp {
 	 * @param {Card} card
 	 */
 	removeCardFromGrid(card) {
-		this.positionManager.clearCardGridPosition(card);
+		this.gridPosition.clearCardGridPosition(card);
 		this.cardPool.release(card);
 	}
 
 	destroy() {
-		this.positionManager.destroy();
+		this.gridPosition.destroy();
 
 		super.destroy();
 	}

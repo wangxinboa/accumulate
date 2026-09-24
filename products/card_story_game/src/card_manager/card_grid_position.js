@@ -4,7 +4,7 @@ import { BaseCleanUp } from "../../../../javascript_libs/javascript_utils/javasc
 const _gridPosition = new Vector2();
 const _worldPosition = new Vector2();
 
-export class CardPosition extends BaseCleanUp {
+export class CardGridPosition extends BaseCleanUp {
 	constructor() {
 		super();
 		/** @type {Record<number, boolean>} */
@@ -134,6 +134,7 @@ export class CardPosition extends BaseCleanUp {
 			this.updateCardGridPosition(card, targetWorldPos.x, targetWorldPos.y, targetFreeGrid.x, targetFreeGrid.y);
 		}
 	}
+	recoveryGridPosition() {}
 
 	/**
 	 * @param {CardStoryGameType.Card} card
@@ -153,7 +154,7 @@ export class CardPosition extends BaseCleanUp {
 	 */
 	addCardToPanelSlot(card, panelSlot) {
 		this.clearCardGridPosition(card);
-		card.bindPanelSlot(panelSlot);
+		card.toSlot(panelSlot);
 	}
 	/**
 	 * @param {CardStoryGameType.Card} card

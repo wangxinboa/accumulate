@@ -81,7 +81,7 @@ export class CardPanel extends Render2DNode {
 	changeCurrentCard(card) {
 		if (this.currentCard !== card) {
 			if (this.currentCard) {
-				this.currentCard.unbindPanelToGrid();
+				this.currentCard.unbindPanel();
 			}
 			if (card) {
 				card.bindPanel();

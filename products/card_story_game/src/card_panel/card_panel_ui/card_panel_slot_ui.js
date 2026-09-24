@@ -104,8 +104,8 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			const slot = this.children[i];
 			const card = slot.currentCard;
 			if (card) {
-				this.game.cardManager.positionManager.toNearestGrid(card, card.gridX, card.gridY);
-				card.recoveryZIndex();
+				card.unbindPanelSlotToGrid();
+				this.game.cardManager.gridPosition.toNearestGrid(card, card.gridX, card.gridY);
 			}
 		}
 	}

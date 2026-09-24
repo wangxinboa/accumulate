@@ -81,7 +81,8 @@ export class Card extends Render2DNode {
 		}
 	}
 	/**
-	 * @param {CardStoryGameType.UIConfig['card']} cardUiConfig - 卡牌 UI 配置
+	 * @param {CardStoryGameType.UIConfig['card']} cardUiConfig 卡牌 UI 配置
+	 * @param {boolean} needUpdateTitleTexture 是否需要更新标题纹理
 	 */
 	updateConfig(cardUiConfig, needUpdateTitleTexture = true) {
 		this.cardUiConfig = cardUiConfig;
@@ -117,6 +118,22 @@ export class Card extends Render2DNode {
 	}
 
 	/**
+	 * @param {CardStoryGameType.CardPanelSlot} panelSlot
+	 */
+	toSlot(panelSlot) {
+		this.state = CardStateTypeEnum.Slot;
+		this.bindedPanelSlot = panelSlot;
+		this.bindedPanelSlot.setCurrentCard(this);
+		this.applyCameraTransform = false;
+		panelSlot.clearCardDropTarget();
+
+		this.updateXY(
+			panelSlot.viewCenterX - this.width * (this.pivotX - 0.5),
+			panelSlot.viewCenterY - this.height * (this.pivotY - 0.5),
+		);
+	}
+
+	/**
 	 * @param {number} zIndex
 	 */
 	gridToDrag(zIndex) {
@@ -131,26 +148,13 @@ export class Card extends Render2DNode {
 	bindPanel() {
 		this.state = CardStateTypeEnum.Panel;
 		this.disableDragUpdatePosition();
+		this.recoveryZIndex();
 	}
-	unbindPanelToGrid() {
+	unbindPanel() {
 		this.state = CardStateTypeEnum.Grid;
 		this.enableDragUpdatePosition();
 	}
-	/**
-	 * @param {CardStoryGameType.CardPanelSlot} panelSlot
-	 */
-	bindPanelSlot(panelSlot) {
-		this.state = CardStateTypeEnum.Slot;
-		this.bindedPanelSlot = panelSlot;
-		this.bindedPanelSlot.setCurrentCard(this);
-		this.applyCameraTransform = false;
-		panelSlot.clearCardDropTarget();
 
-		this.updateXY(
-			panelSlot.viewCenterX - this.width * (this.pivotX - 0.5),
-			panelSlot.viewCenterY - this.height * (this.pivotY - 0.5),
-		);
-	}
 	/**
 	 * @param {number} x
 	 * @param {number} y
@@ -158,14 +162,26 @@ export class Card extends Render2DNode {
 	 */
 	unbindPanelSlotToDrag(x, y, zIndex) {
 		this.state = CardStateTypeEnum.Drag;
+
+		this.unbindPanelSlot();
+
+		this.updateXY(x, y);
+
+		this.changeZIndex(zIndex);
+	}
+	unbindPanelSlotToGrid() {
+		this.state = CardStateTypeEnum.Grid;
+
+		this.unbindPanelSlot();
+
+		this.recoveryZIndex();
+	}
+	unbindPanelSlot() {
 		if (this.bindedPanelSlot) {
 			this.bindedPanelSlot.setCurrentCard(null);
 			this.bindedPanelSlot = null;
 		}
 		this.applyCameraTransform = true;
-		this.updateXY(x, y);
-
-		this.changeZIndex(zIndex);
 	}
 
 	/**
