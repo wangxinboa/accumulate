@@ -34,6 +34,48 @@ export class CardManager extends BaseCleanUp {
 	}
 
 	/**
+	 * 从网格中开始拖拽
+	 * @param {Card} card
+	 */
+	updateCardFromGridToDrag(card) {
+		card.toDrag();
+	}
+	/**
+	 * 从面板卡槽中开始拖拽
+	 * @param {Card} card
+	 */
+	updateCardFromPanelSlotToDrag(card) {
+		card.toDrag();
+		card.unbindPanelSlot();
+		this.game.panel.slotAreaUi.changeDropTargetSlot(card.bindedPanelSlot);
+	}
+	/**
+	 * 从面板卡槽中回到网格
+	 * @param {Card} card
+	 */
+	updateCardFromPanelSlotToGrid(card) {
+		card.toGrid();
+		card.unbindPanelSlot();
+		this.gridPosition.toNearestGrid(card, card.gridX, card.gridY);
+	}
+	/**
+	 * 从拖拽状态回到网格中
+	 * @param {Card} card
+	 */
+	updateCardFromDragToGrid(card) {
+		card.toGrid();
+	}
+	/**
+	 * 从拖拽状态到面板卡槽中
+	 * @param {Card} card
+	 * @param {CardStoryGameType.CardPanelSlot} panelSlot
+	 */
+	updateCardFromDragToPanelSlot(card, panelSlot) {
+		this.gridPosition.clearCardGridPosition(card);
+		card.toSlot(panelSlot);
+	}
+
+	/**
 	 * @param {Card} card
 	 */
 	onCardClick(card) {
@@ -41,26 +83,23 @@ export class CardManager extends BaseCleanUp {
 			this.game.panel.show(card);
 		}
 	}
-
 	/**
 	 * @param {Card} card
 	 */
 	onCardDragStart(card) {
-		const zIndex = this.game.panel.zIndex + ++this.cardToDragCount;
 		if (card.isGrid()) {
-			card.gridToDrag(zIndex);
+			this.updateCardFromGridToDrag(card);
 		} else if (card.isSlot()) {
-			this.game.panel.slotAreaUi.changeDropTargetSlot(card.bindedPanelSlot);
-			card.unbindPanelSlotToDrag(card.x - this.game.engine.camera.x, card.y - this.game.engine.camera.y, zIndex);
+			this.updateCardFromPanelSlotToDrag(card);
 		}
+		this.cardIsInPanel = false;
 	}
-
 	/**
 	 * @param {Card} card
 	 */
 	onCardDrag(card) {
-		if (card.isDrag()) {
-			// 1. 检测卡牌是否与面板重叠，并更新调试矩形
+		if (card.isDrag() && this.game.panel.visible) {
+			// 1. 检测卡牌是否与面板重叠
 			this.cardIsInPanel = this.game.panel.checkOverlap(card);
 
 			// 2. 如果与面板重叠，进一步检测与哪个卡槽重叠
@@ -73,30 +112,31 @@ export class CardManager extends BaseCleanUp {
 			}
 		}
 	}
-
 	/**
 	 * @param {Card} card
 	 */
 	onCardDragEnd(card) {
-		const dropTargetSlot = this.game.panel.slotAreaUi.dropTargetSlot;
 		if (card.isDrag()) {
+			const dropTargetSlot = this.game.panel.slotAreaUi.dropTargetSlot;
 			if (dropTargetSlot) {
-				this.gridPosition.addCardToPanelSlot(card, dropTargetSlot);
+				// 放置到卡槽位置中
+				this.updateCardFromDragToPanelSlot(card, dropTargetSlot);
 			} else if (this.cardIsInPanel) {
+				// 与面板重叠, 返回原来的位置
 				this.gridPosition.toNearestGrid(card, card.gridX, card.gridY);
-				card.dragToGrid();
+				this.updateCardFromDragToGrid(card);
 			} else {
-				const nearestGrid = this.gridPosition._worldToGridNearest(card.x, card.y);
-				this.gridPosition.toNearestGrid(card, nearestGrid.x, nearestGrid.y);
+				const nearestGrid = this.gridPosition.worldToGridNearest(card.x, card.y);
 
-				this.cardIsInPanel = false;
-				this.game.panel.slotAreaUi.checkCardOverlappingSlot(null);
-
-				card.dragToGrid();
+				if (this.gridPosition.isGridOccupied(nearestGrid.x, nearestGrid.y)) {
+					this.gridPosition.updateCardPositionByGridXY(card, card.gridX, card.gridY);
+				} else {
+					this.gridPosition.updateCardPositionByGridXY(card, nearestGrid.x, nearestGrid.y);
+				}
+				this.updateCardFromDragToGrid(card);
 			}
 		}
 	}
-
 	/**
 	 * 根据模板 ID 和存档数据创建卡牌
 	 * @param {number} templateId - 模板 ID
@@ -105,13 +145,11 @@ export class CardManager extends BaseCleanUp {
 	 * @returns {Card}
 	 */
 	createCardToGrid(templateId, gridX, gridY) {
-		const gridKey = this.gridPosition.getGridPositionKey(gridX, gridY);
-
-		if (this.gridPosition._isGridOccupied(gridKey)) {
+		if (this.gridPosition.isGridOccupied(gridX, gridY)) {
 			throw new Error("Grid (" + gridX + ", " + gridY + ") is already occupied.");
 		}
 
-		const pos = this.gridPosition._gridToWorld(gridX, gridY);
+		const pos = this.gridPosition.gridToWorld(gridX, gridY);
 		const cardTemplate = this.game.gameConfig.getCardTemplate(templateId);
 		// 创建卡牌实例，传入 game 和尺寸
 		const newCard = this.cardPool.acquire(this.game.engine.scene);
@@ -130,7 +168,6 @@ export class CardManager extends BaseCleanUp {
 
 		return newCard;
 	}
-
 	/**
 	 * @param {Card} card
 	 */

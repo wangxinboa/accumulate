@@ -7,7 +7,7 @@ const _worldPosition = new Vector2();
 export class CardGridPosition extends BaseCleanUp {
 	constructor() {
 		super();
-		/** @type {Record<number, boolean>} */
+		/** @type {Record<number, CardStoryGameType.Card>} */
 		this.allCardGridPositionsMap = {};
 		/** @type {number} 卡牌宽度（从配置读取） */
 		this.cardWidth = -1;
@@ -45,14 +45,14 @@ export class CardGridPosition extends BaseCleanUp {
 	 * @param {number} gridX
 	 * @param {number} gridY
 	 */
-	_gridToWorld(gridX, gridY) {
+	gridToWorld(gridX, gridY) {
 		return _worldPosition.set(this.cellWidth * gridX, this.cellHeight * gridY);
 	}
 	/**
 	 * @param {number} worldX
 	 * @param {number} worldY
 	 */
-	_worldToGridNearest(worldX, worldY) {
+	worldToGridNearest(worldX, worldY) {
 		return _gridPosition.set(Math.round(worldX / this.cellWidth), Math.round(worldY / this.cellHeight));
 	}
 	/**
@@ -66,50 +66,52 @@ export class CardGridPosition extends BaseCleanUp {
 		return a >= b ? a * a + a + b : a + b * b;
 	}
 	/**
-	 * @param {number} gridKey
+	 * @param {number} gridPositionKey
 	 */
-	_isGridOccupied(gridKey) {
-		return this.allCardGridPositionsMap[gridKey];
+	isGridPositionKeyOccupied(gridPositionKey) {
+		return this.allCardGridPositionsMap[gridPositionKey];
+	}
+	/**
+	 * @param {number} gridX
+	 * @param {number} gridY
+	 */
+	isGridOccupied(gridX, gridY) {
+		return this.allCardGridPositionsMap[this.getGridPositionKey(gridX, gridY)] !== undefined;
 	}
 	/**
 	 * @param {number} startGridX
 	 * @param {number} startGridY
 	 */
 	findNearestFreeGridBFS(startGridX, startGridY) {
-		const startKey = this.getGridPositionKey(startGridX, startGridY);
-		if (!this._isGridOccupied(startKey)) {
+		if (!this.isGridOccupied(startGridX, startGridY)) {
 			return _gridPosition.set(startGridX, startGridY);
 		}
 		for (let d = 1; d <= this.maxSearchDepth; d++) {
 			for (let dx = -d; dx <= d; dx++) {
 				const x = startGridX + dx;
 				const y = startGridY - d;
-				const key = this.getGridPositionKey(x, y);
-				if (!this._isGridOccupied(key)) {
+				if (!this.isGridOccupied(x, y)) {
 					return _gridPosition.set(x, y);
 				}
 			}
 			for (let dy = -d + 1; dy <= d; dy++) {
 				const x = startGridX + d;
 				const y = startGridY + dy;
-				const key = this.getGridPositionKey(x, y);
-				if (!this._isGridOccupied(key)) {
+				if (!this.isGridOccupied(x, y)) {
 					return _gridPosition.set(x, y);
 				}
 			}
 			for (let dx = d - 1; dx >= -d; dx--) {
 				const x = startGridX + dx;
 				const y = startGridY + d;
-				const key = this.getGridPositionKey(x, y);
-				if (!this._isGridOccupied(key)) {
+				if (!this.isGridOccupied(x, y)) {
 					return _gridPosition.set(x, y);
 				}
 			}
 			for (let dy = d - 1; dy >= -d + 1; dy--) {
 				const x = startGridX - d;
 				const y = startGridY + dy;
-				const key = this.getGridPositionKey(x, y);
-				if (!this._isGridOccupied(key)) {
+				if (!this.isGridOccupied(x, y)) {
 					return _gridPosition.set(x, y);
 				}
 			}
@@ -123,19 +125,19 @@ export class CardGridPosition extends BaseCleanUp {
 	 * @param {number} gridY
 	 */
 	toNearestGrid(card, gridX, gridY) {
-		const nearestGridKey = this.getGridPositionKey(gridX, gridY);
-		if (this._isGridOccupied(nearestGridKey)) {
-			const oldWorldPos = this._gridToWorld(card.gridX, card.gridY);
-			card.x = oldWorldPos.x;
-			card.y = oldWorldPos.y;
-		} else {
-			const targetFreeGrid = this.findNearestFreeGridBFS(gridX, gridY);
-			const targetWorldPos = this._gridToWorld(targetFreeGrid.x, targetFreeGrid.y);
-			this.updateCardGridPosition(card, targetWorldPos.x, targetWorldPos.y, targetFreeGrid.x, targetFreeGrid.y);
-		}
+		const targetFreeGrid = this.findNearestFreeGridBFS(gridX, gridY);
+		this.updateCardPositionByGridXY(card, targetFreeGrid.x, targetFreeGrid.y);
 	}
-	recoveryGridPosition() {}
 
+	/**
+	 * @param {CardStoryGameType.Card} card
+	 * @param {number} gridX
+	 * @param {number} gridY
+	 */
+	updateCardPositionByGridXY(card, gridX, gridY) {
+		const worldPos = this.gridToWorld(gridX, gridY);
+		this.updateCardGridPosition(card, worldPos.x, worldPos.y, gridX, gridY);
+	}
 	/**
 	 * @param {CardStoryGameType.Card} card
 	 * @param {number} worldX
@@ -146,15 +148,7 @@ export class CardGridPosition extends BaseCleanUp {
 	updateCardGridPosition(card, worldX, worldY, gridX, gridY) {
 		this.clearCardGridPosition(card);
 		card.toGridPosition(this.getGridPositionKey(gridX, gridY), worldX, worldY, gridX, gridY);
-		this.allCardGridPositionsMap[card.gridPositionKey] = true;
-	}
-	/**
-	 * @param {CardStoryGameType.Card} card
-	 * @param {CardStoryGameType.CardPanelSlot} panelSlot
-	 */
-	addCardToPanelSlot(card, panelSlot) {
-		this.clearCardGridPosition(card);
-		card.toSlot(panelSlot);
+		this.allCardGridPositionsMap[card.gridPositionKey] = card;
 	}
 	/**
 	 * @param {CardStoryGameType.Card} card

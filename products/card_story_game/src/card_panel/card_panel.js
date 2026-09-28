@@ -61,7 +61,7 @@ export class CardPanel extends Render2DNode {
 		const bgColorObj = panelUiConfig.panelBgColor;
 		this.bgColor.setValue(bgColorObj.r, bgColorObj.g, bgColorObj.b, bgColorObj.a);
 		this.width = panelUiConfig.panelWidth;
-		this.zIndex = panelUiConfig.panelZIndex ?? 1000;
+		this.zIndex = panelUiConfig.panelZIndex;
 
 		this.titleTexture.updateStyle(panelUiConfig.panelTitle.textureOption);
 
@@ -76,9 +76,10 @@ export class CardPanel extends Render2DNode {
 	}
 
 	/**
+	 * @private
 	 * @param {CardStoryGameType.Card | null} card
 	 */
-	changeCurrentCard(card) {
+	_changeCurrentCard(card) {
 		if (this.currentCard !== card) {
 			if (this.currentCard) {
 				this.currentCard.unbindPanel();
@@ -101,7 +102,7 @@ export class CardPanel extends Render2DNode {
 			return this;
 		}
 
-		this.changeCurrentCard(card);
+		this._changeCurrentCard(card);
 
 		const template = this.game.gameConfig.getCardTemplate(card.templateId);
 		const desc = template ? template.description || "" : "";
@@ -114,7 +115,7 @@ export class CardPanel extends Render2DNode {
 
 		this.slotAreaUi.startSetTopY(this.buttonAreaUi.bottomY);
 		// 清空所有卡槽（等待点击按钮后显示）
-		this.slotAreaUi.updateSlots([]);
+		this.slotAreaUi.clearAllSlots();
 
 		this.visible = true;
 		return this;
@@ -130,7 +131,7 @@ export class CardPanel extends Render2DNode {
 			this.slotAreaUi.updateSlots(action.slots);
 		} else {
 			// 如果动作没有 slots，则清空卡槽
-			this.slotAreaUi.updateSlots([]);
+			this.slotAreaUi.clearAllSlots();
 		}
 	}
 
@@ -147,24 +148,19 @@ export class CardPanel extends Render2DNode {
 		if (!hasMovedBeforeUp) {
 			this.visible = false;
 
-			this.changeCurrentCard(null);
+			this._changeCurrentCard(null);
 			// 隐藏时清空卡槽并隐藏调试矩形
-			this.slotAreaUi.updateSlots([]);
+			this.slotAreaUi.clearAllSlots();
 		}
 		return this;
 	}
 
 	/**
 	 * 检测卡牌是否与面板重叠，并更新调试矩形
-	 * @param {CardStoryGameType.Card | null} card - 要检测的卡牌，传入 null 则隐藏矩形
+	 * @param {CardStoryGameType.Card} card - 要检测的卡牌，传入 null 则隐藏矩形
 	 * @returns {boolean} 是否重叠
 	 */
 	checkOverlap(card) {
-		if (!card || !this.visible) {
-			return false;
-		}
-
-		// 使用 RectangleDef 的静态方法检测重叠
 		return RectangleDef.isOverlapWithRectangle(
 			card.viewLeft,
 			card.viewBottom,

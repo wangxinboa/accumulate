@@ -12,7 +12,10 @@ export const defaultGameConfig = Object.freeze({
 			gapX: 4,
 			gapY: 4,
 
-			cardZIndex: 10,
+			gridZIndex: 1,
+			panelSlotZIndex: 3,
+			dragZIndex: 4,
+
 			width: 60,
 			height: 90,
 			bgColor: { r: 0.2, g: 0.4, b: 0.8, a: 1 },
@@ -39,7 +42,7 @@ export const defaultGameConfig = Object.freeze({
 			panelHeightRatio: 0.8,
 			panelYOffset: 20,
 			panelYOffsetSmall: 0.05,
-			panelZIndex: 1000,
+			panelZIndex: 2,
 
 			panelTitle: {
 				x: 8,

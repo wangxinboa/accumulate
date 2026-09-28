@@ -131,50 +131,25 @@ export class Card extends Render2DNode {
 			panelSlot.viewCenterX - this.width * (this.pivotX - 0.5),
 			panelSlot.viewCenterY - this.height * (this.pivotY - 0.5),
 		);
+		this.changeZIndex(this.cardUiConfig.panelSlotZIndex);
 	}
-
-	/**
-	 * @param {number} zIndex
-	 */
-	gridToDrag(zIndex) {
-		this.state = CardStateTypeEnum.Drag;
-
-		this.changeZIndex(zIndex);
-	}
-	dragToGrid() {
+	toGrid() {
 		this.state = CardStateTypeEnum.Grid;
-		this.recoveryZIndex();
+		this.changeZIndex(this.cardUiConfig.gridZIndex);
 	}
+	toDrag() {
+		this.state = CardStateTypeEnum.Drag;
+		this.changeZIndex(this.cardUiConfig.dragZIndex);
+	}
+
 	bindPanel() {
 		this.state = CardStateTypeEnum.Panel;
 		this.disableDragUpdatePosition();
-		this.recoveryZIndex();
+		this.changeZIndex(this.cardUiConfig.gridZIndex);
 	}
 	unbindPanel() {
 		this.state = CardStateTypeEnum.Grid;
 		this.enableDragUpdatePosition();
-	}
-
-	/**
-	 * @param {number} x
-	 * @param {number} y
-	 * @param {number} zIndex
-	 */
-	unbindPanelSlotToDrag(x, y, zIndex) {
-		this.state = CardStateTypeEnum.Drag;
-
-		this.unbindPanelSlot();
-
-		this.updateXY(x, y);
-
-		this.changeZIndex(zIndex);
-	}
-	unbindPanelSlotToGrid() {
-		this.state = CardStateTypeEnum.Grid;
-
-		this.unbindPanelSlot();
-
-		this.recoveryZIndex();
 	}
 	unbindPanelSlot() {
 		if (this.bindedPanelSlot) {
@@ -215,7 +190,7 @@ export class Card extends Render2DNode {
 		}
 	}
 	recoveryZIndex() {
-		this.changeZIndex(this.cardUiConfig.cardZIndex);
+		this.changeZIndex(this.cardUiConfig.gridZIndex);
 	}
 
 	/**

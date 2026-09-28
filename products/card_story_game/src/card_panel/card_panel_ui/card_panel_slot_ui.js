@@ -47,7 +47,6 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 	 * @param {Array<{label: string}>} slotsData - 槽位数据数组，每个元素有 label
 	 */
 	updateSlots(slotsData) {
-		this.clearAllSlotCards();
 		if (!Array.isArray(slotsData)) {
 			return;
 		}
@@ -61,7 +60,9 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			}
 		} else if (childrenLen > slotsLen) {
 			for (let i = 0, len = childrenLen - slotsLen; i < len; i++) {
-				this._slotPool.release(this.children[0]);
+				const slot = this.children[0];
+				this.removeSlotCard(slot);
+				this._slotPool.release(slot);
 			}
 		}
 
@@ -76,6 +77,7 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 		for (let i = 0, len = slotsData.length; i < len; i++) {
 			const slot = this.children[i];
 
+			this.removeSlotCard(slot);
 			slot.updateConfig(this.panelSlotAreaConfig.slotOption);
 
 			if (currentSlotX + slot.width > this.panelSlotAreaConfig.width) {
@@ -99,16 +101,25 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 		this.bottomY = topY;
 	}
 
-	clearAllSlotCards() {
+	clearAllSlots() {
 		for (let i = this.children.length - 1; i >= 0; i--) {
-			const slot = this.children[i];
-			const card = slot.currentCard;
-			if (card) {
-				card.unbindPanelSlotToGrid();
-				this.game.cardManager.gridPosition.toNearestGrid(card, card.gridX, card.gridY);
-			}
+			const slot = this.children[0];
+			this._slotPool.release(slot);
+
+			this.removeSlotCard(slot);
 		}
 	}
+	/**
+	 *
+	 * @param {CardPanelSlot} slot
+	 */
+	removeSlotCard(slot) {
+		const card = slot.currentCard;
+		if (card) {
+			this.game.cardManager.updateCardFromPanelSlotToGrid(card);
+		}
+	}
+
 	/**
 	 * @param {CardPanelSlot | null} slot
 	 */
@@ -133,9 +144,8 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 	checkCardOverlappingSlot(card) {
 		let closestSlot = null;
 
+		// 计算卡牌 AABB（中心点坐标）
 		if (card) {
-			// 计算卡牌 AABB（中心点坐标）
-
 			// 卡牌中心坐标
 			let closestDistSq = Infinity;
 			// 遍历所有卡槽
