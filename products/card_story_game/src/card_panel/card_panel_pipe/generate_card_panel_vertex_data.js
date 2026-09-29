@@ -20,15 +20,6 @@ function _setVertex(array, index, x, y, u, v, isBg, texIndex) {
 }
 
 /**
- * 生成 CardPanel 的顶点数据（背景 + 标题矩形 + 描述矩形）
- * 背景占满整个面板。
- * 标题矩形：由 panel.titleHeight 控制，位置由 titleX/titleY 控制（titleY 是从顶部向下的偏移）。
- * 描述矩形：使用 panel.descVisibleWidth 和 panel.descVisibleHeight 作为顶点尺寸，
- *           纹理坐标始终保持 0-1，滚动通过 UV 变换矩阵实现。
- *
- * 适配 Y 向上的坐标系：面板局部坐标原点在左下角，顶部为 y=panelHeight。
- * 因此将 titleY 和 descRect.y（从顶部向下的偏移）转换为 Y 坐标：y = panelHeight - 偏移 - 高度。
- *
  * @param {CardStoryGameType.CardPanel} panel
  * @returns {Float32Array}
  */

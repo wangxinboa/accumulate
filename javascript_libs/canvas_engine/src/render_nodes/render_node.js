@@ -98,7 +98,7 @@ export class RenderNode extends BaseCleanUp {
 	 * @returns {this}
 	 */
 	enableBlendMode() {
-		this._enableBlend = true;
+		this.enableBlend = true;
 		return this;
 	}
 
@@ -107,7 +107,7 @@ export class RenderNode extends BaseCleanUp {
 	 * @returns {this}
 	 */
 	disableBlendMode() {
-		this._enableBlend = false;
+		this.enableBlend = false;
 		return this;
 	}
 

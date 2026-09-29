@@ -18,17 +18,6 @@ function _setVertex(array, index, x, y, u, v, isBg) {
 }
 
 /**
- * 生成 Card 的顶点数据（背景 + 文字矩形，支持 padding 和 object-fit: contain）
- * 返回 Float32Array，每5个分量一个顶点：[x, y, u, v, isBg]
- * 共12个顶点（背景6个，文字6个），总长度 60。
- *
- * 卡牌坐标系（局部）：
- *   - 原点 (0,0) 在卡牌左上角
- *   - X 向右为正
- *   - Y 向上为正（引擎新坐标系）
- *   因此，卡牌底部边缘在 y=0，顶部边缘在 y=卡牌高度。
- *   文字矩形需要位于卡牌底部（视觉下方），所以其 Y 坐标靠近 0。
- *
  * @param {CardStoryGameType.Card} card
  * @returns {Float32Array}
  */

@@ -115,7 +115,6 @@ export class WebGLStateSystem extends BaseCleanUp {
 	}
 
 	/**
-	 * 重置所有状态为默认值（标准透明混合）
 	 * @returns {this}
 	 */
 	resetState() {

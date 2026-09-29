@@ -111,10 +111,9 @@ export class Event2DMode extends BaseCleanUp {
 		return renderNode.hitTest(_hitPoint.x, _hitPoint.y);
 	}
 	/**
-	 * 公开的命中测试方法，不触发任何事件
 	 * @param {number} cameraX - 相机坐标 x
 	 * @param {number} cameraY - 相机坐标 y
-	 * @returns {boolean} 是否命中任何可计数的节点
+	 * @returns {boolean}
 	 */
 	hitTestPointInCamera(cameraX, cameraY) {
 		if (!this.scene2D) {

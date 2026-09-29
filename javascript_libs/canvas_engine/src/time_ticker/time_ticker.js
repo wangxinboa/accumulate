@@ -91,18 +91,18 @@ export class TimeTicker extends BaseCleanUp {
 		}
 	}
 	/**
-	 * @param {CanvasEngineType.TimeTickerCallback} pauseCallbacks
+	 * @param {CanvasEngineType.TimeTickerCallback} pauseCallback
 	 */
-	addPauseCallback(pauseCallbacks) {
-		if (!this._pauseCallbacks.includes(pauseCallbacks)) {
-			this._pauseCallbacks.push(pauseCallbacks);
+	addPauseCallback(pauseCallback) {
+		if (!this._pauseCallbacks.includes(pauseCallback)) {
+			this._pauseCallbacks.push(pauseCallback);
 		}
 	}
 	/**
-	 * @param {CanvasEngineType.TimeTickerCallback} pauseCallbacks
+	 * @param {CanvasEngineType.TimeTickerCallback} pauseCallback
 	 */
-	removePauseCallback(pauseCallbacks) {
-		const index = this._pauseCallbacks.indexOf(pauseCallbacks);
+	removePauseCallback(pauseCallback) {
+		const index = this._pauseCallbacks.indexOf(pauseCallback);
 		if (index > -1) {
 			this._pauseCallbacks.splice(index, 1);
 		}

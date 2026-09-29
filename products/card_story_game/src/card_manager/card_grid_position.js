@@ -21,9 +21,9 @@ export class CardGridPosition extends BaseCleanUp {
 		this.gapX = -1;
 		/** @type {number} 网格垂直间距（从配置读取） */
 		this.gapY = -1;
-		/** @type {number} 网格单元高度 */
-		this.cellWidth = -1;
 		/** @type {number} 网格单元宽度 */
+		this.cellWidth = -1;
+		/** @type {number} 网格单元高度 */
 		this.cellHeight = -1;
 	}
 	/**

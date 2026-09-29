@@ -18,9 +18,6 @@ function _setVertex(array, index, x, y, u, v, isBg) {
 }
 
 /**
- * 生成 Button 的顶点数据（背景 + 文字矩形）
- * 坐标：矩形左下角为原点，Y 向上
- * 文字区域会扣除 padding 后按 contain 缩放并居中
  * @param {CardStoryGameType.CardPanelButton} button
  * @returns {Float32Array}
  */

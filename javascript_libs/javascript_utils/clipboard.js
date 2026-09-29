@@ -8,7 +8,6 @@ export function copyTextToClipboard(text) {
 	document.body.appendChild(textarea);
 	textarea.select();
 
-	document.execCommand("copy");
 	try {
 		var successful = document.execCommand("copy");
 		if (successful) {

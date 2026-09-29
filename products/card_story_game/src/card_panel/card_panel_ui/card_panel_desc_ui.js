@@ -17,7 +17,7 @@ export class CardPanelDescUi extends BaseCleanUp {
 		/** @type {Matrix3} UV 变换矩阵，用于滚动 */
 		this.descUvTransformMatrix = new Matrix3();
 
-		this.descriptionTexture = this.descriptionTexture = new TextTexture("CardPanel-Description");
+		this.descriptionTexture = new TextTexture("CardPanel-Description");
 
 		this.panelDescUiConfig = defaultGameConfig.uiConfig.panel.panelDesc;
 	}

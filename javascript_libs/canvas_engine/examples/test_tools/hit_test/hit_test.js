@@ -84,7 +84,6 @@ function handleMouseUp(_node, x, y) {
 	const step = 1; // 步长，可根据需要调整（例如 2 或 3 以提高性能）
 	for (let px = minX; px <= maxX; px += step) {
 		for (let py = minY; py <= maxY; py += step) {
-			// hitTestPoint 内部会自动转换坐标（包括相机变换和设备像素比）
 			if (activeEvent && activeEvent.hitTestPointInCamera(px, py)) {
 				const circle = getCircleFromPool();
 				circle.x = px;

@@ -32,9 +32,6 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 	 */
 	updateConfig(panelButtonAreaUiConfig) {
 		this.panelButtonAreaUiConfig = panelButtonAreaUiConfig;
-
-		if (this.children.length > 0) {
-		}
 	}
 
 	/**

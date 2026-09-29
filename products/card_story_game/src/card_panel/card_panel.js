@@ -132,19 +132,14 @@ export class CardPanel extends Render2DNode {
 	_onButtonClick(button) {
 		const action = this.game.gameConfig.getCardAction(button.actionId);
 
-		console.info("button:", button);
-		console.info("this.currentButton:", this.currentButton);
 		if (this.currentButton === button) {
-			console.info("this.slotAreaUi.children:", this.slotAreaUi.children);
-
 			// const len =
 			// for (let i = 0, len = this.slotAreaUi.children.length; i < len; i++) {
 			// 	console.info("this.slotAreaUi.children:", this.slotAreaUi.children);
 			// }
 		} else {
 			this.currentButton = button;
-			console.info("action:", action);
-			console.info("this.slotAreaUi.children:", this.slotAreaUi.children);
+
 			if (action && action.slots) {
 				this.slotAreaUi.updateSlots(action.slots);
 			} else {
