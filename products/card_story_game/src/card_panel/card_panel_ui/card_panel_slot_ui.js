@@ -123,7 +123,7 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 	/**
 	 * @param {CardPanelSlot | null} slot
 	 */
-	changeDropTargetSlot(slot) {
+	updateDropTargetSlot(slot) {
 		if (this.dropTargetSlot !== slot) {
 			if (this.dropTargetSlot) {
 				this.dropTargetSlot.clearCardDropTarget();
@@ -183,7 +183,7 @@ export class CardPanelSlotAreaUi extends Render2DNode {
 			}
 		}
 
-		this.changeDropTargetSlot(closestSlot);
+		this.updateDropTargetSlot(closestSlot);
 		return closestSlot;
 	}
 

@@ -4,7 +4,7 @@ import {
 	GlBufferUsageTypeEnum,
 	GlAttribs,
 	GlBuffer,
-} from "../../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+} from "../../../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import {
 	aPositionName,
 	aTexCoordName,
@@ -12,20 +12,20 @@ import {
 	buttonGlProgramFormat,
 	uBgColorName,
 	uImageName,
-} from "./button_pipe_gl_program_format.js";
-import { generateButtonVertexData } from "./generate_button_vertex_data.js";
+} from "./card_panel_button_pipe_gl_program_format.js";
+import { generateButtonVertexData } from "./generate_card_panel_button_vertex_data.js";
 
 /**
- * @param {CardStoryGameType.Button} button
+ * @param {CardStoryGameType.CardPanelButton} button
  * @returns {string}
  */
 function getBufferKey(button) {
 	return "button-" + button.id;
 }
 
-export const ButtonPipe = {
+export const CardPanelButtonPipe = {
 	/**
-	 * @param {CardStoryGameType.Button} _button
+	 * @param {CardStoryGameType.CardPanelButton} _button
 	 * @param {CanvasEngineType.WebGL2DRenderer["programSystem"]} programSystem
 	 * @returns {CanvasEngineType.GlProgram}
 	 */
@@ -34,7 +34,7 @@ export const ButtonPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Button} button
+	 * @param {CardStoryGameType.CardPanelButton} button
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 * @returns {CanvasEngineType.GlAttribs | undefined}
 	 */
@@ -55,7 +55,7 @@ export const ButtonPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Button} button
+	 * @param {CardStoryGameType.CardPanelButton} button
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["bufferSystem"]} bufferSystem
 	 */
@@ -76,7 +76,7 @@ export const ButtonPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Button} button
+	 * @param {CardStoryGameType.CardPanelButton} button
 	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 */
 	updateTextures(button, textureSystem) {
@@ -86,7 +86,7 @@ export const ButtonPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Button} button
+	 * @param {CardStoryGameType.CardPanelButton} button
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.WebGL2DRenderer["textureSystem"]} textureSystem
 	 * @param {CanvasEngineType.GlProgram} glProgram
@@ -99,7 +99,7 @@ export const ButtonPipe = {
 	},
 
 	/**
-	 * @param {CardStoryGameType.Button} _button
+	 * @param {CardStoryGameType.CardPanelButton} _button
 	 * @param {CanvasEngineType.WebGLContext} gl
 	 * @param {CanvasEngineType.GlProgram} glProgram
 	 */

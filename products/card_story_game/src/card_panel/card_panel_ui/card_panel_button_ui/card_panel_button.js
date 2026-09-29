@@ -3,14 +3,13 @@ import {
 	RectangleDef,
 	TextTexture,
 	Color,
-} from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+} from "../../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { CardPanelButtonPipe } from "./card_panel_button_pipe/card_panel_button_pipe.js";
 
-import { ButtonPipe } from "./button_pipe/button_pipe.js";
-
-export class Button extends Render2DNode {
+export class CardPanelButton extends Render2DNode {
 	/**
 	 * @param {string} [title]
-	 * @param {CardStoryGameType.ButtonOption} [buttonOption]
+	 * @param {CardStoryGameType.CardPanelButtonOption} [buttonOption]
 	 */
 	constructor(title = "button", buttonOption) {
 		super();
@@ -43,11 +42,11 @@ export class Button extends Render2DNode {
 	}
 
 	get pipe() {
-		return ButtonPipe;
+		return CardPanelButtonPipe;
 	}
 
 	/**
-	 * @param {CardStoryGameType.ButtonOption} [buttonOption]
+	 * @param {CardStoryGameType.CardPanelButtonOption} [buttonOption]
 	 * @param {string} [title]
 	 */
 	updateConfig(buttonOption, title = "button") {
@@ -84,7 +83,7 @@ export class Button extends Render2DNode {
 		return this;
 	}
 	/**
-	 * @param {Button} button
+	 * @param {CardPanelButton} button
 	 * @param {number} x
 	 * @param {number} y
 	 * @param {number} sx

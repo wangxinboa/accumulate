@@ -2,7 +2,7 @@ import { CardStoryGame as CardStoryGameClass } from "./card_story_game.js";
 import { Card as CardClass } from "./card_manager/card/card.js";
 import { CardPanel as CardPanelClass } from "./card_panel/card_panel.js";
 import { CardPanelSlot as CardPanelSlotClass } from "./card_panel/card_panel_ui/card_panel_slot_ui/card_panel_slot.js";
-import { Button as ButtonClass } from "./game_ui/button/button.js";
+import { CardPanelButton as CardPanelButtonClass } from "./card_panel/card_panel_ui/card_panel_button_ui/card_panel_button.js";
 import { defaultGameConfig } from "../assets/game_config.js";
 import { CardStateTypeEnum as _CardStateTypeEnum } from "./card_manager/card/card_contants.js";
 
@@ -14,8 +14,8 @@ declare global {
 		type CardPanel = CardPanelClass;
 		type CardPanelSlot = CardPanelSlotClass;
 
-		type Button = ButtonClass;
-		type ButtonOption = {
+		type CardPanelButton = CardPanelButtonClass;
+		type CardPanelButtonOption = {
 			padding: { left: number; right: number; top: number; bottom: number };
 			bgColor: RgbaColor;
 			titleTextureOption: CanvasEngineType.TextOption;

@@ -39,6 +39,7 @@ export class CardManager extends BaseCleanUp {
 	 */
 	updateCardFromGridToDrag(card) {
 		card.toDrag();
+		this.gridPosition.clearCardGridPosition(card);
 	}
 	/**
 	 * 从面板卡槽中开始拖拽
@@ -47,7 +48,7 @@ export class CardManager extends BaseCleanUp {
 	updateCardFromPanelSlotToDrag(card) {
 		card.toDrag();
 		card.unbindPanelSlot();
-		this.game.panel.slotAreaUi.changeDropTargetSlot(card.bindedPanelSlot);
+		this.game.panel.slotAreaUi.updateDropTargetSlot(card.bindedPanelSlot);
 	}
 	/**
 	 * 从面板卡槽中回到网格
@@ -71,7 +72,6 @@ export class CardManager extends BaseCleanUp {
 	 * @param {CardStoryGameType.CardPanelSlot} panelSlot
 	 */
 	updateCardFromDragToPanelSlot(card, panelSlot) {
-		this.gridPosition.clearCardGridPosition(card);
 		card.toSlot(panelSlot);
 	}
 
@@ -81,6 +81,7 @@ export class CardManager extends BaseCleanUp {
 	onCardClick(card) {
 		if (card.isDrag()) {
 			this.game.panel.show(card);
+			this.gridPosition.updateCardPositionByGridXY(card, card.gridX, card.gridY);
 		}
 	}
 	/**
@@ -129,7 +130,7 @@ export class CardManager extends BaseCleanUp {
 				const nearestGrid = this.gridPosition.worldToGridNearest(card.x, card.y);
 
 				if (this.gridPosition.isGridOccupied(nearestGrid.x, nearestGrid.y)) {
-					this.gridPosition.updateCardPositionByGridXY(card, card.gridX, card.gridY);
+					this.gridPosition.toNearestGrid(card, card.gridX, card.gridY);
 				} else {
 					this.gridPosition.updateCardPositionByGridXY(card, nearestGrid.x, nearestGrid.y);
 				}
@@ -149,11 +150,10 @@ export class CardManager extends BaseCleanUp {
 			throw new Error("Grid (" + gridX + ", " + gridY + ") is already occupied.");
 		}
 
-		const pos = this.gridPosition.gridToWorld(gridX, gridY);
 		const cardTemplate = this.game.gameConfig.getCardTemplate(templateId);
 		// 创建卡牌实例，传入 game 和尺寸
 		const newCard = this.cardPool.acquire(this.game.engine.scene);
-		this.gridPosition.updateCardGridPosition(newCard, pos.x, pos.y, gridX, gridY);
+		this.gridPosition.updateCardPositionByGridXY(newCard, gridX, gridY);
 
 		if (newCard.initialized) {
 			newCard.setTemplate(cardTemplate);

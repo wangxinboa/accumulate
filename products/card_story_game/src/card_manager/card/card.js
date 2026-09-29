@@ -161,7 +161,7 @@ export class Card extends Render2DNode {
 
 	/**
 	 * 更新卡牌位置和网格坐标
-	 * @param {number} gridPositionKey - 网格位置唯一键
+	 * @param {Card['gridPositionKey']} gridPositionKey - 网格位置唯一键
 	 * @param {number} worldX
 	 * @param {number} worldY
 	 * @param {number} gridX

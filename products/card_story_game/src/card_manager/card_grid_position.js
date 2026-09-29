@@ -7,7 +7,7 @@ const _worldPosition = new Vector2();
 export class CardGridPosition extends BaseCleanUp {
 	constructor() {
 		super();
-		/** @type {Record<number, CardStoryGameType.Card>} */
+		/** @type {Record<string, CardStoryGameType.Card>} */
 		this.allCardGridPositionsMap = {};
 		/** @type {number} 卡牌宽度（从配置读取） */
 		this.cardWidth = -1;
@@ -58,7 +58,7 @@ export class CardGridPosition extends BaseCleanUp {
 	/**
 	 * @param {number} gridX
 	 * @param {number} gridY
-	 * @returns {number}
+	 * @returns {CardStoryGameType.Card['gridPositionKey']}
 	 */
 	getGridPositionKey(gridX, gridY) {
 		const a = gridX + this.coordOffset;
@@ -128,7 +128,6 @@ export class CardGridPosition extends BaseCleanUp {
 		const targetFreeGrid = this.findNearestFreeGridBFS(gridX, gridY);
 		this.updateCardPositionByGridXY(card, targetFreeGrid.x, targetFreeGrid.y);
 	}
-
 	/**
 	 * @param {CardStoryGameType.Card} card
 	 * @param {number} gridX
@@ -136,18 +135,7 @@ export class CardGridPosition extends BaseCleanUp {
 	 */
 	updateCardPositionByGridXY(card, gridX, gridY) {
 		const worldPos = this.gridToWorld(gridX, gridY);
-		this.updateCardGridPosition(card, worldPos.x, worldPos.y, gridX, gridY);
-	}
-	/**
-	 * @param {CardStoryGameType.Card} card
-	 * @param {number} worldX
-	 * @param {number} worldY
-	 * @param {number} gridX
-	 * @param {number} gridY
-	 */
-	updateCardGridPosition(card, worldX, worldY, gridX, gridY) {
-		this.clearCardGridPosition(card);
-		card.toGridPosition(this.getGridPositionKey(gridX, gridY), worldX, worldY, gridX, gridY);
+		card.toGridPosition(this.getGridPositionKey(gridX, gridY), worldPos.x, worldPos.y, gridX, gridY);
 		this.allCardGridPositionsMap[card.gridPositionKey] = card;
 	}
 	/**

@@ -1,12 +1,13 @@
-import { Render2DNode } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { Render2DNode, RenderNodePool } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
 import { defaultGameConfig } from "../../../assets/game_config.js";
+import { CardPanelButton } from "./card_panel_button_ui/card_panel_button.js";
 
 /**
  * 管理 CardPanel 内所有按钮的布局与生命周期。
  * 按钮从 ButtonPool 中获取，释放时回收到池中。
  */
 export class CardPanelButtonAreaUi extends Render2DNode {
-	/** @type {Array<CardStoryGameType.Button>} */
+	/** @type {Array<CardStoryGameType.CardPanelButton>} */
 	children = [];
 	/**
 	 * @param {CardStoryGameType.CardStoryGame} game
@@ -18,6 +19,8 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 		/** @type {CardStoryGameType.GameConfigData['uiConfig']['panel']['panelButtonArea']} */
 		this.panelButtonAreaUiConfig = defaultGameConfig.uiConfig.panel.panelButtonArea;
 		this.applyCameraTransform = false;
+
+		this.buttonPool = new RenderNodePool(CardPanelButton);
 
 		this.topY = 0;
 		this.bottomY = 0;
@@ -49,11 +52,11 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 
 		if (childrenLen < actionsLen) {
 			for (let i = 0, len = actionsLen - childrenLen; i < len; i++) {
-				this.game.buttonPool.acquire(this);
+				this.buttonPool.acquire(this);
 			}
 		} else if (childrenLen > actionsLen) {
 			for (let i = 0, len = childrenLen - actionsLen; i < len; i++) {
-				this.game.buttonPool.release(this.children[0]);
+				this.buttonPool.release(this.children[0]);
 			}
 		}
 
@@ -94,5 +97,11 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 	startSetTopY(topY) {
 		this.topY = topY;
 		this.bottomY = topY;
+	}
+
+	destroy() {
+		super.destroy();
+
+		this.buttonPool.destroy();
 	}
 }

@@ -18,6 +18,9 @@ export class CardPanel extends Render2DNode {
 
 		/** @type {CardStoryGameType.Card | null} */
 		this.currentCard = null;
+		/** @type {CardStoryGameType.CardPanelButton | null} */
+		this.currentButton = null;
+
 		this.game = cardStoryGame;
 
 		this.bgColor = new Color();
@@ -117,21 +120,37 @@ export class CardPanel extends Render2DNode {
 		// 清空所有卡槽（等待点击按钮后显示）
 		this.slotAreaUi.clearAllSlots();
 
+		this.currentButton = null;
 		this.visible = true;
 		return this;
 	}
 
 	/**
 	 * 按钮点击处理：显示该按钮对应的动作卡槽
-	 * @param {CardStoryGameType.Button} button
+	 * @param {CardStoryGameType.CardPanelButton} button
 	 */
 	_onButtonClick(button) {
 		const action = this.game.gameConfig.getCardAction(button.actionId);
-		if (action && action.slots) {
-			this.slotAreaUi.updateSlots(action.slots);
+
+		console.info("button:", button);
+		console.info("this.currentButton:", this.currentButton);
+		if (this.currentButton === button) {
+			console.info("this.slotAreaUi.children:", this.slotAreaUi.children);
+
+			// const len =
+			// for (let i = 0, len = this.slotAreaUi.children.length; i < len; i++) {
+			// 	console.info("this.slotAreaUi.children:", this.slotAreaUi.children);
+			// }
 		} else {
-			// 如果动作没有 slots，则清空卡槽
-			this.slotAreaUi.clearAllSlots();
+			this.currentButton = button;
+			console.info("action:", action);
+			console.info("this.slotAreaUi.children:", this.slotAreaUi.children);
+			if (action && action.slots) {
+				this.slotAreaUi.updateSlots(action.slots);
+			} else {
+				// 如果动作没有 slots，则清空卡槽
+				this.slotAreaUi.clearAllSlots();
+			}
 		}
 	}
 
