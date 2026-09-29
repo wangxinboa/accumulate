@@ -22,13 +22,16 @@ export class CardPanelButton extends Render2DNode {
 			top: buttonOption?.padding?.top ?? 0,
 			bottom: buttonOption?.padding?.bottom ?? 0,
 		};
-		/** @type {Color} */
-		this.bgColor = new Color(
-			buttonOption?.bgColor?.r ?? 1,
-			buttonOption?.bgColor?.g ?? 1,
-			buttonOption?.bgColor?.b ?? 1,
-			buttonOption?.bgColor?.a ?? 1,
-		);
+
+		/** @type {Color} 当前渲染用背景色，根据 isSelected 在 normalBgColor / selectedBgColor 之间切换 */
+		this.bgColor = new Color();
+		/** @type {CardStoryGameType.RgbaColor} 未选中时的背景色 */
+		this.normalBgColor = buttonOption?.bgColor ?? { r: 1, g: 1, b: 1, a: 1 };
+		/** @type {CardStoryGameType.RgbaColor} 选中时的背景色 */
+		this.selectedBgColor = buttonOption?.selectedBgColor ?? { r: 1, g: 1, b: 1, a: 1 };
+		/** @type {boolean} 是否处于选中态 */
+		this.isSelected = false;
+
 		/** @type {boolean} */
 		this.fixedGeometry = buttonOption?.fixedGeometry ?? false;
 		/** @type {TextTexture} */
@@ -36,6 +39,8 @@ export class CardPanelButton extends Render2DNode {
 		this.width = this.textTexture.width + this.padding.left + this.padding.right;
 		this.height = this.textTexture.height + this.padding.top + this.padding.bottom;
 		this.geometry = new RectangleDef(0, 0, this.width, this.height);
+
+		this.unselect();
 
 		this.clickCallback = this.clickCallback.bind(this);
 		this.addMouseDownEvent(this.clickCallback);
@@ -56,8 +61,12 @@ export class CardPanelButton extends Render2DNode {
 		this.padding.bottom = buttonOption?.padding?.bottom ?? 0;
 
 		if (buttonOption?.bgColor) {
-			this.bgColor.setFromJson(buttonOption.bgColor);
+			this.normalBgColor = buttonOption.bgColor;
 		}
+		if (buttonOption?.selectedBgColor) {
+			this.selectedBgColor = buttonOption.selectedBgColor;
+		}
+		this._syncRenderBgColor();
 
 		this.fixedGeometry = buttonOption?.fixedGeometry ?? false;
 
@@ -67,6 +76,37 @@ export class CardPanelButton extends Render2DNode {
 
 		this._updateGeometry();
 	}
+
+	/**
+	 * @private
+	 */
+	_syncRenderBgColor() {
+		const color = this.isSelected ? this.selectedBgColor : this.normalBgColor;
+		this.bgColor.setFromJson(color);
+	}
+
+	/**
+	 * @returns {this}
+	 */
+	select() {
+		if (!this.isSelected) {
+			this.isSelected = true;
+			this._syncRenderBgColor();
+		}
+		return this;
+	}
+
+	/**
+	 * @returns {this}
+	 */
+	unselect() {
+		if (this.isSelected) {
+			this.isSelected = false;
+			this._syncRenderBgColor();
+		}
+		return this;
+	}
+
 	_updateGeometry() {
 		this.width = this.textTexture.width + this.padding.left + this.padding.right;
 		this.height = this.textTexture.height + this.padding.top + this.padding.bottom;

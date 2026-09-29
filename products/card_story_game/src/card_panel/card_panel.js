@@ -126,19 +126,19 @@ export class CardPanel extends Render2DNode {
 	}
 
 	/**
-	 * 按钮点击处理：显示该按钮对应的动作卡槽
 	 * @param {CardStoryGameType.CardPanelButton} button
 	 */
 	_onButtonClick(button) {
 		const action = this.game.gameConfig.getCardAction(button.actionId);
 
 		if (this.currentButton === button) {
-			// const len =
-			// for (let i = 0, len = this.slotAreaUi.children.length; i < len; i++) {
-			// 	console.info("this.slotAreaUi.children:", this.slotAreaUi.children);
-			// }
 		} else {
+			// 切换按钮：取消上一个按钮的选中态
+			if (this.currentButton) {
+				this.currentButton.unselect();
+			}
 			this.currentButton = button;
+			button.select();
 
 			if (action && action.slots) {
 				this.slotAreaUi.updateSlots(action.slots);

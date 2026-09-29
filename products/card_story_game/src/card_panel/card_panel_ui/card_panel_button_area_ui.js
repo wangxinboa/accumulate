@@ -74,6 +74,7 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 			button.pivotY = 1;
 			button.actionId = action.actionId;
 			button.setClickCallback(onClickCallback);
+			button.unselect();
 
 			if (currentButtonX + button.width > this.panelButtonAreaUiConfig.width) {
 				currentButtonX = this.panelButtonAreaUiConfig.x;

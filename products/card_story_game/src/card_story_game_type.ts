@@ -18,6 +18,7 @@ declare global {
 		type CardPanelButtonOption = {
 			padding: { left: number; right: number; top: number; bottom: number };
 			bgColor: RgbaColor;
+			selectedBgColor: RgbaColor;
 			titleTextureOption: CanvasEngineType.TextOption;
 			fixedGeometry?: boolean;
 		};
