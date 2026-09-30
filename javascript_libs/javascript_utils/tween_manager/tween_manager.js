@@ -15,7 +15,7 @@ export class TweenManager extends BaseCleanUp {
 	/** @type {CustomMap<Tween>} */
 	tweenMap;
 	/** @type {Tween | null} */
-	acticeTween = null;
+	activeTween = null;
 	constructor() {
 		super();
 
@@ -24,7 +24,7 @@ export class TweenManager extends BaseCleanUp {
 		this.isPlaying = false;
 		this.currentLoopCount = 0;
 		this.tweenMap = new CustomMap();
-		this.acticeTween = null;
+		this.activeTween = null;
 	}
 	/**
 	 * @param {string} tweenName
@@ -41,8 +41,8 @@ export class TweenManager extends BaseCleanUp {
 	start(tweenName, targetObj) {
 		if (this.tweenMap.has(tweenName)) {
 			this.startTime = now();
-			this.acticeTween = this.tweenMap.get(tweenName);
-			this.acticeTween.onStart(targetObj);
+			this.activeTween = this.tweenMap.get(tweenName);
+			this.activeTween.onStart(targetObj);
 
 			this.currentLoopCount = 0;
 			this.isPlaying = true;
@@ -68,22 +68,22 @@ export class TweenManager extends BaseCleanUp {
 	 * @param {Object} targetObj
 	 */
 	update(time, targetObj) {
-		if (this.acticeTween !== null && this.isPlaying) {
+		if (this.activeTween !== null && this.isPlaying) {
 			const portion = Math.min(
-				time < this.startTime + this.acticeTween.delayTime
+				time < this.startTime + this.activeTween.delayTime
 					? 0
-					: (time - this.startTime - this.acticeTween.delayTime) / this.acticeTween.duration - this.currentLoopCount,
+					: (time - this.startTime - this.activeTween.delayTime) / this.activeTween.duration - this.currentLoopCount,
 				1,
 			);
 
-			if (this.currentLoopCount % 2 === 1 && this.acticeTween.yoyo) {
-				this.acticeTween.onUpdate(targetObj, 1 - portion);
+			if (this.currentLoopCount % 2 === 1 && this.activeTween.yoyo) {
+				this.activeTween.onUpdate(targetObj, 1 - portion);
 			} else {
-				this.acticeTween.onUpdate(targetObj, portion);
+				this.activeTween.onUpdate(targetObj, portion);
 			}
 
 			if (portion === 1) {
-				if (this.currentLoopCount < this.acticeTween.loopCount - 1) {
+				if (this.currentLoopCount < this.activeTween.loopCount - 1) {
 					this.currentLoopCount++;
 				} else {
 					this.end();
@@ -93,7 +93,7 @@ export class TweenManager extends BaseCleanUp {
 		return this;
 	}
 	end() {
-		this.acticeTween = null;
+		this.activeTween = null;
 		this.startTime = 0;
 		this.isPlaying = false;
 		this.currentLoopCount = 0;

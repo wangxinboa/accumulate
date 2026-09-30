@@ -8,11 +8,11 @@ export const tempLinesTempTextRect = {
 	/** @type {Array<string>} */
 	lines: [],
 	/** @type {Array<number>} */
-	linseWidth: [],
+	linesWidth: [],
 	/** @type {Array<number>} */
 	linesHeight: [],
 	/** @type {Array<number>} */
-	linesoOffsetY: [],
+	linesOffsetY: [],
 	width: 0,
 	height: 0,
 };
@@ -50,9 +50,9 @@ export function setTempTextRect(textTexture, ctx, text) {
  */
 export function setLinesTempTextRect(textTexture, ctx, text) {
 	tempLinesTempTextRect.lines.length = 0;
-	tempLinesTempTextRect.linseWidth.length = 0;
+	tempLinesTempTextRect.linesWidth.length = 0;
 	tempLinesTempTextRect.linesHeight.length = 0;
-	tempLinesTempTextRect.linesoOffsetY.length = 0;
+	tempLinesTempTextRect.linesOffsetY.length = 0;
 	tempLinesTempTextRect.width = 0;
 	tempLinesTempTextRect.height = 0;
 
@@ -97,9 +97,9 @@ export function setLinesTempTextRect(textTexture, ctx, text) {
  */
 function updateTempLinesTempTextRect(line, width, height, offsetY, lineGap) {
 	tempLinesTempTextRect.lines.push(line);
-	tempLinesTempTextRect.linseWidth.push(width);
+	tempLinesTempTextRect.linesWidth.push(width);
 	tempLinesTempTextRect.linesHeight.push(height);
-	tempLinesTempTextRect.linesoOffsetY.push(tempLinesTempTextRect.height + offsetY + lineGap);
+	tempLinesTempTextRect.linesOffsetY.push(tempLinesTempTextRect.height + offsetY + lineGap);
 
 	tempLinesTempTextRect.height += height + lineGap;
 

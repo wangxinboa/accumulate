@@ -41,11 +41,15 @@ export class CustomMap extends BaseCleanUp {
 			throw new Error(`CustomMap 中键 ${key} 已存在，且禁止覆盖`);
 		}
 
-		this.delete(key);
-
-		this.map[key] = value;
-		this.array.push(value);
-		this.count++;
+		if (this.has(key)) {
+			this.map[key] = value;
+			const index = this.array.indexOf(value);
+			this.array[index] = value;
+		} else {
+			this.map[key] = value;
+			this.array.push(value);
+			this.count++;
+		}
 
 		return this;
 	}

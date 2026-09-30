@@ -154,7 +154,7 @@ export class TextTexture extends BaseTexture {
 
 			if (this.maxWidth > 0) {
 				for (let i = 0, len = tempLinesTempTextRect.lines.length; i < len; i++) {
-					ctx.fillText(tempLinesTempTextRect.lines[i], 0, tempLinesTempTextRect.linesoOffsetY[i]);
+					ctx.fillText(tempLinesTempTextRect.lines[i], 0, tempLinesTempTextRect.linesOffsetY[i]);
 				}
 			} else {
 				ctx.fillText(this.text, 0, offsetY);

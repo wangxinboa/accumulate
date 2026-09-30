@@ -82,7 +82,7 @@
 				ctx.fillStyle = "#000000";
 				if (textTexture.maxWidth > 0) {
 					for (let i = 0, len = tempLinesTempTextRect.lines.length; i < len; i++) {
-						ctx.fillText(tempLinesTempTextRect.lines[i], x, tempLinesTempTextRect.linesoOffsetY[i] + y);
+						ctx.fillText(tempLinesTempTextRect.lines[i], x, tempLinesTempTextRect.linesOffsetY[i] + y);
 					}
 				} else {
 					ctx.fillText(textTexture.text, x, offsetY + y);

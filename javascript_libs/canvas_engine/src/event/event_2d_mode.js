@@ -6,42 +6,30 @@ let _canvasPositionInScene = new Vector2(0, 0);
 let _hitPoint = new Vector2(0, 0);
 
 export class Event2DMode extends BaseCleanUp {
-	/** @type {CanvasEngineType.Scene2D | null} */
-	scene2D;
-	/** @type {CanvasEngineType.Camera2D | null} */
-	camera2D;
-	/** @type {CustomMap<CanvasEngineType.Render2DNode> | null} */
-	tempMoveEnterMap;
-	/** @type {CustomMap<CanvasEngineType.Render2DNode>} */
-	preMoveEnterMap;
-	/** @type {CustomMap<CanvasEngineType.Render2DNode>} */
-	nowMoveEnterMap;
-	/** @type {Array<CanvasEngineType.Render2DNode>} */
-	dragNodes;
-
-	/** @private @type {CanvasEngineType.Render2DNode | null} */
-	_mouseDownHitNode;
-	/** @private @type {number | null} */
-	_mouseDownScreenX;
-	/** @private @type {number | null} */
-	_mouseDownScreenY;
-	/** @private @type {boolean} 是否已发生有效拖拽（移动超过阈值） */
-	_hasMovedAfterDown;
-
 	constructor() {
 		super();
 
+		/** @type {CanvasEngineType.Scene2D | null} */
 		this.scene2D = null;
+		/** @type {CanvasEngineType.Camera2D | null} */
 		this.camera2D = null;
 
+		/** @type {CustomMap<CanvasEngineType.Render2DNode> | null} */
 		this.tempMoveEnterMap = null;
+		/** @type {CustomMap<CanvasEngineType.Render2DNode>} */
 		this.preMoveEnterMap = new CustomMap();
+		/** @type {CustomMap<CanvasEngineType.Render2DNode>} */
 		this.nowMoveEnterMap = new CustomMap();
+		/** @type {Array<CanvasEngineType.Render2DNode>} */
 		this.dragNodes = [];
 
+		/** @private @type {CanvasEngineType.Render2DNode | null} */
 		this._mouseDownHitNode = null;
+		/** @private @type {number | null} */
 		this._mouseDownScreenX = null;
+		/** @private @type {number | null} */
 		this._mouseDownScreenY = null;
+		/** @private @type {boolean} 是否已发生有效拖拽（移动超过阈值） */
 		this._hasMovedAfterDown = false;
 
 		this.hitTestLimit = 1;
