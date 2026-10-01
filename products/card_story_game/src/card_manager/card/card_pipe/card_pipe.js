@@ -72,6 +72,10 @@ export const CardPipe = {
 					GlBufferUsageTypeEnum.DYNAMIC_DRAW,
 				).bufferData(gl),
 			);
+			card.needUpdateBuffers = false;
+		} else if (card.needUpdateBuffers) {
+			bufferSystem.getGlBuffer(bufferKey).updateBufferSubData(gl, 0, generateCardVertexData(card));
+			card.needUpdateBuffers = false;
 		}
 	},
 

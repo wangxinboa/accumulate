@@ -41,6 +41,8 @@ export class Card extends Render2DNode {
 		this.dragUpdatePosition = true;
 		this.centerSelf();
 
+		this.needUpdateBuffers = true;
+
 		this.initialized = false;
 	}
 	get pipe() {
@@ -76,6 +78,8 @@ export class Card extends Render2DNode {
 		if (template) {
 			this.templateId = template.id;
 			this.titleTexture.text = template.name;
+
+			this.needUpdateBuffers = true;
 		} else {
 			console.error("模板不存在");
 		}

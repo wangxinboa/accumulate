@@ -121,194 +121,97 @@ export const defaultGameConfig = Object.freeze({
 		},
 	},
 	cardTemplates: [
+		// 占位卡牌：用于测试不同标题字数
 		{
 			id: -1,
-			name: "一",
-			description: "测试标题一个字",
+			name: "光",
+			description: "它从水面上透下来。",
 		},
 		{
 			id: -2,
-			name: "一二",
-			description: "测试标题二个字",
+			name: "暗月",
+			description: "月亮落进了水里。",
 		},
 		{
 			id: -3,
-			name: "一二三",
-			description: "测试标题三个字",
+			name: "炉火灰",
+			description: "它还记得火的样子。",
 		},
 		{
 			id: -4,
-			name: "一二三四",
-			description: "测试标题四个字",
+			name: "无名少女",
+			description: "她看着你，一言不发。",
 		},
 		{
 			id: -5,
-			name: "一二三四五",
-			description: "测试标题五个字",
+			name: "水底的回声",
+			description: "它比你先开口。",
 		},
 		{
 			id: -6,
-			name: "一二三四五六",
-			description: "测试标题六个字",
+			name: "秘术师的手记",
+			description: "一些字迹已经褪色。",
 		},
 		{
 			id: -7,
-			name: "一二三四五六七",
-			description: "测试标题七个字",
+			name: "沉入水底的钟摆",
+			description: "它的摆动从来不合拍。",
 		},
 		{
 			id: -8,
-			name: "一二三四五六七八",
-			description: "测试标题八个字",
+			name: "门扉另一侧的低语",
+			description: "它一直在那里，说着你不懂的话。",
 		},
+		// 主角卡
 		{
 			id: 0,
-			name: "育幼院的孩子",
-			description: "测试描述信息1",
-			actions: ["1"],
+			name: "无名者",
+			description: "你在水中醒来。你不记得自己的名字。",
+			actions: [{ actionId: "0", label: "供奉" }],
 		},
+		// 祭品卡
 		{
 			id: 1,
-			name: "育幼院",
-			description:
-				"测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111\n测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111\n测试描述信息11测试描述信息22测试描述信息33测试描述信息44测试描述信息55测试描述信息66测试描述信息77测试描述信息88测试描述信息99测试描述信息1010啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊1111111111111111",
-			actions: [
-				{
-					actionId: "0",
-					label: "检 测",
-				},
-				{
-					actionId: "1",
-					label: "测 试",
-				},
-				{
-					actionId: "2",
-					label: "测 试",
-				},
-				{
-					actionId: "3",
-					label: "测 试",
-				},
-				{
-					actionId: "4",
-					label: "测 试",
-				},
-				{
-					actionId: "5",
-					label: "测 试",
-				},
-				{
-					actionId: "6",
-					label: "测 试",
-				},
-				{
-					actionId: "7",
-					label: "测 试",
-				},
-				{
-					actionId: "8",
-					label: "测 试",
-				},
-				{
-					actionId: "9",
-					label: "测 试",
-				},
-				{
-					actionId: "10",
-					label: "测 试",
-				},
-			],
+			name: "河底苔藓",
+			description: "从沉船的木板上刮下的绿。它记得水的味道。",
+			actions: [{ actionId: "1", label: "观察" }],
+		},
+		// 产出卡
+		{
+			id: 3,
+			name: "梦中残响",
+			description: "某种东西留在你身上的证明。",
+			actions: [],
 		},
 	],
 	actions: [
 		{
 			actionId: "0",
-			label: "检 测",
-			effect: "0",
-			slots: [
+			label: "供 奉",
+			slots: [{ label: "祭坛" }],
+			conditions: [{ logic: "slotHasCard", slotIndex: 0 }],
+			effects: [
+				{ type: "consumeSlotCards" },
+				{ type: "produceCard", templateId: 3, amount: 1 },
 				{
-					label: "测试",
-				},
-				{
-					label: "测试1",
-				},
-				{
-					label: "测试2",
-				},
-				{
-					label: "测试3",
-				},
-				{
-					label: "测试4",
+					type: "showMessage",
+					title: "回响",
+					desc: "水面平静如镜。你听见了远方的钟声——或者，那只是你自己的心跳。",
 				},
 			],
+			failMessage: "祭坛空无一物。你不能向虚无献上什么。",
 		},
 		{
 			actionId: "1",
-			label: "测 试",
-			effect: "0",
-			slots: [
+			label: "观 察",
+			conditions: [],
+			effects: [
 				{
-					label: "测试",
-				},
-				{
-					label: "测试1",
-				},
-				{
-					label: "测试2",
-				},
-				{
-					label: "测试3",
-				},
-				{
-					label: "测试4",
+					type: "showMessage",
+					title: "细看",
+					desc: "水面的形状是对的。但水流的方向是错的。",
 				},
 			],
-		},
-		{
-			actionId: "2",
-			label: "测 试",
-			effect: "0",
-		},
-		{
-			actionId: "3",
-			label: "测 试",
-			effect: "0",
-		},
-		{
-			actionId: "4",
-			label: "测 试",
-			effect: "0",
-		},
-		{
-			actionId: "5",
-			label: "测 试",
-			effect: "0",
-		},
-		{
-			actionId: "6",
-			label: "测 试",
-			effect: "0",
-		},
-		{
-			actionId: "7",
-			label: "测 试",
-			effect: "0",
-		},
-		{
-			actionId: "8",
-			label: "测 试",
-			effect: "0",
-		},
-		{
-			actionId: "9",
-			label: "测 试",
-			effect: "0",
-		},
-		{
-			actionId: "10",
-			label: "测 试",
-			effect: "0",
 		},
 	],
 	events: [],

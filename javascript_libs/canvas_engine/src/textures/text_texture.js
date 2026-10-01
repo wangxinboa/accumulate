@@ -168,7 +168,7 @@ export class TextTexture extends BaseTexture {
 
 			this.onTextureRectChange(this.width, this.height);
 		} else {
-			throw new Error("Failed to create canvas context for measuring text.");
+			console.error("Failed to create canvas context for measuring text.");
 		}
 	}
 }
