@@ -128,7 +128,7 @@ export class CardPanel extends Render2DNode {
 	/**
 	 * @param {CardStoryGameType.CardPanelButton} button
 	 */
-	_onButtonClick(button) {
+	selectCurrentButton(button) {
 		const action = this.game.gameConfig.getCardAction(button.actionId);
 
 		if (this.currentButton === button) {
@@ -150,12 +150,20 @@ export class CardPanel extends Render2DNode {
 	}
 
 	/**
+	 * @private
+	 * @param {CardStoryGameType.CardPanelButton} button
+	 */
+	_onButtonClick(button) {
+		this.selectCurrentButton(button);
+	}
+
+	/**
 	 * 隐藏面板（点击空白区域时触发）
-	 * @param {CanvasEngineType.Scene2D} _scene2d
-	 * @param {number} _x
-	 * @param {number} _y
-	 * @param {number} _sx
-	 * @param {number} _sy
+	 * @param {CanvasEngineType.Scene2D} [_scene2d]
+	 * @param {number} [_x]
+	 * @param {number} [_y]
+	 * @param {number} [_sx]
+	 * @param {number} [_sy]
 	 * @param {boolean} [hasMovedBeforeUp] mouseup 之前是否有 move
 	 */
 	hide(_scene2d, _x, _y, _sx, _sy, hasMovedBeforeUp) {
