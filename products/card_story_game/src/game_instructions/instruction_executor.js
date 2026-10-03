@@ -54,19 +54,14 @@ export class InstructionExecutor {
 	// ========================
 
 	/**
-	 * 创建一张或多张卡牌。
-	 *
-	 * 若指定了 gridX / gridY，则第一张放到该网格，其余张数从原点附近最近空闲
-	 * 网格产出（因为同一网格只能容纳一张卡牌）。若未指定，则全部从原点附近
-	 * 最近空闲网格产出。
-	 *
 	 * @param {Object} params
 	 * @param {number} params.templateId - 卡牌模板 ID
-	 * @param {number} [params.gridX] - 网格 X 坐标
-	 * @param {number} [params.gridY] - 网格 Y 坐标
-	 * @param {number} [params.amount=1] - 创建数量
+	 * @param {number} [params.gridX] - 卡牌网格 X 坐标（可选，若未指定则随机放置）
+	 * @param {number} [params.gridY] - 卡牌网格 Y 坐标（可选，若未指定则随机放置）
 	 */
-	createCard(params) {}
+	createCard(params) {
+		this.game.cardManager.createCardToGridToNearestFree(params.templateId, params.gridX ?? 0, params.gridY ?? 0);
+	}
 
 	/**
 	 * 从场景中移除一张卡牌（回收进对象池）。
@@ -74,7 +69,9 @@ export class InstructionExecutor {
 	 * @param {Object} params
 	 * @param {CardStoryGameType.Card} params.card - 要移除的卡牌实例
 	 */
-	removeCard(params) {}
+	removeCard(params) {
+		this.game.cardManager.removeCard(params.card);
+	}
 
 	// ========================
 	// 卡牌面板
@@ -84,7 +81,9 @@ export class InstructionExecutor {
 	 * @param {Object} params
 	 * @param {CardStoryGameType.Card} params.card - 要展示的卡牌实例
 	 */
-	openCardPanel(params) {}
+	openCardPanel(params) {
+		this.game.panel.show(params.card);
+	}
 
 	/**
 	 * 关闭卡牌面板，同时清空当前主卡牌与所有槽位。
@@ -98,5 +97,7 @@ export class InstructionExecutor {
 	 * @param {Object} params
 	 * @param {string} params.actionId - 目标按钮的动作 ID
 	 */
-	selectCardPanelButton(params) {}
+	selectCardPanelButton(params) {
+		this.game.panel.selectCurrentButtonByActionId(params.actionId);
+	}
 }

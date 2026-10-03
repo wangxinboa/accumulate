@@ -111,23 +111,11 @@ export class GameConfig extends BaseCleanUp {
 	}
 
 	/**
-	 * @param {CardStoryGameType.CardTemplateAction} cardAction
+	 * @param {CardStoryGameType.CardTemplateAction['actionId']} actionId
 	 * @returns {CardStoryGameType.ActionConfig}
 	 */
-	getCardAction(cardAction) {
-		let action;
-		if (typeof cardAction === "string") {
-			action = this.actions.get(cardAction);
-		} else {
-			action = this.actions.get(cardAction.actionId);
-		}
-
-		if (action) {
-			return action;
-		} else {
-			console.error(cardAction);
-			throw new Error("不存在对应动作的信息");
-		}
+	getCardAction(actionId) {
+		return this.actions.get(actionId);
 	}
 
 	/**

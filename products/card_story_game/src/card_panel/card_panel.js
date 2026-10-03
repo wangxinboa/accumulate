@@ -132,6 +132,7 @@ export class CardPanel extends Render2DNode {
 		const action = this.game.gameConfig.getCardAction(button.actionId);
 
 		if (this.currentButton === button) {
+			console.log("点击了已选中的按钮, 执行按钮动作:", action);
 		} else {
 			// 切换按钮：取消上一个按钮的选中态
 			if (this.currentButton) {
@@ -146,6 +147,15 @@ export class CardPanel extends Render2DNode {
 				// 如果动作没有 slots，则清空卡槽
 				this.slotAreaUi.clearAllSlots();
 			}
+		}
+	}
+	/**
+	 * @param {CardStoryGameType.CardPanelButton['actionId']} actionId
+	 */
+	selectCurrentButtonByActionId(actionId) {
+		const button = this.buttonAreaUi.buttonMap.get(actionId);
+		if (button) {
+			this.selectCurrentButton(button);
 		}
 	}
 

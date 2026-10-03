@@ -107,6 +107,7 @@ export class CardPanelDescUi extends BaseCleanUp {
 		if (this.descriptionTexture) {
 			this.descriptionTexture.destroy();
 		}
+
 		super.destroy();
 	}
 }

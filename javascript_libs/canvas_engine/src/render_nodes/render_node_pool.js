@@ -57,6 +57,7 @@ export class RenderNodePool extends BaseCleanUp {
 
 	destroy() {
 		this.clear();
+
 		super.destroy();
 	}
 }

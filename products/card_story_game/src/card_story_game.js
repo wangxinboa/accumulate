@@ -30,7 +30,6 @@ export class CardStoryGame extends BaseCleanUp {
 
 		this.resize = this.resize.bind(this);
 		this.engine.addResizeCallback(this.resize);
-		this.resize();
 
 		this.loader = new GameDataLoader(this).loadConfig();
 		this.exporter = new GameDataExporter(this);
@@ -92,6 +91,7 @@ export class CardStoryGame extends BaseCleanUp {
 		this.panel.destroy();
 		this.loader.destroy();
 		this.exporter.destroy();
+
 		super.destroy();
 	}
 }

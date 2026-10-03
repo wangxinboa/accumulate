@@ -168,11 +168,25 @@ export class CardManager extends BaseCleanUp {
 
 		return newCard;
 	}
+
+	/**
+	 * @param {number} templateId
+	 * @param {number} startGridX
+	 * @param {number} startGridY
+	 */
+	createCardToGridToNearestFree(templateId, startGridX, startGridY) {
+		const nearestFreeGrid = this.gridPosition.findNearestFreeGridBFS(startGridX, startGridY);
+		return this.createCardToGrid(templateId, nearestFreeGrid.x, nearestFreeGrid.y);
+	}
 	/**
 	 * @param {Card} card
 	 */
-	removeCardFromGrid(card) {
-		this.gridPosition.clearCardGridPosition(card);
+	removeCard(card) {
+		if (card.isGrid() || card.isPanel()) {
+			this.gridPosition.clearCardGridPosition(card);
+		} else if (card.isSlot()) {
+			card.unbindPanelSlot();
+		}
 		this.cardPool.release(card);
 	}
 

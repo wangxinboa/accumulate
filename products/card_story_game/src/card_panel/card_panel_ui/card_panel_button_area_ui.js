@@ -1,4 +1,5 @@
 import { Render2DNode, RenderNodePool } from "../../../../../javascript_libs/canvas_engine/src/canvas_engine.js";
+import { CustomMap } from "../../../../../javascript_libs/javascript_utils/javascript_utils.js";
 import { defaultGameConfig } from "../../../assets/game_config.js";
 import { CardPanelButton } from "./card_panel_button_ui/card_panel_button.js";
 
@@ -21,6 +22,8 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 		this.applyCameraTransform = false;
 
 		this.buttonPool = new RenderNodePool(CardPanelButton);
+		/** @type {CustomMap<CardStoryGameType.CardPanelButton>} */
+		this.buttonMap = new CustomMap();
 
 		this.topY = 0;
 		this.bottomY = 0;
@@ -43,6 +46,7 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 		if (!Array.isArray(actionsData)) {
 			return;
 		}
+		this.buttonMap.clear();
 
 		const childrenLen = this.children.length;
 		const actionsLen = actionsData.length;
@@ -66,15 +70,14 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 			currentButtonX = this.panelButtonAreaUiConfig.x;
 
 		for (let i = 0, len = actionsLen; i < len; i++) {
-			const action = this.game.gameConfig.getCardAction(actionsData[i]);
+			const action = this.game.gameConfig.getCardAction(actionsData[i].actionId);
 			const button = this.children[i];
 
-			button.updateConfig(this.panelButtonAreaUiConfig.buttonOption, action.label);
-			button.applyCameraTransform = false;
-			button.pivotY = 1;
-			button.actionId = action.actionId;
+			button.updateConfig(this.panelButtonAreaUiConfig.buttonOption, action);
 			button.setClickCallback(onClickCallback);
 			button.unselect();
+
+			this.buttonMap.set(button.actionId, button);
 
 			if (currentButtonX + button.width > this.panelButtonAreaUiConfig.width) {
 				currentButtonX = this.panelButtonAreaUiConfig.x;
@@ -98,8 +101,9 @@ export class CardPanelButtonAreaUi extends Render2DNode {
 	}
 
 	destroy() {
-		super.destroy();
-
 		this.buttonPool.destroy();
+		this.buttonMap.destroy();
+
+		super.destroy();
 	}
 }

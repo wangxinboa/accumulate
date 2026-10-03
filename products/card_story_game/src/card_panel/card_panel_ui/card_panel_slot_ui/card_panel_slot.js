@@ -66,6 +66,7 @@ export class CardPanelSlot extends Render2DNode {
 
 	destroy() {
 		this.bgColor.destroy();
+
 		super.destroy();
 	}
 }

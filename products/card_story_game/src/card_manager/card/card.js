@@ -212,6 +212,7 @@ export class Card extends Render2DNode {
 	destroy() {
 		this.titleTexture.destroy();
 		this.bgColor.destroy();
+
 		super.destroy();
 	}
 }

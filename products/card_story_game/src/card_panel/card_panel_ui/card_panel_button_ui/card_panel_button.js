@@ -14,6 +14,9 @@ export class CardPanelButton extends Render2DNode {
 	constructor(title = "button", buttonOption) {
 		super();
 
+		this.applyCameraTransform = false;
+		this.pivotY = 1;
+
 		this.actionId = "-1";
 
 		this.padding = {
@@ -32,8 +35,6 @@ export class CardPanelButton extends Render2DNode {
 		/** @type {boolean} 是否处于选中态 */
 		this.isSelected = false;
 
-		/** @type {boolean} */
-		this.fixedGeometry = buttonOption?.fixedGeometry ?? false;
 		/** @type {TextTexture} */
 		this.textTexture = new TextTexture(title, buttonOption?.titleTextureOption);
 		this.width = this.textTexture.width + this.padding.left + this.padding.right;
@@ -51,10 +52,10 @@ export class CardPanelButton extends Render2DNode {
 	}
 
 	/**
-	 * @param {CardStoryGameType.CardPanelButtonOption} [buttonOption]
-	 * @param {string} [title]
+	 * @param {CardStoryGameType.CardPanelButtonOption} buttonOption
+	 * @param {CardStoryGameType.CardTemplateAction} action
 	 */
-	updateConfig(buttonOption, title = "button") {
+	updateConfig(buttonOption, action) {
 		this.padding.left = buttonOption?.padding?.left ?? 0;
 		this.padding.right = buttonOption?.padding?.right ?? 0;
 		this.padding.top = buttonOption?.padding?.top ?? 0;
@@ -68,11 +69,10 @@ export class CardPanelButton extends Render2DNode {
 		}
 		this._syncRenderBgColor();
 
-		this.fixedGeometry = buttonOption?.fixedGeometry ?? false;
-
-		if ((title && title !== this.textTexture.text) || buttonOption?.titleTextureOption) {
-			this.textTexture.updateTextAndStyle(title, buttonOption?.titleTextureOption ?? {});
+		if ((action.label && action.label !== this.textTexture.text) || buttonOption?.titleTextureOption) {
+			this.textTexture.updateTextAndStyle(action.label ?? "", buttonOption?.titleTextureOption ?? {});
 		}
+		this.actionId = action.actionId;
 
 		this._updateGeometry();
 	}

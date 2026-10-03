@@ -94,6 +94,7 @@ export class Keyboard extends BaseCleanUp {
 		this._keyState = {};
 		this._keyDownCallbacks.length = 0;
 		this._keyUpCallbacks.length = 0;
+
 		super.destroy();
 	}
 }
