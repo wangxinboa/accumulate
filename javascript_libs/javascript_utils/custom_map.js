@@ -42,9 +42,8 @@ export class CustomMap extends BaseCleanUp {
 		}
 
 		if (this.has(key)) {
-			this.map[key] = value;
-			const index = this.array.indexOf(value);
-			this.array[index] = value;
+			const index = this.array.indexOf(this.map[key]);
+			this.array[index] = this.map[key] = value;
 		} else {
 			this.map[key] = value;
 			this.array.push(value);
