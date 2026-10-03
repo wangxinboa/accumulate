@@ -190,28 +190,14 @@ export const defaultGameConfig = Object.freeze({
 			label: "供 奉",
 			slots: [{ label: "祭坛" }],
 			conditions: [{ logic: "slotHasCard", slotIndex: 0 }],
-			effects: [
-				{ type: "consumeSlotCards" },
-				{ type: "produceCard", templateId: 3, amount: 1 },
-				{
-					type: "showMessage",
-					title: "回响",
-					desc: "水面平静如镜。你听见了远方的钟声——或者，那只是你自己的心跳。",
-				},
-			],
+			effects: [],
 			failMessage: "祭坛空无一物。你不能向虚无献上什么。",
 		},
 		{
 			actionId: "1",
 			label: "观 察",
 			conditions: [],
-			effects: [
-				{
-					type: "showMessage",
-					title: "细看",
-					desc: "水面的形状是对的。但水流的方向是错的。",
-				},
-			],
+			effects: [],
 		},
 	],
 	events: [],
